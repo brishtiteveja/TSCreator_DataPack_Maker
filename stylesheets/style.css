@@ -1,0 +1,51 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+body .container {
+	display: block;
+	position: absolute;
+	top: 45px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+body .container .canvas {
+	display: inline;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 80%;
+	height: 100%;
+	background: url('/images/pattern-6b4z.png');
+}
+
+body .container .settings {
+	display: inline;
+	position: absolute;
+	top: 0px;
+	left: 80%;
+	width: 20%;
+	height: 100%;
+	background: #666666;
+}
+
+.toolbar {
+	background: #333333;
+	height: 28px;
+	text-align: center;
+	padding: 3px;
+	border-right: solid;
+	border-left: solid;
+	border-width: 1px;
+}
+
+.nav-links {
+	margin-left: 3px;
+}
