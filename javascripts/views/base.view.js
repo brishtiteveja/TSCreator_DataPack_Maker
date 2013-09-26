@@ -1,0 +1,1 @@
+BaseView = Backbone.View.extend({});

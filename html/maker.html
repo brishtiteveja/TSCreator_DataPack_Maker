@@ -7,8 +7,30 @@
 		<script type="text/javascript" src="/lib/raphael.js"></script>
 		<script type="text/javascript" src="/lib/underscore.js"></script>
 		<script type="text/javascript" src="/lib/backbone.js"></script>
+		<script type="text/javascript" src="/lib/backbone.localStorage.js"></script>
 		<script type="text/javascript" src="/lib/ejs.js"></script>
+		<script type="text/javascript" src="/lib/dropzone.js"></script>
 		<script type="text/javascript" src="/lib/foundation/js/foundation/foundation.js"></script>
+		<script type="text/javascript" src="/javascripts/fixtures/master_chronostrat.js"></script>
+
+		<script src="/javascripts/models/base.model.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/javascripts/views/base.view.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/javascripts/collections/base.collection.js" type="text/javascript" charset="utf-8" async defer></script>
+		
+		<script src="/javascripts/models/column.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/javascripts/views/column_view.js" type="text/javascript" charset="utf-8" async defer></script>
+		
+		<script src="/javascripts/models/settings.js" type="text/javascript" charset="utf-8" async defer></script>
+		
+		<script src="/javascripts/models/block.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/javascripts/views/block_view.js" type="text/javascript" charset="utf-8" async defer></script>
+
+		<script src="/javascripts/models/block_column.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/javascripts/views/block_column_view.js" type="text/javascript" charset="utf-8" async defer></script>
+		
+		<script src="/javascripts/views/canvas_view.js" type="text/javascript" charset="utf-8" async defer></script>
+		
+		<script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer></script>
 	</head>
 	<body>
 		<nav class="top-bar fixed">
@@ -21,7 +43,7 @@
 			</section>
 		</nav>
 		<div class="container">
-			<div class="canvas">
+			<div class="display">
 				<nav class="toolbar">
 					<a href="#/polygon" class="button tiny secondary radius left nav-links">Polygon</a>
 					<a href="#/line" class="button tiny secondary radius left nav-links">Line</a>
@@ -30,6 +52,7 @@
 					<a href="#/transect" class="button tiny secondary radius left nav-links">Surface</a>
 					<a href="#/image" class="button tiny secondary radius left nav-links">Image</a>
 				</nav>
+				<div id="canvas"></div>
 			</div>
 			<div class="settings">
 				<nav class="toolbar">
