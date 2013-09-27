@@ -8,6 +8,6 @@ CanvasView.prototype.initialize = function() {
 };
 
 CanvasView.prototype.render = function() {
-	MasterChronoStratColumn = new BlockColumn(MasterChronoStratigraphy);
-	MasterChronoStratView = new BlockColumnView(MasterChronoStratColumn, 10, 10);
+	// MasterChronoStratColumn = new BlockColumn(MasterChronoStratigraphy);
+	// MasterChronoStratView = new BlockColumnView(MasterChronoStratColumn, 10, 10);
 };
