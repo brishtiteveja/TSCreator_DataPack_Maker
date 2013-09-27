@@ -1,9 +1,15 @@
+/**
+ * Block column is a collection of blocks but it is also a model 
+ */
+
 var BlockColumn = Column.extend({
 	classname: "BlockColumn",
-	model: Block,
 	blocks: []
 });
 
+/**
+ * This is the initialization step after the block column object is created.
+ */
 BlockColumn.prototype.initialize = function(data) {
 	if ("name" in data){
 		this.set({width: data["name"]});
@@ -21,26 +27,45 @@ BlockColumn.prototype.initialize = function(data) {
 	this.updateRelativeAges();
 };
 
+/**
+ * This function adds blocks to the the blocks array.
+ */
 BlockColumn.prototype.addBlocks = function(data) {
 	data.forEach(this.addBlock.bind(this));
 };
 
+
+/**
+ *
+ */
 BlockColumn.prototype.addBlock = function(data) {
 	var block = new Block(data);
 	this.blocks.push(block);
 };
 
-BlockColumn.prototype.topY = function() {
+
+
+/**
+ * Returns the topAge in terms of absolute pixel X-Coordinate
+ */
+ BlockColumn.prototype.topY = function() {
 	var topAge = _.max(this.blocks, function(block){ return block.get("topAge");}).get('topAge')
 	// return Math.round(topAge*VERTICAL_SCALE);
 	return 0;
 };
 
+
+/**
+ * Returns the baseAge in terms of absolute pixel Y-Coordinate
+ */
 BlockColumn.prototype.baseY = function() {
 	var baseAge = _.max(this.blocks, function(block){ return block.get("baseAge");}).get('baseAge')
 	return Math.round(baseAge*VERTICAL_SCALE);
 };
 
+/**
+ * Updates all blocks top ages which are the base ages of the previous blocks in sorted order.
+ */
 BlockColumn.prototype.updateBlocks = function() {
 	var self = this;
 	this.blocks = _.sortBy(this.blocks, function(block){ return parseFloat(block.baseAge); });
@@ -49,14 +74,23 @@ BlockColumn.prototype.updateBlocks = function() {
 	});
 };
 
+/**
+ * Returns the top age of the block_column.
+ */
 BlockColumn.prototype.topAge = function() {
 	return _.min(this.blocks, function(block){ return block.get("topAge");}).get('topAge');
 };
 
+/**
+ * Returns the base age of the block column.
+ */
 BlockColumn.prototype.baseAge = function() {
 	return _.max(this.blocks, function(block){ return block.get("baseAge");}).get('baseAge');
 };
 
+/**
+ * Updates relative ages wrt to the block column top and base ages.
+ */
 BlockColumn.prototype.updateRelativeAges = function() {
 	var self = this;
 	var colTopAge = this.topAge();

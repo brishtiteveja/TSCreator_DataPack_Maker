@@ -1,3 +1,6 @@
+/**
+ * Settings is the model for storing any kind of style related settings.
+ */
 var Settings = BaseModel.extend({
 	classname: "Settings",
 

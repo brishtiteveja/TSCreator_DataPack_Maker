@@ -1,5 +1,6 @@
 var CanvasView = BaseView.extend({
 	el: "#canvas",
+	classname: "CanvasView"
 })
 
 CanvasView.prototype.initialize = function() {
@@ -8,6 +9,9 @@ CanvasView.prototype.initialize = function() {
 };
 
 CanvasView.prototype.render = function() {
+};
+
+CanvasView.prototype.renderMasterColumn = function() {
 	// MasterChronoStratColumn = new BlockColumn(MasterChronoStratigraphy);
 	// MasterChronoStratView = new BlockColumnView(MasterChronoStratColumn, 10, 10);
 };
