@@ -1,4 +1,4 @@
 $(function() {
-	VERTICAL_SCALE = 2;
+	VERTICAL_SCALE = 10;
 	new CanvasView();
 });

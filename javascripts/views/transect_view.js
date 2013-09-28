@@ -1,4 +1,5 @@
 var TransectView = BaseView.extend({
+	
 });
 
 TransectView.prototype.initialize = function() {

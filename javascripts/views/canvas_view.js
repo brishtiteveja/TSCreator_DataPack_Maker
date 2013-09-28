@@ -1,3 +1,7 @@
+/*====================================================
+=            CanvasView is the basic view            =
+====================================================*/
+
 var CanvasView = BaseView.extend({
 	el: "#canvas",
 	classname: "CanvasView"
@@ -9,9 +13,13 @@ CanvasView.prototype.initialize = function() {
 };
 
 CanvasView.prototype.render = function() {
+	this.renderMasterColumn();
 };
 
 CanvasView.prototype.renderMasterColumn = function() {
-	// MasterChronoStratColumn = new BlockColumn(MasterChronoStratigraphy);
-	// MasterChronoStratView = new BlockColumnView(MasterChronoStratColumn, 10, 10);
+	MasterChronoStratColumn = new BlockColumn(MasterChronoStratigraphy);
+	MasterChronoStratView = new BlockColumnView(MasterChronoStratColumn, 10, 10);
 };
+
+/*-----  End of CanvasView  ------*/
+

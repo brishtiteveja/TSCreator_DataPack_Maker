@@ -1,3 +1,7 @@
+/*=========================================================================================================
+=            Every column is drawn relative to the stages of MasterChronoStratigraphy                     =
+=========================================================================================================*/
+
 MasterChronoStratigraphy = {
 	blocks: [
 		{
@@ -44,3 +48,6 @@ MasterChronoStratigraphy = {
 		}
 	]
 }
+
+/*-----  End of MasterChronoStratigraphy  ------*/
+
