@@ -23,11 +23,11 @@ BlockColumnView.prototype.initialize = function(blockCloumn, x, y) {
 	this.width = 100;
 
 	/* Listen to the following changes in model */
-	this.listenTo(this.column, 'change:x', this.changeColumnX);
-	this.listenTo(this.column, 'change:y', this.changeColumnY);
-	this.listenTo(this.column, 'change:width', this.changeColumnWidth);
-	this.listenTo(this.column, 'change:height', this.changeColumnHeight);
-	this.listenTo(this.column, 'BlockColumn:blockAdded', this.changeColumnBlocks);
+	this.listenTo(this.column, 'BlockColumn:blockAdded', this.render.bind(this));
+	this.listenTo(this.column.blocks, 'change:name', this.render.bind(this));
+	this.listenTo(this.column.blocks, 'change:topAge', this.render.bind(this));
+	this.listenTo(this.column.blocks, 'change:baseAge', this.render.bind(this));
+	this.listenTo(this.column.blocks, 'change:description', this.render.bind(this));
 
 	/* Render the column details in the setting panel */
 	this.render();
@@ -39,6 +39,9 @@ BlockColumnView.prototype.render = function() {
 };
 
 BlockColumnView.prototype.renderColumn = function() {
+	this.column.updateBlockAges();
+	this.column.updateRelativeAges();
+	this.height = this.column.baseY() - this.column.topY();
 	if (this.set === undefined) {
 		this.set = Canvas.set();
 	}
@@ -70,26 +73,5 @@ BlockColumnView.prototype.addBlock = function(block) {
 	this.$(".data-list").append(block.el);
 };
 
-BlockColumnView.prototype.changeColumnX = function() {
-};
-
-BlockColumnView.prototype.changeColumnY = function() {
-};
-
-BlockColumnView.prototype.changeColumnWidth = function() {
-};
-
-BlockColumnView.prototype.changeColumnHeight = function() {
-};
-
-BlockColumnView.prototype.changeColumnBlocks = function() {
-	this.updateColumn();
-};
-
-BlockColumnView.prototype.updateColumn = function() {
-	this.height = this.column.baseY() - this.column.topY();
-	this.width = 100;
-	this.render();
-};
 
 /*-----  End of BlockColumnView  ------*/

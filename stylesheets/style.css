@@ -88,8 +88,13 @@ body .container .settings {
 }
 
 .destroy:hover {
-	color: #C00000;
+	color: #FF0000;
 	background-color: #333333;
+}
+
+.destroy:active {
+	color: #FF0000;
+	background-color: #666666;
 }
 
 .show {
@@ -107,4 +112,5 @@ body .container .settings {
 
 .toggle:active {
 	color: #CCCCCC;
+	background-color: #666666;
 }

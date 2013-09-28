@@ -7,7 +7,8 @@ var BlockView = BaseView.extend({
 	classname: "BlockView",
 	block: null,
 	events: {
-		"click .toggle" : "toggleBlockForm",
+		'click .toggle' : 'toggleBlockForm',
+		'click a[href*="update-block"]': 'updateBlock'
 	}
 });
 
@@ -31,10 +32,13 @@ BlockView.prototype.initialize = function(block, blockColumnView) {
 	this.$toggle = this.$(".toggle");
 	this.$blockForm = this.$(".block-form");
 	this.$blockData = this.$(".block-data");
+	this.$blockName = this.$('input[name="block-name"]')[0]
+	this.$blockTopAge = this.$('input[name="top-age"]')[0]
+	this.$blockBaseAge = this.$('input[name="base-age"]')[0]
+	this.$blockDescription = this.$('textarea[name="description"]')[0]
 
 	/* Listeners */
 	this.listenTo(this.block, 'change:edit', this.editBlockData.bind(this));
-	
 };
 
 BlockView.prototype.render = function() {
@@ -86,6 +90,20 @@ BlockView.prototype.editBlockData = function(evt) {
 		this.$toggle.removeClass('show-data');
 		this.$toggle.addClass('hide-data');
 	}
+};
+
+
+BlockView.prototype.updateBlock = function() {
+	var name = this.$blockName.value;
+	var topAge = parseInt(this.$blockTopAge.value);
+	var baseAge = parseInt(this.$blockBaseAge.value);
+	var description = this.$blockDescription.value;
+	this.block.set({
+		name: name,
+		topAge: topAge,
+		baseAge: baseAge,
+		description: description
+	});
 };
 
 /*-----  End of BlockView  ------*/

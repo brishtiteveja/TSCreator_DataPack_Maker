@@ -42,7 +42,7 @@ BlockColumn.prototype.initialize = function() {
 	_.extend(this, Backbone.Events);
 
 	/* Update top ages in the blocks */
-	this.updateBlocks();
+	this.updateBlockAges();
 
 	/* Update relative ages in the blocks */
 	this.updateRelativeAges();
@@ -67,7 +67,7 @@ BlockColumn.prototype.baseY = function() {
 
 /*==========  Updates all blocks top ages which are the base ages of the previous blocks in sorted order.  ==========*/
 
-BlockColumn.prototype.updateBlocks = function() {
+BlockColumn.prototype.updateBlockAges = function() {
 	var self = this;
 	this.blocks.each(function(block, index, blocks) {
 		self.blocks.at(index).set('topAge', index > 0 ? blocks[index - 1].get('baseAge') : block.get('baseAge'));
