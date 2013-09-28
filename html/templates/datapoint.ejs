@@ -1,0 +1,21 @@
+<div class="datapoint-default-mode datapoint-mode"></div>
+<div width="90%" class="datapoint-name"><%= name %><br>❨<%= topAge %>myr → <%= baseAge %>myr❩</div>
+<div width="5%" class="datapoint-delete">✖</div>
+<div class="row">
+	<div class="large-4 columns">
+		<label>Name</label>
+		<input type="text" value="<%= name %>"/>
+	</div>
+	<div class="large-4 columns">
+		<label>Top Age</label>
+		<input type="text"  value="<%= topAge %>"/>
+	</div>
+	<div class="large-4 columns">
+		<label>Base Age</label>
+		<input type="text"  value="<%= baseAge %>"/>
+	</div>
+	<div class="large-12 columns" >
+		<label>Description</label>
+		<textarea placeholder="Message..."><%= description %></textarea>
+	</div>
+</div>

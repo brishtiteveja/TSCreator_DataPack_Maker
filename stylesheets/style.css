@@ -25,8 +25,8 @@ body .container .display {
 	left: 0%;
 	width: 70%;
 	height: 100%;
-	background: url('/images/gridBg.png');
 	overflow: hidden;
+	background-color: #eeeeee;
 }
 
 body .container .settings {
@@ -66,6 +66,7 @@ body .container .settings {
 	overflow: auto;
 }
 
+
 #blocks-list {
 	overflow: hidden;
 }
@@ -75,7 +76,7 @@ body .container .settings {
 }
 
 .show-data:before {
-	content: '▽';
+	content: '▼';
 }
 
 .hide-data:before {
@@ -88,6 +89,7 @@ body .container .settings {
 
 .destroy:hover {
 	color: #C00000;
+	background-color: #333333;
 }
 
 .show {
@@ -100,8 +102,9 @@ body .container .settings {
 
 .toggle:hover {
 	color: #666666;
+	background-color: #333333;
 }
 
 .toggle:active {
-	color: #2ba6cb;
+	color: #CCCCCC;
 }

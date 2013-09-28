@@ -34,7 +34,7 @@ BlockColumnView.prototype.initialize = function(blockCloumn, x, y) {
 };
 
 BlockColumnView.prototype.render = function() {
-	this.$el.html(this.blocksTableTemplate.render({name: this.column.name}));
+	this.$el.html(this.blocksTableTemplate.render({name: this.column.get('name')}));
 	this.renderColumn();
 };
 

@@ -9,7 +9,7 @@ var Blocks = BaseCollection.extend({
 
 
 Blocks.prototype.comparator = function(block) {
-	return block.baseAge;
+	return block.get('baseAge');
 };
 
 /*-----  End of Blocks Collection  ------*/
@@ -23,11 +23,13 @@ Blocks.prototype.comparator = function(block) {
 var BlockColumn = Column.extend({
 	classname: "BlockColumn",
 	constructor: function (attributes, options) {
-		this.name = "name" in attributes ? attributes.name : null;
-		this.width = "width" in attributes ? attributes.width : null;
+		var attrs = [{
+			name: "name" in attributes ? attributes.name : null,
+			width: "width" in attributes ? attributes.width : null
+		}]
 		this.settings = "backgroundColor" in attributes ? new Settings({backgroundColor: attributes.backgroundColor}) : new Settings;
 		this.blocks = "blocks" in attributes ? new Blocks(attributes.blocks) : null;
-		Column.apply(this, []);
+		Column.apply(this, attrs);
 	}
 });
 
@@ -68,7 +70,7 @@ BlockColumn.prototype.baseY = function() {
 BlockColumn.prototype.updateBlocks = function() {
 	var self = this;
 	this.blocks.each(function(block, index, blocks) {
-		block.topAge = index > 0 ? blocks[index - 1].baseAge : block.baseAge;
+		self.blocks.at(index).set('topAge', index > 0 ? blocks[index - 1].get('baseAge') : block.get('baseAge'));
 	});
 };
 
@@ -76,14 +78,14 @@ BlockColumn.prototype.updateBlocks = function() {
 /*==========  Returns the top age of the block_column.  ==========*/
 
 BlockColumn.prototype.topAge = function() {
-	return this.blocks.min(function(block){ return block.topAge;}).topAge;
+	return this.blocks.min(function(block){ return block.get('topAge');}).get('topAge');
 };
 
 
 /*==========  Returns the base age of the block column.  ==========*/
 
 BlockColumn.prototype.baseAge = function() {
-	return this.blocks.max(function(block){ return block.baseAge;}).baseAge;
+	return this.blocks.max(function(block){ return block.get('baseAge');}).get('baseAge');
 };
 
 
@@ -93,9 +95,9 @@ BlockColumn.prototype.updateRelativeAges = function() {
 	var self = this;
 	var colTopAge = this.topAge();
 	var colBaseAge = this.baseAge();
-	this.blocks.each(function(block) {
-		block.relativeTopAge = (block.topAge - colTopAge)/(colBaseAge - colTopAge);
-		block.relativeBaseAge = (block.baseAge - colTopAge)/(colBaseAge - colTopAge);
+	this.blocks.each(function(block, index) {
+		self.blocks.at(index).set('relativeTopAge', (block.get('topAge') - colTopAge)/(colBaseAge - colTopAge));
+		self.blocks.at(index).set('relativeBaseAge', (block.get('baseAge') - colTopAge)/(colBaseAge - colTopAge));
 	});
 };
 
@@ -104,7 +106,7 @@ BlockColumn.prototype.updateRelativeAges = function() {
 BlockColumn.prototype.addBlock = function(attrs) {
 	var topAge = this.baseAge();
 	var baseAge = attrs.baseAge || this.baseAge() + 10;
-	var name = attrs.name || "New Block";
+	var name = attrs.name || _.uniqueId('New Block ');
 	var block = new Block({
 		name: name,
 		topAge: topAge,

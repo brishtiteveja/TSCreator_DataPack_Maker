@@ -1,0 +1,29 @@
+<td class="toggle hide-data" width="3%"></td>
+<td  width="96%">
+	<div class="row large-12 columns">
+		<label class="block-data show"><%= name %></label>
+		<div class="block-form hide">
+			<label>Block Name</label>
+			<input type="text" value="<%= name %>">
+		</div>
+	</div>
+	<div class="row">
+		<label class="block-data large-12 columns"><%= topAge %>myr → <%= baseAge %>myr</label>
+		<div class="block-form hide">
+			<div class="large-5 columns">
+				<label>Top Age</label>
+				<input type="text" value="<%= topAge %>">
+			</div>
+			<label class="large-2 columns">→</label>
+			<div class="large-5 columns">
+				<label>Base Age</label>
+				<input type="text" value="<%= baseAge %>">
+			</div>
+		</div>
+	</div>
+	<div class="block-form row hide large-12 columns">
+		<label>Description</label>
+		<textarea placeholder="Description..."><%= description %></textarea>
+	</div>
+</td>
+<td class="destroy" width="3%"></td>
