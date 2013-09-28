@@ -46,28 +46,29 @@
 		<div class="container">
 			<div class="display">
 				<nav class="toolbar">
-<!--[if lte IE 8]><script>(function(){var e="abbr,article,aside,audio,canvas,datalist,details,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i]);}}());</script><![endif]-->
-					<a href="#add-block" class="button tiny secondary radius left nav-links">Add Block</a>
+					<a href="#add-block" class="button tiny secondary radius left nav-links">✚block</a>
 				</nav>
 				<div id="canvas"></div>
 			</div>
 			<div class="settings">
 				<nav class="toolbar">
-<!--[if lte IE 8]><script>(function(){var e="abbr,article,aside,audio,canvas,datalist,details,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i]);}}());</script><![endif]-->
 					<a href="#blocks" class="button tiny secondary radius">Blocks</a>
 					<a href="#defaults" class="button tiny secondary radius">Defaults</a>
 				</nav>
-				<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 50px;">
-					<section id="block-settings" class="active">
-						<div class="content" data-section-content="">
-							<p>Content of section 1.</p>
-						</div>
-					</section>
-					<section id="default-settings" class="">
-						<div class="content" data-section-content="">
-							<p>Content of section 2.</p>
-						</div>
-					</section>
+				<div class="sections-panel">
+					<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 50px;">
+						<section id="block-settings" class="active">
+							<div class="content">
+								<div class="settings-content" id="blocks-list"></div>
+							</div>
+						</section>
+						<section id="default-settings" class="">
+							<div class="content">
+								<h3 class="subheader">Defaults</h3>
+								<div class="settings-content"></div>
+							</div>
+						</section>
+					</div>
 				</div>
 			</div>
 		</div>

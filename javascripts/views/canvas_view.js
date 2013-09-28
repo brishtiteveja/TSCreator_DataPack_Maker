@@ -7,7 +7,8 @@ var CanvasView = BaseView.extend({
 	classname: "CanvasView",
 	events: {
 		'click a[href*="blocks"]': "showBlockSettings",
-		'click a[href*="defaults"]': "showDefaultSettings"
+		'click a[href*="defaults"]': "showDefaultSettings",
+		'click a[href*="add-block"]': 'createBlock'
 	}
 })
 
@@ -37,6 +38,14 @@ CanvasView.prototype.showBlockSettings = function(evt) {
 CanvasView.prototype.showDefaultSettings = function(evt) {
 	this.$blockSettings.removeClass("active");
 	this.$defaultSettings.addClass("active");
+};
+
+CanvasView.prototype.createBlock = function(evt) {
+	var block = new Block({
+		name: "New Column",
+		baseAge: MasterChronoStratColumn.baseAge() + 10
+	});
+	MasterChronoStratColumn.addBlock(block);
 };
 
 /*-----  End of CanvasView  ------*/

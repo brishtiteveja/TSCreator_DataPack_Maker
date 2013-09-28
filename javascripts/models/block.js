@@ -5,6 +5,7 @@
 var Block = BaseModel.extend({
 	classname: "Block",
 	constructor: function (attributes, options) {
+		this.edit = false;
 		this.name = attributes.name;
 		this.topAge = attributes.topAge === undefined ? null : parseFloat(attributes.topAge);
 		this.baseAge = attributes.baseAge === undefined ? null : parseFloat(attributes.baseAge);

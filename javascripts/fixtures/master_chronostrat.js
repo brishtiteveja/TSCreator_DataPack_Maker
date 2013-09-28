@@ -3,6 +3,7 @@
 =========================================================================================================*/
 
 MasterChronoStratigraphy = {
+	name: "Master Chronostratigraphy",
 	blocks: [
 		{
 			"backgroundColor": null, 

@@ -3,10 +3,15 @@
 ===============================================================================================================*/
 
 var BlockView = BaseView.extend({
-	el: "#canvas",
+	tagName: 'tr',
 	classname: "BlockView",
 	block: null,
+	events: {
+		"click .toggle" : "toggleBlockForm",
+	}
 });
+
+BlockView.prototype.template = new EJS({url: '/html/templates/block.ejs'});
 
 BlockView.prototype.initialize = function(block, blockColumnView) {
 	this.blockColumnView = blockColumnView;
@@ -15,10 +20,26 @@ BlockView.prototype.initialize = function(block, blockColumnView) {
 	this.y = this.blockColumnView.y + Math.round(this.block.relativeTopAge*this.blockColumnView.height); 
 	this.width = this.blockColumnView.width;
 	this.height = Math.round(this.block.relativeBaseAge*this.blockColumnView.height) - Math.round(this.block.relativeTopAge*this.blockColumnView.height);
+
+	/* Render stuff */
 	this.render();
+
+	/* Block Item elements  - This should come after render so that it can access those elements. */
+	this.$toggle = this.$(".toggle");
+	this.$blockForm = this.$(".block-form");
+	this.$blockData = this.$(".block-data");
+
+	/* Listeners */
+	this.listenTo(this.block, "change:edit", this.editBlock.bind(this));
+	
 };
 
 BlockView.prototype.render = function() {
+	this.$el.html(this.template.render(this.block));
+	this.renderBlock();
+};
+
+BlockView.prototype.renderBlock = function() {
 
 	if (this.set === undefined) {
 		this.set = Canvas.set();
@@ -44,5 +65,22 @@ BlockView.prototype.render = function() {
 	}	
 };
 
+BlockView.prototype.toggleBlockForm = function(evt) {
+	this.block.edit = !this.block.edit;
+};
+
+BlockView.prototype.editBlock = function() {
+	if (this.block.edit) {
+		this.$blockForm.removeClass('hide');
+		this.$blockData.addClass('hide');
+		this.$toggle.removeClass('hide-data');
+		this.$toggle.addClass('show-data');
+	} else {
+		this.$blockForm.addClass('hide');
+		this.$blockData.removeClass('hide');
+		this.$toggle.removeClass('show-data');
+		this.$toggle.addClass('hide-data');
+	}
+};
 /*-----  End of BlockView  ------*/
 
