@@ -12,6 +12,7 @@
 		<script type="text/javascript" src="/lib/dropzone.js"></script>
 		<script type="text/javascript" src="/lib/foundation/js/foundation/foundation.js"></script>
 		<script type="text/javascript" src="/javascripts/fixtures/master_chronostrat.js"></script>
+		<script type="text/javascript" src="/javascripts/views/keys.js"></script>
 
 		<script src="/javascripts/models/base.model.js" type="text/javascript" charset="utf-8" async defer></script>
 		<script src="/javascripts/views/base.view.js" type="text/javascript" charset="utf-8" async defer></script>
@@ -45,22 +46,29 @@
 		<div class="container">
 			<div class="display">
 				<nav class="toolbar">
-					<a href="#/polygon" class="button tiny secondary radius left nav-links">Polygon</a>
-					<a href="#/line" class="button tiny secondary radius left nav-links">Line</a>
-					<a href="#/well" class="button tiny secondary radius left nav-links">Drop Well</a>
-					<a href="#/column" class="button tiny secondary radius left nav-links">Reference Column</a>
-					<a href="#/transect" class="button tiny secondary radius left nav-links">Surface</a>
-					<a href="#/image" class="button tiny secondary radius left nav-links">Image</a>
+<!--[if lte IE 8]><script>(function(){var e="abbr,article,aside,audio,canvas,datalist,details,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i]);}}());</script><![endif]-->
+					<a href="#add-block" class="button tiny secondary radius left nav-links">Add Block</a>
 				</nav>
 				<div id="canvas"></div>
 			</div>
 			<div class="settings">
 				<nav class="toolbar">
-					<a href="#" class="button tiny secondary radius">Transect</a> 
-					<a href="#" class="button tiny secondary radius">Polygons</a> 
-					<a href="#" class="button tiny secondary radius">Wells</a> 
-					<a href="#" class="button tiny secondary radius">Defaults</a>
+<!--[if lte IE 8]><script>(function(){var e="abbr,article,aside,audio,canvas,datalist,details,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i]);}}());</script><![endif]-->
+					<a href="#blocks" class="button tiny secondary radius">Blocks</a>
+					<a href="#defaults" class="button tiny secondary radius">Defaults</a>
 				</nav>
+				<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 50px;">
+					<section id="block-settings" class="active">
+						<div class="content" data-section-content="">
+							<p>Content of section 1.</p>
+						</div>
+					</section>
+					<section id="default-settings" class="">
+						<div class="content" data-section-content="">
+							<p>Content of section 2.</p>
+						</div>
+					</section>
+				</div>
 			</div>
 		</div>
 	</body>
