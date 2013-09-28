@@ -21,6 +21,9 @@ BlockView.prototype.initialize = function(block, blockColumnView) {
 	this.width = this.blockColumnView.width;
 	this.height = Math.round(this.block.relativeBaseAge*this.blockColumnView.height) - Math.round(this.block.relativeTopAge*this.blockColumnView.height);
 
+	/* Edit form flag */
+	this.editForm = false;
+
 	/* Render stuff */
 	this.render();
 
@@ -28,10 +31,6 @@ BlockView.prototype.initialize = function(block, blockColumnView) {
 	this.$toggle = this.$(".toggle");
 	this.$blockForm = this.$(".block-form");
 	this.$blockData = this.$(".block-data");
-
-	/* Listeners */
-	this.listenTo(this.block, "change:edit", this.editBlock.bind(this));
-	
 };
 
 BlockView.prototype.render = function() {
@@ -66,11 +65,8 @@ BlockView.prototype.renderBlock = function() {
 };
 
 BlockView.prototype.toggleBlockForm = function(evt) {
-	this.block.edit = !this.block.edit;
-};
-
-BlockView.prototype.editBlock = function() {
-	if (this.block.edit) {
+	this.editForm = !this.editForm;
+	if (this.editForm) {
 		this.$blockForm.removeClass('hide');
 		this.$blockData.addClass('hide');
 		this.$toggle.removeClass('hide-data');
