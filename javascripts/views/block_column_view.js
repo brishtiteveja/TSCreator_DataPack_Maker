@@ -9,7 +9,7 @@ var BlockColumnView = ColumnView.extend({
 
 BlockColumnView.prototype.blocksTableTemplate = new EJS({url: '/html/templates/data_tbl.ejs'});
 
-BlockColumnView.prototype.initialize = function(blockCloumn, x, y) {
+BlockColumnView.prototype.initialize = function(blockCloumn) {
 
 	/* Necessary dom elements */
 	this.$blockList = $(".blocks-list")[0];
@@ -17,8 +17,8 @@ BlockColumnView.prototype.initialize = function(blockCloumn, x, y) {
 
 	/* Set the column specific settings details */
 	this.column = blockCloumn;
-	this.x = x;
-	this.y = y;
+	this.x = this.column.get('x');
+	this.y = this.column.get('y');
 	this.height = this.column.baseY() - this.column.topY();
 	this.width = 100;
 

@@ -10,7 +10,7 @@ var CanvasView = BaseView.extend({
 		'click a[href*="defaults"]': "showDefaultSettings",
 		'click a[href*="add-block"]': 'createBlock'
 	}
-})
+});
 
 CanvasView.prototype.initialize = function() {
 	this.$canvas = $("#canvas");
@@ -26,8 +26,8 @@ CanvasView.prototype.render = function() {
 };
 
 CanvasView.prototype.renderMasterColumn = function() {
-	MasterChronoStratColumn = new BlockColumn(MasterChronoStratigraphy);
-	MasterChronoStratView = new BlockColumnView(MasterChronoStratColumn, 10, 10);
+	MasterChronoStratColumn = new BlockColumn(MasterChronoStratigraphy, 10, 10);
+	MasterChronoStratView = new BlockColumnView(MasterChronoStratColumn);
 };
 
 CanvasView.prototype.showBlockSettings = function(evt) {

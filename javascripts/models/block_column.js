@@ -22,11 +22,13 @@ Blocks.prototype.comparator = function(block) {
 
 var BlockColumn = Column.extend({
 	classname: "BlockColumn",
-	constructor: function (attributes, options) {
+	constructor: function (attributes, x, y) {
 		var attrs = [{
+			x: x === undefined ? 0 : x,
+			y: y === undefined ? 0 : y,
 			name: "name" in attributes ? attributes.name : null,
 			width: "width" in attributes ? attributes.width : null
-		}]
+		}];
 		this.settings = "backgroundColor" in attributes ? new Settings({backgroundColor: attributes.backgroundColor}) : new Settings;
 		this.blocks = "blocks" in attributes ? new Blocks(attributes.blocks) : null;
 		Column.apply(this, attrs);
@@ -37,7 +39,7 @@ var BlockColumn = Column.extend({
 /*==========  Initialize block column  ==========*/
 
 BlockColumn.prototype.initialize = function() {
-
+	
 	/* Extend with events using mixin such that we can fire custom events */
 	_.extend(this, Backbone.Events);
 

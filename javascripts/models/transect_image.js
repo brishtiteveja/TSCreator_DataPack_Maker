@@ -1,34 +1,20 @@
-/**
- * TransectImage class extends the base model class 
-*/
-TransectImage = BaseModel.extend({
-	
-	_classname: "TransectImage",
+/*======================================================================================
+=            TransectImage is used for saving transect image related state.            =
+======================================================================================*/
 
-	defaults: {
-		x: 0,
-		y: 0,
-		width: null,
-		height: null,
-		imgUrl: null
+TransectImage = BaseModel.extend({	
+	classname: "TransectImage",
+	constructor: function(attributes, options) {
+		var attrs = [{
+			x: "x" in attributes ? attributes.x : 0,
+			y: "y" in attributes ? attributes.y : 0
+		}];
+		BaseMode.apply(this, attrs);
 	}
 });
 
-/*
-Constructor for the image class
-*/
 TransectImage.prototype.initialize = function (attrs) {
-	this.set({
-		imgUrl: attrs.url,
-		x: attrs.x,
-		y: attrs.y,
-		width: attrs.width,
-		height: attrs.height
-	});
 };
 
-TransectImage.prototype.validate = function(attrs, options) {
-	if (width === null || height == null || url === null) {
-		throw "Error: undefined attributes!";
-	}
-};
+/*-----  End of TransectImage  ------*/
+
