@@ -5,7 +5,6 @@
 var BlockView = BaseView.extend({
 	tagName: 'tr',
 	classname: "BlockView",
-	block: null,
 	events: {
 		'click .toggle' : 'toggleBlockForm',
 		'click a[href*="update-block"]': 'updateBlock'
@@ -21,10 +20,7 @@ BlockView.prototype.initialize = function(block, blockColumnView) {
 	this.y = this.blockColumnView.y + Math.round(this.block.get('relativeTopAge')*this.blockColumnView.height); 
 	this.width = this.blockColumnView.width;
 	this.height = Math.round(this.block.get('relativeBaseAge')*this.blockColumnView.height) - Math.round(this.block.get('relativeTopAge')*this.blockColumnView.height);
-
-	/* Edit form flag */
-	this.editForm = false;
-
+	
 	/* Render stuff */
 	this.render();
 
@@ -60,7 +56,7 @@ BlockView.prototype.renderBlock = function() {
 			this.height
 		);
 		this.element.attr({
-			"fill": this.block.settings.backgroundColor
+			"fill": this.block.settings.get('backgroundColor')
 		});
 		this.set.push(this.element);
 		if (this.block.get('name') !== undefined && this.block.get('name').toLowerCase() !== "top") {

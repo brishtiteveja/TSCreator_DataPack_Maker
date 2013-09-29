@@ -8,14 +8,18 @@ var Settings = BaseModel.extend({
 	/* Constructor for settings object */
 	constructor: function(attributes, options) {
 		if (attributes === undefined) return;
-		this.fontFamily = attributes.fontFamily ? attributes.fontFamily : '"Times New Roman", Times, serif';
-		this.fontVariant = attributes.fontVariant ? attributes.fontVariant : "normal";
-		this.fontWeight = attributes.fontWeight ? attributes.fontWeight : "normal";
-		this.fontStretch = attributes.fontStretch ? attributes.fontStretch : "normal";
-		this.fontSize = attributes.fontSize ? attributes.fontSize : "medium";
-		this.backgroundColor = attributes.backgroundColor ? this.getCssColor(attributes.backgroundColor) : "#DDDDDD";
-		this.foregroundColor = attributes.foregroundColor ? this.getCssColor(attributes.foregroundColor) : "#000000";
-		BaseModel.apply(this, []);
+		var attrs = [{
+			fontFamily: attributes.fontFamily || '"Times New Roman", Times, serif',
+			fontVariant: attributes.fontVariant || "normal",
+			fontWeight: attributes.fontWeight || "normal",
+			fontStretch: attributes.fontStretch || "normal",
+			fontSize: attributes.fontSize || "medium",
+			backgroundColor: attributes.backgroundColor ? this.getCssColor(attributes.backgroundColor) : "#DDDDDD",
+			foregroundColor: attributes.foregroundColor ? this.getCssColor(attributes.foregroundColor) : "#000000",
+			strokeWidth: attributes.strokeWidth || 3,
+			strokeColor: attributes.strokeColor || "#000000"
+		}];
+		BaseModel.apply(this, attrs);
 	}
 });
 

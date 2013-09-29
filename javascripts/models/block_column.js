@@ -27,7 +27,7 @@ var BlockColumn = Column.extend({
 			x: x === undefined ? 0 : x,
 			y: y === undefined ? 0 : y,
 			name: "name" in attributes ? attributes.name : null,
-			width: "width" in attributes ? attributes.width : null
+			width: "width" in attributes ? attributes.width : 100
 		}];
 		this.settings = "backgroundColor" in attributes ? new Settings({backgroundColor: attributes.backgroundColor}) : new Settings;
 		this.blocks = "blocks" in attributes ? new Blocks(attributes.blocks) : null;

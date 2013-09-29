@@ -20,7 +20,8 @@ BlockColumnView.prototype.initialize = function(blockCloumn) {
 	this.x = this.column.get('x');
 	this.y = this.column.get('y');
 	this.height = this.column.baseY() - this.column.topY();
-	this.width = 100;
+	this.width = this.column.get('width');
+	this.$blockList = this.$(".data-list");
 
 	/* Listen to the following changes in model */
 	this.listenTo(this.column, 'BlockColumn:blockAdded', this.render.bind(this));
@@ -48,7 +49,7 @@ BlockColumnView.prototype.renderColumn = function() {
 
 	if (this.element === undefined) {
 		this.element = Canvas.rect();
-		this.set.push(this.element);
+		this.set.push(this.element);	
 	}
 
 	this.element.attr({
@@ -70,6 +71,7 @@ BlockColumnView.prototype.renderColumn = function() {
 
 BlockColumnView.prototype.addBlock = function(block) {
 	var block = new BlockView(block, this);
+	this.blocks.push(block.element);
 	this.$(".data-list").append(block.el);
 };
 

@@ -17,7 +17,7 @@ CanvasView.prototype.initialize = function() {
 	this.$blockSettings = $("#block-settings");
 	this.$defaultSettings = $("#default-settings");
 
-	Canvas = new Raphael(this.$canvas[0], "100%", 1000);
+	Canvas = new Raphael(this.$canvas[0], 1000, 1000);
 	this.render();
 };
 
