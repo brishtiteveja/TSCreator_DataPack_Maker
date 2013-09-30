@@ -6,11 +6,8 @@ var TransectView = BaseView.extend({
 	el: ".container",
 	classname: "TransectView",
 	events: {
-		'click a[href*="transects"]': 'showSettings',
-		'click a[href*="wells"]': 'showSettings',
-		'click a[href*="polygons"]': 'showSettings',
-		'click a[href*="markers"]': 'showSettings',
-		'click a[href*="defaults"]': 'showSettings',
+		'click a.transect-settings': 'showSettings',
+		'click a.transect-tools': 'enableTool',
 	}
 });
 
@@ -28,13 +25,14 @@ TransectView.prototype.initialize = function() {
 
 TransectView.prototype.render = function() {
 	this.transectMarkersView = new TransectMarkersView();
+	this.transectWellsView = new TransectWellsView();
 	this.renderTransectImage();
 };
 
 /**
 
 	TODO:
-	- Render transect image is temporary will have to attach event to change transect image.
+	- Render transect image is temporary, will have to attach event to change transect image.
 
 **/
 
@@ -47,6 +45,23 @@ TransectView.prototype.showSettings = function(evt) {
 	this.$('.settings-list').removeClass('active');
 	var id = evt.target.getAttribute('href') + "-settings";
 	$(id).addClass('active');
+};
+
+
+TransectView.prototype.enableTool = function(evt) {
+	var source = evt.target.getAttribute('href');
+	this.transectMarkersView.enMarkers = false;
+	this.transectWellsView.enWells = false;
+	switch(source) {
+		case "#add-marker":
+			this.transectMarkersView.enMarkers = true;
+			break;
+		case "#add-well":
+			this.transectWellsView.enWells = true;
+			break;
+		default:
+			break;
+	}
 };
 /*-----  End of Section comment block  ------*/
 

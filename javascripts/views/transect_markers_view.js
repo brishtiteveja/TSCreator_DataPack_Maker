@@ -6,7 +6,6 @@ var TransectMarkersView = BaseView.extend({
 	el: ".container",
 	classname: "TransectMarkersView",
 	events: {
-		'click a[href*="add-age-marker"]': 'toggleMarkers',
 		'dblclick #canvas': 'createMarker'
 	}
 })
@@ -16,9 +15,9 @@ TransectMarkersView.prototype.makersListTemplate = new EJS({url: '/html/template
 TransectMarkersView.prototype.initialize = function() {
 	/* initialize the transect makers collection */
 	this.transectMarkers = new TransectMarkers();
-	this.enMarkers = false;;
+	this.enMarkers = false;
 
-	this.$markersTable = this.$("#markers-list");
+	this.$markersList = this.$("#markers-list");
 
 	/* render the transect makers */
 	this.render();
@@ -28,8 +27,8 @@ TransectMarkersView.prototype.initialize = function() {
 };
 
 TransectMarkersView.prototype.render = function() {
-	this.$markersTable.html(this.makersListTemplate.render({name: "Markers"}));
-	this.$markersList = this.$(".data-list");
+	this.$markersList.html(this.makersListTemplate.render({name: "Markers"}));
+	this.$markersTable = this.$("#markers-list .data-list");
 	this.renderMarkers();
 };
 
@@ -41,8 +40,8 @@ TransectMarkersView.prototype.renderMarkers = function() {
 };
 
 TransectMarkersView.prototype.addMarker = function(marker) {
-	transectMarkerView = new TransectMarkerView(marker, this);
-	this.$markersList.append(transectMarkerView.el);
+	var transectMarkerView = new TransectMarkerView(marker, this);
+	this.$markersTable.append(transectMarkerView.el);
 	this.set.push(transectMarkerView.element);
 };
 

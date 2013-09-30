@@ -36,6 +36,10 @@
 		<script src="/javascripts/models/transect_marker.js" type="text/javascript" charset="utf-8" async defer></script>
 		<script src="/javascripts/views/transect_markers_view.js" type="text/javascript" charset="utf-8" async defer></script>
 		<script src="/javascripts/views/transect_marker_view.js" type="text/javascript" charset="utf-8" async defer></script>
+
+		<script src="/javascripts/models/transect_well.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/javascripts/views/transect_wells_view.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/javascripts/views/transect_well_view.js" type="text/javascript" charset="utf-8" async defer></script>
 		
 		<script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer></script>
 	</head>
@@ -52,19 +56,19 @@
 		<div class="container">
 			<div class="display">
 				<nav class="toolbar">
-					<a href="#add-well" class="button tiny secondary radius left nav-links">✚well</a>
-					<a href="#add-age-marker" class="button tiny secondary radius left nav-links">✚age maker</a>
-					<a href="#add-polygon" class="button tiny secondary radius left nav-links">✚polygon</a>
+					<a href="#add-well" class="button tiny secondary radius left nav-links transect-tools">✚well</a>
+					<a href="#add-marker" class="button tiny secondary radius left nav-links transect-tools">✚age maker</a>
+					<a href="#add-polygon" class="button tiny secondary radius left nav-links transect-tools">✚polygon</a>
 				</nav>
 				<div id="canvas"></div>
 			</div>
 			<div class="settings">
 				<nav class="toolbar">
-					<a href="#transects" class="button tiny secondary radius">Transects</a>
-					<a href="#wells" class="button tiny secondary radius">Wells</a>
-					<a href="#polygons" class="button tiny secondary radius">Polygons</a>
-					<a href="#markers" class="button tiny secondary radius">Markers</a>
-					<a href="#defaults" class="button tiny secondary radius">Defaults</a>
+					<a href="#markers" class="button tiny secondary radius transect-settings">Markers</a>
+					<a href="#transects" class="button tiny secondary radius transect-settings">Transects</a>
+					<a href="#wells" class="button tiny secondary radius transect-settings">Wells</a>
+					<a href="#polygons" class="button tiny secondary radius transect-settings">Polygons</a>
+					<a href="#defaults" class="button tiny secondary radius transect-settings">Defaults</a>
 				</nav>
 				<div class="sections-panel">
 					<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 50px;">
