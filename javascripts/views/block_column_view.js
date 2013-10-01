@@ -71,7 +71,7 @@ BlockColumnView.prototype.renderColumn = function() {
 
 BlockColumnView.prototype.addBlock = function(block) {
 	var block = new BlockView(block, this);
-	this.blocks.push(block.element);
+	this.blocks.push(block.set);
 	this.$(".data-list").append(block.el);
 };
 

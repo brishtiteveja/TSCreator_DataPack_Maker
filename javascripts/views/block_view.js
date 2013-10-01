@@ -49,33 +49,42 @@ BlockView.prototype.renderBlock = function() {
 	}
 
 	if (this.element === undefined) {
-		this.element = Canvas.rect(
-			this.x,
-			this.y,
-			this.width,
-			this.height
-		);
-		this.element.attr({
-			"fill": this.block.settings.get('backgroundColor')
-		});
+		this.element = Canvas.rect();
 		this.set.push(this.element);
-		if (this.block.get('name') !== undefined && this.block.get('name').toLowerCase() !== "top") {
-			var string = this.wrapString(this.block.get('name'), 15, '-\n', true);
-			var textX = this.x + this.width/2;
-			var textY = this.y + this.height/2;
-			this.set.push(Canvas.text(textX, textY, string));
-		}
-		this.hoverBox = Canvas.rect(
-			this.x,
-			this.y,
-			this.width,
-			this.height
-		);
-		this.hoverBox.attr({
-			fill: "#FFFFFF",
-			opacity: 0
-		});
+		
+		this.text = Canvas.text();
+		this.set.push(this.text);
+
+		this.hoverBox = Canvas.rect();
 		this.set.push(this.hoverBox);
+	}
+
+	this.element.attr({
+		"x":	this.x,
+		"y":	this.y,
+		"width":	this.width,
+		"height": this.height,
+		"fill": this.block.settings.get('backgroundColor')
+	});
+
+	this.hoverBox.attr({
+		"x":	this.x,
+		"y":	this.y,
+		"width":	this.width,
+		"height": this.height,
+		"fill": "#FFFFFF",
+		"opacity": 0
+	});
+
+	if (this.block.get('name') !== undefined && this.block.get('name').toLowerCase() !== "top") {
+		var string = this.wrapString(this.block.get('name'), 15, '-\n', true);
+		var textX = this.x + this.width/2;
+		var textY = this.y + this.height/2;
+		this.text.attr({
+			x: textX,
+			y: textY,
+			text: string
+		});
 	}
 
 	/* Attach listeners */
