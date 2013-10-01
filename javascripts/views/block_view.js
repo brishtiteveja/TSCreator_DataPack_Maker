@@ -56,7 +56,7 @@ BlockView.prototype.renderBlock = function() {
 			this.height
 		);
 		this.element.attr({
-			"fill": this.block.settings.get('backgroundColor')
+			"fill": this.block.settings.get('backgroundColor'),
 		});
 		this.set.push(this.element);
 		if (this.block.get('name') !== undefined && this.block.get('name').toLowerCase() !== "top") {
@@ -65,6 +65,7 @@ BlockView.prototype.renderBlock = function() {
 			var textY = this.y + this.height/2;
 			this.set.push(Canvas.text(textX, textY, string));
 		}
+		this.element.hover(this.hover.bind(this));
 	}	
 };
 
@@ -101,6 +102,11 @@ BlockView.prototype.updateBlock = function() {
 		description: description
 	});
 };
+
+BlockView.prototype.hover = function(evt) {
+	// Canvas.popup(this.x, this.y, this.block.get('description'));
+};
+
 
 /*-----  End of BlockView  ------*/
 

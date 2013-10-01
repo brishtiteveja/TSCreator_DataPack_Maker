@@ -13,7 +13,7 @@ var Block = BaseModel.extend({
 			relativeTopAge: attributes.relativeTopAge === undefined ? null : parseFloat(attributes.relativeTopAge),
 			relativeBaseAge: attributes.relativeBaseAge === undefined ? null : parseFloat(attributes.relativeBaseAge),
 			description: attributes.description
-		}]
+		}];
 		this.settings = new Settings({backgroundColor: attributes.backgroundColor});
 		BaseModel.apply(this, attrs);
 	}
