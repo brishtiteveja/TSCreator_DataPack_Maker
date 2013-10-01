@@ -56,7 +56,7 @@ BlockView.prototype.renderBlock = function() {
 			this.height
 		);
 		this.element.attr({
-			"fill": this.block.settings.get('backgroundColor'),
+			"fill": this.block.settings.get('backgroundColor')
 		});
 		this.set.push(this.element);
 		if (this.block.get('name') !== undefined && this.block.get('name').toLowerCase() !== "top") {
@@ -65,8 +65,38 @@ BlockView.prototype.renderBlock = function() {
 			var textY = this.y + this.height/2;
 			this.set.push(Canvas.text(textX, textY, string));
 		}
-		this.element.hover(this.hover.bind(this));
-	}	
+		this.hoverBox = Canvas.rect(
+			this.x,
+			this.y,
+			this.width,
+			this.height
+		);
+		this.hoverBox.attr({
+			fill: "#FFFFFF",
+			opacity: 0
+		});
+		this.set.push(this.hoverBox);
+	}
+
+	/* Attach listeners */
+	this.hoverBox.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+
+	/* Render tooltip for the block */
+	this.renderTooltip();
+};
+
+BlockView.prototype.renderTooltip = function() {
+	$(this.hoverBox.node).qtip({
+		content: {
+			title: this.block.get('name') + "【" + this.block.get('topAge') + " myr →" +  + this.block.get('baseAge') + " myr】",
+			text: this.block.get('description')
+		},
+		position: {
+			my: 'middle left', // Position my top left...
+			at: 'middle right', // at the bottom right of...
+			target: $(this.element.node), // my target 
+		}
+	});
 };
 
 BlockView.prototype.toggleBlockForm = function(evt) {
@@ -103,8 +133,27 @@ BlockView.prototype.updateBlock = function() {
 	});
 };
 
-BlockView.prototype.hover = function(evt) {
-	// Canvas.popup(this.x, this.y, this.block.get('description'));
+BlockView.prototype.onMouseOver = function(evt) {
+	if (this.glow === undefined) {
+		this.glow = this.element.glow();	
+	} else {
+		this.glow.show();
+	}
+	this.element.attr({
+		fill: "#C00000",
+		opacity: 0.5
+	});
+};
+
+
+BlockView.prototype.onMouseOut = function(evt) {
+	if (this.glow !== undefined) {
+		this.glow.hide();	
+	}
+	this.element.attr({
+		fill: this.block.settings.get('backgroundColor'),
+		opacity: 1
+	});
 };
 
 
