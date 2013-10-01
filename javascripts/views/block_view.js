@@ -52,8 +52,10 @@ BlockView.prototype.renderBlock = function() {
 		this.element = Canvas.rect();
 		this.set.push(this.element);
 		
-		this.text = Canvas.text();
-		this.set.push(this.text);
+		if (this.block.get('name') !== undefined && this.block.get('name').toLowerCase() !== "top") {
+			this.text = Canvas.text();
+			this.set.push(this.text);
+		}
 
 		this.hoverBox = Canvas.rect();
 		this.set.push(this.hoverBox);
