@@ -24,6 +24,13 @@ BlockView.prototype.initialize = function(block, blockColumnView) {
 	/* Render stuff */
 	this.render();
 
+	/* Listeners */
+	this.listenTo(this.block, 'change:edit', this.editBlockData.bind(this));
+};
+
+BlockView.prototype.render = function() {
+	this.$el.html(this.template.render(this.block.toJSON()));
+
 	/* Block Item elements  - This should come after render so that it can access those elements. */
 	this.$toggle = this.$(".toggle");
 	this.$blockForm = this.$(".block-form");
@@ -33,12 +40,6 @@ BlockView.prototype.initialize = function(block, blockColumnView) {
 	this.$blockBaseAge = this.$('input[name="base-age"]')[0]
 	this.$blockDescription = this.$('textarea[name="description"]')[0]
 
-	/* Listeners */
-	this.listenTo(this.block, 'change:edit', this.editBlockData.bind(this));
-};
-
-BlockView.prototype.render = function() {
-	this.$el.html(this.template.render(this.block.toJSON()));
 	this.renderBlock();
 };
 
@@ -133,8 +134,8 @@ BlockView.prototype.editBlockData = function(evt) {
 
 BlockView.prototype.updateBlock = function() {
 	var name = this.$blockName.value;
-	var topAge = parseInt(this.$blockTopAge.value);
-	var baseAge = parseInt(this.$blockBaseAge.value);
+	var topAge = parseFloat(this.$blockTopAge.value);
+	var baseAge = parseFloat(this.$blockBaseAge.value);
 	var description = this.$blockDescription.value;
 	this.block.set({
 		name: name,

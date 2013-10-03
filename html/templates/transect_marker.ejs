@@ -1,7 +1,7 @@
 <td class="toggle hide-data" width="3%"></td>
 <td  width="96%">
 	<div class="row">
-		<label class="marker-data large-12 columns"><%= name %> <%= y %>myr</label>
+		<label class="marker-data large-12 columns"><%= name %>【<%= age || '-' %> myr】</label>
 		<div class="marker-form hide">
 			<div class="large-8 columns">
 				<label>Marker</label>
@@ -9,7 +9,7 @@
 			</div>
 			<div class="large-4 columns">
 				<label>Age</label>
-				<input type="text" name="age" value="<%= y %>">
+				<input type="text" name="marker-age" value="<%= age %>">
 			</div>
 		</div>
 	</div>

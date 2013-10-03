@@ -114,3 +114,7 @@ body .container .settings {
 	color: #CCCCCC;
 	background-color: #666666;
 }
+
+.hover-bg {
+	color: #F00000;
+}

@@ -54,6 +54,22 @@ TransectWellView.prototype.renderWell = function() {
 	/* attach listeners to the element */
 	this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 	this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
+
+	/* render tooltip */
+	this.renderTooltip();
+};
+
+TransectWellView.prototype.renderTooltip = function() {
+	$(this.element.node).qtip({
+		content: {
+			text: this.transectWell.get('name')
+		},
+		position: {
+			my: 'left bottom', // Position my top left...
+			at: 'left middle', // at the bottom right of...
+			target: "mouse", // my target 
+		}
+	});
 };
 
 TransectWellView.prototype.getPath = function() {
