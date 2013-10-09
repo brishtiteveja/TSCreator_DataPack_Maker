@@ -14,7 +14,7 @@ TransectWellsView.prototype.wellsListTemplate = new EJS({url: '/html/templates/d
 
 TransectWellsView.prototype.initialize = function() {
 	/* initialize transect wells collection */
-	this.transectWells = new TransectWells();
+	this.transectWells = TransectWellsCollection;
 	this.enWells = false;
 
 	/* get necessary dom elements */
@@ -24,7 +24,7 @@ TransectWellsView.prototype.initialize = function() {
 	this.render();
 
 	/* initialize listeners */
-	this.listenTo(this.transectWells, 'add', this.render.bind(this));
+	this.listenTo(this.transectWells, 'add', this.wellAdded.bind(this));
 };
 
 TransectWellsView.prototype.render = function() {
@@ -61,4 +61,18 @@ TransectWellsView.prototype.createWell = function(evt) {
 	}
 };
 
+TransectWellsView.prototype.wellAdded = function() {
+	this.updateTransects();
+	this.render();
+};
+
+TransectWellsView.prototype.updateTransects = function() {
+	var transects = [];
+	TransectWellsCollection.each(function(well, index, wells) {
+		if (index > 0) {
+			transects.push(new Transect({}, wells[index - 1], well));
+		}
+	});
+	TransectsCollection.reset(transects);
+};
 /*-----  End of TransectWellsView  ------*/

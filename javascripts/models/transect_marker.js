@@ -11,7 +11,7 @@ var TransectMarker = BaseModel.extend({
 			y: attributes.y,
 			age: null,
 		}];
-		this.settings = new Settings({strokeWidth: 2, strokeColor: "#F000000"})
+		this.settings = new Settings({strokeWidth: 2, strokeColor: "#F000000"});
 		BaseModel.apply(this, attrs);
 	}
 });
@@ -26,9 +26,10 @@ var TransectMarkers = BaseCollection.extend({
 	model: TransectMarker
 });
 
-
 TransectMarkers.prototype.comparator = function(marker) {
 	return marker.get('y');
 };
 
 /*-----  End of TransectMarkers  ------*/
+
+TransectMarkersCollection = new TransectMarkers();

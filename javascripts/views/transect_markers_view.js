@@ -14,7 +14,7 @@ TransectMarkersView.prototype.makersListTemplate = new EJS({url: '/html/template
 
 TransectMarkersView.prototype.initialize = function() {
 	/* initialize the transect makers collection */
-	this.transectMarkers = new TransectMarkers();
+	this.transectMarkers = TransectMarkersCollection;
 	this.enMarkers = false;
 
 	this.$markersList = this.$("#markers-list");

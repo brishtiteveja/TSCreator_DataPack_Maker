@@ -1,10 +1,10 @@
 /*====================================================================
-=            TransectView is the basic view for transects            =
+=            TransectAppView is the basic view for transects            =
 ====================================================================*/
 
-var TransectView = BaseView.extend({
+var TransectAppView = BaseView.extend({
 	el: ".container",
-	classname: "TransectView",
+	classname: "TransectAppView",
 	events: {
 		'click a.transect-settings': 'showSettings',
 		'click a.transect-tools': 'enableTool',
@@ -13,17 +13,19 @@ var TransectView = BaseView.extend({
 
 /*==========  Initialize transect view  ==========*/
 
-TransectView.prototype.initialize = function() {
+TransectAppView.prototype.initialize = function() {
 	this.$canvas = $("#canvas");
+	Canvas = new Raphael(this.$canvas[0], this.width, this.height);
+	
 	this.x = 10;
 	this.y = 10;
 	this.width = 1000;
 	this.height = 1000;
-	Canvas = new Raphael(this.$canvas[0], this.width, this.height);
+	
 	this.render();
 };
 
-TransectView.prototype.render = function() {
+TransectAppView.prototype.render = function() {
 	this.transectMarkersView = new TransectMarkersView();
 	this.transectWellsView = new TransectWellsView();
 	this.renderTransectImage();
@@ -36,19 +38,19 @@ TransectView.prototype.render = function() {
 
 **/
 
-TransectView.prototype.renderTransectImage = function() {
+TransectAppView.prototype.renderTransectImage = function() {
 	var transectImage = new TransectImage({url: "/images/transect.gif", x: this.x, y: this.y});
 	var transectImageView = new TransectImageView(transectImage);
 };
 
-TransectView.prototype.showSettings = function(evt) {
+TransectAppView.prototype.showSettings = function(evt) {
 	this.$('.settings-list').removeClass('active');
 	var id = evt.target.getAttribute('href') + "-settings";
 	$(id).addClass('active');
 };
 
 
-TransectView.prototype.enableTool = function(evt) {
+TransectAppView.prototype.enableTool = function(evt) {
 	var source = evt.target.getAttribute('href');
 	this.transectMarkersView.enMarkers = false;
 	this.transectWellsView.enWells = false;

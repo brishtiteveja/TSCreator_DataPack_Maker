@@ -13,8 +13,12 @@ var TransectMarkerView = BaseView.extend({
 	}
 });
 
+
+/*==========  Template to be used in generation marker in the settings side panel.  ==========*/
 TransectMarkerView.prototype.template = new EJS({url: '/html/templates/transect_marker.ejs'});
 
+
+/*==========  Initialize the marker  ==========*/
 TransectMarkerView.prototype.initialize = function(transectMarker, transectMarkersView) {
 	/* initialize the the view the the marker instance and the collecting view */
 	this.transectMarkersView = transectMarkersView;
@@ -30,6 +34,7 @@ TransectMarkerView.prototype.initialize = function(transectMarker, transectMarke
 	this.listenTo(this.transectMarker, 'change:name', this.render.bind(this));
 };
 
+/*==========  render the trasect  ==========*/
 TransectMarkerView.prototype.render = function() {
 	this.$el.html(this.template.render(this.transectMarker.toJSON()));
 	/* get DOM elements after render */
@@ -45,6 +50,7 @@ TransectMarkerView.prototype.render = function() {
 	this.renderMarker();
 };
 
+/*==========  render the marker on the canvas  ==========*/
 TransectMarkerView.prototype.renderMarker = function() {
 	if (this.element === undefined) {
 		this.element = Canvas.path();
@@ -61,6 +67,7 @@ TransectMarkerView.prototype.renderMarker = function() {
 	this.renderTooltip();
 };
 
+/*==========  render the tooltip for the marker in the canvas  ==========*/
 TransectMarkerView.prototype.renderTooltip = function() {
 	$(this.element.node).qtip({
 		content: {
@@ -73,18 +80,22 @@ TransectMarkerView.prototype.renderTooltip = function() {
 	});
 };
 
+/*==========  get path string for the marker  ==========*/
 TransectMarkerView.prototype.getPath = function() {
 	return "M0," + this.transectMarker.get('y') + 'H' + Canvas.width;
 };
 
+/*==========  start dragging  ==========*/
 TransectMarkerView.prototype.dragStart = function(x, y, evt) {};
 
+/*==========  while dragging  ==========*/
 TransectMarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
 	this.transectMarker.set({
 		y: evt.offsetY
 	});
 };
 
+/*==========  when dragging is completed  ==========*/
 TransectMarkerView.prototype.dragEnd = function(evt) {};
 
 TransectMarkerView.prototype.onMouseOver = function() {
