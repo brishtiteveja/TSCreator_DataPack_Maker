@@ -1,69 +1,23 @@
-/*====================================================================
-=            TransectAppView is the basic view for transects            =
-====================================================================*/
+/*====================================
+=            TransectView            =
+====================================*/
 
-var TransectAppView = BaseView.extend({
-	el: ".container",
-	classname: "TransectAppView",
-	events: {
-		'click a.transect-settings': 'showSettings',
-		'click a.transect-tools': 'enableTool',
-	}
+var TransectView = BaseView.extend({
+  tagName: 'tr',
+  classname: 'TransectView'
 });
 
-/*==========  Initialize transect view  ==========*/
+TransectView.prototype.template = new EJS({url: '/html/templates/transect.ejs'});
 
-TransectAppView.prototype.initialize = function() {
-	this.$canvas = $("#canvas");
-	Canvas = new Raphael(this.$canvas[0], this.width, this.height);
-	
-	this.x = 10;
-	this.y = 10;
-	this.width = 1000;
-	this.height = 1000;
-	
-	this.render();
+TransectView.prototype.initialize = function(transect) {
+  this.transect = transect;
+
+  /* render the dom element in the settings */
+  this.render();
 };
 
-TransectAppView.prototype.render = function() {
-	this.transectMarkersView = new TransectMarkersView();
-	this.transectWellsView = new TransectWellsView();
-	this.renderTransectImage();
+TransectView.prototype.render = function() {
+  this.$el.html(this.template.render(this.transect.toJSON()));
 };
 
-/**
-
-	TODO:
-	- Render transect image is temporary, will have to attach event to change transect image.
-
-**/
-
-TransectAppView.prototype.renderTransectImage = function() {
-	var transectImage = new TransectImage({url: "/images/transect.gif", x: this.x, y: this.y});
-	var transectImageView = new TransectImageView(transectImage);
-};
-
-TransectAppView.prototype.showSettings = function(evt) {
-	this.$('.settings-list').removeClass('active');
-	var id = evt.target.getAttribute('href') + "-settings";
-	$(id).addClass('active');
-};
-
-
-TransectAppView.prototype.enableTool = function(evt) {
-	var source = evt.target.getAttribute('href');
-	this.transectMarkersView.enMarkers = false;
-	this.transectWellsView.enWells = false;
-	switch(source) {
-		case "#add-marker":
-			this.transectMarkersView.enMarkers = true;
-			break;
-		case "#add-well":
-			this.transectWellsView.enWells = true;
-			break;
-		default:
-			break;
-	}
-};
-/*-----  End of Section comment block  ------*/
-
+/*-----  End of TransectView  ------*/

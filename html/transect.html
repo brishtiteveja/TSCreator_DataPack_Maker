@@ -38,10 +38,12 @@
 		<script src="/javascripts/models/block_column.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/block_column_view.js" type="text/javascript" charset="utf-8"></script>
 		
+		<!-- Transect App View -->
+		<script src="/javascripts/views/transect_app_view.js" type="text/javascript" charset="utf-8"></script>
+		
 		<!-- Transect Image Components -->
 		<script src="/javascripts/models/transect_image.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/transect_image_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/views/transect_view.js" type="text/javascript" charset="utf-8"></script>
 
 		<!-- Transect Marker Components -->
 		<script src="/javascripts/models/transect_marker.js" type="text/javascript" charset="utf-8"></script>
@@ -58,6 +60,9 @@
 		
 		<!-- main js that initializes everything -->
 		<script src="/javascripts/transect_app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/views/transect_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/views/transects_view.js" type="text/javascript" charset="utf-8"></script>
+		
 	</head>
 	<body>
 		<nav class="top-bar fixed">
@@ -88,15 +93,17 @@
 				</nav>
 				<div class="sections-panel">
 					<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 50px;">
+						
+						<!-- Transects Settings -->
 						<section id="transects-settings" class="settings-list">
 							<div class="content">
-								<h3 class="subheader">Transects</h3>
 								<div class="settings-content" id="transects-list"></div>
 							</div>
 						</section>
+						
+						<!-- Wells Settings -->
 						<section id="wells-settings" class="settings-list">
 							<div class="content">
-								<h3 class="subheader">Wells</h3>
 								<div class="settings-content" id="wells-list"></div>
 							</div>
 						</section>

@@ -48,6 +48,7 @@ TransectMarkerView.prototype.render = function() {
 	this.editTransectMarker();
 
 	this.renderMarker();
+	return this;
 };
 
 /*==========  render the marker on the canvas  ==========*/

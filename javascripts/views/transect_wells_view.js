@@ -70,7 +70,7 @@ TransectWellsView.prototype.updateTransects = function() {
 	var transects = [];
 	TransectWellsCollection.each(function(well, index, wells) {
 		if (index > 0) {
-			transects.push(new Transect({}, wells[index - 1], well));
+			transects.push(new Transect({name: "Transect " + index}, wells[index - 1], well));
 		}
 	});
 	TransectsCollection.reset(transects);
