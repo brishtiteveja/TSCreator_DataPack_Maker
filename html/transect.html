@@ -18,6 +18,9 @@
 		<script type="text/javascript" src="/javascripts/fixtures/master_chronostrat.js"></script>
 		<script type="text/javascript" src="/javascripts/views/keys.js"></script>
 
+		<!-- ConvexHull -->
+		<script type="text/javascript" src="/javascripts/utils/convexhull.js"></script>
+
 		<!-- Basic Components -->
 		<script src="/javascripts/models/base.model.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/base.view.js" type="text/javascript" charset="utf-8"></script>
@@ -49,7 +52,7 @@
 		<script src="/javascripts/models/transect_marker.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/transect_markers_view.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/transect_marker_view.js" type="text/javascript" charset="utf-8"></script>
-
+		
 		<!-- Transect Wells Components -->
 		<script src="/javascripts/models/transect_well.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/transect_wells_view.js" type="text/javascript" charset="utf-8"></script>
@@ -57,11 +60,23 @@
 
 		<!-- Transect Components -->
 		<script src="/javascripts/models/transect.js" type="text/javascript" charset="utf-8"></script>
-		
-		<!-- main js that initializes everything -->
-		<script src="/javascripts/transect_app.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/transect_view.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/transects_view.js" type="text/javascript" charset="utf-8"></script>
+
+		<!-- Polygon Components -->
+		<script src="/javascripts/models/point.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/models/line.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/models/polygon.js" type="text/javascript" charset="utf-8"></script>
+
+		<script src="/javascripts/views/point_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/views/line_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/views/polygon_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/views/polygons_view.js" type="text/javascript" charset="utf-8"></script>
+
+	
+		<!-- main js that initializes everything -->
+		<script src="/javascripts/transect_app.js" type="text/javascript" charset="utf-8"></script>
+
 		
 	</head>
 	<body>
@@ -107,13 +122,12 @@
 								<div class="settings-content" id="wells-list"></div>
 							</div>
 						</section>
-						<section id="polygons-settings" class="settings-list">
+						<section id="polygons-settings" class="settings-list active">
 							<div class="content">
-								<h3 class="subheader">Polygons</h3>
 								<div class="settings-content" id="polygons-list"></div>
 							</div>
 						</section>
-						<section id="markers-settings" class="settings-list active">
+						<section id="markers-settings" class="settings-list">
 							<div class="content">
 								<div class="settings-content" id="markers-list"></div>
 							</div>

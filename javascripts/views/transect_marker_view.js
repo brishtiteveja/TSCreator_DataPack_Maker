@@ -6,7 +6,7 @@ var TransectMarkerView = BaseView.extend({
 	tagName: 'tr',
 	classname: "TransectMarkerView",
 	events: {
-		'click .toggle' : 'toggleMarkerForm',
+		'click .toggle': 'toggleMarkerForm',
 		'click a[href*="update-marker"]': 'updateMarker',
 		'mouseover': "mouseOnItem",
 		'mouseout': "mouseOutItem",

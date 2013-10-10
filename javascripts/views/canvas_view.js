@@ -13,7 +13,7 @@ var CanvasView = BaseView.extend({
 });
 
 CanvasView.prototype.initialize = function() {
-	this.$canvas = $("#canvas");
+	this.$canvas = this.$("#canvas");
 	this.$blockSettings = $("#block-settings");
 	this.$defaultSettings = $("#default-settings");
 

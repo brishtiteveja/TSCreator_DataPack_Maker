@@ -3,25 +3,21 @@
 =========================================*/
 
 var TransectWellsView = BaseView.extend({
-	el: ".container",
-	classname: "TransectWellsView",
-	events: {
-		'dblclick #canvas': 'createWell'
-	}
+	el: "#wells-list",
+	classname: "TransectWellsView"
 });
 
-TransectWellsView.prototype.wellsListTemplate = new EJS({url: '/html/templates/data_tbl.ejs'});
+TransectWellsView.prototype.template = new EJS({url: '/html/templates/data_tbl.ejs'});
 
 TransectWellsView.prototype.initialize = function() {
 	/* initialize transect wells collection */
 	this.transectWells = TransectWellsCollection;
 	this.enWells = false;
 
-	/* get necessary dom elements */
-	this.$wellsList = this.$('#wells-list');
-
 	/* render the transect well */
 	this.render();
+
+	this.listenToActionEvents();
 
 	/* initialize listeners */
 	this.listenTo(this.transectWells, 'add', this.wellAdded.bind(this));
@@ -29,14 +25,18 @@ TransectWellsView.prototype.initialize = function() {
 
 TransectWellsView.prototype.render = function() {
 	/* render the wells list */
-	this.$wellsList.html(this.wellsListTemplate.render({name: "Reference Wells"}));
+	this.$el.html(this.template.render({name: "Reference Wells"}));
 
 	/* get well table dom element */
-	this.$wellsTable = this.$("#wells-list .data-list");
+	this.$wellsTable = this.$(".data-list");
 
 	/* render the well */
 	this.renderWells();
 };
+
+TransectWellsView.prototype.listenToActionEvents = function() {
+	$("#canvas").bind('dblclick', this.createWell.bind(this));
+}
 
 TransectWellsView.prototype.renderWells = function() {
 	if (this.set === undefined) {

@@ -3,7 +3,7 @@
 =====================================*/
 
 var TransectsView = BaseView.extend({
-	el: ".container",
+	el: "#transects-list",
 	classname: "TransectsView",
 });
 
@@ -12,9 +12,6 @@ TransectsView.prototype.transectsListTemplate = new EJS({url: '/html/templates/d
 TransectsView.prototype.initialize = function() {
 	/* initialize the transects views */
 	this.transects = TransectsCollection;
-	
-	this.$transectsList = $("#transects-list");
-	
 	this.render();
 	
 	/*
@@ -25,8 +22,8 @@ TransectsView.prototype.initialize = function() {
 };
 
 TransectsView.prototype.render = function() {
-	this.$transectsList.html(this.transectsListTemplate.render({name: "Transect"}));
-	this.$transectsTable = this.$("#transects-list .data-list");
+	this.$el.html(this.transectsListTemplate.render({name: "Transect"}));
+	this.$transectsTable = this.$(".data-list");
 };
 
 TransectsView.prototype.addTransect = function (transect) {

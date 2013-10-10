@@ -3,32 +3,33 @@
 ==========================================*/
 
 var TransectMarkersView = BaseView.extend({
-	el: ".container",
-	classname: "TransectMarkersView",
-	events: {
-		'dblclick #canvas': 'createMarker'
-	}
+	el: "#markers-list",
+	classname: "TransectMarkersView"
 })
 
-TransectMarkersView.prototype.makersListTemplate = new EJS({url: '/html/templates/data_tbl.ejs'});
+TransectMarkersView.prototype.template = new EJS({url: '/html/templates/data_tbl.ejs'});
 
 TransectMarkersView.prototype.initialize = function() {
 	/* initialize the transect makers collection */
 	this.transectMarkers = TransectMarkersCollection;
 	this.enMarkers = false;
 
-	this.$markersList = this.$("#markers-list");
-
 	/* render the transect makers */
 	this.render();
+
+	this.listenToActionEvents();
 
 	/* initialize listeners to listen the the changes in markers collection. */
 	this.listenTo(this.transectMarkers, "add", this.render.bind(this));
 };
 
+TransectMarkersView.prototype.listenToActionEvents = function () {
+	$("#canvas").bind('dblclick', this.createMarker.bind(this));
+};
+
 TransectMarkersView.prototype.render = function() {
-	this.$markersList.html(this.makersListTemplate.render({name: "Markers"}));
-	this.$markersTable = this.$("#markers-list .data-list");
+	this.$el.html(this.template.render({name: "Markers"}));
+	this.$markersTable = this.$(".data-list");
 	this.renderMarkers();
 };
 
