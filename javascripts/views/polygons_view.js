@@ -4,7 +4,7 @@
 
 var PolygonsView = BaseView.extend({
 	el: "#polygons-list",
-	classname: "PolygonsView",
+	classname: "PolygonsView"
 });
 
 /* Template for the polygons line the setting panel on the right side */
@@ -43,6 +43,7 @@ PolygonsView.prototype.createPolygon = function() {
 	});
 	polygon.set('edit', 'true')
 };
+
 
 /*-----  End of PolygonsView  ------*/
 

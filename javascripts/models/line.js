@@ -7,7 +7,8 @@ var Line = BaseModel.extend({
 	constructor: function(attributes, point1, point2) {
 		var attrs = [{
 			edit: false,
-			name: attributes.name || _.uniqueId("Line ")
+			name: attributes.name || _.uniqueId("Line "),
+			pattern: 1
 		}];
 		this.point1 = point1;
 		this.point2 = point2;
@@ -15,6 +16,11 @@ var Line = BaseModel.extend({
 		BaseModel.apply(this, attrs);
 	}
 });
+
+Line.prototype.getPatternPoints = function() {
+	var xs = numeric.linspace(this.point1.get('x'), this.point2.get('x'), steps);
+	var ys = numeric.linspace(this.point1.get('y'), this.point2.get('y'), steps);	
+}
 
 
 /*-----  End of Lime Model  ------*/

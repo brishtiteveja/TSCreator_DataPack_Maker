@@ -26,6 +26,7 @@ BlockView.prototype.initialize = function(block, blockColumnView) {
 
 	/* Listeners */
 	this.listenTo(this.block, 'change:edit', this.editBlockData.bind(this));
+	this.listenTo(this.block, 'destroy', this.remove);
 };
 
 BlockView.prototype.render = function() {

@@ -6,7 +6,9 @@ var PolygonView = BaseView.extend({
 	tagName: "tr",
 	classname: "PolygonView",
 	events: {
-		'click .toggle': 'togglePolygonForm',
+		'click .toggle-polygon': 'togglePolygonForm',
+		'click a.polygon-list-tool': 'showList',
+		'click .destroy-polygon': 'clear'
 	}
 });
 
@@ -16,6 +18,7 @@ PolygonView.prototype.template = new EJS({url: '/html/templates/polygon.ejs'});
 
 PolygonView.prototype.initialize = function(polygon) {
 	this.polygon = polygon;
+	
 	// Set current polygon
 	CurrentPolygonView = this;
 
@@ -48,14 +51,19 @@ PolygonView.prototype.initialize = function(polygon) {
 
 	/* listen to lines and reset the lines */
 	this.listenTo(this.polygon.lines, 'reset', this.resetPolygonLines.bind(this));
+
+	/* destroy the view  if the model is  removed from the collection.*/
+	this.listenTo(this.polygon, 'destroy', this.remove);
 };
 
 PolygonView.prototype.render = function() {
 	this.$el.html(this.template.render(this.polygon.toJSON()));
-	this.$toggle = this.$(".toggle");
+	this.$togglePolygon = this.$(".toggle-polygon");
 	this.$polygonForm = this.$(".polygon-form");
 	this.$polygonData = this.$(".polygon-data");
 	this.$polygonName = this.$('input[name="polygon-name"]')[0];
+	this.$linesList = this.$('.lines-list');
+	this.$pointsList = this.$('.points-list');
 }
 
 PolygonView.prototype.listenToActionEvents = function() {
@@ -65,6 +73,7 @@ PolygonView.prototype.listenToActionEvents = function() {
 
 PolygonView.prototype.addPointToPolygon = function(point) {
 	var pointView = new PointView(point);
+	this.$pointsList.append(pointView.el);
 	this.pointsSet.push(pointView.element);
 }
 
@@ -73,7 +82,7 @@ PolygonView.prototype.resetLines = function() {
 	this.polygon.points.each(function(point, index, points){
 		if (index > 0) {
 			lines.push(new Line({}, points[index - 1], point));
-			if (index === points.length - 1) {
+			if (index > 1 && index === points.length - 1) {
 				lines.push(new Line({}, point, points[0]));
 			}
 		}
@@ -91,6 +100,7 @@ PolygonView.prototype.pushLineToSet = function(line) {
 
 PolygonView.prototype.addLineToPolygon = function(line) {
 	var lineView = new LineView(line);
+	this.$linesList.append(lineView.el);
 }
 
 PolygonView.prototype.resetPolygonLines = function() {
@@ -113,28 +123,34 @@ PolygonView.prototype.addNewPoint = function(point) {
 	this.resetLines();
 }
 
+PolygonView.prototype.setEditMode = function() {
+	this.element.attr({
+		'fill': "#759dcd",
+		'opacity': 0.5
+	});
+}
+
+PolygonView.prototype.setFinishedMode = function() {
+	this.element.attr({
+		'fill': "#FFCC33",
+		'opacity': 0.5
+	});
+}
+
 PolygonView.prototype.toggleEditStatus = function() {
 	if (this.element !== undefined) {
-		if (!this.polygon.get('edit')) {
-			this.element.attr({
-				'fill': "#FFCC33",
-				'opacity': 0.5
-			});
-			this.$polygonForm.addClass('hide');
-			this.$polygonData.removeClass('hide');
-			this.$toggle.removeClass('show-data');
-			this.$toggle.addClass('hide-data');
-
-		} else {
-			this.element.attr({
-				'fill': "#759dcd",
-				'opacity': 0.5
-			});
-
+		if (this.polygon.get('edit')) {
+			this.setEditMode();
 			this.$polygonForm.removeClass('hide');
 			this.$polygonData.addClass('hide');
-			this.$toggle.removeClass('hide-data');
-			this.$toggle.addClass('show-data');
+			this.$togglePolygon.removeClass('hide-data');
+			this.$togglePolygon.addClass('show-data');
+		} else {
+			this.setFinishedMode();
+			this.$polygonForm.addClass('hide');
+			this.$polygonData.removeClass('hide');
+			this.$togglePolygon.removeClass('show-data');
+			this.$togglePolygon.addClass('hide-data');
 		}
 	}
 }
@@ -165,7 +181,7 @@ PolygonView.prototype.renderPolygonElement = function() {
 		this.element.remove();
 	}
 	this.element = Canvas.path(this.getPath());
-	this.toggleEditStatus();
+	this.setEditMode();
 }
 
 PolygonView.prototype.togglePolygonForm = function() {
@@ -174,6 +190,15 @@ PolygonView.prototype.togglePolygonForm = function() {
 	});
 }
 
+PolygonView.prototype.showList = function(evt) {
+	this.$('.polygon-settings').removeClass('active');
+	var cls = "." + evt.target.getAttribute('href').slice(1) + "-tab";
+	this.$(cls).addClass('active');
+};
+
+PolygonView.prototype.clear = function() {
+	this.polygon.destroy();
+}
 
 /*-----  End of PolygonView  ------*/
 

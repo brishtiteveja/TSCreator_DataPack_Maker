@@ -1,11 +1,60 @@
-<td class="toggle hide-data" width="1%"></td>
+		<td class="toggle hide-data toggle-polygon" width="1%"></td>
 <td  width="98%">
 	<div class="row">
-		<label class="polygon-data large-12 columns"><%= name %></label>
+		<label class="polygon-data large-12 columns">
+			<%= name %></label>
 		<div class="polygon-form hide">
-			<div class="large-8 columns">
+			<div class="large-12 columns">
 				<label>Polygon</label>
-				<input type="text" value="<%= name %>" name="polygon-name">
+				<input type="text" value="<%= name %>
+				" name="polygon-name">
+				<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 30px;">
+					<!--  Lines Tab -->
+					<section class="polygon-settings lines-tab active" style="padding-top: 29px;">
+						<p class="title" data-section-title="" style="left: 0px; height: 30px;">
+							<a href="#lines" style="padding-top: 3px;" class="polygon-list-tool">Lines</a>
+						</p>
+						<div class="content" data-section-content="">
+							<table>
+								<thead>
+									<th class="toggle hide-data" width="2%"></th>
+									<th class="subheader" width="96%">Lines</th>
+									<th class="destroy" width="2%"></th>
+								</thead>
+								<tbody class="lines-list">
+								</tbody>
+							</table>
+						</div>
+					</section>
+					
+					<!--  Points Tab -->
+					<section class="polygon-settings points-tab" style="padding-top: 29px;">
+						<p class="title" data-section-title="" style="left: 60px; height: 30px;">
+							<a href="#points" style="padding-top: 3px;" class="polygon-list-tool">Points</a>
+						</p>
+						<div class="content" data-section-content="">
+							<table>
+								<thead>
+									<th class="toggle hide-data" width="2%"></th>
+									<th class="subheader" width="96%">Points</th>
+									<th class="destroy" width="2%"></th>
+								</thead>
+								<tbody class="points-list">
+								</tbody>
+							</table>
+						</div>
+					</section>
+					
+					<!-- Settings Tab -->
+					<section class="polygon-settings settings-tab" style="padding-top: 29px;">
+						<p class="title" data-section-title="" style="left: 125px; height: 30px;">
+							<a href="#settings" style="padding-top: 3px;" class="polygon-list-tool">Settings</a>
+						</p>
+						<div class="content" data-section-content="">
+							<p>Settings</p>
+						</div>
+					</section>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -13,4 +62,4 @@
 		<a href="#update-polygon" class="button secondary right small radius">update</a>
 	</div>
 </td>
-<td class="destroy" width="1%"></td>
+<td class="destroy destroy-polygon" width="1%"></td>

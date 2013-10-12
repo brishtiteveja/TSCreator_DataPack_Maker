@@ -17,6 +17,7 @@ BlockColumnView.prototype.initialize = function(blockCloumn) {
 
 	/* Set the column specific settings details */
 	this.column = blockCloumn;
+	this.blocks = Canvas.set();
 	this.x = this.column.get('x');
 	this.y = this.column.get('y');
 	this.height = this.column.baseY() - this.column.topY();
@@ -24,11 +25,11 @@ BlockColumnView.prototype.initialize = function(blockCloumn) {
 	this.$blockList = this.$(".data-list");
 
 	/* Listen to the following changes in model */
-	this.listenTo(this.column, 'BlockColumn:blockAdded', this.render.bind(this));
-	this.listenTo(this.column.blocks, 'change:name', this.render.bind(this));
-	this.listenTo(this.column.blocks, 'change:topAge', this.render.bind(this));
-	this.listenTo(this.column.blocks, 'change:baseAge', this.render.bind(this));
-	this.listenTo(this.column.blocks, 'change:description', this.render.bind(this));
+	this.listenTo(this.column, 'BlockColumn:blockAdded', this.renderColumn.bind(this));
+	this.listenTo(this.column.blocks, 'change:name', this.renderColumn.bind(this));
+	this.listenTo(this.column.blocks, 'change:topAge', this.renderColumn.bind(this));
+	this.listenTo(this.column.blocks, 'change:baseAge', this.renderColumn.bind(this));
+	this.listenTo(this.column.blocks, 'change:description', this.renderColumn.bind(this));
 
 	/* Render the column details in the setting panel */
 	this.render();
@@ -59,12 +60,6 @@ BlockColumnView.prototype.renderColumn = function() {
 		height: this.height
 	});
 
-	if (this.blocks === undefined) {
-		this.blocks = Canvas.set();
-	} else {
-		this.blocks.remove();
-		this.blocks = Canvas.set();
-	}
 	Canvas.setSize(Math.max(Canvas.width, this.width), Math.max(Canvas.height, this.height + 20));
 	this.column.blocks.forEach(this.addBlock.bind(this));
 };

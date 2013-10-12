@@ -9,7 +9,11 @@ var Point = BaseModel.extend({
 			edit: false,
 			name: attributes.name || _.uniqueId("Point "),
 			x: attributes.x ? parseInt(attributes.x) : 0,
-			y: attributes.y ? parseInt(attributes.y) : 0
+			y: attributes.y ? parseInt(attributes.y) : 0,
+			age: 0,
+			relativeX: null,
+			relativeAge: null,
+			transect: null
 		}];
 		BaseModel.apply(this, attrs);
 	}
