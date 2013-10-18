@@ -61,12 +61,16 @@ TransectAppView.prototype.enableTool = function(evt) {
 	var source = evt.target.getAttribute('href');
 	this.transectMarkersView.enMarkers = false;
 	this.transectWellsView.enWells = false;
+	this.polygonsView.disableAllPolygons();
 	switch(source) {
 		case "#add-marker":
 			this.transectMarkersView.enMarkers = true;
 			break;
 		case "#add-well":
 			this.transectWellsView.enWells = true;
+			break;
+		case "#add-polygon":
+			this.polygonsView.createPolygon();
 			break;
 		default:
 			break;

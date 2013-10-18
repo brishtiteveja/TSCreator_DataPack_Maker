@@ -8,7 +8,7 @@ var PolygonView = BaseView.extend({
 	events: {
 		'click .toggle-polygon': 'togglePolygonForm',
 		'click a.polygon-list-tool': 'showList',
-		'click .destroy-polygon': 'clear'
+		'click .destroy-polygon': 'destroy'
 	}
 });
 
@@ -18,9 +18,6 @@ PolygonView.prototype.template = new EJS({url: '/html/templates/polygon.ejs'});
 
 PolygonView.prototype.initialize = function(polygon) {
 	this.polygon = polygon;
-	
-	// Set current polygon
-	CurrentPolygonView = this;
 
 	// create raphael sets to store points and lines 
 	this.pointsSet = Canvas.set();
@@ -53,13 +50,16 @@ PolygonView.prototype.initialize = function(polygon) {
 	this.listenTo(this.polygon.lines, 'reset', this.resetPolygonLines.bind(this));
 
 	/* destroy the view  if the model is  removed from the collection.*/
-	this.listenTo(this.polygon, 'destroy', this.remove);
+	this.listenTo(this.polygon, 'destroy', this.delete.bind(this));
 };
 
 PolygonView.prototype.render = function() {
+	// render the view for the polygon in the settings panel.
 	this.$el.html(this.template.render(this.polygon.toJSON()));
+
+	// get the appropriate dom elements from the newly added view
 	this.$togglePolygon = this.$(".toggle-polygon");
-	this.$polygonForm = this.$(".polygon-form");
+	this.$polygonForm = this.$(".polygon-form"); 
 	this.$polygonData = this.$(".polygon-data");
 	this.$polygonName = this.$('input[name="polygon-name"]')[0];
 	this.$linesList = this.$('.lines-list');
@@ -75,10 +75,19 @@ PolygonView.prototype.addPointToPolygon = function(point) {
 	var pointView = new PointView(point);
 	this.$pointsList.append(pointView.el);
 	this.pointsSet.push(pointView.element);
+
+	/* when ever we ad a new point we reset all the lines */
+	if (this.polygon.points.length > 1) {
+		this.resetLines();
+	}
 }
 
+/* Reset the lines, i.e. delete all the lines that are currently in 
+polygon and redraw them this give the animated effect of expanding 
+this polygon as well as moving a point without breaking the polygon */
 PolygonView.prototype.resetLines = function() {	
 	var lines = [];
+	// create a new list of points for all the points in the polygon.
 	this.polygon.points.each(function(point, index, points){
 		if (index > 0) {
 			lines.push(new Line({}, points[index - 1], point));
@@ -87,22 +96,28 @@ PolygonView.prototype.resetLines = function() {
 			}
 		}
 	});
+
+	// destroy the current list of lines.
 	_.invoke(this.polygon.lines.toArray(), 'destroy');
+
+	// replace the polygon lines with the new set
 	this.polygon.lines.reset(lines);
-	this.polygon.lines.each(this.pushLineToSet.bind(this));
 	this.renderPolygonElement();
+
+	// bring points to front so that we can use them again because if
+	// they are in the back we cannot click them
 	PointsSet.toFront();
 }
 
-PolygonView.prototype.pushLineToSet = function(line) {
-	this.linesSet.push(line.element);
-}
-
+/* This function listen to the polygons collection and is
+executed when a new line model is added. */
 PolygonView.prototype.addLineToPolygon = function(line) {
 	var lineView = new LineView(line);
+	this.linesSet.push(lineView.element);
 	this.$linesList.append(lineView.el);
 }
 
+/* this function listens to lines collection resets */
 PolygonView.prototype.resetPolygonLines = function() {
 	this.polygon.lines.each(this.addLineToPolygon, this);
 }
@@ -114,14 +129,9 @@ PolygonView.prototype.resetPolygonPoints = function() {
 PolygonView.prototype.addPoint = function(evt) {
 	if (!this.polygon.get('edit')) {return;}
 	var point = new Point({x: evt.offsetX, y: evt.offsetY});
-	this.addNewPoint(point);
+	this.polygon.points.add(point);
 }
 
-PolygonView.prototype.addNewPoint = function(point) {
-	this.polygon.points.add(point);
-	// this.getConvexHull();
-	this.resetLines();
-}
 
 PolygonView.prototype.setEditMode = function() {
 	this.element.attr({
@@ -139,6 +149,8 @@ PolygonView.prototype.setFinishedMode = function() {
 
 PolygonView.prototype.toggleEditStatus = function() {
 	if (this.element !== undefined) {
+
+
 		if (this.polygon.get('edit')) {
 			this.setEditMode();
 			this.$polygonForm.removeClass('hide');
@@ -196,10 +208,16 @@ PolygonView.prototype.showList = function(evt) {
 	this.$(cls).addClass('active');
 };
 
-PolygonView.prototype.clear = function() {
-	this.polygon.destroy();
+PolygonView.prototype.delete = function() {
+	this.element.remove();
+	this.linesSet.remove();
+	this.pointsSet.remove();
+	this.remove();
 }
 
+PolygonView.prototype.destroy = function() {
+	this.polygon.destroy();
+}
 /*-----  End of PolygonView  ------*/
 
 	

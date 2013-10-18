@@ -78,7 +78,7 @@ PointView.prototype.setEditMode = function() {
 }
 
 PointView.prototype.onClick = function() {
-	CurrentPolygonView.addNewPoint(this.point);
+	CurrentPolygon.points.add(this.point);
 }
 
 PointView.prototype.removeElement = function() {

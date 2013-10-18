@@ -12,6 +12,8 @@ PolygonsView.prototype.template = new EJS({url: '/html/templates/data_tbl.ejs'})
 
 
 PolygonsView.prototype.initialize = function() {
+	CurrentPolygon = null;
+
 	this.polygonsCollection = PolygonsCollection;
 
 	this.render();
@@ -26,7 +28,6 @@ PolygonsView.prototype.render = function(){
 };
 
 PolygonsView.prototype.listenToActionEvents = function() {
-	$('a[href*="polygon"]').bind('click', this.createPolygon.bind(this));
 	this.$polygonsList = this.$(".data-list");
 }
 
@@ -36,14 +37,31 @@ PolygonsView.prototype.addPolygon = function(polygon) {
 };
 
 PolygonsView.prototype.createPolygon = function() {
-	var polygon = new Polygon();
-	this.polygonsCollection.add(polygon);
+	if (CurrentPolygon == null) {
+		CurrentPolygon = new Polygon();
+		this.polygonsCollection.add(CurrentPolygon);
+		this.disableAllPolygons();
+		CurrentPolygon.set({
+			'edit': true
+		});	
+	} else {
+		// delete the polygon if the points are less than 3.
+		if (CurrentPolygon.points.length < 3) {
+			CurrentPolygon.destroy();
+		} else {
+			CurrentPolygon.set({
+				'edit': false
+			});	
+		}
+		CurrentPolygon = null;
+	}
+};
+
+PolygonsView.prototype.disableAllPolygons = function() {	
 	this.polygonsCollection.each(function(polygon) {
 		polygon.set('edit', false);
 	});
-	polygon.set('edit', 'true')
-};
-
+}
 
 /*-----  End of PolygonsView  ------*/
 

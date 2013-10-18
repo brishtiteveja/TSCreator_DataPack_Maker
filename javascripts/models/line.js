@@ -8,7 +8,7 @@ var Line = BaseModel.extend({
 		var attrs = [{
 			edit: false,
 			name: attributes.name || _.uniqueId("Line "),
-			pattern: 1
+			pattern: 0 // 0 => default, 1 => jagged, 2=> wavy
 		}];
 		this.point1 = point1;
 		this.point2 = point2;
