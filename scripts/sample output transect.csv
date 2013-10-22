@@ -1,0 +1,233 @@
+format version:	1.4															
+date:	10/14/13															
+Initlal Top:	10															
+Initial Base:	30															
+Initial scale:	0.02															
+																
+Endeavour-1	facies	50	234/201/201													
+ 	Primary															
+	TOP		0	CALIBRATION = .  REFERENCE = Diagram 29 of New Zealand												
+	Siltstone	Rifle Butts Fm	18.14	Rifle Butts Fm LITHOLOGY = Siltstone.  CALIBRATION = 20% up in Pl.  REFERENCE = Diagram 29 of New Zealand												
+	TOP		36	CALIBRATION = Base of Ar.  REFERENCE = Diagram 29 of New Zealand												
+	Claystone	Hampden Fm.	43.78	Hampden Fm. LITHOLOGY = Mudstone.  CALIBRATION = Base of Ar.  REFERENCE = Diagram 29 of New Zealand												
+	Gap		44.29	CALIBRATION = 60% up in Dp.  REFERENCE = Diagram 29 of New Zealand												
+	Claystone	Hampden Fm.	52.1	Hampden Fm. LITHOLOGY = Mudstone.  CALIBRATION = 40% up in Dp.  REFERENCE = Diagram 29 of New Zealand												
+	Claystone	Moeraki Fm.	57.26	Moeraki Fm. LITHOLOGY = Mudstone.  CALIBRATION = 30% up in Dm.  REFERENCE = Diagram 29 of New Zealand												
+	Volcanics	Endeavor Volcs	59.68	Endeavor Volcs LITHOLOGY = Volcanics.  CALIBRATION = 60% up in Dt.  REFERENCE = Diagram 29 of New Zealand												
+	Claystone	Moeraki Fm.	65.02	Moeraki Fm. LITHOLOGY = Mudstone.  CALIBRATION = 5% up in Dt.  REFERENCE = Diagram 29 of New Zealand												
+	Clayey Sandstone	Katiki Fm.	74.5	Katiki Fm. LITHOLOGY = Clayey sandstone.  CALIBRATION = 50% up in Mh.  REFERENCE = Diagram 29 of New Zealand												
+	Sandstone	Pukeiwitahi Fm.	84.1	Pukeiwitahi Fm. LITHOLOGY = Sandstone.  CALIBRATION = 80% up in Mp.  REFERENCE = Diagram 29 of New Zealand												
+	Clayey sandstone	Katiki Fm.	86.5	Katiki Fm. LITHOLOGY = Clayey sandstone.  CALIBRATION = Base of Mp.  REFERENCE = Diagram 29 of New Zealand												
+	Conglomerate	Horse Range Fm.	87.87	Horse Range Fm. LITHOLOGY = Conglomerate.  CALIBRATION = 35% up in Rt.  REFERENCE = Diagram 29 of New Zealand												
+																
+																
+																
+																
+South Island, East coast 29A (southern end of 29)	transect	227	255/255/255		on											
+		0	10	15	20	25	30	35	40	50	65	70	75	80	90	100
+	0	X1							X2							
+	15.9														X3	X4
+	18.14	X7														
+	18.7									X6						X5
+	20.5															X8
+	21.7															X9
+	25.41												X10			X11
+	27.3											X12				X13
+	29.82															X16
+	30.9															X17
+	31.55									X15						
+	32.3								X14							
+	33.06															X18
+	36															X20
+	36	X24														
+	37.2				X19											
+	38.4															X21
+	42.55															X22
+	43.78	X25				X23										
+	44.29	X26				X27										
+	52.1	X30					X29									X28
+	55.6									X31						X32
+	57.26	X33														
+	57.86			X34												
+	59.68	X36			X35											
+	65.02	X38										X37				
+	69.1															X39
+	74.5	X51	X50													
+	76.3							X49				X40				
+	79								X48							
+	79.45						X47									
+	81.25									X46						
+	82.6								X45							
+	83.5															X52
+	84.1	X44														
+	86.4													X41		
+	86.5	X43														
+	87.18										X42					
+	87.87	X53														
+POLYGON	pattern: Siltstone;	Rifle Butts Fm														
+	1															
+	2															
+		wavy														
+	3															
+	4															
+	5															
+	6															
+	7															
+POLYGON	pattern: Sandstone;	Gee Gnsd														
+	6															
+	5															
+	8															
+POLYGON	pattern: Limestone;	Otekaike Lst														
+	9															
+		wavy														
+	10															
+	11															
+POLYGON	pattern: Sandstone;	Kokoamu Gnsd														
+	10															
+	12															
+		wavy														
+	13															
+	11															
+POLYGON	pattern: Limestone;	Upper Totara Lst														
+	14															
+	15															
+		wavy														
+	16															
+	17															
+		lapping														
+POLYGON	pattern: Volcanics;	Deborah Volc														
+	17															
+		lapping														
+	14															
+	18															
+POLYGON	pattern: Limestone;	Lower Totara Lst														
+	19															
+	20															
+	18															
+	14															
+		wavy														
+POLYGON	pattern: Volcanics;	Waiareka Volc														
+	20															
+	19															
+		lapping														
+	21															
+POLYGON	pattern: Sandstone;	Tapui Fm														
+	19															
+		lapping														
+	21															
+	22															
+		wavy														
+	23															
+		lapping														
+POLYGON	pattern: Claystone;	Upper Hampden Fm														
+	23															
+		lapping														
+	19															
+	24															
+	25															
+POLYGON	pattern: Claystone;	Lower Hampden Fm														
+	26															
+	27															
+		lapping														
+	28															
+	29															
+	30															
+POLYGON	pattern: Clayey_sandstone;	Kauru Fm														
+	29															
+		lapping														
+	31															
+		wavy														
+	32															
+	28															
+POLYGON	pattern: Volcanics;	Endeavour Vocs														
+	33															
+	34															
+		lapping														
+	35															
+	36															
+POLYGON	pattern: Claystone;	Moeraki Fm														
+	30															
+	29															
+		lapping														
+	31															
+		wavy														
+	37															
+	38															
+	36															
+	35															
+		lapping														
+	34															
+	33															
+POLYGON	pattern: Clayey_sandstone;	Katiki Fm														
+	38															
+	37															
+		wavy														
+	39															
+		lapping														
+	40															
+	41															
+		wavy														
+	42															
+	43															
+	44															
+	45															
+	46															
+	47															
+	48															
+	49															
+	50															
+	51															
+POLYGON	pattern: Sandstone;	Papakaio Fm														
+	41															
+	40															
+		lapping														
+	39															
+	52															
+		wavy														
+POLYGON	pattern: Sandstone;	Pukeiwitahi Fm														
+	44															
+	45															
+	46															
+	47															
+	48															
+	49															
+	50															
+	51															
+POLYGON	pattern: Sandstone;	Horse Range fm														
+	53															
+		wavy														
+	42															
+	43															
+TEXT	14.51	2.57	Rifle Butts Fm	font-family: Arial; font-size: 11;	2.496	94.986										
+TEXT	20.5	60	Gee Gnsd	font-family: Arial; font-size: 10;	2.269	62.686										
+TEXT	30.58	40.62	Totara Lst	font-family: Arial; font-size: 8;	1.816	49.531										
+TEXT	35.27	40.62	Totara Lst	font-family: Arial; font-size: 8;	1.816	49.531										
+TEXT	37.68	58.5	Waiareka Volc	font-family: Arial; font-size: 5;	1.135	44.33										
+TEXT	40.67	2.11	Hampden Fm	font-family: Arial; font-size: 5;	1.135	40.12										
+TEXT	40.89	33.29	Tapui Fm	font-family: Arial; font-size: 10;	2.269	58.08										
+TEXT	50.54	4.86	Hampden Fm	font-family: Arial; font-size: 10;	2.269	80.24										
+TEXT	54.38	42.46	Kauru Fm	font-family: Arial; font-size: 10;	2.269	60.376										
+TEXT	63.13	2.57	Moeraki Fm	font-family: Arial; font-size: 10;	2.269	72.591										
+TEXT	71.46	8.53	Katiki Fm	font-family: Arial; font-size: 12;	2.723	68.769										
+TEXT	89.37	3.03	Horse Range Fm	font-family: Arial; font-size: 10;	2.269	104.71										
+																
+																
+																
+Oamaru Composite	facies	50	234/201/201													
+ 	Primary															
+	TOP		15.9	CALIBRATION = Base of Sc.  REFERENCE = Diagram 29 of New Zealand												
+	Siltstone	Rifle Butts Fm	18.7	Rifle Butts Fm LITHOLOGY = Siltstone.  CALIBRATION = Base of Pl.  REFERENCE = Diagram 29 of New Zealand												
+	Sandstone	Gee Gnsd	20.5	Gee Gnsd LITHOLOGY = Grainstone.  CALIBRATION = 40% up in Po.  REFERENCE = Diagram 29 of New Zealand												
+	Gap		21.7	CALIBRATION = Base of Po (partly based on Transect 28 placement).  REFERENCE = Diagram 29 of New Zealand												
+	Limestone	Otekaike Lst	25.41	Otekaike Lst LITHOLOGY = Limestone.  CALIBRATION = 90% up in Ld.  REFERENCE = Diagram 29 of New Zealand												
+	Sandstone	Kokoamu Gnsd	27.3	Kokoamu Gnsd LITHOLOGY = Grainstone.  CALIBRATION = Base of Ld.  REFERENCE = Diagram 29 of New Zealand												
+	Gap		29.82	CALIBRATION = 65% up in Lwh.  REFERENCE = Diagram 29 of New Zealand												
+	Limestone	Totara Lst	30.9	Totara Lst LITHOLOGY = Limestone.  CALIBRATION = 50% up in Lwh.  REFERENCE = Diagram 29 of New Zealand												
+	Volcanics	Deborah Volc	33.06	Deborah Volc LITHOLOGY = Volcanics.  CALIBRATION = 20% up in Lwh.  REFERENCE = Diagram 29 of New Zealand												
+	Limestone	Totara Lst	36	Totara Lst LITHOLOGY = Limestone.  CALIBRATION = Base of Ar.  REFERENCE = Diagram 29 of New Zealand												
+	Volcanics	Waiareka Volc	38.4	Waiareka Volc LITHOLOGY = Volcanics.  CALIBRATION = Base of Ak.  REFERENCE = Diagram 29 of New Zealand												
+	Sandstone	Tapui Fm	42.5515	Tapui Fm  LITHOLOGY = Sandstone.  CALIBRATION = 5% up in Ab.  REFERENCE = Diagram 29 of New Zealand												
+	TOP		51.9	CALIBRATION = 35% up in Dm.  REFERENCE = Diagram 29 of New Zealand												
+	Clayey sandstone	Kauru Fm.	55.6	Kauru Fm. LITHOLOGY = Clayey sandstone.  CALIBRATION = 8% up in Dw.  REFERENCE = Diagram 29 of New Zealand												
+	TOP		69.1	CALIBRATION = 80% up in Mh.  REFERENCE = Diagram 29 of New Zealand												
+	Sandstone	Papakaio Fm	83.5	Papakaio Fm LITHOLOGY = Sandstone.  CALIBRATION = Base of Mh.  REFERENCE = Diagram 29 of New Zealand												
