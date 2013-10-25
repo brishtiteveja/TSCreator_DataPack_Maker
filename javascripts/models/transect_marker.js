@@ -32,4 +32,5 @@ TransectMarkers.prototype.comparator = function(marker) {
 
 /*-----  End of TransectMarkers  ------*/
 
-TransectMarkersCollection = new TransectMarkers();
+var transectApp = transectApp || {};
+transectApp.TransectMarkersCollection = new TransectMarkers();

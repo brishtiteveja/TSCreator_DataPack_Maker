@@ -29,4 +29,5 @@ var Transects = BaseCollection.extend({
 
 /*-----  End of Transects  ------*/
 
-TransectsCollection = new Transects();
+var transectApp = transectApp || {};
+transectApp.TransectsCollection = new Transects();

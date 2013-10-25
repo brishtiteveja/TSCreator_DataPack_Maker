@@ -29,4 +29,5 @@ var Polygons = BaseCollection.extend({
 
 /*-----  End of Polygons  ------*/
 
-var PolygonsCollection = new Polygons();
+var transectApp = transectApp || {};
+transectApp.PolygonsCollection = new Polygons();

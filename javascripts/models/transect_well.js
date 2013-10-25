@@ -32,4 +32,5 @@ TransectWells.prototype.comparator = function(well) {
 
 /*-----  End of TransectWells  ------*/
 
-TransectWellsCollection = new TransectWells();
+var transectApp = transectApp || {};
+transectApp.TransectWellsCollection = new TransectWells();
