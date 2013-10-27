@@ -32,7 +32,7 @@ BlockColumnView.prototype.initialize = function(blockCloumn) {
 	this.listenTo(this.column.blocks, 'change:description', this.renderColumn.bind(this));
 
 	/* Render the column details in the setting panel */
-	this.render();
+		this.render();
 };
 
 BlockColumnView.prototype.render = function() {

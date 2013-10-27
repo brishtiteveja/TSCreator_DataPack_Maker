@@ -11,7 +11,7 @@ ZonesView.prototype.template = new EJS({url: '/html/templates/data_tbl.ejs'});
 
 ZonesView.prototype.initialize = function() {
 	/* initialize the zones view */
-	this.zones = ZonesCollection;
+	this.zones = transectApp.ZonesCollection;
 
 	/* render the dom for the tables */
 	this.render();

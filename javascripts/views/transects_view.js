@@ -11,7 +11,7 @@ TransectsView.prototype.transectsListTemplate = new EJS({url: '/html/templates/d
 
 TransectsView.prototype.initialize = function() {
 	/* initialize the transects views */
-	this.transects = TransectsCollection;
+	this.transects = transectApp.TransectsCollection;
 	this.render();
 	
 	/*

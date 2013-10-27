@@ -34,6 +34,7 @@ TransectAppView.prototype.render = function() {
 	this.transectsView = new TransectsView();
 	this.transectMarkersView = new TransectMarkersView();
 	this.transectWellsView = new TransectWellsView();
+	this.zonesView = new ZonesView();
 	this.polygonsView = new PolygonsView();
 	this.renderTransectImage();
 };

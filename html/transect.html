@@ -60,6 +60,12 @@
 		<script src="/javascripts/views/transect_wells_view.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/transect_well_view.js" type="text/javascript" charset="utf-8"></script>
 
+		
+		<!-- Transect Zones Components -->
+		<script src="/javascripts/models/zone.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/views/zone_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/views/zones_view.js" type="text/javascript" charset="utf-8"></script>
+
 		<!-- Transect Components -->
 		<script src="/javascripts/models/transect.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/views/transect_view.js" type="text/javascript" charset="utf-8"></script>
@@ -105,6 +111,7 @@
 					<a href="#markers" class="button tiny secondary radius transect-settings">Markers</a>
 					<a href="#transects" class="button tiny secondary radius transect-settings">Transects</a>
 					<a href="#wells" class="button tiny secondary radius transect-settings">Wells</a>
+					<a href="#zones" class="button tiny secondary radius transect-settings">Zones</a>
 					<a href="#polygons" class="button tiny secondary radius transect-settings">Polygons</a>
 					<a href="#defaults" class="button tiny secondary radius transect-settings">Defaults</a>
 				</nav>
@@ -122,6 +129,11 @@
 						<section id="wells-settings" class="settings-list">
 							<div class="content">
 								<div class="settings-content" id="wells-list"></div>
+							</div>
+						</section>
+						<section id="zones-settings" class="settings-list">
+							<div class="content">
+								<div class="settings-content" id="zones-list"></div>
 							</div>
 						</section>
 						<section id="polygons-settings" class="settings-list active">

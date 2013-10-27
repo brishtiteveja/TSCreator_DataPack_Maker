@@ -55,4 +55,5 @@ Zones.prototype.getZoneForPoint = function(point) {
 }
 /*-----  End of Zones  ------*/
 
-ZonesCollection = new Zones();
+var transectApp = transectApp || {}
+transectApp.ZonesCollection = new Zones();

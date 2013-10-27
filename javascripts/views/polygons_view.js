@@ -14,7 +14,7 @@ PolygonsView.prototype.template = new EJS({url: '/html/templates/data_tbl.ejs'})
 PolygonsView.prototype.initialize = function() {
 	CurrentPolygon = null;
 
-	this.polygonsCollection = PolygonsCollection;
+	this.polygonsCollection = transectApp.PolygonsCollection;
 
 	this.render();
 	
