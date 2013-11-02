@@ -12,7 +12,7 @@ var PolygonView = BaseView.extend({
 	}
 });
 
-PolygonView.prototype.template = new EJS({url: '/html/templates/polygon.ejs'});
+PolygonView.prototype.template = new EJS({url: '/transect_maker/ejs/polygon.ejs'});
 
 /*==========  initialize the polygon view.  ==========*/
 

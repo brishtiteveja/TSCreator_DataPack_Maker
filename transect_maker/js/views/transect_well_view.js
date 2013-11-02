@@ -11,7 +11,7 @@ var TransectWellView = BaseView.extend({
 	}
 });
 
-TransectWellView.prototype.template = new EJS({url: '/html/templates/transect_well.ejs'});
+TransectWellView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_well.ejs'});
 
 TransectWellView.prototype.initialize = function(transectWell, transectWellsView) {
 	/* initialize the view with the well instance the wells view */

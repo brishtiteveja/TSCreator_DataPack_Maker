@@ -8,7 +8,7 @@ var PolygonsView = BaseView.extend({
 });
 
 /* Template for the polygons line the setting panel on the right side */
-PolygonsView.prototype.template = new EJS({url: '/html/templates/data_tbl.ejs'});
+PolygonsView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
 
 
 PolygonsView.prototype.initialize = function() {

@@ -7,7 +7,7 @@ var TransectMarkersView = BaseView.extend({
 	classname: "TransectMarkersView"
 })
 
-TransectMarkersView.prototype.template = new EJS({url: '/html/templates/data_tbl.ejs'});
+TransectMarkersView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
 
 TransectMarkersView.prototype.initialize = function() {
 	/* initialize the transect makers collection */

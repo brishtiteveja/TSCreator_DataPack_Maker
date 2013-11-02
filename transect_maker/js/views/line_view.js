@@ -11,7 +11,7 @@ var LineView = BaseView.extend({
 });
 
 
-LineView.prototype.template = new EJS({url: '/html/templates/line.ejs'});
+LineView.prototype.template = new EJS({url: '/transect_maker/ejs/line.ejs'});
 
 
 LineView.prototype.initialize = function(line) {

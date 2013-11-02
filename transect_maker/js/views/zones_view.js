@@ -7,7 +7,7 @@ var ZonesView = BaseView.extend({
 	classname: "ZonesView",
 });
 
-ZonesView.prototype.template = new EJS({url: '/html/templates/data_tbl.ejs'});
+ZonesView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
 
 ZonesView.prototype.initialize = function() {
 	/* initialize the zones view */

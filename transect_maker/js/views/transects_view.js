@@ -7,7 +7,7 @@ var TransectsView = BaseView.extend({
 	classname: "TransectsView",
 });
 
-TransectsView.prototype.transectsListTemplate = new EJS({url: '/html/templates/data_tbl.ejs'});
+TransectsView.prototype.transectsListTemplate = new EJS({url: '/commons/ejs/data_tbl.ejs'});
 
 TransectsView.prototype.initialize = function() {
 	/* initialize the transects views */
