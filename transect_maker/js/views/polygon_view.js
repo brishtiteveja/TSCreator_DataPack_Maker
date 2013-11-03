@@ -37,7 +37,7 @@ PolygonView.prototype.initialize = function(polygon) {
 
 	/* listen to the changes in the points and re-render the lines. That is 
 	the point is moved we reset the lines and the polygon. */
-	this.listenTo(this.polygon.points, 'change', this.resetLines.bind(this));
+	this.listenTo(this.polygon.points, 'change', this.renderPolygonElement.bind(this));
 
 	/* listen to the changes in the collection and render the appropriate view. */
 	this.listenTo(this.polygon.points, 'add', this.addPointToPolygon.bind(this));
@@ -89,7 +89,6 @@ PolygonView.prototype.addPointToPolygon = function(point) {
 	if (this.polygon.points.length > 1) {
 		this.resetLines();
 	}
-
 	transectApp.PointsCollection.add(point);
 	this.updateCanvasDimensions(point);
 }

@@ -16,11 +16,13 @@ LineView.prototype.template = new EJS({url: '/transect_maker/ejs/line.ejs'});
 
 LineView.prototype.initialize = function(line) {
 	this.line = line;
-	this.render();
 	this.listenTo(this.line, 'destroy', this.removeElement.bind(this));
 	this.listenTo(this.line, 'change:edit', this.toggleEditStatus.bind(this));
 	this.listenTo(this.line, 'change:name', this.render.bind(this));
+	this.listenTo(this.line.get('point1'), 'change', this.render.bind(this));
+	this.listenTo(this.line.get('point2'), 'change', this.render.bind(this));
 	this.listenTo(this.line, 'change:pattern', this.render.bind(this));
+	this.render();
 };
 
 
@@ -42,6 +44,7 @@ LineView.prototype.render = function() {
 /* creates a raphael pathe element for the line */
 
 LineView.prototype.renderLine = function() {
+	debugger;
 	if (this.element === undefined) {
 		this.element = transectApp.Canvas.path();	
 	}
@@ -61,6 +64,9 @@ LineView.prototype.getPath = function() {
 			return this.getJaggedPath();;
 			break;
 		case "wavy":
+			return this.getWavyPath();;
+			break;
+		case "lapping":
 			return this.getJaggedPath();;
 			break;
 	}
@@ -112,31 +118,40 @@ LineView.prototype.getJaggedPath = function() {
 };
 
 LineView.prototype.getWavyPath = function() {
-	/**
+	var stepsY = Math.round(Math.abs(this.line.get("point1").get('y') - this.line.get("point2").get('y')) / 5);
+	var stepsX = Math.round(Math.abs(this.line.get("point1").get('x') - this.line.get("point2").get('x')) / 5);
+	var steps = Math.max(stepsX, stepsY);
+
+	var xs = numeric.linspace(this.line.get("point1").get('x'), this.line.get("point2").get('x'), steps);
+	var ys = numeric.linspace(this.line.get("point1").get('y'), this.line.get("point2").get('y'), steps);
+	var path = "";
 	
-		TODO:
-		- Maker wavy line
-		- Second todo item
-	
-	**/
-	this.getStraightPath();
-};
+	if ( steps == 0) {
+		return this.getStraightPath();
+	}
 
-LineView.prototype.lineEq = function(x) {
-	var slopeNumerator = (this.line.get("point1").get('y') - this.line.get("point2").get('y'));
-	var slopeDenominator = (this.line.get("point1").get('x') - this.line.get("point2").get('x'));
-	var slope = slopeNumerator/slopeDenominator;
-	return (slope*x + get("point1").get('y'));
-};
+	for (var i = 0; i < steps; i++) {
+		var x = xs.length > 0 ? xs[i] : this.line.get("point1").get('x');
+		var y = ys.length > 0 ? ys[i] : this.line.get("point1").get('y');
 
-LineView.prototype.perpLineEq = function(x, x1, y1) {
-	var slopeNumerator = (this.line.get("point1").get('y') - this.line.get("point2").get('y'));
-	var slopeDenominator = (this.line.get("point1").get('x') - this.line.get("point2").get('x'));
-	var slope = slopeNumerator/slopeDenominator;
-	return ((x - x1)/slope + y1);
+		if (i == 0) {
+			path += "M" + x + "," + y;
+		} else {
+			if (i%2 == 1) {
+				if (i%4 == 3) {
+					plPoint = this.midPoint(x, y, -5);
+				} else {
+					plPoint = this.midPoint(x, y, 5);
+				}
+				path += ",S" + plPoint[0] + "," + plPoint[1];
+			} else {
+				path += "," + x + "," + y;
+			}
+		}
+	}
+	path += ",L" + this.line.get("point2").get('x') + "," + this.line.get("point2").get('y');
+	return path;
 };
-
-// 010201020
 
 LineView.prototype.removeElement = function() {
 	this.remove();
@@ -185,6 +200,14 @@ LineView.prototype.updateLine = function() {
 		name: name,
 		pattern: pattern
 	});
+}
+
+LineView.prototype.midPoint = function(x, y, dist) {
+	var slope = (this.line.get('point1').get('x') - this.line.get('point2').get('x'))/(this.line.get('point2').get('y') - this.line.get('point1').get('y'));
+	debugger;
+	var x_ = x + dist/Math.sqrt(1 + slope*slope);
+	var y_ = y + slope*(x_ - x);
+	return [x_, y_]
 }
 
 /*-----  End of LineView  ------*/
