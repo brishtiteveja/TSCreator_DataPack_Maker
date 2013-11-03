@@ -59,7 +59,6 @@ Loader.prototype.updatePolygonLines = function(lines) {
 		var p1 = self.getXYforPoint(line.point1);
 		var p2 = self.getXYforPoint(line.point2);
 		var polygonLine = transectApp.CurrentPolygon.lines.findLineForPoints({x1: p1[0], y1: p1[1], x2: p2[0], y2: p2[1]});
-		console.log(line.pattern || "default");
 		polygonLine.set({
 			pattern: line.pattern || "default"
 		});

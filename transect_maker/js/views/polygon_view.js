@@ -38,6 +38,7 @@ PolygonView.prototype.initialize = function(polygon) {
 	/* listen to the changes in the points and re-render the lines. That is 
 	the point is moved we reset the lines and the polygon. */
 	this.listenTo(this.polygon.points, 'change', this.renderPolygonElement.bind(this));
+	this.listenTo(this.polygon.lines, 'change', this.renderPolygonElement.bind(this));
 
 	/* listen to the changes in the collection and render the appropriate view. */
 	this.listenTo(this.polygon.points, 'add', this.addPointToPolygon.bind(this));
@@ -150,7 +151,7 @@ PolygonView.prototype.addPoint = function(evt) {
 
 PolygonView.prototype.setEditMode = function() {
 	this.element.attr({
-		'opacity': 0.5
+		'opacity': 1
 	});
 }
 
@@ -192,11 +193,15 @@ PolygonView.prototype.getConvexHull = function() {
 
 PolygonView.prototype.getPath = function() {
 	var path = 'M';
+	var self = this;
 	this.polygon.points.each(function(point, index, points) {
-		if (index > 0) {
-			path += ',L'
+		if (index == 0) {
+			path += point.get('x') + ',' + point.get('y');
+		} else {
+			var line = self.polygon.lines.findWhere({'point1' : points[index - 1], 'point2' : point});
+			path += line.getPath();
+			path += ',L' + point.get('x') + ',' + point.get('y');
 		}
-		path += point.get('x') + ',' + point.get('y');
 	});
 	return path;
 }

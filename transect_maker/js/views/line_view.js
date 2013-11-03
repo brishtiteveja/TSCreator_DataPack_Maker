@@ -44,114 +44,17 @@ LineView.prototype.render = function() {
 /* creates a raphael pathe element for the line */
 
 LineView.prototype.renderLine = function() {
-	debugger;
 	if (this.element === undefined) {
 		this.element = transectApp.Canvas.path();	
 	}
+	var path = "M" + this.line.get("point1").get('x') + "," + this.line.get("point1").get('y');
+	path += this.line.getPath();
 	this.element.attr({
-		'path': this.getPath()
+		'path': path
 	});
 	this.setFinishedMode();
 };
 
-
-LineView.prototype.getPath = function() {
-	switch (this.line.get('pattern')) {
-		case "default":
-			return this.getStraightPath();
-			break;
-		case "jagged":
-			return this.getJaggedPath();;
-			break;
-		case "wavy":
-			return this.getWavyPath();;
-			break;
-		case "lapping":
-			return this.getJaggedPath();;
-			break;
-	}
-};
-
-LineView.prototype.getStraightPath = function() {
-	var path = "M" + this.line.get("point1").get('x') + "," + this.line.get("point1").get('y');
-	path += ",L" + this.line.get("point2").get('x') + "," + this.line.get("point2").get('y');
-	return path;
-};
-
-LineView.prototype.getJaggedPath = function() {
-	var slopeNumerator = (this.line.get("point1").get('y') - this.line.get("point2").get('y'));
-	var slopeDenominator = (this.line.get("point1").get('x') - this.line.get("point2").get('x'));
-	var slope = slopeNumerator/slopeDenominator;
-	var steps = Math.round(Math.abs(this.line.get("point1").get('y') - this.line.get("point2").get('y')) / 10);
-	var xs = numeric.linspace(this.line.get("point1").get('x'), this.line.get("point2").get('x'), steps);
-	var ys = numeric.linspace(this.line.get("point1").get('y'), this.line.get("point2").get('y'), steps);
-	var path = "";
-	
-	if (xs.length == 0) {
-		return this.getStraightPath();
-	}
-
-	for (var i = 0; i < xs.length; i++) {
-		if (i == 0) {
-			path += "M" + xs[i] + "," + ys[i];
-		} else {
-			if ((slopeNumerator > 0 && slope > 0) || (slopeNumerator < 0 && slope < 0)) {
-				path += ',L' + (xs[i-1] + 20) + ',' + ys[i - 1];
-				path += ',L' + (xs[i] - 20) + ',' + ys[i];
-				if (i < xs.length - 1) {
-					path += ',L' + (xs[i] + 20) + ',' + ys[i];	
-				} else {
-					path += ',L' + xs[i] + "," + ys[i];
-				}
-			} else {	
-				path += ',L' + (xs[i-1] - 20) + ',' + ys[i - 1];
-				path += ',L' + (xs[i] + 20) + ',' + ys[i];
-				if (i < xs.length - 1) {
-					path += ',L' + (xs[i] - 20) + ',' + ys[i];	
-				} else {
-					path += ',L' + xs[i] + "," + ys[i];
-				}
-			}
-		}
-	}
-	return path;
-};
-
-LineView.prototype.getWavyPath = function() {
-	var stepsY = Math.round(Math.abs(this.line.get("point1").get('y') - this.line.get("point2").get('y')) / 3);
-	var stepsX = Math.round(Math.abs(this.line.get("point1").get('x') - this.line.get("point2").get('x')) / 3);
-	var steps = Math.max(stepsX, stepsY);
-
-	var xs = numeric.linspace(this.line.get("point1").get('x'), this.line.get("point2").get('x'), steps);
-	var ys = numeric.linspace(this.line.get("point1").get('y'), this.line.get("point2").get('y'), steps);
-	var path = "";
-	
-	if ( steps == 0) {
-		return this.getStraightPath();
-	}
-
-	for (var i = 0; i < steps; i++) {
-		var x = xs.length > 0 ? xs[i] : this.line.get("point1").get('x');
-		var y = ys.length > 0 ? ys[i] : this.line.get("point1").get('y');
-
-		if (i == 0) {
-			path += "M" + x + "," + y;
-		} else {
-			if (i%2 == 1) {
-				if (i%4 == 3) {
-					plPoint = this.midPoint(x, y, -7);
-				} else {
-					plPoint = this.midPoint(x, y, 7);
-				}
-				path += ",S" + plPoint[0] + "," + plPoint[1];
-			} else {
-				path += "," + x + "," + y;
-			}
-		}
-	}
-	path += ",L" + this.line.get("point2").get('x') + "," + this.line.get("point2").get('y');
-	return path;
-};
 
 LineView.prototype.removeElement = function() {
 	this.remove();
@@ -200,14 +103,6 @@ LineView.prototype.updateLine = function() {
 		name: name,
 		pattern: pattern
 	});
-}
-
-LineView.prototype.midPoint = function(x, y, dist) {
-	var slope = (this.line.get('point1').get('x') - this.line.get('point2').get('x'))/(this.line.get('point2').get('y') - this.line.get('point1').get('y'));
-	debugger;
-	var x_ = x + dist/Math.sqrt(1 + slope*slope);
-	var y_ = y + slope*(x_ - x);
-	return [x_, y_]
 }
 
 /*-----  End of LineView  ------*/
