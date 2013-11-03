@@ -17,6 +17,9 @@ var Line = BaseModel.extend({
 	}
 });
 
+Line.prototype.jaggedDistance = 20;
+Line.prototype.waveHeight = 10;
+
 Line.prototype.getPatternPoints = function() {
 	var xs = numeric.linspace(this.point1.get('x'), this.point2.get('x'), steps);
 	var ys = numeric.linspace(this.point1.get('y'), this.point2.get('y'), steps);	
@@ -62,18 +65,18 @@ Line.prototype.getJaggedPath = function() {
 		if (i == 0) {
 		} else {
 			if ((slopeNumerator > 0 && slope > 0) || (slopeNumerator < 0 && slope < 0)) {
-				path += ',L' + (xs[i-1] + 20) + ',' + ys[i - 1];
-				path += ',L' + (xs[i] - 20) + ',' + ys[i];
+				path += ',L' + (xs[i-1] + this.jaggedDistance) + ',' + ys[i - 1];
+				path += ',L' + (xs[i] - this.jaggedDistance) + ',' + ys[i];
 				if (i < xs.length - 1) {
-					path += ',L' + (xs[i] + 20) + ',' + ys[i];	
+					path += ',L' + (xs[i] + this.jaggedDistance) + ',' + ys[i];	
 				} else {
 					path += ',L' + xs[i] + "," + ys[i];
 				}
 			} else {	
-				path += ',L' + (xs[i-1] - 20) + ',' + ys[i - 1];
-				path += ',L' + (xs[i] + 20) + ',' + ys[i];
+				path += ',L' + (xs[i-1] - this.jaggedDistance) + ',' + ys[i - 1];
+				path += ',L' + (xs[i] + this.jaggedDistance) + ',' + ys[i];
 				if (i < xs.length - 1) {
-					path += ',L' + (xs[i] - 20) + ',' + ys[i];	
+					path += ',L' + (xs[i] - this.jaggedDistance) + ',' + ys[i];	
 				} else {
 					path += ',L' + xs[i] + "," + ys[i];
 				}
@@ -104,9 +107,9 @@ Line.prototype.getWavyPath = function() {
 		} else {
 			if (i%2 == 1) {
 				if (i%4 == 3) {
-					plPoint = this.pointAtADistanceFromXY(x, y, -7);
+					plPoint = this.pointAtADistanceFromXY(x, y, -this.waveHeight);
 				} else {
-					plPoint = this.pointAtADistanceFromXY(x, y, 7);
+					plPoint = this.pointAtADistanceFromXY(x, y, this.waveHeight);
 				}
 				path += ",S" + plPoint[0] + "," + plPoint[1];
 			} else {

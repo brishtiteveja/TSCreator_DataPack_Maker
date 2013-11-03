@@ -5,7 +5,7 @@
 var Loader  = function(transectAppView) {
 	this.transectAppView = transectAppView;
 	this.data = SampleTransect[0];
-	this.width = 500;
+	this.width = transectApp.WIDTH;
 	this.render();
 };
 
@@ -37,7 +37,6 @@ Loader.prototype.loadPolygons = function(polygons) {
 Loader.prototype.getXYforPoint = function(point) {
 	var self = this;
 	var x = Math.round(self.width*point.relativeX);
-	debugger;
 	var y = Math.round(point.y*transectApp.VERTICAL_SCALE);
 	return [x, y];
 }

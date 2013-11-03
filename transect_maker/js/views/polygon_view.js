@@ -200,7 +200,12 @@ PolygonView.prototype.getPath = function() {
 		} else {
 			var line = self.polygon.lines.findWhere({'point1' : points[index - 1], 'point2' : point});
 			path += line.getPath();
-			path += ',L' + point.get('x') + ',' + point.get('y');
+			if (index > 0 && index === points.length - 1) {
+				line = self.polygon.lines.findWhere({'point1' : point, 'point2' : points[0]});
+				if (line !== undefined) {
+					path += line.getPath();	
+				}
+			}
 		}
 	});
 	return path;
