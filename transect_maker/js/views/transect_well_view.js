@@ -43,7 +43,7 @@ TransectWellView.prototype.render = function() {
 
 TransectWellView.prototype.renderWell = function() {
 	if (this.element === undefined) {
-		this.element = Canvas.path();
+		this.element = transectApp.Canvas.path();
 		this.element.attr({
 			"stroke-width": 2,
 			"stroke": "#900000"

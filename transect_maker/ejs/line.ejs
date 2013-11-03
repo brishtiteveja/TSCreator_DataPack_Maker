@@ -3,13 +3,13 @@
 	<div class="row">
 		<label class="line-data large-12 columns"><%= name %></label>
 		<div class="line-form hide">
-			<div class="large-8 columns">
+			<div class="large-6 columns">
 				<label>Line</label>
 				<input type="text" value="<%= name %>" name="line-name">
 			</div>
-			<div class="large-4 columns">
+			<div class="large-6 columns">
 				<label>Pattern</label>
-				<select>
+				<select class="line-pattern">
 					<option value="wavy">Wavy</option>
 					<option value="jagged">Jagged</option>
 				</select>
@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<div class="line-form row hide large-12 columns">
-		<a href="#update-line" class="button secondary right small radius">update</a>
+		<a href="#update-line" class="button secondary right small radius update-line">update</a>
 	</div>
 </td>
 <td class="destroy" width="1%"></td>

@@ -35,3 +35,5 @@ var Points = BaseCollection.extend({
 
 /*-----  End of Points  ------*/
 
+var transectApp = transectApp || {};
+transectApp.PointsCollection = new Points();

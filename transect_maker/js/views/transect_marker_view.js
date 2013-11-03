@@ -54,7 +54,7 @@ TransectMarkerView.prototype.render = function() {
 /*==========  render the marker on the canvas  ==========*/
 TransectMarkerView.prototype.renderMarker = function() {
 	if (this.element === undefined) {
-		this.element = Canvas.path();
+		this.element = transectApp.Canvas.path();
 		this.element.attr({
 			"stroke-width": 2,
 			"stroke": "#900000"

@@ -35,7 +35,7 @@ PointView.prototype.render = function() {
 
 PointView.prototype.renderPoint = function() {
 	if (this.element === undefined) {
-		this.element = Canvas.circle(this.point.get('x'), this.point.get('y'), 4);
+		this.element = transectApp.Canvas.circle(this.point.get('x'), this.point.get('y'), 4);
 	}
 	this.element.attr({
 		'fill': "#000000"
@@ -78,7 +78,7 @@ PointView.prototype.setEditMode = function() {
 }
 
 PointView.prototype.onClick = function() {
-	CurrentPolygon.points.add(this.point);
+	transectApp.CurrentPolygon.points.add(this.point);
 }
 
 PointView.prototype.removeElement = function() {

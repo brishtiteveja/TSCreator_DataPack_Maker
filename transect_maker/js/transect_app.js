@@ -1,4 +1,4 @@
 $(function() {
-	VERTICAL_SCALE = 10;
-	new TransectAppView();
+	var transectAppView = new TransectAppView();
+	new Loader(transectAppView);
 });

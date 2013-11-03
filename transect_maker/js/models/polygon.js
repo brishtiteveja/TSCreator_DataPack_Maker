@@ -7,7 +7,8 @@ var Polygon = BaseModel.extend({
 	constructor: function(attributes, options) {
 		var attrs = [{
 			edit: false,
-			name: attributes && attributes.name ? attributes.name : _.uniqueId("Polygon ")
+			name: attributes && attributes.name ? attributes.name : _.uniqueId("Polygon "),
+			patternName: attributes ? attributes.patternName : null
 		}];
 		this.settings = new Settings();
 		this.points = new Points();
@@ -15,6 +16,8 @@ var Polygon = BaseModel.extend({
 		BaseModel.apply(this, attrs);
 	}
 });
+
+
 
 /*-----  End of Polygon  ------*/
 

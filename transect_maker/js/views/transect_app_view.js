@@ -1,6 +1,7 @@
 /*====================================================================
 =            TransectAppView is the basic view for transects            =
 ====================================================================*/
+var transectApp = transectApp || {};
 
 var TransectAppView = BaseView.extend({
 	el: ".container",
@@ -15,10 +16,10 @@ var TransectAppView = BaseView.extend({
 
 TransectAppView.prototype.initialize = function() {
 	this.$canvas = $("#canvas");
-	Canvas = new Raphael(this.$canvas[0], this.width, this.height);
-	PointsSet = Canvas.set();
-	LinesSet = Canvas.set();
-	PolygonsSet = Canvas.set();
+	transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
+	PointsSet = transectApp.Canvas.set();
+	LinesSet = transectApp.Canvas.set();
+	PolygonsSet = transectApp.Canvas.set();
 
 	POLYGON_COLOR = "#000000";
 	
@@ -36,7 +37,7 @@ TransectAppView.prototype.render = function() {
 	this.transectWellsView = new TransectWellsView();
 	this.zonesView = new ZonesView();
 	this.polygonsView = new PolygonsView();
-	this.renderTransectImage();
+	// this.renderTransectImage();
 };
 
 /**

@@ -8,7 +8,7 @@ var PolygonView = BaseView.extend({
 	events: {
 		'click .toggle-polygon': 'togglePolygonForm',
 		'click a.polygon-list-tool': 'showList',
-		'click .destroy-polygon': 'destroy'
+		'click .destroy-polygon': 'destroy',
 	}
 });
 
@@ -20,8 +20,8 @@ PolygonView.prototype.initialize = function(polygon) {
 	this.polygon = polygon;
 
 	// create raphael sets to store points and lines 
-	this.pointsSet = Canvas.set();
-	this.linesSet = Canvas.set();
+	this.pointsSet = transectApp.Canvas.set();
+	this.linesSet = transectApp.Canvas.set();
 
 	// render 
 	this.render();
@@ -31,6 +31,9 @@ PolygonView.prototype.initialize = function(polygon) {
 
 	// listen to the change in edit attribute
 	this.listenTo(this.polygon, 'change:edit', this.toggleEditStatus.bind(this));
+
+	// listen to the change in name attribute
+	this.listenTo(this.polygon, 'change:name', this.render.bind(this));
 
 	/* listen to the changes in the points and re-render the lines. That is 
 	the point is moved we reset the lines and the polygon. */
@@ -51,6 +54,9 @@ PolygonView.prototype.initialize = function(polygon) {
 
 	/* destroy the view  if the model is  removed from the collection.*/
 	this.listenTo(this.polygon, 'destroy', this.delete.bind(this));
+
+	/* listen to the changes in the  */
+	
 };
 
 PolygonView.prototype.render = function() {
@@ -64,6 +70,9 @@ PolygonView.prototype.render = function() {
 	this.$polygonName = this.$('input[name="polygon-name"]')[0];
 	this.$linesList = this.$('.lines-list');
 	this.$pointsList = this.$('.points-list');
+	this.$polygonUpdate = this.$('.update-polygon');
+
+	this.$polygonUpdate.click(this.updatePolygon.bind(this));
 }
 
 PolygonView.prototype.listenToActionEvents = function() {
@@ -80,6 +89,13 @@ PolygonView.prototype.addPointToPolygon = function(point) {
 	if (this.polygon.points.length > 1) {
 		this.resetLines();
 	}
+
+	transectApp.PointsCollection.add(point);
+	this.updateCanvasDimensions(point);
+}
+
+PolygonView.prototype.updateCanvasDimensions = function(point) {
+	transectApp.Canvas.setSize(Math.max(transectApp.Canvas.width, point.get('x')), Math.max(transectApp.Canvas.height, point.get('y') + 100));
 }
 
 /* Reset the lines, i.e. delete all the lines that are currently in 
@@ -128,7 +144,7 @@ PolygonView.prototype.resetPolygonPoints = function() {
 
 PolygonView.prototype.addPoint = function(evt) {
 	if (!this.polygon.get('edit')) {return;}
-	var point = new Point({x: evt.offsetX, y: evt.offsetY});
+	var point = transectApp.PointsCollection.findWhere({x: evt.offsetX, y: evt.offsetY}) || new Point({x: evt.offsetX, y: evt.offsetY});
 	this.polygon.points.add(point);
 }
 
@@ -192,7 +208,7 @@ PolygonView.prototype.renderPolygonElement = function() {
 	if (this.element !== undefined) {
 		this.element.remove();
 	}
-	this.element = Canvas.path(this.getPath());
+	this.element = transectApp.Canvas.path(this.getPath());
 	this.setEditMode();
 }
 
@@ -218,6 +234,12 @@ PolygonView.prototype.delete = function() {
 PolygonView.prototype.destroy = function() {
 	this.polygon.destroy();
 }
+
+PolygonView.prototype.updatePolygon = function() {
+	var name = this.$polygonName.value;
+	this.polygon.set({
+		name: name
+	});
+}
 /*-----  End of PolygonView  ------*/
 
-	

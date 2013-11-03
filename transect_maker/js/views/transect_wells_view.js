@@ -40,7 +40,7 @@ TransectWellsView.prototype.listenToActionEvents = function() {
 
 TransectWellsView.prototype.renderWells = function() {
 	if (this.set === undefined) {
-		this.set = Canvas.set();
+		this.set = transectApp.Canvas.set();
 	}
 	this.transectWells.each(this.addWell.bind(this));
 };

@@ -37,23 +37,23 @@ PolygonsView.prototype.addPolygon = function(polygon) {
 };
 
 PolygonsView.prototype.createPolygon = function() {
-	if (CurrentPolygon == null) {
-		CurrentPolygon = new Polygon();
-		this.polygonsCollection.add(CurrentPolygon);
+	if (transectApp.CurrentPolygon == null) {
+		transectApp.	CurrentPolygon = new Polygon();
+		this.polygonsCollection.add(transectApp.CurrentPolygon);
 		this.disableAllPolygons();
-		CurrentPolygon.set({
+		transectApp.CurrentPolygon.set({
 			'edit': true
 		});	
 	} else {
 		// delete the polygon if the points are less than 3.
-		if (CurrentPolygon.points.length < 3) {
-			CurrentPolygon.destroy();
+		if (transectApp.CurrentPolygon.points.length < 3) {
+			transectApp.CurrentPolygon.destroy();
 		} else {
-			CurrentPolygon.set({
+			transectApp.CurrentPolygon.set({
 				'edit': false
 			});	
 		}
-		CurrentPolygon = null;
+		transectApp.CurrentPolygon = null;
 	}
 };
 

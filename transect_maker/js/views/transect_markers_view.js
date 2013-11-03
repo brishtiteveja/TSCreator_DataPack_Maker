@@ -36,7 +36,7 @@ TransectMarkersView.prototype.render = function() {
 
 TransectMarkersView.prototype.renderMarkers = function() {
 	if(this.set === undefined) {
-		this.set = Canvas.set();
+		this.set = transectApp.Canvas.set();
 	}
 	this.transectMarkers.each(this.addMarker.bind(this));
 };

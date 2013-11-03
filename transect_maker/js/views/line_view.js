@@ -19,6 +19,8 @@ LineView.prototype.initialize = function(line) {
 	this.render();
 	this.listenTo(this.line, 'destroy', this.removeElement.bind(this));
 	this.listenTo(this.line, 'change:edit', this.toggleEditStatus.bind(this));
+	this.listenTo(this.line, 'change:name', this.render.bind(this));
+	this.listenTo(this.line, 'change:pattern', this.render.bind(this));
 };
 
 
@@ -29,7 +31,10 @@ LineView.prototype.render = function() {
 	this.$lineForm = this.$(".line-form");
 	this.$lineData = this.$(".line-data");
 	this.$lineName = this.$('input[name="line-name"]')[0];
-	this.$linePattern = this.$('input[name="line-pattern"]')[0];
+	this.$linePattern = this.$(".line-pattern")[0];
+	this.$updateBtn = this.$('.update-line');
+
+	this.$updateBtn.click(this.updateLine.bind(this));
 
 	this.renderLine();
 };
@@ -37,7 +42,9 @@ LineView.prototype.render = function() {
 /* creates a raphael pathe element for the line */
 
 LineView.prototype.renderLine = function() {
-	this.element = Canvas.path();
+	if (this.element === undefined) {
+		this.element = transectApp.Canvas.path();	
+	}
 	this.element.attr({
 		'path': this.getPath()
 	});
@@ -47,32 +54,40 @@ LineView.prototype.renderLine = function() {
 
 LineView.prototype.getPath = function() {
 	switch (this.line.get('pattern')) {
-		case 0:
+		case "default":
 			return this.getStraightPath();
 			break;
-		case 1:
+		case "jagged":
+			return this.getJaggedPath();;
+			break;
+		case "wavy":
 			return this.getJaggedPath();;
 			break;
 	}
 };
 
 LineView.prototype.getStraightPath = function() {
-	var path = "M" + this.line.point1.get('x') + "," + this.line.point1.get('y');
-	path += ",L" + this.line.point2.get('x') + "," + this.line.point2.get('y');
+	var path = "M" + this.line.get("point1").get('x') + "," + this.line.get("point1").get('y');
+	path += ",L" + this.line.get("point2").get('x') + "," + this.line.get("point2").get('y');
 	return path;
 };
 
 LineView.prototype.getJaggedPath = function() {
-	var slopeNumerator = (this.line.point1.get('y') - this.line.point2.get('y'));
-	var slopeDenominator = (this.line.point1.get('x') - this.line.point2.get('x'));
+	var slopeNumerator = (this.line.get("point1").get('y') - this.line.get("point2").get('y'));
+	var slopeDenominator = (this.line.get("point1").get('x') - this.line.get("point2").get('x'));
 	var slope = slopeNumerator/slopeDenominator;
-	var steps = Math.round(Math.abs(this.line.point1.get('y') - this.line.point2.get('y')) / 10);
-	var xs = numeric.linspace(this.line.point1.get('x'), this.line.point2.get('x'), steps);
-	var ys = numeric.linspace(this.line.point1.get('y'), this.line.point2.get('y'), steps);
-	var path = "M";
+	var steps = Math.round(Math.abs(this.line.get("point1").get('y') - this.line.get("point2").get('y')) / 10);
+	var xs = numeric.linspace(this.line.get("point1").get('x'), this.line.get("point2").get('x'), steps);
+	var ys = numeric.linspace(this.line.get("point1").get('y'), this.line.get("point2").get('y'), steps);
+	var path = "";
+	
+	if (xs.length == 0) {
+		return this.getStraightPath();
+	}
+
 	for (var i = 0; i < xs.length; i++) {
 		if (i == 0) {
-			path += xs[i] + "," + ys[i];
+			path += "M" + xs[i] + "," + ys[i];
 		} else {
 			if ((slopeNumerator > 0 && slope > 0) || (slopeNumerator < 0 && slope < 0)) {
 				path += ',L' + (xs[i-1] + 10) + ',' + ys[i - 1];
@@ -108,15 +123,15 @@ LineView.prototype.getWavyPath = function() {
 };
 
 LineView.prototype.lineEq = function(x) {
-	var slopeNumerator = (this.line.point1.get('y') - this.line.point2.get('y'));
-	var slopeDenominator = (this.line.point1.get('x') - this.line.point2.get('x'));
+	var slopeNumerator = (this.line.get("point1").get('y') - this.line.get("point2").get('y'));
+	var slopeDenominator = (this.line.get("point1").get('x') - this.line.get("point2").get('x'));
 	var slope = slopeNumerator/slopeDenominator;
-	return (slope*x + point1.get('y'));
+	return (slope*x + get("point1").get('y'));
 };
 
 LineView.prototype.perpLineEq = function(x, x1, y1) {
-	var slopeNumerator = (this.line.point1.get('y') - this.line.point2.get('y'));
-	var slopeDenominator = (this.line.point1.get('x') - this.line.point2.get('x'));
+	var slopeNumerator = (this.line.get("point1").get('y') - this.line.get("point2").get('y'));
+	var slopeDenominator = (this.line.get("point1").get('x') - this.line.get("point2").get('x'));
 	var slope = slopeNumerator/slopeDenominator;
 	return ((x - x1)/slope + y1);
 };
@@ -160,6 +175,15 @@ LineView.prototype.setEditMode = function() {
 	this.element.attr({
 		'stroke-width': 2,
 		'stroke': "#000000"
+	});
+}
+
+LineView.prototype.updateLine = function() {
+	var name = this.$lineName.value;
+	var pattern = this.$linePattern.value;
+	this.line.set({
+		name: name,
+		pattern: pattern
 	});
 }
 

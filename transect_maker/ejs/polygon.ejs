@@ -2,12 +2,12 @@
 <td  width="98%">
 	<div class="row">
 		<label class="polygon-data large-12 columns">
-			<%= name %></label>
+			<%= name %> → <%= patternName || "none" %>
+		</label>
 		<div class="polygon-form hide">
 			<div class="large-12 columns">
 				<label>Polygon</label>
-				<input type="text" value="<%= name %>
-				" name="polygon-name">
+				<input type="text" value="<%= name %>" name="polygon-name">
 				<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 30px;">
 					<!--  Lines Tab -->
 					<section class="polygon-settings lines-tab active" style="padding-top: 29px;">
@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	<div class="polygon-form row hide large-12 columns">
-		<a href="#update-polygon" class="button secondary right small radius">update</a>
+		<a href="#update-polygon" class="button secondary right small radius update-polygon">update</a>
 	</div>
 </td>
 <td class="destroy destroy-polygon" width="1%"></td>

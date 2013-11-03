@@ -8,10 +8,10 @@ var Line = BaseModel.extend({
 		var attrs = [{
 			edit: false,
 			name: attributes.name || _.uniqueId("Line "),
-			pattern: 0 // 0 => default, 1 => jagged, 2=> wavy
+			pattern: "default", // 0 => default, 1 => jagged, 2=> wavy
+			point1: point1,
+			point2: point2
 		}];
-		this.point1 = point1;
-		this.point2 = point2;
 		this.settings = new Settings();
 		BaseModel.apply(this, attrs);
 	}
@@ -34,4 +34,12 @@ var Lines = BaseCollection.extend({
 	model: Line
 });
 
+Lines.prototype.findLineForPoints = function(attrs) {
+	var point1 = transectApp.PointsCollection.findWhere({x: x1, y: y1});
+	var point2 = transectApp.PointsCollection.findWhere({x: x2, y: y2});
+	return this.findWhere(point1, point2);
+}
+
+var transectApp = transectApp || {};
+transectApp.LinesCollection = new Lines();
 /*-----  End of Lines Collection  ------*/
