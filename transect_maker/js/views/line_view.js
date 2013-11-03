@@ -96,18 +96,18 @@ LineView.prototype.getJaggedPath = function() {
 			path += "M" + xs[i] + "," + ys[i];
 		} else {
 			if ((slopeNumerator > 0 && slope > 0) || (slopeNumerator < 0 && slope < 0)) {
-				path += ',L' + (xs[i-1] + 10) + ',' + ys[i - 1];
-				path += ',L' + (xs[i] - 10) + ',' + ys[i];
+				path += ',L' + (xs[i-1] + 20) + ',' + ys[i - 1];
+				path += ',L' + (xs[i] - 20) + ',' + ys[i];
 				if (i < xs.length - 1) {
-					path += ',L' + (xs[i] + 10) + ',' + ys[i];	
+					path += ',L' + (xs[i] + 20) + ',' + ys[i];	
 				} else {
 					path += ',L' + xs[i] + "," + ys[i];
 				}
 			} else {	
-				path += ',L' + (xs[i-1] - 10) + ',' + ys[i - 1];
-				path += ',L' + (xs[i] + 10) + ',' + ys[i];
+				path += ',L' + (xs[i-1] - 20) + ',' + ys[i - 1];
+				path += ',L' + (xs[i] + 20) + ',' + ys[i];
 				if (i < xs.length - 1) {
-					path += ',L' + (xs[i] - 10) + ',' + ys[i];	
+					path += ',L' + (xs[i] - 20) + ',' + ys[i];	
 				} else {
 					path += ',L' + xs[i] + "," + ys[i];
 				}
@@ -118,8 +118,8 @@ LineView.prototype.getJaggedPath = function() {
 };
 
 LineView.prototype.getWavyPath = function() {
-	var stepsY = Math.round(Math.abs(this.line.get("point1").get('y') - this.line.get("point2").get('y')) / 5);
-	var stepsX = Math.round(Math.abs(this.line.get("point1").get('x') - this.line.get("point2").get('x')) / 5);
+	var stepsY = Math.round(Math.abs(this.line.get("point1").get('y') - this.line.get("point2").get('y')) / 3);
+	var stepsX = Math.round(Math.abs(this.line.get("point1").get('x') - this.line.get("point2").get('x')) / 3);
 	var steps = Math.max(stepsX, stepsY);
 
 	var xs = numeric.linspace(this.line.get("point1").get('x'), this.line.get("point2").get('x'), steps);
@@ -139,9 +139,9 @@ LineView.prototype.getWavyPath = function() {
 		} else {
 			if (i%2 == 1) {
 				if (i%4 == 3) {
-					plPoint = this.midPoint(x, y, -5);
+					plPoint = this.midPoint(x, y, -7);
 				} else {
-					plPoint = this.midPoint(x, y, 5);
+					plPoint = this.midPoint(x, y, 7);
 				}
 				path += ",S" + plPoint[0] + "," + plPoint[1];
 			} else {

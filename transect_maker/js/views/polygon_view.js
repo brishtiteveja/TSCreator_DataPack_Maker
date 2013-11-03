@@ -150,15 +150,13 @@ PolygonView.prototype.addPoint = function(evt) {
 
 PolygonView.prototype.setEditMode = function() {
 	this.element.attr({
-		'fill': "#759dcd",
 		'opacity': 0.5
 	});
 }
 
 PolygonView.prototype.setFinishedMode = function() {
 	this.element.attr({
-		'fill': "#FFCC33",
-		'opacity': 0.5
+		'opacity': 1
 	});
 }
 
@@ -208,6 +206,11 @@ PolygonView.prototype.renderPolygonElement = function() {
 		this.element.remove();
 	}
 	this.element = transectApp.Canvas.path(this.getPath());
+	var fill =  this.polygon.get('patternName')  ? "url('/pattern_manager/patterns/nz_" + this.polygon.get('patternName').toLowerCase() + ".png')" : "#FFFFFF";
+	this.element.attr({
+		'fill': fill
+	});
+	this.element.toBack();
 	this.setEditMode();
 }
 
