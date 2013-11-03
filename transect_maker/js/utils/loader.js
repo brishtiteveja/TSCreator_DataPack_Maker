@@ -37,7 +37,8 @@ Loader.prototype.loadPolygons = function(polygons) {
 Loader.prototype.getXYforPoint = function(point) {
 	var self = this;
 	var x = Math.round(self.width*point.relativeX);
-	var y = Math.round(point.y);
+	debugger;
+	var y = Math.round(point.y*transectApp.VERTICAL_SCALE);
 	return [x, y];
 }
 
