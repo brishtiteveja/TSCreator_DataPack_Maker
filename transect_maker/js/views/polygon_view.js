@@ -104,6 +104,7 @@ polygon and redraw them this give the animated effect of expanding
 this polygon as well as moving a point without breaking the polygon */
 PolygonView.prototype.resetLines = function() {	
 	var lines = [];
+	
 	// create a new list of points for all the points in the polygon.
 	this.polygon.points.each(function(point, index, points){
 		if (index > 0) {
