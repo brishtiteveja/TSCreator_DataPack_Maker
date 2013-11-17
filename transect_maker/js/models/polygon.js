@@ -7,6 +7,7 @@ var Polygon = BaseModel.extend({
 	constructor: function(attributes, options) {
 		var attrs = [{
 			edit: false,
+			draw: false,
 			name: attributes && attributes.name ? attributes.name : _.uniqueId("Polygon "),
 			patternName: attributes ? attributes.patternName : null
 		}];

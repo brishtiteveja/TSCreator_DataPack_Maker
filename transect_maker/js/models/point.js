@@ -13,13 +13,20 @@ var Point = BaseModel.extend({
 			age: 0,
 			relativeX: null,
 			relativeAge: null,
-			transect: null
+			transect: null,
+			zone: null,
 		}];
 		BaseModel.apply(this, attrs);
 	}
 });
 
-Point.prototype.initilize = function() {
+Point.prototype.initialize = function() {
+	var zone = transectApp.ZonesCollection.getZoneForY(this.get('y'));
+	var transect = transectApp.TransectsCollection.getTransectForX(this.get('x'));
+	this.set({
+		transect: transect,
+		zone: zone
+	});
 };
 
 /*-----  End of Point Model  ------*/

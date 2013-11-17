@@ -14,6 +14,7 @@ var Zone = BaseModel.extend({
 		var attrs = [{
 			edit: false,
 			name: attributes.name || _.uniqueId("Zone "),
+			description: attributes.description || null
 		}];
 		this.topMarker = topMarker;
 		this.baseMarker = baseMarker;
@@ -21,10 +22,10 @@ var Zone = BaseModel.extend({
 	}
 });
 
-Zone.prototype.isPointInsideZone = function(point) {
+Zone.prototype.isYInsideZone = function(y) {
 	/* Check if the zone contains the point. i.e. the point should lie
 	between the topMarker and baseMarker */
-	if (this.topMarker.get('y') < point.get('y') && point.get('y') < this.baseMarker.get('y')) {
+	if (this.topMarker.get('y') < y && y < this.baseMarker.get('y')) {
 		return true;
 	}
 	return false;
@@ -43,11 +44,11 @@ var Zones = BaseCollection.extend({
 });
 
 
-Zones.prototype.getZoneForPoint = function(point) {
+Zones.prototype.getZoneForY = function(y) {
 	/* return the zone to which the point belongs to */
 	var containingZone = null;
 	this.each(function(zone) {
-		if (zone.isPointInsideZone(point)) {
+		if (zone.isYInsideZone(y)) {
 			containingZone = zone;	
 		}
 	});

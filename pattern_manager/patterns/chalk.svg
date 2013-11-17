@@ -1,0 +1,69 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Chalk"
+                 patternUnits="userSpaceOnUse" width="65.772" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="1.061 -66.618 65.772 65.618" height="65.618"
+                 x="-2184.646" y="3215.118" xlink:actuate="onLoad">
+            <rect x="1.061" width="65.772" y="-66.618" height="65.618"
+                  style="fill: rgb(164,185,214);"/>
+            <g>
+                <polygon fill="none"
+                         points="1.061,-1 1.061,-66.618 66.833,-66.618 66.833,-1   "/>
+                <polyline fill="none" stroke-width="2"
+                          points="1.061,-66.618 33.688,-66.618 66.833,-66.618   "
+                          stroke="#000000"/>
+                <line fill="none" x1="1.061" x2="66.833" y1="-1" y2="-1"
+                      stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="1" x2="66.743" y1="-33.809" y2="-33.809"
+                      stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="1" x2="66.743" y1="-50.214" y2="-50.214"
+                      stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="1" x2="66.743" y1="-17.404" y2="-17.404"
+                      stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="33.687" x2="33.687" y1="-50.234"
+                      y2="-59.618" stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="33.687" x2="33.687" y1="-26.755"
+                      y2="-17.424" stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="1" x2="1" y1="-50.603" y2="-59.614"
+                      stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="66.743" x2="66.743" y1="-50.419"
+                      y2="-59.614" stroke="#000000" stroke-width="2"/>
+                <path fill="none" stroke-width="2" d="M1.123-50.173"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M1.123-34.443"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M33.933-49.436"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M33.933-33.706"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M66.743-49.559"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M66.743-33.829"
+                      stroke="#000000"/>
+                <line fill="none" x1="17.527" x2="17.527" y1="-34.074"
+                      y2="-43.127" stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="50.338" x2="50.338" y1="-34.198"
+                      y2="-43.127" stroke="#000000" stroke-width="2"/>
+                <path fill="none" stroke-width="2" d="M1.123-16.847"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M1.123-1.117"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M33.933-16.847"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M33.933-1.117"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M66.743-16.847"
+                      stroke="#000000"/>
+                <path fill="none" stroke-width="2" d="M66.743-1.117"
+                      stroke="#000000"/>
+                <line fill="none" x1="17.527" x2="17.527" y1="-1.117"
+                      y2="-10.389" stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="50.338" x2="50.338" y1="-1.117"
+                      y2="-10.389" stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="1.061" x2="1.061" y1="-17.578"
+                      y2="-26.755" stroke="#000000" stroke-width="2"/>
+                <line fill="none" x1="66.804" x2="66.804" y1="-17.394"
+                      y2="-26.755" stroke="#000000" stroke-width="2"/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Chalk);'/> </svg>

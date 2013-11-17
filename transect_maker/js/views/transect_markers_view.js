@@ -62,7 +62,7 @@ TransectMarkersView.prototype.updateZones = function() {
 	var zones = [];
 	this.transectMarkers.each(function(marker, index, markers) {
 		if (index > 0) {
-			zones.push(new Transect({name: "Zone " + index}, markers[index - 1], marker));
+			zones.push(new Zone({name: "Zone " + index}, markers[index - 1], marker));
 		}
 	});
 	this.transectZones.reset(zones);

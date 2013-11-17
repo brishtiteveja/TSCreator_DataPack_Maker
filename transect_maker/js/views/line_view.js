@@ -6,7 +6,10 @@ var LineView = BaseView.extend({
 	tagName: 'tr',
 	classname: "LineView",
 	events: {
-		'click .toggle': 'toggleLineForm'
+		'click .toggle': 'toggleLineForm',
+		'click a.update-line': 'updateLine',
+		'mouseover': "onMouseOver",
+		'mouseout': "onMouseOut",
 	}
 });
 
@@ -36,8 +39,6 @@ LineView.prototype.render = function() {
 	this.$linePattern = this.$(".line-pattern")[0];
 	this.$updateBtn = this.$('.update-line');
 
-	this.$updateBtn.click(this.updateLine.bind(this));
-
 	this.renderLine();
 };
 
@@ -52,20 +53,43 @@ LineView.prototype.renderLine = function() {
 	this.element.attr({
 		'path': path
 	});
+	this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 	this.setFinishedMode();
+	this.renderTooltip();
+};
+
+LineView.prototype.renderTooltip = function() {
+	var content = this.line.get('name');
+	$(this.element.node).qtip({
+		content: {
+			text: content
+		},
+		position: {
+			my: 'bottom left', // Position my top left...
+			target: 'mouse', // my target 
+		}
+	});
+}
+
+LineView.prototype.onMouseOut = function() {
+	this.setFinishedMode();
+};
+
+LineView.prototype.onMouseOver = function() {
+	this.setEditMode();
 };
 
 
 LineView.prototype.removeElement = function() {
 	this.remove();
 	this.element.remove();
-}
+};
 
 LineView.prototype.toggleLineForm = function() {
 	this.line.set({
 		'edit': !this.line.get('edit')
 	});
-}
+};
 
 LineView.prototype.toggleEditStatus = function() {
 	if (this.line.get('edit')) {
@@ -78,23 +102,24 @@ LineView.prototype.toggleEditStatus = function() {
 		this.$lineData.removeClass('hide');
 		this.$toggle.removeClass('show-data');
 		this.$toggle.addClass('hide-data');
-	}	
-}
-
+	}
+};
 
 LineView.prototype.setFinishedMode = function() {
 	this.element.attr({
 		'stroke-width': 2,
-		'stroke': '#000000'
+		'stroke': transectApp.lineMouseOut
 	});
+	this.$lineData.removeClass('hover-bg');
 };
 
 LineView.prototype.setEditMode = function() {
 	this.element.attr({
-		'stroke-width': 2,
-		'stroke': "#000000"
+		'stroke-width': 6,
+		'stroke': transectApp.lineMouseOver
 	});
-}
+	this.$lineData.addClass('hover-bg');
+};
 
 LineView.prototype.updateLine = function() {
 	var name = this.$lineName.value;
@@ -103,7 +128,7 @@ LineView.prototype.updateLine = function() {
 		name: name,
 		pattern: pattern
 	});
-}
+};
 
 /*-----  End of LineView  ------*/
 

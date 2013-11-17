@@ -1,0 +1,32 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Volcanic_ash"
+                 patternUnits="userSpaceOnUse" width="65.811" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="0 -65.618 65.811 65.618" height="65.618" x="-2184.646"
+                 y="3215.118" xlink:actuate="onLoad">
+            <rect x="0" width="65.811" y="-65.618" height="65.618"
+                  style="stroke-width: 0; fill: rgb(253,78,33);"/>
+            <g>
+                <polygon fill="none"
+                         points="0,0 0,-65.618 65.811,-65.618 65.811,0   "/>
+                <polygon points="13.667,-62.359 2.237,-51.675 0.52,-53.512 11.95,-64.196   "/>
+                <polygon fill="none"
+                         points="65.772,0 0,0 0,-65.618 65.772,-65.618   "/>
+                <polygon points="18.138,-55.165 6.708,-44.48 4.991,-46.317 16.421,-57.002   "/>
+                <polygon points="31.18,-40.676 20.496,-52.106 22.333,-53.823 33.017,-42.394   "/>
+                <polygon points="27.757,-34.39 17.073,-45.819 18.91,-47.536 29.594,-36.106   "/>
+                <polygon points="46.461,-62.41 35.031,-51.727 33.314,-53.563 44.744,-64.248   "/>
+                <polygon points="50.932,-55.216 39.501,-44.531 37.785,-46.369 49.215,-57.053   "/>
+                <polygon points="63.974,-40.728 53.29,-52.157 55.126,-53.874 65.811,-42.444   "/>
+                <polygon points="60.551,-34.44 49.867,-45.871 51.704,-47.588 62.388,-36.157   "/>
+                <polygon points="13.58,-29.556 2.149,-18.871 0.432,-20.708 11.862,-31.393   "/>
+                <polygon points="18.05,-22.36 6.62,-11.677 4.903,-13.514 16.333,-24.198   "/>
+                <polygon points="31.092,-7.872 20.408,-19.303 22.245,-21.02 32.929,-9.59   "/>
+                <polygon points="27.669,-1.585 16.985,-13.016 18.822,-14.732 29.506,-3.303   "/>
+                <polygon points="46.374,-29.606 34.943,-18.923 33.226,-20.76 44.656,-31.443   "/>
+                <polygon points="50.844,-22.412 39.414,-11.728 37.697,-13.564 49.127,-24.249   "/>
+                <polygon points="63.886,-7.923 53.202,-19.354 55.039,-21.07 65.723,-9.641   "/>
+                <polygon points="60.463,-1.637 49.779,-13.067 51.616,-14.784 62.3,-3.354   "/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Volcanic_ash);'/> </svg>

@@ -1,0 +1,24 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Halite"
+                 patternUnits="userSpaceOnUse" width="65.772" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="1.104 -66.618 65.772 65.618" height="65.618"
+                 x="-2184.646" y="3215.118" xlink:actuate="onLoad">
+            <rect x="1.104" width="65.772" y="-66.618" height="65.618"
+                  style="stroke-width: 0; fill: rgb(252,192,210);"/>
+            <g>
+                <polygon fill="none"
+                         points="1.104,-1 1.104,-66.618 66.876,-66.618 66.876,-1   "/>
+                <line stroke-linecap="round" fill="none" x1="1.104" y1="-66.618"
+                      x2="66.876" y2="-1" stroke-linejoin="round"
+                      stroke="#000000" stroke-width="2"/>
+                <line stroke-linecap="round" fill="none" x1="1.104" y1="-1"
+                      x2="66.876" y2="-66.618" stroke-linejoin="round"
+                      stroke="#000000" stroke-width="2"/>
+                <polygon fill="none" stroke-width="2"
+                         points="33.853,-1.082     66.705,-33.736 33.853,-66.787 1,-33.736   "
+                         stroke-linejoin="round" stroke-linecap="round"
+                         stroke="#000000"/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Halite);'/> </svg>

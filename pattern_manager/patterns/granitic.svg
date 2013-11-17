@@ -1,0 +1,92 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Granitic"
+                 patternUnits="userSpaceOnUse" width="65.772" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="0 -65.618 65.772 65.618" height="65.618" x="-2184.646"
+                 y="3215.118" xlink:actuate="onLoad">
+            <rect x="0" width="65.772" y="-65.618" height="65.618"
+                  style="stroke-width: 0; fill: rgb(204,204,204);"/>
+            <g>
+                <polygon fill="none"
+                         points="0,0 0,-65.618 65.772,-65.618 65.772,0   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="26.454,-47.887 19.619,-43.052 26.454,-38.216   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="21.42,-65.022 26.255,-58.187 31.09,-65.022   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="21.42,-65.022 26.255,-58.187 31.09,-65.022   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="4.928,-33.435 11.763,-38.27 4.928,-43.105   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="4.928,-33.435 11.763,-38.27 4.928,-43.105   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="17.973,-49.638 13.138,-56.473 8.303,-49.638   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="17.973,-49.638 13.138,-56.473 8.303,-49.638   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="59.202,-47.771 52.367,-42.936 59.202,-38.101   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="59.202,-47.771 52.367,-42.936 59.202,-38.101   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="54.168,-64.906 59.003,-58.071 63.838,-64.906   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="54.168,-64.906 59.003,-58.071 63.838,-64.906   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="37.676,-33.482 44.511,-38.318 37.676,-43.153   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="37.676,-33.482 44.511,-38.318 37.676,-43.153   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="50.721,-49.522 45.886,-56.357 41.051,-49.522   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="50.721,-49.522 45.886,-56.357 41.051,-49.522   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="26.564,-15.123 19.729,-10.289 26.564,-5.453   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="26.564,-15.123 19.729,-10.289 26.564,-5.453   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="21.53,-32.26 26.365,-25.424 31.2,-32.26   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="21.53,-32.26 26.365,-25.424 31.2,-32.26   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="5.038,-0.672 11.873,-5.506 5.038,-10.342   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="5.038,-0.672 11.873,-5.506 5.038,-10.342   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="18.083,-16.874 13.248,-23.71 8.413,-16.874   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="18.083,-16.874 13.248,-23.71 8.413,-16.874   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="59.312,-15.008 52.477,-10.173 59.312,-5.337   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="59.312,-15.008 52.477,-10.173 59.312,-5.337   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="54.278,-32.144 59.113,-25.308 63.948,-32.144   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="54.278,-32.144 59.113,-25.308 63.948,-32.144   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="38.032,-0.802 44.868,-5.637 38.032,-10.473   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="38.032,-0.802 44.868,-5.637 38.032,-10.473   "
+                          stroke="#000000"/>
+                <polyline fill="none"
+                          points="50.831,-16.759 45.996,-23.594 41.161,-16.759   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="50.831,-16.759 45.996,-23.594 41.161,-16.759   "
+                          stroke="#000000"/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Granitic);'/> </svg>

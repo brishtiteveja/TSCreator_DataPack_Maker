@@ -19,9 +19,10 @@ TransectImageView.prototype.initialize = function(transectImage) {
 
 TransectImageView.prototype.render = function() {
 	if (this.element === undefined) {
-		this.element = Canvas.image(this.url, this.x, this.y, this.width, this.height);
+		this.element = transectApp.Canvas.image(this.url, this.x, this.y, this.width, this.height);
+		transectApp.transectImage = this.element;
 	}
-	Canvas.setSize(Math.max(Canvas.width, this.width + 50), Math.max(Canvas.height, this.height + 50));
+	transectApp.Canvas.setSize(Math.max(transectApp.Canvas.width, this.width + 50), Math.max(transectApp.Canvas.height, this.height + 50));
 };
 
 /*-----  End of TransectImageView  ------*/

@@ -1,0 +1,26 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Chert"
+                 patternUnits="userSpaceOnUse" width="65.772" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="0 -65.618 65.772 65.618" height="65.618" x="-2184.646"
+                 y="3215.118" xlink:actuate="onLoad">
+            <rect x="0" width="65.772" y="-65.618" height="65.618"
+                  style="stroke-width: 0; fill: rgb(164,185,214);"/>
+            <g>
+                <polygon fill="none"
+                         points="0,0 0,-65.618 65.772,-65.618 65.772,0   "/>
+                <polygon stroke-width="2.7"
+                         points="6.054,-34.553 29.667,-34.553 17.72,-48.3   "
+                         stroke-linecap="square" stroke="#000000"/>
+                <polygon stroke-width="2.7"
+                         points="38.819,-34.522 62.431,-34.522 50.484,-48.269       "
+                         stroke-linecap="square" stroke="#000000"/>
+                <polygon stroke-width="2.7"
+                         points="6.023,-1.87 29.636,-1.87 17.689,-15.617   "
+                         stroke-linecap="square" stroke="#000000"/>
+                <polygon stroke-width="2.7"
+                         points="38.788,-1.84 62.4,-1.84 50.454,-15.586   "
+                         stroke-linecap="square" stroke="#000000"/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Chert);'/> </svg>

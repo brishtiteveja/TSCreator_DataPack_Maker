@@ -6,7 +6,9 @@ var PointView = BaseView.extend({
 	tagName: 'tr',
 	classname: "PointView",
 	events: {
-		'click .toggle': 'togglePointForm'
+		'click .toggle': 'togglePointForm',
+		'mouseover': "onMouseOver",
+		'mouseout': "onMouseOut",
 	}
 });
 
@@ -44,18 +46,31 @@ PointView.prototype.renderPoint = function() {
 	this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 	this.element.click(this.onClick.bind(this));
 	this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
+	this.renderTooltip();
 };
+
+PointView.prototype.renderTooltip = function() {
+	var content = this.point.get('name') + "<br/>";
+	content += this.point.get('zone').get('name') + "<br/>";
+	content += this.point.get('transect').get('name');
+	$(this.element.node).qtip({
+		content: {
+			text: content
+		},
+		position: {
+			my: 'bottom left', // Position my top left...
+			target: 'mouse', // my target 
+		}
+	});
+}
 
 PointView.prototype.updateElement = function() {
 	this.element.attr({
 		'cx': this.point.get('x'),
 		'cy': this.point.get('y')
 	});
+	this.renderTooltip();
 }
-
-PointView.prototype.onMouseOver = function() {
-	this.setEditMode();
-};
 
 PointView.prototype.setFinishedMode = function() {
 	this.element.attr({
@@ -63,10 +78,7 @@ PointView.prototype.setFinishedMode = function() {
 		'fill': "#000000",
 		'stroke': "#000000"
 	});
-};
-
-PointView.prototype.onMouseOut = function() {
-	this.setFinishedMode();
+	this.$pointData.removeClass('hover-bg');
 };
 
 PointView.prototype.setEditMode = function() {
@@ -75,10 +87,21 @@ PointView.prototype.setEditMode = function() {
 		'fill': "#FF0033",
 		'stroke': '#FF0033'
 	});
+	this.$pointData.addClass('hover-bg');
 }
 
+PointView.prototype.onMouseOver = function() {
+	this.setEditMode();
+};
+
+PointView.prototype.onMouseOut = function() {
+	this.setFinishedMode();
+};
+
 PointView.prototype.onClick = function() {
-	transectApp.CurrentPolygon.points.add(this.point);
+	if (transectApp.CurrentPolygon !== null) {
+		transectApp.CurrentPolygon.points.add(this.point);
+	}
 }
 
 PointView.prototype.removeElement = function() {
@@ -89,10 +112,16 @@ PointView.prototype.onDragStart = function(x, y, evt) {
 }
 
 PointView.prototype.onDragMove = function(dx, dy, x, y, evt) {
-	this.point.set({
-		x: evt.offsetX,
-		y: evt.offsetY
-	});
+	var transect = transectApp.TransectsCollection.getTransectForX(evt.offsetX);
+	var zone = transectApp.ZonesCollection.getZoneForY(evt.offsetY);
+	if (transect !== null && zone !== null) {
+		this.point.set({
+			x: evt.offsetX,
+			y: evt.offsetY,
+			transect: transect,
+			zone: zone
+		});
+	}
 }
 
 PointView.prototype.onDragEnd = function(evt) {

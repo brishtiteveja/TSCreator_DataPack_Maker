@@ -42,7 +42,7 @@ PolygonsView.prototype.createPolygon = function() {
 		this.polygonsCollection.add(transectApp.CurrentPolygon);
 		this.disableAllPolygons();
 		transectApp.CurrentPolygon.set({
-			'edit': true
+			'draw': true
 		});	
 	} else {
 		// delete the polygon if the points are less than 3.
@@ -50,16 +50,15 @@ PolygonsView.prototype.createPolygon = function() {
 			transectApp.CurrentPolygon.destroy();
 		} else {
 			transectApp.CurrentPolygon.set({
-				'edit': false
+				'draw': false
 			});	
 		}
-		transectApp.CurrentPolygon = null;
 	}
 };
 
 PolygonsView.prototype.disableAllPolygons = function() {	
 	this.polygonsCollection.each(function(polygon) {
-		polygon.set('edit', false);
+		polygon.set('draw', false);
 	});
 }
 

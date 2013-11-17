@@ -1,0 +1,52 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Metavolcanics"
+                 patternUnits="userSpaceOnUse" width="65.773" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="0 -77.617 65.773 77.617" height="77.617" x="-2184.646"
+                 y="3215.118" xlink:actuate="onLoad">
+            <rect x="0" width="65.773" y="-77.617" height="77.617"
+                  style="stroke-width: 0; fill: rgb(204,204,204);"/>
+            <g>
+                <polygon fill="none"
+                         points="0,-77.617 0,0 65.773,0 65.773,-77.617   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="30.336,-36.953 25.502,-28.87 20.666,-36.953   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="4.664,-13.739 9.5,-21.825 14.336,-13.739   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="47.322,-57.321 42.488,-49.235 37.652,-57.321   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="63.324,-36.965 58.488,-28.881 53.652,-36.965   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="63.324,-36.965 58.488,-28.881 53.652,-36.965   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="37.652,-13.751 42.486,-21.837 47.322,-13.751   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="14.336,-57.31 9.5,-49.226 4.666,-57.31   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="30.336,-75.988 25.502,-67.902 20.666,-75.988   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="30.336,-75.988 25.502,-67.902 20.666,-75.988   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="4.666,-52.774 9.5,-60.858 14.336,-52.774   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="47.322,-18.288 42.486,-10.202 37.652,-18.288   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="63.324,-76 58.488,-67.914 53.652,-76   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="63.324,-76 58.488,-67.914 53.652,-76   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="37.652,-52.786 42.486,-60.872 47.322,-52.786   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="14.336,-18.277 9.5,-10.19 4.664,-18.277   "
+                          stroke="#000000"/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Metavolcanics);'/> </svg>

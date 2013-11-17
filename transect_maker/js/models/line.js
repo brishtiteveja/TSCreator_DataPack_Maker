@@ -17,8 +17,8 @@ var Line = BaseModel.extend({
 	}
 });
 
-Line.prototype.jaggedDistance = 20;
-Line.prototype.waveHeight = 10;
+Line.prototype.jaggedDistance = 10;
+Line.prototype.waveHeight = 5;
 
 Line.prototype.getPatternPoints = function() {
 	var xs = numeric.linspace(this.point1.get('x'), this.point2.get('x'), steps);

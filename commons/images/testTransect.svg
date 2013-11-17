@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="1085" height="905" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+style="display: block;margin-left: auto;margin-right: auto;">
+
+
+<!-- Page 1 -->
+<svg x="0" y="0" width="1085" height="841" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+style="display: block;margin-left: auto;margin-right: auto;">
+<path d="M0,0
+L0,841
+L1085,841
+L1085,0 Z " 
+fill="#FFFFFF" stroke="none" />
+<image x="0" y="-701" width="1113" height="1584" opacity="1.0" xlink:href="index/img/1.png" />
+
+<path d="M0,841
+L0,0
+L1085,0
+L1085,841 z "
+fill="none"
+stroke-width="1.0"
+stroke-linecap="butt"
+stroke-linejoin="miter"
+stroke="#000000" />
+</svg>
+<title>Scan2_CentralVulcan Page1</title>
+<!-- Navbar below-->
+<path d="M0,841
+L0,905
+L1085,905
+L1085,841 z " 
+fill="#FFFFFF" stroke="none" />
+<style type="text/css"><![CDATA[
+.buttonPDFGen:hover{
+	fill:#dfdfdf;
+}
+.buttonPDFGen:active{
+	fill:#f00;
+}
+]]></style>
+
+<rect x="0" y="841" rx="5" ry="5" fill="#ededed" width="1085" height="14" />
+
+<text x="542.0" y="853" font-size="14" font-family="Arial, Helvetica, sans-serif" text-anchor="middle" fill="#000">
+<a xlink:href="index.svg" fill="#00F" class="buttonPDFGen">Start</a> | 
+<a xlink:href="index.svg" fill="#00F" class="buttonPDFGen">Prev</a> |
+ 1 : 1 | 
+<a xlink:href="index.svg" fill="#00F" class="buttonPDFGen">Next</a> | 
+<a xlink:href="index.svg" fill="#00F" class="buttonPDFGen">End</a> | 
+</text>
+
+<a xlink:href="http://www.idrsolutions.com/">
+<image x="495.0" y="859" width="94px" height="40px" xlink:href="icons/logo.png" />
+</a>
+</svg>

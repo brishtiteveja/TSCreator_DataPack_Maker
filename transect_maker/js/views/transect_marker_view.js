@@ -8,8 +8,8 @@ var TransectMarkerView = BaseView.extend({
 	events: {
 		'click .toggle': 'toggleMarkerForm',
 		'click a[href*="update-marker"]': 'updateMarker',
-		'mouseover': "mouseOnItem",
-		'mouseout': "mouseOutItem",
+		'mouseover': "onMouseOver",
+		'mouseout': "onMouseOut",
 	}
 });
 
@@ -83,7 +83,7 @@ TransectMarkerView.prototype.renderTooltip = function() {
 
 /*==========  get path string for the marker  ==========*/
 TransectMarkerView.prototype.getPath = function() {
-	return "M0," + this.transectMarker.get('y') + 'H' + Canvas.width;
+	return "M0," + this.transectMarker.get('y') + 'H' + transectApp.Canvas.width;
 };
 
 /*==========  start dragging  ==========*/
@@ -104,7 +104,7 @@ TransectMarkerView.prototype.onMouseOver = function() {
 	this.element.attr({
 		"stroke-width": 5
 	});
-	this.$(".marker-data").addClass('hover-bg');
+	this.$markerData.addClass('hover-bg');
 };
 
 TransectMarkerView.prototype.onMouseOut = function() {
@@ -112,7 +112,7 @@ TransectMarkerView.prototype.onMouseOut = function() {
 	this.element.attr({
 		"stroke-width": 2
 	});
-	this.$(".marker-data").removeClass('hover-bg');
+	this.$markerData.removeClass('hover-bg');
 };
 
 TransectMarkerView.prototype.toggleMarkerForm = function() {
@@ -144,12 +144,5 @@ TransectMarkerView.prototype.updateMarker = function() {
 	});
 };
 
-TransectMarkerView.prototype.mouseOnItem = function() {
-	this.onMouseOver();
-};
-
-TransectMarkerView.prototype.mouseOutItem = function() {
-	this.onMouseOut();
-};
 /*-----  End of TransectMarkerView  ------*/
 

@@ -1,0 +1,11 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern x="0" y="0" width="10"
+                 xmlns:xlink="http://www.w3.org/1999/xlink"
+                 patternUnits="userSpaceOnUse" xlink:type="simple"
+                 xlink:actuate="onLoad" id="Gap" height="10"
+                 preserveAspectRatio="xMidYMid meet" xlink:show="other">
+            <rect x="0" width="10" y="0" height="10"
+                  style="fill: rgb(255,255,255);"/>
+            <line y2="11" style="stroke-width: 0.5; stroke: black; fill: none;"
+                  x1="5" x2="5" y1="-1"/>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Gap);'/> </svg>

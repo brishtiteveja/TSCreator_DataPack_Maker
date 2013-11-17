@@ -37,7 +37,7 @@ TransectAppView.prototype.render = function() {
 	this.transectWellsView = new TransectWellsView();
 	this.zonesView = new ZonesView();
 	this.polygonsView = new PolygonsView();
-	// this.renderTransectImage();
+	this.renderTransectImage();
 };
 
 /**
@@ -48,7 +48,7 @@ TransectAppView.prototype.render = function() {
 **/
 
 TransectAppView.prototype.renderTransectImage = function() {
-	var transectImage = new TransectImage({url: "/images/transect.gif", x: this.x, y: this.y});
+	var transectImage = new TransectImage({url: "/commons/images/Scan2_CentralVulcan-page-001.gif", x: this.x, y: this.y});
 	var transectImageView = new TransectImageView(transectImage);
 };
 
@@ -58,12 +58,19 @@ TransectAppView.prototype.showSettings = function(evt) {
 	$(id).addClass('active');
 };
 
+TransectAppView.prototype.exportCanvasAsImage = function() {
+	// the canvas calls to output a png
+	// debugger;	
+	// svg = transectApp.Canvas.toSVG();
+	// document.getElementById('svg-image').innerHTML = svg;
+}
 
 TransectAppView.prototype.enableTool = function(evt) {
 	var source = evt.target.getAttribute('href');
 	this.transectMarkersView.enMarkers = false;
 	this.transectWellsView.enWells = false;
 	this.polygonsView.disableAllPolygons();
+	transectApp.CurrentPolygon = null;
 	switch(source) {
 		case "#add-marker":
 			this.transectMarkersView.enMarkers = true;
@@ -73,6 +80,9 @@ TransectAppView.prototype.enableTool = function(evt) {
 			break;
 		case "#add-polygon":
 			this.polygonsView.createPolygon();
+			break;
+		case "#export-image":
+			this.exportCanvasAsImage();
 			break;
 		default:
 			break;

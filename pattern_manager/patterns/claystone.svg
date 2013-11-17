@@ -1,0 +1,26 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Claystone"
+                 patternUnits="userSpaceOnUse" width="65.772" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="0 -65.618 65.772 65.618" height="65.618" x="-2184.646"
+                 y="3215.118" xlink:actuate="onLoad">
+            <rect x="0" width="65.772" y="-65.618" height="65.618"
+                  style="stroke-width: 0; fill: rgb(215,176,152);"/>
+            <g>
+                <polygon fill="none"
+                         points="0,0 0,-65.618 65.772,-65.618 65.772,0   "/>
+                <polygon points="45.479,-61.974 17.174,-61.974 17.174,-64.923 45.479,-64.923   "/>
+                <polygon points="45.514,-28.941 17.208,-28.941 17.208,-31.891 45.514,-31.891   "/>
+                <polygon points="29.027,-45.938 0.722,-45.938 0.722,-48.887 29.027,-48.887   "/>
+                <polygon points="29.062,-12.905 0.756,-12.905 0.756,-15.854 29.062,-15.854   "/>
+                <polygon points="62.14,-45.938 33.834,-45.938 33.834,-48.887 62.14,-48.887   "/>
+                <polygon points="62.175,-12.905 33.869,-12.905 33.869,-15.854 62.175,-15.854   "/>
+                <polygon points="65.592,-61.973 50.287,-61.973 50.287,-64.923 65.592,-64.923   "/>
+                <polygon points="65.627,-28.94 50.321,-28.94 50.321,-31.89 65.627,-31.89   "/>
+                <polygon fill="none"
+                         points="65.772,0 0,0 0,-65.618 65.772,-65.618   "/>
+                <polygon points="12.333,-61.97 0.027,-61.97 0.027,-64.919 12.333,-64.919   "/>
+                <polygon points="12.332,-28.938 0.026,-28.938 0.026,-31.887 12.332,-31.887   "/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Claystone);'/> </svg>

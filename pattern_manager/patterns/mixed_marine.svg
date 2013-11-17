@@ -1,0 +1,20 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Mixed_marine"
+                 patternUnits="userSpaceOnUse" width="65.619" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="0 -65.777 65.619 65.777" height="65.777" x="-2184.646"
+                 y="3215.118" xlink:actuate="onLoad">
+            <g>
+                <polygon fill="none"
+                         points="65.619,0 65.619,-65.777 0,-65.777 0,0   "/>
+                <polygon fill="#B4D670"
+                         points="65.619,0 0,0 0,-65.777 65.619,-65.777   "/>
+                <polygon fill="#D8B9AA"
+                         points="65.619,-65.771 65.619,0 0,0 0,-65.771   "/>
+                <polygon fill="#C7DBF1"
+                         points="17.064,-65.717 17.064,-0.035 0.092,-0.035 0.092,-65.717   "/>
+                <polygon fill="#C7DBF1"
+                         points="49.783,-65.777 49.783,-0.096 32.813,-0.096 32.813,-65.777   "/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Mixed_marine);'/> </svg>

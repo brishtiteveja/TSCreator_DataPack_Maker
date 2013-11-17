@@ -1,0 +1,53 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink"
+                 id="Gypsum-Anhydrite" patternUnits="userSpaceOnUse"
+                 width="65.772" xlink:show="other" xlink:type="simple"
+                 patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="0 -65.618 65.772 65.618" height="65.618" x="-2184.646"
+                 y="3215.118" xlink:actuate="onLoad">
+            <rect x="0" width="65.772" y="-65.618" height="65.618"
+                  style="stroke-width: 0; fill: rgb(252,192,210);"/>
+            <g>
+                <polygon fill="none"
+                         points="0,0 0,-65.618 65.772,-65.618 65.772,0   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="30.335,-34.377 25.5,-41.212 20.665,-34.377   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="4.664,-54.002 9.499,-47.166 14.334,-54.002   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="47.322,-17.158 42.487,-23.994 37.652,-17.158   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="63.323,-34.367 58.488,-41.202 53.652,-34.367   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="63.323,-34.367 58.488,-41.202 53.652,-34.367   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="37.651,-53.992 42.486,-47.156 47.322,-53.992   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="14.335,-17.168 9.5,-24.003 4.665,-17.168   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="30.336,-1.378 25.501,-8.214 20.666,-1.378   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="30.336,-1.378 25.501,-8.214 20.666,-1.378   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="4.665,-21.003 9.5,-14.168 14.335,-21.003   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="47.322,-50.157 42.487,-56.993 37.651,-50.157   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="63.323,-1.368 58.488,-8.203 53.653,-1.368   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="63.323,-1.368 58.488,-8.203 53.653,-1.368   "
+                          stroke="#000000"/>
+                <polygon fill="none"
+                         points="37.652,-20.993 42.487,-14.157 47.322,-20.993   "/>
+                <polyline fill="none" stroke-width="1.6"
+                          points="14.334,-50.167 9.5,-57.002 4.664,-50.167   "
+                          stroke="#000000"/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Gypsum-Anhydrite);'/> </svg>

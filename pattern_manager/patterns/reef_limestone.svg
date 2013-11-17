@@ -1,0 +1,101 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Reef_limestone"
+                 patternUnits="userSpaceOnUse" width="65.771" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet"
+                 viewBox="6.513 -66.617 65.771 65.617" height="65.617"
+                 x="-2184.646" y="3215.118" xlink:actuate="onLoad">
+            <rect x="6.513" width="65.771" y="-66.617" height="65.617"
+                  style="stroke-width: 0; fill: rgb(204,220,235);"/>
+            <g>
+                <g>
+                    <polygon fill="none"
+                             points="6.513,-1 6.513,-66.617 72.284,-66.617 72.284,-1    "/>
+                    <polyline fill="none" stroke-width="2"
+                              points="6.513,-66.617 39.14,-66.617 72.284,-66.617    "
+                              stroke="#000000"/>
+                    <line fill="none" x1="6.513" x2="72.284" y1="-1" y2="-1"
+                          stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="6.452" x2="72.196" y1="-33.809"
+                          y2="-33.809" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="6.452" x2="72.196" y1="-50.213"
+                          y2="-50.213" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="6.452" x2="72.196" y1="-17.404"
+                          y2="-17.404" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="39.14" x2="39.14" y1="-50.233"
+                          y2="-66.617" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="39.14" x2="39.14" y1="-33.891"
+                          y2="-17.424" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="6.452" x2="6.452" y1="-50.603"
+                          y2="-66.332" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="72.196" x2="72.196" y1="-50.418"
+                          y2="-66.147" stroke="#000000" stroke-width="2"/>
+                    <path fill="none" stroke-width="2" d="M6.575-50.173"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M6.575-34.443"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M39.386-49.436"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M39.386-33.706"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M72.196-49.559"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M72.196-33.829"
+                          stroke="#000000"/>
+                    <line fill="none" x1="22.979" x2="22.979" y1="-34.074"
+                          y2="-49.804" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="55.79" x2="55.79" y1="-34.197"
+                          y2="-49.927" stroke="#000000" stroke-width="2"/>
+                    <path fill="none" stroke-width="2" d="M6.575-16.847"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M6.575-1.117"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M39.386-16.847"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M39.386-1.117"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M72.196-16.847"
+                          stroke="#000000"/>
+                    <path fill="none" stroke-width="2" d="M72.196-1.117"
+                          stroke="#000000"/>
+                    <line fill="none" x1="22.979" x2="22.979" y1="-1.117"
+                          y2="-16.847" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="55.79" x2="55.79" y1="-1.117"
+                          y2="-16.847" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="6.513" x2="6.513" y1="-17.578"
+                          y2="-33.308" stroke="#000000" stroke-width="2"/>
+                    <line fill="none" x1="72.257" x2="72.257" y1="-17.394"
+                          y2="-33.123" stroke="#000000" stroke-width="2"/>
+                </g>
+                <path fill="none"
+                      d="M16.068-56.652c6.568-5.025,6.926-5.025,13.373,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M50.167-56.652c6.568-5.025,6.926-5.025,13.374,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M32.167-40.652c6.568-5.025,6.926-5.025,13.373,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M16.068-23.985c6.568-5.025,6.926-5.025,13.373,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M50.167-23.318c6.568-5.026,6.926-5.026,13.374,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M32.167-6.652c6.568-5.025,6.926-5.025,13.373,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M65.5-41.318c6.568-5.025,6.926-5.025,13.373,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M65.5-7.318c6.568-5.025,6.926-5.025,13.373,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M0.5-41.152c6.568-5.025,6.926-5.025,13.373,0"
+                      stroke-linecap="round" stroke="#000000"/>
+                <path fill="none"
+                      d="M0.5-7.152c6.568-5.025,6.926-5.025,13.373,0"
+                      stroke-linecap="round" stroke="#000000"/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Reef_limestone);'/> </svg>

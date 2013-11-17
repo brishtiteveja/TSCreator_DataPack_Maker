@@ -16,8 +16,8 @@ TransectImage = BaseModel.extend({
 
 TransectImage.prototype.initialize = function (attrs) {
 	this.set({
-		width: 796*1.5,
-		height: 516*1.5
+		width: 796*3,
+		height: 516*3
 	});
 };
 

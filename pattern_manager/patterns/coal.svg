@@ -1,0 +1,15 @@
+<svg contentScriptType='text/ecmascript' width='50px' xmlns:xlink='http://www.w3.org/1999/xlink' zoomAndPan='magnify' contentStyleType='text/css' viewBox='0 0 50px 50px' height='50px' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' onload='Init(evt)' version='1.0'> <g>        <pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="Coal"
+                 patternUnits="userSpaceOnUse" width="65.6" xlink:show="other"
+                 xlink:type="simple" patternTransform="scale(0.5, 0.5)"
+                 preserveAspectRatio="xMidYMid meet" viewBox="0 -65.6 65.6 65.6"
+                 height="65.6" x="-2184.646" y="3215.118" xlink:actuate="onLoad">
+            <rect x="0" width="65.6" y="-65.6" height="65.6"
+                  style="stroke-width: 0; fill: rgb(255,255,255);"/>
+            <g>
+                <polygon fill="none" points="0,0 0,-65.6 65.6,-65.6 65.6,0   "/>
+                <polygon points="65.6,-48.554 0.0,-48.554 0.0,-65.6 65.6,-65.6   "/>
+                <polygon points="65.6,-15.835 0.0,-15.835 0.0,-32.807 65.6,-32.807   "/>
+                <polygon fill="none" points="65.6,0 0,0 0,-65.6 65.6,-65.6   "/>
+            </g>
+        </pattern>
+ </g> <rect x='0.00000' width='50.00000' height='50.00000' y='0.00000' style='stroke-width: 0; fill: url(#Coal);'/> </svg>

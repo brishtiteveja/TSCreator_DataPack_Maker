@@ -31,6 +31,7 @@ PolygonView.prototype.initialize = function(polygon) {
 
 	// listen to the change in edit attribute
 	this.listenTo(this.polygon, 'change:edit', this.toggleEditStatus.bind(this));
+	this.listenTo(this.polygon, 'change:draw', this.setRenderMode.bind(this));
 
 	// listen to the change in name attribute
 	this.listenTo(this.polygon, 'change:name', this.render.bind(this));
@@ -143,41 +144,43 @@ PolygonView.prototype.resetPolygonPoints = function() {
 }
 
 PolygonView.prototype.addPoint = function(evt) {
-	if (!this.polygon.get('edit')) {return;}
+	if (!this.polygon.get('draw')) {return;}
 	var point = transectApp.PointsCollection.findWhere({x: evt.offsetX, y: evt.offsetY}) || new Point({x: evt.offsetX, y: evt.offsetY});
+	if (point.get('transect') === null || point.get('zone') === null) {
+		point.destroy();
+		return;
+	}
 	this.polygon.points.add(point);
 }
 
 
-PolygonView.prototype.setEditMode = function() {
+PolygonView.prototype.setRenderFill = function() {
+	if (this.element === undefined) return;
 	this.element.attr({
-		'opacity': 1
+		'opacity': 0.5
 	});
 }
 
-PolygonView.prototype.setFinishedMode = function() {
+PolygonView.prototype.setPolygonFill = function() {
+	if (this.element === undefined) return;
 	this.element.attr({
 		'opacity': 1
 	});
 }
 
 PolygonView.prototype.toggleEditStatus = function() {
-	if (this.element !== undefined) {
-
-
-		if (this.polygon.get('edit')) {
-			this.setEditMode();
-			this.$polygonForm.removeClass('hide');
-			this.$polygonData.addClass('hide');
-			this.$togglePolygon.removeClass('hide-data');
-			this.$togglePolygon.addClass('show-data');
-		} else {
-			this.setFinishedMode();
-			this.$polygonForm.addClass('hide');
-			this.$polygonData.removeClass('hide');
-			this.$togglePolygon.removeClass('show-data');
-			this.$togglePolygon.addClass('hide-data');
-		}
+	if (this.element === undefined) return;
+	
+	if (this.polygon.get('edit')) {
+		this.$polygonForm.removeClass('hide');
+		this.$polygonData.addClass('hide');
+		this.$togglePolygon.removeClass('hide-data');
+		this.$togglePolygon.addClass('show-data');
+	} else {
+		this.$polygonForm.addClass('hide');
+		this.$polygonData.removeClass('hide');
+		this.$togglePolygon.removeClass('show-data');
+		this.$togglePolygon.addClass('hide-data');
 	}
 }
 
@@ -216,12 +219,15 @@ PolygonView.prototype.renderPolygonElement = function() {
 		this.element.remove();
 	}
 	this.element = transectApp.Canvas.path(this.getPath());
-	var fill =  this.polygon.get('patternName')  ? "url('/pattern_manager/patterns/nz_" + this.polygon.get('patternName').toLowerCase() + ".png')" : "#FFFFFF";
+	var fill =  this.polygon.get('patternName')  ? "url('/pattern_manager/patterns/" + this.polygon.get('patternName').toLowerCase() + ".svg')" : transectApp.polygonFill;
 	this.element.attr({
 		'fill': fill
 	});
 	this.element.toBack();
-	this.setEditMode();
+	if (transectApp.transectImage !== undefined) {
+		transectApp.transectImage.toBack();
+	}
+	this.setRenderFill();
 }
 
 PolygonView.prototype.togglePolygonForm = function() {
@@ -237,9 +243,9 @@ PolygonView.prototype.showList = function(evt) {
 };
 
 PolygonView.prototype.delete = function() {
-	this.element.remove();
-	this.linesSet.remove();
-	this.pointsSet.remove();
+	if (this.element !== undefined) this.element.remove();
+	if (this.linesSet !== undefined) this.linesSet.remove();
+	if (this.pointsSet !== undefined) this.pointsSet.remove();
 	this.remove();
 }
 
@@ -252,6 +258,14 @@ PolygonView.prototype.updatePolygon = function() {
 	this.polygon.set({
 		name: name
 	});
+}
+
+PolygonView.prototype.setRenderMode = function() {
+	if (this.polygon.get('draw')) {
+		this.setRenderFill();
+	} else {
+		this.setPolygonFill();
+	}
 }
 /*-----  End of PolygonView  ------*/
 
