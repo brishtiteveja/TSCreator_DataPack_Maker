@@ -12,6 +12,7 @@ var Line = BaseModel.extend({
 			point1: point1,
 			point2: point2
 		}];
+		this.polygons = new Polygons();
 		this.settings = new Settings();
 		BaseModel.apply(this, attrs);
 	}
@@ -27,7 +28,11 @@ Line.prototype.getPatternPoints = function() {
 
 
 Line.prototype.getPath = function() {
-	switch (this.get('pattern')) {
+	return this.getPathFromPattern(this.get('pattern'));
+};
+
+Line.prototype.getPathFromPattern = function(pattern) {
+	switch (pattern) {
 		case "default":
 			return this.getStraightPath();
 			break;
@@ -41,7 +46,7 @@ Line.prototype.getPath = function() {
 			return this.getJaggedPath();;
 			break;
 	}
-};
+}
 
 Line.prototype.getStraightPath = function() {
 	var path = ",L" + this.get("point2").get('x') + "," + this.get("point2").get('y');

@@ -54,12 +54,19 @@ PolygonView.prototype.initialize = function(polygon) {
 	/* listen to lines and reset the lines */
 	this.listenTo(this.polygon.lines, 'reset', this.resetPolygonLines.bind(this));
 
+
+	this.listenTo(this.polygon.lines, 'remove', this.updatePolygonLines.bind(this));
+
 	/* destroy the view  if the model is  removed from the collection.*/
 	this.listenTo(this.polygon, 'destroy', this.delete.bind(this));
 
 	/* listen to the changes in the  */
 	
 };
+
+PolygonView.prototype.updatePolygonLines = function() {
+	// will keep this function empty for now.
+}
 
 PolygonView.prototype.render = function() {
 	// render the view for the polygon in the settings panel.
@@ -104,32 +111,58 @@ polygon and redraw them this give the animated effect of expanding
 this polygon as well as moving a point without breaking the polygon */
 PolygonView.prototype.resetLines = function() {	
 	var lines = [];
-	
+
 	// create a new list of points for all the points in the polygon.
-	this.polygon.points.each(function(point, index, points){
-		if (index > 0) {
-			lines.push(new Line({}, points[index - 1], point));
-			if (index > 1 && index === points.length - 1) {
-				lines.push(new Line({}, point, points[0]));
-			}
-		}
-	});
+	// this.polygon.points.each(function(point, index, points){
+	// 	if (index > 0) {
+	// 		lines.push(new Line({}, points[index - 1], point));
+	// 		if (index > 1 && index === points.length - 1) {
+	// 			lines.push(new Line({}, point, points[0]));
+	// 		}
+	// 	}
+	// });
 
 	// destroy the current list of lines.
-	_.invoke(this.polygon.lines.toArray(), 'destroy');
+	// _.invoke(this.polygon.lines.toArray(), 'destroy');
 
 	// replace the polygon lines with the new set
-	this.polygon.lines.reset(lines);
+	// this.polygon.lines.reset(lines);
+	// this.renderPolygonElement();
+
+	// delete the last line in the old polygin and add a new line
+	var point1 = this.polygon.points.at(this.polygon.points.length - 2);
+	var point2 = this.polygon.points.first();
+	var line = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1});
+
+	if (line !== undefined && line.polygons.length  < 2) {
+		line.destroy();
+	}
+
+	point1 = this.polygon.points.at(this.polygon.points.length - 2);
+	point2 = this.polygon.points.last();
+	var line1 = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
+	line1.polygons.add(this.polygon)
+
+	point1 = this.polygon.points.last();
+	point2 = this.polygon.points.first();
+	var line2 = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
+	line2.polygons.add(this.polygon)
+
+	this.polygon.lines.add([line1, line2]);
+
 	this.renderPolygonElement();
+	this.setRenderFill();
 
 	// bring points to front so that we can use them again because if
 	// they are in the back we cannot click them
 	PointsSet.toFront();
 }
 
+
 /* This function listen to the polygons collection and is
 executed when a new line model is added. */
 PolygonView.prototype.addLineToPolygon = function(line) {
+	transectApp.LinesCollection.add(line);
 	var lineView = new LineView(line);
 	this.linesSet.push(lineView.element);
 	this.$linesList.append(lineView.el);
@@ -158,14 +191,20 @@ PolygonView.prototype.addPoint = function(evt) {
 PolygonView.prototype.setRenderFill = function() {
 	if (this.element === undefined) return;
 	this.element.attr({
-		'opacity': 0.5
+		'opacity': 1,
+		'fill': transectApp.renderFill
 	});
 }
 
 PolygonView.prototype.setPolygonFill = function() {
 	if (this.element === undefined) return;
+	var fill =  this.polygon.get('patternName')  ? "url('/pattern_manager/patterns/" + this.polygon.get('patternName').toLowerCase() + ".svg')" : transectApp.polygonFill;
 	this.element.attr({
-		'opacity': 1
+		'fill': fill
+	});
+	this.element.attr({
+		'opacity': 1,
+		'fill': fill
 	});
 }
 
@@ -203,11 +242,27 @@ PolygonView.prototype.getPath = function() {
 			path += point.get('x') + ',' + point.get('y');
 		} else {
 			var line = self.polygon.lines.findWhere({'point1' : points[index - 1], 'point2' : point});
-			path += line.getPath();
+			if (line !== undefined) {
+				path += line.getPath();	
+			} else {
+				line = self.polygon.lines.findWhere({'point1' : point, 'point2' : points[index - 1]});
+				if (line !== undefined) {
+					var tempLine = new Line({}, points[index - 1], point);
+					path += tempLine.getPathFromPattern(line.get('pattern'));
+					tempLine.destroy();
+				}
+			}
 			if (index > 0 && index === points.length - 1) {
 				line = self.polygon.lines.findWhere({'point1' : point, 'point2' : points[0]});
 				if (line !== undefined) {
 					path += line.getPath();	
+				} else {
+					line = self.polygon.lines.findWhere({'point1' : points[0], 'point2' : point});
+					if (line !== undefined) {
+						var tempLine = new Line({}, point, points[0]);
+						path += tempLine.getStraightPath();
+						tempLine.destroy();
+					}
 				}
 			}
 		}
@@ -220,15 +275,15 @@ PolygonView.prototype.renderPolygonElement = function() {
 		this.element.remove();
 	}
 	this.element = transectApp.Canvas.path(this.getPath());
-	var fill =  this.polygon.get('patternName')  ? "url('/pattern_manager/patterns/" + this.polygon.get('patternName').toLowerCase() + ".svg')" : transectApp.polygonFill;
-	this.element.attr({
-		'fill': fill
-	});
+	this.moveToBottom();
+	this.setRenderMode();
+}
+
+PolygonView.prototype.moveToBottom = function() {
 	this.element.toBack();
 	if (transectApp.transectImage !== undefined) {
 		transectApp.transectImage.toBack();
 	}
-	this.setRenderFill();
 }
 
 PolygonView.prototype.togglePolygonForm = function() {
