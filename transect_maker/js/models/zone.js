@@ -25,7 +25,7 @@ var Zone = BaseModel.extend({
 Zone.prototype.isYInsideZone = function(y) {
 	/* Check if the zone contains the point. i.e. the point should lie
 	between the topMarker and baseMarker */
-	if (this.topMarker.get('y') < y && y < this.baseMarker.get('y')) {
+	if (this.topMarker.get('y') < y && y <= this.baseMarker.get('y')) {
 		return true;
 	}
 	return false;

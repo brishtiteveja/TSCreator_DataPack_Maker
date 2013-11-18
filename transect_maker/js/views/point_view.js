@@ -21,6 +21,10 @@ PointView.prototype.initialize = function(point) {
 	this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
 	this.listenTo(this.point, 'change:x', this.updateElement.bind(this));
 	this.listenTo(this.point, 'change:y', this.updateElement.bind(this));
+	this.listenTo(this.point.get('zone').topMarker, 'change:y', this.updateElement.bind(this));
+	this.listenTo(this.point.get('zone').baseMarker, 'change:y', this.updateElement.bind(this));
+	this.listenTo(this.point.get('transect').wellLeft, 'change:x', this.updateElement.bind(this));
+	this.listenTo(this.point.get('transect').wellRight, 'change:x', this.updateElement.bind(this));
 };
 
 PointView.prototype.render = function() {
@@ -69,6 +73,7 @@ PointView.prototype.updateElement = function() {
 		'cx': this.point.get('x'),
 		'cy': this.point.get('y')
 	});
+	this.point.updateTransectAndZone();
 	this.renderTooltip();
 }
 
@@ -117,9 +122,7 @@ PointView.prototype.onDragMove = function(dx, dy, x, y, evt) {
 	if (transect !== null && zone !== null) {
 		this.point.set({
 			x: evt.offsetX,
-			y: evt.offsetY,
-			transect: transect,
-			zone: zone
+			y: evt.offsetY
 		});
 	}
 }

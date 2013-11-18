@@ -68,6 +68,11 @@ body .container .settings {
 	overflow: auto;
 }
 
+.polygon-settings .content {
+	max-height: 300px;
+	overflow: auto;
+}
+
 
 #blocks-list {
 	overflow: hidden;

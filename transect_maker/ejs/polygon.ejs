@@ -48,11 +48,25 @@
 					<!-- Settings Tab -->
 					<section class="polygon-settings settings-tab" style="padding-top: 29px;">
 						<p class="title" data-section-title="" style="left: 125px; height: 30px;">
-							<a href="#settings" style="padding-top: 3px;" class="polygon-list-tool">Settings</a>
+							<a href="#settings" style="padding-top: 3px;" class="polygon-list-tool">Pattern</a>
 						</p>
 						<div class="content" data-section-content="">
-							<h2 class="subheader">Settings</h2>
-							<div class="data-settings"></div>
+							<table class="patterns-list">
+								<thead>
+									<th class="subheader" width="70%">Name</th>
+									<th class="subheader" width="20%">Pattern</th>
+									<th class="subheader" width="10%">Select</th>
+								</thead>
+								<tbody>
+								<% for (var pat in tscApp.PATTERNS) { %>
+								<tr>
+									<td><%= pat %></td>
+									<td><img src="/pattern_manager/patterns/<%= tscApp.PATTERNS[pat] %>"/></td>
+									<td><input type="radio" name="patterns" value="<%= pat %>" class="polygon-pattern"></td>
+								</tr>
+								<% } %>
+								</tbody>
+							</table>
 						</div>
 					</section>
 				</div>

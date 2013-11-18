@@ -16,7 +16,7 @@ var Transect = BaseModel.extend({
 });
 
 Transect.prototype.isXInsideTransect = function(x) {
-	if (this.wellLeft.get('x') < x && x < this.wellRight.get('x')) {
+	if (this.wellLeft.get('x') < x && x <= this.wellRight.get('x')) {
 		return true;
 	}
 	return false;

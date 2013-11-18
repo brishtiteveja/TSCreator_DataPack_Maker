@@ -9,6 +9,7 @@ var PolygonView = BaseView.extend({
 		'click .toggle-polygon': 'togglePolygonForm',
 		'click a.polygon-list-tool': 'showList',
 		'click .destroy-polygon': 'destroy',
+		'click a.update-polygon': 'updatePolygon',
 	}
 });
 
@@ -34,7 +35,8 @@ PolygonView.prototype.initialize = function(polygon) {
 	this.listenTo(this.polygon, 'change:draw', this.setRenderMode.bind(this));
 
 	// listen to the change in name attribute
-	this.listenTo(this.polygon, 'change:name', this.render.bind(this));
+	this.listenTo(this.polygon, 'change:name', this.updatePolygonView.bind(this));
+	this.listenTo(this.polygon, 'change:patternName', this.updatePolygonView.bind(this));
 
 	/* listen to the changes in the points and re-render the lines. That is 
 	the point is moved we reset the lines and the polygon. */
@@ -68,6 +70,12 @@ PolygonView.prototype.updatePolygonLines = function() {
 	// will keep this function empty for now.
 }
 
+PolygonView.prototype.updatePolygonView = function(arguments) {
+	this.$polygonData.html(this.polygon.get('name') + " → " + this.polygon.get('patternName'));
+	this.setPolygonFill();
+	this.toggleEditStatus();
+}
+
 PolygonView.prototype.render = function() {
 	// render the view for the polygon in the settings panel.
 	this.$el.html(this.template.render(this.polygon.toJSON()));
@@ -80,8 +88,16 @@ PolygonView.prototype.render = function() {
 	this.$linesList = this.$('.lines-list');
 	this.$pointsList = this.$('.points-list');
 	this.$polygonUpdate = this.$('.update-polygon');
+	this.$polygonPattern = this.$('.polygon-pattern');
 
-	this.$polygonUpdate.click(this.updatePolygon.bind(this));
+	this.$polygonPattern.click(this.updatePolygonPattern.bind(this));
+}
+
+PolygonView.prototype.updatePolygonPattern = function(evt) {
+	var pattern = evt.target.value;
+	this.polygon.set({
+		'patternName': pattern
+	});
 }
 
 PolygonView.prototype.listenToActionEvents = function() {
@@ -191,14 +207,15 @@ PolygonView.prototype.addPoint = function(evt) {
 PolygonView.prototype.setRenderFill = function() {
 	if (this.element === undefined) return;
 	this.element.attr({
-		'opacity': 1,
+		'opacity': 0.5,
 		'fill': transectApp.renderFill
 	});
 }
 
 PolygonView.prototype.setPolygonFill = function() {
 	if (this.element === undefined) return;
-	var fill =  this.polygon.get('patternName')  ? "url('/pattern_manager/patterns/" + this.polygon.get('patternName').toLowerCase() + ".svg')" : transectApp.polygonFill;
+	var pattern = this.polygon.get("patternName");
+	var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
 	this.element.attr({
 		'fill': fill
 	});
@@ -310,6 +327,7 @@ PolygonView.prototype.destroy = function() {
 }
 
 PolygonView.prototype.updatePolygon = function() {
+	debugger;
 	var name = this.$polygonName.value;
 	this.polygon.set({
 		name: name

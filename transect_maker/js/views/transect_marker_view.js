@@ -137,7 +137,7 @@ TransectMarkerView.prototype.editTransectMarker = function() {
 
 TransectMarkerView.prototype.updateMarker = function() {
 	var name = this.$markerName.value;
-	var age = parseFloat(this.$markerAge.value);
+	var age = parseFloat(this.$markerAge.value) || 0;
 	this.transectMarker.set({
 		name: name,
 		age: age

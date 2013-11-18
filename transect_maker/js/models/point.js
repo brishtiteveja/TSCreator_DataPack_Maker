@@ -21,14 +21,17 @@ var Point = BaseModel.extend({
 });
 
 Point.prototype.initialize = function() {
+	this.updateTransectAndZone();
+};
+
+Point.prototype.updateTransectAndZone = function() {
 	var zone = transectApp.ZonesCollection.getZoneForY(this.get('y'));
 	var transect = transectApp.TransectsCollection.getTransectForX(this.get('x'));
 	this.set({
 		transect: transect,
 		zone: zone
 	});
-};
-
+}
 /*-----  End of Point Model  ------*/
 
 /*=========================================
