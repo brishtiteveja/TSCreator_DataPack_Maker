@@ -10,6 +10,8 @@ var PolygonView = BaseView.extend({
 		'click a.polygon-list-tool': 'showList',
 		'click .destroy-polygon': 'destroy',
 		'click a.update-polygon': 'updatePolygon',
+		'mouseover': "onMouseOver",
+		'mouseout': "onMouseOut",
 	}
 });
 
@@ -72,6 +74,7 @@ PolygonView.prototype.updatePolygonLines = function() {
 
 PolygonView.prototype.updatePolygonView = function(arguments) {
 	this.$polygonData.html(this.polygon.get('name') + " → " + this.polygon.get('patternName'));
+	this.renderPolygonElement();
 	this.setPolygonFill();
 	this.toggleEditStatus();
 }
@@ -127,23 +130,6 @@ polygon and redraw them this give the animated effect of expanding
 this polygon as well as moving a point without breaking the polygon */
 PolygonView.prototype.resetLines = function() {	
 	var lines = [];
-
-	// create a new list of points for all the points in the polygon.
-	// this.polygon.points.each(function(point, index, points){
-	// 	if (index > 0) {
-	// 		lines.push(new Line({}, points[index - 1], point));
-	// 		if (index > 1 && index === points.length - 1) {
-	// 			lines.push(new Line({}, point, points[0]));
-	// 		}
-	// 	}
-	// });
-
-	// destroy the current list of lines.
-	// _.invoke(this.polygon.lines.toArray(), 'destroy');
-
-	// replace the polygon lines with the new set
-	// this.polygon.lines.reset(lines);
-	// this.renderPolygonElement();
 
 	// delete the last line in the old polygin and add a new line
 	var point1 = this.polygon.points.at(this.polygon.points.length - 2);
@@ -292,8 +278,41 @@ PolygonView.prototype.renderPolygonElement = function() {
 		this.element.remove();
 	}
 	this.element = transectApp.Canvas.path(this.getPath());
+	this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 	this.moveToBottom();
+	this.renderTooltip();
 	this.setRenderMode();
+}
+
+PolygonView.prototype.renderTooltip = function() {
+	$(this.element.node).qtip({
+		content: {
+			text: this.polygon.get('name') + "【" + this.polygon.get('patternName') + "】"
+		},
+		position: {
+			my: 'bottom left', // Position my top left...
+			target: 'mouse', // my target 
+		}
+	});
+};
+
+PolygonView.prototype.onMouseOver = function() {
+	if (this.glow === undefined) {
+		this.glow = this.element.glow({
+			color: transectApp.glowColor,
+			width: 20
+		});	
+	} else {
+		this.glow.show();
+	}
+	this.$polygonData.addClass('hover-bg');
+}
+
+PolygonView.prototype.onMouseOut = function() {
+	if (this.glow !== undefined) {
+		this.glow.hide();	
+	}
+	this.$polygonData.removeClass('hover-bg');
 }
 
 PolygonView.prototype.moveToBottom = function() {
