@@ -16,10 +16,18 @@ var Transect = BaseModel.extend({
 });
 
 Transect.prototype.isXInsideTransect = function(x) {
-	if (this.wellLeft.get('x') < x && x <= this.wellRight.get('x')) {
+	if (this.wellLeft.get('x') <= x && x <= this.wellRight.get('x')) {
 		return true;
 	}
 	return false;
+}
+
+Transect.prototype.getRelativeX = function(x) {
+	if (this.wellLeft.get('x') <= x && x <= this.wellRight.get('x')) {
+		var num = ((x - this.wellLeft.get('x'))/(this.wellRight.get('x') - this.wellLeft.get('x')))
+		return Math.round(num * 100) / 100;
+	}
+	return null;
 }
 
 /*-----  End of Transect  ------*/

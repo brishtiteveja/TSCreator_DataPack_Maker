@@ -16,6 +16,7 @@ var TransectAppView = BaseView.extend({
 
 TransectAppView.prototype.initialize = function() {
 	this.$canvas = $("#canvas");
+	transectApp.StatusBox = $(".status-box");
 	transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
 	PointsSet = transectApp.Canvas.set();
 	LinesSet = transectApp.Canvas.set();

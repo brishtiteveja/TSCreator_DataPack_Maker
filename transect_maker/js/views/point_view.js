@@ -21,10 +21,8 @@ PointView.prototype.initialize = function(point) {
 	this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
 	this.listenTo(this.point, 'change:x', this.updateElement.bind(this));
 	this.listenTo(this.point, 'change:y', this.updateElement.bind(this));
-	this.listenTo(this.point.get('zone').topMarker, 'change:y', this.updateElement.bind(this));
-	this.listenTo(this.point.get('zone').baseMarker, 'change:y', this.updateElement.bind(this));
-	this.listenTo(this.point.get('transect').wellLeft, 'change:x', this.updateElement.bind(this));
-	this.listenTo(this.point.get('transect').wellRight, 'change:x', this.updateElement.bind(this));
+	this.listenTo(this.point, 'change:transect', this.updateElement.bind(this));
+	this.listenTo(this.point, 'change:zone', this.updateElement.bind(this));
 };
 
 PointView.prototype.render = function() {
@@ -51,6 +49,7 @@ PointView.prototype.renderPoint = function() {
 	this.element.click(this.onClick.bind(this));
 	this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
 	this.renderTooltip();
+	this.updateStatusBox();
 };
 
 PointView.prototype.renderTooltip = function() {
@@ -73,8 +72,18 @@ PointView.prototype.updateElement = function() {
 		'cx': this.point.get('x'),
 		'cy': this.point.get('y')
 	});
-	this.point.updateTransectAndZone();
 	this.renderTooltip();
+	this.updateStatusBox();
+}
+
+PointView.prototype.updateStatusBox = function() {
+	var html = this.point.get("name") + " | ";
+	html += "age: " + this.point.get('age') + " | ";
+	html += "x: " + this.point.get('x') + ", " + "y: " + this.point.get('y') + " | ";
+	html += "relX: " + this.point.get('relativeX') + ", " + "relY: " + this.point.get('relativeY') + " | ";
+	html += "transect: " + this.point.get('transect').get('name') + " | ";
+	html += "zone: " + this.point.get('zone').get('name');
+	transectApp.StatusBox.html(html);
 }
 
 PointView.prototype.setFinishedMode = function() {
@@ -124,6 +133,7 @@ PointView.prototype.onDragMove = function(dx, dy, x, y, evt) {
 			x: evt.offsetX,
 			y: evt.offsetY
 		});
+		this.point.updateTransectAndZone();
 	}
 }
 

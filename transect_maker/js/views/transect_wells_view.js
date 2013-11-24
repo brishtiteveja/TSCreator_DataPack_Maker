@@ -59,6 +59,7 @@ TransectWellsView.prototype.toggleWells = function(evt) {
 TransectWellsView.prototype.createWell = function(evt) {
 	if (this.enWells) {
 		this.transectWells.add(new TransectWell({x: evt.offsetX}));	
+		transectApp.PointsCollection.updatePoints();
 	}
 };
 

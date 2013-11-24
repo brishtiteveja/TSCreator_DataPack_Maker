@@ -40,6 +40,16 @@ body .container .settings {
 	padding-bottom: 10px;
 }
 
+body * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
 .toolbar {
 	background: #333333;
 	height: 28px;
@@ -59,10 +69,15 @@ body .container .settings {
 	margin-top: 10px;
 	position: absolute;
 	width: 100%;
-	height: 90%;
+	height: 85%;
 	overflow: auto;
 }
 
+.canvas-status {
+	position: absolute;
+	top: 90%;
+	width: 100%;
+}
 .sections-panel {
 	height: 100%;
 	overflow: auto;

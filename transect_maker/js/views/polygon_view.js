@@ -7,6 +7,7 @@ var PolygonView = BaseView.extend({
 	classname: "PolygonView",
 	events: {
 		'click .toggle-polygon': 'togglePolygonForm',
+		'click .polygon-data': 'togglePolygonForm',
 		'click a.polygon-list-tool': 'showList',
 		'click .destroy-polygon': 'destroy',
 		'click a.update-polygon': 'updatePolygon',
@@ -297,14 +298,14 @@ PolygonView.prototype.renderTooltip = function() {
 };
 
 PolygonView.prototype.onMouseOver = function() {
-	if (this.glow === undefined) {
-		this.glow = this.element.glow({
-			color: transectApp.glowColor,
-			width: 20
-		});	
-	} else {
-		this.glow.show();
+	if (this.glow !== undefined) {
+		this.glow.remove();	
 	}
+	this.glow = this.element.glow({
+		color: transectApp.glowColor,
+		width: 20
+	});	
+	this.glow.show();
 	this.$polygonData.addClass('hover-bg');
 }
 
@@ -338,6 +339,7 @@ PolygonView.prototype.delete = function() {
 	if (this.element !== undefined) this.element.remove();
 	if (this.linesSet !== undefined) this.linesSet.remove();
 	if (this.pointsSet !== undefined) this.pointsSet.remove();
+	this.glow.remove();
 	this.remove();
 }
 

@@ -7,6 +7,7 @@ var TransectMarkerView = BaseView.extend({
 	classname: "TransectMarkerView",
 	events: {
 		'click .toggle': 'toggleMarkerForm',
+		'click .marker-data': 'toggleMarkerForm',
 		'click a[href*="update-marker"]': 'updateMarker',
 		'mouseover': "onMouseOver",
 		'mouseout': "onMouseOut",
@@ -91,9 +92,11 @@ TransectMarkerView.prototype.dragStart = function(x, y, evt) {};
 
 /*==========  while dragging  ==========*/
 TransectMarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
-	this.transectMarker.set({
-		y: evt.offsetY
-	});
+	if (transectApp.PointsCollection.updatePoints()) {
+		this.transectMarker.set({
+			y: evt.offsetY
+		});
+	}
 };
 
 /*==========  when dragging is completed  ==========*/

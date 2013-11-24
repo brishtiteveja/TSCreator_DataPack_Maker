@@ -25,10 +25,28 @@ var Zone = BaseModel.extend({
 Zone.prototype.isYInsideZone = function(y) {
 	/* Check if the zone contains the point. i.e. the point should lie
 	between the topMarker and baseMarker */
-	if (this.topMarker.get('y') < y && y <= this.baseMarker.get('y')) {
+	if (this.topMarker.get('y') <= y && y <= this.baseMarker.get('y')) {
 		return true;
 	}
 	return false;
+}
+
+Zone.prototype.getRelativeY = function(y) {
+	if (this.topMarker.get('y') <= y && y <= this.baseMarker.get('y')) {
+		var num = ((y - this.topMarker.get('y'))/(this.baseMarker.get('y') - this.topMarker.get('y')))
+		return Math.round(num * 100) / 100;
+	}
+	return null;
+}
+
+Zone.prototype.getAbsoluteAge = function(y) {
+	if (this.topMarker.get('y') <= y && y <= this.baseMarker.get('y') 
+		&& this.topMarker.get('age') != null && this.baseMarker.get('age') != null) {
+		var num = ((y - this.topMarker.get('y'))/(this.baseMarker.get('y') - this.topMarker.get('y')))
+		age = num * (this.baseMarker.get('age') - this.topMarker.get('age')) + this.topMarker.get('age');
+		return Math.round(age * 100) / 100;
+	}
+	return null;
 }
 
 /*-----  End of Zone  ------*/

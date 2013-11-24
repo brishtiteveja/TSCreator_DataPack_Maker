@@ -7,6 +7,7 @@ var TransectWellView = BaseView.extend({
 	classname: 'TransectWellView',
 	events: {
 		'click .toggle': 'toggleWellForm',
+		'click .well-data': 'toggleWellForm',
 		'click a[href*="update-well"]': 'updateWell',
 		'mouseover': "onMouseOver",
 		'mouseout': "onMouseOut",
@@ -87,9 +88,11 @@ TransectWellView.prototype.getPath = function() {
 TransectWellView.prototype.dragStart = function(x, y, evt) {};
 
 TransectWellView.prototype.dragMove = function(dx, dy, x, y, evt) {
-	this.transectWell.set({
-		x: evt.offsetX
-	});
+	if (transectApp.PointsCollection.updatePoints()) {
+		this.transectWell.set({
+			x: evt.offsetX
+		});	
+	}
 };
 
 TransectWellView.prototype.dragEnd = function(evt) {};

@@ -55,6 +55,7 @@ TransectMarkersView.prototype.toggleMarkers = function(evt) {
 TransectMarkersView.prototype.createMarker = function(evt) {
 	if (this.enMarkers) {
 		this.transectMarkers.add(new TransectMarker({y: evt.offsetY}));	
+		transectApp.PointsCollection.updatePoints();
 	}
 };
 

@@ -28,15 +28,13 @@ class Parser(object):
 			# 	range_column, i = self.parse_range_column(line, i + 1)
 			# 	self.dataset.append(range_column)
 			if len(line) > 2 and line[1].lower() == 'event':
-				event_column, i = self.parse_event_column(
-						line, i + 1
-					)
+				event_column, i = self.parse_event_column(line, i + 1)
 				self.dataset.append(event_column)
 
 	def parse_event_column(self, col_info, start_index):
 		"""Parses the file for event column data
 		@params:
-			col_info: Array representing the line containg the column info
+			col_info: Array representing the line containing the column info
 			in the datapack.
 			start_index: Starting index of the lines that
 			contain evnet data points.
