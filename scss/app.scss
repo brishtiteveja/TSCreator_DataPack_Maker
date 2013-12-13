@@ -1,0 +1,14 @@
+@import "settings";
+@import "foundation";
+
+
+.custom-sidenav-class {
+	@include side-nav(
+		// Border color of divider
+		$divider-color: '#ccc',
+		// Font size of nav items
+		$font-size:1.2em,
+		// Color of navigation links
+		$link-color:'#000'
+	);
+}

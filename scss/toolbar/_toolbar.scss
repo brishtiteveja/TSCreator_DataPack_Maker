@@ -1,0 +1,38 @@
+@import "../utils/styles";
+@import "../globals";
+@import "compass/utilities/sprites";
+@import "icons/*.png";
+@import "cc/black/png/icons_32/*.png";
+@include all-icons-sprites;
+@include all-icons_32-sprites;
+
+#toolbar {
+	@include sidebar_style;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+
+	ul.side-nav {
+		padding: 0px;
+		
+		li {
+			border-bottom: 1px solid #000;
+			padding: 5px;
+			margin: 0px;
+
+			&:hover {
+				@include toolbar_hover;
+			}
+
+			&:active {
+				@include toolbar_click;
+			}
+			
+			a.icon {
+				width: 32px;
+				height: 32px;
+				margin: auto;
+			}
+		}
+	}
+}

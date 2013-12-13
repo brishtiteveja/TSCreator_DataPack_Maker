@@ -3,12 +3,14 @@
 ==========================================*/
 
 var TransectMarkerView = BaseView.extend({
-	tagName: 'tr',
+	tagName: 'li',
 	classname: "TransectMarkerView",
 	events: {
 		'click .toggle': 'toggleMarkerForm',
-		'click .marker-data': 'toggleMarkerForm',
-		'click a[href*="update-marker"]': 'updateMarker',
+		'click .marker-label': 'toggleMarkerForm',
+    	'keypress :input': 'updateMarker',
+    	'keyup :input': 'updateMarker',
+		// 'click a[href*="update-marker"]': 'updateMarker',
 		'mouseover': "onMouseOver",
 		'mouseout': "onMouseOut",
 	}
@@ -30,9 +32,9 @@ TransectMarkerView.prototype.initialize = function(transectMarker, transectMarke
 
 	/* listen to the events */
 	this.listenTo(this.transectMarker, 'change:edit', this.editTransectMarker.bind(this));
-	this.listenTo(this.transectMarker, 'change:y', this.render.bind(this));
-	this.listenTo(this.transectMarker, 'change:age', this.render.bind(this));
-	this.listenTo(this.transectMarker, 'change:name', this.render.bind(this));
+	this.listenTo(this.transectMarker, 'change:y', this.renderMarker.bind(this));
+	this.listenTo(this.transectMarker, 'change:age', this.renderMarker.bind(this));
+	this.listenTo(this.transectMarker, 'change:name', this.renderMarker.bind(this));
 };
 
 /*==========  render the trasect  ==========*/
@@ -119,6 +121,7 @@ TransectMarkerView.prototype.onMouseOut = function() {
 };
 
 TransectMarkerView.prototype.toggleMarkerForm = function() {
+	this.render();
 	this.transectMarker.set({
 		'edit': !this.transectMarker.get('edit')
 	});
@@ -138,7 +141,12 @@ TransectMarkerView.prototype.editTransectMarker = function() {
 	}
 };
 
-TransectMarkerView.prototype.updateMarker = function() {
+TransectMarkerView.prototype.updateMarker = function(evt) {
+	
+	if (evt.keyCode == 13) {
+		this.toggleMarkerForm();
+	}
+
 	var name = this.$markerName.value;
 	var age = parseFloat(this.$markerAge.value) || 0;
 	this.transectMarker.set({

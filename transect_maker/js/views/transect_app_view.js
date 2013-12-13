@@ -26,8 +26,8 @@ TransectAppView.prototype.initialize = function() {
 	
 	this.x = 10;
 	this.y = 10;
-	this.width = 1000;
-	this.height = 1000;
+	this.width = 2000;
+	this.height = 2000;
 	
 	this.render();
 };
@@ -49,14 +49,26 @@ TransectAppView.prototype.render = function() {
 **/
 
 TransectAppView.prototype.renderTransectImage = function() {
-	var transectImage = new TransectImage({url: "/commons/images/Scan2_CentralVulcan-page-001.gif", x: this.x, y: this.y});
+	var transectImage = new TransectImage({url: "/images/Scan2_CentralVulcan-page-001.gif", x: this.x, y: this.y});
 	var transectImageView = new TransectImageView(transectImage);
 };
 
 TransectAppView.prototype.showSettings = function(evt) {
-	this.$('.settings-list').removeClass('active');
-	var id = evt.target.getAttribute('href') + "-settings";
-	$(id).addClass('active');
+	var id = evt.target.getAttribute('href') + "-list";
+	if ($(id).hasClass('active')) {
+		$(id).removeClass('active');
+		$(evt.target).removeClass('active');
+		$(evt.target).parent().removeClass('active');
+		this.$('#sections-panel').removeClass('active');
+	} else {
+		this.$('.settings-content').removeClass('active');
+		this.$('.settings-links').removeClass('active');
+		this.$('.transect-settings').removeClass('active');
+		$(id).addClass('active');
+		$(evt.target).addClass('active');
+		$(evt.target).parent().addClass('active');
+		this.$('#sections-panel').addClass('active');
+	}
 };
 
 TransectAppView.prototype.exportCanvasAsImage = function() {

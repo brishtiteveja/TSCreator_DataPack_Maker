@@ -1,0 +1,35 @@
+@import "compass/css3/transition";
+@import "../utils/styles";
+
+#sections-panel {
+	top: 0px;
+	left: -$settings_section_width;
+	width: $settings_section_width;
+	height: 100%;
+	position: absolute;
+	display: none;
+
+	.settings-content {
+		@include selected;
+		position: relative;
+		top: 0px;
+		height: 100%;
+		display: none;
+		overflow: auto;
+		opacity: 0.95;
+
+		.row {
+			padding: 0px;
+			margin: 0px;
+			width: $settings_section_width;
+		}
+		
+		&.active {
+			display: block;
+		}
+	}
+	
+	&.active {
+		display: block;
+	}
+}

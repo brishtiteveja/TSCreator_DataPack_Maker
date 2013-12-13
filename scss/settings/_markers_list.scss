@@ -1,0 +1,31 @@
+@import "../utils/styles";
+
+#markers-list {
+	ul {
+		padding-left: 5px;
+		margin: 0px;
+		li {
+			padding-top: 5px;
+			border-bottom: 1px dashed #f1f1f1;
+
+			label {
+				@include settings_font;
+			}
+
+			list-style-type: none;
+
+			.destroy {
+				@include trash;
+			}
+
+
+			.hide-data:before {
+				content: '▶';
+			}
+
+			.show-data:before {
+				content: '▼';
+			}
+		}
+	}
+}

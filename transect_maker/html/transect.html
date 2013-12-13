@@ -1,9 +1,9 @@
 <html>
 	<head>
 		<title>Transect Maker</title>
-		<link rel="stylesheet" href="/commons/js/lib/foundation/css/foundation.css">
-		<link rel="stylesheet" href="/commons/css/style.css">
-		<link rel="stylesheet" href="/commons/css/qtip.css">
+		<link rel="stylesheet" href="/stylesheets/app.css">
+		<link rel="stylesheet" href="/stylesheets/main.css">
+		<link rel="stylesheet" href="/stylesheets/qtip.css">
 
 
 		<!--  -->
@@ -51,7 +51,8 @@
 		<script src="/transect_maker/js/views/transect_marker_view.js" type="text/javascript" charset="utf-8"></script>
 		
 		<!-- Transect Wells Components -->
-		<script src="/transect_maker/js/models/transect_well.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/transect_well.js"
+		type="text/javascript" charset="utf-8"></script>
 		<script src="/transect_maker/js/views/transect_wells_view.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/transect_maker/js/views/transect_well_view.js" type="text/javascript" charset="utf-8"></script>
 
@@ -88,74 +89,46 @@
 		
 	</head>
 	<body>
-		<nav class="top-bar fixed">
-			<section class="top-bar-section">
-				<ul>
-					<li><a href="#">Project</a></li>
-					<li><a href="#">View</a></li>
-					<li><a href="#">Edit</a></li>
+		<div class="container row">
+			<div id="toolbar" class="small-2 large-1 columns">
+				<ul class="side-nav">
+					<li><a href="#add-marker" class="transect-tools icon icons_32-cursor_H_split_icon_32"></a></li>
+					<li><a href="#add-well" class="transect-tools icon icons_32-cursor_V_split_icon_32"></a></li>
+					<li><a href="#add-polygon" class="transect-tools icon icons-polygon4"></a></li>
+					<!-- <li><a href="#" class="transect-tools icon icons_32-zoom_icon_32"></a></li>
+					<li><a href="#" class="transect-tools icon icons_32-cursor_drag_hand_icon_32"></a></li>
+					<li><a href="#" class="transect-tools icon icons_32-cursor_drag_arrow_icon_32"></a></li>
+					<li><a href="#" class="transect-tools icon icons_32-trash_icon_32"></a></li>
+					<li><a href="#" class="transect-tools icon icons_32-save_icon_32"></a></li>
+					<li><a href="#" class="transect-tools icon icons_32-redo_icon_32"></a></li>
+					<li><a href="#" class="transect-tools icon icons_32-undo_icon_32"></a></li> -->
+					<li><a href="#" class="transect-tools icon icons_32-doc_export_icon_32"></a></li>
 				</ul>
-			</section>
-		</nav>
-		<div class="container">
-			<div class="display">
-				<nav class="toolbar">
-					<a href="#add-well" class="button tiny secondary radius left nav-links transect-tools">✚well</a>
-					<a href="#add-marker" class="button tiny secondary radius left nav-links transect-tools">✚age maker</a>
-					<a href="#add-polygon" class="button tiny secondary radius left nav-links transect-tools">✚polygon</a>
-				</nav>
-				<div id="canvas"></div>
-				<div data-alert class="alert-box secondary canvas-status">
-					<p class="status-box right"></p>
-				</div>
 			</div>
-			<div class="settings">
-				<nav class="toolbar">
-					<a href="#wells" class="button tiny secondary radius transect-settings">Wells</a>
-					<a href="#markers" class="button tiny secondary radius transect-settings">Markers</a>
-					<a href="#polygons" class="button tiny secondary radius transect-settings">Polygons</a>
-					<a href="#zones" class="button tiny secondary radius transect-settings">Zones</a>
-					<a href="#transects" class="button tiny secondary radius transect-settings">Transects</a>
-					<a href="#defaults" class="button tiny secondary radius transect-settings">Defaults</a>
-				</nav>
-				<div class="sections-panel">
-					<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 50px;">
-						
-						<!-- Transects Settings -->
-						<section id="transects-settings" class="settings-list">
-							<div class="content">
-								<div class="settings-content" id="transects-list"></div>
-							</div>
-						</section>
-						
-						<!-- Wells Settings -->
-						<section id="wells-settings" class="settings-list">
-							<div class="content">
-								<div class="settings-content" id="wells-list"></div>
-							</div>
-						</section>
-						<section id="zones-settings" class="settings-list">
-							<div class="content">
-								<div class="settings-content" id="zones-list"></div>
-							</div>
-						</section>
-						<section id="polygons-settings" class="settings-list active">
-							<div class="content">
-								<div class="settings-content" id="polygons-list"></div>
-							</div>
-						</section>
-						<section id="markers-settings" class="settings-list">
-							<div class="content">
-								<div class="settings-content" id="markers-list"></div>
-							</div>
-						</section>
-						<section id="defaults-settings" class="settings-list">
-							<div class="content">
-								<h3 class="subheader">Defaults</h3>
-								<div class="settings-content"></div>
-							</div>
-						</section>
-					</div>
+			<div id="display" class="small-17 large-20 columns">
+				<div id="canvas"></div>
+				<!-- <div data-alert class="alert-box secondary canvas-status">
+					<p class="status-box right"></p>
+				</div> -->
+			</div>
+			<div id="settings" class="small-5 large-3 columns">
+				<div>
+					<ul class="custom-sidenav-class">
+						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#markers">Markers</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#wells">Wells</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#polygons">Polygons</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#zones">Zones</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#transects">Transects</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#defaults">Defaults</a></li>
+					</ul>
+				</div>
+				<div id="sections-panel">
+					<div class="settings-content" id="transects-list"></div>
+					<div class="settings-content" id="wells-list"></div>
+					<div class="settings-content" id="zones-list"></div>
+					<div class="settings-content" id="polygons-list"></div>
+					<div class="settings-content" id="markers-list"></div>
+					<div class="settings-content" id="defaults-list"></div>
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,34 @@
+
+@mixin sidebar_style {
+	background: #f1f1f1;
+}
+
+@mixin toolbar_hover {
+	background: #777;
+}
+
+@mixin selected {
+	background: #333;
+	color: #FFF;
+}
+
+@mixin trash {
+	width: 16px;
+	height: 16px;
+	display: block;
+	background: url('/images/cc/white/png/icons_16/trash_icon&16.png');
+	background-position: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+@mixin app_font {
+	color: #222;
+}
+
+@mixin settings_font {
+	color: #fff;
+}
+
+@mixin toolbar_click {
+	background: #333;
+}

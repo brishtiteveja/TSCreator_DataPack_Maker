@@ -1,0 +1,12 @@
+@import "toolbar/toolbar";
+@import "display/display";
+@import "settings/settings";
+@import "settings/sections";
+@import "utils/styles";
+
+body {
+	> .row{
+		max-width: 100%;
+		height: 100%;
+	}
+}
