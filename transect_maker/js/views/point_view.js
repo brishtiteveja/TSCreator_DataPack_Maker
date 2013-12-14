@@ -12,7 +12,7 @@ var PointView = BaseView.extend({
 	}
 });
 
-PointView.prototype.template = new EJS({url: '/transect_maker/ejs/point.ejs'});
+PointView.prototype.template = new EJS({url: '../../../transect_maker/ejs/point.ejs'});
 
 PointView.prototype.initialize = function(point) {
 	this.point = point;

@@ -17,7 +17,7 @@ var TransectMarkerView = BaseView.extend({
 
 
 /*==========  Template to be used in generation marker in the settings side panel.  ==========*/
-TransectMarkerView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_marker.ejs'});
+TransectMarkerView.prototype.template = new EJS({url: '../../../transect_maker/ejs/transect_marker.ejs'});
 
 
 /*==========  Initialize the marker  ==========*/

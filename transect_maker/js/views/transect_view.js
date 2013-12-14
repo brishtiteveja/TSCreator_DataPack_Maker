@@ -15,9 +15,7 @@ var TransectView = BaseView.extend({
 	}
 });
 
-TransectView.prototype.template = new EJS({
-	url: '/transect_maker/ejs/transect.ejs'
-});
+TransectView.prototype.template = new EJS({ url: '../../../transect_maker/ejs/transect.ejs' });
 
 TransectView.prototype.initialize = function(transect) {
 	this.transect = transect;

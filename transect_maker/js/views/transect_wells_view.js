@@ -7,7 +7,7 @@ var TransectWellsView = BaseView.extend({
 	classname: "TransectWellsView"
 });
 
-TransectWellsView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
+TransectWellsView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
 
 TransectWellsView.prototype.initialize = function() {
 	/* initialize transect wells collection */

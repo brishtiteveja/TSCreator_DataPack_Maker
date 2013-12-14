@@ -17,7 +17,7 @@ var ZoneView = BaseView.extend({
 	}
 });
 
-ZoneView.prototype.template = new EJS({url: '/transect_maker/ejs/zone.ejs'});
+ZoneView.prototype.template = new EJS({url: '../../../transect_maker/ejs/zone.ejs'});
 
 ZoneView.prototype.initialize = function(zone) {
 	this.zone = zone;

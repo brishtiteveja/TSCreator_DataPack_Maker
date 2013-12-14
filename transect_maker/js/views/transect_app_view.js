@@ -9,6 +9,10 @@ var TransectAppView = BaseView.extend({
 	events: {
 		'click a.transect-settings': 'showSettings',
 		'click a.transect-tools': 'enableTool',
+		'dragover div#image-box': 'handleImageDragOver',
+		'drop div#image-box': 'handleImageSelect',
+		'dragover div#data-box': 'handleDatapackDragOver',
+		'drop div#data-box': 'handleDatapackSelect',
 	}
 });
 
@@ -21,6 +25,8 @@ TransectAppView.prototype.initialize = function() {
 	PointsSet = transectApp.Canvas.set();
 	LinesSet = transectApp.Canvas.set();
 	PolygonsSet = transectApp.Canvas.set();
+
+	$.event.props.push('dataTransfer');
 
 	POLYGON_COLOR = "#000000";
 	
@@ -72,10 +78,6 @@ TransectAppView.prototype.showSettings = function(evt) {
 };
 
 TransectAppView.prototype.exportCanvasAsImage = function() {
-	// the canvas calls to output a png
-	// debugger;	
-	// svg = transectApp.Canvas.toSVG();
-	// document.getElementById('svg-image').innerHTML = svg;
 }
 
 TransectAppView.prototype.enableTool = function(evt) {
@@ -101,5 +103,40 @@ TransectAppView.prototype.enableTool = function(evt) {
 			break;
 	}
 };
+
+
+TransectAppView.prototype.handleImageDragOver = function(evt) {
+	evt.originalEvent.stopPropagation();
+	evt.originalEvent.preventDefault();
+	evt.dataTransfer.dropEffect = 'copy'; 
+}
+
+
+TransectAppView.prototype.handleImageSelect = function(evt) {
+	evt.originalEvent.stopPropagation();
+	evt.originalEvent.preventDefault();
+	var files = evt.dataTransfer.files;
+	debugger;
+}
+
+
+TransectAppView.prototype.handleDatapackDragOver = function(evt) {
+	debugger;
+
+	evt.originalEvent.stopPropagation();
+	evt.originalEvent.preventDefault();
+	evt.dataTransfer.dropEffect = 'copy'; 
+}
+
+
+TransectAppView.prototype.handleDatapackSelect = function(evt) {
+	debugger;
+
+	evt.originalEvent.stopPropagation();
+	evt.originalEvent.preventDefault();
+	var files = evt.dataTransfer.files;
+}
+
+
 /*-----  End of Section comment block  ------*/
 

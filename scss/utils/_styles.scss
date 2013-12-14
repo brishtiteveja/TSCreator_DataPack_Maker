@@ -64,3 +64,8 @@
 	border-radius: $rounding $rounding;
 	border: $width $color $style; 
 }
+
+@mixin prevent_drag_and_drop {
+	/* this will work for QtWebKit in future */
+	-webkit-user-drag: none;
+}
