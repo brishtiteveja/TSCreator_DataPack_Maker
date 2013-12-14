@@ -1549,32 +1549,32 @@
   background-position: 0 -2688px;
 }
 
-/* line 9, ../scss/toolbar/_toolbar.scss */
+/* line 8, ../scss/toolbar/_toolbar.scss */
 #toolbar {
   background: #f1f1f1;
   height: 100%;
   padding: 0px;
   margin: 0px;
 }
-/* line 15, ../scss/toolbar/_toolbar.scss */
+/* line 14, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav {
   padding: 0px;
 }
-/* line 18, ../scss/toolbar/_toolbar.scss */
+/* line 17, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li {
   border-bottom: 1px solid #000;
   padding: 5px;
   margin: 0px;
 }
-/* line 23, ../scss/toolbar/_toolbar.scss */
+/* line 22, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li:hover {
   background: #777;
 }
-/* line 27, ../scss/toolbar/_toolbar.scss */
+/* line 26, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li:active {
   background: #333;
 }
-/* line 31, ../scss/toolbar/_toolbar.scss */
+/* line 30, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li a.icon {
   width: 32px;
   height: 32px;
@@ -1589,89 +1589,75 @@
   overflow: auto;
 }
 
-/* line 4, ../scss/settings/_markers_list.scss */
-#markers-list ul {
-  padding-left: 5px;
-  margin: 0px;
-}
-/* line 7, ../scss/settings/_markers_list.scss */
-#markers-list ul li {
-  padding-top: 5px;
-  border-bottom: 1px dashed #f1f1f1;
-  list-style-type: none;
-}
-/* line 11, ../scss/settings/_markers_list.scss */
-#markers-list ul li label {
-  color: #fff;
-}
-/* line 17, ../scss/settings/_markers_list.scss */
-#markers-list ul li .destroy {
-  width: 16px;
-  height: 16px;
-  display: block;
-  background: url("/images/cc/white/png/icons_16/trash_icon&16.png");
-  background-position: 100% 100%;
-  background-repeat: no-repeat;
-}
-/* line 22, ../scss/settings/_markers_list.scss */
-#markers-list ul li .hide-data:before {
-  content: '▶';
-}
-/* line 26, ../scss/settings/_markers_list.scss */
-#markers-list ul li .show-data:before {
-  content: '▼';
+/* line 1, ../scss/settings/_polygons.scss */
+.patterns-image {
+  width: 50px;
+  height: 23px;
+  background: #fff;
 }
 
 /* line 5, ../scss/settings/_settings.scss */
 #settings {
   background: #f1f1f1;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   height: 100%;
   padding: 0px;
   margin: 0px;
 }
-/* line 11, ../scss/settings/_settings.scss */
+/* line 13, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class {
   padding: 0px;
 }
-/* line 14, ../scss/settings/_settings.scss */
+/* line 16, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li {
   border-bottom: 1px solid #000;
   padding: 5px;
   margin: 0px;
 }
-/* line 19, ../scss/settings/_settings.scss */
+/* line 21, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li:hover {
   background: #777;
 }
-/* line 23, ../scss/settings/_settings.scss */
+/* line 25, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li:active {
   background: #333;
 }
-/* line 27, ../scss/settings/_settings.scss */
+/* line 29, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li a {
   color: #222;
   padding-left: 37px;
   margin: auto;
 }
-/* line 31, ../scss/settings/_settings.scss */
+/* line 33, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li a.active {
   background: #333;
   color: #FFF;
 }
-/* line 36, ../scss/settings/_settings.scss */
+/* line 38, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li em.icon {
   width: 32px;
   height: 32px;
   margin: auto;
 }
-/* line 42, ../scss/settings/_settings.scss */
+/* line 44, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li.active {
   background: #333;
   color: #FFF;
 }
 
-/* line 4, ../scss/settings/_sections.scss */
+/* line 6, ../scss/settings/_sections.scss */
 #sections-panel {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   top: 0px;
   left: -320px;
   width: 320px;
@@ -1679,7 +1665,11 @@
   position: absolute;
   display: none;
 }
-/* line 12, ../scss/settings/_sections.scss */
+/* line 17, ../scss/settings/_sections.scss */
+#sections-panel.active {
+  display: block;
+}
+/* line 21, ../scss/settings/_sections.scss */
 #sections-panel .settings-content {
   background: #333;
   color: #FFF;
@@ -1687,22 +1677,112 @@
   top: 0px;
   height: 100%;
   display: none;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   opacity: 0.95;
 }
-/* line 21, ../scss/settings/_sections.scss */
+/* line 31, ../scss/settings/_sections.scss */
 #sections-panel .settings-content .row {
   padding: 0px;
   margin: 0px;
-  width: 320px;
 }
-/* line 27, ../scss/settings/_sections.scss */
+/* line 35, ../scss/settings/_sections.scss */
+#sections-panel .settings-content .row .columns {
+  margin: 0px;
+  padding: 2px;
+}
+/* line 41, ../scss/settings/_sections.scss */
 #sections-panel .settings-content.active {
   display: block;
 }
-/* line 32, ../scss/settings/_sections.scss */
-#sections-panel.active {
+/* line 5, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul {
+  padding-left: 5px;
+  margin: 0px;
+}
+/* line 8, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul li {
+  margin: 5px;
+  border-bottom: 1px solid #f1f1f1;
+  list-style-type: none;
+}
+/* line 13, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul li label {
+  color: #fff;
+}
+/* line 19, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul li .destroy {
+  width: 16px;
+  height: 16px;
   display: block;
+  background: url("/images/cc/white/png/icons_16/trash_icon&16.png");
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+}
+/* line 24, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul li .hide-data:before {
+  content: '▶';
+}
+/* line 28, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul li .show-data:before {
+  content: '▼';
+}
+/* line 32, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul li.hover {
+  color: #fdcc59;
+}
+/* line 35, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul li.hover label {
+  color: #fdcc59;
+}
+/* line 39, ../scss/settings/_list.scss */
+#sections-panel .settings-content ul li.hover .hide-data:before {
+  content: '➜';
+}
+
+/* line 5, ../scss/settings/_list.scss */
+.lines-list ul, .points-list ul, .patterns-list ul {
+  padding-left: 5px;
+  margin: 0px;
+}
+/* line 8, ../scss/settings/_list.scss */
+.lines-list ul li, .points-list ul li, .patterns-list ul li {
+  margin: 5px;
+  border-bottom: 1px solid #f1f1f1;
+  list-style-type: none;
+}
+/* line 13, ../scss/settings/_list.scss */
+.lines-list ul li label, .points-list ul li label, .patterns-list ul li label {
+  color: #fff;
+}
+/* line 19, ../scss/settings/_list.scss */
+.lines-list ul li .destroy, .points-list ul li .destroy, .patterns-list ul li .destroy {
+  width: 16px;
+  height: 16px;
+  display: block;
+  background: url("/images/cc/white/png/icons_16/trash_icon&16.png");
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+}
+/* line 24, ../scss/settings/_list.scss */
+.lines-list ul li .hide-data:before, .points-list ul li .hide-data:before, .patterns-list ul li .hide-data:before {
+  content: '▶';
+}
+/* line 28, ../scss/settings/_list.scss */
+.lines-list ul li .show-data:before, .points-list ul li .show-data:before, .patterns-list ul li .show-data:before {
+  content: '▼';
+}
+/* line 32, ../scss/settings/_list.scss */
+.lines-list ul li.hover, .points-list ul li.hover, .patterns-list ul li.hover {
+  color: #fdcc59;
+}
+/* line 35, ../scss/settings/_list.scss */
+.lines-list ul li.hover label, .points-list ul li.hover label, .patterns-list ul li.hover label {
+  color: #fdcc59;
+}
+/* line 39, ../scss/settings/_list.scss */
+.lines-list ul li.hover .hide-data:before, .points-list ul li.hover .hide-data:before, .patterns-list ul li.hover .hide-data:before {
+  content: '➜';
 }
 
 /* line 8, ../scss/main.scss */

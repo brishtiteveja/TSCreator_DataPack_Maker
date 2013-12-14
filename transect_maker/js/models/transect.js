@@ -8,6 +8,7 @@ var Transect = BaseModel.extend({
 		var attrs = [{
 			edit: false,
 			name: attributes.name || _.uniqueId("Transect "),
+			description: attributes.description || null
 		}];
 		this.wellLeft = wellLeft;
 		this.wellRight = wellRight;

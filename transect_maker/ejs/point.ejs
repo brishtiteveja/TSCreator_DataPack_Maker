@@ -1,20 +1,10 @@
-<td class="toggle hide-data" width="1%"></td>
-<td  width="98%">
-	<div class="row">
-		<label class="point-data large-12 columns"><%= name %></label>
-		<div class="point-form hide">
-			<div class="large-8 columns">
-				<label>Point</label>
-				<input type="text" value="<%= name %>" name="point-name">
-			</div>
-			<div class="large-4 columns">
-				<label>Age</label>
-				<input type="text" value="<%= age %>" name="point-age">
-			</div>
-		</div>
+<div class="row">
+	<div class="small-3 columns">↳</div>
+	<label class="point-data small-21 columns"><%= name %> - <%= age || "na" %> myr</label>
+	<div class="small-11 columns point-form hide">
+		<input type="text" value="<%= name %>" name="point-name">
 	</div>
-	<div class="point-form row hide large-12 columns">
-		<a href="#update-point" class="button secondary right small radius">update</a>
+	<div class="small-10 columns point-form hide">
+		<input type="text" value="<%= age %>" name="point-age">
 	</div>
-</td>
-<td class="destroy" width="1%"></td>
+</div>

@@ -1,24 +1,14 @@
-<td class="toggle hide-data" width="3%"></td>
-<td  width="96%">
-	<div class="row">
-		<label class="well-data large-12 columns"><%= name %>【<%= lat %>,<%= lon %>】</label>
-		<div class="well-form hide">
-			<div class="large-6 columns">
-				<label>well</label>
-				<input type="text" value="<%= name %>" name="well-name">
-			</div>
-			<div class="large-3 columns">
-				<label>Lat</label>
-				<input type="text" name="well-lat" value="<%= lat %>">
-			</div>
-			<div class="large-3 columns">
-				<label>Lon</label>
-				<input type="text" name="well-lon" value="<%= lon %>">
-			</div>
-		</div>
+<div class="row">
+	<div class="toggle hide-data small-3 columns"></div>			
+	<label class="well-data large-17 columns"><%= name %>【 lat: <%= lat || "NA" %>, lon: <%= lon || "NA" %> 】</label>
+	<div class="small-7 columns well-form hide">
+		<input type="text" value="<%= name %>" name="well-name">
 	</div>
-	<div class="well-form row hide large-12 columns">
-		<a href="#update-well" class="button secondary right small radius">update</a>
+	<div class="small-5 columns well-form hide">
+		<input type="text" name="well-lat" value="<%= lat %>">
 	</div>
-</td>
-<td class="destroy" width="3%"></td>
+	<div class="small-5 columns well-form hide">
+		<input type="text" name="well-lon" value="<%= lon %>">
+	</div>
+	<div class="small-4 columns"><a href="#" class="destroy"></a></div>
+</div>

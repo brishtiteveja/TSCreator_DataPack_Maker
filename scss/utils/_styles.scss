@@ -7,9 +7,8 @@
 	background: #777;
 }
 
-@mixin selected {
+@mixin toolbar_click {
 	background: #333;
-	color: #FFF;
 }
 
 @mixin trash {
@@ -29,6 +28,20 @@
 	color: #fff;
 }
 
-@mixin toolbar_click {
+@mixin selected {
 	background: #333;
+	color: #FFF;
+}
+
+@mixin list_hover {
+	color: #fdcc59;
+}
+
+@mixin disable_double_click_select {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }

@@ -7,10 +7,9 @@ var TransectMarkerView = BaseView.extend({
 	classname: "TransectMarkerView",
 	events: {
 		'click .toggle': 'toggleMarkerForm',
-		'click .marker-label': 'toggleMarkerForm',
-    	'keypress :input': 'updateMarker',
-    	'keyup :input': 'updateMarker',
-		// 'click a[href*="update-marker"]': 'updateMarker',
+		'click .marker-data': 'toggleMarkerForm',
+		'keypress :input': 'updateMarker',
+		'keyup :input': 'updateMarker',
 		'mouseover': "onMouseOver",
 		'mouseout': "onMouseOut",
 	}
@@ -109,7 +108,7 @@ TransectMarkerView.prototype.onMouseOver = function() {
 	this.element.attr({
 		"stroke-width": 5
 	});
-	this.$markerData.addClass('hover-bg');
+	this.$el.addClass('hover');
 };
 
 TransectMarkerView.prototype.onMouseOut = function() {
@@ -117,7 +116,7 @@ TransectMarkerView.prototype.onMouseOut = function() {
 	this.element.attr({
 		"stroke-width": 2
 	});
-	this.$markerData.removeClass('hover-bg');
+	this.$el.removeClass('hover');
 };
 
 TransectMarkerView.prototype.toggleMarkerForm = function() {

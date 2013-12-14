@@ -1,9 +1,11 @@
 @import "../utils/styles";
 @import "markers_list";
-@import "globals";
+@import "polygons";
 
 #settings {
 	@include sidebar_style;
+	@include disable_double_click_select;
+	
 	height: 100%;
 	padding: 0px;
 	margin: 0px;
@@ -44,5 +46,4 @@
 			}
 		}
 	}
-
 }

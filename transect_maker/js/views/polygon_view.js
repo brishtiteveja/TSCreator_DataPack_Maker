@@ -3,14 +3,18 @@
 ===================================*/
 
 var PolygonView = BaseView.extend({
-	tagName: "tr",
+	tagName: "li",
 	classname: "PolygonView",
 	events: {
 		'click .toggle-polygon': 'togglePolygonForm',
 		'click .polygon-data': 'togglePolygonForm',
 		'click a.polygon-list-tool': 'showList',
-		'click .destroy-polygon': 'destroy',
-		'click a.update-polygon': 'updatePolygon',
+		'click .destroy': 'destroy',
+		'keypress :input': 'updatePolygon',
+		'keyup :input': 'updatePolygon',
+		'click label.polygon-line-data': 'showPolygonLinesList',
+		'click label.polygon-point-data': 'showPolygonPointsList',
+		'click label.polygon-pattern-data': 'showPolygonPatternsList',
 		'mouseover': "onMouseOver",
 		'mouseout': "onMouseOut",
 	}
@@ -91,14 +95,39 @@ PolygonView.prototype.render = function() {
 	this.$polygonName = this.$('input[name="polygon-name"]')[0];
 	this.$linesList = this.$('.lines-list');
 	this.$pointsList = this.$('.points-list');
-	this.$polygonUpdate = this.$('.update-polygon');
-	this.$polygonPattern = this.$('.polygon-pattern');
+	this.$patternsList = this.$('.patterns-list');
+	this.$polygonPattern = this.$('select.polygon-pattern');
+	this.$patternImage = this.$('.patterns-image');
 
-	this.$polygonPattern.click(this.updatePolygonPattern.bind(this));
+	this.$polygonPattern.change(this.updatePolygonPattern.bind(this));
 }
 
-PolygonView.prototype.updatePolygonPattern = function(evt) {
-	var pattern = evt.target.value;
+PolygonView.prototype.showPolygonLinesList = function() {
+	if (this.$linesList.hasClass('hide')) {
+		this.$linesList.removeClass('hide');
+	} else {
+		this.$linesList.addClass('hide');
+	}
+}
+
+PolygonView.prototype.showPolygonPointsList = function() {
+	if (this.$pointsList.hasClass('hide')) {
+		this.$pointsList.removeClass('hide');
+	} else {
+		this.$pointsList.addClass('hide');
+	}
+}
+
+PolygonView.prototype.showPolygonPatternsList = function() {
+	if (this.$patternsList.hasClass('hide')) {
+		this.$patternsList.removeClass('hide');
+	} else {
+		this.$patternsList.addClass('hide');
+	}
+}
+
+PolygonView.prototype.updatePolygonPattern = function() {
+	var pattern = this.$('select.polygon-pattern option:selected').val();
 	this.polygon.set({
 		'patternName': pattern
 	});
@@ -210,6 +239,8 @@ PolygonView.prototype.setPolygonFill = function() {
 		'opacity': 1,
 		'fill': fill
 	});
+	var url =  fill + " no-repeat" ;
+	this.$patternImage.css("background", url);
 }
 
 PolygonView.prototype.toggleEditStatus = function() {
@@ -306,14 +337,14 @@ PolygonView.prototype.onMouseOver = function() {
 		width: 20
 	});	
 	this.glow.show();
-	this.$polygonData.addClass('hover-bg');
+	this.$el.addClass('hover');
 }
 
 PolygonView.prototype.onMouseOut = function() {
 	if (this.glow !== undefined) {
 		this.glow.hide();	
 	}
-	this.$polygonData.removeClass('hover-bg');
+	this.$el.removeClass('hover');
 }
 
 PolygonView.prototype.moveToBottom = function() {
@@ -347,8 +378,12 @@ PolygonView.prototype.destroy = function() {
 	this.polygon.destroy();
 }
 
-PolygonView.prototype.updatePolygon = function() {
-	debugger;
+PolygonView.prototype.updatePolygon = function(evt) {
+
+	if (evt.keyCode == 13) {
+		this.togglePolygonForm();
+	}
+
 	var name = this.$polygonName.value;
 	this.polygon.set({
 		name: name

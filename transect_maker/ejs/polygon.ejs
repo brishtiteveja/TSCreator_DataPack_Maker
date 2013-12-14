@@ -1,80 +1,33 @@
-		<td class="toggle hide-data toggle-polygon" width="1%"></td>
-<td  width="98%">
-	<div class="row">
-		<label class="polygon-data large-12 columns">
-			<%= name %> → <%= patternName || "none" %>
-		</label>
-		<div class="polygon-form hide">
-			<div class="large-12 columns">
-				<label>Polygon</label>
-				<input type="text" value="<%= name %>" name="polygon-name">
-				<div class="section-container auto" data-section="" data-section-resized="true" style="min-height: 30px;">
-					<!--  Lines Tab -->
-					<section class="polygon-settings lines-tab active" style="padding-top: 29px;">
-						<p class="title" data-section-title="" style="left: 0px; height: 30px;">
-							<a href="#lines" style="padding-top: 3px;" class="polygon-list-tool">Lines</a>
-						</p>
-						<div class="content" data-section-content="">
-							<table>
-								<thead>
-									<th class="toggle hide-data" width="2%"></th>
-									<th class="subheader" width="96%">Lines</th>
-									<th class="destroy" width="2%"></th>
-								</thead>
-								<tbody class="lines-list">
-								</tbody>
-							</table>
-						</div>
-					</section>
-					
-					<!--  Points Tab -->
-					<section class="polygon-settings points-tab" style="padding-top: 29px;">
-						<p class="title" data-section-title="" style="left: 60px; height: 30px;">
-							<a href="#points" style="padding-top: 3px;" class="polygon-list-tool">Points</a>
-						</p>
-						<div class="content" data-section-content="">
-							<table>
-								<thead>
-									<th class="toggle hide-data" width="2%"></th>
-									<th class="subheader" width="96%">Points</th>
-									<th class="destroy" width="2%"></th>
-								</thead>
-								<tbody class="points-list">
-								</tbody>
-							</table>
-						</div>
-					</section>
-					
-					<!-- Settings Tab -->
-					<section class="polygon-settings settings-tab" style="padding-top: 29px;">
-						<p class="title" data-section-title="" style="left: 125px; height: 30px;">
-							<a href="#settings" style="padding-top: 3px;" class="polygon-list-tool">Pattern</a>
-						</p>
-						<div class="content" data-section-content="">
-							<table class="patterns-list">
-								<thead>
-									<th class="subheader" width="70%">Name</th>
-									<th class="subheader" width="20%">Pattern</th>
-									<th class="subheader" width="10%">Select</th>
-								</thead>
-								<tbody>
-								<% for (var pat in tscApp.PATTERNS) { %>
-								<tr>
-									<td><%= pat %></td>
-									<td><img src="/pattern_manager/patterns/<%= tscApp.PATTERNS[pat] %>"/></td>
-									<td><input type="radio" name="patterns" value="<%= pat %>" class="polygon-pattern"></td>
-								</tr>
-								<% } %>
-								</tbody>
-							</table>
-						</div>
-					</section>
-				</div>
-			</div>
+<div class="row">
+	<div class="toggle hide-data small-3 columns"></div>
+	<label class="polygon-data small-17 columns"><%= name %> → <%= patternName || "none" %></label>
+	<div class="small-17 columns polygon-form hide">
+		<input type="text" value="<%= name %>" name="polygon-name">
+	</div>
+	<div class="small-4 columns"><a href="#" class="destroy"></a></div>
+</div>
+<div class="row">
+	<div class="small-3 columns">↳</div>
+	<label class="polygon-line-data small-21 columns">Lines</label>
+	<ul class="lines-list polygon-line-form small-21 columns hide"></ul>
+</div>
+<div class="row">
+	<div class="small-3 columns">↳</div>
+	<label class="polygon-point-data small-21 columns">Points</label>
+	<ul class="points-list polygon-point-form small-21 columns hide"></ul>
+</div>
+<div class="row">
+	<div class="small-3 columns">↳</div>
+	<label class="polygon-pattern-data small-21 columns">Pattern</label>
+	<div class="patterns-list polygon-pattern-form small-21 columns hide">
+		<div class="row">
+			<select class="small-18 columns polygon-pattern">
+				<option class="pattern-option" value="none">None</option>
+				<% for (var pattern in tscApp.PATTERNS) { %>
+					<option class="pattern-option" value="<%= pattern %>"><%= pattern %></option>
+				<% } %>
+			</select>
+			<div class="patterns-image small-6 columns"></div>
 		</div>
 	</div>
-	<div class="polygon-form row hide large-12 columns">
-		<a href="#update-polygon" class="button secondary right small radius update-polygon">update</a>
-	</div>
-</td>
-<td class="destroy destroy-polygon" width="1%"></td>
+</div>

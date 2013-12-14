@@ -1,11 +1,11 @@
 <div class="row">
 	<div class="toggle hide-data small-3 columns"></div>			
-	<label class="marker-data small-15 columns marker-label"><%= name %> ➜ <%= age || 0 %> myr</label>
-	<div class="small-11 columns marker-form hide">
+	<label class="marker-data small-17 columns marker-label"><%= name %> - <%= age || 0 %> myr</label>
+	<div class="small-10 columns marker-form hide">
 		<input type="text" value="<%= name %>" name="marker-name">
 	</div>
-	<div class="small-5 columns marker-form hide">
+	<div class="small-7 columns marker-form hide">
 		<input type="text" name="marker-age" value="<%= age %>">
 	</div>
-	<div class="small-5 columns"><i class="destroy"></i></div>
+	<div class="small-4 columns"><a href="#" class="destroy"></a></div>
 </div>

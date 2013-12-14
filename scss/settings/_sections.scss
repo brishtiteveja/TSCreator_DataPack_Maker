@@ -1,13 +1,22 @@
 @import "compass/css3/transition";
 @import "../utils/styles";
+@import "../utils/globals";
+@import "settings/list";
 
 #sections-panel {
+
+	@include disable_double_click_select;
+
 	top: 0px;
 	left: -$settings_section_width;
 	width: $settings_section_width;
 	height: 100%;
 	position: absolute;
 	display: none;
+	
+	&.active {
+		display: block;
+	}
 
 	.settings-content {
 		@include selected;
@@ -15,21 +24,28 @@
 		top: 0px;
 		height: 100%;
 		display: none;
-		overflow: auto;
+		overflow-y: auto;
+		overflow-x: hidden;
 		opacity: 0.95;
 
 		.row {
 			padding: 0px;
 			margin: 0px;
-			width: $settings_section_width;
+
+			.columns {
+				margin: 0px;
+				padding: 2px;
+			}
 		}
 		
 		&.active {
 			display: block;
 		}
+
+		@include settings-list;
 	}
-	
-	&.active {
-		display: block;
-	}
+}
+
+.lines-list, .points-list, .patterns-list {
+	@include settings-list;
 }

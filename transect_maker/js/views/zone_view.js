@@ -5,11 +5,15 @@
 var ZoneView = BaseView.extend({
 	/* ZoneView is the vie that handles view related to the 
 	individual zone. */
-	tagName: 'tr',
+	tagName: 'li',
 	classname: 'ZoneView',
 	events: {
 		'click .toggle': 'toggleZoneForm',
-		'click a.update': 'updateZone'
+		'click .zone-data': 'toggleZoneForm',
+		'keypress :input': 'updateZone',
+		'keyup :input': 'updateZone',
+		'mouseover': "onMouseOver",
+		'mouseout': "onMouseOut",
 	}
 });
 
@@ -31,10 +35,12 @@ ZoneView.prototype.render = function() {
 	this.$zoneForm = this.$(".zone-form");
 	this.$zoneData = this.$(".zone-data");
 	this.$zoneName = this.$('input[name="zone-name"]')[0];
+	this.$zoneDescription = this.$('textarea[name="zone-description"]')[0];
 
 };
 
 ZoneView.prototype.toggleZoneForm = function() {
+	this.render();
 	this.zone.set({
 		'edit': !this.zone.get('edit')
 	});
@@ -54,7 +60,26 @@ ZoneView.prototype.toggleEditStatus = function() {
 	}
 }
 
-ZoneView.prototype.updateZone = function() {
+ZoneView.prototype.onMouseOver = function() {
+	this.$el.addClass('hover');
+};
+
+ZoneView.prototype.onMouseOut = function() {
+	this.$el.removeClass('hover');
+};
+
+ZoneView.prototype.updateZone = function(evt) {
+
+	if (evt.keyCode == 13) {
+		this.toggleZoneForm();
+	}
+
+	var name = this.$zoneName.value;
+	var description = this.$zoneDescription.value;
+	this.zone.set({
+		name: name,
+		description: description
+	});
 }
 
 /*-----  End of ZoneView  ------*/

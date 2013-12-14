@@ -3,11 +3,13 @@
 ================================*/
 
 var LineView = BaseView.extend({
-	tagName: 'tr',
+	tagName: 'li',
 	classname: "LineView",
 	events: {
 		'click .toggle': 'toggleLineForm',
-		'click a.update-line': 'updateLine',
+		'click .line-data': 'toggleLineForm',
+		'keypress :input': 'updateLine',
+		'keyup :input': 'updateLine',
 		'mouseover': "onMouseOver",
 		'mouseout': "onMouseOut",
 	}
@@ -86,6 +88,7 @@ LineView.prototype.removeElement = function() {
 };
 
 LineView.prototype.toggleLineForm = function() {
+	this.render();
 	this.line.set({
 		'edit': !this.line.get('edit')
 	});
@@ -110,7 +113,7 @@ LineView.prototype.setFinishedMode = function() {
 		'stroke-width': 2,
 		'stroke': transectApp.lineMouseOut
 	});
-	this.$lineData.removeClass('hover-bg');
+	this.$el.removeClass('hover');
 };
 
 LineView.prototype.setEditMode = function() {
@@ -118,10 +121,15 @@ LineView.prototype.setEditMode = function() {
 		'stroke-width': 6,
 		'stroke': transectApp.lineMouseOver
 	});
-	this.$lineData.addClass('hover-bg');
+	this.$el.addClass('hover');
 };
 
-LineView.prototype.updateLine = function() {
+LineView.prototype.updateLine = function(evt) {
+
+	if (evt.keyCode == 13) {
+		this.toggleLineForm();
+	}
+
 	var name = this.$lineName.value;
 	var pattern = this.$linePattern.value;
 	this.line.set({

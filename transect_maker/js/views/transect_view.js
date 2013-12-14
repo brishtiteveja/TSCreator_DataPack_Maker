@@ -3,8 +3,16 @@
 ====================================*/
 
 var TransectView = BaseView.extend({
-	tagName: 'tr',
-	classname: 'TransectView'
+	tagName: 'li',
+	classname: 'TransectView',
+	events: {
+		'click .toggle': 'toggleTransectForm',
+		'click .transect-data': 'toggleTransectForm',
+		'keypress :input': 'updateTransect',
+		'keyup :input': 'updateTransect',
+		'mouseover': "onMouseOver",
+		'mouseout': "onMouseOut",
+	}
 });
 
 TransectView.prototype.template = new EJS({
@@ -31,11 +39,14 @@ TransectView.prototype.render = function() {
 	this.$destroy = this.$(".destroy");
 	this.$toggle = this.$(".toggle");
 	this.$update = this.$(".update");
-	this.$name = this.$("input[name*=transect-name]");
-	this.$toggle.click(this.toggleForm.bind(this));
+	this.$name = this.$("input[name*=transect-name]")[0];
+	this.$description = this.$("textarea[name*=transect-description]")[0];
+
+	this.$toggle.click(this.toggleTransectForm.bind(this));
 };
 
-TransectView.prototype.toggleForm = function() {
+TransectView.prototype.toggleTransectForm = function() {
+	this.render();
 	this.transect.set({
 		'edit': !this.transect.get('edit')
 	});
@@ -53,6 +64,29 @@ TransectView.prototype.toggleEditStatus = function() {
 		this.$toggle.removeClass('show-data');
 		this.$toggle.addClass('hide-data');
 	}
+}
+
+
+TransectView.prototype.onMouseOver = function() {
+	this.$el.addClass('hover');
+};
+
+TransectView.prototype.onMouseOut = function() {
+	this.$el.removeClass('hover');
+};
+
+TransectView.prototype.updateTransect = function(evt) {
+
+	if (evt.keyCode == 13) {
+		this.toggleTransectForm();
+	}
+
+	var name = this.$name.value;
+	var description = this.$description.value;
+	this.transect.set({
+		name: name,
+		description: description
+	});
 }
 
 /*-----  End of TransectView  ------*/

@@ -1,24 +1,14 @@
-<td class="toggle hide-data" width="1%"></td>
-<td  width="98%">
-	<div class="row">
-		<label class="line-data large-12 columns"><%= name %></label>
-		<div class="line-form hide">
-			<div class="large-6 columns">
-				<label>Line</label>
-				<input type="text" value="<%= name %>" name="line-name">
-			</div>
-			<div class="large-6 columns">
-				<label>Pattern</label>
-				<select class="line-pattern" name="line-types">
-					<option value="default">Default</option>
-					<option value="wavy">Wavy</option>
-					<option value="jagged">Jagged</option>
-				</select>
-			</div>
-		</div>
+<div class="row">
+	<div class="small-3 columns">↳</div>
+	<label class="line-data small-21 columns"><%= name %> - <%= pattern %></label>
+	<div class="small-11 columns line-form hide">
+		<input type="text" value="<%= name %>" name="line-name">
 	</div>
-	<div class="line-form row hide large-12 columns">
-		<a href="#update-line" class="button secondary right small radius update-line">update</a>
+	<div class="small-10 columns line-form hide">
+		<select class="line-pattern" name="line-types">
+			<option value="default">Default</option>
+			<option value="wavy">Wavy</option>
+			<option value="jagged">Jagged</option>
+		</select>
 	</div>
-</td>
-<td class="destroy" width="1%"></td>
+</div>

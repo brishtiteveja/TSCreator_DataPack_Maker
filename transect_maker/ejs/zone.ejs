@@ -1,20 +1,12 @@
-<td class="toggle hide-data" width="3%"></td>
-<td  width="94%">
-	<div class="row">
-		<label class="zone-data large-12 columns"><%= name %></label>
-		<div class="zone-form hide">
-			<div class="large-12 columns">
-				<label>zone</label>
-				<input type="text" value="<%= name %>" name="zone-name">
-			</div>
-			<div class="large-12 columns">
-				<label>Description</label>
-				<textarea name="zone-description"></textarea>
-			</div>
-		</div>
+<div class="row">
+	<div class="toggle hide-data small-3 columns"></div>
+	<div class="zone-data small-17 columns ">
+		<label class="zone-label"><%= name %></label>
+		<label class="zone-label"><%= description || "You haven't written any description yet." %></label>
 	</div>
-	<div class="zone-form row hide large-12 columns">
-		<a href="#update-zone" class="button secondary right small radius">update</a>
+	<div class="small-17 columns zone-form hide">
+		<input type="text" value="<%= name %>" name="zone-name">
+		<textarea name="zone-description" placeholder="You haven't written any description yet."><%= description%></textarea>
 	</div>
-</td>
-<td class="destroy" width="3%"></td>
+	<div class="small-4 columns"><i class="destroy"></i></div>
+</div>

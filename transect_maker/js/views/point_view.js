@@ -3,7 +3,7 @@
 =================================*/
 
 var PointView = BaseView.extend({
-	tagName: 'tr',
+	tagName: 'li',
 	classname: "PointView",
 	events: {
 		'click .toggle': 'togglePointForm',
@@ -92,7 +92,7 @@ PointView.prototype.setFinishedMode = function() {
 		'fill': "#000000",
 		'stroke': "#000000"
 	});
-	this.$pointData.removeClass('hover-bg');
+	this.$el.removeClass('hover');
 };
 
 PointView.prototype.setEditMode = function() {
@@ -101,7 +101,7 @@ PointView.prototype.setEditMode = function() {
 		'fill': "#FF0033",
 		'stroke': '#FF0033'
 	});
-	this.$pointData.addClass('hover-bg');
+	this.$el.addClass('hover');
 }
 
 PointView.prototype.onMouseOver = function() {

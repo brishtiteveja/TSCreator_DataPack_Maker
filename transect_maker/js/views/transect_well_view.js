@@ -3,12 +3,13 @@
 ========================================*/
 
 var TransectWellView = BaseView.extend({
-	tagName: 'tr',
+	tagName: 'li',
 	classname: 'TransectWellView',
 	events: {
 		'click .toggle': 'toggleWellForm',
 		'click .well-data': 'toggleWellForm',
-		'click a[href*="update-well"]': 'updateWell',
+    	'keypress :input': 'updateWell',
+    	'keyup :input': 'updateWell',
 		'mouseover': "onMouseOver",
 		'mouseout': "onMouseOut",
 	}
@@ -26,10 +27,10 @@ TransectWellView.prototype.initialize = function(transectWell, transectWellsView
 
 	/* listen to the events */
 	this.listenTo(this.transectWell, 'change:edit', this.editTransectWell.bind(this));
-	this.listenTo(this.transectWell, 'change:x', this.render.bind(this));
-	this.listenTo(this.transectWell, 'change:name', this.render.bind(this));
-	this.listenTo(this.transectWell, 'change:lat', this.render.bind(this));
-	this.listenTo(this.transectWell, 'change:lon', this.render.bind(this));
+	this.listenTo(this.transectWell, 'change:x', this.renderWell.bind(this));
+	this.listenTo(this.transectWell, 'change:name', this.renderWell.bind(this));
+	this.listenTo(this.transectWell, 'change:lat', this.renderWell.bind(this));
+	this.listenTo(this.transectWell, 'change:lon', this.renderWell.bind(this));
 };
 
 TransectWellView.prototype.render = function() {
@@ -102,7 +103,7 @@ TransectWellView.prototype.onMouseOver = function() {
 	this.element.attr({
 		"stroke-width": 5
 	});
-	this.$wellData.addClass('hover-bg');
+	this.$el.addClass('hover');
 };
 
 TransectWellView.prototype.onMouseOut = function() {
@@ -110,10 +111,11 @@ TransectWellView.prototype.onMouseOut = function() {
 	this.element.attr({
 		"stroke-width": 2
 	});
-	this.$wellData.removeClass('hover-bg');
+	this.$el.removeClass('hover');
 };
 
 TransectWellView.prototype.toggleWellForm = function() {
+	this.render();
 	this.transectWell.set({
 		'edit': !this.transectWell.get('edit')
 	});
@@ -133,7 +135,12 @@ TransectWellView.prototype.editTransectWell = function() {
 	}
 };
 
-TransectWellView.prototype.updateWell = function() {
+TransectWellView.prototype.updateWell = function(evt) {
+
+	if (evt.keyCode == 13) {
+		this.toggleWellForm();
+	}
+
 	var name = this.$wellName.value;
 	var lat = parseFloat(this.$wellLat.value);
 	var lon = parseFloat(this.$wellLon.value);
