@@ -49,8 +49,8 @@ TransectAppView.prototype.render = function() {
 **/
 
 TransectAppView.prototype.renderTransectImage = function() {
-	var transectImage = new TransectImage({url: "/images/Scan2_CentralVulcan-page-001.gif", x: this.x, y: this.y});
-	var transectImageView = new TransectImageView(transectImage);
+	// var transectImage = new TransectImage({url: "/images/Scan2_CentralVulcan-page-001.gif", x: this.x, y: this.y});
+	// var transectImageView = new TransectImageView(transectImage);
 };
 
 TransectAppView.prototype.showSettings = function(evt) {

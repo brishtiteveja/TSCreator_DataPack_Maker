@@ -1,6 +1,50 @@
+@import "compass/utilities/general/clearfix";
+@import "../utils/styles";
+
 #display {
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
 	overflow: auto;
+	
+	@include display_background;
+
+	> .intro { 
+
+		&.row {
+			margin: 100px auto auto auto;
+
+			> .columns {
+				float: none;
+			}
+
+			.columns {
+				@include intro;
+				margin: auto;
+
+				> .header {
+					padding: 30px;
+
+					li {
+						list-style-type: none;
+						> .row {
+							padding-top: 10px;
+							padding-bottom: 10px;
+
+							> .drag-box {
+								@include clearfix;
+								@include rounded_borders(#aaa, 5px, 5px, dashed);
+
+								height: 40px;
+
+								.text-message {
+									padding-top: 10px;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

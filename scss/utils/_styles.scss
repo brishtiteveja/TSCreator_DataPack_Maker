@@ -11,6 +11,16 @@
 	background: #333;
 }
 
+
+@mixin display_background {
+	background: #333;
+}
+
+@mixin intro {
+	background: #fff;
+}
+
+
 @mixin trash {
 	width: 16px;
 	height: 16px;
@@ -44,4 +54,13 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+@mixin rounded_borders($color, $width: 5px, $rounding: 5px, $style: solid) { 
+	-moz-border-radius: $rounding $rounding;
+	-webkit-border-radius: $rounding $rounding;
+	-khtml-border-radius: $rounding $rounding;
+	-o-border-radius: $rounding $rounding;
+	border-radius: $rounding $rounding;
+	border: $width $color $style; 
 }

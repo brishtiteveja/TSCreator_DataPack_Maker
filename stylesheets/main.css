@@ -1581,12 +1581,55 @@
   margin: auto;
 }
 
-/* line 1, ../scss/display/_display.scss */
+/* line 4, ../scss/display/_display.scss */
 #display {
   height: 100%;
   margin: 0px;
   padding: 0px;
   overflow: auto;
+  background: #333;
+}
+/* line 14, ../scss/display/_display.scss */
+#display > .intro.row {
+  margin: 100px auto auto auto;
+}
+/* line 17, ../scss/display/_display.scss */
+#display > .intro.row > .columns {
+  float: none;
+}
+/* line 21, ../scss/display/_display.scss */
+#display > .intro.row .columns {
+  background: #fff;
+  margin: auto;
+}
+/* line 25, ../scss/display/_display.scss */
+#display > .intro.row .columns > .header {
+  padding: 30px;
+}
+/* line 28, ../scss/display/_display.scss */
+#display > .intro.row .columns > .header li {
+  list-style-type: none;
+}
+/* line 30, ../scss/display/_display.scss */
+#display > .intro.row .columns > .header li > .row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+/* line 34, ../scss/display/_display.scss */
+#display > .intro.row .columns > .header li > .row > .drag-box {
+  overflow: hidden;
+  *zoom: 1;
+  -moz-border-radius: 5px 5px;
+  -webkit-border-radius: 5px 5px;
+  -khtml-border-radius: 5px 5px;
+  -o-border-radius: 5px 5px;
+  border-radius: 5px 5px;
+  border: 5px #aaaaaa dashed;
+  height: 40px;
+}
+/* line 40, ../scss/display/_display.scss */
+#display > .intro.row .columns > .header li > .row > .drag-box .text-message {
+  padding-top: 10px;
 }
 
 /* line 1, ../scss/settings/_polygons.scss */

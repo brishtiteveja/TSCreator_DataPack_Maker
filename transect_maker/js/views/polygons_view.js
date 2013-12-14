@@ -38,7 +38,7 @@ PolygonsView.prototype.addPolygon = function(polygon) {
 
 PolygonsView.prototype.createPolygon = function() {
 	if (transectApp.CurrentPolygon == null) {
-		transectApp.	CurrentPolygon = new Polygon();
+		transectApp.CurrentPolygon = new Polygon();
 		this.polygonsCollection.add(transectApp.CurrentPolygon);
 		this.disableAllPolygons();
 		transectApp.CurrentPolygon.set({

@@ -370,7 +370,7 @@ PolygonView.prototype.delete = function() {
 	if (this.element !== undefined) this.element.remove();
 	if (this.linesSet !== undefined) this.linesSet.remove();
 	if (this.pointsSet !== undefined) this.pointsSet.remove();
-	this.glow.remove();
+	if (this.glow !== undefined) this.glow.remove();
 	this.remove();
 }
 
