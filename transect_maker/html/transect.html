@@ -1,90 +1,96 @@
+<!DOCTYPE html5>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Transect Maker</title>
-		<link rel="stylesheet" href="../../stylesheets/app.css">
-		<link rel="stylesheet" href="../../stylesheets/main.css">
-		<link rel="stylesheet" href="../../stylesheets/qtip.css">
+		<link rel="stylesheet" href="/stylesheets/app.css">
+		<link rel="stylesheet" href="/stylesheets/main.css">
+		<link rel="stylesheet" href="/stylesheets/qtip.css">
 
 
 		<!--  -->
-		<script type="text/javascript" src="../../commons/js/lib/jquery-1.10.2.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/raphael.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/raphael.export.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/underscore.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/backbone.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/backbone.localStorage.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/ejs.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/dropzone.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/qtip.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/numerics.js"></script>
-		<script type="text/javascript" src="../../commons/js/lib/foundation/js/foundation/foundation.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/raphael.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/raphael.export.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/underscore.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/backbone.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/backbone.localStorage.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/ejs.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/dropzone.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/qtip.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/numerics.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/foundation/js/foundation/foundation.js"></script>
 
 		<!--  -->
-		<script type="text/javascript" src="../../commons/js/fixtures/master_chronostrat.js"></script>
-		<script type="text/javascript" src="../../commons/js/fixtures/sample_transect.js"></script>
-		<script type="text/javascript" src="../../commons/js/views/keys.js"></script>
+		<script type="text/javascript" src="/commons/js/fixtures/master_chronostrat.js"></script>
+		<script type="text/javascript" src="/commons/js/fixtures/sample_transect.js"></script>
+		<script type="text/javascript" src="/commons/js/views/keys.js"></script>
 
 		<!-- Patterns -->
-		<script type="text/javascript" src="../../pattern_manager/js/patterns_list.js"></script>
+		<script type="text/javascript" src="/pattern_manager/js/patterns_list.js"></script>
 
 		<!-- ConvexHull -->
-		<script type="text/javascript" src="../../commons/js/utils/convexhull.js"></script>
+		<script type="text/javascript" src="/commons/js/utils/convexhull.js"></script>
 
 		<!-- Basic Components -->
-		<script src="../../commons/js/models/base_model.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../commons/js/views/base_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../commons/js/collections/base_collection.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/commons/js/models/base_model.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/commons/js/views/base_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/commons/js/collections/base_collection.js" type="text/javascript" charset="utf-8"></script>
 		
 		<!-- Settings Model -->
-		<script src="../../commons/js/models/settings.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/commons/js/models/settings.js" type="text/javascript" charset="utf-8"></script>
 		
 		<!-- Transect App View -->
-		<script src="../../transect_maker/js/views/transect_app_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_app_view.js" type="text/javascript" charset="utf-8"></script>
 		
 		<!-- Transect Image Components -->
-		<script src="../../transect_maker/js/models/transect_image.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/transect_image_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/transect_image.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_image_view.js" type="text/javascript" charset="utf-8"></script>
 
 		<!-- Transect Marker Components -->
-		<script src="../../transect_maker/js/models/transect_marker.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/transect_markers_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/transect_marker_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/transect_marker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_markers_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_marker_view.js" type="text/javascript" charset="utf-8"></script>
 		
 		<!-- Transect Wells Components -->
-		<script src="../../transect_maker/js/models/transect_well.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/transect_wells_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/transect_well_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/transect_well.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_wells_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_well_view.js" type="text/javascript" charset="utf-8"></script>
 
 		
 		<!-- Transect Zones Components -->
-		<script src="../../transect_maker/js/models/zone.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/zone_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/zones_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/zone.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/zone_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/zones_view.js" type="text/javascript" charset="utf-8"></script>
 
 		<!-- Transect Components -->
-		<script src="../../transect_maker/js/models/transect.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/transect_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/transects_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/transect.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transects_view.js" type="text/javascript" charset="utf-8"></script>
 
 		<!-- Polygon Components -->
-		<script src="../../transect_maker/js/models/point.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/models/line.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/models/polygon.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/point.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/line.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/models/polygon.js" type="text/javascript" charset="utf-8"></script>
 
-		<script src="../../transect_maker/js/views/point_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/line_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/polygon_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../transect_maker/js/views/polygons_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/point_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/line_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/polygon_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/polygons_view.js" type="text/javascript" charset="utf-8"></script>
+
+		<!-- Transect Text Components -->
+		<script src="/transect_maker/js/models/transect_text.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_text_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/views/transect_texts_view.js" type="text/javascript" charset="utf-8"></script>
 
 		<!-- default settings for transect -->
-		<script src="../../transect_maker/js/default_settings.js" type="text/javascript"></script>
+		<script src="/transect_maker/js/default_settings.js" type="text/javascript"></script>
 
 		<!-- Transect utils to load from and export to tsc datapack formats -->
-		<script src="../../transect_maker/js/utils/loader.js" type="text/javascript"></script>
+		<script src="/transect_maker/js/utils/loader.js" type="text/javascript"></script>
 
 		<!-- main js that initializes everything -->
-		<script src="../../transect_maker/js/transect_app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/transect_maker/js/transect_app.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
 		<div class="container row">
@@ -93,6 +99,7 @@
 					<li><a href="#add-marker" class="transect-tools icon icons_32-cursor_H_split_icon_32"></a></li>
 					<li><a href="#add-well" class="transect-tools icon icons_32-cursor_V_split_icon_32"></a></li>
 					<li><a href="#add-polygon" class="transect-tools icon icons-polygon4"></a></li>
+					<li><a href="#add-transect-text" class="transect-tools icon icons_32-text_letter_t_icon_32"></a></li>
 					<!-- <li><a href="#" class="transect-tools icon icons_32-zoom_icon_32"></a></li>
 					<li><a href="#" class="transect-tools icon icons_32-cursor_drag_hand_icon_32"></a></li>
 					<li><a href="#" class="transect-tools icon icons_32-cursor_drag_arrow_icon_32"></a></li>
@@ -103,8 +110,8 @@
 					<li><a href="#" class="transect-tools icon icons_32-doc_export_icon_32"></a></li>
 				</ul>
 			</div>
-			<div id="display" class="small-17 large-20 columns">
-				<div class="intro row">
+			<div id="display" class="small-18 large-21 columns">
+				<div class="intro row" id="intro-screen">
 					<div class="content small-22 large-22 columns">
 						<div class="row">
 							<div class="small-22 large-22 columns">
@@ -135,21 +142,21 @@
 												</div>
 											</li>
 											<li>
-												<div class="row no-image-or-data">
+												<div class="row" id="no-image-or-data">
 													<div class="small-10 columns large-10"></div>
-													<div class="small-14 columns large-14"><a href="#" title="">continue without image or data ➤</a></div>
+													<div class="small-14 columns large-14"><a href="#" title="" class="continue">continue without image or data ➤</a></div>
 												</div>
-												<div class="row image-only hide">
+												<div class="row hide" id="image-only">
 													<div class="small-10 columns large-14"></div>
-													<div class="small-14 columns large-10"><a href="#" title="">continue without data ➤</a></div>
+													<div class="small-14 columns large-10"><a href="#" title="" class="continue">continue without data ➤</a></div>
 												</div>
-												<div class="row data-only hide">
+												<div class="row hide" id="data-only">
 													<div class="small-10 columns large-14"></div>
-													<div class="small-14 columns large-10"><a href="#" title="">continue without image ➤</a></div>
+													<div class="small-14 columns large-10"><a href="#" title="" class="continue">continue without image ➤</a></div>
 												</div>
-												<div class="row both-image-and-data hide">
+												<div class="row hide" id="both-image-and-data">
 													<div class="small-10 columns large-16"></div>
-													<div class="small-14 columns large-8"><a href="#" title="">continue ➤</a></div>
+													<div class="small-14 columns large-8"><a href="#" title="" class="continue">continue ➤</a></div>
 												</div>
 											</li>
 										</ul>
@@ -166,15 +173,16 @@
 					<p class="status-box right"></p>
 				</div> -->
 			</div>
-			<div id="settings" class="small-5 large-3 columns">
+			<div id="settings" class="small-4 large-2 columns">
 				<div>
 					<ul class="custom-sidenav-class">
-						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#markers">Markers</a></li>
-						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#wells">Wells</a></li>
-						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#polygons">Polygons</a></li>
-						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#zones">Zones</a></li>
-						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#transects">Transects</a></li>
-						<li class="settings-links"><a class="transect-settings icons_32-br_prev_icon_32" href="#defaults">Defaults</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#markers">✭ Markers</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#wells">✭ Wells</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#polygons">✭ Polygons</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#zones">✭ Zones</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#transects">✭ Transects</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#texts">✭ Texts</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#defaults">✭ Defaults</a></li>
 					</ul>
 				</div>
 				<div id="sections-panel">
@@ -183,6 +191,7 @@
 					<div class="settings-content" id="zones-list"></div>
 					<div class="settings-content" id="polygons-list"></div>
 					<div class="settings-content" id="markers-list"></div>
+					<div class="settings-content" id="texts-list"></div>
 					<div class="settings-content" id="defaults-list"></div>
 				</div>
 			</div>

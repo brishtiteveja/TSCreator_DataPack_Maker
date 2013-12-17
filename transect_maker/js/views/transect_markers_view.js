@@ -5,7 +5,7 @@
 var TransectMarkersView = BaseView.extend({
 	el: "#markers-list",
 	classname: "TransectMarkersView"
-})
+});
 
 TransectMarkersView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
 
@@ -21,7 +21,7 @@ TransectMarkersView.prototype.initialize = function() {
 	this.listenToActionEvents();
 
 	/* initialize listeners to listen the the changes in markers collection. */
-	this.listenTo(this.transectMarkers, "add", this.render.bind(this));
+	this.listenTo(this.transectMarkers, "add", this.renderMarkers.bind(this));
 };
 
 TransectMarkersView.prototype.listenToActionEvents = function () {
@@ -68,4 +68,5 @@ TransectMarkersView.prototype.updateZones = function() {
 	});
 	this.transectZones.reset(zones);
 };
+
 /*-----  End of TransectMarkersView  ------*/

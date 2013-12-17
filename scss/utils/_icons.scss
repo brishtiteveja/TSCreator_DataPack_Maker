@@ -1,0 +1,41 @@
+@mixin icon_32 {
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 32px;
+	height: 32px;
+}
+
+.icons_32-cursor_H_split_icon_32 {
+	background: url('/images/cc/black/png/icons_32/cursor_H_split_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-cursor_V_split_icon_32 {
+	background: url('/images/cc/black/png/icons_32/cursor_V_split_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-cursor_V_split_icon_32 {
+	background: url('/images/cc/black/png/icons_32/cursor_V_split_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-cursor_V_split_icon_32 {
+	background: url('/images/cc/black/png/icons_32/cursor_V_split_icon_32.png');
+	@include icon_32;
+}
+
+.icons-polygon4 {
+	background: url('/images/icons/polygon4.png');
+	@include icon_32;
+}
+
+.icons_32-text_letter_t_icon_32 {
+	background: url('/images/cc/black/png/icons_32/text_letter_t_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-doc_export_icon_32 {
+	background: url('/images/cc/black/png/icons_32/doc_export_icon_32.png');
+	@include icon_32;
+}

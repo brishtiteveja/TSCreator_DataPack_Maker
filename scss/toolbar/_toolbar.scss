@@ -16,7 +16,6 @@
 		
 		li {
 			border-bottom: 1px solid #000;
-			padding: 5px;
 			margin: 0px;
 
 			&:hover {
@@ -28,9 +27,9 @@
 			}
 			
 			a.icon {
-				width: 32px;
-				height: 32px;
-				margin: auto;
+				background-position: 12 6px;
+				width:100%;
+				height:48px;
 			}
 		}
 	}

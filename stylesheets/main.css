@@ -1563,22 +1563,21 @@
 /* line 17, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li {
   border-bottom: 1px solid #000;
-  padding: 5px;
   margin: 0px;
 }
-/* line 22, ../scss/toolbar/_toolbar.scss */
+/* line 21, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li:hover {
   background: #777;
 }
-/* line 26, ../scss/toolbar/_toolbar.scss */
+/* line 25, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li:active {
   background: #333;
 }
-/* line 30, ../scss/toolbar/_toolbar.scss */
+/* line 29, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li a.icon {
-  width: 32px;
-  height: 32px;
-  margin: auto;
+  background-position: 12 6px;
+  width: 100%;
+  height: 48px;
 }
 
 /* line 4, ../scss/display/_display.scss */
@@ -1590,33 +1589,33 @@
   background: #333;
 }
 /* line 14, ../scss/display/_display.scss */
-#display > .intro.row {
+#display > #intro-screen.row {
   margin: 100px auto auto auto;
 }
 /* line 17, ../scss/display/_display.scss */
-#display > .intro.row > .columns {
+#display > #intro-screen.row > .columns {
   float: none;
 }
 /* line 21, ../scss/display/_display.scss */
-#display > .intro.row .columns {
+#display > #intro-screen.row .columns {
   background: #fff;
   margin: auto;
 }
 /* line 25, ../scss/display/_display.scss */
-#display > .intro.row .columns > .header {
+#display > #intro-screen.row .columns > .header {
   padding: 30px;
 }
 /* line 28, ../scss/display/_display.scss */
-#display > .intro.row .columns > .header li {
+#display > #intro-screen.row .columns > .header li {
   list-style-type: none;
 }
 /* line 30, ../scss/display/_display.scss */
-#display > .intro.row .columns > .header li > .row {
+#display > #intro-screen.row .columns > .header li > .row {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 /* line 34, ../scss/display/_display.scss */
-#display > .intro.row .columns > .header li > .row > .drag-box {
+#display > #intro-screen.row .columns > .header li > .row > .drag-box {
   overflow: hidden;
   *zoom: 1;
   -moz-border-radius: 5px 5px;
@@ -1628,11 +1627,11 @@
   height: 40px;
 }
 /* line 40, ../scss/display/_display.scss */
-#display > .intro.row .columns > .header li > .row > .drag-box .text-message {
+#display > #intro-screen.row .columns > .header li > .row > .drag-box .text-message {
   padding-top: 10px;
 }
 /* line 44, ../scss/display/_display.scss */
-#display > .intro.row .columns > .header li > .row > .drag-box:hover {
+#display > #intro-screen.row .columns > .header li > .row > .drag-box:hover {
   background: #f1f1f1;
 }
 
@@ -1663,35 +1662,34 @@
 /* line 16, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li {
   border-bottom: 1px solid #000;
-  padding: 5px;
   margin: 0px;
 }
-/* line 21, ../scss/settings/_settings.scss */
+/* line 20, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li:hover {
   background: #777;
 }
-/* line 25, ../scss/settings/_settings.scss */
+/* line 24, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li:active {
   background: #333;
 }
-/* line 29, ../scss/settings/_settings.scss */
+/* line 28, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li a {
   color: #222;
-  padding-left: 37px;
+  padding: 5px;
   margin: auto;
 }
-/* line 33, ../scss/settings/_settings.scss */
+/* line 32, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li a.active {
   background: #333;
   color: #FFF;
 }
-/* line 38, ../scss/settings/_settings.scss */
+/* line 37, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li em.icon {
   width: 32px;
   height: 32px;
   margin: auto;
 }
-/* line 44, ../scss/settings/_settings.scss */
+/* line 43, ../scss/settings/_settings.scss */
 #settings ul.custom-sidenav-class li.active {
   background: #333;
   color: #FFF;
@@ -1762,7 +1760,7 @@
   width: 16px;
   height: 16px;
   display: block;
-  background: url("/images/cc/white/png/icons_16/trash_icon&16.png");
+  background: url("/images/cc/white/png/icons_16/trash_icon_16.png");
   background-position: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -1807,7 +1805,7 @@
   width: 16px;
   height: 16px;
   display: block;
-  background: url("/images/cc/white/png/icons_16/trash_icon&16.png");
+  background: url("/images/cc/white/png/icons_16/trash_icon_16.png");
   background-position: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -1832,7 +1830,70 @@
   content: '➜';
 }
 
-/* line 8, ../scss/main.scss */
+/* line 8, ../scss/utils/_icons.scss */
+.icons_32-cursor_H_split_icon_32 {
+  background: url("/images/cc/black/png/icons_32/cursor_H_split_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 13, ../scss/utils/_icons.scss */
+.icons_32-cursor_V_split_icon_32 {
+  background: url("/images/cc/black/png/icons_32/cursor_V_split_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 18, ../scss/utils/_icons.scss */
+.icons_32-cursor_V_split_icon_32 {
+  background: url("/images/cc/black/png/icons_32/cursor_V_split_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 23, ../scss/utils/_icons.scss */
+.icons_32-cursor_V_split_icon_32 {
+  background: url("/images/cc/black/png/icons_32/cursor_V_split_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 28, ../scss/utils/_icons.scss */
+.icons-polygon4 {
+  background: url("/images/icons/polygon4.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 33, ../scss/utils/_icons.scss */
+.icons_32-text_letter_t_icon_32 {
+  background: url("/images/cc/black/png/icons_32/text_letter_t_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 38, ../scss/utils/_icons.scss */
+.icons_32-doc_export_icon_32 {
+  background: url("/images/cc/black/png/icons_32/doc_export_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 9, ../scss/main.scss */
 body > .row {
   /* this will work for QtWebKit in future */
   -webkit-user-drag: none;

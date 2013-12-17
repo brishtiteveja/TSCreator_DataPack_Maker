@@ -9,17 +9,15 @@ var TransectAppView = BaseView.extend({
 	events: {
 		'click a.transect-settings': 'showSettings',
 		'click a.transect-tools': 'enableTool',
-		'dragover div#image-box': 'handleImageDragOver',
-		'drop div#image-box': 'handleImageSelect',
-		'dragover div#data-box': 'handleDatapackDragOver',
-		'drop div#data-box': 'handleDatapackSelect',
+		'click a.continue': 'showCanvas'
 	}
 });
 
 /*==========  Initialize transect view  ==========*/
 
 TransectAppView.prototype.initialize = function() {
-	this.$canvas = $("#canvas");
+	this.$introScreen = this.$("#intro-screen");
+	this.$canvas = this.$("#canvas");
 	transectApp.StatusBox = $(".status-box");
 	transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
 	PointsSet = transectApp.Canvas.set();
@@ -38,10 +36,16 @@ TransectAppView.prototype.initialize = function() {
 	this.render();
 };
 
+TransectAppView.prototype.showCanvas = function() {
+	this.$(canvas).removeClass('hide');
+	this.$introScreen.addClass('hide');
+}
+
 TransectAppView.prototype.render = function() {
 	this.transectsView = new TransectsView();
 	this.transectMarkersView = new TransectMarkersView();
 	this.transectWellsView = new TransectWellsView();
+	this.transectTextsView = new TransectTextsView();
 	this.zonesView = new ZonesView();
 	this.polygonsView = new PolygonsView();
 	this.renderTransectImage();
@@ -55,8 +59,8 @@ TransectAppView.prototype.render = function() {
 **/
 
 TransectAppView.prototype.renderTransectImage = function() {
-	// var transectImage = new TransectImage({url: "/images/Scan2_CentralVulcan-page-001.gif", x: this.x, y: this.y});
-	// var transectImageView = new TransectImageView(transectImage);
+	var transectImage = new TransectImage({url: "/images/Scan2_CentralVulcan-page-001.gif", x: this.x, y: this.y});
+	var transectImageView = new TransectImageView(transectImage);
 };
 
 TransectAppView.prototype.showSettings = function(evt) {
@@ -84,6 +88,7 @@ TransectAppView.prototype.enableTool = function(evt) {
 	var source = evt.target.getAttribute('href');
 	this.transectMarkersView.enMarkers = false;
 	this.transectWellsView.enWells = false;
+	this.transectTextsView.enTransectTexts = false;
 	this.polygonsView.disableAllPolygons();
 	transectApp.CurrentPolygon = null;
 	switch(source) {
@@ -92,6 +97,9 @@ TransectAppView.prototype.enableTool = function(evt) {
 			break;
 		case "#add-well":
 			this.transectWellsView.enWells = true;
+			break;
+		case "#add-transect-text":
+			this.transectTextsView.enTransectTexts = true;
 			break;
 		case "#add-polygon":
 			this.polygonsView.createPolygon();
@@ -103,40 +111,6 @@ TransectAppView.prototype.enableTool = function(evt) {
 			break;
 	}
 };
-
-
-TransectAppView.prototype.handleImageDragOver = function(evt) {
-	evt.originalEvent.stopPropagation();
-	evt.originalEvent.preventDefault();
-	evt.dataTransfer.dropEffect = 'copy'; 
-}
-
-
-TransectAppView.prototype.handleImageSelect = function(evt) {
-	evt.originalEvent.stopPropagation();
-	evt.originalEvent.preventDefault();
-	var files = evt.dataTransfer.files;
-	debugger;
-}
-
-
-TransectAppView.prototype.handleDatapackDragOver = function(evt) {
-	debugger;
-
-	evt.originalEvent.stopPropagation();
-	evt.originalEvent.preventDefault();
-	evt.dataTransfer.dropEffect = 'copy'; 
-}
-
-
-TransectAppView.prototype.handleDatapackSelect = function(evt) {
-	debugger;
-
-	evt.originalEvent.stopPropagation();
-	evt.originalEvent.preventDefault();
-	var files = evt.dataTransfer.files;
-}
-
 
 /*-----  End of Section comment block  ------*/
 

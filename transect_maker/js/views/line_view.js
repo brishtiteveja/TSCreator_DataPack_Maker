@@ -6,7 +6,6 @@ var LineView = BaseView.extend({
 	tagName: 'li',
 	classname: "LineView",
 	events: {
-		'click .toggle': 'toggleLineForm',
 		'click .line-data': 'toggleLineForm',
 		'keypress :input': 'updateLine',
 		'keyup :input': 'updateLine',
@@ -23,10 +22,10 @@ LineView.prototype.initialize = function(line) {
 	this.line = line;
 	this.listenTo(this.line, 'destroy', this.removeElement.bind(this));
 	this.listenTo(this.line, 'change:edit', this.toggleEditStatus.bind(this));
-	this.listenTo(this.line, 'change:name', this.render.bind(this));
-	this.listenTo(this.line.get('point1'), 'change', this.render.bind(this));
-	this.listenTo(this.line.get('point2'), 'change', this.render.bind(this));
-	this.listenTo(this.line, 'change:pattern', this.render.bind(this));
+	this.listenTo(this.line, 'change:name', this.renderLine.bind(this));
+	this.listenTo(this.line.get('point1'), 'change', this.renderLine.bind(this));
+	this.listenTo(this.line.get('point2'), 'change', this.renderLine.bind(this));
+	this.listenTo(this.line, 'change:pattern', this.renderLine.bind(this));
 	this.render();
 };
 
@@ -38,8 +37,9 @@ LineView.prototype.render = function() {
 	this.$lineForm = this.$(".line-form");
 	this.$lineData = this.$(".line-data");
 	this.$lineName = this.$('input[name="line-name"]')[0];
-	this.$linePattern = this.$(".line-pattern")[0];
-	this.$updateBtn = this.$('.update-line');
+	this.$linePattern = this.$("select.line-pattern");
+
+	this.$linePattern.change(this.updateLine.bind(this));
 
 	this.renderLine();
 };
@@ -131,7 +131,7 @@ LineView.prototype.updateLine = function(evt) {
 	}
 
 	var name = this.$lineName.value;
-	var pattern = this.$linePattern.value;
+	var pattern = this.$("select.line-pattern option:selected").val();
 	this.line.set({
 		name: name,
 		pattern: pattern
