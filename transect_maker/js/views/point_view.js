@@ -13,12 +13,16 @@ var PointView = BaseView.extend({
 });
 
 PointView.prototype.template = new EJS({url: '../../../transect_maker/ejs/point.ejs'});
+PointView.prototype.statusBoxTemplate = new EJS({url: '../../../transect_maker/ejs/status_box.ejs'});
 
 PointView.prototype.initialize = function(point) {
 	this.point = point;
 	this.render();
 	this.listenTo(this.point, 'destroy', this.removeElement.bind(this));
 	this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
+	this.listenTo(this.point, 'change:age', this.updateElement.bind(this));
+	this.listenTo(this.point, 'change:relativeX', this.updateElement.bind(this));
+	this.listenTo(this.point, 'change:relativeY', this.updateElement.bind(this));
 	this.listenTo(this.point, 'change:x', this.updateElement.bind(this));
 	this.listenTo(this.point, 'change:y', this.updateElement.bind(this));
 	this.listenTo(this.point, 'change:transect', this.updateElement.bind(this));
@@ -40,15 +44,17 @@ PointView.prototype.render = function() {
 PointView.prototype.renderPoint = function() {
 	if (this.element === undefined) {
 		this.element = transectApp.Canvas.circle(this.point.get('x'), this.point.get('y'), 4);
+		
+		PointsSet.push(this.element);
+		this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+		this.element.click(this.onClick.bind(this));
+		this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
+		this.renderTooltip();
+
+		this.element.attr({
+			'fill': "#000000"
+		});
 	}
-	this.element.attr({
-		'fill': "#000000"
-	});
-	PointsSet.push(this.element);
-	this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
-	this.element.click(this.onClick.bind(this));
-	this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
-	this.renderTooltip();
 	this.updateStatusBox();
 };
 
@@ -73,17 +79,11 @@ PointView.prototype.updateElement = function() {
 		'cy': this.point.get('y')
 	});
 	this.renderTooltip();
-	this.updateStatusBox();
+	this.updateStatusBox(); 
 }
 
 PointView.prototype.updateStatusBox = function() {
-	var html = this.point.get("name") + " | ";
-	html += "age: " + this.point.get('age') + " | ";
-	html += "x: " + this.point.get('x') + ", " + "y: " + this.point.get('y') + " | ";
-	html += "relX: " + this.point.get('relativeX') + ", " + "relY: " + this.point.get('relativeY') + " | ";
-	html += "transect: " + this.point.get('transect').get('name') + " | ";
-	html += "zone: " + this.point.get('zone').get('name');
-	transectApp.StatusBox.html(html);
+	transectApp.StatusBox.html(this.statusBoxTemplate.render(this.point.toJSON()));
 }
 
 PointView.prototype.setFinishedMode = function() {
@@ -114,7 +114,7 @@ PointView.prototype.onMouseOut = function() {
 
 PointView.prototype.onClick = function() {
 	if (transectApp.CurrentPolygon !== null) {
-		transectApp.CurrentPolygon.points.add(this.point);
+		transectApp.CurrentPolygon.get('points').add(this.point);
 	}
 }
 

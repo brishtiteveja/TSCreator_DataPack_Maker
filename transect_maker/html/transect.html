@@ -99,19 +99,15 @@
 					<li><a href="#add-marker" class="transect-tools icon icons_32-cursor_H_split_icon_32"></a></li>
 					<li><a href="#add-well" class="transect-tools icon icons_32-cursor_V_split_icon_32"></a></li>
 					<li><a href="#add-polygon" class="transect-tools icon icons-polygon4"></a></li>
+					<li><a href="#new-polygon" class="transect-tools icon icons-polygon4 text-right">⨁</a></li>
 					<li><a href="#add-transect-text" class="transect-tools icon icons_32-text_letter_t_icon_32"></a></li>
-					<!-- <li><a href="#" class="transect-tools icon icons_32-zoom_icon_32"></a></li>
-					<li><a href="#" class="transect-tools icon icons_32-cursor_drag_hand_icon_32"></a></li>
-					<li><a href="#" class="transect-tools icon icons_32-cursor_drag_arrow_icon_32"></a></li>
-					<li><a href="#" class="transect-tools icon icons_32-trash_icon_32"></a></li>
-					<li><a href="#" class="transect-tools icon icons_32-save_icon_32"></a></li>
-					<li><a href="#" class="transect-tools icon icons_32-redo_icon_32"></a></li>
-					<li><a href="#" class="transect-tools icon icons_32-undo_icon_32"></a></li> -->
+					<li><a href="#save-to-local-storage" class="transect-tools icon icons_save_icon_32"></a></li>
+					<li><a href="#save-to-server" class="transect-tools icon icons_download_icon_32"></a></li>
 					<li><a href="#" class="transect-tools icon icons_32-doc_export_icon_32"></a></li>
 				</ul>
 			</div>
 			<div id="display" class="small-18 large-21 columns">
-				<div class="intro row" id="intro-screen">
+				<div class="intro row hide" id="intro-screen">
 					<div class="content small-22 large-22 columns">
 						<div class="row">
 							<div class="small-22 large-22 columns">
@@ -168,22 +164,20 @@
 						</div>
 					</div>
 				</div>
-				<div id="canvas" class="hide"></div>
-				<!-- <div data-alert class="alert-box secondary canvas-status">
-					<p class="status-box right"></p>
-				</div> -->
+				<div id="canvas" class=""></div>
 			</div>
 			<div id="settings" class="small-4 large-2 columns">
 				<div>
 					<ul class="custom-sidenav-class">
-						<li class="settings-links"><a class="transect-settings" href="#markers">✭ Markers</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#wells">✭ Wells</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#polygons">✭ Polygons</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#zones">✭ Zones</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#transects">✭ Transects</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#texts">✭ Texts</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#defaults">✭ Defaults</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#markers">← Markers</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#wells">← Wells</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#polygons">← Polygons</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#zones">← Zones</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#transects">← Transects</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#texts">← Texts</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#defaults">← Defaults</a></li>
 					</ul>
+					<div data-alert class="alert-box secondary canvas-status status-box"></div>
 				</div>
 				<div id="sections-panel">
 					<div class="settings-content" id="transects-list"></div>

@@ -24,6 +24,8 @@ TransectAppView.prototype.initialize = function() {
 	LinesSet = transectApp.Canvas.set();
 	PolygonsSet = transectApp.Canvas.set();
 
+	transectApp.CurrentPolygon = null;
+
 	$.event.props.push('dataTransfer');
 
 	POLYGON_COLOR = "#000000";
@@ -86,23 +88,40 @@ TransectAppView.prototype.exportCanvasAsImage = function() {
 
 TransectAppView.prototype.enableTool = function(evt) {
 	var source = evt.target.getAttribute('href');
-	this.transectMarkersView.enMarkers = false;
-	this.transectWellsView.enWells = false;
-	this.transectTextsView.enTransectTexts = false;
-	this.polygonsView.disableAllPolygons();
-	transectApp.CurrentPolygon = null;
+
+	if (source === "#new-polygon") return;
+	
+	if (this.transectMarkersView.enMarkers) {
+		this.transectMarkersView.toggleMarkers();	
+	}
+
+	if (this.transectWellsView.enWells) {
+		this.transectWellsView.toggleWells();	
+	}
+
+	if (this.transectTextsView.enTransectTexts) {
+		this.transectTextsView.toggleTransectTexts();	
+	}
+
+	if (this.polygonsView.enPolygons) {
+		this.polygonsView.togglePolygons();
+	}
+	
+	this.polygonsView.checkAndDeleteCurrentPolygon();
+	
+	
 	switch(source) {
 		case "#add-marker":
-			this.transectMarkersView.enMarkers = true;
+			this.transectMarkersView.toggleMarkers();
 			break;
 		case "#add-well":
-			this.transectWellsView.enWells = true;
+			this.transectWellsView.toggleWells();
 			break;
 		case "#add-transect-text":
-			this.transectTextsView.enTransectTexts = true;
+			this.transectTextsView.toggleTransectTexts();
 			break;
 		case "#add-polygon":
-			this.polygonsView.createPolygon();
+			this.polygonsView.togglePolygons();
 			break;
 		case "#export-image":
 			this.exportCanvasAsImage();

@@ -14,10 +14,10 @@ var Zone = BaseModel.extend({
 		var attrs = [{
 			edit: false,
 			name: attributes.name || _.uniqueId("Zone "),
-			description: attributes.description || null
+			description: attributes.description || null,
+			topMarker: topMarker,
+			baseMarker: baseMarker,
 		}];
-		this.topMarker = topMarker;
-		this.baseMarker = baseMarker;
 		BaseModel.apply(this, attrs);
 	}
 });
@@ -25,25 +25,25 @@ var Zone = BaseModel.extend({
 Zone.prototype.isYInsideZone = function(y) {
 	/* Check if the zone contains the point. i.e. the point should lie
 	between the topMarker and baseMarker */
-	if (this.topMarker.get('y') <= y && y <= this.baseMarker.get('y')) {
+	if (this.get('topMarker').get('y') <= y && y <= this.get('baseMarker').get('y')) {
 		return true;
 	}
 	return false;
 }
 
 Zone.prototype.getRelativeY = function(y) {
-	if (this.topMarker.get('y') <= y && y <= this.baseMarker.get('y')) {
-		var num = ((y - this.topMarker.get('y'))/(this.baseMarker.get('y') - this.topMarker.get('y')))
+	if (this.get('topMarker').get('y') <= y && y <= this.get('baseMarker').get('y')) {
+		var num = ((y - this.get('topMarker').get('y'))/(this.get('baseMarker').get('y') - this.get('topMarker').get('y')))
 		return Math.round(num * 100) / 100;
 	}
 	return null;
 }
 
 Zone.prototype.getAbsoluteAge = function(y) {
-	if (this.topMarker.get('y') <= y && y <= this.baseMarker.get('y') 
-		&& this.topMarker.get('age') != null && this.baseMarker.get('age') != null) {
-		var num = ((y - this.topMarker.get('y'))/(this.baseMarker.get('y') - this.topMarker.get('y')))
-		age = num * (this.baseMarker.get('age') - this.topMarker.get('age')) + this.topMarker.get('age');
+	if (this.get('topMarker').get('y') <= y && y <= this.get('baseMarker').get('y') 
+		&& this.get('topMarker').get('age') != null && this.get('baseMarker').get('age') != null) {
+		var num = ((y - this.get('topMarker').get('y'))/(this.get('baseMarker').get('y') - this.get('topMarker').get('y')))
+		age = num * (this.get('baseMarker').get('age') - this.get('topMarker').get('age')) + this.get('topMarker').get('age');
 		return Math.round(age * 100) / 100;
 	}
 	return null;

@@ -24,6 +24,15 @@
 	background: url('/images/cc/black/png/icons_32/cursor_V_split_icon_32.png');
 	@include icon_32;
 }
+.icons_save_icon_32 {
+	background: url('/images/cc/black/png/icons_32/save_icon_32.png');
+	@include icon_32;	
+}
+
+.icons_download_icon_32 {
+	background: url('/images/cc/black/png/icons_32/download_icon_32.png');
+	@include icon_32;	
+}
 
 .icons-polygon4 {
 	background: url('/images/icons/polygon4.png');

@@ -61,13 +61,13 @@ TransectMarkerView.prototype.renderMarker = function() {
 			"stroke-width": 2,
 			"stroke": "#900000"
 		});
+		
+		/* attach listeners to the element */
+		this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+		this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
+		this.renderTooltip();
 	}
 	this.element.attr({'path': this.getPath()});
-
-	/* attach listeners to the element */
-	this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
-	this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
-	this.renderTooltip();
 };
 
 /*==========  render the tooltip for the marker in the canvas  ==========*/

@@ -10,6 +10,31 @@
 	padding: 0px;
 	margin: 0px;
 
+	.canvas-status {
+
+		margin: 0px;
+		padding: 0px;
+
+		> ul {
+
+			> h3 {
+				color: #fff;
+			}
+
+			@include display_background;
+			@include rounded_borders(#000, 2px);
+			@include settings_font;
+
+			margin: 3px;
+			> li {
+				padding: 5px;
+				font-size: 14px;
+				list-style-type: none;
+				border-top: 1px solid #fff;
+			}
+		}	
+	}
+
 	ul.custom-sidenav-class {
 		padding: 0px;
 		
@@ -18,11 +43,11 @@
 			margin: 0px;
 
 			&:hover {
-				@include toolbar_hover;
+				@include hover;
 			}
 
 			&:active {
-				@include toolbar_click;
+				@include click;
 			}
 
 			a {

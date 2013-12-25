@@ -9,11 +9,11 @@ var Polygon = BaseModel.extend({
 			edit: false,
 			draw: false,
 			name: attributes && attributes.name ? attributes.name : _.uniqueId("Polygon "),
-			patternName: attributes ? attributes.patternName : null
+			patternName: attributes ? attributes.patternName : null,
+			settings: new Settings(),
+			points: new Points(),
+			lines: new Lines(),
 		}];
-		this.settings = new Settings();
-		this.points = new Points();
-		this.lines = new Lines();
 		BaseModel.apply(this, attrs);
 	}
 });

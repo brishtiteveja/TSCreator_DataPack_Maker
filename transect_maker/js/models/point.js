@@ -1,4 +1,4 @@
-/*===================================
+	/*===================================
 =            Point Model            =
 ===================================*/
 
@@ -37,7 +37,7 @@ Point.prototype.updateTransectAndZone = function() {
 	}
 }
 
-Point.prototype.updateRelativeCoordinates = function(arguments) {
+Point.prototype.updateRelativeCoordinates = function() {
 	this.set({
 		relativeX: this.get('transect').getRelativeX(this.get('x')),
 		relativeY: this.get('zone').getRelativeY(this.get('y')),

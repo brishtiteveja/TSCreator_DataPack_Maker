@@ -50,16 +50,23 @@ TransectWellsView.prototype.addWell = function(well) {
 	this.$wellsTable.append(transectWellView.el);
 	this.set.push(transectWellView.element);
 	this.updateTransects();
+	transectApp.PointsCollection.updatePoints();
+	transectApp.TransectTextsCollection.updateTransectTexts();
 };
 
 TransectWellsView.prototype.toggleWells = function(evt) {
-	this.enWells = !this.enWells;
+	if ($("a[href='#add-well']").parent().hasClass('active')) {
+		$("a[href='#add-well']").parent().removeClass('active');
+		this.enWells = false;
+	} else {
+		$("a[href='#add-well']").parent().addClass('active');
+		this.enWells = true;
+	}
 };
 
 TransectWellsView.prototype.createWell = function(evt) {
 	if (this.enWells) {
 		this.transectWells.add(new TransectWell({x: evt.offsetX}));	
-		transectApp.PointsCollection.updatePoints();
 	}
 };
 

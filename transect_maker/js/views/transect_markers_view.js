@@ -21,7 +21,7 @@ TransectMarkersView.prototype.initialize = function() {
 	this.listenToActionEvents();
 
 	/* initialize listeners to listen the the changes in markers collection. */
-	this.listenTo(this.transectMarkers, "add", this.renderMarkers.bind(this));
+	this.listenTo(this.transectMarkers, "add", this.render.bind(this));
 };
 
 TransectMarkersView.prototype.listenToActionEvents = function () {
@@ -46,16 +46,23 @@ TransectMarkersView.prototype.addMarker = function(marker) {
 	this.$markersTable.append(transectMarkerView.el);
 	this.set.push(transectMarkerView.element);
 	this.updateZones();
+	transectApp.PointsCollection.updatePoints();
+	transectApp.TransectTextsCollection.updateTransectTexts();
 };
 
 TransectMarkersView.prototype.toggleMarkers = function(evt) {
-	this.enMarkers = !this.enMarkers;
+	if ($("a[href='#add-marker']").parent().hasClass('active')) {
+		$("a[href='#add-marker']").parent().removeClass('active');
+		this.enMarkers = false;
+	} else {
+		$("a[href='#add-marker']").parent().addClass('active');
+		this.enMarkers = true;
+	}
 };
 
 TransectMarkersView.prototype.createMarker = function(evt) {
 	if (this.enMarkers) {
-		this.transectMarkers.add(new TransectMarker({y: evt.offsetY}));	
-		transectApp.PointsCollection.updatePoints();
+		this.transectMarkers.add(new TransectMarker({y: evt.offsetY}));
 	}
 };
 

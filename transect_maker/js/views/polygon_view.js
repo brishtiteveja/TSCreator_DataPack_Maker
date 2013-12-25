@@ -47,24 +47,24 @@ PolygonView.prototype.initialize = function(polygon) {
 
 	/* listen to the changes in the points and re-render the lines. That is 
 	the point is moved we reset the lines and the polygon. */
-	this.listenTo(this.polygon.points, 'change', this.renderPolygonElement.bind(this));
-	this.listenTo(this.polygon.lines, 'change', this.renderPolygonElement.bind(this));
+	this.listenTo(this.polygon.get('points'), 'change', this.renderPolygonElement.bind(this));
+	this.listenTo(this.polygon.get('lines'), 'change', this.renderPolygonElement.bind(this));
 
 	/* listen to the changes in the collection and render the appropriate view. */
-	this.listenTo(this.polygon.points, 'add', this.addPointToPolygon.bind(this));
+	this.listenTo(this.polygon.get('points'), 'add', this.addPointToPolygon.bind(this));
 
 	/* listen to the event when all the points in the collection are reset  */
-	this.listenTo(this.polygon.points, 'reset', this.resetPolygonPoints.bind(this));
+	this.listenTo(this.polygon.get('points'), 'reset', this.resetPolygonPoints.bind(this));
 
 	/* listen to the event when a new line is added to the lines collection and
 	generate the lineview  */
-	this.listenTo(this.polygon.lines, 'add', this.addLineToPolygon.bind(this));
+	this.listenTo(this.polygon.get('lines'), 'add', this.addLineToPolygon.bind(this));
 
 	/* listen to lines and reset the lines */
-	this.listenTo(this.polygon.lines, 'reset', this.resetPolygonLines.bind(this));
+	this.listenTo(this.polygon.get('lines'), 'reset', this.resetPolygonLines.bind(this));
 
 
-	this.listenTo(this.polygon.lines, 'remove', this.updatePolygonLines.bind(this));
+	this.listenTo(this.polygon.get('lines'), 'remove', this.updatePolygonLines.bind(this));
 
 	/* destroy the view  if the model is  removed from the collection.*/
 	this.listenTo(this.polygon, 'destroy', this.delete.bind(this));
@@ -100,6 +100,12 @@ PolygonView.prototype.render = function() {
 	this.$patternImage = this.$('.patterns-image');
 
 	this.$polygonPattern.change(this.updatePolygonPattern.bind(this));
+
+	this.renderPoints();
+}
+
+PolygonView.prototype.renderPoints = function() {
+	this.polygon.get('points').each(this.addPoint.bind(this));
 }
 
 PolygonView.prototype.showPolygonLinesList = function() {
@@ -144,7 +150,7 @@ PolygonView.prototype.addPointToPolygon = function(point) {
 	this.pointsSet.push(pointView.element);
 
 	/* when ever we ad a new point we reset all the lines */
-	if (this.polygon.points.length > 1) {
+	if (this.polygon.get('points').length > 1) {
 		this.resetLines();
 	}
 	transectApp.PointsCollection.add(point);
@@ -161,26 +167,26 @@ this polygon as well as moving a point without breaking the polygon */
 PolygonView.prototype.resetLines = function() {	
 	var lines = [];
 
-	// delete the last line in the old polygin and add a new line
-	var point1 = this.polygon.points.at(this.polygon.points.length - 2);
-	var point2 = this.polygon.points.first();
+	// delete the last line in the old polygon and add a new line
+	var point1 = this.polygon.get('points').at(this.polygon.get('points').length - 2);
+	var point2 = this.polygon.get('points').first();
 	var line = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1});
 
 	if (line !== undefined && line.polygons.length  < 2) {
 		line.destroy();
 	}
 
-	point1 = this.polygon.points.at(this.polygon.points.length - 2);
-	point2 = this.polygon.points.last();
+	point1 = this.polygon.get('points').at(this.polygon.get('points').length - 2);
+	point2 = this.polygon.get('points').last();
 	var line1 = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
 	line1.polygons.add(this.polygon)
 
-	point1 = this.polygon.points.last();
-	point2 = this.polygon.points.first();
+	point1 = this.polygon.get('points').last();
+	point2 = this.polygon.get('points').first();
 	var line2 = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
 	line2.polygons.add(this.polygon)
 
-	this.polygon.lines.add([line1, line2]);
+	this.polygon.get('lines').add([line1, line2]);
 
 	this.renderPolygonElement();
 	this.setRenderFill();
@@ -202,11 +208,11 @@ PolygonView.prototype.addLineToPolygon = function(line) {
 
 /* this function listens to lines collection resets */
 PolygonView.prototype.resetPolygonLines = function() {
-	this.polygon.lines.each(this.addLineToPolygon, this);
+	this.polygon.get('lines').each(this.addLineToPolygon, this);
 }
 
 PolygonView.prototype.resetPolygonPoints = function() {
-	this.polygon.points.each(this.addPointToPolygon, this);	
+	this.polygon.get('points').each(this.addPointToPolygon, this);	
 }
 
 PolygonView.prototype.addPoint = function(evt) {
@@ -216,7 +222,7 @@ PolygonView.prototype.addPoint = function(evt) {
 		point.destroy();
 		return;
 	}
-	this.polygon.points.add(point);
+	this.polygon.get('points').add(point);
 }
 
 
@@ -261,26 +267,26 @@ PolygonView.prototype.toggleEditStatus = function() {
 
 PolygonView.prototype.getConvexHull = function() {
 	var hullPoints = [];
-	var points = this.polygon.points.toArray();
+	var points = this.polygon.get('points').toArray();
 	points.sort(sortPointX);
 	points.sort(sortPointY);
 	var hullPoints_size = chainHull_2D(points, points.length, hullPoints);
-	_.invoke(this.polygon.points.toArray(), 'destroy');
-	this.polygon.points.reset(hullPoints);
+	_.invoke(this.polygon.get('points').toArray(), 'destroy');
+	this.polygon.get('points').reset(hullPoints);
 }
 
 PolygonView.prototype.getPath = function() {
 	var path = 'M';
 	var self = this;
-	this.polygon.points.each(function(point, index, points) {
+	this.polygon.get('points').each(function(point, index, points) {
 		if (index == 0) {
 			path += point.get('x') + ',' + point.get('y');
 		} else {
-			var line = self.polygon.lines.findWhere({'point1' : points[index - 1], 'point2' : point});
+			var line = self.polygon.get('lines').findWhere({'point1' : points[index - 1], 'point2' : point});
 			if (line !== undefined) {
 				path += line.getPath();	
 			} else {
-				line = self.polygon.lines.findWhere({'point1' : point, 'point2' : points[index - 1]});
+				line = self.polygon.get('lines').findWhere({'point1' : point, 'point2' : points[index - 1]});
 				if (line !== undefined) {
 					var tempLine = new Line({}, points[index - 1], point);
 					path += tempLine.getPathFromPattern(line.get('pattern'));
@@ -288,11 +294,11 @@ PolygonView.prototype.getPath = function() {
 				}
 			}
 			if (index > 0 && index === points.length - 1) {
-				line = self.polygon.lines.findWhere({'point1' : point, 'point2' : points[0]});
+				line = self.polygon.get('lines').findWhere({'point1' : point, 'point2' : points[0]});
 				if (line !== undefined) {
 					path += line.getPath();	
 				} else {
-					line = self.polygon.lines.findWhere({'point1' : points[0], 'point2' : point});
+					line = self.polygon.get('lines').findWhere({'point1' : points[0], 'point2' : point});
 					if (line !== undefined) {
 						var tempLine = new Line({}, point, points[0]);
 						path += tempLine.getStraightPath();
@@ -329,6 +335,7 @@ PolygonView.prototype.renderTooltip = function() {
 };
 
 PolygonView.prototype.onMouseOver = function() {
+	if (!this.element) return;
 	if (this.glow !== undefined) {
 		this.glow.remove();	
 	}
@@ -371,6 +378,7 @@ PolygonView.prototype.delete = function() {
 	if (this.linesSet !== undefined) this.linesSet.remove();
 	if (this.pointsSet !== undefined) this.pointsSet.remove();
 	if (this.glow !== undefined) this.glow.remove();
+	this.$el.remove();
 	this.remove();
 }
 

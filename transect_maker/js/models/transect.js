@@ -8,24 +8,24 @@ var Transect = BaseModel.extend({
 		var attrs = [{
 			edit: false,
 			name: attributes.name || _.uniqueId("Transect "),
-			description: attributes.description || null
+			description: attributes.description || null,
+			wellLeft: wellLeft,
+			wellRight: wellRight,
 		}];
-		this.wellLeft = wellLeft;
-		this.wellRight = wellRight;
 		BaseModel.apply(this, attrs);
 	}
 });
 
 Transect.prototype.isXInsideTransect = function(x) {
-	if (this.wellLeft.get('x') <= x && x <= this.wellRight.get('x')) {
+	if (this.get('wellLeft').get('x') <= x && x <= this.get('wellRight').get('x')) {
 		return true;
 	}
 	return false;
 }
 
 Transect.prototype.getRelativeX = function(x) {
-	if (this.wellLeft.get('x') <= x && x <= this.wellRight.get('x')) {
-		var num = ((x - this.wellLeft.get('x'))/(this.wellRight.get('x') - this.wellLeft.get('x')))
+	if (this.get('wellLeft').get('x') <= x && x <= this.get('wellRight').get('x')) {
+		var num = ((x - this.get('wellLeft').get('x'))/(this.get('wellRight').get('x') - this.get('wellLeft').get('x')))
 		return Math.round(num * 100) / 100;
 	}
 	return null;

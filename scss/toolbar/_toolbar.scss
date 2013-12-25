@@ -19,14 +19,24 @@
 			margin: 0px;
 
 			&:hover {
-				@include toolbar_hover;
+				@include hover;
 			}
 
 			&:active {
-				@include toolbar_click;
+				@include click;
+			}
+
+			&.active {
+				@include hover;
+
+				&:hover {
+					@include click;
+				}
 			}
 			
 			a.icon {
+				@include app_font;
+				font-weight: 900;
 				background-position: 12 6px;
 				width:100%;
 				height:48px;
