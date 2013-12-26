@@ -9,9 +9,6 @@ var DataExportView = BaseView.extend({
 
 DataExportView.prototype.template = new EJS({url: '/transect_maker/ejs/data_export_panel.ejs'});
 DataExportView.prototype.transectWellDataTemplate = new EJS({url: '/transect_maker/ejs/wells_data.ejs'});
-DataExportView.prototype.transectPolygonMatrixTemplate = new EJS({url: '/transect_maker/ejs/transect_polygon_matrix.ejs'});
-DataExportView.prototype.transectPolygonDataTemplate = new EJS({url: '/transect_maker/ejs/transect_polygon_data.ejs'});
-DataExportView.prototype.transectTextDataTemplate = new EJS({url: '/transect_maker/ejs/transect_text_data.ejs'});
 DataExportView.prototype.transectDataLayout = new EJS({url: '/transect_maker/ejs/transect_data_layout.ejs'});
 
 DataExportView.prototype.initialize = function() {
