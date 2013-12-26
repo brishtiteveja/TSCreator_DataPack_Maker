@@ -16,6 +16,7 @@ var TransectAppView = BaseView.extend({
 /*==========  Initialize transect view  ==========*/
 
 TransectAppView.prototype.initialize = function() {
+	this.$exportPanel = this.$("#export-panel")
 	this.$introScreen = this.$("#intro-screen");
 	this.$canvas = this.$("#canvas");
 	transectApp.StatusBox = $(".status-box");
@@ -50,6 +51,7 @@ TransectAppView.prototype.render = function() {
 	this.transectTextsView = new TransectTextsView();
 	this.zonesView = new ZonesView();
 	this.polygonsView = new PolygonsView();
+	this.dataExportView = new DataExportView();
 	this.renderTransectImage();
 };
 
@@ -83,8 +85,18 @@ TransectAppView.prototype.showSettings = function(evt) {
 	}
 };
 
-TransectAppView.prototype.exportCanvasAsImage = function() {
+TransectAppView.prototype.showExportDataPanel = function(evt) {
+	if (this.$exportPanel.hasClass('active')) {
+		this.$exportPanel.removeClass('active');
+		this.$canvas.removeClass('hide');
+	} else {
+		this.dataExportView.render();
+		this.$exportPanel.addClass('active');
+		this.$canvas.addClass('hide');
+	}
 }
+
+TransectAppView.prototype.exportCanvasAsImage = function() {}
 
 TransectAppView.prototype.enableTool = function(evt) {
 	var source = evt.target.getAttribute('href');
@@ -123,8 +135,8 @@ TransectAppView.prototype.enableTool = function(evt) {
 		case "#add-polygon":
 			this.polygonsView.togglePolygons();
 			break;
-		case "#export-image":
-			this.exportCanvasAsImage();
+		case "#export-data":
+			this.showExportDataPanel();
 			break;
 		default:
 			break;

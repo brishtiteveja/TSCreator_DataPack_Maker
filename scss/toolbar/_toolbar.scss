@@ -1,9 +1,5 @@
 @import "../utils/styles";
-@import "compass/utilities/sprites";
-@import "icons/*.png";
-@import "cc/black/png/icons_32/*.png";
-@include all-icons-sprites;
-@include all-icons_32-sprites;
+@import "export_panel";
 
 #toolbar {
 	@include sidebar_style;

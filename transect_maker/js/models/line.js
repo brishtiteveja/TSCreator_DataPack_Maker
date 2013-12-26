@@ -10,10 +10,11 @@ var Line = BaseModel.extend({
 			name: attributes.name || _.uniqueId("Line "),
 			pattern: "default", // 0 => default, 1 => jagged, 2=> wavy
 			point1: point1,
-			point2: point2
+			point2: point2,
+			transects: new Transects(),
+			polygons: new Polygons(),
+			settings: new Settings(),
 		}];
-		this.polygons = new Polygons();
-		this.settings = new Settings();
 		BaseModel.apply(this, attrs);
 	}
 });

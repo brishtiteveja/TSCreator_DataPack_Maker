@@ -19,6 +19,7 @@
 		<script type="text/javascript" src="/commons/js/lib/dropzone.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/qtip.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/numerics.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/polyK.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/foundation/js/foundation/foundation.js"></script>
 
 		<!--  -->
@@ -87,7 +88,9 @@
 		<script src="/transect_maker/js/default_settings.js" type="text/javascript"></script>
 
 		<!-- Transect utils to load from and export to tsc datapack formats -->
+		<script src="/transect_maker/js/views/data_export_view.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/transect_maker/js/utils/loader.js" type="text/javascript"></script>
+		<script src="/transect_maker/js/utils/exporter.js" type="text/javascript"></script>
 
 		<!-- main js that initializes everything -->
 		<script src="/transect_maker/js/transect_app.js" type="text/javascript" charset="utf-8"></script>
@@ -103,10 +106,12 @@
 					<li><a href="#add-transect-text" class="transect-tools icon icons_32-text_letter_t_icon_32"></a></li>
 					<li><a href="#save-to-local-storage" class="transect-tools icon icons_save_icon_32"></a></li>
 					<li><a href="#save-to-server" class="transect-tools icon icons_download_icon_32"></a></li>
-					<li><a href="#" class="transect-tools icon icons_32-doc_export_icon_32"></a></li>
+					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32"></a></li>
 				</ul>
 			</div>
 			<div id="display" class="small-18 large-21 columns">
+				<div id="export-panel">
+				</div>
 				<div class="intro row hide" id="intro-screen">
 					<div class="content small-22 large-22 columns">
 						<div class="row">

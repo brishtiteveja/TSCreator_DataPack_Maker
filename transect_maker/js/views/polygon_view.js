@@ -145,6 +145,7 @@ PolygonView.prototype.listenToActionEvents = function() {
 }
 
 PolygonView.prototype.addPointToPolygon = function(point) {
+
 	var pointView = new PointView(point);
 	this.$pointsList.append(pointView.el);
 	this.pointsSet.push(pointView.element);
@@ -155,6 +156,13 @@ PolygonView.prototype.addPointToPolygon = function(point) {
 	}
 	transectApp.PointsCollection.add(point);
 	this.updateCanvasDimensions(point);
+}
+
+PolygonView.prototype.isSimple = function(point) {
+	var pointsArray = this.polygon.getPointsArray();
+	pointsArray.push(point.get('x'));
+	pointsArray.push(point.get('y'));
+	return PolyK.IsSimple(pointsArray);
 }
 
 PolygonView.prototype.updateCanvasDimensions = function(point) {
@@ -172,19 +180,19 @@ PolygonView.prototype.resetLines = function() {
 	var point2 = this.polygon.get('points').first();
 	var line = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1});
 
-	if (line !== undefined && line.polygons.length  < 2) {
+	if (line !== undefined && line.get('polygons').length  < 2) {
 		line.destroy();
 	}
 
 	point1 = this.polygon.get('points').at(this.polygon.get('points').length - 2);
 	point2 = this.polygon.get('points').last();
 	var line1 = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
-	line1.polygons.add(this.polygon)
+	line1.get('polygons').add(this.polygon)
 
 	point1 = this.polygon.get('points').last();
 	point2 = this.polygon.get('points').first();
 	var line2 = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
-	line2.polygons.add(this.polygon)
+	line2.get('polygons').add(this.polygon)
 
 	this.polygon.get('lines').add([line1, line2]);
 
@@ -218,10 +226,11 @@ PolygonView.prototype.resetPolygonPoints = function() {
 PolygonView.prototype.addPoint = function(evt) {
 	if (!this.polygon.get('draw')) {return;}
 	var point = transectApp.PointsCollection.findWhere({x: evt.offsetX, y: evt.offsetY}) || new Point({x: evt.offsetX, y: evt.offsetY});
-	if (point.get('transect') === null || point.get('zone') === null) {
+	if (point.get('transect') === null || point.get('zone') === null || !this.isSimple(point)) {
 		point.destroy();
 		return;
 	}
+
 	this.polygon.get('points').add(point);
 }
 

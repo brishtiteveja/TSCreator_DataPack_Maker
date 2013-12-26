@@ -8,6 +8,7 @@ var TransectWell = BaseModel.extend({
 		var attrs = [{
 			edit: false,
 			name: attributes.name || _.uniqueId("Well "),
+			id: _.uniqueId("well-"),
 			x: attributes.x,
 			lat: null,
 			lon: null,

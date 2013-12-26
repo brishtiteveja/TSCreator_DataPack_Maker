@@ -18,6 +18,15 @@ var Polygon = BaseModel.extend({
 	}
 });
 
+Polygon.prototype.getPointsArray = function(arguments) {
+	var array = [];
+	this.get('points').each(function(point) {
+		array.push(point.get('x'));
+		array.push(point.get('y'));
+	});
+	return array;
+}
+
 
 
 /*-----  End of Polygon  ------*/

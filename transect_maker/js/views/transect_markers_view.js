@@ -15,13 +15,14 @@ TransectMarkersView.prototype.initialize = function() {
 	this.transectMarkers = transectApp.TransectMarkersCollection;
 	this.enMarkers = false;
 
-	/* render the transect makers */
-	this.render();
+	/* initialize listeners to listen the the changes in markers collection. */
+	this.listenTo(this.transectMarkers, "add", this.render.bind(this));
 
 	this.listenToActionEvents();
 
-	/* initialize listeners to listen the the changes in markers collection. */
-	this.listenTo(this.transectMarkers, "add", this.render.bind(this));
+	/* render the transect makers */
+	this.render();
+
 };
 
 TransectMarkersView.prototype.listenToActionEvents = function () {
