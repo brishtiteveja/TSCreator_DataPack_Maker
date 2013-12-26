@@ -35,38 +35,42 @@
 		}	
 	}
 
-	ul.custom-sidenav-class {
-		padding: 0px;
-		
-		li {
-			border-bottom: 1px solid #000;
-			margin: 0px;
+	> .settings-nav {
+		height: 100%;
+		overflow: auto;
+		ul.custom-sidenav-class {
+			padding: 0px;
+			
+			li {
+				border-bottom: 1px solid #000;
+				margin: 0px;
 
-			&:hover {
-				@include hover;
-			}
+				&:hover {
+					@include hover;
+				}
 
-			&:active {
-				@include click;
-			}
+				&:active {
+					@include click;
+				}
 
-			a {
-				@include app_font;
-				padding: 5px;
-				margin: auto;
+				a {
+					@include app_font;
+					padding: 5px;
+					margin: auto;
+					&.active {
+						@include selected;
+					}
+				}
+
+				em.icon {
+					width: 32px;
+					height: 32px;
+					margin: auto;
+				}
+				
 				&.active {
 					@include selected;
 				}
-			}
-
-			em.icon {
-				width: 32px;
-				height: 32px;
-				margin: auto;
-			}
-			
-			&.active {
-				@include selected;
 			}
 		}
 	}

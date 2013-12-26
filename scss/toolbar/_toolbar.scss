@@ -4,6 +4,7 @@
 #toolbar {
 	@include sidebar_style;
 	height: 100%;
+	overflow: auto;
 	padding: 0px;
 	margin: 0px;
 

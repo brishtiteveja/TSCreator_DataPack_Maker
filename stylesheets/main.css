@@ -34,35 +34,36 @@
 #toolbar {
   background: #f1f1f1;
   height: 100%;
+  overflow: auto;
   padding: 0px;
   margin: 0px;
 }
-/* line 10, ../scss/toolbar/_toolbar.scss */
+/* line 11, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav {
   padding: 0px;
 }
-/* line 13, ../scss/toolbar/_toolbar.scss */
+/* line 14, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li {
   border-bottom: 1px solid #000;
   margin: 0px;
 }
-/* line 17, ../scss/toolbar/_toolbar.scss */
+/* line 18, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li:hover {
   background: #777;
 }
-/* line 21, ../scss/toolbar/_toolbar.scss */
+/* line 22, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li:active {
   background: #333;
 }
-/* line 25, ../scss/toolbar/_toolbar.scss */
+/* line 26, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li.active {
   background: #777;
 }
-/* line 28, ../scss/toolbar/_toolbar.scss */
+/* line 29, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li.active:hover {
   background: #333;
 }
-/* line 33, ../scss/toolbar/_toolbar.scss */
+/* line 34, ../scss/toolbar/_toolbar.scss */
 #toolbar ul.side-nav li a.icon {
   color: #222;
   font-weight: 900;
@@ -175,41 +176,46 @@
   border-top: 1px solid #fff;
 }
 /* line 38, ../scss/settings/_settings.scss */
-#settings ul.custom-sidenav-class {
-  padding: 0px;
+#settings > .settings-nav {
+  height: 100%;
+  overflow: auto;
 }
 /* line 41, ../scss/settings/_settings.scss */
-#settings ul.custom-sidenav-class li {
+#settings > .settings-nav ul.custom-sidenav-class {
+  padding: 0px;
+}
+/* line 44, ../scss/settings/_settings.scss */
+#settings > .settings-nav ul.custom-sidenav-class li {
   border-bottom: 1px solid #000;
   margin: 0px;
 }
-/* line 45, ../scss/settings/_settings.scss */
-#settings ul.custom-sidenav-class li:hover {
+/* line 48, ../scss/settings/_settings.scss */
+#settings > .settings-nav ul.custom-sidenav-class li:hover {
   background: #777;
 }
-/* line 49, ../scss/settings/_settings.scss */
-#settings ul.custom-sidenav-class li:active {
+/* line 52, ../scss/settings/_settings.scss */
+#settings > .settings-nav ul.custom-sidenav-class li:active {
   background: #333;
 }
-/* line 53, ../scss/settings/_settings.scss */
-#settings ul.custom-sidenav-class li a {
+/* line 56, ../scss/settings/_settings.scss */
+#settings > .settings-nav ul.custom-sidenav-class li a {
   color: #222;
   padding: 5px;
   margin: auto;
 }
-/* line 57, ../scss/settings/_settings.scss */
-#settings ul.custom-sidenav-class li a.active {
+/* line 60, ../scss/settings/_settings.scss */
+#settings > .settings-nav ul.custom-sidenav-class li a.active {
   background: #333;
   color: #FFF;
 }
-/* line 62, ../scss/settings/_settings.scss */
-#settings ul.custom-sidenav-class li em.icon {
+/* line 65, ../scss/settings/_settings.scss */
+#settings > .settings-nav ul.custom-sidenav-class li em.icon {
   width: 32px;
   height: 32px;
   margin: auto;
 }
-/* line 68, ../scss/settings/_settings.scss */
-#settings ul.custom-sidenav-class li.active {
+/* line 71, ../scss/settings/_settings.scss */
+#settings > .settings-nav ul.custom-sidenav-class li.active {
   background: #333;
   color: #FFF;
 }

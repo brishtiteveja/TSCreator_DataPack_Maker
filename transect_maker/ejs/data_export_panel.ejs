@@ -22,19 +22,17 @@
 			
 			<% if (i == 0) { %>
 				<% var wellLeft = transects[i].wellLeft.get('id') %>
-				<div id="wellLeft">
+				<div id="<%= wellLeft %>">
 					<h3><%=  transects[i].wellLeft.get('name') %></h3>
 				</div>
 			<% } %>
 			
 			<% var transect = transects[i].id %>
-			<div id="transect">
-				<h3><%=  transects[i].name %></h3>
+			<div id="<%= transect %>">
 			</div>
 			
 			<% var wellRight = transects[i].wellRight.get('id') %>
-			<div id="wellRight">
-				<h3><%=  transects[i].wellRight.get('name') %></h3>
+			<div id="<%= wellRight %>">
 			</div>
 
 		<% } %>

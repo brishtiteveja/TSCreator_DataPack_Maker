@@ -226,7 +226,7 @@ PolygonView.prototype.resetPolygonPoints = function() {
 PolygonView.prototype.addPoint = function(evt) {
 	if (!this.polygon.get('draw')) {return;}
 	var point = transectApp.PointsCollection.findWhere({x: evt.offsetX, y: evt.offsetY}) || new Point({x: evt.offsetX, y: evt.offsetY});
-	if (point.get('transect') === null || point.get('zone') === null || !this.isSimple(point)) {
+	if (point.get('transect') === null || point.get('zone') === null) {
 		point.destroy();
 		return;
 	}

@@ -25,14 +25,14 @@ var Zone = BaseModel.extend({
 Zone.prototype.isYInsideZone = function(y) {
 	/* Check if the zone contains the point. i.e. the point should lie
 	between the topMarker and baseMarker */
-	if (this.get('topMarker').get('y') <= y && y <= this.get('baseMarker').get('y')) {
+	if (this.get('topMarker').get('y') <= y && y < this.get('baseMarker').get('y')) {
 		return true;
 	}
 	return false;
 }
 
 Zone.prototype.getRelativeY = function(y) {
-	if (this.get('topMarker').get('y') <= y && y <= this.get('baseMarker').get('y')) {
+	if (this.get('topMarker').get('y') <= y && y < this.get('baseMarker').get('y')) {
 		var num = ((y - this.get('topMarker').get('y'))/(this.get('baseMarker').get('y') - this.get('topMarker').get('y')))
 		return Math.round(num * 100) / 100;
 	}
@@ -40,7 +40,7 @@ Zone.prototype.getRelativeY = function(y) {
 }
 
 Zone.prototype.getAbsoluteAge = function(y) {
-	if (this.get('topMarker').get('y') <= y && y <= this.get('baseMarker').get('y') 
+	if (this.get('topMarker').get('y') <= y && y < this.get('baseMarker').get('y') 
 		&& this.get('topMarker').get('age') != null && this.get('baseMarker').get('age') != null) {
 		var num = ((y - this.get('topMarker').get('y'))/(this.get('baseMarker').get('y') - this.get('topMarker').get('y')))
 		age = num * (this.get('baseMarker').get('age') - this.get('topMarker').get('age')) + this.get('topMarker').get('age');

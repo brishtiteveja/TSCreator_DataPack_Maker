@@ -1,0 +1,25 @@
+<h3><%=  data.get('name') %></h3>
+<table>
+	<thead>
+		<tr>
+			<th><%=  data.get('name') %></th>
+			<th>facies</th>
+			<th>100</th>
+			<th>255/255/255</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td></td>
+			<td>Primary</td>
+		</tr>
+		<% for (var name in referencePoints) { %>
+		<tr>
+			<td></td>
+			<td><%= referencePoints[name]["pattern"] || "None" %></td>
+			<td></td>
+			<td><%= referencePoints[name].data.get('age') || 0 %></td>
+		</tr>
+		<% } %>
+	</tbody>
+</table>

@@ -18,14 +18,14 @@ var Transect = BaseModel.extend({
 });
 
 Transect.prototype.isXInsideTransect = function(x) {
-	if (this.get('wellLeft').get('x') <= x && x <= this.get('wellRight').get('x')) {
+	if (this.get('wellLeft').get('x') <= x && x < this.get('wellRight').get('x')) {
 		return true;
 	}
 	return false;
 }
 
 Transect.prototype.getRelativeX = function(x) {
-	if (this.get('wellLeft').get('x') <= x && x <= this.get('wellRight').get('x')) {
+	if (this.get('wellLeft').get('x') <= x && x < this.get('wellRight').get('x')) {
 		var num = ((x - this.get('wellLeft').get('x'))/(this.get('wellRight').get('x') - this.get('wellLeft').get('x')))
 		return Math.round(num * 100) / 100;
 	}

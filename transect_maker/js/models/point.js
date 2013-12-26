@@ -63,6 +63,18 @@ Points.prototype.updatePoints = function() {
 	return true;
 }
 
+/* Override add function to prevent duplicate models in the collection. */
+
+Points.prototype.add = function(point) {
+	var isDupe = this.any(function(pt) {
+		return ((pt.get('x') == point.get('x')) && (pt.get('y') == point.get('y')));
+	});
+
+	if (!isDupe) {
+		BaseCollection.prototype.add.call(this, point);
+	}
+}
+
 /*-----  End of Points  ------*/
 
 var transectApp = transectApp || {};

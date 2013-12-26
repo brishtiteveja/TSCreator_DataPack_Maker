@@ -1,0 +1,57 @@
+<h3><%=  data.get('name') %></h3>
+<table>
+	<thead>
+		<tr>
+			<th><%= data.get('name') %></th>
+			<th>transect</th>
+			<th>300</th>
+			<th>255/255/255</th>
+			<th>on</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+<table>
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+			<% for (var i=0; i<100; i++) { %>
+			<th><%= i + 1 %></th>
+			<% } %>
+		</tr>
+	</thead>
+	<tbody>
+		<% for (var a in matrix) { %>
+			<tr>
+				<td></td>
+				<td><%= a %></td>
+				<% for (var i in matrix[a]) { %>
+				<% var point = matrix[a][i]; %>
+				<td><%= point %></td>
+				<% } %>
+			</tr>
+		<% } %>
+	</tbody>
+</table>
+<table>
+	<tbody>
+		<% for (var i=0; i<polygons.length; i++) { %>
+			<% var polygon = polygons[i]; %>
+			<tr>
+				<td>POLYGON</td>
+				<td>pattern: <%= polygon.pattern %></td>
+				<td><%= polygon.name %></td>
+			</tr>
+			<% for (var j=0; j<polygon.points.length; j++) { %>
+			<% var point = polygon.points.at(j); %>
+			<tr>
+				<td></td>
+				<td><%= point.get('name').substring(1) %></td>
+				<td></td>
+			</tr>
+			<% } %>
+		<% } %>
+	</tbody>
+</table>
