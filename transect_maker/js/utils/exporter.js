@@ -61,7 +61,6 @@ Exporter.prototype.getTransectPointMatrix = function(transectData) {
 		}
 		pointsMatrix[y][percent] = point.get('name');
 	});
-	debugger;
 	return pointsMatrix;
 }
 
@@ -90,8 +89,26 @@ Exporter.prototype.getPolygonsTransectsList = function(polygon) {
 	var transects = new Transects();
 	polygon.get('points').each(function(point) {
 		transects.add(point.get('transect'));
-	})
-	return transects;
+	});
+	var first = transectApp.TransectsCollection.length;
+	var last = 0;
+	transects.each(function(transect) {
+		var index = transectApp.TransectsCollection.indexOf(transect);
+		if (index <= first) {
+			first = index;
+		}
+
+		if (index >= last) {
+			last = index;
+		}
+	});
+
+	var ret = new Transects();
+	for (var index=first; index<=last; index++) {
+		ret.add(transectApp.TransectsCollection.at(index));
+	}
+
+	return ret;
 }
 
 Exporter.prototype.getWellsListForTransects = function(polygon) {
