@@ -229,8 +229,8 @@
   -ms-user-select: none;
   user-select: none;
   top: 0px;
-  left: -320px;
-  width: 320px;
+  right: 100%;
+  width: 300%;
   height: 100%;
   position: absolute;
   display: none;

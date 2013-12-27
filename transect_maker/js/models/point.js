@@ -66,6 +66,8 @@ Points.prototype.updatePoints = function() {
 /* Override add function to prevent duplicate models in the collection. */
 
 Points.prototype.add = function(point) {
+	if (point === undefined) return;
+	
 	var isDupe = this.any(function(pt) {
 		return ((pt.get('x') == point.get('x')) && (pt.get('y') == point.get('y')));
 	});
@@ -73,6 +75,15 @@ Points.prototype.add = function(point) {
 	if (!isDupe) {
 		BaseCollection.prototype.add.call(this, point);
 	}
+}
+
+Points.prototype.getPolyKPointsArray = function() {
+	var points = []
+	this.each(function(point) {
+		points.push(point.get('x'));
+		points.push(point.get('y'));
+	});
+	return points;
 }
 
 /*-----  End of Points  ------*/

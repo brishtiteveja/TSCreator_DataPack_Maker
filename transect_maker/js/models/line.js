@@ -27,6 +27,33 @@ Line.prototype.getPatternPoints = function() {
 	var ys = numeric.linspace(this.point1.get('y'), this.point2.get('y'), steps);	
 }
 
+Line.prototype.getPolyKPointsArray = function() {
+	var points = [];
+	points.push(this.get('point1').get('x'));
+	points.push(this.get('point1').get('y'));
+	points.push(this.get('point2').get('x'));
+	points.push(this.get('point2').get('y'));
+	return points;
+}
+
+Line.prototype.slope = function() {
+	var slope = (this.get('point1').get('y') - this.get('point2').get('y'))/(this.get('point1').get('x') - this.get('point2').get('x'));
+	return slope;
+}
+
+Line.prototype.coincides = function(other) {
+	var otherPoints = other.getPolyKPointsArray();
+	var linePoints = this.getPolyKPointsArray();
+	if (Math.abs(this.slope()) === Math.abs(other.slope())) {
+		// Check if the polygonLine points line withing the bounding box of
+		// the original polygon line.
+		if (PolyK.ContainsPoint(linePoints, otherPoints[0], otherPoints[1]) 
+			&& PolyK.ContainsPoint(linePoints, otherPoints[2], otherPoints[3])) {
+			return true;
+		}
+	}
+	return false;
+}
 
 Line.prototype.getPath = function() {
 	return this.getPathFromPattern(this.get('pattern'));

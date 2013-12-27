@@ -1,27 +1,8 @@
+/*===================================================================
+=            Exporter - Data exporter for transect maker            =
+===================================================================*/
+
 var Exporter = function(){
-}
-
-/* Initialize dictionary to store transect specific data */
-
-Exporter.prototype.initialize = function() {
-	var self = this;
-	self.transects = {};
-	transectApp.TransectsCollection.each(function(transect) {
-		self.transects[transect.get('id')] = {
-			data: transect, 
-			polygons: [],
-			points: new Points(),
-			texts: new TransectTexts(),
-			matrix: {},
-		};
-	});
-	self.wells = {};
-	transectApp.TransectWellsCollection.each(function(well) {
-		self.wells[well.get('id')] = {
-			data: well,
-			referencePoints: {},
-		}
-	});
 }
 
 /* Take the list of polygons and group them with respect to
@@ -30,172 +11,317 @@ transects split the polygon at the reference wells that divide
 the polygon */
 
 Exporter.prototype.export = function() {
+	this.polygons = transectApp.PolygonsCollection;
+	this.transects = transectApp.TransectsCollection;
 	this.initialize();
-	transectApp.PolygonsCollection.each(this.processPolygon.bind(this));
-	for (var key in this.transects) {
-		this.getTransectPointMatrix(this.transects[key]);
-	}
-	this.updateTransectsWithTransectMatrix();
+	this.processData();
 }
 
-Exporter.prototype.updateTransectsWithTransectMatrix = function() {
-	for (var id in this.transects) {
-		this.transects[id]['matrix'] = this.getTransectPointMatrix(this.transects[id]);
-	}
-}
+/* Initialize dictionary to store transect specific data */
 
-Exporter.prototype.getTransectPointMatrix = function(transectData) {
-	var points = transectData.points;
-	points.sortBy(function(point) {
-		return point.get('y');
-	});
-
-	var pointsMatrix = {}
-
-	points.each(function(point){
-		var y = String(point.get('age'));
-		var percent = Math.round(point.get('relativeX') * 100);
-		if (!(y in pointsMatrix)) {
-			pointsMatrix[y] = new Array(100);
-			for (var i = 0; i < 100; i++) pointsMatrix[y][i] = " ";
-		}
-		pointsMatrix[y][percent] = point.get('name');
-	});
-	return pointsMatrix;
-}
-
-Exporter.prototype.processPolygon = function(polygon) {
-	return this.generateTransectSpecificData(polygon, this.clipPolygon(polygon));
-}
-
-/* Clip polygon with respectt to the will to generate more new polygons */
-
-Exporter.prototype.clipPolygon = function(polygon) {
-	var wells = this.getWellsListForTransects(polygon);
-	var polygonsArray = [polygon.getPointsArray()];
-	wells.each(function(well) {
-		var currPolygon = polygonsArray.pop();
-		var arrays = PolyK.Slice(currPolygon,well.get('x'), 0, well.get('x'), transectApp.Canvas.height);
-		arrays.forEach(function(arr) {
-			if (Math.abs(PolyK.GetArea(arr)) > 0) {
-				polygonsArray.push(arr);	
-			}
-		});
-	});
-	return polygonsArray;
-}
-
-Exporter.prototype.getPolygonsTransectsList = function(polygon) {
-	var transects = new Transects();
-	polygon.get('points').each(function(point) {
-		transects.add(point.get('transect'));
-	});
-	var first = transectApp.TransectsCollection.length;
-	var last = 0;
-	transects.each(function(transect) {
-		var index = transectApp.TransectsCollection.indexOf(transect);
-		if (index <= first) {
-			first = index;
-		}
-
-		if (index >= last) {
-			last = index;
-		}
-	});
-
-	var ret = new Transects();
-	for (var index=first; index<=last; index++) {
-		ret.add(transectApp.TransectsCollection.at(index));
-	}
-
-	return ret;
-}
-
-Exporter.prototype.getWellsListForTransects = function(polygon) {
-	var transects = this.getPolygonsTransectsList(polygon);
-	var wells = new TransectWells();
-	transects.each(function(transect) {
-		wells.add(transect.get('wellLeft'));
-		wells.add(transect.get('wellRight'));
-	});
-	wells.sortBy(function(well){ return well.get('x'); });
-	return wells;
-}
-
-Exporter.prototype.generateTransectSpecificData = function(polygon, polygonsArray) {
+Exporter.prototype.initialize = function() {
 	var self = this;
-	var transectsList = this.getPolygonsTransectsList(polygon);
-	
-	polygonsArray.forEach(function(polygonArray, index) {
-		
-		var transect = transectsList.at(index);
-		var wellLeft = transect.get('wellLeft');
-		var wellRight = transect.get('wellRight');
-		var wellLeftPoints = new Points();
-		var wellRightPoints = new Points();
+	self.transectsData = {};
+	transectApp.TransectsCollection.each(function(transect) {
+		self.transectsData[transect.get('id')] = {
+			data: transect, 
+			polygons: [],
+			points: new Points(),
+			texts: new TransectTexts(),
+			matrix: {},
+		};
+	});
+	self.wellsData = {};
+	transectApp.TransectWellsCollection.each(function(well) {
+		self.wellsData[well.get('id')] = {
+			data: well,
+			referencePoints: [],
+		}
+	});
+}
 
-		var points = new Points();
-		for (var i = 0; i < polygonArray.length; i+=2) {
-			x = polygonArray[i];
-			y = polygonArray[i + 1];
-			var point = new Point({
-				name: _.uniqueId('X'),
-				x: x,
-				y: y
+/* In order to generate data in timescale creator format 
+required items are:
+
+1. Wells Data:
+Format: 
+<well name> \t <facies> \t <width> \t <background color>
+		  \t <primary>
+		  \t <pattern name> \t <polygon name> \t Age
+
+2. Transect Data:
+Format:
+<transect name> \t transect \t <background color> \t <on/off>
+			  \t 		  \t 0 1 2 3 ...... 100
+			  \t <age>      \t <poinX>
+
+POLGYON \t pattern: <pattern name> \t <polygon name>
+		\t point 
+		\t 		\t <line style>
+
+TEXT blah blah
+*/
+
+Exporter.prototype.processData = function() {
+	// process all polygons one by one
+	this.polygons.each(this.processPolygon.bind(this));
+}
+
+Exporter.prototype.processPolygon = function(polygon) {	
+	// get all the underlying transects of a polygon
+	var underlyingTransects = this.getUnderlyingTransects(polygon);
+
+	// split polygon using wells and generate a list of polygon arrays.
+	this.slicePolygon(polygon, underlyingTransects);
+}
+
+/* A polygon can span over multiple transects. We split the
+polygon over each transect and generate new polygons specific
+to a transect. 
+
+getUnderlyingTransects generates the list of underlying 
+transects for the polygon.
+*/
+
+Exporter.prototype.getUnderlyingTransects = function(polygon) {
+	// Get the list of transects base on the point of the polygon.
+	// 
+	var self = this;
+
+	// Initialize array for storing transect indexes.
+	// Initialize the collection to store the transects
+	var underlyingTransects = new Transects();
+
+	
+	var transectIndexes = []
+
+	// loop over all the points and store the transects in the collection.
+	polygon.get('points').each(function(point) {
+		var transect = point.get('transect');
+		var index = self.transects.indexOf(transect);
+		transectIndexes = _.union(transectIndexes, index);
+	});
+	
+	// first and last are used for storing the indexes of the 
+	// first and last transect over which the polygon spans
+	// if last - first == 1 then the polygon spans over 
+	// consecutive polygons. But sometimes polygons may span over
+	// multiple transect as a result point may not lie in all the transects
+	// so we check first and last to give the range of transects over
+	// the polygon spans.
+	var first = _.min(transectIndexes);
+	var last = _.max(transectIndexes);
+
+	// check if all the transects are in the collection by comparing
+	// the estimated number of underlying transects and the number
+	// of transects in the collection.
+	for (var index=first; index<=last; index++) {
+		underlyingTransects.add(self.transects.at(index));
+	}
+
+	return underlyingTransects;
+}
+
+/* Split polygons with respect to the transects and add appropriate point to wells. */
+Exporter.prototype.slicePolygon = function(polygon, transects) {
+	var self = this;
+
+	// We ignore the first and the last wells of the polygon.
+	// as they will not split the polygon in any way.
+	var numberOfTransects = transects.length;
+	var polygons = [polygon.get('points')];
+
+	for (var index=0; index < transects.length; index++) {
+		var transect = transects.at(index);
+		var transectId = transect.get('id');
+		var currPolygonPoints = polygons.pop();
+
+		var currPolygon = {
+			points: new Points(),
+			lines: new Lines(),
+		}
+
+		var rightWellLine = self.getLineSegmentForWell(transect.get('wellRight')).getPolyKPointsArray();
+		
+		if (index !== numberOfTransects - 1) {
+			// if the transect is not the last transect we split the polygon using
+			// the right well. This will generate two new polygons. One polygon lies
+			// in the current transect an the other lies in the next transect.
+			// we update the current transect and push the next transect on the stack
+			// for next iteration.
+			var polyPoints = currPolygonPoints.getPolyKPointsArray();
+			
+			if (PolyK.GetArea(polyPoints) > 0) {
+				polyPoints = PolyK.Reverse(polyPoints);
+			}
+
+			var polygonSlices = PolyK.Slice(
+				polyPoints, rightWellLine[0], 
+				rightWellLine[1], rightWellLine[2], rightWellLine[3]);
+
+			var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
+			polygonSlices.forEach(function(slice) {
+				polygons.push(slice);
 			});
 
-			self.transects[transect.get('id')].points.add(point);
-			if (point.get('relativeX') < 0.03) {
-				wellLeftPoints.add(point);
-			} else if (point.get('relativeX') > 0.97) {
-				wellRightPoints.add(point);
-			}
-			points.add(point);
+			currPolygonPoints = polygonSlices[0];
 		}
 
-		self.updateWellPointsPatterns(polygon, wellLeft, wellLeftPoints);
-		self.updateWellPointsPatterns(polygon, wellRight, wellRightPoints);
-		self.transects[transect.get('id')].polygons.push({
-			name: polygon.get('name'),
-			pattern: polygon.get('patternName'),
-			points: points,
-		});
-	});
+		currPolygon.points.add(currPolygonPoints.toArray());
+		var polygonLines = self.generatePolygonLines(currPolygonPoints, polygon);
+		currPolygon.lines.add(polygonLines.toArray());
+
+		// update wells
+		self.updatePointsOnWell(transect.get('wellLeft'), polygonLines, polygon);
+		if (index == numberOfTransects - 1) {
+			self.updatePointsOnWell(transect.get('wellRight'), polygonLines, polygon);	
+		}
+
+		// Add polygon and corresponding polygon to transect polygon
+		self.transectsData[transect.get('id')].points.add(currPolygonPoints);
+		self.transectsData[transect.get('id')].polygons.push(currPolygon);
+
+		// update matrix
+		self.updateTransectMatrix(transect, currPolygonPoints);
+	}
 }
 
-Exporter.prototype.updateWellPointsPatterns = function(polygon, well, wellPoints) {	
+Exporter.prototype.updateTransectMatrix = function(transect, polygonPoints) {
 	var self = this;
-	wellPoints.each(function(point, index) {
-		if (index > 0) {
-			var prevPoint = wellPoints.at(index - 1);
-			if (PolyK.ContainsPoint(polygon.getPointsArray(), point.get('x'), (prevPoint.get('y') + point.get('y'))/2)) {
-				self.wells[well.get('id')].referencePoints[point.get('name')] = {
-					"pattern": polygon.get('patternName'),
-					"data": point,
-				};
-			} else {
-				self.wells[well.get('id')].referencePoints[point.get('name')] = {
-					"pattern": "TOP",
-					"data": point,
-				};
+	var matrix = self.transectsData[transect.get('id')].matrix;
+	polygonPoints.each(function(point) {
+		var age = String(point.get('age'));
+		var percent = Math.round((point.get('relativeX')*100)/4)*4;
+		
+		if (point.get('transect') !== transect) {
+			percent = 100;
+		}
+
+		if (!(age in matrix)) {
+			matrix[age] = new Array(101);
+			for (var i=0; i<101; i++) {
+				matrix[age][i] = " "
 			}
-		} else {
-			self.wells[well.get('id')].referencePoints[point.get('name')] = {
-				"pattern": "TOP",
-				"data": point,
-			};
+		}
+		matrix[age][percent] = point.get('name');
+	});
+}
+
+Exporter.prototype.updatePointsOnWell = function(well, polygonLines, polygon) {
+	var self = this;
+	polygonLines.each(function(line) {
+		if (self.isCloseToWell(well, line)	) {
+			if (line.get('point1').get('y') < line.get('point2').get('y')) {
+				self.wellsData[well.get('id')].referencePoints.push({
+					point: line.get('point1'),
+					pattern: "TOP",
+				});
+				self.wellsData[well.get('id')].referencePoints.push({
+					point: line.get('point2'),
+					pattern: polygon.get('patternName') || "None",
+					name: polygon.get('name'),
+				});
+			} else {
+				self.wellsData[well.get('id')].referencePoints.push({
+					point: line.get('point2'),
+					pattern: "TOP",
+				});
+				self.wellsData[well.get('id')].referencePoints.push({
+					point: line.get('point1'),
+					pattern: polygon.get('patternName') || "None",
+					name: polygon.get('name'),
+				});
+			}
 		}
 	});
 }
 
-Exporter.prototype.getTransectLeftOfWell = function(well) {
-	return transectApp.TransectsCollection.findWhere({
-		wellRight: well,
-	});
+Exporter.prototype.isCloseToWell = function(well, line) {
+	var self = this;
+	var wellLine = self.getLineSegmentForWell(well);
+	var wellLinePoints = wellLine.getPolyKPointsArray();
+	var PADDING = 5;
+	var linePoints = [
+		wellLinePoints[0] + PADDING, wellLinePoints[1],
+		wellLinePoints[0] - PADDING, wellLinePoints[1],
+		wellLinePoints[2] - PADDING, wellLinePoints[3],
+		wellLinePoints[2] + PADDING, wellLinePoints[3],
+	]
+	var otherPoints = line.getPolyKPointsArray();
+	if (PolyK.ContainsPoint(linePoints, otherPoints[0], otherPoints[1]) 
+		&& PolyK.ContainsPoint(linePoints, otherPoints[2], otherPoints[3])) {
+		return true;
+	}
+	return false;
 }
 
-Exporter.prototype.getTransectRightOfWell = function(well) {
-	var rightTransect = transectApp.TransectsCollection.findWhere({
-		wellLeft: well,
+Exporter.prototype.generatePolygonLines = function(polygonPoints, origPolygon) {
+	var self = this;
+	// generate new lines for the sliced polygon 
+	// check if the line is part of original lines of polygon 
+	// get the line's pattern
+	var lines = new Lines();
+	polygonPoints.each(function(point, index) {
+		if (index > 0) {
+			var line = new Line({}, polygonPoints.at(index - 1), point);
+			self.updateLineStyleFromOriginalPolygon(line, origPolygon);
+			lines.add(line);
+		}
 	});
+
+	// last line connects the last point and the first point thus closing the 
+	// polygon.
+	var lastLine = new Line({}, polygonPoints.last(), polygonPoints.first());
+	self.updateLineStyleFromOriginalPolygon(lastLine, origPolygon);
+	lines.add(lastLine);
+
+	return lines;
 }
+
+Exporter.prototype.updateLineStyleFromOriginalPolygon = function(polygonLine, origPolygon) {
+	var self = this;
+	// check the polygon for lines that coincide with the given line
+	// and update their styles.
+	var lines = origPolygon.get('lines');
+	for (var i = 0; i < lines.length; i++) {
+		var line = lines.at(i)
+		if (line.coincides(polygonLine)) {
+			polygonLine.set({
+				'pattern': line.get('pattern'),
+			});
+			break;
+		}
+	}
+}
+
+Exporter.prototype.getLineSegmentForWell = function(well) {
+	return new Line({}, new Point({name: _.uniqueId('X'), x: well.get('x'), y: 0}), 
+		new Point({name: _.uniqueId('X'), x: well.get('x'), y: transectApp.Canvas.height}));
+}
+
+Exporter.prototype.getPolygonsFromPolyKPolygonsArray = function(polygonsArray) {
+	var polygons = [];
+	for (var i in polygonsArray) {
+		polygons.push(this.getPointsFromPolykPolygon(polygonsArray[i]));
+	}
+	return polygons;
+}
+
+Exporter.prototype.getPointsFromPolykPolygon = function(polyK) {
+	// This will remove any duplicate points generated by the PolyK.
+	var points = new Points();
+	for (var i=0; i<polyK.length; i+=2) {
+		var point = new Point({
+			name: _.uniqueId('X'),
+			x: polyK[i],
+			y: polyK[i+1],
+		});
+		points.add(point);
+	}
+	return points;
+}
+
+/*-----  End of Exporter - Data exporter for transect maker  ------*/
+
+
+

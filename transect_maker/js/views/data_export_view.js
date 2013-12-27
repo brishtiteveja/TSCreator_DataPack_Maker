@@ -12,12 +12,13 @@ DataExportView.prototype.transectWellDataTemplate = new EJS({url: '/transect_mak
 DataExportView.prototype.transectDataLayout = new EJS({url: '/transect_maker/ejs/transect_data_layout.ejs'});
 
 DataExportView.prototype.initialize = function() {
-	this.exporter = new Exporter();
-	this.transects = transectApp.TransectsCollection;
+	
 	this.render();
 }
 
 DataExportView.prototype.render = function() {
+	this.exporter = new Exporter();
+	this.transects = transectApp.TransectsCollection;
 	this.$el.html(this.template.render({transects: this.transects.toJSON()}));
 	this.exporter.export();
 	this.renderWellsData();
@@ -25,16 +26,16 @@ DataExportView.prototype.render = function() {
 }
 
 DataExportView.prototype.renderWellsData = function() {
-	var wellsData = this.exporter.wells;
+	var wellsData = this.exporter.wellsData;
 	for (var id in wellsData) {
 		this.$("#" + id).html(this.transectWellDataTemplate.render(wellsData[id]));
 	}
 }
 
 DataExportView.prototype.renderTransectsData = function() {
-	var transects = this.exporter.transects;
-	for (var id in transects) {
-		this.$("#" + id).html(this.transectDataLayout.render(transects[id]));
+	var transectsData = this.exporter.transectsData;
+	for (var id in transectsData) {
+		this.$("#" + id).html(this.transectDataLayout.render(transectsData[id]));
 	}
 }
 /*-----  End of DataExportView  ------*/

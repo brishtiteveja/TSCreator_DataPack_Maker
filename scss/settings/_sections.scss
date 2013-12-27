@@ -8,8 +8,8 @@
 	@include disable_double_click_select;
 
 	top: 0px;
-	left: -$settings_section_width;
-	width: $settings_section_width;
+	right: 100%;
+	width: 300%;
 	height: 100%;
 	position: absolute;
 	display: none;

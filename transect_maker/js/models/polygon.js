@@ -18,7 +18,8 @@ var Polygon = BaseModel.extend({
 	}
 });
 
-Polygon.prototype.getPointsArray = function(arguments) {
+/* PolyK points array is specific to PolyK library */
+Polygon.prototype.getPolyKPointsArray = function(arguments) {
 	var array = [];
 	this.get('points').each(function(point) {
 		array.push(point.get('x'));

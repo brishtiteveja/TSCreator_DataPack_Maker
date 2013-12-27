@@ -13,12 +13,12 @@
 			<td></td>
 			<td>Primary</td>
 		</tr>
-		<% for (var name in referencePoints) { %>
+		<% for (var i in referencePoints) { %>
 		<tr>
 			<td></td>
-			<td><%= referencePoints[name]["pattern"] || "None" %></td>
-			<td></td>
-			<td><%= referencePoints[name].data.get('age') || 0 %></td>
+			<td><%= referencePoints[i].pattern || "None" %></td>
+			<td><%= referencePoints[i].name %></td>
+			<td><%= referencePoints[i].point.get('age') || 0 %></td>
 		</tr>
 		<% } %>
 	</tbody>
