@@ -7,7 +7,7 @@ var Point = BaseModel.extend({
 	constructor: function(attributes, options) {
 		var attrs = [{
 			edit: false,
-			name: attributes.name || _.uniqueId("Point "),
+			name: attributes.name || _.uniqueId("X"),
 			x: attributes.x ? parseInt(attributes.x) : 0,
 			y: attributes.y ? parseInt(attributes.y) : 0,
 			age: 0,

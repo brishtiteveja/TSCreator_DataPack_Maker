@@ -3,6 +3,8 @@
 ===================================================================*/
 
 var Exporter = function(){
+	this.PRECISION = 4; // percent
+	this.STEPS = Math.round(100/this.PRECISION); 
 }
 
 /* Take the list of polygons and group them with respect to
@@ -191,19 +193,19 @@ Exporter.prototype.updateTransectMatrix = function(transect, polygonPoints) {
 	var matrix = self.transectsData[transect.get('id')].matrix;
 	polygonPoints.each(function(point) {
 		var age = String(point.get('age'));
-		var percent = Math.round((point.get('relativeX')*100)/4)*4;
+		var percent = Math.round((point.get('relativeX')*100)/self.PRECISION)*self.PRECISION;
 		
 		if (point.get('transect') !== transect) {
 			percent = 100;
 		}
 
 		if (!(age in matrix)) {
-			matrix[age] = new Array(101);
-			for (var i=0; i<101; i++) {
-				matrix[age][i] = " "
+			matrix[age] = new Array(self.STEPS+1);
+			for (var i=0; i <= self.STEPS; i++) {
+				matrix[age][i] = " ";
 			}
 		}
-		matrix[age][percent] = point.get('name');
+		matrix[age][percent/self.PRECISION] = point.get('name');
 	});
 }
 
@@ -295,8 +297,8 @@ Exporter.prototype.updateLineStyleFromOriginalPolygon = function(polygonLine, or
 }
 
 Exporter.prototype.getLineSegmentForWell = function(well) {
-	return new Line({}, new Point({name: _.uniqueId('X'), x: well.get('x'), y: 0}), 
-		new Point({name: _.uniqueId('X'), x: well.get('x'), y: transectApp.Canvas.height}));
+	return new Line({}, new Point({x: well.get('x'), y: 0}), 
+		new Point({x: well.get('x'), y: transectApp.Canvas.height}));
 }
 
 Exporter.prototype.getPolygonsFromPolyKPolygonsArray = function(polygonsArray) {
@@ -312,7 +314,6 @@ Exporter.prototype.getPointsFromPolykPolygon = function(polyK) {
 	var points = new Points();
 	for (var i=0; i<polyK.length; i+=2) {
 		var point = new Point({
-			name: _.uniqueId('X'),
 			x: polyK[i],
 			y: polyK[i+1],
 		});
