@@ -12,8 +12,9 @@ DataExportView.prototype.transectWellDataTemplate = new EJS({url: '/transect_mak
 DataExportView.prototype.transectDataLayout = new EJS({url: '/transect_maker/ejs/transect_data_layout.ejs'});
 
 DataExportView.prototype.initialize = function() {
-	
 	this.render();
+	this.$exportPanel = $("#export-panel");
+	this.$canvas = $("#canvas");
 }
 
 DataExportView.prototype.render = function() {
@@ -38,5 +39,22 @@ DataExportView.prototype.renderTransectsData = function() {
 		this.$("#" + id).html(this.transectDataLayout.render(transectsData[id]));
 	}
 }
+
+DataExportView.prototype.enableDataPanel = function() {
+}
+
+
+DataExportView.prototype.toggleExportView = function(evt) {
+	if ($("a[href='#export-data']").parent().hasClass('active')) {
+		$("a[href='#export-data']").parent().removeClass('active');
+		this.$exportPanel.removeClass('active');
+		this.$canvas.removeClass('hide');
+	} else {
+		$("a[href='#export-data']").parent().addClass('active');
+		this.$exportPanel.addClass('active');
+		this.$canvas.addClass('hide');
+		this.render();
+	}
+};
 /*-----  End of DataExportView  ------*/
 

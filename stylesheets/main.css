@@ -202,19 +202,20 @@
   color: #222;
   padding: 5px;
   margin: auto;
+  font-size: 16px;
 }
-/* line 60, ../scss/settings/_settings.scss */
+/* line 61, ../scss/settings/_settings.scss */
 #settings > .settings-nav ul.custom-sidenav-class li a.active {
   background: #333;
   color: #FFF;
 }
-/* line 65, ../scss/settings/_settings.scss */
+/* line 66, ../scss/settings/_settings.scss */
 #settings > .settings-nav ul.custom-sidenav-class li em.icon {
   width: 32px;
   height: 32px;
   margin: auto;
 }
-/* line 71, ../scss/settings/_settings.scss */
+/* line 72, ../scss/settings/_settings.scss */
 #settings > .settings-nav ul.custom-sidenav-class li.active {
   background: #333;
   color: #FFF;

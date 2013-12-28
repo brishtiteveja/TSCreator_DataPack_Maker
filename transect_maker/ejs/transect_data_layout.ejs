@@ -1,28 +1,26 @@
+<% var precision = 4; %>
+<% var steps = 100/precision; %>
 <h3><%=  data.get('name') %></h3>
 <table>
-	<thead>
+	<thead></thead>
+	<tbody>
 		<tr>
 			<th><%= data.get('name') %></th>
 			<th>transect</th>
 			<th>300</th>
 			<th>255/255/255</th>
 			<th>on</th>
+			<% for (var i = 0; i <= steps + 2 - 5; i++) { %>
+			<th></th>
+			<% } %>
 		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
-<table>
-	<thead>
 		<tr>
 			<th></th>
 			<th></th>
-			<% for (var i=0; i<26; i++) { %>
-			<th><%= i*4 %></th>
+			<% for (var i = 0; i <= steps; i++) { %>
+			<th><%= i*precision %></th>
 			<% } %>
 		</tr>
-	</thead>
-	<tbody>
 		<% for (var a in matrix) { %>
 			<tr>
 				<td></td>
@@ -33,25 +31,31 @@
 				<% } %>
 			</tr>
 		<% } %>
-	</tbody>
-</table>
-<table>
-	<tbody>
 		<% for (var i=0; i<polygons.length; i++) { %>
 			<% var polygon = polygons[i]; %>
 			<tr>
 				<td>POLYGON</td>
-				<td>pattern: <%= polygon.pattern %></td>
+				<td>pattern: <%= polygon.pattern || "None" %></td>
 				<td><%= polygon.name %></td>
+				<% for (var i = 0; i <= steps + 2 - 3; i++) { %>
+				<td></td>
+				<% } %>
 			</tr>
+			
 			<% for (var j=0; j<polygon.points.length; j++) { %>
 			<% var point = polygon.points.at(j); %>
+			
 			<tr>
 				<td></td>
 				<td><%= point.get('name').substring(1) %></td>
 				<td></td>
+				<% for (var i = 0; i <= steps + 2 - 3; i++) { %>
+				<td></td>
+				<% } %>
 			</tr>
+			
 			<% } %>
+
 		<% } %>
 	</tbody>
 </table>

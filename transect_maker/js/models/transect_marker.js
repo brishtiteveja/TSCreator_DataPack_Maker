@@ -7,7 +7,7 @@ var TransectMarker = BaseModel.extend({
 	constructor: function(attributes, options) {
 		var attrs = [{
 			edit: false,
-			name: attributes.name || _.uniqueId("Marker "),
+			name: attributes.name || _.uniqueId("Time Line "),
 			y: attributes.y,
 			age: null,
 		}];

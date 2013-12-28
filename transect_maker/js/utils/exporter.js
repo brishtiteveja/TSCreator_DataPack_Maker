@@ -139,6 +139,8 @@ Exporter.prototype.slicePolygon = function(polygon, transects) {
 		var currPolygonPoints = polygons.pop();
 
 		var currPolygon = {
+			name: polygon.get('name'),
+			pattern: polygon.get('patternName'),
 			points: new Points(),
 			lines: new Lines(),
 		}
