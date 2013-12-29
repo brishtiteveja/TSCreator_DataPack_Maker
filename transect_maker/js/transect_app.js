@@ -43,7 +43,9 @@ requirejs.config({
 		transectTexts: "/transect_maker/js/collections/transect_texts",
 		// utilities
 		exporter: "/transect_maker/js/utils/exporter",
-	}
+	},
+	name: "transect-maker.0",
+	out: "transect-maker-built.0"
 });
 
 
