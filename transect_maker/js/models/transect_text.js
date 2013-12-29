@@ -15,6 +15,7 @@ var TransectText = BaseModel.extend({
 			relativeY: null,
 			transect: null,
 			zone: null,
+			settings: new Settings(),
 		}];
 		BaseModel.apply(this, attrs);
 	}

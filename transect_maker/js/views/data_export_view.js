@@ -5,6 +5,10 @@
 var DataExportView = BaseView.extend({
 	el: "#export-panel",
 	classname: "DataExportView",
+	events: {
+		'click a[href="#show-raw"]': "toggleDataView",
+		'click a[href="#show-table"]': "toggleDataView",
+	}
 })
 
 DataExportView.prototype.template = new EJS({url: '/transect_maker/ejs/data_export_panel.ejs'});
@@ -21,9 +25,18 @@ DataExportView.prototype.render = function() {
 	this.exporter = new Exporter();
 	this.transects = transectApp.TransectsCollection;
 	this.$el.html(this.template.render({transects: this.transects.toJSON()}));
+
+	this.$dataTable = this.$(".data-table");
+	this.$dataRaw = this.$(".data-raw");
+	this.$textData = this.$("textarea[name*=transect-data]")[0];
+	this.$showTable = this.$('a[href="#show-table"]');
+	this.$showRaw = this.$('a[href="#show-raw"]');
+	this.$showData = this.$('a.show-data');
+
 	this.exporter.export();
 	this.renderWellsData();
 	this.renderTransectsData();
+	this.renderDataInText();
 }
 
 DataExportView.prototype.renderWellsData = function() {
@@ -40,9 +53,9 @@ DataExportView.prototype.renderTransectsData = function() {
 	}
 }
 
-DataExportView.prototype.enableDataPanel = function() {
+DataExportView.prototype.renderDataInText = function() {
+	this.$textData.value = this.exporter.getText();
 }
-
 
 DataExportView.prototype.toggleExportView = function(evt) {
 	if ($("a[href='#export-data']").parent().hasClass('active')) {
@@ -53,8 +66,16 @@ DataExportView.prototype.toggleExportView = function(evt) {
 		$("a[href='#export-data']").parent().addClass('active');
 		this.$exportPanel.addClass('active');
 		this.$canvas.addClass('hide');
-		this.render();
 	}
+	this.render();
 };
+
+DataExportView.prototype.toggleDataView = function(evt) {
+	this.$dataTable.toggleClass("hide");
+	this.$dataRaw.toggleClass("hide");
+	this.$showTable.toggleClass("alert");
+	this.$showRaw.toggleClass("alert");
+}
+
 /*-----  End of DataExportView  ------*/
 

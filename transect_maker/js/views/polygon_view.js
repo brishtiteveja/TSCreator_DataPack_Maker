@@ -156,6 +156,16 @@ PolygonView.prototype.addPointToPolygon = function(point) {
 	}
 	transectApp.PointsCollection.add(point);
 	this.updateCanvasDimensions(point);
+
+	this.highlightPoints();
+}
+
+PolygonView.prototype.highlightPoints = function(arguments) {
+	this.polygon.get('points').each(function(point) {
+		point.normal();
+	});
+	this.polygon.get('points').first().highlightBlue();
+	this.polygon.get('points').last().highlightGreen();
 }
 
 PolygonView.prototype.isSimple = function(point) {
@@ -251,7 +261,7 @@ PolygonView.prototype.setPolygonFill = function() {
 		'fill': fill
 	});
 	this.element.attr({
-		'opacity': 1,
+		'opacity': 0.8,
 		'fill': fill
 	});
 	var url =  fill + " no-repeat" ;
@@ -414,5 +424,6 @@ PolygonView.prototype.setRenderMode = function() {
 		this.setPolygonFill();
 	}
 }
+
 /*-----  End of PolygonView  ------*/
 

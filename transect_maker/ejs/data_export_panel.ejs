@@ -1,40 +1,45 @@
 <div class="row">
-	<div class="export-nav-section columns small-5 large-3">
+	<div class="export-nav-section columns small-6 large-3">
 		<ul class="side-nav">
 		<% for (var i=0; i<transects.length; i++) { %>
 				
 			<% if (i == 0) { %>
 				<% var wellLeft = transects[i].wellLeft.get('id') %>
-				<li><a class="active" href="#<%= wellLeft %>"><%= transects[i].wellLeft.get('name') %></a></li>
+				<li><a class="active" href="#<%= wellLeft %>"><%= transects[i].wellLeft.get('name') %> |</a></li>
 			<% } %>
 			
 			<% var transect = transects[i].id %>
-			<li><a href="#<%= transect %>"><%= transects[i].name %></a></li>
+			<li><a href="#<%= transect %>"><%= transects[i].name %> ||</a></li>
 			
 			<% var wellRight = transects[i].wellRight.get('id') %>
-			<li><a href="#<%= wellRight %>"><%= transects[i].wellRight.get('name') %></a></li>
+			<li><a href="#<%= wellRight %>"><%= transects[i].wellRight.get('name') %> |</a></li>
 
 		<% } %>	
 		</ul>
 	</div>
-	<div class="export-data-section columns small-19 large-21">
-		<% for (var i=0; i<transects.length; i++) { %>
-			
-			<% if (i == 0) { %>
-				<% var wellLeft = transects[i].wellLeft.get('id') %>
-				<div id="<%= wellLeft %>">
-					<h3><%=  transects[i].wellLeft.get('name') %></h3>
-				</div>
-			<% } %>
-			
-			<% var transect = transects[i].id %>
-			<div id="<%= transect %>">
-			</div>
-			
-			<% var wellRight = transects[i].wellRight.get('id') %>
-			<div id="<%= wellRight %>">
-			</div>
+	<div class="export-data-section columns small-18 large-21">
+		<div class="button-bar">
+			<ul class="button-group round right">
+				<li><a href="#show-table" class="show-data tiny button secondary alert">table</a></li>
+				<li><a href="#show-raw" class="show-data tiny button secondary">text</a></li>
+			</ul>
+		</div>
+		<div class="data-table">
+			<% for (var i=0; i<transects.length; i++) { %>
+				
+				<% if (i == 0) { %>
+					<% var wellLeft = transects[i].wellLeft.get('id') %>
+					<div id="<%= wellLeft %>"></div>
+				<% } %>
+				
+				<% var transect = transects[i].id %>
+				<div id="<%= transect %>"></div>
+				
+				<% var wellRight = transects[i].wellRight.get('id') %>
+				<div id="<%= wellRight %>"></div>
 
-		<% } %>
+			<% } %>
+		</div>
+		<div class="data-raw hide"><textarea name="transect-data" readonly=></textarea></div>
 	</div>
 </div>

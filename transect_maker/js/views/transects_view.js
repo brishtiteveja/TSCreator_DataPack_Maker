@@ -7,20 +7,20 @@ var TransectsView = BaseView.extend({
 	classname: "TransectsView",
 });
 
-TransectsView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
+TransectsView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
 
 TransectsView.prototype.initialize = function() {
 	/* initialize the transects views */
 	this.transects = transectApp.TransectsCollection;
-	
+
+	/* render views */	
+	this.render();	
 	/*
 		attach the listener to check for changes in the collection.
 	*/
-	this.listenTo(this.transects, "change", this.render.bind(this));
+	this.listenTo(this.transects, "add", this.addTransect.bind(this));
 	this.listenTo(this.transects, "reset", this.render.bind(this));
 
-	/* render views */	
-	this.render();
 };
 
 TransectsView.prototype.render = function() {
@@ -29,10 +29,14 @@ TransectsView.prototype.render = function() {
 	this.transects.each(this.addTransect.bind(this));
 };
 
-
 TransectsView.prototype.addTransect = function (transect) {
 	var transectView = new TransectView(transect);
 	this.$transectsTable.append(transectView.el);
+};
+
+TransectsView.prototype.resetTransect = function () {
+	this.$transectsTable('');
+	this.transects.each(this.addTransect, this);
 };
 
 

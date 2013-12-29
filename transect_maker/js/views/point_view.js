@@ -20,13 +20,7 @@ PointView.prototype.initialize = function(point) {
 	this.render();
 	this.listenTo(this.point, 'destroy', this.removeElement.bind(this));
 	this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
-	this.listenTo(this.point, 'change:age', this.updateElement.bind(this));
-	this.listenTo(this.point, 'change:relativeX', this.updateElement.bind(this));
-	this.listenTo(this.point, 'change:relativeY', this.updateElement.bind(this));
-	this.listenTo(this.point, 'change:x', this.updateElement.bind(this));
-	this.listenTo(this.point, 'change:y', this.updateElement.bind(this));
-	this.listenTo(this.point, 'change:transect', this.updateElement.bind(this));
-	this.listenTo(this.point, 'change:zone', this.updateElement.bind(this));
+	this.listenTo(this.point, 'change', this.updateElement.bind(this));
 };
 
 PointView.prototype.render = function() {
@@ -76,7 +70,10 @@ PointView.prototype.renderTooltip = function() {
 PointView.prototype.updateElement = function() {
 	this.element.attr({
 		'cx': this.point.get('x'),
-		'cy': this.point.get('y')
+		'cy': this.point.get('y'),
+		'r': this.point.get('r'),
+		'fill': this.point.get('fill'),
+		'stroke': this.point.get('stroke')
 	});
 	this.renderTooltip();
 	this.updateStatusBox(); 
@@ -87,20 +84,12 @@ PointView.prototype.updateStatusBox = function() {
 }
 
 PointView.prototype.setFinishedMode = function() {
-	this.element.attr({
-		'r' : 4,
-		'fill': "#000000",
-		'stroke': "#000000"
-	});
+	this.point.unHover();
 	this.$el.removeClass('hover');
 };
 
 PointView.prototype.setEditMode = function() {
-	this.element.attr({
-		'r': 8,
-		'fill': "#FF0033",
-		'stroke': '#FF0033'
-	});
+	this.point.hover();
 	this.$el.addClass('hover');
 }
 

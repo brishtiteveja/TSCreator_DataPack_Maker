@@ -10,7 +10,6 @@ var Polygon = BaseModel.extend({
 			draw: false,
 			name: attributes && attributes.name ? attributes.name : _.uniqueId("Polygon "),
 			patternName: attributes ? attributes.patternName : null,
-			settings: new Settings(),
 			points: new Points(),
 			lines: new Lines(),
 		}];

@@ -18,14 +18,53 @@
 		padding: 0px;
 
 		> .export-nav-section {
+
+			padding: 0px;
+			margin: 0px;
 			height: 100%;
 			overflow: auto;
+
+			ul {
+				
+				padding: 0px;
+				margin: 0px;
+				
+				li {
+					margin: 0px;
+					border-bottom: 1px solid #fff;
+
+					a {
+						padding: 10px;
+						@include settings_font;
+					}
+
+					&:hover {
+						@include hover;
+					}
+
+					&:active {
+						@include click;
+					}
+
+				}
+			}
 		}
 
 		> .export-data-section {
 			background: #fff;
 			height: 100%;
 			overflow: auto;
+
+			> .button-bar {
+				padding-top: 10px;
+			}
+
+			> .data-raw {
+				> textarea {
+					width: 100%;
+					height: 90%;	
+				}
+			}
 		}
 	}
 }

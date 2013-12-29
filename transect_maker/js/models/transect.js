@@ -6,12 +6,12 @@ var Transect = BaseModel.extend({
 	classname: "Transect",
 	constructor: function(attributes, wellLeft, wellRight) {
 		var attrs = [{
-			edit: false,
 			name: attributes.name || _.uniqueId("Transect-"),
 			id: _.uniqueId("transect-"),
 			description: attributes.description || null,
 			wellLeft: wellLeft,
 			wellRight: wellRight,
+			settings: new Settings(),
 		}];
 		BaseModel.apply(this, attrs);
 	}

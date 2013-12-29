@@ -1,5 +1,5 @@
-<% var precision = 4; %>
-<% var steps = 100/precision; %>
+<% var precision = transectApp.precision; %>
+<% var steps = transectApp.steps; %>
 <h3><%=  data.get('name') %></h3>
 <table>
 	<thead></thead>
@@ -21,39 +21,51 @@
 			<th><%= i*precision %></th>
 			<% } %>
 		</tr>
-		<% for (var a in matrix) { %>
+		<% var keys = Object.keys(matrix); %>
+		<% keys = _.sortBy(keys, function(age){ return parseFloat(age); }); %>
+		<% for (var a in keys) { %>
 			<tr>
 				<td></td>
-				<td><%= a %></td>
-				<% for (var i in matrix[a]) { %>
-				<% var point = matrix[a][i]; %>
+				<td><%= keys[String(a)] %></td>
+				<% for (var i in matrix[keys[String(a)]]) { %>
+				<% var point = matrix[keys[String(a)]][i]; %>
 				<td><%= point %></td>
 				<% } %>
 			</tr>
 		<% } %>
-		<% for (var i=0; i<polygons.length; i++) { %>
+		<% for (var i=0; i < polygons.length; i++) { %>
 			<% var polygon = polygons[i]; %>
 			<tr>
 				<td>POLYGON</td>
 				<td>pattern: <%= polygon.pattern || "None" %></td>
 				<td><%= polygon.name %></td>
-				<% for (var i = 0; i <= steps + 2 - 3; i++) { %>
+				<% for (var k = 0; k <= steps + 2 - 3; k++) { %>
 				<td></td>
 				<% } %>
 			</tr>
 			
-			<% for (var j=0; j<polygon.points.length; j++) { %>
-			<% var point = polygon.points.at(j); %>
-			
-			<tr>
-				<td></td>
-				<td><%= point.get('name').substring(1) %></td>
-				<td></td>
-				<% for (var i = 0; i <= steps + 2 - 3; i++) { %>
-				<td></td>
+			<% for (var j=0; j<polygon.lines.length; j++) { %>
+				<% var line = polygon.lines.at(j); %>
+				<% var point1 = line.get('point1'); %>
+				<% var point2 = line.get('point2'); %>
+				<% var patternName = line.get('pattern'); %>
+				
+				<tr>
+					<td></td>
+					<td><%= point1.get('name').substring(1) %></td>
+					<td></td>
+					<% for (var k = 0; k <= steps + 2 - 3; k++) { %>
+					<td></td>
+					<% } %>
+				</tr>
+				<% if (patternName !== "default") { %>
+					<td></td>
+					<td></td>
+					<td><%= patternName %></td>
+					<% for (var k = 0; k <= steps + 2 - 3; k++) { %>
+					<td></td>
+					<% } %>
 				<% } %>
-			</tr>
-			
 			<% } %>
 
 		<% } %>

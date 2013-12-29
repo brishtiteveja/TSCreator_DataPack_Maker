@@ -12,8 +12,9 @@ var TransectWell = BaseModel.extend({
 			x: attributes.x,
 			lat: null,
 			lon: null,
+			settings: new Settings(),
+			width: 100,
 		}];
-		this.settings = new Settings();
 		BaseModel.apply(this, attrs);
 	}
 });

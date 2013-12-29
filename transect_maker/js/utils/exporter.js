@@ -3,8 +3,8 @@
 ===================================================================*/
 
 var Exporter = function(){
-	this.PRECISION = 4; // percent
-	this.STEPS = Math.round(100/this.PRECISION); 
+	this.PRECISION = transectApp.precision; // percent
+	this.STEPS = transectApp.steps; 
 }
 
 /* Take the list of polygons and group them with respect to
@@ -323,6 +323,50 @@ Exporter.prototype.getPointsFromPolykPolygon = function(polyK) {
 	}
 	return points;
 }
+
+Exporter.prototype.getText = function() {
+	var self = this;
+	var outputText = "";
+	for (var i=0; i < self.transects.length; i++) {
+		var transect = self.transects.at(i);
+		if (i == 0) {
+			var wellLeftId = transect.get('wellLeft').id;
+			outputText += self.getWellOutputText(wellLeftId);
+		}
+		outputText += self.getTransectOutputText(transect.id);
+		var wellRightId = transect.get('wellRight').id;
+		outputText += self.getWellOutputText(wellRightId);
+	}
+
+	return outputText;
+}
+
+Exporter.prototype.getTransectOutputText = function() {}
+
+Exporter.prototype.getWellOutputText = function(wellId) {
+	var self = this;
+	var well = self.wellsData[wellId];
+	var outputText = "\n\n"; // give some space before starting new well
+
+	// well column header 
+	outputText += well.data.get('name') + "\t"; // name
+	outputText += "facies\t"; // column type
+	outputText += well.data.get('width') + "\t";
+	outputText += CssToTscColor(well.data.get('settings').get('backgroundColor')) + "\t";
+	outputText + "\n"
+	var sortedPoints = _.sortBy(well.referencePoints, function(referencePoint) {return referencePoint.point.get('age');});
+	for (var i in sortedPoints) {
+		outputText += "\n";
+		outputText += "\t"
+		outputText += (sortedPoints[i].pattern || "None") + "\t";
+		outputText += (sortedPoints[i].name || "") + "\t";
+		outputText += sortedPoints[i].point.get('age') + "\t";
+	}
+
+	return outputText;
+}
+
+
 
 /*-----  End of Exporter - Data exporter for transect maker  ------*/
 

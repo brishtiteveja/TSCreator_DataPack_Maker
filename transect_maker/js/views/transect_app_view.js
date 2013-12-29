@@ -26,8 +26,6 @@ TransectAppView.prototype.initialize = function() {
 
 	transectApp.CurrentPolygon = null;
 
-	$.event.props.push('dataTransfer');
-
 	POLYGON_COLOR = "#000000";
 	
 	this.x = 10;

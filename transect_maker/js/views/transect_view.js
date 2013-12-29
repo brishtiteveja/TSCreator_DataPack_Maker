@@ -39,8 +39,6 @@ TransectView.prototype.render = function() {
 	this.$update = this.$(".update");
 	this.$name = this.$("input[name*=transect-name]")[0];
 	this.$description = this.$("textarea[name*=transect-description]")[0];
-
-	this.$toggle.click(this.toggleTransectForm.bind(this));
 };
 
 TransectView.prototype.toggleTransectForm = function() {

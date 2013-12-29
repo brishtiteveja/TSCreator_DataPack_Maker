@@ -68,6 +68,8 @@ TransectMarkerView.prototype.renderMarker = function() {
 		this.renderTooltip();
 	}
 	this.element.attr({'path': this.getPath()});
+	transectApp.PointsCollection.updatePoints();
+	transectApp.TransectTextsCollection.updateTransectTexts();
 };
 
 /*==========  render the tooltip for the marker in the canvas  ==========*/
