@@ -2,35 +2,21 @@
 =            TransectMarker that marks the ages            =
 ==========================================================*/
 
-var TransectMarker = BaseModel.extend({
-	classname: "TransectMarker",
-	constructor: function(attributes, options) {
-		var attrs = [{
-			edit: false,
-			name: attributes.name || _.uniqueId("Time Line "),
-			y: attributes.y,
-			age: null,
-		}];
-		this.settings = new Settings({strokeWidth: 2, strokeColor: "#F000000"});
-		BaseModel.apply(this, attrs);
-	}
+define(["baseModel"], function(BaseModel) {
+	var TransectMarker = BaseModel.extend({
+		classname: "TransectMarker",
+		constructor: function(attributes, options) {
+			var attrs = [{
+				edit: false,
+				name: attributes.name || _.uniqueId("Time Line "),
+				y: attributes.y,
+				age: null,
+			}];
+			BaseModel.apply(this, attrs);
+		}
+	});
+
+	return TransectMarker;
 });
 
 /*-----  End of TransectMarker  ------*/
-
-/*=======================================
-=            TransectMarkers            =
-=======================================*/
-var TransectMarkers = BaseCollection.extend({
-	classname: "TransectMarkers",
-	model: TransectMarker
-});
-
-TransectMarkers.prototype.comparator = function(marker) {
-	return marker.get('y');
-};
-
-/*-----  End of TransectMarkers  ------*/
-
-var transectApp = transectApp || {};
-transectApp.TransectMarkersCollection = new TransectMarkers();

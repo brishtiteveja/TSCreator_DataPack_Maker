@@ -19,78 +19,19 @@
 		<script type="text/javascript" src="/commons/js/lib/polyK.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/foundation/js/foundation/foundation.js"></script>
 
-		<!--  -->
-		<script type="text/javascript" src="/commons/js/fixtures/master_chronostrat.js"></script>
-		<script type="text/javascript" src="/commons/js/fixtures/sample_transect.js"></script>
-		<script type="text/javascript" src="/commons/js/views/keys.js"></script>
-
+		<!-- Utilities -->
+		<script type="text/javascript" src="/commons/js/utils/color_utils.js"></script>
+		
 		<!-- Patterns -->
 		<script type="text/javascript" src="/pattern_manager/js/patterns_list.js"></script>
 
-		<!-- Utilities -->
-		<script type="text/javascript" src="/commons/js/utils/color_utils.js"></script>
-
-		<!-- Basic Components -->
-		<script src="/commons/js/models/base_model.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/commons/js/views/base_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/commons/js/collections/base_collection.js" type="text/javascript" charset="utf-8"></script>
-		
-		<!-- Settings Model -->
-		<script src="/commons/js/models/settings.js" type="text/javascript" charset="utf-8"></script>
-		
-		<!-- Transect App View -->
-		<script src="/transect_maker/js/views/transect_app_view.js" type="text/javascript" charset="utf-8"></script>
-		
-		<!-- Transect Image Components -->
-		<script src="/transect_maker/js/models/transect_image.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transect_image_view.js" type="text/javascript" charset="utf-8"></script>
-
-		<!-- Transect Marker Components -->
-		<script src="/transect_maker/js/models/transect_marker.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transect_markers_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transect_marker_view.js" type="text/javascript" charset="utf-8"></script>
-		
-		<!-- Transect Wells Components -->
-		<script src="/transect_maker/js/models/transect_well.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transect_wells_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transect_well_view.js" type="text/javascript" charset="utf-8"></script>
-
-		
-		<!-- Transect Zones Components -->
-		<script src="/transect_maker/js/models/zone.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/zone_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/zones_view.js" type="text/javascript" charset="utf-8"></script>
-
-		<!-- Transect Components -->
-		<script src="/transect_maker/js/models/transect.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transect_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transects_view.js" type="text/javascript" charset="utf-8"></script>
-
-		<!-- Polygon Components -->
-		<script src="/transect_maker/js/models/point.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/models/line.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/models/polygon.js" type="text/javascript" charset="utf-8"></script>
-
-		<script src="/transect_maker/js/views/point_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/line_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/polygon_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/polygons_view.js" type="text/javascript" charset="utf-8"></script>
-
-		<!-- Transect Text Components -->
-		<script src="/transect_maker/js/models/transect_text.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transect_text_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/views/transect_texts_view.js" type="text/javascript" charset="utf-8"></script>
 
 		<!-- default settings for transect -->
 		<script src="/transect_maker/js/default_settings.js" type="text/javascript"></script>
+		
 
-		<!-- Transect utils to load from and export to tsc datapack formats -->
-		<script src="/transect_maker/js/views/data_export_view.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/transect_maker/js/utils/loader.js" type="text/javascript"></script>
-		<script src="/transect_maker/js/utils/exporter.js" type="text/javascript"></script>
-
-		<!-- main js that initializes everything -->
-		<script src="/transect_maker/js/transect_app.js" type="text/javascript" charset="utf-8"></script>
+		<!-- RequireJS -->
+		<script src="/commons/js/lib/require.js" data-main="/transect_maker/js/transect_app.js"></script>
 	</head>
 	<body>
 		<div class="container row">
