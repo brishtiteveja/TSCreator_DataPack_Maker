@@ -7,9 +7,9 @@
 		<tr>
 			<th><%= data.get('name') %></th>
 			<th>transect</th>
-			<th>300</th>
-			<th>255/255/255</th>
-			<th>on</th>
+			<th><%= data.get('width') %></th>
+			<th><%= CssToTscColor(data.get('settings').get('backgroundColor')) %></th>
+			<th><%= data.get('status') %></th>
 			<% for (var i = 0; i <= steps + 2 - 5; i++) { %>
 			<th></th>
 			<% } %>

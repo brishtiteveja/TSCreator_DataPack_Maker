@@ -13,6 +13,8 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 				wellLeft: wellLeft,
 				wellRight: wellRight,
 				settings: new Settings(),
+				width: 500,
+				status: "on",
 			}];
 			BaseModel.apply(this, attrs);
 		}

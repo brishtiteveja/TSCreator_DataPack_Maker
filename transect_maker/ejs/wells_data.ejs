@@ -4,8 +4,8 @@
 		<tr>
 			<th><%=  data.get('name') %></th>
 			<th>facies</th>
-			<th>100</th>
-			<th>255/255/255</th>
+			<th><%= data.get('width') %></th>
+			<th><%= CssToTscColor(data.get('settings').get('backgroundColor')) %></th>
 		</tr>
 	</thead>
 	<tbody>

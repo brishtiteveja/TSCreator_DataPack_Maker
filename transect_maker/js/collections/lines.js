@@ -1,5 +1,3 @@
-var transectApp = transectApp || {};
-
 /*========================================
 =            Lines Collection            =
 ========================================*/
@@ -15,8 +13,6 @@ define(["baseCollection", "line"], function(BaseCollection, Line) {
 		var point2 = transectApp.PointsCollection.findWhere({x: attrs.x2, y: attrs.y2});
 		return this.findWhere({'point1': point1, 'point2': point2});
 	}
-
-	transectApp.LinesCollection = new Lines();
 
 	return Lines;
 });

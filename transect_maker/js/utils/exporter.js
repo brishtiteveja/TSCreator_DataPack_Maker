@@ -188,14 +188,15 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 			self.transectsData[transect.get('id')].polygons.push(currPolygon);
 
 			// update matrix
-			self.updateTransectMatrix(transect, currPolygonPoints);
+			self.updateTransectMatrix(transect, polygonLines);
 		}
 	}
 
-	Exporter.prototype.updateTransectMatrix = function(transect, polygonPoints) {
+	Exporter.prototype.updateTransectMatrix = function(transect, polygonLines) {
 		var self = this;
 		var matrix = self.transectsData[transect.get('id')].matrix;
-		polygonPoints.each(function(point) {
+		polygonLines.each(function(line) {
+			var point = line.get('point1');
 			var age = String(point.get('age'));
 			var percent = Math.round((point.get('relativeX')*100)/self.PRECISION)*self.PRECISION;
 			
@@ -343,7 +344,76 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 		return outputText;
 	}
 
-	Exporter.prototype.getTransectOutputText = function() {}
+	Exporter.prototype.getTransectOutputText = function(transectId) {
+		var self = this;
+		var transect = self.transectsData[transectId];
+		var outputText = "\n\n";
+
+		// transect header
+		outputText += transect.data.get('name') + "\t";
+		outputText += "transect" + "\t";
+		outputText += transect.data.get('width') + "\t";
+		outputText += CssToTscColor(transect.data.get('settings').get('backgroundColor')) + "\t";
+		outputText += transect.data.get('status') + "\t";
+		// transect matrix text
+		outputText += self.getTransectMatrixText(transectId);
+		// transect polygons list
+		outputText += self.getTransectPolygonsListText(transectId);
+
+		return outputText;
+	}
+
+	Exporter.prototype.getTransectMatrixText = function(transectId) {
+		var self = this;
+		var transect = self.transectsData[transectId];
+		// matrix header
+		var outputText = "\n\t\t";
+		for (var i=0; i<=this.STEPS; i++) {
+			outputText += i*this.PRECISION + "\t";
+		}
+
+		var ages = Object.keys(transect.matrix);
+		ages = _.sortBy(ages, function(age){return parseFloat(age)});
+
+		// transect matrix
+		for (var i=0; i<ages.length; i++) {
+			var age = ages[i];
+			outputText += "\n\t";
+			outputText += age + "\t";
+			for (var j=0; j<transect.matrix[age].length; j++) {
+				outputText += transect.matrix[age][j] + "\t";
+			}
+		}
+		return outputText;
+	}
+
+	Exporter.prototype.getTransectPolygonsListText = function(transectId) {
+		var self = this;
+		var transect = self.transectsData[transectId];
+		var outputText = "";
+		// polygons list.
+		for (var i=0; i<transect.polygons.length; i++) {
+			var polygon = transect.polygons[i];
+			outputText += "\n";
+			outputText += "POLYGON\t";
+			outputText += "pattern:" + (polygon.pattern || "None") + "\t";
+
+			for (var j=0; j<polygon.lines.length; j++) {
+				var line = polygon.lines.at(j);
+				var point1 = line.get('point1');
+				var point2 = line.get('point2');
+				var pattern = line.get('pattern');
+				outputText += "\n\t";
+				outputText += point1.get('name').substring(1);
+
+				if (pattern !== "default") {
+					outputText += "\n\t\t";
+					outputText += pattern;
+				}
+			}
+		}
+		return outputText;
+	}
 
 	Exporter.prototype.getWellOutputText = function(wellId) {
 		var self = this;
@@ -364,7 +434,6 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 			outputText += (sortedPoints[i].name || "") + "\t";
 			outputText += sortedPoints[i].point.get('age') + "\t";
 		}
-
 		return outputText;
 	}
 

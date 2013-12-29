@@ -11,7 +11,7 @@ define(["baseModel"], function(BaseModel) {
 				name: attributes.name || _.uniqueId("Time Line "),
 				y: attributes.y,
 				age: null,
-			}];
+			}];	
 			BaseModel.apply(this, attrs);
 		}
 	});

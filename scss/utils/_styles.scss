@@ -69,3 +69,11 @@
 	/* this will work for QtWebKit in future */
 	-webkit-user-drag: none;
 }
+
+@mixin sticky {
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  top: 15px;
+}
