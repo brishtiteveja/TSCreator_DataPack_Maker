@@ -86,8 +86,8 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 		// remove duplicates.
 		transect.matrixPositions = _.uniq(transect.matrixPositions);
 		transect.matrixAges = _.uniq(transect.matrixAges);
-		transect.matrixPositions.sort();
-		transect.matrixAges.sort();
+		transect.matrixPositions = _.sortBy(transect.matrixPositions, function(num){return parseInt(num);});
+		transect.matrixAges = _.sortBy(transect.matrixAges, function(num){return parseFloat(num);});
 	}
 
 	Exporter.prototype.sortWellsData = function(well) {
