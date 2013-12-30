@@ -231,7 +231,7 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 		polygonPoints.each(function(point) {
 			var age = point.get('age');
 			
-			var percent = point.get('relativeX')*100;
+			var percent = self.PRECISION*Math.round(point.get('relativeX')*100/self.PRECISION);
 
 			var pointTransect = point.get('transect');
 			

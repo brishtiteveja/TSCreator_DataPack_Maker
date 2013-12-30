@@ -86,20 +86,20 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.setFinishedMode = function() {
-		this.point.unHover();
 		this.$el.removeClass('hover');
 	};
 
 	PointView.prototype.setEditMode = function() {
-		this.point.hover();
 		this.$el.addClass('hover');
 	}
 
 	PointView.prototype.onMouseOver = function() {
+		this.point.hover();
 		this.setEditMode();
 	};
 
 	PointView.prototype.onMouseOut = function() {
+		this.point.unHover();
 		this.setFinishedMode();
 	};
 

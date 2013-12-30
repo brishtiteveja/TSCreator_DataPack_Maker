@@ -44,13 +44,22 @@ define(["baseModel", "transects", "polygons"], function(BaseModel, Transects, Po
 	Line.prototype.coincides = function(other) {
 		var otherPoints = other.getPolyKPointsArray();
 		var linePoints = this.getPolyKPointsArray();
-		if (Math.abs(this.slope()) === Math.abs(other.slope())) {
-			// Check if the polygonLine points line withing the bounding box of
-			// the original polygon line.
-			if (PolyK.ContainsPoint(linePoints, otherPoints[0], otherPoints[1]) 
-				&& PolyK.ContainsPoint(linePoints, otherPoints[2], otherPoints[3])) {
-				return true;
-			}
+		// Check if the polygonLine points line withing the bounding box of
+		// the original polygon line.
+		var polygon = [];
+		var buffer = 3;
+		polygon.push(this.pointAtADistanceFromXY(linePoints[0], linePoints[1], buffer));
+		polygon.push(this.pointAtADistanceFromXY(linePoints[0], linePoints[1], -buffer));
+		polygon.push(this.pointAtADistanceFromXY(linePoints[2], linePoints[3], -buffer));
+		polygon.push(this.pointAtADistanceFromXY(linePoints[2], linePoints[3], buffer));
+
+		polygon = _.flatten(polygon);
+
+
+		if (PolyK.ContainsPoint(polygon, otherPoints[0], otherPoints[1]) 
+			&& PolyK.ContainsPoint(polygon, otherPoints[2], otherPoints[3])) {
+
+			return true;
 		}
 		return false;
 	}
