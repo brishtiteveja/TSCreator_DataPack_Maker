@@ -73,9 +73,6 @@ define(["baseView"], function(BaseView) {
 		this.element.attr({
 			'cx': this.point.get('x'),
 			'cy': this.point.get('y'),
-			'r': this.point.get('r'),
-			'fill': this.point.get('fill'),
-			'stroke': this.point.get('stroke')
 		});
 		this.renderTooltip();
 		this.updateStatusBox(); 
@@ -86,20 +83,28 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.setFinishedMode = function() {
+		this.element.attr({
+			r : 4,
+			fill: "#000000",
+			stroke: "#000000"
+		});
 		this.$el.removeClass('hover');
 	};
 
 	PointView.prototype.setEditMode = function() {
+		this.element.attr({
+			r: 8,
+			fill: "#FF0033",
+			stroke: '#FF0033',
+		});
 		this.$el.addClass('hover');
 	}
 
 	PointView.prototype.onMouseOver = function() {
-		this.point.hover();
 		this.setEditMode();
 	};
 
 	PointView.prototype.onMouseOut = function() {
-		this.point.unHover();
 		this.setFinishedMode();
 	};
 

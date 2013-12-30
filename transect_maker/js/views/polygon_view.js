@@ -157,16 +157,6 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 		}
 		transectApp.PointsCollection.add(point);
 		this.updateCanvasDimensions(point);
-
-		this.highlightPoints();
-	}
-
-	PolygonView.prototype.highlightPoints = function(arguments) {
-		this.polygon.get('points').each(function(point) {
-			point.normal();
-		});
-		this.polygon.get('points').first().highlightBlue();
-		this.polygon.get('points').last().highlightGreen();
 	}
 
 	PolygonView.prototype.isSimple = function(point) {
