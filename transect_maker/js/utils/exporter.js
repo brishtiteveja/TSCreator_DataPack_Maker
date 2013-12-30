@@ -8,19 +8,6 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 		this.PRECISION = transectApp.precision; // percent
 		this.STEPS = transectApp.steps; 
 	}
-
-	/* Take the list of polygons and group them with respect to
-	their transect. In case a polygon is shared over multiple 
-	transects split the polygon at the reference wells that divide 
-	the polygon */
-
-	Exporter.prototype.export = function() {
-		this.polygons = transectApp.PolygonsCollection;
-		this.transects = transectApp.TransectsCollection;
-		this.initialize();
-		this.processData();
-	}
-
 	/* Initialize dictionary to store transect specific data */
 
 	Exporter.prototype.initialize = function() {
@@ -32,6 +19,8 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 				polygons: [],
 				points: new Points(),
 				texts: new TransectTexts(),
+				matrixPositions: [],
+				matrixAges: [],
 				matrix: {},
 			};
 		});
@@ -65,6 +54,46 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 
 	TEXT blah blah
 	*/
+
+
+	/* Take the list of polygons and group them with respect to
+	their transect. In case a polygon is shared over multiple 
+	transects split the polygon at the reference wells that divide 
+	the polygon */
+
+	Exporter.prototype.export = function() {
+		this.polygons = transectApp.PolygonsCollection;
+		this.transects = transectApp.TransectsCollection;
+		this.initialize();
+		this.processData();
+		this.sortData();
+	}
+
+	Exporter.prototype.sortData = function() {
+		var self = this;
+
+		for (var id in self.transectsData) {
+			self.sortTransectsData(self.transectsData[id]);
+		}
+
+		for (var id in self.wellsData) {
+			self.sortWellsData(self.wellsData[id]);
+		}
+		
+	}
+
+	Exporter.prototype.sortTransectsData = function(transect) {
+		// remove duplicates.
+		transect.matrixPositions = _.uniq(transect.matrixPositions);
+		transect.matrixAges = _.uniq(transect.matrixAges);
+		transect.matrixPositions.sort();
+		transect.matrixAges.sort();
+	}
+
+	Exporter.prototype.sortWellsData = function(well) {
+		well.referencePoints = _.sortBy(well.referencePoints, function(referencePoint) {return referencePoint.point.get('age');});
+	}
+
 
 	Exporter.prototype.processData = function() {
 		// process all polygons one by one
@@ -188,29 +217,45 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 			self.transectsData[transect.get('id')].polygons.push(currPolygon);
 
 			// update matrix
-			self.updateTransectMatrix(transect, polygonLines);
+			self.updateTransectMatrix(transect, currPolygonPoints);
 		}
 	}
 
-	Exporter.prototype.updateTransectMatrix = function(transect, polygonLines) {
+	Exporter.prototype.updateTransectMatrix = function(transect, polygonPoints) {
 		var self = this;
 		var matrix = self.transectsData[transect.get('id')].matrix;
-		polygonLines.each(function(line) {
-			var point = line.get('point1');
-			var age = String(point.get('age'));
-			var percent = Math.round((point.get('relativeX')*100)/self.PRECISION)*self.PRECISION;
+		
+		var matrixAges = self.transectsData[transect.get('id')].matrixAges;
+		var matrixPositions = self.transectsData[transect.get('id')].matrixPositions;
+
+		polygonPoints.each(function(point) {
+			var age = point.get('age');
 			
-			if (point.get('transect') !== transect) {
-				percent = 100;
+			var percent = point.get('relativeX')*100;
+
+			var pointTransect = point.get('transect');
+			
+			if (pointTransect !== transect) {
+				if (pointTransect.get('wellLeft') === transect.get('wellRight')) {
+					percent = 100;
+				} else {
+					percent = 0;
+				}
 			}
 
 			if (!(age in matrix)) {
-				matrix[age] = new Array(self.STEPS+1);
-				for (var i=0; i <= self.STEPS; i++) {
-					matrix[age][i] = " ";
-				}
+				matrix[String(age)] = {};
 			}
-			matrix[age][percent/self.PRECISION] = point.get('name');
+
+			if (matrixAges.indexOf(age) < 0) {
+				matrixAges.push(age);
+			}
+
+			if (matrixPositions.indexOf(age) < 0) {
+				matrixPositions.push(percent);
+			}
+
+			matrix[String(age)][String(percent)] = point.get('name');
 		});
 	}
 
@@ -366,22 +411,23 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 	Exporter.prototype.getTransectMatrixText = function(transectId) {
 		var self = this;
 		var transect = self.transectsData[transectId];
+		var ages = transect.matrixAges;
+		var positions = transect.matrixPositions;
 		// matrix header
 		var outputText = "\n\t\t";
-		for (var i=0; i<=this.STEPS; i++) {
-			outputText += i*this.PRECISION + "\t";
+		for (var i=0; i< positions.length; i++) {
+			outputText += positions[i] + "\t";
 		}
 
-		var ages = Object.keys(transect.matrix);
-		ages = _.sortBy(ages, function(age){return parseFloat(age)});
 
 		// transect matrix
-		for (var i=0; i<ages.length; i++) {
-			var age = ages[i];
+		for (var i=0; i < ages.length; i++) {
+			var age = String(ages[i]);
 			outputText += "\n\t";
 			outputText += age + "\t";
-			for (var j=0; j<transect.matrix[age].length; j++) {
-				outputText += transect.matrix[age][j] + "\t";
+			for (var j=0; j<positions.length; j++) {
+				var position = positions[j];
+				outputText += (transect.matrix[String(age)][String(position)] || "") + "\t";
 			}
 		}
 		return outputText;
@@ -426,13 +472,12 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 		outputText += well.data.get('width') + "\t";
 		outputText += CssToTscColor(well.data.get('settings').get('backgroundColor')) + "\t";
 		outputText + "\n"
-		var sortedPoints = _.sortBy(well.referencePoints, function(referencePoint) {return referencePoint.point.get('age');});
-		for (var i in sortedPoints) {
+		for (var i in well.referencePoints) {
 			outputText += "\n";
 			outputText += "\t"
-			outputText += (sortedPoints[i].pattern || "None") + "\t";
-			outputText += (sortedPoints[i].name || "") + "\t";
-			outputText += sortedPoints[i].point.get('age') + "\t";
+			outputText += (well.referencePoints[i].pattern || "None") + "\t";
+			outputText += (well.referencePoints[i].name || "") + "\t";
+			outputText += well.referencePoints[i].point.get('age') + "\t";
 		}
 		return outputText;
 	}

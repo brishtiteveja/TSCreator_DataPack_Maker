@@ -35,6 +35,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.transectMarker, 'change:y', this.renderMarker.bind(this));
 		this.listenTo(this.transectMarker, 'change:age', this.renderMarker.bind(this));
 		this.listenTo(this.transectMarker, 'change:name', this.renderMarker.bind(this));
+		this.listenTo(this.transectMarker, 'change:hover', this.setHoverStatus.bind(this));
 	};
 
 	/*==========  render the trasect  ==========*/
@@ -108,19 +109,35 @@ define(["baseView"], function(BaseView) {
 
 	TransectMarkerView.prototype.onMouseOver = function() {
 		this.transectMarkersView.undelegateEvents();
-		this.element.attr({
-			"stroke-width": 5
-		});
 		this.$el.addClass('hover');
+		this.transectMarker.set({
+			hover: true,
+		});
 	};
 
 	TransectMarkerView.prototype.onMouseOut = function() {
 		this.transectMarkersView.delegateEvents();
-		this.element.attr({
-			"stroke-width": 2
-		});
 		this.$el.removeClass('hover');
+		this.transectMarker.set({
+			hover: false,
+		});
 	};
+
+	TransectMarkerView.prototype.setHoverStatus = function() {
+		if (this.transectMarker.get('hover')) {			
+			this.element.attr({
+				"stroke-width": 5
+			});
+
+			this.$el.addClass('hover');
+		} else {
+			this.element.attr({
+				"stroke-width": 2
+			});
+
+			this.$el.removeClass('hover');
+		}
+	}
 
 	TransectMarkerView.prototype.toggleMarkerForm = function() {
 		this.render();

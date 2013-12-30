@@ -66,10 +66,24 @@ define(["baseView"], function(BaseView) {
 
 	TransectView.prototype.onMouseOver = function() {
 		this.$el.addClass('hover');
+
+		this.transect.get('wellLeft').set({
+			hover: true
+		});
+		this.transect.get('wellRight').set({
+			hover: true
+		});
 	};
 
 	TransectView.prototype.onMouseOut = function() {
 		this.$el.removeClass('hover');
+
+		this.transect.get('wellLeft').set({
+			hover: false
+		});
+		this.transect.get('wellRight').set({
+			hover: false
+		});
 	};
 
 	TransectView.prototype.updateTransect = function(evt) {

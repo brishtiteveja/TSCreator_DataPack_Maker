@@ -26,7 +26,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.line, 'change:name', this.renderLine.bind(this));
 		this.listenTo(this.line.get('point1'), 'change', this.renderLine.bind(this));
 		this.listenTo(this.line.get('point2'), 'change', this.renderLine.bind(this));
-		this.listenTo(this.line, 'change:pattern', this.renderLine.bind(this));
+		this.listenTo(this.line, 'change:pattern', this.render.bind(this));
 		this.render();
 	};
 

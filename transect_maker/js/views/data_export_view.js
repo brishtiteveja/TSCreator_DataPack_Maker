@@ -17,12 +17,19 @@ define(["baseView", "exporter"], function(BaseView, Exporter) {
 	DataExportView.prototype.transectDataLayout = new EJS({url: '/transect_maker/ejs/transect_data_layout.ejs'});
 
 	DataExportView.prototype.initialize = function() {
+		this.markers = transectApp.TransectMarkersCollection;
+		this.polygons = transectApp.PolygonsCollection;
 		this.render();
 		this.$exportPanel = $("#export-panel");
 		this.$canvas = $("#canvas");
 	}
 
 	DataExportView.prototype.render = function() {
+		if (!this.isAgeSet()) {
+			alert("Please set the ages for time lines!");
+			return;	
+		}
+
 		this.exporter = new Exporter();
 		this.transects = transectApp.TransectsCollection;
 		this.$el.html(this.template.render({transects: this.transects.toJSON()}));
@@ -38,6 +45,16 @@ define(["baseView", "exporter"], function(BaseView, Exporter) {
 		this.renderWellsData();
 		this.renderTransectsData();
 		this.renderDataInText();
+	}
+
+	DataExportView.prototype.isAgeSet = function() {
+		for (var i=0; i<this.markers.length; i++) {
+			var marker = this.markers.at(i);
+			if (marker.get('age') == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	DataExportView.prototype.renderWellsData = function() {

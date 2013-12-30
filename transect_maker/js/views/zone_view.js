@@ -63,10 +63,24 @@ define(["baseView"], function(BaseView) {
 
 	ZoneView.prototype.onMouseOver = function() {
 		this.$el.addClass('hover');
+		this.zone.get('topMarker').set({
+			hover: true
+		});
+
+		this.zone.get('baseMarker').set({
+			hover: true
+		});
 	};
 
 	ZoneView.prototype.onMouseOut = function() {
 		this.$el.removeClass('hover');
+
+		this.zone.get('topMarker').set({
+			hover: false
+		});
+		this.zone.get('baseMarker').set({
+			hover: false
+		});
 	};
 
 	ZoneView.prototype.updateZone = function(evt) {

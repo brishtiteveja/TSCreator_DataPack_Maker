@@ -15,6 +15,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 				lon: null,
 				settings: new Settings(),
 				width: 100,
+				hover: false,
 			}];
 			BaseModel.apply(this, attrs);
 		}

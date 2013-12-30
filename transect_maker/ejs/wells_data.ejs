@@ -13,13 +13,12 @@
 			<td></td>
 			<td>Primary</td>
 		</tr>
-		<% var sortedPoints = _.sortBy(referencePoints, function(referencePoint) {return referencePoint.point.get('age');}); %>
-		<% for (var i in sortedPoints) { %>
+		<% for (var i in referencePoints) { %>
 		<tr>
 			<td></td>
-			<td><%= sortedPoints[i].pattern || "None" %></td>
-			<td><%= sortedPoints[i].name %></td>
-			<td><%= sortedPoints[i].point.get('age') || 0 %></td>
+			<td><%= referencePoints[i].pattern || "None" %></td>
+			<td><%= referencePoints[i].name %></td>
+			<td><%= referencePoints[i].point.get('age') || 0 %></td>
 		</tr>
 		<% } %>
 	</tbody>

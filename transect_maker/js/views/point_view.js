@@ -13,15 +13,15 @@ define(["baseView"], function(BaseView) {
 		}
 	});
 
-	PointView.prototype.template = new EJS({url: '../../../transect_maker/ejs/point.ejs'});
-	PointView.prototype.statusBoxTemplate = new EJS({url: '../../../transect_maker/ejs/status_box.ejs'});
+	PointView.prototype.template = new EJS({url: '/transect_maker/ejs/point.ejs'});
+	PointView.prototype.statusBoxTemplate = new EJS({url: '/transect_maker/ejs/status_box.ejs'});
 
 	PointView.prototype.initialize = function(point) {
 		this.point = point;
 		this.render();
 		this.listenTo(this.point, 'destroy', this.removeElement.bind(this));
 		this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
-		this.listenTo(this.point, 'change', this.updateElement.bind(this));
+		this.listenTo(this.point, 'change', this.render.bind(this));
 	};
 
 	PointView.prototype.render = function() {
@@ -51,6 +51,7 @@ define(["baseView"], function(BaseView) {
 			});
 		}
 		this.updateStatusBox();
+		this.updateElement();
 	};
 
 	PointView.prototype.renderTooltip = function() {
@@ -103,7 +104,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	PointView.prototype.onClick = function() {
-		if (transectApp.CurrentPolygon !== null) {
+		if (transectApp.CurrentPolygon !== null && transectApp.CurrentPolygon.get('edit')) {
 			transectApp.CurrentPolygon.get('points').add(this.point);
 		}
 	}

@@ -32,6 +32,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.transectWell, 'change:name', this.renderWell.bind(this));
 		this.listenTo(this.transectWell, 'change:lat', this.renderWell.bind(this));
 		this.listenTo(this.transectWell, 'change:lon', this.renderWell.bind(this));
+		this.listenTo(this.transectWell, 'change:hover', this.setHoverStatus.bind(this));
 	};
 
 	TransectWellView.prototype.render = function() {
@@ -103,19 +104,33 @@ define(["baseView"], function(BaseView) {
 
 	TransectWellView.prototype.onMouseOver = function() {
 		this.transectWellsView.undelegateEvents();
-		this.element.attr({
-			"stroke-width": 5
+		this.transectWell.set({
+			hover: true,
 		});
-		this.$el.addClass('hover');
 	};
 
 	TransectWellView.prototype.onMouseOut = function() {
 		this.transectWellsView.delegateEvents();
-		this.element.attr({
-			"stroke-width": 2
+		this.transectWell.set({
+			hover: false,
 		});
-		this.$el.removeClass('hover');
 	};
+
+	TransectWellView.prototype.setHoverStatus = function() {
+		if (this.transectWell.get('hover')) {			
+			this.element.attr({
+				"stroke-width": 5
+			});
+
+			this.$el.addClass('hover');
+		} else {
+			this.element.attr({
+				"stroke-width": 2
+			});
+
+			this.$el.removeClass('hover');
+		}
+	}
 
 	TransectWellView.prototype.toggleWellForm = function() {
 		this.render();

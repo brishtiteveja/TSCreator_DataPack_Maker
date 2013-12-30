@@ -10,26 +10,29 @@
 			<th><%= data.get('width') %></th>
 			<th><%= CssToTscColor(data.get('settings').get('backgroundColor')) %></th>
 			<th><%= data.get('status') %></th>
-			<% for (var i = 0; i <= steps + 2 - 5; i++) { %>
+			<% for (var i = 0; i <matrixPositions.length + 2 - 5; i++) { %>
 			<th></th>
 			<% } %>
 		</tr>
 		<tr>
 			<th></th>
 			<th></th>
-			<% for (var i = 0; i <= steps; i++) { %>
-			<th><%= i*precision %></th>
+			<% %>
+			<% for (var i = 0; i<matrixPositions.length; i++) { %>
+			<th><%=  matrixPositions[i] %></th>
 			<% } %>
 		</tr>
-		<% var keys = Object.keys(matrix); %>
-		<% keys = _.sortBy(keys, function(age){ return parseFloat(age); }); %>
-		<% for (var a in keys) { %>
+		<% for (var i=0; i<matrixAges.length; i++) { %>
 			<tr>
 				<td></td>
-				<td><%= keys[String(a)] %></td>
-				<% for (var i in matrix[keys[String(a)]]) { %>
-				<% var point = matrix[keys[String(a)]][i]; %>
-				<td><%= point %></td>
+				<td><%= matrixAges[i] %></td>
+				<% for (var j=0; j<matrixPositions.length; j++) { %>
+					<% var point = matrix[String(matrixAges[i])][String(matrixPositions[j])] %>
+					<% if ((point === undefined) || (point === null)) { %>
+						<td></td>
+					<% } else { %>
+						<td><%= point %></td>
+					<% } %>
 				<% } %>
 			</tr>
 		<% } %>
@@ -39,7 +42,7 @@
 				<td>POLYGON</td>
 				<td>pattern: <%= polygon.pattern || "None" %></td>
 				<td><%= polygon.name %></td>
-				<% for (var k = 0; k <= steps + 2 - 3; k++) { %>
+				<% for (var k = 0; k <matrixPositions.length + 2 - 3; k++) { %>
 				<td></td>
 				<% } %>
 			</tr>
@@ -54,7 +57,7 @@
 					<td></td>
 					<td><%= point1.get('name').substring(1) %></td>
 					<td></td>
-					<% for (var k = 0; k <= steps + 2 - 3; k++) { %>
+					<% for (var k = 0; k <matrixPositions.length + 2 - 3; k++) { %>
 					<td></td>
 					<% } %>
 				</tr>
@@ -62,7 +65,7 @@
 					<td></td>
 					<td></td>
 					<td><%= patternName %></td>
-					<% for (var k = 0; k <= steps + 2 - 3; k++) { %>
+					<% for (var k = 0; k <matrixPositions.length + 2 - 3; k++) { %>
 					<td></td>
 					<% } %>
 				<% } %>
