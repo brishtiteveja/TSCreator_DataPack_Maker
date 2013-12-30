@@ -255,7 +255,13 @@ define(["point", "points", "line", "lines", "transects", "transectTexts"], funct
 				matrixPositions.push(percent);
 			}
 
-			matrix[String(age)][String(percent)] = point.get('name');
+			if (matrix[String(age)][String(percent)] !== undefined) {
+				point.set({
+					name: matrix[String(age)][String(percent)]
+				});
+			} else {
+				matrix[String(age)][String(percent)] = point.get('name');
+			}
 		});
 	}
 
