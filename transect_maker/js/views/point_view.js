@@ -125,10 +125,23 @@ define(["baseView"], function(BaseView) {
 		var transect = transectApp.TransectsCollection.getTransectForX(evt.offsetX);
 		var zone = transectApp.ZonesCollection.getZoneForY(evt.offsetY);
 		if (transect !== null && zone !== null) {
+
+			var locationX = evt.offsetX;
+			var locationY = evt.offsetY;
+
+			if (transectApp.Cursor.get('lockH')) {
+				locationY = this.point.get('y');
+			}
+			
+			if (transectApp.Cursor.get('lockV')) {
+				locationX = this.point.get('x');
+			}
+
 			this.point.set({
-				x: evt.offsetX,
-				y: evt.offsetY
+				x: locationX,
+				y: locationY
 			});
+
 			this.point.updateTransectAndZone();
 		}
 	}
