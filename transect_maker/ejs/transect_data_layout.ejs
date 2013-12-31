@@ -37,21 +37,25 @@
 			</tr>
 		<% } %>
 		<% for (var i=0; i < polygons.length; i++) { %>
-			<% var polygon = polygons[i]; %>
+			<% var polygon = polygons.at(i); %>
 			<tr>
 				<td>POLYGON</td>
-				<td>pattern: <%= polygon.pattern || "None" %></td>
+				<td>pattern: <%= polygon.get('patternName') || "None" %></td>
 				<td><%= polygon.name %></td>
 				<% for (var k = 0; k <matrixPositions.length + 2 - 3; k++) { %>
 				<td></td>
 				<% } %>
 			</tr>
+
+			<% var lines = polygon.get('lines'); %>
+			<% var points = polygon.get('points'); %>
+
 			
-			<% for (var j=0; j<polygon.lines.length; j++) { %>
-				<% var line = polygon.lines.at(j); %>
-				<% var point1 = line.get('point1'); %>
-				<% var point2 = line.get('point2'); %>
-				<% var patternName = line.get('pattern'); %>
+			<% for (var j=0; j<points.length; j++) { %>
+				<% var point1 = points.at(j); %>
+				<% var point2 = points.at((j+1)%points.length); %>
+				<%var line = lines.findWhere({'point1': point1, 'point2': point2}) || lines.findWhere({'point1': point2, 'point2': point1}); %>
+				<% var pattern = line.get('pattern'); %>
 				
 				<tr>
 					<td></td>
@@ -61,10 +65,10 @@
 					<td></td>
 					<% } %>
 				</tr>
-				<% if (patternName !== "default") { %>
+				<% if (pattern !== "default") { %>
 					<td></td>
 					<td></td>
-					<td><%= patternName %></td>
+					<td><%= pattern %></td>
 					<% for (var k = 0; k <matrixPositions.length + 2 - 3; k++) { %>
 					<td></td>
 					<% } %>
