@@ -226,7 +226,17 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 
 	PolygonView.prototype.addPoint = function(evt) {
 		if (!this.polygon.get('draw')) {return;}
-		var point = transectApp.PointsCollection.findWhere({x: evt.offsetX, y: evt.offsetY}) || new Point({x: evt.offsetX, y: evt.offsetY});
+		var locationX = evt.offsetX;
+		var locationY = evt.offsetY;
+		if (this.polygon.get('points').length > 0 && transectApp.Cursor.get('lockH')) {
+			locationY = this.polygon.get('points').last().get('y');
+		}
+		
+		if (this.polygon.get('points').length > 0 && transectApp.Cursor.get('lockV')) {
+			locationX = this.polygon.get('points').last().get('x');
+		}
+
+		var point = transectApp.PointsCollection.findWhere({x: locationX, y: locationY}) || new Point({x: locationX, y: locationY});
 		if (point.get('transect') === null || point.get('zone') === null) {
 			point.destroy();
 			return;

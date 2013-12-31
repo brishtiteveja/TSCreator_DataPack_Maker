@@ -5,6 +5,7 @@ var transectApp = transectApp || {};
 
 define([
 	"baseView",
+	"cursorView",
 	"transectsView",
 	"transectImageView",
 	"transectMarkersView",
@@ -16,6 +17,7 @@ define([
 	"transectImage"
 	], function(
 		BaseView,
+		CursorView,
 		TransectsView,
 		TransectImageView,
 		TransectMarkersView,
@@ -64,6 +66,7 @@ define([
 	}
 
 	TransectAppView.prototype.render = function() {
+		this.cursorView = new CursorView();
 		this.transectsView = new TransectsView();
 		this.transectMarkersView = new TransectMarkersView();
 		this.transectWellsView = new TransectWellsView();

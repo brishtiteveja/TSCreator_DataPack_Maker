@@ -2,6 +2,7 @@ requirejs.config({
 	paths: {
 		// views
 		baseView: "/commons/js/views/base_view",
+		cursorView: "/commons/js/views/cursor_view",
 		transectImageView: "/transect_maker/js/views/transect_image_view",
 		transectMarkersView: "/transect_maker/js/views/transect_markers_view",
 		transectMarkerView: "/transect_maker/js/views/transect_marker_view",
@@ -21,6 +22,7 @@ requirejs.config({
 		transectAppView: "/transect_maker/js/views/transect_app_view",
 		// models
 		baseModel: "/commons/js/models/base_model",
+		cursor: "/commons/js/models/cursor",
 		settings: "/commons/js/models/settings",
 		transectImage: "/transect_maker/js/models/transect_image",
 		transectMarker: "/transect_maker/js/models/transect_marker",
