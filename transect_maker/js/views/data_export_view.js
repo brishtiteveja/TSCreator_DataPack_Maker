@@ -2,7 +2,7 @@
 =            DataExportView            =
 ======================================*/
 
-define(["baseView", "exporter"], function(BaseView, Exporter) {
+define(["baseView"], function(BaseView) {
 	var DataExportView = BaseView.extend({
 		el: "#export-panel",
 		classname: "DataExportView",
@@ -24,7 +24,7 @@ define(["baseView", "exporter"], function(BaseView, Exporter) {
 	}
 
 	DataExportView.prototype.render = function() {
-		this.exporter = new Exporter();
+		this.exporter = transectApp.exporter;
 		this.transects = transectApp.TransectsCollection;
 		this.$el.html(this.template.render({transects: this.transects.toJSON()}));
 

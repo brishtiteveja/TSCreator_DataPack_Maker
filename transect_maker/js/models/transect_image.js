@@ -9,18 +9,13 @@ define(["baseModel"], function(BaseModel) {
 			var attrs = [{
 				x: "x" in attributes ? attributes.x : 0,
 				y: "y" in attributes ? attributes.y : 0,
-				url: "url" in attributes ? attributes.url: null
+				width: "100%",
+				height: "100%",
+				data: "data" in attributes ? attributes.data: null
 			}];
 			BaseModel.apply(this, attrs);
 		}
 	});
-
-	TransectImage.prototype.initialize = function (attrs) {
-		this.set({
-			width: 796*3,
-			height: 516*3
-		});
-	};
 
 	return TransectImage;
 });

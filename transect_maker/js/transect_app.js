@@ -66,6 +66,7 @@ requirejs.config({
 		// Data Exporter
 		exporter: "/transect_maker/js/utils/exporter",
 		dataExportView: "/transect_maker/js/views/data_export_view",
+		dataImportView: "/transect_maker/js/views/data_import_view",
 
 		// Main View
 		transectAppView: "/transect_maker/js/views/transect_app_view",

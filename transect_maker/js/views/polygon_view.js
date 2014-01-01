@@ -376,8 +376,8 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 
 	PolygonView.prototype.moveToBottom = function() {
 		this.element.toBack();
-		if (transectApp.transectImage !== undefined) {
-			transectApp.transectImage.toBack();
+		if (transectApp.transectImageElement !== undefined) {
+			transectApp.transectImageElement.toBack();
 		}
 	}
 

@@ -13,8 +13,10 @@ define([
 	"transectTextsView",
 	"zonesView",
 	"polygonsView",
+	"dataImportView",
 	"dataExportView",
-	"transectImage"
+	"transectImage",
+	"exporter"
 	], function(
 		BaseView,
 		CursorView,
@@ -25,8 +27,10 @@ define([
 		TransectTextsView,
 		ZonesView,
 		PolygonsView,
+		DataImportView,
 		DataExportView,
-		TransectImage) {
+		TransectImage,
+		Exporter) {
 	var TransectAppView = BaseView.extend({
 		el: ".container",
 		classname: "TransectAppView",
@@ -44,6 +48,7 @@ define([
 		this.$canvas = this.$("#canvas");
 		transectApp.StatusBox = $(".status-box");
 		transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
+		transectApp.exporter = new Exporter();
 		PointsSet = transectApp.Canvas.set();
 		LinesSet = transectApp.Canvas.set();
 		PolygonsSet = transectApp.Canvas.set();
@@ -73,8 +78,9 @@ define([
 		this.transectTextsView = new TransectTextsView();
 		this.zonesView = new ZonesView();
 		this.polygonsView = new PolygonsView();
+		this.dataImportView = new DataImportView();
 		this.dataExportView = new DataExportView();
-		this.renderTransectImage();
+		this.transectImageView = new TransectImageView();
 	};
 
 	/**
@@ -83,11 +89,6 @@ define([
 		- Render transect image is temporary, will have to attach event to change transect image.
 
 	**/
-
-	TransectAppView.prototype.renderTransectImage = function() {
-		var transectImage = new TransectImage({url: "/images/Scan2_CentralVulcan-page-001.gif", x: this.x, y: this.y});
-		var transectImageView = new TransectImageView(transectImage);
-	};
 
 	TransectAppView.prototype.showSettings = function(evt) {
 		var id = evt.target.getAttribute('href') + "-list";

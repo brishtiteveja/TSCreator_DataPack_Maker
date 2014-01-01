@@ -44,14 +44,15 @@
 					<li><a href="#add-polygon" class="transect-tools icon icons-polygon4"></a></li>
 					<li><a href="#new-polygon" class="transect-tools icon icons-polygon4 text-right">⨁</a></li>
 					<li><a href="#add-transect-text" class="transect-tools icon icons_32-text_letter_t_icon_32"></a></li>
+					<li><a href="#edit-data" class="transect-tools icon icons_32-picture_icon_32"></a></li>
+					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32"></a></li>
 					<li><a href="#save-to-local-storage" class="transect-tools icon icons_save_icon_32"></a></li>
 					<li><a href="#save-to-server" class="transect-tools icon icons_download_icon_32"></a></li>
-					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32"></a></li>
 				</ul>
 			</div>
 			<div id="display" class="small-18 large-21 columns">
 				<div id="export-panel"></div>
-				<div class="intro row hide" id="intro-screen">
+				<div class="intro row" id="intro-screen">
 					<div class="content small-22 large-22 columns">
 						<div class="row">
 							<div class="small-22 large-22 columns">
@@ -72,29 +73,29 @@
 											<li>
 												<div class="row">
 													<div class="small-10 columns large-6"><a href="#" title="">↪︎ set image</a></div>
-													<div class="small-14 drag-box large-18 columns" id="image-box"><h2 class="text-center text-message"><small>drag & drop your image here</small></p></div>
+													<div class="small-14 drag-box large-18 columns" id="image-box"><h2 class="text-center text-message"><small class="image-status">drag & drop your image here</small></h2></div>
 												</div>
 											</li>
 											<li>
 												<div class="row">
 													<div class="small-10 columns large-6"><a href="#" title="">↪︎ load data</a></div>
-													<div class="small-14 drag-box large-18 columns" id="data-box"><h2 class="text-center text-message"><small>drag & drop your datapack here</small></h2></div>
+													<div class="small-14 drag-box large-18 columns" id="data-box"><h2 class="text-center text-message"><small class="data-status">drag & drop your datapack here</small></h2></div>
 												</div>
 											</li>
 											<li>
-												<div class="row" id="no-image-or-data">
+												<div class="row continue-to-main" id="no-image-or-data">
 													<div class="small-10 columns large-10"></div>
 													<div class="small-14 columns large-14"><a href="#" title="" class="continue">continue without image or data ➤</a></div>
 												</div>
-												<div class="row hide" id="image-only">
+												<div class="row hide continue-to-main" id="no-data">
 													<div class="small-10 columns large-14"></div>
 													<div class="small-14 columns large-10"><a href="#" title="" class="continue">continue without data ➤</a></div>
 												</div>
-												<div class="row hide" id="data-only">
+												<div class="row hide continue-to-main" id="no-image">
 													<div class="small-10 columns large-14"></div>
 													<div class="small-14 columns large-10"><a href="#" title="" class="continue">continue without image ➤</a></div>
 												</div>
-												<div class="row hide" id="both-image-and-data">
+												<div class="row hide continue-to-main" id="continue-both">
 													<div class="small-10 columns large-16"></div>
 													<div class="small-14 columns large-8"><a href="#" title="" class="continue">continue ➤</a></div>
 												</div>
@@ -108,7 +109,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="canvas" class="" tabindex=1></div>
+				<div id="canvas" class="hide" tabindex=1></div>
 			</div>
 			<div id="settings" class="small-4 large-2 columns">
 				<div class="settings-nav">
@@ -119,6 +120,7 @@
 						<li class="settings-links"><a class="transect-settings" href="#transects">← Transects</a></li>
 						<li class="settings-links"><a class="transect-settings" href="#polygons">← Polygons</a></li>
 						<li class="settings-links"><a class="transect-settings" href="#texts">← Texts</a></li>
+						<li class="settings-links"><a class="transect-settings" href="#bg-image-settings">← Image</a></li>
 						<li class="settings-links"><a class="transect-settings" href="#defaults">← Defaults</a></li>
 					</ul>
 					<div data-alert class="alert-box secondary canvas-status status-box"></div>
@@ -130,6 +132,7 @@
 					<div class="settings-content" id="polygons-list"></div>
 					<div class="settings-content" id="markers-list"></div>
 					<div class="settings-content" id="texts-list"></div>
+					<div class="settings-content" id="bg-image-settings-list"></div>
 					<div class="settings-content" id="defaults-list"></div>
 				</div>
 			</div>
