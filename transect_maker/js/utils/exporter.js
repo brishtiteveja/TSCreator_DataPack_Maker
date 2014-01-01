@@ -325,6 +325,7 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 					} else {
 						var index = self.wellsData[well.get('id')].referencePoints.indexOf(refPoint);
 						self.wellsData[well.get('id')].referencePoints[index].name = polygon.get('name');
+						self.wellsData[well.get('id')].referencePoints[index].pattern = polygon.get('patternName') || "None";
 					}
 				} else {
 					if (! _.findWhere(self.wellsData[well.get('id')].referencePoints, {point: line.get('point2')})) {
@@ -343,7 +344,7 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 					} else {
 						var index = self.wellsData[well.get('id')].referencePoints.indexOf(refPoint);
 						self.wellsData[well.get('id')].referencePoints[index].name = polygon.get('name');
-							self.wellsData[well.get('id')].referencePoints[index].pattern = polygon.get('patternName') || "None";
+						self.wellsData[well.get('id')].referencePoints[index].pattern = polygon.get('patternName') || "None";
 					}
 				}
 			}
