@@ -11,7 +11,6 @@ define(["baseCollection", "transectMarker"], function(BaseCollection, TransectMa
 	TransectMarkers.prototype.comparator = function(marker) {
 		return marker.get('y');
 	};
-
 	return TransectMarkers;
 });
 

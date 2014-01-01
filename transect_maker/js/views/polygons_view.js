@@ -74,7 +74,7 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 			// unset draw.
 			transectApp.CurrentPolygon.set({
 				'draw': false
-			});	
+			});
 
 			// delete the polygon if the points are less than 3.
 			if (transectApp.CurrentPolygon.get('points').length < 3) {

@@ -29,6 +29,12 @@ define(["baseModel", "points", "lines"], function(BaseModel, Points, Lines) {
 		return array;
 	}
 
+	Polygon.prototype.toJSON = function() {
+		var json = _.clone(this.attributes);
+		delete json["lines"];
+		return json;
+	}
+
 	return Polygon;
 });
 

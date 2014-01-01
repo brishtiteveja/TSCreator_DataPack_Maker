@@ -12,6 +12,14 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 
 	Exporter.prototype.initialize = function() {
 		var self = this;
+
+		// refer to the global objects.
+		this.polygons = transectApp.PolygonsCollection;
+		this.transects = transectApp.TransectsCollection;
+		this.zones = transectApp.ZonesCollection;
+
+		// initialize the objects to store the processed data.
+		// 
 		self.transectsData = {};
 		transectApp.TransectsCollection.each(function(transect) {
 			self.transectsData[transect.get('id')] = {
@@ -65,8 +73,6 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 	the polygon */
 
 	Exporter.prototype.export = function() {
-		this.polygons = transectApp.PolygonsCollection;
-		this.transects = transectApp.TransectsCollection;
 		this.initialize();
 		this.processData();
 		this.sortData();
@@ -563,6 +569,14 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 			outputText += well.referencePoints[i].point.get('age') + "\t";
 		}
 		return outputText;
+	}
+
+	Exporter.prototype.getJSON = function() {
+		var json = {};
+		json["transects"] = this.transects.toJSON();
+		json["zones"] = this.zones.toJSON();
+		json["polygons"] = this.polygons.toJSON();
+		return JSON.stringify(json);
 	}
 
 	return Exporter;

@@ -6,6 +6,9 @@ requirejs.config({
 		baseModel: "/commons/js/models/base_model",
 		baseCollection: "/commons/js/collections/base_collection",
 
+		// App
+		app: "/commons/js/models/app",
+
 		// Cursor
 		cursorView: "/commons/js/views/cursor_view",
 		cursor: "/commons/js/models/cursor",

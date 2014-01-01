@@ -79,7 +79,7 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.updateStatusBox = function() {
-		transectApp.StatusBox.html(this.statusBoxTemplate.render(this.point.toJSON()));
+		transectApp.StatusBox.html(this.statusBoxTemplate.render(this.point.toStatusJSON()));
 	}
 
 	PointView.prototype.setFinishedMode = function() {

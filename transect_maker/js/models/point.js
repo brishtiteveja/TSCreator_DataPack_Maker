@@ -46,6 +46,18 @@ define(["baseModel"], function(BaseModel) {
 		});
 	}
 
+	Point.prototype.toJSON = function() {
+		var json = _.clone(this.attributes);
+		delete json["transect"];
+		delete json["zone"];
+		return json;
+	}
+
+	Point.prototype.toStatusJSON = function() {
+		var json = _.clone(this.attributes);
+		return json;
+	}
+
 	return Point;
 });
 /*-----  End of Point Model  ------*/

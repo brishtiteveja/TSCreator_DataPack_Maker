@@ -22,9 +22,10 @@
 			<ul class="button-group round right">
 				<li><a href="#show-table" class="show-data tiny button secondary alert">table</a></li>
 				<li><a href="#show-raw" class="show-data tiny button secondary">text</a></li>
+				<li><a href="#show-json" class="show-data tiny button secondary">json</a></li>
 			</ul>
 		</div>
-		<div class="data-table">
+		<div class="data-table transect-data">
 			<% for (var i=0; i<transects.length; i++) { %>
 				
 				<% if (i == 0) { %>
@@ -40,6 +41,7 @@
 
 			<% } %>
 		</div>
-		<div class="data-raw hide"><textarea name="transect-data" readonly=></textarea></div>
+		<div class="data-raw hide transect-data"><textarea name="transect-data-text" readonly=></textarea></div>
+		<div class="data-json hide transect-data"><textarea name="transect-data-json" readonly=></textarea></div>
 	</div>
 </div>

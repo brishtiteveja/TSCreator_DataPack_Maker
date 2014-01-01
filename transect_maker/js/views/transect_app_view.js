@@ -116,6 +116,10 @@ define([
 
 	TransectAppView.prototype.exportCanvasAsImage = function() {}
 
+	TransectAppView.prototype.saveToLocalStorage = function() {
+		localStorage.clear();
+	}
+
 	TransectAppView.prototype.enableTool = function(evt) {
 		var source = evt.target.getAttribute('href');
 
@@ -156,6 +160,8 @@ define([
 			case "#export-data":
 				this.dataExportView.toggleExportView();
 				break;
+			case "#save-to-local-storage":
+				this.saveToLocalStorage();
 			default:
 				break;
 		}

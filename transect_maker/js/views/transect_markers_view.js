@@ -23,7 +23,6 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 
 		/* render the transect makers */
 		this.render();
-
 	};
 
 	TransectMarkersView.prototype.listenToActionEvents = function () {

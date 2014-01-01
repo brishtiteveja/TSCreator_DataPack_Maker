@@ -7,8 +7,7 @@ define(["baseView", "exporter"], function(BaseView, Exporter) {
 		el: "#export-panel",
 		classname: "DataExportView",
 		events: {
-			'click a[href="#show-raw"]': "toggleDataView",
-			'click a[href="#show-table"]': "toggleDataView",
+			'click a.show-data': "showData"
 		}
 	})
 
@@ -25,26 +24,26 @@ define(["baseView", "exporter"], function(BaseView, Exporter) {
 	}
 
 	DataExportView.prototype.render = function() {
-		if (!this.isAgeSet()) {
-			alert("Please set the ages for time lines!");
-			return;	
-		}
-
 		this.exporter = new Exporter();
 		this.transects = transectApp.TransectsCollection;
 		this.$el.html(this.template.render({transects: this.transects.toJSON()}));
 
+		this.$transectData = this.$(".transect-data");
+		this.$showData = this.$(".show-data");
 		this.$dataTable = this.$(".data-table");
 		this.$dataRaw = this.$(".data-raw");
-		this.$textData = this.$("textarea[name*=transect-data]")[0];
+		this.$dataJSON = this.$(".data-json");
+		this.$textData = this.$("textarea[name*=transect-data-text]")[0];
+		this.$textJSON = this.$("textarea[name*=transect-data-json]")[0];
 		this.$showTable = this.$('a[href="#show-table"]');
 		this.$showRaw = this.$('a[href="#show-raw"]');
-		this.$showData = this.$('a.show-data');
+		this.$showJSON = this.$('a[href="#show-raw"]');
 
 		this.exporter.export();
 		this.renderWellsData();
 		this.renderTransectsData();
 		this.renderDataInText();
+		this.renderDataInJSON();
 	}
 
 	DataExportView.prototype.isAgeSet = function() {
@@ -75,6 +74,10 @@ define(["baseView", "exporter"], function(BaseView, Exporter) {
 		this.$textData.value = this.exporter.getText();
 	}
 
+	DataExportView.prototype.renderDataInJSON = function() {
+		this.$textJSON.value = this.exporter.getJSON();
+	}
+
 	DataExportView.prototype.toggleExportView = function(evt) {
 		if ($("a[href='#export-data']").parent().hasClass('active')) {
 			$("a[href='#export-data']").parent().removeClass('active');
@@ -88,11 +91,19 @@ define(["baseView", "exporter"], function(BaseView, Exporter) {
 		this.render();
 	};
 
-	DataExportView.prototype.toggleDataView = function(evt) {
-		this.$dataTable.toggleClass("hide");
-		this.$dataRaw.toggleClass("hide");
-		this.$showTable.toggleClass("alert");
-		this.$showRaw.toggleClass("alert");
+	DataExportView.prototype.showData = function(evt) {
+		this.$transectData.addClass("hide");
+		this.$showData.removeClass("alert");
+		$(evt.target).addClass("alert");
+		var href = $(evt.target).attr("href");
+
+		if (href === "#show-table") {
+			this.$dataTable.removeClass("hide");
+		} else if (href === "#show-raw") {
+			this.$dataRaw.removeClass("hide");
+		} else if (href === "#show-json") {
+			this.$dataJSON.removeClass("hide");
+		}
 	}
 
 	return DataExportView;
