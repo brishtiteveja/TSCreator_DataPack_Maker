@@ -109,7 +109,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	PointView.prototype.onClick = function() {
-		if (transectApp.CurrentPolygon !== null) {
+		if (transectApp.CurrentPolygon !== null && transectApp.CurrentPolygon('draw')) {
 			transectApp.CurrentPolygon.get('points').add(this.point);
 		}
 	}

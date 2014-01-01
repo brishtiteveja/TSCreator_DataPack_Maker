@@ -71,13 +71,14 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 
 	PolygonsView.prototype.checkAndDeleteCurrentPolygon = function() {
 		if (transectApp.CurrentPolygon) {
+			// unset draw.
+			transectApp.CurrentPolygon.set({
+				'draw': false
+			});	
+
 			// delete the polygon if the points are less than 3.
 			if (transectApp.CurrentPolygon.get('points').length < 3) {
 				transectApp.CurrentPolygon.destroy();
-			} else {
-				transectApp.CurrentPolygon.set({
-					'draw': false
-				});	
 			}
 		}
 	}

@@ -7,6 +7,7 @@ define(["baseModel", "points", "lines"], function(BaseModel, Points, Lines) {
 		classname: "Polygon",
 		constructor: function(attributes, options) {
 			var attrs = [{
+				hover: false,
 				edit: false,
 				draw: false,
 				name: attributes && attributes.name ? attributes.name : _.uniqueId("Polygon "),
