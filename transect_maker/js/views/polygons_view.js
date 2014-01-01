@@ -24,7 +24,6 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 		this.listenToActionEvents();
 
 		this.listenTo(this.polygonsCollection, 'add', this.addPolygon.bind(this));
-		$('a[href="#new-polygon"]').click(this.createPolygon.bind(this));
 	};
 
 	PolygonsView.prototype.render = function(){
@@ -38,6 +37,7 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 	}
 
 	PolygonsView.prototype.listenToActionEvents = function() {
+		$('a[href="#new-polygon"]').click(this.createPolygon.bind(this));
 	}
 
 	PolygonsView.prototype.addPolygon = function(polygon) {
