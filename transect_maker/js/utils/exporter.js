@@ -214,6 +214,11 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 			var currPolygon = polygons.at(i);
 
 			var transect = self.getTransectForPolygon(currPolygon, transects);
+			
+			if (transect === null) {
+				continue;
+			}
+
 			var transectId = transect.get('id');
 
 			// Update pattern
@@ -223,7 +228,7 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 
 			// update wells
 			self.updatePointsOnWell(transect.get('wellLeft'), currPolygon.get('lines'), polygon);
-			var index = transects.toAttay().indexOf(transect);
+			var index = transects.toArray().indexOf(transect);
 			if (index == numberOfTransects - 1) {
 				self.updatePointsOnWell(transect.get('wellRight'),  currPolygon.get('lines'), polygon);	
 			}
@@ -238,9 +243,25 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 	}
 
 	Exporter.prototype.getTransectForPolygon = function(polygon, transects) {
+		// this function returns the transect to which the polygon belongs to by 
 		for (var i=0; i<transects.length; i++) {
-			var transect = transects[i];
+			var transect = transects.at(i);
+			var poly = transect.getPolyKPointsArray();
+			var hasPolygon = true;
+			
+			for (var j=0; j<polygon.get('points').length; j++) {
+				var point = polygon.get('points').at(j);
+				if (!PolyK.ContainsPoint(poly, point.get('x'), point.get('y'))) {
+					hasPolygon = false;
+					break;
+				}
+			}
+
+			if (hasPolygon) {
+				return transect;
+			}
 		}
+		return null;
 	}
 
 
@@ -322,7 +343,7 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 					} else {
 						var index = self.wellsData[well.get('id')].referencePoints.indexOf(refPoint);
 						self.wellsData[well.get('id')].referencePoints[index].name = polygon.get('name');
-						self.wellsData[well.get('id')].referencePoints[index].pattern = polygons.get('patternName') || "None";
+							self.wellsData[well.get('id')].referencePoints[index].pattern = polygon.get('patternName') || "None";
 					}
 				}
 			}
