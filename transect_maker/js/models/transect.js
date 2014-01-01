@@ -35,6 +35,13 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		return null;
 	}
 
+	Transect.prototype.getPolyKPointsArray = function() {
+		return ([this.get('wellLeft').get('x'), 0,
+			this.get('wellRight').get('x'), 0,
+			this.get('wellRight').get('x'), transectApp.Canvas.height,
+			this.get('wellLeft').get('x'), transectApp.Canvas.height]);
+	}
+
 	return Transect;
 });
 

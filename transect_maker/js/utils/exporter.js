@@ -174,17 +174,22 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 
 		for (var index=0; index < transects.length; index++) {
 			var transect = transects.at(index);
-			var transectId = transect.get('id');
-			var currPolygon = polygons.pop();
 
-			var rightWellLine = self.getLineSegmentForWell(transect.get('wellRight')).getPolyKPointsArray();
-			
-			if (index !== numberOfTransects - 1) {
-				// if the transect is not the last transect we split the polygon using
-				// the right well. This will generate two new polygons. One polygon lies
-				// in the current transect an the other lies in the next transect.
+			var newPolygons = new Polygons();
+
+			for (var i=0; i<polygons.length; i++) {
+
+				var currPolygon = polygons.at(i); // get the current polygon
+
+				// get the right well line and use this to split the current polygon.
+				var rightWellLine = self.getLineSegmentForWell(transect.get('wellRight')).getPolyKPointsArray();
+				
+				// We split the polygon using the right well of the current transect.
+				// This will generate new polygons, ones that lie
+				// in the current transect while other lie in the next transect.
 				// we update the current transect and push the next transect on the stack
 				// for next iteration.
+				
 				var polyPoints = currPolygon.getPolyKPointsArray();
 				
 				if (PolyK.GetArea(polyPoints) > 0) {
@@ -196,10 +201,20 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 					rightWellLine[1], rightWellLine[2], rightWellLine[3]);
 
 				var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
-				polygons.add(polygonSlices.toArray());
-
-				currPolygon = polygonSlices.at(0);
+				newPolygons.add(polygonSlices.toArray());
 			}
+
+			polygons = newPolygons;
+		}
+
+		// now we have all the polygons split into smallest sub polygons
+		// we process each of them separately.
+		
+		for (var i=0; i<polygons.length; i++) {
+			var currPolygon = polygons.at(i);
+
+			var transect = self.getTransectForPolygon(currPolygon, transects);
+			var transectId = transect.get('id');
 
 			// Update pattern
 			currPolygon.set({patternName: polygon.get('patternName')});
@@ -208,18 +223,26 @@ define(["polygon", "polygons", "point", "points", "line", "lines", "transects", 
 
 			// update wells
 			self.updatePointsOnWell(transect.get('wellLeft'), currPolygon.get('lines'), polygon);
+			var index = transects.toAttay().indexOf(transect);
 			if (index == numberOfTransects - 1) {
 				self.updatePointsOnWell(transect.get('wellRight'),  currPolygon.get('lines'), polygon);	
 			}
 
 			// Add polygon and corresponding polygon to transect polygon
-			self.transectsData[transect.get('id')].points.add(currPolygon.get('points'));
-			self.transectsData[transect.get('id')].polygons.add(currPolygon);
+			self.transectsData[transectId].points.add(currPolygon.get('points'));
+			self.transectsData[transectId].polygons.add(currPolygon);
 
 			// update matrix
 			self.updateTransectMatrix(transect, currPolygon);
 		}
 	}
+
+	Exporter.prototype.getTransectForPolygon = function(polygon, transects) {
+		for (var i=0; i<transects.length; i++) {
+			var transect = transects[i];
+		}
+	}
+
 
 	Exporter.prototype.updateTransectMatrix = function(transect, polygon) {
 		var self = this;
