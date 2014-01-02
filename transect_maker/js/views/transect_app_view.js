@@ -16,6 +16,7 @@ define([
 	"dataImportView",
 	"dataExportView",
 	"transectImage",
+	"loader",
 	"exporter"
 	], function(
 		BaseView,
@@ -30,6 +31,7 @@ define([
 		DataImportView,
 		DataExportView,
 		TransectImage,
+		Loader,
 		Exporter) {
 	var TransectAppView = BaseView.extend({
 		el: ".container",
@@ -49,6 +51,7 @@ define([
 		transectApp.StatusBox = $(".status-box");
 		transectApp.TransectImage = new TransectImage({});
 		transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
+		transectApp.loader = new Loader();
 		transectApp.exporter = new Exporter();
 		PointsSet = transectApp.Canvas.set();
 		LinesSet = transectApp.Canvas.set();
@@ -119,7 +122,12 @@ define([
 	TransectAppView.prototype.exportCanvasAsImage = function() {}
 
 	TransectAppView.prototype.saveToLocalStorage = function() {
-		localStorage.transectApp = transectApp.Exporter.getJSON();
+		transectApp.exporter.export();
+		localStorage.transectApp = transectApp.exporter.getJSON();
+	}
+
+	TransectAppView.prototype.loadFromLocalStorage = function() {
+		transectApp.loader.loadFromLocalStorage();
 	}
 
 	TransectAppView.prototype.enableTool = function(evt) {
@@ -164,6 +172,9 @@ define([
 				break;
 			case "#save-to-local-storage":
 				this.saveToLocalStorage();
+				break;
+			case "#import-data":
+				this.loadFromLocalStorage();
 			default:
 				break;
 		}

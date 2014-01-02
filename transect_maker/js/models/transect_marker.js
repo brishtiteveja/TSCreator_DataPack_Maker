@@ -10,7 +10,7 @@ define(["baseModel"], function(BaseModel) {
 				edit: false,
 				name: attributes.name || _.uniqueId("Time Line "),
 				y: attributes.y,
-				age: null,
+				age: attributes.age || null,
 				hover: false,
 			}];	
 			BaseModel.apply(this, attrs);

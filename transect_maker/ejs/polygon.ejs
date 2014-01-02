@@ -21,7 +21,7 @@
 	<label class="polygon-pattern-data small-21 columns">Pattern</label>
 	<div class="patterns-list polygon-pattern-form small-21 columns hide">
 		<div class="row">
-			<select class="small-18 columns polygon-pattern">
+			<select class="small-18 columns polygon-pattern" value="<% patternName %>">
 				<option class="pattern-option" value="none">None</option>
 				<% for (var pattern in tscApp.PATTERNS) { %>
 					<option class="pattern-option" value="<%= pattern %>"><%= pattern %></option>

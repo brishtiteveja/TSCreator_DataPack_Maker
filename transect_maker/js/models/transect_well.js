@@ -9,7 +9,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 			var attrs = [{
 				edit: false,
 				name: attributes.name || _.uniqueId("Well "),
-				id: _.uniqueId("well-"),
+				id: attributes.id || _.uniqueId("well-"),
 				x: attributes.x,
 				lat: null,
 				lon: null,
