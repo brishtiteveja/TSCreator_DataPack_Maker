@@ -14,7 +14,6 @@ define(["baseModel"], function(BaseModel) {
 				age: 0,
 				relativeX: null,
 				relativeY: null,
-				relativeAge: null,
 				transect: null,
 				zone: null,
 			}];

@@ -33,9 +33,11 @@ define([
 		var self = this;
 
 		// refer to the global objects.
+		this.texts = transectApp.TransectTextsCollection;
 		this.polygons = transectApp.PolygonsCollection;
 		this.transects = transectApp.TransectsCollection;
 		this.zones = transectApp.ZonesCollection;
+		this.transectImage = transectApp.TransectImage;
 
 		// initialize the objects to store the processed data.
 		// 
@@ -595,6 +597,8 @@ define([
 		json["transects"] = this.transects.toJSON();
 		json["zones"] = this.zones.toJSON();
 		json["polygons"] = this.polygons.toJSON();
+		json["texts"] = this.texts.toJSON();
+		json["image"] = this.transectImage.toJSON();
 		return JSON.stringify(json);
 	}
 

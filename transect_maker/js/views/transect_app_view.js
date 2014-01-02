@@ -47,6 +47,7 @@ define([
 		this.$introScreen = this.$("#intro-screen");
 		this.$canvas = this.$("#canvas");
 		transectApp.StatusBox = $(".status-box");
+		transectApp.TransectImage = new TransectImage({});
 		transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
 		transectApp.exporter = new Exporter();
 		PointsSet = transectApp.Canvas.set();
@@ -118,7 +119,7 @@ define([
 	TransectAppView.prototype.exportCanvasAsImage = function() {}
 
 	TransectAppView.prototype.saveToLocalStorage = function() {
-		localStorage.clear();
+		localStorage.transectApp = transectApp.Exporter.getJSON();
 	}
 
 	TransectAppView.prototype.enableTool = function(evt) {

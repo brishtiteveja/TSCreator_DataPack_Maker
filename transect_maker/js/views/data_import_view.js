@@ -36,9 +36,15 @@ define(["baseView"], function(BaseView) {
 		evt.stopPropagation();
     	evt.preventDefault();
     	var file = evt.dataTransfer.files[0];
-    	var reader = new FileReader();
-    	reader.onload = this.readImage.bind(this);
-    	reader.readAsDataURL(file);
+    	
+    	if (file.type === "image/png"
+    		|| file.type === "image/jpg"
+    		|| file.type === "image/jpeg"
+    		|| file.type === "image/gif") {
+	    	var reader = new FileReader();
+	    	reader.onload = this.readImage.bind(this);
+	    	reader.readAsDataURL(file);	
+    	}
 	}
 
 	DataImportView.prototype.readImage = function(evt) {

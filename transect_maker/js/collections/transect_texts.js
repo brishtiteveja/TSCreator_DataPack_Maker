@@ -13,7 +13,7 @@ define(["baseCollection", "transectText"], function(BaseCollection, TransectText
 			transect.updateTransectAndZone();
 		});
 		return true;
-	}	
+	}
 
 	return TransectTexts;
 })

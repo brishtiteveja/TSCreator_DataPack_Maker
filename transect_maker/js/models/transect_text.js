@@ -46,6 +46,13 @@ define(["baseModel"], function(BaseModel) {
 		});
 	}
 
+	TransectText.prototype.toJSON = function() {
+		var json = _.clone(this);
+		delete json["transect"];
+		delete json["zone"];
+		return json;
+	}
+
 	return TransectText;
 });
 /*-----  End of TransectText  ------*/
