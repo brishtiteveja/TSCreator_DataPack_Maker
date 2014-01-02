@@ -1,6 +1,7 @@
 @import "../utils/styles";
 @import "markers_list";
 @import "polygons";
+@import "image_settings";
 
 #settings {
 	@include sidebar_style;
@@ -56,17 +57,13 @@
 				a {
 					@include app_font;
 					padding: 5px;
-					margin: auto;
+					padding-left: 35px;
 					font-size: 16px;
+					height: 35px;
+					width: 100%;
 					&.active {
 						@include selected;
 					}
-				}
-
-				em.icon {
-					width: 32px;
-					height: 32px;
-					margin: auto;
 				}
 				
 				&.active {

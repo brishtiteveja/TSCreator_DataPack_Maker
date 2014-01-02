@@ -2,7 +2,26 @@
 =            Exporter - Data exporter for transect maker            =
 ===================================================================*/
 
-define(["polygon", "polygons", "point", "points", "line", "lines", "transects", "transectTexts"], function(Polygon, Polygons, Point, Points, Line, Lines, Transects, TransectTexts){
+define([
+	"polygon",
+	"polygons",
+	"point",
+	"points",
+	"line",
+	"lines",
+	"transects",
+	"transectTexts",
+	"polyK"
+	], function(
+		Polygon,
+		Polygons,
+		Point,
+		Points,
+		Line,
+		Lines,
+		Transects,
+		TransectTexts,
+		PolyK){
 	
 	var Exporter = function(){
 		this.PRECISION = transectApp.precision; // percent

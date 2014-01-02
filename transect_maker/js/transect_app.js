@@ -73,6 +73,9 @@ requirejs.config({
 		
 		// Settings
 		settings: "/commons/js/models/settings",
+
+		// Libraries
+		polyK: "/commons/js/lib/polyK",
 	},
 });
 

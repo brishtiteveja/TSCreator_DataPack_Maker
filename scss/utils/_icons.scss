@@ -5,6 +5,13 @@
 	height: 32px;
 }
 
+@mixin icon_16 {
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 16px;
+	height: 16px;
+}
+
 .icons_32-cursor_H_split_icon_32 {
 	background: url('/images/cc/black/png/icons_32/cursor_H_split_icon_32.png');
 	@include icon_32;
@@ -39,6 +46,12 @@
 	@include icon_32;
 }
 
+
+.icons_32-sq_plus_icon_32 {
+	background: url('/images/cc/black/png/icons_32/sq_plus_icon_32.png');
+	@include icon_32;
+}
+
 .icons_32-text_letter_t_icon_32 {
 	background: url('/images/cc/black/png/icons_32/text_letter_t_icon_32.png');
 	@include icon_32;
@@ -51,5 +64,25 @@
 
 .icons_32-picture_icon_32 {
 	background: url('/images/cc/black/png/icons_32/picture_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-cogs_icon_32 {
+	background: url('/images/cc/black/png/icons_32/cogs_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-cursor_arrow_icon_32 {
+	background: url('/images/cc/black/png/icons_32/cursor_arrow_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-doc_import_icon_32 {
+	background: url('/images/cc/black/png/icons_32/doc_import_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-zoom_icon_32 {
+	background: url('/images/cc/black/png/icons_32/zoom_icon_32.png');
 	@include icon_32;
 }

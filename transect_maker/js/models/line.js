@@ -2,7 +2,7 @@
 =            Line Model            =
 ==================================*/
 
-define(["baseModel", "transects", "polygons"], function(BaseModel, Transects, Polygons) {
+define(["baseModel", "transects", "polygons", "polyK"], function(BaseModel, Transects, Polygons, PolyK) {
 	var Line = BaseModel.extend({
 		classname: "Line",
 		constructor: function(attributes, point1, point2) {

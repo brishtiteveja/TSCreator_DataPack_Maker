@@ -9,8 +9,12 @@ define(["baseModel"], function(BaseModel) {
 			var attrs = [{
 				x: "x" in attributes ? attributes.x : 0,
 				y: "y" in attributes ? attributes.y : 0,
-				width: "100%",
-				height: "100%",
+				width: null,
+				height: null,
+				origWidth: null,
+				origHeight: null,
+				angle: 0,
+				preserveAspectRatio: true,
 				data: "data" in attributes ? attributes.data: null
 			}];
 			BaseModel.apply(this, attrs);

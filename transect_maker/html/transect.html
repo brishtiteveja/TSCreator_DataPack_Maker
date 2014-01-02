@@ -1,24 +1,22 @@
 <!DOCTYPE html5>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-16">
 		<title>Transect Maker</title>
 		<link rel="stylesheet" href="/stylesheets/app.css">
 		<link rel="stylesheet" href="/stylesheets/main.css">
 		<link rel="stylesheet" href="/stylesheets/qtip.css">
 
 		<!-- Libraries -->
-		<script type="text/javascript" src="/commons/js/lib/jquery-1.10.2.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/raphael.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/underscore.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/backbone.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/backbone.localStorage.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/ejs.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/dropzone.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/raphael-min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/underscore-min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/backbone-min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/backbone.localStorage-min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/ejs_production.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/qtip.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/polyK.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/numerics.js"></script>
-		<script type="text/javascript" src="/commons/js/lib/foundation/js/foundation/foundation.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/numeric-1.2.6.min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/foundation/js/foundation.min.js"></script>
 
 		<!-- Utilities -->
 		<script type="text/javascript" src="/commons/js/utils/color_utils.js"></script>
@@ -33,21 +31,22 @@
 		
 
 		<!-- RequireJS -->
-		<script src="/commons/js/lib/require.js" data-main="/transect_maker/js/transect_app.js"></script>
+		<script src="/commons/js/lib/require-min.js" data-main="/transect_maker/js/transect_app.js"></script>
 	</head>
 	<body>
 		<div class="container row">
 			<div id="toolbar" class="small-2 large-1 columns">
 				<ul class="side-nav">
-					<li><a href="#add-marker" class="transect-tools icon icons_32-cursor_H_split_icon_32"></a></li>
-					<li><a href="#add-well" class="transect-tools icon icons_32-cursor_V_split_icon_32"></a></li>
-					<li><a href="#add-polygon" class="transect-tools icon icons-polygon4"></a></li>
-					<li><a href="#new-polygon" class="transect-tools icon icons-polygon4 text-right">⨁</a></li>
-					<li><a href="#add-transect-text" class="transect-tools icon icons_32-text_letter_t_icon_32"></a></li>
-					<li><a href="#edit-data" class="transect-tools icon icons_32-picture_icon_32"></a></li>
-					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32"></a></li>
-					<li><a href="#save-to-local-storage" class="transect-tools icon icons_save_icon_32"></a></li>
-					<li><a href="#save-to-server" class="transect-tools icon icons_download_icon_32"></a></li>
+					<li><a href="#" class="transect-tools icon icons_32-cursor_arrow_icon_32" title="mouse pointer"></a></li>
+					<li><a href="#add-marker" class="transect-tools icon icons_32-cursor_H_split_icon_32" title="create a new timeline"></a></li>
+					<li><a href="#add-well" class="transect-tools icon icons_32-cursor_V_split_icon_32" title="create a new well"></a></li>
+					<li><a href="#add-polygon" class="transect-tools icon icons-polygon4" title="polygons tool"></a></li>
+					<li class="hide"><a href="#new-polygon" class="transect-tools icon icons_32-sq_plus_icon_32" title="create a new polygon"></a></li>
+					<li><a href="#add-transect-text" class="transect-tools icon icons_32-text_letter_t_icon_32" title="create new transect text"></a></li>
+					<li><a href="#import-data" class="transect-tools icon icons_32-doc_import_icon_32" title="import data"></a></li>
+					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32" title="export data"></a></li>
+					<li><a href="#save-to-local-storage" class="transect-tools icon icons_save_icon_32" title="save to local storage"></a></li>
+					<li><a href="#save-to-server" class="transect-tools icon icons_download_icon_32" title="download data"></a></li>
 				</ul>
 			</div>
 			<div id="display" class="small-18 large-21 columns">
@@ -114,14 +113,14 @@
 			<div id="settings" class="small-4 large-2 columns">
 				<div class="settings-nav">
 					<ul class="custom-sidenav-class">
-						<li class="settings-links"><a class="transect-settings" href="#markers">← Time Lines</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#zones">← Zones</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#wells">← Wells</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#transects">← Transects</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#polygons">← Polygons</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#texts">← Texts</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#bg-image-settings">← Image</a></li>
-						<li class="settings-links"><a class="transect-settings" href="#defaults">← Defaults</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#markers">Time Lines</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#zones">Zones</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#wells">Wells</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#transects">Transects</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#polygons">Polygons</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#texts">Texts</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#bg-image-settings">Image</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#defaults">Defaults</a></li>
 					</ul>
 					<div data-alert class="alert-box secondary canvas-status status-box"></div>
 				</div>

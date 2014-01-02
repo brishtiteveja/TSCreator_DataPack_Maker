@@ -16,6 +16,7 @@ define([], function() {
 
 		return str.match( RegExp(regex, 'g') ).join( brk );
 	}
+
 	return BaseView;
 });
 

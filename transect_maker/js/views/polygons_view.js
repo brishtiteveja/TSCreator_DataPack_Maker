@@ -46,11 +46,13 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 	};
 
 	PolygonsView.prototype.togglePolygons = function() {
-		if ($("a[href='#add-polygon']").parent().hasClass('active')) {
-			$("a[href='#add-polygon']").parent().removeClass('active');
+		if ($("a[href='#add-polygon']").parent().hasClass('hide')) {
+			$("a[href='#add-polygon']").parent().removeClass('hide');
+			$("a[href='#new-polygon']").parent().addClass('hide');
 			this.enPolygons = false;
 		} else {
-			$("a[href='#add-polygon']").parent().addClass('active');
+			$("a[href='#add-polygon']").parent().addClass('hide');
+			$("a[href='#new-polygon']").parent().removeClass('hide');
 			this.enPolygons = true;
 		}
 	}
