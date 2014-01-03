@@ -583,6 +583,15 @@
   height: 32px;
 }
 
+/* line 105, ../scss/utils/_icons.scss */
+.icons_32-box_icon_32 {
+  background: url("/images/cc/black/png/icons_32/box_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
 /* line 9, ../scss/main.scss */
 body > .row {
   /* this will work for QtWebKit in future */
