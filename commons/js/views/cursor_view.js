@@ -10,7 +10,7 @@ define(["baseView", "cursor"], function(BaseView, Cursor) {
 		el: ".main",
 		classname: "CursorView",
 		events: {
-			"keypress": "togglelock",
+			"keypress": "togglelock", // Keys 1 == horizontal lock & 2 == vertical lock.
 			'click a[href="#lock-cursor-h"]': "toggleHlock",
 			'click a[href="#lock-cursor-v"]': "toggleVlock"
 		}
