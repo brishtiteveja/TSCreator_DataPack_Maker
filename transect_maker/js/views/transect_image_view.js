@@ -12,13 +12,14 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 			'change input[name="height"]': 'updateImageHeight',
 			'change input[name="preserve-aspect-ratio"]': 'updateImage',
 			'change input[name="angle"]': 'updateImage',
+			"dragover #image-box": "imageDragover",
+			"drop #image-box": "imageDrop",
 		}
 	});
 
 	TransectImageView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_image_settings.ejs'});
 
 	TransectImageView.prototype.initialize = function() {
-		transectApp.TransectImage = new TransectImage({});
 		this.transectImage = transectApp.TransectImage;
 
 		this.listenTo(this.transectImage, 'change', this.renderImage.bind(this));
@@ -107,6 +108,43 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 			angle: parseFloat(this.$angle.value),
 			preserveAspectRatio: this.$preserveAspectRatio.checked,
 		});
+	}
+
+	TransectImageView.prototype.imageDragover = function(evt) {
+		var evt = evt.originalEvent;
+		evt.stopPropagation();
+    	evt.preventDefault();
+    	evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	}
+
+
+	TransectImageView.prototype.imageDrop = function(evt) {
+		var evt = evt.originalEvent;
+		evt.stopPropagation();
+    	evt.preventDefault();
+    	var file = evt.dataTransfer.files[0];
+    	
+    	if (file.type === "image/png"
+    		|| file.type === "image/jpg"
+    		|| file.type === "image/jpeg"
+    		|| file.type === "image/gif") {
+	    	var reader = new FileReader();
+	    	reader.onload = this.readImage.bind(this);
+	    	reader.readAsDataURL(file);	
+    	}
+	}
+
+	TransectImageView.prototype.readImage = function(evt) {
+		var self = this;
+		var img = new Image();
+		$(img).load(function() {
+			transectApp.TransectImage.set({
+				"data": evt.target.result,
+				"width": img.width,
+				"height": img.height,
+			});
+		});
+		img.src = evt.target.result;
 	}
 
 	return TransectImageView;

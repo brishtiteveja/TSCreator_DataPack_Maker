@@ -86,3 +86,18 @@
 	background: url('/images/cc/black/png/icons_32/zoom_icon_32.png');
 	@include icon_32;
 }
+
+.icons_32-reload_icon_32 {
+	background: url('/images/cc/black/png/icons_32/reload_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-padlock_closed_icon_32 {
+	background: url('/images/cc/black/png/icons_32/padlock_closed_icon_32.png');
+	@include icon_32;
+}
+
+.icons_32-padlock_open_icon_32 {
+	background: url('/images/cc/black/png/icons_32/padlock_open_icon_32.png');
+	@include icon_32;
+}

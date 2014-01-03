@@ -6,16 +6,19 @@
 	<% } %>
 </div>
 <div class="row">
-	<div class="columns small-12">
+	<div class="columns small-8">
 	    <label>Image Width</label>
 	    <input name="width" type="number" value="<%= width %>" step="10" min="0" max="10000">
 	</div>
-	<div class="columns small-12">
+	<div class="columns small-8">
 	    <label>Image Height</label>
 	    <input name="height" type="number" value="<%= height %>"  step="10" min="0" max="10000">
 	</div>
+	<div class="columns small-8">
+		<label>Rotate</label>
+		<input type="number" name="angle" step="0.1" min="-180" max="180" value="<%= angle %>">
+	</div>
 </div>
 <div class="row">
-	<label class="columns small-16">Rotate image by</label>
-	<input class="columns small-8" type="number" name="angle" step="0.1" min="-180" max="180" value="<%= angle %>">
+	<div class="small-24 drag-box columns" id="image-box"><span class="text-center">drag & drop your image here</span></div>
 </div>

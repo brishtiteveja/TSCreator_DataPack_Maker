@@ -104,6 +104,7 @@
   background-position: 12 6px;
   width: 100%;
   height: 48px;
+  padding-right: 5px;
 }
 
 /* line 4, ../scss/display/_display.scss */
@@ -115,33 +116,37 @@
   cursor: crosshair;
   background: #333;
 }
-/* line 15, ../scss/display/_display.scss */
+/* line 13, ../scss/display/_display.scss */
+#display > #canvas {
+  background: #fff;
+}
+/* line 19, ../scss/display/_display.scss */
 #display > #intro-screen.row {
   margin: 100px auto auto auto;
 }
-/* line 18, ../scss/display/_display.scss */
+/* line 22, ../scss/display/_display.scss */
 #display > #intro-screen.row > .columns {
   float: none;
 }
-/* line 22, ../scss/display/_display.scss */
+/* line 26, ../scss/display/_display.scss */
 #display > #intro-screen.row .columns {
   background: #fff;
   margin: auto;
 }
-/* line 26, ../scss/display/_display.scss */
+/* line 30, ../scss/display/_display.scss */
 #display > #intro-screen.row .columns > .header {
   padding: 30px;
 }
-/* line 29, ../scss/display/_display.scss */
+/* line 33, ../scss/display/_display.scss */
 #display > #intro-screen.row .columns > .header li {
   list-style-type: none;
 }
-/* line 31, ../scss/display/_display.scss */
+/* line 35, ../scss/display/_display.scss */
 #display > #intro-screen.row .columns > .header li > .row {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-/* line 35, ../scss/display/_display.scss */
+/* line 39, ../scss/display/_display.scss */
 #display > #intro-screen.row .columns > .header li > .row > .drag-box {
   overflow: hidden;
   *zoom: 1;
@@ -153,11 +158,11 @@
   border: 5px #aaaaaa dashed;
   height: 40px;
 }
-/* line 41, ../scss/display/_display.scss */
+/* line 45, ../scss/display/_display.scss */
 #display > #intro-screen.row .columns > .header li > .row > .drag-box .text-message {
   padding-top: 10px;
 }
-/* line 45, ../scss/display/_display.scss */
+/* line 49, ../scss/display/_display.scss */
 #display > #intro-screen.row .columns > .header li > .row > .drag-box:hover {
   background: #f1f1f1;
 }
@@ -173,8 +178,28 @@
 #bg-image-settings-list {
   padding: 10px;
 }
-/* line 4, ../scss/settings/_image_settings.scss */
-#bg-image-settings-list > .row label {
+/* line 3, ../scss/settings/_image_settings.scss */
+#bg-image-settings-list .row {
+  padding: 10px;
+}
+/* line 5, ../scss/settings/_image_settings.scss */
+#bg-image-settings-list .row > .drag-box {
+  overflow: hidden;
+  *zoom: 1;
+  -moz-border-radius: 5px 5px;
+  -webkit-border-radius: 5px 5px;
+  -khtml-border-radius: 5px 5px;
+  -o-border-radius: 5px 5px;
+  border-radius: 5px 5px;
+  border: 5px #aaaaaa dashed;
+  height: 50%;
+  margin: auto;
+  text-align: center;
+  vertical-align: middle;
+}
+/* line 14, ../scss/settings/_image_settings.scss */
+#bg-image-settings-list .row label {
+  padding: 10px;
   color: #fff;
 }
 
@@ -525,6 +550,33 @@
 /* line 85, ../scss/utils/_icons.scss */
 .icons_32-zoom_icon_32 {
   background: url("/images/cc/black/png/icons_32/zoom_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 90, ../scss/utils/_icons.scss */
+.icons_32-reload_icon_32 {
+  background: url("/images/cc/black/png/icons_32/reload_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 95, ../scss/utils/_icons.scss */
+.icons_32-padlock_closed_icon_32 {
+  background: url("/images/cc/black/png/icons_32/padlock_closed_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 100, ../scss/utils/_icons.scss */
+.icons_32-padlock_open_icon_32 {
+  background: url("/images/cc/black/png/icons_32/padlock_open_icon_32.png");
   background-repeat: no-repeat;
   background-position: 0px 0px;
   width: 32px;

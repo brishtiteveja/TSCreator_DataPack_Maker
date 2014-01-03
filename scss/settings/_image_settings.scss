@@ -1,9 +1,21 @@
 #bg-image-settings-list {
 	padding: 10px;
-	> .row {
+	.row {
+		padding: 10px;
+		> .drag-box {
+			@include clearfix;
+			@include rounded_borders(#aaa, 5px, 5px, dashed);
+			height: 50%;
+			margin: auto;
+			text-align:center;
+			vertical-align:middle; //now we can center vertically like in a TD
+		}
+
 		label {
+			padding:10px;
 			color: #fff;
 		}
+
 		> .columns {
 		}
 	}	

@@ -46,6 +46,15 @@ define([
 	/*==========  Initialize transect view  ==========*/
 
 	TransectAppView.prototype.initialize = function() {
+
+		transectApp.CurrentPolygon = null;
+
+		POLYGON_COLOR = "#000000";
+		
+		this.x = 10;
+		this.y = 10;
+		this.width = 2000;
+		this.height = 2000;	
 		this.$introScreen = this.$("#intro-screen");
 		this.$canvas = this.$("#canvas");
 		transectApp.StatusBox = $(".status-box");
@@ -56,15 +65,6 @@ define([
 		PointsSet = transectApp.Canvas.set();
 		LinesSet = transectApp.Canvas.set();
 		PolygonsSet = transectApp.Canvas.set();
-
-		transectApp.CurrentPolygon = null;
-
-		POLYGON_COLOR = "#000000";
-		
-		this.x = 10;
-		this.y = 10;
-		this.width = 2000;
-		this.height = 2000;
 		
 		this.render();
 	};
@@ -133,7 +133,12 @@ define([
 	TransectAppView.prototype.enableTool = function(evt) {
 		var source = evt.target.getAttribute('href');
 
-		if (source === "#new-polygon") return;
+		if (
+			source === "#new-polygon" ||
+			source === "#lock-cursor-h" ||
+			source === "#lock-cursor-v"
+			) return;
+
 		
 		if (this.transectMarkersView.enMarkers) {
 			this.transectMarkersView.toggleMarkers();	
@@ -173,7 +178,7 @@ define([
 			case "#save-to-local-storage":
 				this.saveToLocalStorage();
 				break;
-			case "#import-data":
+			case "#reload-data":
 				this.loadFromLocalStorage();
 			default:
 				break;
