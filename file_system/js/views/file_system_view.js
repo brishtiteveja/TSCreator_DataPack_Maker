@@ -40,6 +40,7 @@ define([
 	FileSystemView.prototype.render = function(fs) {
 		this.fileSystem = new FileSystem({fs: fs});
 		this.$canvas = $("#canvas");
+
 		this.renderDirs();
 		this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
 	}
@@ -101,6 +102,7 @@ define([
 			$("a[href='#file-system']").parent().addClass('active');
 			this.$el.removeClass('hide');
 			this.$canvas.addClass('hide');
+			transectApp.exporter.export();
 		}
 	};
 

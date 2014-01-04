@@ -2,7 +2,7 @@
 =            TransectText            =
 ====================================*/
 
-define(["baseModel"], function(BaseModel) {
+define(["baseModel", "settings"], function(BaseModel, Settings) {
 	var TransectText = BaseModel.extend({
 		classname: "TransectText",
 		constructor: function(attributes, options) {
@@ -47,7 +47,7 @@ define(["baseModel"], function(BaseModel) {
 	}
 
 	TransectText.prototype.toJSON = function() {
-		var json = _.clone(this);
+		var json = _.clone(this.attributes);
 		delete json["transect"];
 		delete json["zone"];
 		return json;

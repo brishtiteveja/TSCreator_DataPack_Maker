@@ -2,7 +2,7 @@
 =            TransectTextView            =
 ========================================*/
 
-define(["baseView"], function(BaseView) {
+define(["baseView", "point"], function(BaseView, Point) {
 	var TransectTextView = BaseView.extend({
 		tagName: 'li',
 		classname: "TransectTextView",

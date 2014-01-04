@@ -1,18 +1,34 @@
 /*=================================================================
 =            Loader that loads tsc data into the maker            =
 =================================================================*/
-define(["transectMarker", "transectWell", "polygon", "point"], function(TransectMarker, TransectWell, Polygon, Point){
+define(["transectMarker", "transectWell", "polygon", "point", "transectText"], function(TransectMarker, TransectWell, Polygon, Point, TransectText){
 	var Loader = function() {
 		this.polygons = transectApp.PolygonsCollection;
 		this.zones = transectApp.ZonesCollection;
 		this.transects = transectApp.TransectsCollection;
 		this.markers = transectApp.TransectMarkersCollection;
 		this.wells = transectApp.TransectWellsCollection;
+		this.texts = transectApp.TransectTextsCollection;
 	}
 
 	Loader.prototype.loadFromLocalStorage = function() {
-		this.savedData = JSON.parse(localStorage.transectApp);
+		this.loadData(localStorage.transectApp);
+	}
+
+	Loader.prototype.loadData = function(data) {
+		this.savedData = JSON.parse(data);
+		this.reset();
 		this.load();
+	}
+
+
+	Loader.prototype.reset = function() {
+		this.polygons.reset();
+		this.zones.reset();
+		this.transects.reset();
+		this.markers.reset();
+		this.wells.reset();
+		this.texts.reset();
 	}
 
 	Loader.prototype.load = function() {
@@ -20,6 +36,7 @@ define(["transectMarker", "transectWell", "polygon", "point"], function(Transect
 		this.loadMarkersAndZones();
 		this.loadWellsAndTransects();
 		this.loadPolygons();
+		this.loadTexts();
 	}
 
 	Loader.prototype.loadImage = function() {
@@ -76,6 +93,14 @@ define(["transectMarker", "transectWell", "polygon", "point"], function(Transect
 			polygon.get('points').add(point);
 		});
 		polygon.set({patternName: polygonData.patternName}); // we do this after so that the pattern show up by default.
+	}
+
+	Loader.prototype.loadTexts = function() {
+		var self = this;
+		self.savedData.texts.forEach(function(text) {
+			var transectText = self.texts.findWhere({text: text.text, x: text.x, y: text.y}) || new TransectText(text);
+			self.texts.add(transectText);
+		})
 	}
 
 	return Loader;

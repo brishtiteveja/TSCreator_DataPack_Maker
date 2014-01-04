@@ -2,7 +2,7 @@
 =            TransectTextsView            =
 =========================================*/
 
-define(["baseView", "transectTextView"], function(BaseView, TransectTextView) {
+define(["baseView", "transectTextView", "transectText"], function(BaseView, TransectTextView, TransectText) {
 	var TransectTextsView = BaseView.extend({
 		el: "#texts-list",
 		classname: "TransectTextsView"
@@ -49,17 +49,14 @@ define(["baseView", "transectTextView"], function(BaseView, TransectTextView) {
 		
 		if (this.enTransectTexts) {
 		
-			var transectText = transectApp.TransectTextsCollection.findWhere({x: evt.offsetX, y: evt.offsetY}) || new Point({x: evt.offsetX, y: evt.offsetY});
+			var transectText = this.transectTexts.findWhere({x: evt.offsetX, y: evt.offsetY}) || new TransectText({x: evt.offsetX, y: evt.offsetY});
 			
 			if (transectText.get('transect') === null || transectText.get('zone') === null) {
 				transectText.destroy();
 				return;
 			}
 			
-			this.transectTexts.add(new TransectText({
-				x: evt.offsetX,
-				y: evt.offsetY
-			}));
+			this.transectTexts.add(transectText);
 		}
 	}
 

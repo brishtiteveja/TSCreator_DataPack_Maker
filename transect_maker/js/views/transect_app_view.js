@@ -41,7 +41,9 @@ define([
 		events: {
 			'click a.transect-settings': 'showSettings',
 			'click a.transect-tools': 'enableTool',
-			'click a.continue': 'showCanvas'
+			'click a.continue': 'showCanvas',
+			"dragover #data-box": "dataDragover",
+			"drop #data-box": "dataDrop",
 		}
 	});
 
@@ -74,6 +76,10 @@ define([
 		transectApp.PointsSet = transectApp.Canvas.set();
 		transectApp.LinesSet = transectApp.Canvas.set();
 		transectApp.PolygonsSet = transectApp.Canvas.set();
+
+		// Initialize Count
+		transectApp.PolygonCount = 0;
+		transectApp.TextCount = 0;
 		
 		this.render();
 	};
@@ -138,6 +144,30 @@ define([
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
 		transectApp.loader.loadFromLocalStorage();
+	}
+
+
+	TransectAppView.prototype.dataDragover = function(evt) {
+		var evt = evt.originalEvent;
+		evt.stopPropagation();
+    	evt.preventDefault();
+    	evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	}
+
+
+	TransectAppView.prototype.dataDrop = function(evt) {
+		var evt = evt.originalEvent;
+		evt.stopPropagation();
+    	evt.preventDefault();
+    	var file = evt.dataTransfer.files[0];
+    	
+    	if (file.type === "application/json") {
+	    	var reader = new FileReader();
+			reader.onloadend = function(e) {
+				transectApp.loader.loadData(this.result);
+			};
+	    	reader.readAsText(file);	
+    	}
 	}
 
 	TransectAppView.prototype.enableTool = function(evt) {

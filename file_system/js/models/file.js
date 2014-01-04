@@ -6,13 +6,14 @@ define(["baseModel"], function(BaseModel) {
 
 	var File = BaseModel.extend({
 		classname: "File",
-		constructor: function(attributes, options) {
+		constructor: function(fileEntry, options) {
 			var attrs = [{
-				name: attributes.name,
-				isFile: attributes.isFile,
-				isDirectory: attributes.isDirectory,
-				size: attributes.size || 0,
-				fullPath: attributes.fullPath,
+				name: fileEntry.name,
+				isFile: fileEntry.isFile,
+				isDirectory: fileEntry.isDirectory,
+				size: fileEntry.Size || 0,
+				fullPath: fileEntry.fullPath,
+				url: fileEntry.toURL(),
 				selected: false
 			}];
 			BaseModel.apply(this, attrs);

@@ -24,7 +24,11 @@
 			<select class="small-18 columns polygon-pattern" value="<% patternName %>">
 				<option class="pattern-option" value="none">None</option>
 				<% for (var pattern in tscApp.PATTERNS) { %>
-					<option class="pattern-option" value="<%= pattern %>"><%= pattern %></option>
+					<% if (patternName === pattern) { %>
+						<option class="pattern-option" value="<%= pattern %>" selected><%= pattern %></option>
+					<% } else { %>
+						<option class="pattern-option" value="<%= pattern %>"><%= pattern %></option>
+					<% } %>
 				<% } %>
 			</select>
 			<div class="patterns-image small-6 columns"></div>

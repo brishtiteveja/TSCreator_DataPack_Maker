@@ -29,11 +29,17 @@
 		padding: 20px;
 
 		.file {
-			@include rounded_borders(#fff, 1px, 5px);
+			@include rounded_borders(#fff, 1px, 5px);	
+			overflow: auto;
 			margin: 0px;
 			padding: 5px;
-			width: 80px;
-			height: 100px;
+			width: 100px;
+			height: 140px;
+
+			> .download-link {
+				height: 10px;
+				width: 100%;
+			}
 			
 			> .file-icon {
 				width: 48px;
@@ -46,7 +52,6 @@
 			> .file-name {
 				padding-top: 10px;
 				text-align: center;
-				@include clearfix;
 			}
 
 			&:hover {

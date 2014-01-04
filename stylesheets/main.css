@@ -786,12 +786,18 @@
   -o-border-radius: 5px 5px;
   border-radius: 5px 5px;
   border: 1px white solid;
+  overflow: auto;
   margin: 0px;
   padding: 5px;
-  width: 80px;
-  height: 100px;
+  width: 100px;
+  height: 140px;
 }
-/* line 38, ../scss/file_system/_file_system_panel.scss */
+/* line 39, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .list .file > .download-link {
+  height: 10px;
+  width: 100%;
+}
+/* line 44, ../scss/file_system/_file_system_panel.scss */
 #file-system-panel .list .file > .file-icon {
   width: 48px;
   height: 48px;
@@ -799,18 +805,16 @@
   margin-right: auto;
   padding: 0px;
 }
-/* line 46, ../scss/file_system/_file_system_panel.scss */
+/* line 52, ../scss/file_system/_file_system_panel.scss */
 #file-system-panel .list .file > .file-name {
   padding-top: 10px;
   text-align: center;
-  overflow: hidden;
-  *zoom: 1;
 }
-/* line 52, ../scss/file_system/_file_system_panel.scss */
+/* line 57, ../scss/file_system/_file_system_panel.scss */
 #file-system-panel .list .file:hover {
   background: #777;
 }
-/* line 56, ../scss/file_system/_file_system_panel.scss */
+/* line 61, ../scss/file_system/_file_system_panel.scss */
 #file-system-panel .list .file.active {
   background: #0099FF;
 }
