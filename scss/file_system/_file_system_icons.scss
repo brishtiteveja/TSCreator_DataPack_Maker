@@ -1,0 +1,103 @@
+@mixin icon_48 {
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 48px;
+	height: 48px;
+}
+
+@mixin icon_32 {
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 32px;
+	height: 32px;
+}
+
+.icons_white_32-folder_delete_icon_32 {
+	background: url('/images/cc/white/png/icons_32/folder_delete_icon_32.png');
+	@include icon_32;
+}
+
+.icons_white_32-folder_icon_32 {
+	background: url('/images/cc/white/png/icons_32/folder_icon_32.png');
+	@include icon_32;
+}
+
+.icons_white_32-folder_minus_icon_32 {
+	background: url('/images/cc/white/png/icons_32/folder_minus_icon_32.png');
+	@include icon_32;
+}
+
+.icons_white_32-folder_open_icon_32 {
+	background: url('/images/cc/white/png/icons_32/folder_open_icon_32.png');
+	@include icon_32;
+}
+
+.icons_white_32-folder_plus_icon_32 {
+	background: url('/images/cc/white/png/icons_32/folder_plus_icon_32.png');
+	@include icon_32;
+}
+
+.icons_white_32-doc_delete_icon_32 {
+	background: url('/images/cc/white/png/icons_32/doc_delete_icon_32.png');
+	@include icon_32;
+}
+
+.icons_white_32-doc_plus_icon_32 {
+	background: url('/images/cc/white/png/icons_32/doc_plus_icon_32.png');
+	@include icon_32;
+}
+
+.icons_white_32-document_icon_32 {
+	background: url('/images/cc/white/png/icons_32/document_icon_32.png');
+	@include icon_32;
+}
+
+.icons_white_32-doc_empty_icon_32 {
+	background: url('/images/cc/white/png/icons_32/doc_empty_icon_32.png');
+	@include icon_32;
+}
+
+.icons_black_48-folder_delete_icon_48 {
+	background: url('/images/cc/black/png/icons_48/folder_delete_icon_48.png');
+	@include icon_48;
+}
+
+.icons_black_48-folder_icon_48 {
+	background: url('/images/cc/black/png/icons_48/folder_icon_48.png');
+	@include icon_48;
+}
+
+.icons_black_48-folder_minus_icon_48 {
+	background: url('/images/cc/black/png/icons_48/folder_minus_icon_48.png');
+	@include icon_48;
+}
+
+.icons_black_48-folder_open_icon_48 {
+	background: url('/images/cc/black/png/icons_48/folder_open_icon_48.png');
+	@include icon_48;
+}
+
+.icons_black_48-folder_plus_icon_48 {
+	background: url('/images/cc/black/png/icons_48/folder_plus_icon_48.png');
+	@include icon_48;
+}
+
+.icons_black_48-doc_delete_icon_48 {
+	background: url('/images/cc/black/png/icons_48/doc_delete_icon_48.png');
+	@include icon_48;
+}
+
+.icons_black_48-doc_plus_icon_48 {
+	background: url('/images/cc/black/png/icons_48/doc_plus_icon_48.png');
+	@include icon_48;
+}
+
+.icons_black_48-document_icon_48 {
+	background: url('/images/cc/black/png/icons_48/document_icon_48.png');
+	@include icon_48;
+}
+
+.icons_black_48-doc_empty_icon_48 {
+	background: url('/images/cc/black/png/icons_48/doc_empty_icon_48.png');
+	@include icon_48;
+}

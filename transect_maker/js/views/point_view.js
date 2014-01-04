@@ -40,7 +40,7 @@ define(["baseView"], function(BaseView) {
 		if (this.element === undefined) {
 			this.element = transectApp.Canvas.circle(this.point.get('x'), this.point.get('y'), 4);
 			
-			PointsSet.push(this.element);
+			transectApp.PointsSet.push(this.element);
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.click(this.onClick.bind(this));
 			this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));

@@ -79,6 +79,14 @@ requirejs.config({
 
 		// Libraries
 		polyK: "/commons/js/lib/polyK",
+
+		// File System
+		file: "/file_system/js/models/file",
+		files: "/file_system/js/collections/files",
+		fileView: "/file_system/js/views/file_view",
+		filesView: "/file_system/js/views/files_view",
+		fileSystem: "/file_system/js/models/file_system",
+		fileSystemView: "/file_system/js/views/file_system_view",
 	},
 });
 

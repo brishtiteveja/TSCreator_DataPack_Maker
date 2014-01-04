@@ -1,0 +1,12 @@
+<div class="file left">
+	<% if (isFile) { %>
+		<% if (size == 0) { %>
+			<div class="file-icon icons_black_48-doc_empty_icon_48"></div>
+		<% } else { %>
+			<div class="file-icon icons_black_48-document_icon_48"></div>
+		<% } %>
+	<% } else { %>
+		<div class="file-icon icons_black_48-folder_icon_48"></div>
+	<% } %>
+	<div class="file-name" contenteditable><%= name %></div>
+</div>

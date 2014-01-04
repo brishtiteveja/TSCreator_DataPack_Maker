@@ -6,59 +6,54 @@
   left: 0px;
   width: 100%;
   height: 100%;
-  display: none;
   background: #333;
 }
-/* line 12, ../scss/toolbar/_export_panel.scss */
-#export-panel.active {
-  display: block;
-}
-/* line 16, ../scss/toolbar/_export_panel.scss */
+/* line 11, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row {
   margin: 0px;
   padding: 0px;
 }
-/* line 20, ../scss/toolbar/_export_panel.scss */
+/* line 15, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-nav-section {
   padding: 0px;
   margin: 0px;
   height: 100%;
   overflow: auto;
 }
-/* line 27, ../scss/toolbar/_export_panel.scss */
+/* line 22, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-nav-section ul {
   padding: 0px;
   margin: 0px;
 }
-/* line 32, ../scss/toolbar/_export_panel.scss */
+/* line 27, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-nav-section ul li {
   margin: 0px;
   border-bottom: 1px solid #fff;
 }
-/* line 36, ../scss/toolbar/_export_panel.scss */
+/* line 31, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-nav-section ul li a {
   padding: 10px;
   color: #fff;
 }
-/* line 41, ../scss/toolbar/_export_panel.scss */
+/* line 36, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-nav-section ul li:hover {
   background: #777;
 }
-/* line 45, ../scss/toolbar/_export_panel.scss */
+/* line 40, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-nav-section ul li:active {
   background: #333;
 }
-/* line 53, ../scss/toolbar/_export_panel.scss */
+/* line 48, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-data-section {
   background: #fff;
   height: 100%;
   overflow: auto;
 }
-/* line 58, ../scss/toolbar/_export_panel.scss */
+/* line 53, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-data-section > .button-bar {
   padding-top: 5px;
 }
-/* line 66, ../scss/toolbar/_export_panel.scss */
+/* line 61, ../scss/toolbar/_export_panel.scss */
 #export-panel > .row > .export-data-section textarea {
   width: 100%;
   height: 90%;
@@ -592,7 +587,235 @@
   height: 32px;
 }
 
-/* line 9, ../scss/main.scss */
+/* line 15, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-folder_delete_icon_32 {
+  background: url("/images/cc/white/png/icons_32/folder_delete_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 20, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-folder_icon_32 {
+  background: url("/images/cc/white/png/icons_32/folder_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 25, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-folder_minus_icon_32 {
+  background: url("/images/cc/white/png/icons_32/folder_minus_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 30, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-folder_open_icon_32 {
+  background: url("/images/cc/white/png/icons_32/folder_open_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 35, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-folder_plus_icon_32 {
+  background: url("/images/cc/white/png/icons_32/folder_plus_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 40, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-doc_delete_icon_32 {
+  background: url("/images/cc/white/png/icons_32/doc_delete_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 45, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-doc_plus_icon_32 {
+  background: url("/images/cc/white/png/icons_32/doc_plus_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 50, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-document_icon_32 {
+  background: url("/images/cc/white/png/icons_32/document_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 55, ../scss/file_system/_file_system_icons.scss */
+.icons_white_32-doc_empty_icon_32 {
+  background: url("/images/cc/white/png/icons_32/doc_empty_icon_32.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+/* line 60, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-folder_delete_icon_48 {
+  background: url("/images/cc/black/png/icons_48/folder_delete_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 65, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-folder_icon_48 {
+  background: url("/images/cc/black/png/icons_48/folder_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 70, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-folder_minus_icon_48 {
+  background: url("/images/cc/black/png/icons_48/folder_minus_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 75, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-folder_open_icon_48 {
+  background: url("/images/cc/black/png/icons_48/folder_open_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 80, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-folder_plus_icon_48 {
+  background: url("/images/cc/black/png/icons_48/folder_plus_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 85, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-doc_delete_icon_48 {
+  background: url("/images/cc/black/png/icons_48/doc_delete_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 90, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-doc_plus_icon_48 {
+  background: url("/images/cc/black/png/icons_48/doc_plus_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 95, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-document_icon_48 {
+  background: url("/images/cc/black/png/icons_48/document_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 100, ../scss/file_system/_file_system_icons.scss */
+.icons_black_48-doc_empty_icon_48 {
+  background: url("/images/cc/black/png/icons_48/doc_empty_icon_48.png");
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  width: 48px;
+  height: 48px;
+}
+
+/* line 3, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel {
+  cursor: default;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+/* line 13, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .top-bar > div {
+  width: 50px;
+  height: 100%;
+}
+/* line 16, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .top-bar > div a.icon {
+  width: 32px;
+  height: 32px;
+  margin: auto;
+}
+/* line 22, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .top-bar > div:hover {
+  background: #777;
+}
+/* line 28, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .list {
+  padding: 20px;
+}
+/* line 31, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .list .file {
+  -moz-border-radius: 5px 5px;
+  -webkit-border-radius: 5px 5px;
+  -khtml-border-radius: 5px 5px;
+  -o-border-radius: 5px 5px;
+  border-radius: 5px 5px;
+  border: 1px white solid;
+  margin: 0px;
+  padding: 5px;
+  width: 80px;
+  height: 100px;
+}
+/* line 38, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .list .file > .file-icon {
+  width: 48px;
+  height: 48px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px;
+}
+/* line 46, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .list .file > .file-name {
+  padding-top: 10px;
+  text-align: center;
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 52, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .list .file:hover {
+  background: #777;
+}
+/* line 56, ../scss/file_system/_file_system_panel.scss */
+#file-system-panel .list .file.active {
+  background: #0099FF;
+}
+
+/* line 11, ../scss/main.scss */
 body > .row {
   /* this will work for QtWebKit in future */
   -webkit-user-drag: none;

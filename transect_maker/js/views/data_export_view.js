@@ -19,7 +19,6 @@ define(["baseView"], function(BaseView) {
 		this.markers = transectApp.TransectMarkersCollection;
 		this.polygons = transectApp.PolygonsCollection;
 		this.render();
-		this.$exportPanel = $("#export-panel");
 		this.$canvas = $("#canvas");
 	}
 
@@ -81,11 +80,11 @@ define(["baseView"], function(BaseView) {
 	DataExportView.prototype.toggleExportView = function(evt) {
 		if ($("a[href='#export-data']").parent().hasClass('active')) {
 			$("a[href='#export-data']").parent().removeClass('active');
-			this.$exportPanel.removeClass('active');
+			this.$el.addClass('hide');
 			this.$canvas.removeClass('hide');
 		} else {
 			$("a[href='#export-data']").parent().addClass('active');
-			this.$exportPanel.addClass('active');
+			this.$el.removeClass('hide');
 			this.$canvas.addClass('hide');
 		}
 		this.render();

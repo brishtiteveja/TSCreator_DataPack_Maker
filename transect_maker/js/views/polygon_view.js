@@ -199,10 +199,16 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 
 		this.renderPolygonElement();
 		this.setRenderFill();
+		this.bringToFront();
+	}
 
+	PolygonView.prototype.bringToFront = function() {
 		// bring points to front so that we can use them again because if
 		// they are in the back we cannot click them
-		PointsSet.toFront();
+		transectApp.PolygonsSet.toFront(); // move all the polygons to front
+		this.element.toFront(); // move the current polygon to the top.
+		transectApp.LinesSet.toFront(); // move the lines to the top
+		transectApp.PointsSet.toFront(); // move the points to the top
 	}
 
 
@@ -337,9 +343,10 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 		}
 		this.element = transectApp.Canvas.path(this.getPath());
 		this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
-		this.moveToBottom();
+		transectApp.PolygonsSet.push(this.element);
 		this.renderTooltip();
 		this.setRenderMode();
+		this.bringToFront();
 	}
 
 	PolygonView.prototype.renderTooltip = function() {

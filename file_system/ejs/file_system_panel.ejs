@@ -1,0 +1,27 @@
+<nav class="top-bar" data-topbar>
+	<ul class="title-area">
+		<li class="name">
+			<h1><a href="#">Transect Maker</a></h1>
+		</li>
+		<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+	</ul>
+	<section class="top-bar-section">
+		<ul>
+			<li><a href="#parent-dir">⬅︎</a></li>
+			<li><a href="#create-file">✚ file</a></li>
+			<li><a href="#create-dir">✚ folder</a></li>
+			<li><a href="#save-data">save ⬇︎</a></li>
+			<li><a href="#load-data">load ⬆</a></li>
+			<li><a href="#delete-file">✖︎ del</a></li>
+		</ul>
+	</section>
+</nav>
+<ul class="breadcrumbs">
+	<% var path = path.split("/") %>
+	<li><a href="#" path="<%= currPath %>" class="path-breadcrumb">ROOT</a></li>
+	<% for (var i=1; i<path.length; i++) { %>
+		<% var currPath = path.slice(0,i+1).join("/") %> 
+		<li><a href="#" path="<%= currPath %>" class="path-breadcrumb"><%= path[i] %></a></li>
+	<% } %>
+</ul>
+<div id="files-list"></div>

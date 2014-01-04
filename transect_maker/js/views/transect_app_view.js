@@ -15,6 +15,7 @@ define([
 	"polygonsView",
 	"dataImportView",
 	"dataExportView",
+	"fileSystemView",
 	"transectImage",
 	"loader",
 	"exporter"
@@ -30,6 +31,7 @@ define([
 		PolygonsView,
 		DataImportView,
 		DataExportView,
+		FileSystemView,
 		TransectImage,
 		Loader,
 		Exporter) {
@@ -48,23 +50,30 @@ define([
 	TransectAppView.prototype.initialize = function() {
 
 		transectApp.CurrentPolygon = null;
-
-		POLYGON_COLOR = "#000000";
 		
 		this.x = 10;
 		this.y = 10;
 		this.width = 2000;
-		this.height = 2000;	
+		this.height = 2000;
+
+		transectApp.StatusBox = $(".status-box");
+
+		// refer to the important DOM elements.
+
 		this.$introScreen = this.$("#intro-screen");
 		this.$canvas = this.$("#canvas");
-		transectApp.StatusBox = $(".status-box");
+		this.$displayPanels = this.$('.display-panel');
+
+		// Initialize the models
+
 		transectApp.TransectImage = new TransectImage({});
 		transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
 		transectApp.loader = new Loader();
 		transectApp.exporter = new Exporter();
-		PointsSet = transectApp.Canvas.set();
-		LinesSet = transectApp.Canvas.set();
-		PolygonsSet = transectApp.Canvas.set();
+		
+		transectApp.PointsSet = transectApp.Canvas.set();
+		transectApp.LinesSet = transectApp.Canvas.set();
+		transectApp.PolygonsSet = transectApp.Canvas.set();
 		
 		this.render();
 	};
@@ -85,6 +94,7 @@ define([
 		this.dataImportView = new DataImportView();
 		this.dataExportView = new DataExportView();
 		this.transectImageView = new TransectImageView();
+		this.fileSystemView = new FileSystemView();
 	};
 
 	/**
@@ -174,6 +184,9 @@ define([
 				break;
 			case "#export-data":
 				this.dataExportView.toggleExportView();
+				break;
+			case "#file-system":
+				this.fileSystemView.toggleView();
 				break;
 			case "#save-to-local-storage":
 				this.saveToLocalStorage();

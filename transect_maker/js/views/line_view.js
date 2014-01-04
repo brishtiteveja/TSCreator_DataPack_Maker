@@ -49,7 +49,8 @@ define(["baseView"], function(BaseView) {
 
 	LineView.prototype.renderLine = function() {
 		if (this.element === undefined) {
-			this.element = transectApp.Canvas.path();	
+			this.element = transectApp.Canvas.path();
+			transectApp.LinesSet.push(this.element);
 		}
 		var path = "M" + this.line.get("point1").get('x') + "," + this.line.get("point1").get('y');
 		path += this.line.getPath();
