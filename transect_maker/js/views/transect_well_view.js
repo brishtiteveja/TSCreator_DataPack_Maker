@@ -53,6 +53,10 @@ define(["baseView"], function(BaseView) {
 
 		/* render the well */
 		this.renderWell();
+
+		
+		transectApp.PointsCollection.updatePoints();
+		transectApp.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectWellView.prototype.renderWell = function() {
@@ -97,14 +101,17 @@ define(["baseView"], function(BaseView) {
 	TransectWellView.prototype.dragStart = function(x, y, evt) {};
 
 	TransectWellView.prototype.dragMove = function(dx, dy, x, y, evt) {
-		if (transectApp.PointsCollection.updatePoints()) {
-			this.transectWell.set({
-				x: evt.offsetX
-			});	
-		}
+		this.transectWell.set({
+			x: evt.offsetX
+		});	
 	};
 
-	TransectWellView.prototype.dragEnd = function(evt) {};
+	/*==========  when drag ends update the points and texts  ==========*/
+	
+	TransectWellView.prototype.dragEnd = function(evt) {
+		transectApp.PointsCollection.updatePoints();
+		transectApp.TransectTextsCollection.updateTransectTexts();
+	};
 
 	TransectWellView.prototype.onMouseOver = function() {
 		this.transectWellsView.undelegateEvents();

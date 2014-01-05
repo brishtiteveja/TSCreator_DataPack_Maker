@@ -54,7 +54,8 @@ define(["baseView"], function(BaseView) {
 		this.editTransectMarker();
 
 		this.renderMarker();
-		return this;
+		transectApp.PointsCollection.updatePoints();
+		transectApp.TransectTextsCollection.updateTransectTexts();
 	};
 
 	/*==========  render the marker on the canvas  ==========*/
@@ -74,7 +75,6 @@ define(["baseView"], function(BaseView) {
 			transectApp.MarkersSet.push(this.element);
 		}
 		this.element.attr({'path': this.getPath()});
-		transectApp.PointsCollection.updatePoints();
 		transectApp.TransectTextsCollection.updateTransectTexts();
 	};
 
@@ -101,15 +101,16 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  while dragging  ==========*/
 	TransectMarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
-		if (transectApp.PointsCollection.updatePoints()) {
-			this.transectMarker.set({
-				y: evt.offsetY
-			});
-		}
+		this.transectMarker.set({
+			y: evt.offsetY
+		});
 	};
 
-	/*==========  when dragging is completed  ==========*/
-	TransectMarkerView.prototype.dragEnd = function(evt) {};
+	/*==========  when dragging is completed update the points and texts relative locations ==========*/
+	TransectMarkerView.prototype.dragEnd = function(evt) {
+		transectApp.PointsCollection.updatePoints();
+		transectApp.TransectTextsCollection.updateTransectTexts();
+	};
 
 	TransectMarkerView.prototype.onMouseOver = function() {
 		this.transectMarkersView.undelegateEvents();

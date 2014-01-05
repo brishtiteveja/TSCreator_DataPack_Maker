@@ -28,6 +28,7 @@ define([
 	FileSystemView.prototype.template = new EJS({url: "/file_system/ejs/file_system_panel.ejs"});
 
 	FileSystemView.prototype.initialize = function() {
+		this.$canvas = $("#canvas");
 		var oneGB = 1024*1024*1024;
 		// requesting a file system
 		navigator.webkitPersistentStorage.requestQuota(oneGB, this.requestFileSystem.bind(this), this.errorHandler.bind(this));
@@ -39,7 +40,6 @@ define([
 
 	FileSystemView.prototype.render = function(fs) {
 		this.fileSystem = new FileSystem({fs: fs});
-		this.$canvas = $("#canvas");
 
 		this.renderDirs();
 		this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
