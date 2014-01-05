@@ -39,6 +39,10 @@ define([
 		this.zones = transectApp.ZonesCollection;
 		this.transectImage = transectApp.TransectImage;
 
+		// update points and texts
+		transectApp.PointsCollection.updatePoints();
+		this.texts.updateTransectTexts();
+
 		// initialize the objects to store the processed data.
 		// 
 		self.transectsData = {};

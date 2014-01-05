@@ -41,8 +41,9 @@
 			<tr>
 				<td>POLYGON</td>
 				<td>pattern: <%= polygon.get('patternName') || "None" %></td>
-				<td><%= polygon.name %></td>
-				<% for (var k = 0; k <matrixPositions.length + 2 - 3; k++) { %>
+				<td><%= polygon.get('name') %></td>
+				<td><%= polygon.get('description') %></td>
+				<% for (var k = 0; k <matrixPositions.length + 2 - 4; k++) { %>
 				<td></td>
 				<% } %>
 			</tr>
@@ -75,6 +76,23 @@
 				<% } %>
 			<% } %>
 
+		<% } %>
+
+		<% for (var i=0; i < texts.length; i++) { %>
+			<% var text = texts.at(i).toJSON(); %>
+			<% var bBox = text.bBox; %>
+			<% var textData = text.text.split('\n').join(''); %>
+			<% var fontSize = text.settings.get('fontSize'); %>
+			<% var fontFamily = text.settings.get('fontFamily').split(',')[0]; %>
+			<tr>
+				<td>TEXT</td>
+				<td><%= bBox.y1 %></td>
+				<td><%= bBox.x1 %></td>
+				<td>font-family: <%= fontFamily %>; font-size: <%= fontSize %>; </td>
+				<td><%= bBox.y2 %></td>
+				<td><%= bBox.x2 %></td>
+
+			</tr>
 		<% } %>
 	</tbody>
 </table>

@@ -6,6 +6,7 @@
 			<th>facies</th>
 			<th><%= data.get('width') %></th>
 			<th><%= CssToTscColor(data.get('settings').get('backgroundColor')) %></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -19,6 +20,7 @@
 			<td><%= referencePoints[i].pattern || "None" %></td>
 			<td><%= referencePoints[i].name %></td>
 			<td><%= referencePoints[i].point.get('age') || 0 %></td>
+			<td><%= "CALIBRATION = " + Math.round((referencePoints[i].point.get('relativeY')*1000))/10 %></td>
 		</tr>
 		<% } %>
 	</tbody>

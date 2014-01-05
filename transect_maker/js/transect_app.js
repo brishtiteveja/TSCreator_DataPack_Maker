@@ -111,7 +111,7 @@ requirejs([
 		Zones,
 		TransectWells,
 		TransectMarkers) {
-		
+
 	transectApp.TransectsCollection = new Transects();
 	transectApp.TransectTextsCollection = new TransectTexts();
 	transectApp.PolygonsCollection = new Polygons();
@@ -121,6 +121,7 @@ requirejs([
 	transectApp.TransectWellsCollection = new TransectWells();
 	transectApp.TransectMarkersCollection = new TransectMarkers();
 
-	var transectAppView = new TransectAppView();
-	// new Loader(transectAppView);
+	$(document).ready(function() {
+		var transectAppView = new TransectAppView();
+	});
 });
