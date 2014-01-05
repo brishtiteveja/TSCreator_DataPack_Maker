@@ -132,10 +132,8 @@ define(["baseView"], function(BaseView) {
 			this.toggleLineForm();
 		}
 
-		var name = this.$lineName.value;
 		var pattern = this.$("select.line-pattern option:selected").val();
 		this.line.set({
-			name: name,
 			pattern: pattern
 		});
 	};

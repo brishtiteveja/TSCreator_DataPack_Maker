@@ -66,6 +66,9 @@
 		// Data Exporter
 		exporter: "transect_maker/js/utils/exporter",
 		dataExportView: "transect_maker/js/views/data_export_view",
+
+		// Data Loader
+		loader: "transect_maker/js/utils/loader",
 		dataImportView: "transect_maker/js/views/data_import_view",
 
 		// Main View
@@ -76,6 +79,14 @@
 
 		// Libraries
 		polyK: "commons/js/lib/polyK",
+
+		// File System
+		file: "file_system/js/models/file",
+		files: "file_system/js/collections/files",
+		fileView: "file_system/js/views/file_view",
+		filesView: "file_system/js/views/files_view",
+		fileSystem: "file_system/js/models/file_system",
+		fileSystemView: "file_system/js/views/file_system_view",
 	},
 	name: "transect_maker/js/transect_app",
 	out: "transect_maker/js/transect-maker-built.0.1.js"

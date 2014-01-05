@@ -28,31 +28,35 @@
 
 		<!-- default settings for transect -->
 		<script src="/transect_maker/js/default_settings.js" type="text/javascript"></script>
-				
+		
 		<!-- RequireJS -->
 		<script src="/commons/js/lib/require-min.js"></script>
 		<script src="/transect_maker/js/transect-maker-built.0.1.js" type="text/javascript" charset="utf-8" async defer></script>
-
+		
 	</head>
-	<body>
+	<body class="main">
 		<div class="container row">
 			<div id="toolbar" class="small-2 large-1 columns">
 				<ul class="side-nav">
 					<li><a href="#" class="transect-tools icon icons_32-cursor_arrow_icon_32" title="mouse pointer"></a></li>
+					<li><a href="#lock-cursor-h" class="transect-tools icon icons_32-padlock_closed_icon_32 text-right" title="lock cursor in X.">↔︎</a></li>
+					<li><a href="#lock-cursor-v" class="transect-tools icon icons_32-padlock_closed_icon_32 text-right" title="lock cursor in V.">↕︎</a></li>
 					<li><a href="#add-marker" class="transect-tools icon icons_32-cursor_H_split_icon_32" title="create a new timeline"></a></li>
 					<li><a href="#add-well" class="transect-tools icon icons_32-cursor_V_split_icon_32" title="create a new well"></a></li>
 					<li><a href="#add-polygon" class="transect-tools icon icons-polygon4" title="polygons tool"></a></li>
 					<li class="hide"><a href="#new-polygon" class="transect-tools icon icons_32-sq_plus_icon_32" title="create a new polygon"></a></li>
 					<li><a href="#add-transect-text" class="transect-tools icon icons_32-text_letter_t_icon_32" title="create new transect text"></a></li>
-					<li><a href="#import-data" class="transect-tools icon icons_32-doc_import_icon_32" title="import data"></a></li>
-					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32" title="export data"></a></li>
 					<li><a href="#save-to-local-storage" class="transect-tools icon icons_save_icon_32" title="save to local storage"></a></li>
-					<li><a href="#save-to-server" class="transect-tools icon icons_download_icon_32" title="download data"></a></li>
+					<li><a href="#reload-data" class="transect-tools icon icons_32-reload_icon_32" title="reload data from local storage"></a></li>
+					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32" title="export data"></a></li>
+					<li><a href="#file-system" class="transect-tools icon icons_32-box_icon_32" title="sandbox"></a></li>
 				</ul>
 			</div>
 			<div id="display" class="small-18 large-21 columns">
-				<div id="export-panel"></div>
-				<div class="intro row" id="intro-screen">
+				<div id="export-panel" class="hide display-panel"></div>
+				<div id="file-system-panel" class="display-panel hide"></div>
+				<div id="canvas" class="hide" tabindex=1></div>
+				<div class="intro row display-panel" id="intro-screen">
 					<div class="content small-22 large-22 columns">
 						<div class="row">
 							<div class="small-22 large-22 columns">
@@ -70,34 +74,22 @@
 													<div class="small-14 large-18 columns"><a href="#" title="">a guided tour of transect maker.</a></div>
 												</div>
 											</li>
-											<li>
+											<!-- <li>
 												<div class="row">
 													<div class="small-10 columns large-6"><a href="#" title="">↪︎ set image</a></div>
 													<div class="small-14 drag-box large-18 columns" id="image-box"><h2 class="text-center text-message"><small class="image-status">drag & drop your image here</small></h2></div>
 												</div>
-											</li>
+											</li> -->
 											<li>
 												<div class="row">
 													<div class="small-10 columns large-6"><a href="#" title="">↪︎ load data</a></div>
-													<div class="small-14 drag-box large-18 columns" id="data-box"><h2 class="text-center text-message"><small class="data-status">drag & drop your datapack here</small></h2></div>
+													<div class="small-14 drag-box large-18 columns" id="data-box"><h2 class="text-center text-message"><small class="data-status">drag & drop your datafile here</small></h2></div>
 												</div>
 											</li>
 											<li>
-												<div class="row continue-to-main" id="no-image-or-data">
-													<div class="small-10 columns large-10"></div>
-													<div class="small-14 columns large-14"><a href="#" title="" class="continue">continue without image or data ➤</a></div>
-												</div>
-												<div class="row hide continue-to-main" id="no-data">
+												<div class="row continue-to-main" id="no-data">
 													<div class="small-10 columns large-14"></div>
 													<div class="small-14 columns large-10"><a href="#" title="" class="continue">continue without data ➤</a></div>
-												</div>
-												<div class="row hide continue-to-main" id="no-image">
-													<div class="small-10 columns large-14"></div>
-													<div class="small-14 columns large-10"><a href="#" title="" class="continue">continue without image ➤</a></div>
-												</div>
-												<div class="row hide continue-to-main" id="continue-both">
-													<div class="small-10 columns large-16"></div>
-													<div class="small-14 columns large-8"><a href="#" title="" class="continue">continue ➤</a></div>
 												</div>
 											</li>
 										</ul>
@@ -109,7 +101,6 @@
 						</div>
 					</div>
 				</div>
-				<div id="canvas" class="hide" tabindex=1></div>
 			</div>
 			<div id="settings" class="small-4 large-2 columns">
 				<div class="settings-nav">
