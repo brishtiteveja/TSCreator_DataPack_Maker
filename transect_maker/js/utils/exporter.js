@@ -603,7 +603,9 @@ define([
 			outputText += (well.referencePoints[i].pattern || "None") + "\t";
 			outputText += (well.referencePoints[i].name || "") + "\t";
 			outputText += well.referencePoints[i].point.get('age') + "\t";
-			outputText += "CALIBRATION = " + Math.round((well.referencePoints[i].point.get('relativeY')*1000))/10 + "\t";
+			outputText += "CALIBRATION = ";
+			outputText += Math.round((well.referencePoints[i].point.get('relativeY')*1000))/10
+			outputText += " " + well.referencePoints[i].point.get('zone').get('name') + "\t";
 		}
 		return outputText;
 	}

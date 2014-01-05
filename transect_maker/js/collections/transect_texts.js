@@ -15,6 +15,10 @@ define(["baseCollection", "transectText"], function(BaseCollection, TransectText
 		return true;
 	}
 
+	TransectTexts.prototype.comparator = function(text) {
+		return text.get('y');
+	}
+
 	return TransectTexts;
 })
 /*-----  End of TransectTexts Collection  ------*/

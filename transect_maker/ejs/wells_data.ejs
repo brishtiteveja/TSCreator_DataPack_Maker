@@ -20,7 +20,7 @@
 			<td><%= referencePoints[i].pattern || "None" %></td>
 			<td><%= referencePoints[i].name %></td>
 			<td><%= referencePoints[i].point.get('age') || 0 %></td>
-			<td><%= "CALIBRATION = " + Math.round((referencePoints[i].point.get('relativeY')*1000))/10 %></td>
+			<td><%= "CALIBRATION = " + Math.round((referencePoints[i].point.get('relativeY')*1000))/10 + " " + referencePoints[i].point.get('zone').get('name') %></td>
 		</tr>
 		<% } %>
 	</tbody>
