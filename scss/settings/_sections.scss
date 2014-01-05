@@ -49,3 +49,9 @@
 .lines-list, .points-list, .patterns-list {
 	@include settings-list;
 }
+
+.text-font-settings {
+	input, select {
+		height: 40px;
+	}
+}

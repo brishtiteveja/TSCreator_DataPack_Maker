@@ -11,6 +11,9 @@ define(["baseView", "point"], function(BaseView, Point) {
 			'click .text-data': 'toggleTextForm',
 			'keypress :input': 'updateText',
 			'keyup :input': 'updateText',
+			'change select[name="text-font-family"]': 'updateText',
+			'change input[name="text-font-size"]': 'updateText',
+			'change input[name="text-font-color"]': 'updateText',
 			'mouseover': "onMouseOver",
 			'mouseout': "onMouseOut",
 		}
@@ -29,6 +32,7 @@ define(["baseView", "point"], function(BaseView, Point) {
 		this.listenTo(this.transectText, 'change:y', this.renderTransectText.bind(this));
 		this.listenTo(this.transectText, 'change:edit', this.editTransectText.bind(this));
 		this.listenTo(this.transectText, 'change:text', this.renderTransectText.bind(this));
+		this.listenTo(this.transectText.get('settings'), 'change', this.renderTransectText.bind(this));
 	}
 
 	TransectTextView.prototype.render = function() {
@@ -38,34 +42,40 @@ define(["baseView", "point"], function(BaseView, Point) {
 		this.$toggle = this.$(".toggle");
 		this.$textForm = this.$(".text-form");
 		this.$textData = this.$(".text-data");
-		this.$textText = this.$('input[name="text-name"]')[0];
+		this.$textText = this.$("textarea[name*=text-name]")[0];
+		this.$textFontSize = this.$("input[name*=text-font-size]")[0];
+		this.$textFontColor = this.$("input[name*=text-font-color]")[0];
 
 		/* check edit state */
 		this.editTransectText();
 
+		/* listen to changes in form. */
+
+		
 
 		this.renderTransectText();
 		return this;
 	}
 
 	TransectTextView.prototype.renderTransectText = function() {
+		this.set = transectApp.Canvas.set();
 		if (this.element === undefined || this.boundingBox === undefined) {
 
 			this.backgroundBox = transectApp.Canvas.rect();
 			this.element = transectApp.Canvas.text();
 			this.boundingBox = transectApp.Canvas.rect();
 
+			this.set.push(this.backgroundBox);
+			this.set.push(this.element);
+			this.set.push(this.boundingBox);
+			transectApp.TextsSet.push(this.set);
+
 			this.boundingBox.attr({
-				"fill": "#fff",
+				"fill": "#f1f1f1",
 				"fill-opacity": 0,
 				"r": "2px",
 			});
 
-			this.element.attr({
-				"font-size": 16,
-				"stroke-width": 1
-			});
-			
 			this.backgroundBox.attr({
 				"fill": "#fff",
 				"fill-opacity": 1,
@@ -75,6 +85,13 @@ define(["baseView", "point"], function(BaseView, Point) {
 			this.boundingBox.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.boundingBox.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 		}
+
+		this.element.attr({
+			"font-size": this.transectText.get('settings').get('fontSize'),
+			"font-family": this.transectText.get('settings').get('fontFamily'),
+			"fill": this.transectText.get('settings').get('fill'),
+		});
+		
 
 		this.element.attr({
 			"text": this.transectText.get('text'),
@@ -96,7 +113,25 @@ define(["baseView", "point"], function(BaseView, Point) {
 			"y": this.element.getBBox().y,
 		});
 
+		this.updateTscBBox();
 		this.renderTooltip();
+	}
+
+	TransectTextView.prototype.updateTscBBox = function() {
+		var transect = this.transectText.get('transect');
+		var zone = this.transectText.get('zone');
+		var bBox = this.element.getBBox();
+		var x00 = bBox.x; // lower left x
+		var y00 = bBox.y + bBox.height; // lower left y
+		var x11 = bBox.x2; // top right x
+		var y11 = bBox.y2 - bBox.height; // top right y
+		var x00 = Math.round(transect.getRelativeX(x00)*1000)/10;
+		var x11 = Math.round(transect.getRelativeX(x11)*1000)/10;
+		var y00 = zone.getAbsoluteAge(y00);
+		var y11 = zone.getAbsoluteAge(y11);
+		this.transectText.set({
+			bBox: {x1: x00, x2: x11, y1: y00, y2: y11}
+		});
 	}
 
 
@@ -175,14 +210,21 @@ define(["baseView", "point"], function(BaseView, Point) {
 
 	TransectTextView.prototype.updateText = function(evt) {
 		
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == transectApp.ESC) {
 			this.toggleTextForm();
 		}
+
 
 		var text = this.$textText.value;
 		this.transectText.set({
 			text: text,
 		});
+		var fontFamily = this.$("select[name='text-font-family'] option:selected").val();
+		this.transectText.get('settings').set({
+			fontSize: this.$textFontSize.value,
+			fill: this.$textFontColor.value,
+			fontFamily: fontFamily,
+		})
 	};
 
 	return TransectTextView;

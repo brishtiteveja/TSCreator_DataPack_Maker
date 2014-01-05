@@ -6,17 +6,18 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	var TransectText = BaseModel.extend({
 		classname: "TransectText",
 		constructor: function(attributes, options) {
+			var settings = new Settings();
 			var attrs = [{
 				edit: false,
 				text: attributes.text || _.uniqueId("Text "),
 				x: attributes.x ? parseInt(attributes.x) : 0,
 				y: attributes.y ? parseInt(attributes.y) : 0,
 				age: 0,
-				relativeX: null,
-				relativeY: null,
 				transect: null,
 				zone: null,
-				settings: new Settings(),
+				settings: settings,
+				// bounding box for the text.
+				bBox: null,
 			}];
 			BaseModel.apply(this, attrs);
 		}

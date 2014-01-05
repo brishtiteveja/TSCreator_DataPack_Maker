@@ -416,6 +416,11 @@
   content: '➜';
 }
 
+/* line 54, ../scss/settings/_sections.scss */
+.text-font-settings input, .text-font-settings select {
+  height: 40px;
+}
+
 /* line 15, ../scss/utils/_icons.scss */
 .icons_32-cursor_H_split_icon_32 {
   background: url("/images/cc/black/png/icons_32/cursor_H_split_icon_32.png");

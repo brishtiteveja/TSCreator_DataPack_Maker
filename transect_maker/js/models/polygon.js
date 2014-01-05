@@ -14,6 +14,7 @@ define(["baseModel", "points", "lines"], function(BaseModel, Points, Lines) {
 				patternName: attributes ? attributes.patternName : null,
 				points: new Points(),
 				lines: new Lines(),
+				description: attributes && attributes.description ? attributes.description : null
 			}];
 			BaseModel.apply(this, attrs);
 		}

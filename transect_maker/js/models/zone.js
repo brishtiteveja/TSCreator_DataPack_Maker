@@ -35,7 +35,7 @@ define(["baseModel"], function(BaseModel) {
 	Zone.prototype.getRelativeY = function(y) {
 		if (this.get('topMarker').get('y') <= y && y < this.get('baseMarker').get('y')) {
 			var num = ((y - this.get('topMarker').get('y'))/(this.get('baseMarker').get('y') - this.get('topMarker').get('y')))
-			return Math.round(num * 100) / 100;
+			return Math.round(num * 1000) / 1000;
 		}
 		return null;
 	}

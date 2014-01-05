@@ -61,6 +61,8 @@ define(["baseView"], function(BaseView) {
 				"stroke": "#900000"
 			});
 
+			transectApp.WellsSet.push(this.element);
+
 			/* attach listeners to the element */
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
@@ -155,7 +157,7 @@ define(["baseView"], function(BaseView) {
 
 	TransectWellView.prototype.updateWell = function(evt) {
 
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
 			this.toggleWellForm();
 		}
 

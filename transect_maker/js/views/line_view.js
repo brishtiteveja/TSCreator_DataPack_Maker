@@ -128,7 +128,7 @@ define(["baseView"], function(BaseView) {
 
 	LineView.prototype.updateLine = function(evt) {
 
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
 			this.toggleLineForm();
 		}
 

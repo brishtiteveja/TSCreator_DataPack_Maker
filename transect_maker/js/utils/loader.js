@@ -100,6 +100,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		self.savedData.texts.forEach(function(text) {
 			var transectText = self.texts.findWhere({text: text.text, x: text.x, y: text.y}) || new TransectText(text);
 			self.texts.add(transectText);
+			transectText.get('settings').set(text.settings);
 		})
 	}
 

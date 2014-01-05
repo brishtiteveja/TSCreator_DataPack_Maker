@@ -88,7 +88,7 @@ define(["baseView"], function(BaseView) {
 
 	TransectView.prototype.updateTransect = function(evt) {
 
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
 			this.toggleTransectForm();
 		}
 

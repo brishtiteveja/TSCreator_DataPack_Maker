@@ -1,8 +1,12 @@
 <div class="row">
 	<div class="toggle hide-data small-3 columns"></div>
-	<label class="polygon-data small-17 columns"><%= name %> → <%= patternName || "none" %></label>
+	<div class="polygon-data small-17 columns">
+		<lable><%= name %> → <%= patternName || "none" %></lable>>
+		<i><%= description || "No description yet!" %></i>
+	</div>
 	<div class="small-17 columns polygon-form hide">
 		<input type="text" value="<%= name %>" name="polygon-name">
+		<textarea name="polygon-description" placeholder="No description yet!"></textarea>
 	</div>
 	<div class="small-4 columns"><a href="#" class="destroy"></a></div>
 </div>

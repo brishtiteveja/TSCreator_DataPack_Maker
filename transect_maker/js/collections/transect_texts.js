@@ -9,8 +9,8 @@ define(["baseCollection", "transectText"], function(BaseCollection, TransectText
 	});
 
 	TransectTexts.prototype.updateTransectTexts = function() {
-		this.each(function(transect) {
-			transect.updateTransectAndZone();
+		this.each(function(text) {
+			text.updateTransectAndZone();
 		});
 		return true;
 	}

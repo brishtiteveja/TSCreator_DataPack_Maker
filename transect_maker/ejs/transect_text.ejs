@@ -2,7 +2,26 @@
 	<div class="toggle hide-data small-3 columns"></div>			
 	<label class="text-data small-17 columns text-label"><%= text %></label>
 	<div class="small-17 columns text-form hide">
-		<input type="text" value="<%= text %>" name="text-name">
+		<textarea name="text-name"><%= text %></textarea>
+		<div class="row text-font-settings">
+			<div class="columns small-14">
+				<select name="text-font-family">
+					<% for (var i=0; i<transectApp.fonts.length; i++) { %>
+						<% if (settings.get('fontFamily') == transectApp.fonts[i]) { %>
+							<option value="<%= transectApp.fonts[i] %>" selected><%= transectApp.fonts[i] %></option>
+						<% } else { %>
+							<option value="<%= transectApp.fonts[i] %>"><%= transectApp.fonts[i] %></option>
+						<% }%>
+					<% } %>
+				</select>
+			</div>
+			<div class="columns small-6">
+				<input type="number" name="text-font-size" value="<%= settings.get('fontSize') %>" >
+			</div>
+			<div class="columns small-4">
+				<input type="color" name="text-font-color" value="<%= settings.get('fill') %>">
+			</div>
+		</div>
 	</div>
 	<div class="small-4 columns"><a href="#" class="destroy"></a></div>
 </div>

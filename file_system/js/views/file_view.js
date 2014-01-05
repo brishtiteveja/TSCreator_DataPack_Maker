@@ -131,8 +131,7 @@ define(["baseView"], function(BaseView) {
 	}
 	
 	FileView.prototype.errorHandler = function(e) {
-		var msg = 'Unknown Error' + e.name;
-		console.log('Error: ' + msg);
+		console.log('Error: ' + e.name + " " + e.message);
 	}
 
 	FileView.prototype.loadData = function() {
@@ -147,6 +146,7 @@ define(["baseView"], function(BaseView) {
 				var reader = new FileReader();
 
 				reader.onloadend = function(e) {
+					self.showCanvas();
 					transectApp.loader.loadData(this.result);
 				};
 
@@ -156,8 +156,11 @@ define(["baseView"], function(BaseView) {
 		}, self.errorHandler.bind(self));
 	}
 
-
-
+	FileView.prototype.showCanvas = function() {
+		$("#canvas").removeClass('hide');
+		$("#file-system-panel").addClass('hide');
+		$("a[href='#file-system']").parent().removeClass('active');
+	}
 
 	return FileView;
 });

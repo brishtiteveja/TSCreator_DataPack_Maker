@@ -44,6 +44,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 
 		// listen to the change in name attribute
 		this.listenTo(this.polygon, 'change:name', this.updatePolygonView.bind(this));
+		this.listenTo(this.polygon, 'change:description', this.updatePolygonView.bind(this));
 		this.listenTo(this.polygon, 'change:patternName', this.updatePolygonView.bind(this));
 
 		/* listen to the changes in the points and re-render the lines. That is 
@@ -94,6 +95,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 		this.$polygonForm = this.$(".polygon-form"); 
 		this.$polygonData = this.$(".polygon-data");
 		this.$polygonName = this.$('input[name="polygon-name"]')[0];
+		this.$polygonDescription = this.$('textarea[name="polygon-description"]')[0];
 		this.$linesList = this.$('.lines-list');
 		this.$pointsList = this.$('.points-list');
 		this.$patternsList = this.$('.patterns-list');
@@ -209,6 +211,9 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 		this.element.toFront(); // move the current polygon to the top.
 		transectApp.LinesSet.toFront(); // move the lines to the top
 		transectApp.PointsSet.toFront(); // move the points to the top
+		transectApp.TextsSet.toFront();
+		transectApp.MarkersSet.toFront();
+		transectApp.WellsSet.toFront();
 	}
 
 
@@ -352,7 +357,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 	PolygonView.prototype.renderTooltip = function() {
 		$(this.element.node).qtip({
 			content: {
-				text: this.polygon.get('name') + "【" + this.polygon.get('patternName') + "】"
+				text: this.polygon.get('name') + "【" + this.polygon.get('patternName') + "】<br>" +( this.polygon.get('description') || "No description yet!")
 			},
 			position: {
 				my: 'bottom left', // Position my top left...
@@ -415,13 +420,13 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 
 	PolygonView.prototype.updatePolygon = function(evt) {
 
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
 			this.togglePolygonForm();
 		}
 
-		var name = this.$polygonName.value;
 		this.polygon.set({
-			name: name
+			name: this.$polygonName.value,
+			description: this.$polygonDescription.value
 		});
 	}
 

@@ -85,7 +85,7 @@ define(["baseView"], function(BaseView) {
 
 	ZoneView.prototype.updateZone = function(evt) {
 
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
 			this.toggleZoneForm();
 		}
 

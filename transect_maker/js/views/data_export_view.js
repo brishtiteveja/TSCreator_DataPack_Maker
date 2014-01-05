@@ -42,7 +42,7 @@ define(["baseView"], function(BaseView) {
 		this.renderWellsData();
 		this.renderTransectsData();
 		this.renderDataInText();
-		this.renderDataInJSON();
+		// this.renderDataInJSON();
 	}
 
 	DataExportView.prototype.isAgeSet = function() {

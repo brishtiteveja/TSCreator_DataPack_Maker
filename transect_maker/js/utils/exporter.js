@@ -97,6 +97,15 @@ define([
 		this.initialize();
 		this.processData();
 		this.sortData();
+		this.processTexts();
+	}
+
+	Exporter.prototype.processTexts = function() {
+		var self = this;
+		self.texts.each(function(text) {
+			var transectId = text.get('transect').id;
+			self.transectsData[transectId].texts.add(text);
+		});
 	}
 
 	Exporter.prototype.sortData = function() {
@@ -104,7 +113,7 @@ define([
 
 		for (var id in self.transectsData) {
 			self.sortTransectsData(self.transectsData[id]);
-		}
+		}	
 
 		for (var id in self.wellsData) {
 			self.sortWellsData(self.wellsData[id]);
@@ -511,6 +520,7 @@ define([
 		outputText += self.getTransectMatrixText(transectId);
 		// transect polygons list
 		outputText += self.getTransectPolygonsListText(transectId);
+		outputText += self.getTextLabelsOutput(transectId);
 
 		return outputText;
 	}
@@ -550,6 +560,7 @@ define([
 			outputText += "\n";
 			outputText += "POLYGON\t";
 			outputText += "pattern: " + (polygon.get('patternName') || "None") + "\t";
+			outputText += (polygon.get('description') || "\t");
 
 			var lines = polygon.get('lines');
 			var points = polygon.get('points');
@@ -588,9 +599,27 @@ define([
 			outputText += (well.referencePoints[i].pattern || "None") + "\t";
 			outputText += (well.referencePoints[i].name || "") + "\t";
 			outputText += well.referencePoints[i].point.get('age') + "\t";
+			outputText += "CALIBRATION = " + Math.round((well.referencePoints[i].point.get('relativeY')*1000))/10 + "\t";
 		}
 		return outputText;
 	}
+
+	Exporter.prototype.getTextLabelsOutput = function(transectId) {
+		var output = "";
+		var texts = this.transectsData[transectId].texts;
+		texts.each(function(text) {
+			var bBox = text.get('bBox');
+			var textData = text.get('text').split('\n').join('');
+			var fontFamily = text.get('settings').get('fontFamily').split(",")[0];
+			output += "\n";
+			output += "TEXT\t" + bBox.y1 + "\t" + bBox.x1;
+			output += "\t" + textData;
+			output += "\tfont-family: " + fontFamily + "; font-size: " + text.get('settings').get('fontSize') + ";";
+			output += "\t" + bBox.y2 + "\t" + bBox.x2;
+		});
+		return output;
+	}
+
 
 	Exporter.prototype.getJSON = function() {
 		var json = {};

@@ -36,16 +36,12 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 	};
 
 	TransectMarkersView.prototype.renderMarkers = function() {
-		if(this.set === undefined) {
-			this.set = transectApp.Canvas.set();
-		}
 		this.transectMarkers.each(this.addMarker.bind(this));
 	};
 
 	TransectMarkersView.prototype.addMarker = function(marker) {
 		var transectMarkerView = new TransectMarkerView(marker, this);
 		this.$markersTable.append(transectMarkerView.el);
-		this.set.push(transectMarkerView.element);
 		this.updateZones();
 		transectApp.PointsCollection.updatePoints();
 		transectApp.TransectTextsCollection.updateTransectTexts();

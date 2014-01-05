@@ -53,8 +53,8 @@ define([
 
 		transectApp.CurrentPolygon = null;
 		
-		this.x = 10;
-		this.y = 10;
+		this.x = 0;
+		this.y = 0;
 		this.width = 2000;
 		this.height = 2000;
 
@@ -73,6 +73,9 @@ define([
 		transectApp.loader = new Loader();
 		transectApp.exporter = new Exporter();
 		
+		transectApp.TextsSet = transectApp.Canvas.set();
+		transectApp.MarkersSet = transectApp.Canvas.set();
+		transectApp.WellsSet = transectApp.Canvas.set();
 		transectApp.PointsSet = transectApp.Canvas.set();
 		transectApp.LinesSet = transectApp.Canvas.set();
 		transectApp.PolygonsSet = transectApp.Canvas.set();
@@ -85,7 +88,7 @@ define([
 	};
 
 	TransectAppView.prototype.showCanvas = function() {
-		this.$(canvas).removeClass('hide');
+		this.$canvas.removeClass('hide');
 		this.$introScreen.addClass('hide');
 	}
 
@@ -143,6 +146,7 @@ define([
 	}
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
+		this.showCanvas();
 		transectApp.loader.loadFromLocalStorage();
 	}
 
@@ -156,6 +160,7 @@ define([
 
 
 	TransectAppView.prototype.dataDrop = function(evt) {
+		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
     	evt.preventDefault();
@@ -164,6 +169,7 @@ define([
     	if (file.type === "application/json") {
 	    	var reader = new FileReader();
 			reader.onloadend = function(e) {
+				self.showCanvas();
 				transectApp.loader.loadData(this.result);
 			};
 	    	reader.readAsText(file);	

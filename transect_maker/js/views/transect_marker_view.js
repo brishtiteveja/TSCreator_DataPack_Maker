@@ -69,6 +69,7 @@ define(["baseView"], function(BaseView) {
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 			this.renderTooltip();
 			this.element.toFront();
+			transectApp.MarkersSet.push(this.element);
 		}
 		this.element.attr({'path': this.getPath()});
 		transectApp.PointsCollection.updatePoints();

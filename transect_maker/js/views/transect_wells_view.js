@@ -40,16 +40,12 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 	}
 
 	TransectWellsView.prototype.renderWells = function() {
-		if (this.set === undefined) {
-			this.set = transectApp.Canvas.set();
-		}
 		this.transectWells.each(this.addWell.bind(this));
 	};
 
 	TransectWellsView.prototype.addWell = function(well) {
 		var transectWellView = new TransectWellView(well, this);
 		this.$wellsTable.append(transectWellView.el);
-		this.set.push(transectWellView.element);
 		this.updateTransects();
 		transectApp.PointsCollection.updatePoints();
 		transectApp.TransectTextsCollection.updateTransectTexts();
