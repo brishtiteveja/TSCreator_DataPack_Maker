@@ -92,20 +92,23 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 		// create project directory
 		var self = this;
 		var dirName =	"transect-" + self.getTimeStamp();
-		this.newDir(this.fileSystem.get('fs').root, dirName, function(dirEntry) {
-			var jsonFile = "transect.json";
-			var textFile = "transect.txt";
-			var json = transectApp.exporter.getJSON();
-			var text = transectApp.exporter.getText();
+		self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function(dirEntry) {
+			self.newDir(dirEntry, dirName, function(dirEntry) {
+				var jsonFile = "transect.json";
+				var textFile = "transect.txt";
+				var json = transectApp.exporter.getJSON();
+				var text = transectApp.exporter.getText();
 
-			self.newFile(dirEntry, jsonFile, function(fileEntry){
-				self.writeJSONToAFile(fileEntry, json);
-			});
+				self.newFile(dirEntry, jsonFile, function(fileEntry){
+					self.writeJSONToAFile(fileEntry, json);
+				});
 
-			self.newFile(dirEntry, textFile, function(fileEntry){
-				self.writeTextToAFile(fileEntry, text);
+				self.newFile(dirEntry, textFile, function(fileEntry){
+					self.writeTextToAFile(fileEntry, text);
+				});
 			});
-		});
+		}, self.errorHandler.bind(self));	
+
 	}
 
 	FilesView.prototype.writeJSONToAFile = function(fileEntry, content) {
