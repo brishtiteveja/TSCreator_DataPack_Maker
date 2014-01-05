@@ -9,6 +9,8 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		this.markers = transectApp.TransectMarkersCollection;
 		this.wells = transectApp.TransectWellsCollection;
 		this.texts = transectApp.TransectTextsCollection;
+		this.points = transectApp.PointsCollection;
+		this.lines = transectApp.LinesCollection;
 	}
 
 	Loader.prototype.loadFromLocalStorage = function() {
@@ -29,6 +31,8 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		this.markers.reset();
 		this.wells.reset();
 		this.texts.reset();
+		this.points.reset();
+		this.lines.reset();
 	}
 
 	Loader.prototype.load = function() {
@@ -37,6 +41,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		this.loadWellsAndTransects();
 		this.loadPolygons();
 		this.loadTexts();
+		this.updateLines();
 	}
 
 	Loader.prototype.loadImage = function() {
@@ -89,7 +94,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		var polygon = self.polygons.findWhere({name: polygonData.name, patternName: polygonData.patternName}) || new Polygon({name: polygonData.name});
 		this.polygons.add(polygon);
 		polygonData.points.forEach(function(pointData) {
-			var point = polygon.get('points').findWhere(pointData) || new Point(pointData);
+			var point = self.points.findWhere({x: pointData.x, y: pointData.y}) || new Point({x: pointData.x, y: pointData.y});
 			polygon.get('points').add(point);
 		});
 		polygon.set({patternName: polygonData.patternName}); // we do this after so that the pattern show up by default.
@@ -102,6 +107,21 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 			self.texts.add(transectText);
 			transectText.get('settings').set(text.settings);
 		})
+	}
+
+	Loader.prototype.updateLines = function() {
+		var self = this;
+		self.savedData.lines.forEach(function(line) {
+			var point1 = self.points.findWhere({x: line.point1.x, y: line.point1.y});
+			var point2 = self.points.findWhere({x: line.point2.x, y: line.point2.y});
+			var ln = self.lines.findWhere({point1: point1, point2: point2});
+			if (ln) {
+				ln.set({
+					name: line.name,
+					pattern: line.pattern
+				});	
+			}
+		});
 	}
 
 	return Loader;

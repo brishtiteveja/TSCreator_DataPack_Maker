@@ -634,6 +634,8 @@ define([
 		json["polygons"] = this.polygons.toJSON();
 		json["texts"] = this.texts.toJSON();
 		json["image"] = this.transectImage.toJSON();
+		json["points"] = transectApp.PointsCollection.toJSON();
+		json["lines"] = transectApp.LinesCollection.toJSON();
 		return JSON.stringify(json);
 	}
 

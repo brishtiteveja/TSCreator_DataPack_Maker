@@ -7,6 +7,7 @@ define(["baseView"], function(BaseView) {
 		tagName: 'li',
 		classname: "LineView",
 		events: {
+			'click .line-name': 'toggleLineForm',
 			'click .line-data': 'toggleLineForm',
 			'keypress :input': 'updateLine',
 			'keyup :input': 'updateLine',
