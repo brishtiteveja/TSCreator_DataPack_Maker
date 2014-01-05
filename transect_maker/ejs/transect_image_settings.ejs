@@ -1,4 +1,11 @@
 <div class="row">
+	<% if (visible) { %>
+		<input type="checkbox" name="image-visible" checked><label>Show Image</label>
+	<% } else { %>
+		<input type="checkbox" name="image-visible"><label>Show Image</label>
+	<% } %>
+</div>
+<div class="row">
 	<% if (preserveAspectRatio) { %>
 		<input type="checkbox" name="preserve-aspect-ratio" checked><label>Preserve Aspect Ratio</label>
 	<% } else { %>

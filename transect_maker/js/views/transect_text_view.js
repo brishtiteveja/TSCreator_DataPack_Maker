@@ -2,7 +2,7 @@
 =            TransectTextView            =
 ========================================*/
 
-define(["baseView", "point"], function(BaseView, Point) {
+define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 	var TransectTextView = BaseView.extend({
 		tagName: 'li',
 		classname: "TransectTextView",
@@ -78,27 +78,23 @@ define(["baseView", "point"], function(BaseView, Point) {
 				"r": "2px",
 			});
 
-			this.backgroundBox.attr({
-				"fill": "#fff",
-				"fill-opacity": 1,
-				"r": "2px",
-			});
-
 			this.boundingBox.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.boundingBox.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 		}
-
-		this.element.attr({
-			"font-size": this.transectText.get('settings').get('fontSize'),
-			"font-family": this.transectText.get('settings').get('fontFamily'),
-			"fill": this.transectText.get('settings').get('fill'),
-		});
 		
-
 		this.element.attr({
 			"text": this.transectText.get('text'),
 			"x": this.transectText.get('x'),
 			"y": this.transectText.get('y'),
+			"font-size": this.transectText.get('settings').get('fontSize'),
+			"font-family": this.transectText.get('settings').get('fontFamily'),
+			"fill": this.transectText.get('settings').get('fill'),
+		});
+
+		this.backgroundBox.attr({
+			"fill": this.isWithinBounds() ? "#fff" : "#ff0000",
+			"fill-opacity": 1,
+			"r": "2px",
 		});
 
 		this.backgroundBox.attr({
@@ -186,7 +182,7 @@ define(["baseView", "point"], function(BaseView, Point) {
 	TransectTextView.prototype.onMouseOut = function() {
 		this.transectTextsView.delegateEvents();
 		this.backgroundBox.attr({
-			"fill": "fff"
+			"fill": this.isWithinBounds() ? "#fff" : "#ff0000",
 		});
 		this.$el.removeClass('hover');
 	};
@@ -231,6 +227,16 @@ define(["baseView", "point"], function(BaseView, Point) {
 			fontFamily: fontFamily,
 		})
 	};
+
+	TransectTextView.prototype.isWithinBounds = function() {
+		var transectBox = this.transectText.get('transect').getPolyKPointsArray();
+		var zoneBox = this.transectText.get('zone').getPolyKPointsArray();
+		var bBox = this.element.getBBox();
+		return (PolyK.ContainsPoint(transectBox, bBox.x, bBox.y) && 
+			PolyK.ContainsPoint(transectBox, bBox.x2, bBox.y2) && 
+			PolyK.ContainsPoint(zoneBox, bBox.x, bBox.y) && 
+			PolyK.ContainsPoint(zoneBox, bBox.x2, bBox.y2))
+	}
 
 	TransectTextView.prototype.delete = function() {
 		if  (this.backgroundBox !== undefined) this.backgroundBox.remove();

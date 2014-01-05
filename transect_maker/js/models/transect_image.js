@@ -15,6 +15,7 @@ define(["baseModel"], function(BaseModel) {
 				origHeight: "origHeight" in attributes ? attributes.origHeight : null,
 				angle: "angle" in attributes ? attributes.angle : 0,
 				preserveAspectRatio: "preserveAspectRatio" in attributes ? attributes.preserveAspectRatio : true,
+				visible: "visible" in attributes ? attributes.visible : true,
 				data: "data" in attributes ? attributes.data : null
 			}];
 			BaseModel.apply(this, attrs);

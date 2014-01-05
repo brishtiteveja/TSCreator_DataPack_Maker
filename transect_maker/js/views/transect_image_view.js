@@ -11,6 +11,7 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 			'change input[name="width"]': 'updateImageWidth',
 			'change input[name="height"]': 'updateImageHeight',
 			'change input[name="preserve-aspect-ratio"]': 'updateImage',
+			'change input[name="image-visible"]': 'updateImage',
 			'change input[name="angle"]': 'updateImage',
 			"dragover #image-box": "imageDragover",
 			"drop #image-box": "imageDrop",
@@ -31,6 +32,7 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 		this.$width = this.$('input[name="width"]')[0];
 		this.$height = this.$('input[name="height"]')[0];
 		this.$preserveAspectRatio = this.$('input[name="preserve-aspect-ratio"]')[0];
+		this.$visible = this.$('input[name="image-visible"]')[0];
 		this.$angle = this.$('input[name="angle"]')[0];
 	};
 
@@ -45,7 +47,8 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 			x: this.transectImage.get('x'),
 			y: this.transectImage.get('y'),
 			width: this.transectImage.get('width'),
-			height: this.transectImage.get('height')
+			height: this.transectImage.get('height'),
+			opacity: this.transectImage.get('visible') ? 1 : 0,
 		});
 
 		if(this.transectImage.get("origHeight") == null || this.transectImage.get("origWidth") == null) {
@@ -107,6 +110,7 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 			height: parseInt(this.$height.value),
 			angle: parseFloat(this.$angle.value),
 			preserveAspectRatio: this.$preserveAspectRatio.checked,
+			visible: this.$visible.checked,
 		});
 	}
 

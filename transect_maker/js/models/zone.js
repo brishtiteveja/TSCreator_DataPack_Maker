@@ -50,6 +50,14 @@ define(["baseModel"], function(BaseModel) {
 		return null;
 	}
 
+	Zone.prototype.getPolyKPointsArray = function() {
+		return ([
+			0, this.get('topMarker').get('y'),
+			0, this.get('baseMarker').get('y'),
+			transectApp.Canvas.width, this.get('baseMarker').get('y'), 
+			transectApp.Canvas.width, this.get('topMarker').get('y')]);
+	}
+
 	return Zone;
 });
 
