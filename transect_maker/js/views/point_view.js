@@ -101,6 +101,7 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.onMouseOver = function() {
+		this.updateStatusBox();
 		this.setEditMode();
 	};
 

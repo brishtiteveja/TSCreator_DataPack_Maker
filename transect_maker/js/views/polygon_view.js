@@ -2,7 +2,7 @@
 =            PolygonView            =
 ===================================*/
 
-define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"], function(BaseView, PointView, LineView, Point, Points, Line, Lines) {
+define(["baseView", "pointView", "lineView", "point", "points", "line", "lines", "polyK"], function(BaseView, PointView, LineView, Point, Points, Line, Lines, PolyK) {
 	var PolygonView = BaseView.extend({
 		tagName: "li",
 		classname: "PolygonView",
@@ -162,9 +162,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 	}
 
 	PolygonView.prototype.isSimple = function(point) {
-		var pointsArray = this.polygon.getPointsArray();
-		pointsArray.push(point.get('x'));
-		pointsArray.push(point.get('y'));
+		var pointsArray = this.polygon.getPolyKPointsArray();
 		return PolyK.IsSimple(pointsArray);
 	}
 
@@ -269,9 +267,6 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines"]
 		if (this.element === undefined) return;
 		var pattern = this.polygon.get("patternName");
 		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
-		this.element.attr({
-			'fill': fill
-		});
 		this.element.attr({
 			'opacity': 0.8,
 			'fill': fill

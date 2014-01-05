@@ -22,6 +22,7 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 
 		/* initialize listeners */
 		this.listenTo(this.transectWells, 'add', this.addWell.bind(this));
+		this.listenTo(this.transectWells, 'remove', this.addWell.bind(this));
 	};
 
 	TransectWellsView.prototype.render = function() {

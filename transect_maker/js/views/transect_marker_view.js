@@ -9,6 +9,7 @@ define(["baseView"], function(BaseView) {
 		events: {
 			'click .toggle': 'toggleMarkerForm',
 			'click .marker-data': 'toggleMarkerForm',
+			'click .destroy': 'destroy',
 			'keypress :input': 'updateMarker',
 			'keyup :input': 'updateMarker',
 			'mouseover': "onMouseOver",
@@ -36,6 +37,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.transectMarker, 'change:age', this.renderMarker.bind(this));
 		this.listenTo(this.transectMarker, 'change:name', this.renderMarker.bind(this));
 		this.listenTo(this.transectMarker, 'change:hover', this.setHoverStatus.bind(this));
+		this.listenTo(this.transectMarker, 'destroy', this.delete.bind(this));
 	};
 
 	/*==========  render the trasect  ==========*/
@@ -175,6 +177,16 @@ define(["baseView"], function(BaseView) {
 			age: age
 		});
 	};
+
+	TransectMarkerView.prototype.delete = function() {
+		if (this.element !== undefined) this.element.remove();
+		this.$el.remove();
+		this.remove();
+	}
+
+	TransectMarkerView.prototype.destroy = function() {
+		this.transectMarker.destroy();
+	}
 
 	return TransectMarkerView;
 });

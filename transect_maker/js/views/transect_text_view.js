@@ -9,6 +9,7 @@ define(["baseView", "point"], function(BaseView, Point) {
 		events: {
 			'click .toggle': 'toggleTextForm',
 			'click .text-data': 'toggleTextForm',
+			'click .destroy': 'destroy',
 			'keypress :input': 'updateText',
 			'keyup :input': 'updateText',
 			'change select[name="text-font-family"]': 'updateText',
@@ -32,6 +33,7 @@ define(["baseView", "point"], function(BaseView, Point) {
 		this.listenTo(this.transectText, 'change:y', this.renderTransectText.bind(this));
 		this.listenTo(this.transectText, 'change:edit', this.editTransectText.bind(this));
 		this.listenTo(this.transectText, 'change:text', this.renderTransectText.bind(this));
+		this.listenTo(this.transectText, 'destroy', this.delete.bind(this));
 		this.listenTo(this.transectText.get('settings'), 'change', this.renderTransectText.bind(this));
 	}
 
@@ -138,13 +140,16 @@ define(["baseView", "point"], function(BaseView, Point) {
 	TransectTextView.prototype.renderTooltip = function() {
 		var content = this.transectText.get('text') + "<br/>";
 		content += this.transectText.get('zone').get('name') + "<br/>";
-		content += this.transectText.get('transect').get('name');
+		content += this.transectText.get('transect').get('name') + "<br/>";
+		content += "Font Family: " + this.transectText.get('settings').get('fontFamily') + "<br/>";
+		content += "Font Size: " + this.transectText.get('settings').get('fontSize') + "<br/>";
+
 		$(this.boundingBox.node).qtip({
 			content: {
 				text: content
 			},
 			position: {
-				my: 'bottom left', // Position my top left...
+				my: 'top left', // Position my top left...
 				target: 'mouse', // my target 
 			}
 		});
@@ -226,6 +231,19 @@ define(["baseView", "point"], function(BaseView, Point) {
 			fontFamily: fontFamily,
 		})
 	};
+
+	TransectTextView.prototype.delete = function() {
+		if  (this.backgroundBox !== undefined) this.backgroundBox.remove();
+		if  (this.element !== undefined) this.element.remove();
+		if  (this.boundingBox !== undefined) this.boundingBox.remove();
+		if  (this.set !== undefined) this.set.remove();
+		this.$el.remove();
+		this.remove();
+	}
+
+	TransectTextView.prototype.destroy = function() {
+		this.transectText.destroy();
+	}
 
 	return TransectTextView;
 });

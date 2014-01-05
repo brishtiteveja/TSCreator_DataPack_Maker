@@ -9,6 +9,7 @@ define(["baseView"], function(BaseView) {
 		events: {
 			'click .toggle': 'toggleWellForm',
 			'click .well-data': 'toggleWellForm',
+			'click .destroy': 'destroy',
 	    	'keypress :input': 'updateWell',
 	    	'keyup :input': 'updateWell',
 			'mouseover': "onMouseOver",
@@ -33,6 +34,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.transectWell, 'change:lat', this.renderWell.bind(this));
 		this.listenTo(this.transectWell, 'change:lon', this.renderWell.bind(this));
 		this.listenTo(this.transectWell, 'change:hover', this.setHoverStatus.bind(this));
+		this.listenTo(this.transectWell, 'destroy', this.delete.bind(this));
 	};
 
 	TransectWellView.prototype.render = function() {
@@ -170,6 +172,16 @@ define(["baseView"], function(BaseView) {
 			lon: lon
 		});
 	};
+
+	TransectWellView.prototype.delete = function() {
+		if (this.element !== undefined) this.element.remove();
+		this.$el.remove();
+		this.remove();
+	}
+
+	TransectWellView.prototype.destroy = function() {
+		this.transectWell.destroy();
+	}
 
 	return TransectWellView;
 });
