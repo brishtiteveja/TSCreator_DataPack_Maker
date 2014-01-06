@@ -37,3 +37,5 @@ transectApp.KEY_Y = 89;
 transectApp.KEY_Z = 90;
 transectApp.ENTER = 13;
 transectApp.ESC = 27;
+transectApp.SHIFT = 16;
+transectApp.CTRL = 17;
