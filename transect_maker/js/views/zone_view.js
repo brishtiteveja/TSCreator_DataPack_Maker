@@ -24,6 +24,9 @@ define(["baseView"], function(BaseView) {
 		this.zone = zone;
 
 		this.listenTo(this.zone, 'change:edit', this.toggleEditStatus.bind(this));
+		this.listenTo(this.zone, 'change:name', this.render.bind(this));
+		this.listenTo(this.zone, 'change:description', this.render.bind(this));
+
 
 		/* render the dom element for the zone in the setting panel */
 		this.render();
@@ -86,15 +89,14 @@ define(["baseView"], function(BaseView) {
 	ZoneView.prototype.updateZone = function(evt) {
 
 		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+			var name = this.$zoneName.value;
+			var description = this.$zoneDescription.value;
+			this.zone.set({
+				name: name,
+				description: description
+			});
 			this.toggleZoneForm();
 		}
-
-		var name = this.$zoneName.value;
-		var description = this.$zoneDescription.value;
-		this.zone.set({
-			name: name,
-			description: description
-		});
 	}
 
 	return ZoneView;

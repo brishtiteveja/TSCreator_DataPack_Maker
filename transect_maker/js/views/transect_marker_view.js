@@ -71,19 +71,20 @@ define(["baseView"], function(BaseView) {
 			/* attach listeners to the element */
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
-			this.renderTooltip();
 			this.element.toFront();
 			this.app.MarkersSet.push(this.element);
 		}
+		this.renderTooltip();
 		this.element.attr({'path': this.getPath()});
 		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	/*==========  render the tooltip for the marker in the canvas  ==========*/
 	TransectMarkerView.prototype.renderTooltip = function() {
+		var age = this.transectMarker.get('age') === null ? '-' : this.transectMarker.get('age');
 		$(this.element.node).qtip({
 			content: {
-				text: this.transectMarker.get('name') + "【" + (this.transectMarker.get('age') || '-') + " myr】"
+				text: this.transectMarker.get('name') + "【" + age + " myr】"
 			},
 			position: {
 				my: 'bottom left', // Position my top left...
@@ -168,7 +169,7 @@ define(["baseView"], function(BaseView) {
 
 	TransectMarkerView.prototype.updateMarker = function(evt) {
 		
-		if (evt.keyCode == transectApp.ENTER || transectApp.ESC) {
+		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
 			this.toggleMarkerForm();
 		}
 

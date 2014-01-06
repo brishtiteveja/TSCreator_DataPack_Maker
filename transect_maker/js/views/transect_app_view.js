@@ -79,23 +79,24 @@ define([
 
 		this.transectApp.CurrentPolygon = null;
 		
-		this.x = 0;
-		this.y = 0;
-		this.width = 2000;
-		this.height = 2000;
+		this.transectApp.x = 0;
+		this.transectApp.y = 0;
+		this.transectApp.width = 2000;
+		this.transectApp.height = 2000;
 
 		this.transectApp.StatusBox = $(".status-box");
 
 		// refer to the important DOM elements.
 
 		this.$introScreen = this.$("#intro-screen");
-		this.$canvas = this.$("#canvas");
+		this.transectApp.$canvas = this.$("#canvas");
+		this.$canvas  = this.transectApp.$canvas;
 		this.$displayPanels = this.$('.display-panel');
 
 		// Initialize the models
 
 		this.transectApp.TransectImage = new TransectImage({});
-		this.transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
+		this.transectApp.Canvas = new Raphael(this.$canvas[0], this.transectApp.x, this.transectApp.y, this.transectApp.width, this.transectApp.height);
 		
 		this.transectApp.TextsSet = this.transectApp.Canvas.set();
 		this.transectApp.MarkersSet = this.transectApp.Canvas.set();
@@ -175,7 +176,7 @@ define([
 
 	TransectAppView.prototype.saveToLocalStorage = function() {
 		this.transectApp.exporter.export();
-		localStorage.this.transectApp = this.transectApp.exporter.getJSON();
+		localStorage.transectApp = this.transectApp.exporter.getJSON();
 	}
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {

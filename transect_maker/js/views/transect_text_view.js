@@ -212,7 +212,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 
 	TransectTextView.prototype.updateText = function(evt) {
 		
-		if (evt.keyCode == this.app.ESC) {
+		if (evt.keyCode == transectApp.ESC) {
 			this.toggleTextForm();
 		}
 

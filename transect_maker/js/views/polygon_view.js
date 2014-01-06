@@ -208,11 +208,11 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		// they are in the back we cannot click them
 		this.app.PolygonsSet.toFront(); // move all the polygons to front
 		this.element.toFront(); // move the current polygon to the top.
+		this.app.MarkersSet.toFront();
+		this.app.WellsSet.toFront();
 		this.app.LinesSet.toFront(); // move the lines to the top
 		this.app.PointsSet.toFront(); // move the points to the top
 		this.app.TextsSet.toFront();
-		this.app.MarkersSet.toFront();
-		this.app.WellsSet.toFront();
 	}
 
 
@@ -260,14 +260,14 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		if (this.element === undefined) return;
 		this.element.attr({
 			'opacity': 0.5,
-			'fill': this.app.renderFill
+			'fill': transectApp.renderFill
 		});
 	}
 
 	PolygonView.prototype.setPolygonFill = function() {
 		if (this.element === undefined) return;
 		var pattern = this.polygon.get("patternName");
-		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : this.app.polygonFill;
+		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
 		this.element.attr({
 			'opacity': 0.8,
 			'fill': fill
@@ -368,10 +368,14 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.glow.remove();	
 		}
 		this.glow = this.element.glow({
-			color: this.app.glowColor,
+			color: transectApp.glowColor,
 			width: 20
 		});	
 		this.glow.show();
+		this.glow.toFront();
+		this.app.LinesSet.toFront(); // move the lines to the top
+		this.app.PointsSet.toFront(); // move the points to the top
+		this.app.TextsSet.toFront();
 		this.$el.addClass('hover');
 	}
 

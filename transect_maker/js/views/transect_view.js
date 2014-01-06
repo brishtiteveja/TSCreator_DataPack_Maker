@@ -23,6 +23,8 @@ define(["baseView"], function(BaseView) {
 
 		/* list to the changes to edit attribute */
 		this.listenTo(this.transect, 'change:edit', this.toggleEditStatus.bind(this));
+		this.listenTo(this.transect, 'change:name', this.render.bind(this));
+		this.listenTo(this.transect, 'change:description', this.render.bind(this));
 
 		/* render the dom element in the settings */
 		this.render();
@@ -43,7 +45,6 @@ define(["baseView"], function(BaseView) {
 	};
 
 	TransectView.prototype.toggleTransectForm = function() {
-		this.render();
 		this.transect.set({
 			'edit': !this.transect.get('edit')
 		});
@@ -89,15 +90,14 @@ define(["baseView"], function(BaseView) {
 	TransectView.prototype.updateTransect = function(evt) {
 
 		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+			var name = this.$name.value;
+			var description = this.$description.value;
+			this.transect.set({
+				name: name,
+				description: description
+			});
 			this.toggleTransectForm();
 		}
-
-		var name = this.$name.value;
-		var description = this.$description.value;
-		this.transect.set({
-			name: name,
-			description: description
-		});
 	}
 
 	return TransectView;

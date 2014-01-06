@@ -73,11 +73,10 @@ define(["baseView"], function(BaseView) {
 			/* attach listeners to the element */
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
-
-			/* render tooltip */
-			this.renderTooltip();
-
 		}
+		
+		/* render tooltip */
+		this.renderTooltip();
 
 		this.element.attr({'path': this.getPath()});
 	};
