@@ -1,5 +1,3 @@
-var transectApp = transectApp || {};
-
 /*=======================================
 =            CursorView            =
 =======================================*/
@@ -16,21 +14,13 @@ define(["baseView", "cursor"], function(BaseView, Cursor) {
 		}
 	});
 
-	CursorView.prototype.initialize = function() {
+	CursorView.prototype.initialize = function(app) {
+		this.app = app;
 		this.cursor = new Cursor();
-		transectApp.Cursor = this.cursor;
+		this.app.Cursor = this.cursor;
 		this.$hLock = this.$('a[href="#lock-cursor-h"]');
 		this.$vLock = this.$('a[href="#lock-cursor-v"]');
 	};
-
-	// CursorView.prototype.togglelock = function(evt) {
-	// 	if (evt.keyCode == transectApp.SHIFT) {
-	// 		this.toggleHlock();
-	// 	}
-	// 	if (evt.keyCode == transectApp.CTRL) {
-	// 		this.toggleVlock();
-	// 	}
-	// }
 
 	CursorView.prototype.toggleHlock = function() {
 		this.$hLock.parent().toggleClass("active");

@@ -20,7 +20,8 @@ define(["baseView"], function(BaseView) {
 	LineView.prototype.template = new EJS({url: '../../../transect_maker/ejs/line.ejs'});
 
 
-	LineView.prototype.initialize = function(line) {
+	LineView.prototype.initialize = function(app, line) {
+		this.app = app;
 		this.line = line;
 		this.listenTo(this.line, 'destroy', this.removeElement.bind(this));
 		this.listenTo(this.line, 'change:edit', this.toggleEditStatus.bind(this));
@@ -50,8 +51,8 @@ define(["baseView"], function(BaseView) {
 
 	LineView.prototype.renderLine = function() {
 		if (this.element === undefined) {
-			this.element = transectApp.Canvas.path();
-			transectApp.LinesSet.push(this.element);
+			this.element = this.app.Canvas.path();
+			this.app.LinesSet.push(this.element);
 		}
 		var path = "M" + this.line.get("point1").get('x') + "," + this.line.get("point1").get('y');
 		path += this.line.getPath();

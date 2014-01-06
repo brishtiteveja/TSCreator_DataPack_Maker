@@ -16,7 +16,8 @@ define(["baseView"], function(BaseView) {
 	PointView.prototype.template = new EJS({url: '/transect_maker/ejs/point.ejs'});
 	PointView.prototype.statusBoxTemplate = new EJS({url: '/transect_maker/ejs/status_box.ejs'});
 
-	PointView.prototype.initialize = function(point) {
+	PointView.prototype.initialize = function(app, point) {
+		this.app = app;
 		this.point = point;
 		this.render();
 		this.listenTo(this.point, 'destroy', this.removeElement.bind(this));
@@ -38,9 +39,9 @@ define(["baseView"], function(BaseView) {
 
 	PointView.prototype.renderPoint = function() {
 		if (this.element === undefined) {
-			this.element = transectApp.Canvas.circle(this.point.get('x'), this.point.get('y'), 4);
+			this.element = this.app.Canvas.circle(this.point.get('x'), this.point.get('y'), 4);
 			
-			transectApp.PointsSet.push(this.element);
+			this.app.PointsSet.push(this.element);
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.click(this.onClick.bind(this));
 			this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
@@ -79,7 +80,7 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.updateStatusBox = function() {
-		transectApp.StatusBox.html(this.statusBoxTemplate.render(this.point.toStatusJSON()));
+		this.app.StatusBox.html(this.statusBoxTemplate.render(this.point.toStatusJSON()));
 	}
 
 	PointView.prototype.setFinishedMode = function() {
@@ -110,8 +111,8 @@ define(["baseView"], function(BaseView) {
 	};
 
 	PointView.prototype.onClick = function() {
-		if (transectApp.CurrentPolygon !== null && transectApp.CurrentPolygon.get('draw')) {
-			transectApp.CurrentPolygon.get('points').add(this.point);
+		if (this.app.CurrentPolygon !== null && this.app.CurrentPolygon.get('draw')) {
+			this.app.CurrentPolygon.get('points').add(this.point);
 		}
 	}
 
@@ -123,18 +124,18 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.onDragMove = function(dx, dy, x, y, evt) {
-		var transect = transectApp.TransectsCollection.getTransectForX(evt.offsetX);
-		var zone = transectApp.ZonesCollection.getZoneForY(evt.offsetY);
+		var transect = this.app.TransectsCollection.getTransectForX(evt.offsetX);
+		var zone = this.app.ZonesCollection.getZoneForY(evt.offsetY);
 		if (transect !== null && zone !== null) {
 
 			var locationX = evt.offsetX;
 			var locationY = evt.offsetY;
 
-			if (transectApp.Cursor.get('lockH')) {
+			if (this.app.Cursor.get('lockH')) {
 				locationY = this.point.get('y');
 			}
 			
-			if (transectApp.Cursor.get('lockV')) {
+			if (this.app.Cursor.get('lockV')) {
 				locationX = this.point.get('x');
 			}
 

@@ -5,7 +5,7 @@
 define(["baseModel"], function(BaseModel) {
 	var Point = BaseModel.extend({
 		classname: "Point",
-		constructor: function(attributes, options) {
+		constructor: function(attributes, app) {
 			var attrs = [{
 				edit: false,
 				name: attributes.name || _.uniqueId("X"),
@@ -16,18 +16,19 @@ define(["baseModel"], function(BaseModel) {
 				relativeY: null,
 				transect: null,
 				zone: null,
+				app: app
 			}];
 			BaseModel.apply(this, attrs);
 		}
 	});
 
-	Point.prototype.initialize = function() {
+	Point.prototype.initialize = function(attributes, app) {
 		this.updateTransectAndZone();
 	};
 
 	Point.prototype.updateTransectAndZone = function() {
-		var zone = transectApp.ZonesCollection.getZoneForY(this.get('y'));
-		var transect = transectApp.TransectsCollection.getTransectForX(this.get('x'));
+		var zone = this.get('app').ZonesCollection.getZoneForY(this.get('y'));
+		var transect = this.get('app').TransectsCollection.getTransectForX(this.get('x'));
 		if (zone !== null && transect !== null) {
 			this.set({
 				transect: transect,
@@ -49,6 +50,7 @@ define(["baseModel"], function(BaseModel) {
 		var json = _.clone(this.attributes);
 		delete json["transect"];
 		delete json["zone"];
+		delete json["app"];
 		return json;
 	}
 

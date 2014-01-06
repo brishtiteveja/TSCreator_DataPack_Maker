@@ -19,7 +19,8 @@ define(["baseView"], function(BaseView) {
 
 	TransectWellView.prototype.template = new EJS({url: '../../../transect_maker/ejs/transect_well.ejs'});
 
-	TransectWellView.prototype.initialize = function(transectWell, transectWellsView) {
+	TransectWellView.prototype.initialize = function(app, transectWell, transectWellsView) {
+		this.app = app;
 		/* initialize the view with the well instance the wells view */
 		this.transectWell = transectWell;
 		this.transectWellsView = transectWellsView;
@@ -55,19 +56,19 @@ define(["baseView"], function(BaseView) {
 		this.renderWell();
 
 		
-		transectApp.PointsCollection.updatePoints();
-		transectApp.TransectTextsCollection.updateTransectTexts();
+		this.app.PointsCollection.updatePoints();
+		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectWellView.prototype.renderWell = function() {
 		if (this.element === undefined) {
-			this.element = transectApp.Canvas.path();
+			this.element = this.app.Canvas.path();
 			this.element.attr({
 				"stroke-width": 2,
 				"stroke": "#900000"
 			});
 
-			transectApp.WellsSet.push(this.element);
+			this.app.WellsSet.push(this.element);
 
 			/* attach listeners to the element */
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
@@ -95,7 +96,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	TransectWellView.prototype.getPath = function() {
-		return "M" + this.transectWell.get('x') + ",0" + 'V' + transectApp.Canvas.height;
+		return "M" + this.transectWell.get('x') + ",0" + 'V' + this.app.Canvas.height;
 	};
 
 	TransectWellView.prototype.dragStart = function(x, y, evt) {};
@@ -109,8 +110,8 @@ define(["baseView"], function(BaseView) {
 	/*==========  when drag ends update the points and texts  ==========*/
 	
 	TransectWellView.prototype.dragEnd = function(evt) {
-		transectApp.PointsCollection.updatePoints();
-		transectApp.TransectTextsCollection.updateTransectTexts();
+		this.app.PointsCollection.updatePoints();
+		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectWellView.prototype.onMouseOver = function() {

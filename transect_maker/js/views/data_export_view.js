@@ -15,16 +15,17 @@ define(["baseView"], function(BaseView) {
 	DataExportView.prototype.transectWellDataTemplate = new EJS({url: '/transect_maker/ejs/wells_data.ejs'});
 	DataExportView.prototype.transectDataLayout = new EJS({url: '/transect_maker/ejs/transect_data_layout.ejs'});
 
-	DataExportView.prototype.initialize = function() {
-		this.markers = transectApp.TransectMarkersCollection;
-		this.polygons = transectApp.PolygonsCollection;
+	DataExportView.prototype.initialize = function(app) {
+		this.app = app;
+		this.markers = this.app.TransectMarkersCollection;
+		this.polygons = this.app.PolygonsCollection;
 		this.render();
 		this.$canvas = $("#canvas");
 	}
 
 	DataExportView.prototype.render = function() {
-		this.exporter = transectApp.exporter;
-		this.transects = transectApp.TransectsCollection;
+		this.exporter = this.app.exporter;
+		this.transects = this.app.TransectsCollection;
 		this.$el.html(this.template.render({transects: this.transects.toJSON()}));
 
 		this.$transectData = this.$(".transect-data");

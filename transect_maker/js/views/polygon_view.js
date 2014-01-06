@@ -25,12 +25,13 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	/*==========  initialize the polygon view.  ==========*/
 
-	PolygonView.prototype.initialize = function(polygon) {
+	PolygonView.prototype.initialize = function(app, polygon) {
+		this.app = app;
 		this.polygon = polygon;
 
 		// create raphael sets to store points and lines 
-		this.pointsSet = transectApp.Canvas.set();
-		this.linesSet = transectApp.Canvas.set();
+		this.pointsSet = this.app.Canvas.set();
+		this.linesSet = this.app.Canvas.set();
 
 		// render 
 		this.render();
@@ -149,7 +150,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	PolygonView.prototype.addPointToPolygon = function(point) {
 
-		var pointView = new PointView(point);
+		var pointView = new PointView(this.app, point);
 		this.$pointsList.append(pointView.el);
 		this.pointsSet.push(pointView.element);
 
@@ -157,7 +158,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		if (this.polygon.get('points').length > 1) {
 			this.resetLines();
 		}
-		transectApp.PointsCollection.add(point);
+		this.app.PointsCollection.add(point);
 		this.updateCanvasDimensions(point);
 	}
 
@@ -167,7 +168,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	}
 
 	PolygonView.prototype.updateCanvasDimensions = function(point) {
-		transectApp.Canvas.setSize(Math.max(transectApp.Canvas.width, point.get('x')), Math.max(transectApp.Canvas.height, point.get('y') + 100));
+		this.app.Canvas.setSize(Math.max(this.app.Canvas.width, point.get('x')), Math.max(this.app.Canvas.height, point.get('y') + 100));
 	}
 
 	/* Reset the lines, i.e. delete all the lines that are currently in 
@@ -179,7 +180,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		// delete the last line in the old polygon and add a new line
 		var point1 = this.polygon.get('points').at(this.polygon.get('points').length - 2);
 		var point2 = this.polygon.get('points').first();
-		var line = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1});
+		var line = this.app.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || this.app.LinesCollection.findWhere({'point1': point2, 'point2': point1});
 
 		if (line !== undefined && line.get('polygons').length  < 2) {
 			line.destroy();
@@ -187,12 +188,12 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 		point1 = this.polygon.get('points').at(this.polygon.get('points').length - 2);
 		point2 = this.polygon.get('points').last();
-		var line1 = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
+		var line1 = this.app.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || this.app.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
 		line1.get('polygons').add(this.polygon)
 
 		point1 = this.polygon.get('points').last();
 		point2 = this.polygon.get('points').first();
-		var line2 = transectApp.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || transectApp.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
+		var line2 = this.app.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || this.app.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
 		line2.get('polygons').add(this.polygon)
 
 		this.polygon.get('lines').add([line1, line2]);
@@ -205,21 +206,21 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	PolygonView.prototype.bringToFront = function() {
 		// bring points to front so that we can use them again because if
 		// they are in the back we cannot click them
-		transectApp.PolygonsSet.toFront(); // move all the polygons to front
+		this.app.PolygonsSet.toFront(); // move all the polygons to front
 		this.element.toFront(); // move the current polygon to the top.
-		transectApp.LinesSet.toFront(); // move the lines to the top
-		transectApp.PointsSet.toFront(); // move the points to the top
-		transectApp.TextsSet.toFront();
-		transectApp.MarkersSet.toFront();
-		transectApp.WellsSet.toFront();
+		this.app.LinesSet.toFront(); // move the lines to the top
+		this.app.PointsSet.toFront(); // move the points to the top
+		this.app.TextsSet.toFront();
+		this.app.MarkersSet.toFront();
+		this.app.WellsSet.toFront();
 	}
 
 
 	/* This function listen to the polygons collection and is
 	executed when a new line model is added. */
 	PolygonView.prototype.addLineToPolygon = function(line) {
-		transectApp.LinesCollection.add(line);
-		var lineView = new LineView(line);
+		this.app.LinesCollection.add(line);
+		var lineView = new LineView(this.app, line);
 		this.linesSet.push(lineView.element);
 		this.$linesList.append(lineView.el);
 	}
@@ -237,15 +238,15 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		if (!this.polygon.get('draw')) {return;}
 		var locationX = evt.offsetX;
 		var locationY = evt.offsetY;
-		if (this.polygon.get('points').length > 0 && transectApp.Cursor.get('lockH')) {
+		if (this.polygon.get('points').length > 0 && this.app.Cursor.get('lockH')) {
 			locationY = this.polygon.get('points').last().get('y');
 		}
 		
-		if (this.polygon.get('points').length > 0 && transectApp.Cursor.get('lockV')) {
+		if (this.polygon.get('points').length > 0 && this.app.Cursor.get('lockV')) {
 			locationX = this.polygon.get('points').last().get('x');
 		}
 
-		var point = transectApp.PointsCollection.findWhere({x: locationX, y: locationY}) || new Point({x: locationX, y: locationY});
+		var point = this.app.PointsCollection.findWhere({x: locationX, y: locationY}) || new Point({x: locationX, y: locationY}, this.app);
 		if (point.get('transect') === null || point.get('zone') === null) {
 			point.destroy();
 			return;
@@ -259,14 +260,14 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		if (this.element === undefined) return;
 		this.element.attr({
 			'opacity': 0.5,
-			'fill': transectApp.renderFill
+			'fill': this.app.renderFill
 		});
 	}
 
 	PolygonView.prototype.setPolygonFill = function() {
 		if (this.element === undefined) return;
 		var pattern = this.polygon.get("patternName");
-		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
+		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : this.app.polygonFill;
 		this.element.attr({
 			'opacity': 0.8,
 			'fill': fill
@@ -341,9 +342,9 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		if (this.element !== undefined) {
 			this.element.remove();
 		}
-		this.element = transectApp.Canvas.path(this.getPath());
+		this.element = this.app.Canvas.path(this.getPath());
 		this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
-		transectApp.PolygonsSet.push(this.element);
+		this.app.PolygonsSet.push(this.element);
 		this.renderTooltip();
 		this.setRenderMode();
 		this.bringToFront();
@@ -367,7 +368,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.glow.remove();	
 		}
 		this.glow = this.element.glow({
-			color: transectApp.glowColor,
+			color: this.app.glowColor,
 			width: 20
 		});	
 		this.glow.show();
@@ -383,8 +384,8 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	PolygonView.prototype.moveToBottom = function() {
 		this.element.toBack();
-		if (transectApp.transectImageElement !== undefined) {
-			transectApp.transectImageElement.toBack();
+		if (this.app.transectImageElement !== undefined) {
+			this.app.transectImageElement.toBack();
 		}
 	}
 

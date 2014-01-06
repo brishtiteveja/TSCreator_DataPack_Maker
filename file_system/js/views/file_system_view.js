@@ -27,7 +27,9 @@ define([
 
 	FileSystemView.prototype.template = new EJS({url: "/file_system/ejs/file_system_panel.ejs"});
 
-	FileSystemView.prototype.initialize = function() {
+	FileSystemView.prototype.initialize = function(app) {
+		this.app = app;
+
 		this.$canvas = $("#canvas");
 		var oneGB = 1024*1024*1024;
 		// requesting a file system
@@ -50,7 +52,7 @@ define([
 		var self = this;
 		var path = this.fileSystem.get('path');
 		this.files = new Files();
-		this.filesView = new FilesView(this.files, this.fileSystem);
+		this.filesView = new FilesView(this.files, this.fileSystem, this.app);
 		this.fileSystem.get('fs').root.getDirectory(path, {}, function(dirEntry) {
 			if (dirEntry.isDirectory) {
 				var dirReader = dirEntry.createReader();
@@ -102,7 +104,7 @@ define([
 			$("a[href='#file-system']").parent().addClass('active');
 			this.$el.removeClass('hide');
 			this.$canvas.addClass('hide');
-			transectApp.exporter.export();
+			this.app.exporter.export();
 		}
 	};
 

@@ -10,8 +10,9 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 
 	TransectTextsView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
 
-	TransectTextsView.prototype.initialize = function() {
-		this.transectTexts = transectApp.TransectTextsCollection;
+	TransectTextsView.prototype.initialize = function(app) {
+		this.app = app;
+		this.transectTexts = this.app.TransectTextsCollection;
 		this.enTransectTexts = false;
 
 		this.render();
@@ -29,7 +30,7 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 
 	TransectTextsView.prototype.renderTransectTexts = function() {
 		if (this.set == undefined) {
-			this.set = transectApp.Canvas.set();
+			this.set = this.app.Canvas.set();
 		}
 		this.transectTexts.each(this.addTransectText.bind(this));
 	}
@@ -40,7 +41,7 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 
 	TransectTextsView.prototype.addTransectText = function(transectText) {
 		
-		var transectTextView = new TransectTextView(transectText, this);
+		var transectTextView = new TransectTextView(this.app, transectText, this);
 		this.$textsList.append(transectTextView.el);
 		this.set.push(transectTextView.element);
 	}
@@ -49,7 +50,7 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 		
 		if (this.enTransectTexts) {
 		
-			var transectText = this.transectTexts.findWhere({x: evt.offsetX, y: evt.offsetY}) || new TransectText({x: evt.offsetX, y: evt.offsetY});
+			var transectText = this.transectTexts.findWhere({x: evt.offsetX, y: evt.offsetY}) || new TransectText({x: evt.offsetX, y: evt.offsetY}, this.app);
 			
 			if (transectText.get('transect') === null || transectText.get('zone') === null) {
 				transectText.destroy();

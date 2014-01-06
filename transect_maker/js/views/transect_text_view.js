@@ -23,7 +23,8 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 	/* template for transect text */
 	TransectTextView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_text.ejs'});
 
-	TransectTextView.prototype.initialize = function(transectText, transectTextsView) {
+	TransectTextView.prototype.initialize = function(app, transectText, transectTextsView) {
+		this.app = app;
 		this.transectTextsView = transectTextsView;
 		this.transectText = transectText;
 		this.render();
@@ -60,17 +61,17 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 	}
 
 	TransectTextView.prototype.renderTransectText = function() {
-		this.set = transectApp.Canvas.set();
+		this.set = this.app.Canvas.set();
 		if (this.element === undefined || this.boundingBox === undefined) {
 
-			this.backgroundBox = transectApp.Canvas.rect();
-			this.element = transectApp.Canvas.text();
-			this.boundingBox = transectApp.Canvas.rect();
+			this.backgroundBox = this.app.Canvas.rect();
+			this.element = this.app.Canvas.text();
+			this.boundingBox = this.app.Canvas.rect();
 
 			this.set.push(this.backgroundBox);
 			this.set.push(this.element);
 			this.set.push(this.boundingBox);
-			transectApp.TextsSet.push(this.set);
+			this.app.TextsSet.push(this.set);
 
 			this.boundingBox.attr({
 				"fill": "#f1f1f1",
@@ -157,8 +158,8 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 
 	/*==========  while dragging  ==========*/
 	TransectTextView.prototype.dragMove = function(dx, dy, x, y, evt) {
-		var transect = transectApp.TransectsCollection.getTransectForX(evt.offsetX);
-		var zone = transectApp.ZonesCollection.getZoneForY(evt.offsetY);
+		var transect = this.app.TransectsCollection.getTransectForX(evt.offsetX);
+		var zone = this.app.ZonesCollection.getZoneForY(evt.offsetY);
 		if (transect !== null && zone !== null) {
 			this.transectText.set({
 				x: evt.offsetX,	
@@ -211,7 +212,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 
 	TransectTextView.prototype.updateText = function(evt) {
 		
-		if (evt.keyCode == transectApp.ESC) {
+		if (evt.keyCode == this.app.ESC) {
 			this.toggleTextForm();
 		}
 

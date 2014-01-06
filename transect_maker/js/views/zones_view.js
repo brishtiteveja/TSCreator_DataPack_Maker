@@ -10,9 +10,10 @@ define(["baseView", "zoneView", "zone"], function(BaseView, ZoneView, Zone) {
 
 	ZonesView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
 
-	ZonesView.prototype.initialize = function() {
+	ZonesView.prototype.initialize = function(app) {
+		this.app = app
 		/* initialize the zones view */
-		this.zones = transectApp.ZonesCollection;
+		this.zones = this.app.ZonesCollection;
 
 		/* render the dom for the tables */
 		this.render();

@@ -23,7 +23,8 @@ define(["baseView"], function(BaseView) {
 
 
 	/*==========  Initialize the marker  ==========*/
-	TransectMarkerView.prototype.initialize = function(transectMarker, transectMarkersView) {
+	TransectMarkerView.prototype.initialize = function(app, transectMarker, transectMarkersView) {
+		this.app = app;
 		/* initialize the the view the the marker instance and the collecting view */
 		this.transectMarkersView = transectMarkersView;
 		this.transectMarker = transectMarker;
@@ -54,14 +55,14 @@ define(["baseView"], function(BaseView) {
 		this.editTransectMarker();
 
 		this.renderMarker();
-		transectApp.PointsCollection.updatePoints();
-		transectApp.TransectTextsCollection.updateTransectTexts();
+		this.app.PointsCollection.updatePoints();
+		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	/*==========  render the marker on the canvas  ==========*/
 	TransectMarkerView.prototype.renderMarker = function() {
 		if (this.element === undefined) {
-			this.element = transectApp.Canvas.path();
+			this.element = this.app.Canvas.path();
 			this.element.attr({
 				"stroke-width": 2,
 				"stroke": "#900000"
@@ -72,10 +73,10 @@ define(["baseView"], function(BaseView) {
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 			this.renderTooltip();
 			this.element.toFront();
-			transectApp.MarkersSet.push(this.element);
+			this.app.MarkersSet.push(this.element);
 		}
 		this.element.attr({'path': this.getPath()});
-		transectApp.TransectTextsCollection.updateTransectTexts();
+		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	/*==========  render the tooltip for the marker in the canvas  ==========*/
@@ -93,7 +94,7 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  get path string for the marker  ==========*/
 	TransectMarkerView.prototype.getPath = function() {
-		return "M0," + this.transectMarker.get('y') + 'H' + transectApp.Canvas.width;
+		return "M0," + this.transectMarker.get('y') + 'H' + this.app.Canvas.width;
 	};
 
 	/*==========  start dragging  ==========*/
@@ -108,8 +109,8 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  when dragging is completed update the points and texts relative locations ==========*/
 	TransectMarkerView.prototype.dragEnd = function(evt) {
-		transectApp.PointsCollection.updatePoints();
-		transectApp.TransectTextsCollection.updateTransectTexts();
+		this.app.PointsCollection.updatePoints();
+		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectMarkerView.prototype.onMouseOver = function() {
@@ -167,7 +168,7 @@ define(["baseView"], function(BaseView) {
 
 	TransectMarkerView.prototype.updateMarker = function(evt) {
 		
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == transectApp.ENTER || transectApp.ESC) {
 			this.toggleMarkerForm();
 		}
 

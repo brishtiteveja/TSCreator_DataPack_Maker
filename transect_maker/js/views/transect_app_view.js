@@ -1,8 +1,6 @@
 /*====================================================================
 =            TransectAppView is the basic view for transects            =
 ====================================================================*/
-var transectApp = transectApp || {};
-
 define([
 	"baseView",
 	"cursorView",
@@ -68,23 +66,25 @@ define([
 
 	TransectAppView.prototype.initialize = function() {
 
-		transectApp.TransectsCollection = new Transects();
-		transectApp.TransectTextsCollection = new TransectTexts();
-		transectApp.PolygonsCollection = new Polygons();
-		transectApp.LinesCollection = new Lines();
-		transectApp.PointsCollection = new Points();
-		transectApp.ZonesCollection = new Zones();
-		transectApp.TransectWellsCollection = new TransectWells();
-		transectApp.TransectMarkersCollection = new TransectMarkers();
+		this.transectApp = {};
 
-		transectApp.CurrentPolygon = null;
+		this.transectApp.TransectsCollection = new Transects();
+		this.transectApp.TransectTextsCollection = new TransectTexts();
+		this.transectApp.PolygonsCollection = new Polygons();
+		this.transectApp.LinesCollection = new Lines();
+		this.transectApp.PointsCollection = new Points();
+		this.transectApp.ZonesCollection = new Zones();
+		this.transectApp.TransectWellsCollection = new TransectWells();
+		this.transectApp.TransectMarkersCollection = new TransectMarkers();
+
+		this.transectApp.CurrentPolygon = null;
 		
 		this.x = 0;
 		this.y = 0;
 		this.width = 2000;
 		this.height = 2000;
 
-		transectApp.StatusBox = $(".status-box");
+		this.transectApp.StatusBox = $(".status-box");
 
 		// refer to the important DOM elements.
 
@@ -94,21 +94,19 @@ define([
 
 		// Initialize the models
 
-		transectApp.TransectImage = new TransectImage({});
-		transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
-		transectApp.loader = new Loader();
-		transectApp.exporter = new Exporter();
+		this.transectApp.TransectImage = new TransectImage({});
+		this.transectApp.Canvas = new Raphael(this.$canvas[0], this.width, this.height);
 		
-		transectApp.TextsSet = transectApp.Canvas.set();
-		transectApp.MarkersSet = transectApp.Canvas.set();
-		transectApp.WellsSet = transectApp.Canvas.set();
-		transectApp.PointsSet = transectApp.Canvas.set();
-		transectApp.LinesSet = transectApp.Canvas.set();
-		transectApp.PolygonsSet = transectApp.Canvas.set();
+		this.transectApp.TextsSet = this.transectApp.Canvas.set();
+		this.transectApp.MarkersSet = this.transectApp.Canvas.set();
+		this.transectApp.WellsSet = this.transectApp.Canvas.set();
+		this.transectApp.PointsSet = this.transectApp.Canvas.set();
+		this.transectApp.LinesSet = this.transectApp.Canvas.set();
+		this.transectApp.PolygonsSet = this.transectApp.Canvas.set();
 
-		// Initialize Count
-		transectApp.PolygonCount = 0;
-		transectApp.TextCount = 0;
+
+		this.transectApp.loader = new Loader(this.transectApp);
+		this.transectApp.exporter = new Exporter(this.transectApp);
 		
 		this.render();
 	};
@@ -119,17 +117,26 @@ define([
 	}
 
 	TransectAppView.prototype.render = function() {
-		this.cursorView = new CursorView();
-		this.transectsView = new TransectsView();
-		this.transectMarkersView = new TransectMarkersView();
-		this.transectWellsView = new TransectWellsView();
-		this.transectTextsView = new TransectTextsView();
-		this.zonesView = new ZonesView();
-		this.polygonsView = new PolygonsView();
-		this.dataImportView = new DataImportView();
-		this.dataExportView = new DataExportView();
-		this.transectImageView = new TransectImageView();
-		this.fileSystemView = new FileSystemView();
+		this.dataImportView = new DataImportView(this.transectApp);
+		this.dataExportView = new DataExportView(this.transectApp);
+		this.fileSystemView = new FileSystemView(this.transectApp);
+
+
+		this.cursorView = new CursorView(this.transectApp);
+
+		this.transectImageView = new TransectImageView(this.transectApp);
+
+		this.transectMarkersView = new TransectMarkersView(this.transectApp);
+		this.zonesView = new ZonesView(this.transectApp);
+
+		this.transectWellsView = new TransectWellsView(this.transectApp);
+		this.transectsView = new TransectsView(this.transectApp);
+
+		this.transectTextsView = new TransectTextsView(this.transectApp);
+
+
+
+		this.polygonsView = new PolygonsView(this.transectApp);
 	};
 
 	/**
@@ -167,13 +174,13 @@ define([
 	TransectAppView.prototype.exportCanvasAsImage = function() {}
 
 	TransectAppView.prototype.saveToLocalStorage = function() {
-		transectApp.exporter.export();
-		localStorage.transectApp = transectApp.exporter.getJSON();
+		this.transectApp.exporter.export();
+		localStorage.this.transectApp = this.transectApp.exporter.getJSON();
 	}
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
 		this.showCanvas();
-		transectApp.loader.loadFromLocalStorage();
+		this.transectApp.loader.loadFromLocalStorage();
 	}
 
 
@@ -196,7 +203,7 @@ define([
 	    	var reader = new FileReader();
 			reader.onloadend = function(e) {
 				self.showCanvas();
-				transectApp.loader.loadData(this.result);
+				self.transectApp.loader.loadData(this.result);
 			};
 	    	reader.readAsText(file);	
     	}

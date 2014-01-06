@@ -10,10 +10,11 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 
 	TransectMarkersView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
 
-	TransectMarkersView.prototype.initialize = function() {
+	TransectMarkersView.prototype.initialize = function(app) {
+		this.app = app;
 		/* initialize the transect makers collection */
-		this.transectZones = transectApp.ZonesCollection;
-		this.transectMarkers = transectApp.TransectMarkersCollection;
+		this.transectZones = this.app.ZonesCollection;
+		this.transectMarkers = this.app.TransectMarkersCollection;
 		this.enMarkers = false;
 
 		/* initialize listeners to listen the the changes in markers collection. */
@@ -41,11 +42,11 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 	};
 
 	TransectMarkersView.prototype.addMarker = function(marker) {
-		var transectMarkerView = new TransectMarkerView(marker, this);
+		var transectMarkerView = new TransectMarkerView(this.app, marker, this);
 		this.$markersTable.append(transectMarkerView.el);
 		this.updateZones();
-		transectApp.PointsCollection.updatePoints();
-		transectApp.TransectTextsCollection.updateTransectTexts();
+		this.app.PointsCollection.updatePoints();
+		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectMarkersView.prototype.toggleMarkers = function(evt) {
@@ -65,10 +66,11 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 	};
 
 	TransectMarkersView.prototype.updateZones = function() {
+		var self = this;
 		var zones = [];
 		this.transectMarkers.each(function(marker, index, markers) {
 			if (index > 0) {
-				zones.push(new Zone({name: "Zone " + index}, markers[index - 1], marker));
+				zones.push(new Zone({name: "Zone " + index}, markers[index - 1], marker, self.app));
 			}
 		});
 		this.transectZones.reset(zones);

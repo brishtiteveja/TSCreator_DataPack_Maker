@@ -2,15 +2,16 @@
 =            Loader that loads tsc data into the maker            =
 =================================================================*/
 define(["transectMarker", "transectWell", "polygon", "point", "transectText"], function(TransectMarker, TransectWell, Polygon, Point, TransectText){
-	var Loader = function() {
-		this.polygons = transectApp.PolygonsCollection;
-		this.zones = transectApp.ZonesCollection;
-		this.transects = transectApp.TransectsCollection;
-		this.markers = transectApp.TransectMarkersCollection;
-		this.wells = transectApp.TransectWellsCollection;
-		this.texts = transectApp.TransectTextsCollection;
-		this.points = transectApp.PointsCollection;
-		this.lines = transectApp.LinesCollection;
+	var Loader = function(app) {
+		this.app = app;
+		this.polygons = this.app.PolygonsCollection;
+		this.zones = this.app.ZonesCollection;
+		this.transects = this.app.TransectsCollection;
+		this.markers = this.app.TransectMarkersCollection;
+		this.wells = this.app.TransectWellsCollection;
+		this.texts = this.app.TransectTextsCollection;
+		this.points = this.app.PointsCollection;
+		this.lines = this.app.LinesCollection;
 	}
 
 	Loader.prototype.loadFromLocalStorage = function() {
@@ -45,7 +46,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 	}
 
 	Loader.prototype.loadImage = function() {
-		transectApp.TransectImage.set(this.savedData.image);
+		this.app.TransectImage.set(this.savedData.image);
 	}
 
 	Loader.prototype.loadMarkersAndZones = function() {
@@ -94,7 +95,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		var polygon = self.polygons.findWhere({name: polygonData.name, patternName: polygonData.patternName}) || new Polygon({name: polygonData.name});
 		this.polygons.add(polygon);
 		polygonData.points.forEach(function(pointData) {
-			var point = self.points.findWhere({x: pointData.x, y: pointData.y}) || new Point({x: pointData.x, y: pointData.y});
+			var point = self.points.findWhere({x: pointData.x, y: pointData.y}) || new Point({x: pointData.x, y: pointData.y}, self.app);
 			polygon.get('points').add(point);
 		});
 		polygon.set({patternName: polygonData.patternName}); // we do this after so that the pattern show up by default.
@@ -103,7 +104,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 	Loader.prototype.loadTexts = function() {
 		var self = this;
 		self.savedData.texts.forEach(function(text) {
-			var transectText = self.texts.findWhere({text: text.text, x: text.x, y: text.y}) || new TransectText(text);
+			var transectText = self.texts.findWhere({text: text.text, x: text.x, y: text.y}) || new TransectText(text, self.app);
 			self.texts.add(transectText);
 			transectText.get('settings').set(text.settings);
 		})
