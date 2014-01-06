@@ -10,7 +10,7 @@ define(["baseView", "cursor"], function(BaseView, Cursor) {
 		el: ".main",
 		classname: "CursorView",
 		events: {
-			// "keypress": "togglelock", // Keys 1 == horizontal lock & 2 == vertical lock.
+			"keypress": "togglelock", // Keys 1 == horizontal lock & 2 == vertical lock.
 			'click a[href="#lock-cursor-h"]': "toggleHlock",
 			'click a[href="#lock-cursor-v"]': "toggleVlock"
 		}
@@ -23,14 +23,14 @@ define(["baseView", "cursor"], function(BaseView, Cursor) {
 		this.$vLock = this.$('a[href="#lock-cursor-v"]');
 	};
 
-	// CursorView.prototype.togglelock = function(evt) {
-	// 	if (evt.keyCode == transectApp.SHIFT) {
-	// 		this.toggleHlock();
-	// 	}
-	// 	if (evt.keyCode == transectApp.CTRL) {
-	// 		this.toggleVlock();
-	// 	}
-	// }
+	CursorView.prototype.togglelock = function(evt) {
+		if (evt.keyCode == transectApp.KEY_1) {
+			this.toggleHlock();
+		}
+		if (evt.keyCode == transectApp.KEY_2) {
+			this.toggleVlock();
+		}
+	}
 
 	CursorView.prototype.toggleHlock = function() {
 		this.$hLock.parent().toggleClass("active");
