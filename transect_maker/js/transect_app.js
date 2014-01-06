@@ -93,8 +93,5 @@ requirejs.config({
 
 var transectApp = transectApp || {};
 requirejs(["transectAppView"], function(TransectAppView) {
-
-	$(document).ready(function() {
-		var transectAppView = new TransectAppView();
-	});
+	var transectAppView = new TransectAppView();
 });
