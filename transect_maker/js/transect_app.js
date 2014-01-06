@@ -92,34 +92,7 @@ requirejs.config({
 
 
 var transectApp = transectApp || {};
-requirejs([
-	"transectAppView",
-	"transects",
-	"transectTexts",
-	"polygons",
-	"lines",
-	"points",
-	"zones",
-	"transectWells",
-	"transectMarkers"], function(
-		TransectAppView,
-		Transects,
-		TransectTexts,
-		Polygons,
-		Lines,
-		Points,
-		Zones,
-		TransectWells,
-		TransectMarkers) {
-
-	transectApp.TransectsCollection = new Transects();
-	transectApp.TransectTextsCollection = new TransectTexts();
-	transectApp.PolygonsCollection = new Polygons();
-	transectApp.LinesCollection = new Lines();
-	transectApp.PointsCollection = new Points();
-	transectApp.ZonesCollection = new Zones();
-	transectApp.TransectWellsCollection = new TransectWells();
-	transectApp.TransectMarkersCollection = new TransectMarkers();
+requirejs(["transectAppView"], function(TransectAppView) {
 
 	$(document).ready(function() {
 		var transectAppView = new TransectAppView();

@@ -18,7 +18,15 @@ define([
 	"fileSystemView",
 	"transectImage",
 	"loader",
-	"exporter"
+	"exporter",
+	"transects",
+	"transectTexts",
+	"polygons",
+	"lines",
+	"points",
+	"zones",
+	"transectWells",
+	"transectMarkers"
 	], function(
 		BaseView,
 		CursorView,
@@ -34,7 +42,16 @@ define([
 		FileSystemView,
 		TransectImage,
 		Loader,
-		Exporter) {
+		Exporter,
+		Transects,
+		TransectTexts,
+		Polygons,
+		Lines,
+		Points,
+		Zones,
+		TransectWells,
+		TransectMarkers) {
+
 	var TransectAppView = BaseView.extend({
 		el: ".container",
 		classname: "TransectAppView",
@@ -50,6 +67,15 @@ define([
 	/*==========  Initialize transect view  ==========*/
 
 	TransectAppView.prototype.initialize = function() {
+
+		transectApp.TransectsCollection = new Transects();
+		transectApp.TransectTextsCollection = new TransectTexts();
+		transectApp.PolygonsCollection = new Polygons();
+		transectApp.LinesCollection = new Lines();
+		transectApp.PointsCollection = new Points();
+		transectApp.ZonesCollection = new Zones();
+		transectApp.TransectWellsCollection = new TransectWells();
+		transectApp.TransectMarkersCollection = new TransectMarkers();
 
 		transectApp.CurrentPolygon = null;
 		
