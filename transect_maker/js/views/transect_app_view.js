@@ -96,7 +96,7 @@ define([
 		// Initialize the models
 
 		this.transectApp.TransectImage = new TransectImage({});
-		this.transectApp.Canvas = new Raphael(this.$canvas[0], this.transectApp.x, this.transectApp.y, this.transectApp.width, this.transectApp.height);
+		this.transectApp.Canvas = new Raphael(this.$canvas[0], this.transectApp.width, this.transectApp.height);
 		
 		this.transectApp.TextsSet = this.transectApp.Canvas.set();
 		this.transectApp.MarkersSet = this.transectApp.Canvas.set();
