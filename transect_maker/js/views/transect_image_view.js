@@ -48,6 +48,9 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 	}
 
 	TransectImageView.prototype.renderImage = function() {
+		if (this.element === undefined) {
+			this.element = this.app.Canvas.image(this.transectImage.get('data'));
+		}
 		this.element.toBack();
 		this.app.transectImageElement = this.element;
 		this.element.attr({
