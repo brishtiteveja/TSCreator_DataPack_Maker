@@ -23,7 +23,10 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 		this.app = app;
 		this.transectImage = this.app.TransectImage;
 
-		this.listenTo(this.transectImage, 'change', this.renderImage.bind(this));
+		this.listenTo(this.transectImage, 'change:data', this.renderData.bind(this));
+		this.listenTo(this.transectImage, 'change:width', this.renderImage.bind(this));
+		this.listenTo(this.transectImage, 'change:height', this.renderImage.bind(this));
+		this.listenTo(this.transectImage, 'change:angle', this.renderImage.bind(this));
 		this.render();
 	};
 
@@ -34,11 +37,17 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 		this.$preserveAspectRatio = this.$('input[name="preserve-aspect-ratio"]')[0];
 		this.$visible = this.$('input[name="image-visible"]')[0];
 		this.$angle = this.$('input[name="angle"]')[0];
+		this.renderData();
 	};
 
-	TransectImageView.prototype.renderImage = function() {
+	TransectImageView.prototype.renderData = function() {
 		if (this.transectImage.get("data") === null) return;
+		if (this.element) this.element.remove();
 		this.element = this.app.Canvas.image(this.transectImage.get('data'));
+		this.renderImage();
+	}
+
+	TransectImageView.prototype.renderImage = function() {
 		this.element.toBack();
 		this.app.transectImageElement = this.element;
 		this.element.attr({
