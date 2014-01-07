@@ -16,7 +16,8 @@ define(["baseView"], function(BaseView) {
 
 	FileView.prototype.template = new EJS({url: "/file_system/ejs/file.ejs"});
 
-	FileView.prototype.initialize = function(file, files, fileSystem) {
+	FileView.prototype.initialize = function(file, files, fileSystem, app) {
+		this.app = app;
 		this.fileSystem = fileSystem;
 		this.files = files;
 		this.file = file;
@@ -147,7 +148,7 @@ define(["baseView"], function(BaseView) {
 
 				reader.onloadend = function(e) {
 					self.showCanvas();
-					transectApp.loader.loadData(this.result);
+					self.app.loader.loadData(this.result);
 				};
 
 				reader.readAsText(file);

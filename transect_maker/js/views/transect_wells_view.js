@@ -10,9 +10,10 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 
 	TransectWellsView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
 
-	TransectWellsView.prototype.initialize = function() {
+	TransectWellsView.prototype.initialize = function(app) {
+		this.app = app;
 		/* initialize transect wells collection */
-		this.transectWells = transectApp.TransectWellsCollection;
+		this.transectWells = this.app.TransectWellsCollection;
 		this.enWells = false;
 
 		/* render the transect well */
@@ -45,11 +46,11 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 	};
 
 	TransectWellsView.prototype.addWell = function(well) {
-		var transectWellView = new TransectWellView(well, this);
+		var transectWellView = new TransectWellView(this.app, well, this);
 		this.$wellsTable.append(transectWellView.el);
 		this.updateTransects();
-		transectApp.PointsCollection.updatePoints();
-		transectApp.TransectTextsCollection.updateTransectTexts();
+		this.app.PointsCollection.updatePoints();
+		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectWellsView.prototype.toggleWells = function(evt) {
@@ -73,13 +74,14 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 	};
 
 	TransectWellsView.prototype.updateTransects = function() {
+		var self = this;
 		var transects = [];
 		this.transectWells.each(function(well, index, wells) {
 			if (index > 0) {
-				transects.push(new Transect({name: "Transect " + index}, wells[index - 1], well));
+				transects.push(new Transect({name: "Transect " + index}, wells[index - 1], well, self.app));
 			}
 		});
-		transectApp.TransectsCollection.reset(transects);
+		this.app.TransectsCollection.reset(transects);
 	};
 
 	return TransectWellsView;

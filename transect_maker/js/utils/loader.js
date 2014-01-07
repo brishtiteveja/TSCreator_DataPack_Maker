@@ -2,15 +2,16 @@
 =            Loader that loads tsc data into the maker            =
 =================================================================*/
 define(["transectMarker", "transectWell", "polygon", "point", "transectText"], function(TransectMarker, TransectWell, Polygon, Point, TransectText){
-	var Loader = function() {
-		this.polygons = transectApp.PolygonsCollection;
-		this.zones = transectApp.ZonesCollection;
-		this.transects = transectApp.TransectsCollection;
-		this.markers = transectApp.TransectMarkersCollection;
-		this.wells = transectApp.TransectWellsCollection;
-		this.texts = transectApp.TransectTextsCollection;
-		this.points = transectApp.PointsCollection;
-		this.lines = transectApp.LinesCollection;
+	var Loader = function(app) {
+		this.app = app;
+		this.polygons = this.app.PolygonsCollection;
+		this.zones = this.app.ZonesCollection;
+		this.transects = this.app.TransectsCollection;
+		this.markers = this.app.TransectMarkersCollection;
+		this.wells = this.app.TransectWellsCollection;
+		this.texts = this.app.TransectTextsCollection;
+		this.points = this.app.PointsCollection;
+		this.lines = this.app.LinesCollection;
 	}
 
 	Loader.prototype.loadFromLocalStorage = function() {
@@ -25,14 +26,22 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 
 
 	Loader.prototype.reset = function() {
-		this.polygons.reset();
-		this.zones.reset();
-		this.transects.reset();
-		this.markers.reset();
-		this.wells.reset();
-		this.texts.reset();
-		this.points.reset();
-		this.lines.reset();
+		_.invoke(this.polygons.toArray(), 'destroy');
+		_.invoke(this.zones.toArray(), 'destroy');
+		_.invoke(this.transects.toArray(), 'destroy');
+		_.invoke(this.markers.toArray(), 'destroy');
+		_.invoke(this.wells.toArray(), 'destroy');
+		_.invoke(this.texts.toArray(), 'destroy');
+		_.invoke(this.points.toArray(), 'destroy');
+		_.invoke(this.lines.toArray(), 'destroy');
+		// this.polygons.reset();
+		// this.zones.reset();
+		// this.transects.reset();
+		// this.markers.reset();
+		// this.wells.reset();
+		// this.texts.reset();
+		// this.points.reset();
+		// this.lines.reset();
 	}
 
 	Loader.prototype.load = function() {
@@ -45,16 +54,22 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 	}
 
 	Loader.prototype.loadImage = function() {
-		transectApp.TransectImage.set(this.savedData.image);
+		this.app.TransectImage.set(this.savedData.image);
 	}
 
 	Loader.prototype.loadMarkersAndZones = function() {
 		var self = this;
 		self.savedData.zones.forEach(function(zone, index) {
-			var topMarker = self.markers.findWhere(zone.topMarker) || new TransectMarker(zone.topMarker);
-			var baseMarker = self.markers.findWhere(zone.baseMarker) || new TransectMarker(zone.baseMarker)
+			var topMarker = self.markers.findWhere({y: zone.topMarker.y}) || new TransectMarker(zone.topMarker);
+			var baseMarker = self.markers.findWhere({y: zone.baseMarker.y}) || new TransectMarker(zone.baseMarker);
 			self.markers.add(topMarker);
 			self.markers.add(baseMarker);
+			
+		});
+		
+		self.savedData.zones.forEach(function(zone, index) {
+			var topMarker = self.markers.findWhere({y: zone.topMarker.y});
+			var baseMarker = self.markers.findWhere({y: zone.baseMarker.y});
 			var newZone = self.zones.findWhere({'topMarker': topMarker, 'baseMarker': baseMarker});
 			if (newZone !== undefined) {
 				newZone.set({
@@ -68,10 +83,16 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 	Loader.prototype.loadWellsAndTransects = function() {
 		var self = this;
 		self.savedData.transects.forEach(function(transect, index) {
-			var wellLeft = self.wells.findWhere(transect.wellLeft) || new TransectWell(transect.wellLeft);
-			var wellRight = self.wells.findWhere(transect.wellRight) || new TransectWell(transect.wellRight)
+			var wellLeft = self.wells.findWhere({x: transect.wellLeft.x}) || new TransectWell(transect.wellLeft);
+			var wellRight = self.wells.findWhere({x: transect.wellRight.x}) || new TransectWell(transect.wellRight);
 			self.wells.add(wellLeft);
 			self.wells.add(wellRight);
+		});
+
+		self.savedData.transects.forEach(function(transect, index) {
+			var wellLeft = self.wells.findWhere({x: transect.wellLeft.x});
+			var wellRight = self.wells.findWhere({x: transect.wellRight.x});
+			({x: transect.wellRight.x});
 			var newTransect = self.transects.findWhere({'wellLeft': wellLeft, 'wellRight': wellRight});
 			if (newTransect !== undefined) {
 				newTransect.set({
@@ -94,7 +115,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		var polygon = self.polygons.findWhere({name: polygonData.name, patternName: polygonData.patternName}) || new Polygon({name: polygonData.name});
 		this.polygons.add(polygon);
 		polygonData.points.forEach(function(pointData) {
-			var point = self.points.findWhere({x: pointData.x, y: pointData.y}) || new Point({x: pointData.x, y: pointData.y});
+			var point = self.points.findWhere({x: pointData.x, y: pointData.y}) || new Point({x: pointData.x, y: pointData.y}, self.app);
 			polygon.get('points').add(point);
 		});
 		polygon.set({patternName: polygonData.patternName}); // we do this after so that the pattern show up by default.
@@ -103,7 +124,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 	Loader.prototype.loadTexts = function() {
 		var self = this;
 		self.savedData.texts.forEach(function(text) {
-			var transectText = self.texts.findWhere({text: text.text, x: text.x, y: text.y}) || new TransectText(text);
+			var transectText = self.texts.findWhere({text: text.text, x: text.x, y: text.y}) || new TransectText(text, self.app);
 			self.texts.add(transectText);
 			transectText.get('settings').set(text.settings);
 		})

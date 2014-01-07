@@ -5,7 +5,8 @@
 define(["baseModel", "settings"], function(BaseModel, Settings) {
 	var TransectText = BaseModel.extend({
 		classname: "TransectText",
-		constructor: function(attributes, options) {
+		constructor: function(attributes, app) {
+			
 			var settings = new Settings();
 			var attrs = [{
 				edit: false,
@@ -18,6 +19,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 				settings: settings,
 				// bounding box for the text.
 				bBox: null,
+				app: app
 			}];
 			BaseModel.apply(this, attrs);
 		}
@@ -28,8 +30,8 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	}
 
 	TransectText.prototype.updateTransectAndZone = function() {
-		var zone = transectApp.ZonesCollection.getZoneForY(this.get('y'));
-		var transect = transectApp.TransectsCollection.getTransectForX(this.get('x'));
+		var zone = this.get('app').ZonesCollection.getZoneForY(this.get('y'));
+		var transect = this.get('app').TransectsCollection.getTransectForX(this.get('x'));
 		if (zone !== null && transect !== null) {
 			this.set({
 				transect: transect,
@@ -51,6 +53,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		var json = _.clone(this.attributes);
 		delete json["transect"];
 		delete json["zone"];
+		delete json["app"];
 		return json;
 	}
 

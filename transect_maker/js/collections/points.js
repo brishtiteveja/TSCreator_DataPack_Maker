@@ -21,7 +21,7 @@ define(["baseCollection", "point"], function(BaseCollection, Point) {
 		if (point === undefined) return;
 		
 		var isDupe = this.any(function(pt) {
-			return ((pt.get('x') == point.get('x')) && (pt.get('y') == point.get('y')));
+			return ((pt.get('x') == point.x) && (pt.get('y') == point.y));
 		});
 
 		if (!isDupe) {

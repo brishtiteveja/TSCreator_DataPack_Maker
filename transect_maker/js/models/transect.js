@@ -5,7 +5,8 @@
 define(["baseModel", "settings"], function(BaseModel, Settings) {
 	var Transect = BaseModel.extend({
 		classname: "Transect",
-		constructor: function(attributes, wellLeft, wellRight) {
+		constructor: function(attributes, wellLeft, wellRight, app) {
+			this.app = app;
 			var attrs = [{
 				name: attributes.name || _.uniqueId("Transect-"),
 				id: _.uniqueId("transect-"),
@@ -38,8 +39,8 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	Transect.prototype.getPolyKPointsArray = function() {
 		return ([this.get('wellLeft').get('x'), 0,
 			this.get('wellRight').get('x'), 0,
-			this.get('wellRight').get('x'), transectApp.Canvas.height,
-			this.get('wellLeft').get('x'), transectApp.Canvas.height]);
+			this.get('wellRight').get('x'), this.app.Canvas.height,
+			this.get('wellLeft').get('x'), this.app.Canvas.height]);
 	}
 
 	return Transect;

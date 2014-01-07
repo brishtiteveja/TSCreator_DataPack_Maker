@@ -13,7 +13,8 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 
 	FilesView.prototype.template = new EJS({url: "/file_system/ejs/files.ejs"});
 
-	FilesView.prototype.initialize = function(files, fileSystem) {
+	FilesView.prototype.initialize = function(files, fileSystem, app) {
+		this.app = app;
 		this.fileSystem = fileSystem;
 		this.files = files;
 
@@ -37,7 +38,7 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 	}
 
 	FilesView.prototype.addFile = function(file) {
-		var fileView = new FileView(file, this.files, this.fileSystem);
+		var fileView = new FileView(file, this.files, this.fileSystem, this.app);
 		this.$list.append(fileView.el);
 	}
 
@@ -96,8 +97,8 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 			self.newDir(dirEntry, dirName, function(dirEntry) {
 				var jsonFile = "transect.json";
 				var textFile = "transect.txt";
-				var json = transectApp.exporter.getJSON();
-				var text = transectApp.exporter.getText();
+				var json = self.app.exporter.getJSON();
+				var text = self.app.exporter.getText();
 
 				self.newFile(dirEntry, jsonFile, function(fileEntry){
 					self.writeJSONToAFile(fileEntry, json);

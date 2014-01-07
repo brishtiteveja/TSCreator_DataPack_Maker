@@ -9,7 +9,8 @@ define(["baseModel"], function(BaseModel) {
 		will be drawn relative to the zone they are in */
 		
 		classname: "Zone",
-		constructor: function(attributes, topMarker, baseMarker) {
+		constructor: function(attributes, topMarker, baseMarker, app) {
+			this.app = app;
 			/* A zone will have a topMarker and a baseMarker */
 			
 			var attrs = [{
@@ -54,8 +55,8 @@ define(["baseModel"], function(BaseModel) {
 		return ([
 			0, this.get('topMarker').get('y'),
 			0, this.get('baseMarker').get('y'),
-			transectApp.Canvas.width, this.get('baseMarker').get('y'), 
-			transectApp.Canvas.width, this.get('topMarker').get('y')]);
+			this.app.Canvas.width, this.get('baseMarker').get('y'), 
+			this.app.Canvas.width, this.get('topMarker').get('y')]);
 	}
 
 	return Zone;

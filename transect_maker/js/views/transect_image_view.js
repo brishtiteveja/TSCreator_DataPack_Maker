@@ -1,4 +1,3 @@
-var transectApp = transectApp || {};
 /*=========================================
 =            TransectImageView            =
 =========================================*/
@@ -20,8 +19,9 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 
 	TransectImageView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_image_settings.ejs'});
 
-	TransectImageView.prototype.initialize = function() {
-		this.transectImage = transectApp.TransectImage;
+	TransectImageView.prototype.initialize = function(app) {
+		this.app = app;
+		this.transectImage = this.app.TransectImage;
 
 		this.listenTo(this.transectImage, 'change', this.renderImage.bind(this));
 		this.render();
@@ -38,11 +38,9 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 
 	TransectImageView.prototype.renderImage = function() {
 		if (this.transectImage.get("data") === null) return;
-		if (this.element === undefined) {
-			this.element = transectApp.Canvas.image(this.transectImage.get('data'));
-			this.element.toBack();
-			transectApp.transectImageElement = this.element;
-		}
+		this.element = this.app.Canvas.image(this.transectImage.get('data'));
+		this.element.toBack();
+		this.app.transectImageElement = this.element;
 		this.element.attr({
 			x: this.transectImage.get('x'),
 			y: this.transectImage.get('y'),
@@ -82,7 +80,7 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 		// translate image such that it lies on origin.
 		var tstr = "t" + (-bBox.x) + "," + (-bBox.y) + "r" + this.transectImage.get('angle');
 		this.element.transform(tstr);
-		transectApp.Canvas.setSize(bBox.width + 50, bBox.height + 50);
+		this.app.Canvas.setSize(bBox.width + 50, bBox.height + 50);
 	}
 
 	TransectImageView.prototype.updateImageWidth = function() {
@@ -142,7 +140,7 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 		var self = this;
 		var img = new Image();
 		$(img).load(function() {
-			transectApp.TransectImage.set({
+			self.app.TransectImage.set({
 				"data": evt.target.result,
 				"width": img.width,
 				"height": img.height,

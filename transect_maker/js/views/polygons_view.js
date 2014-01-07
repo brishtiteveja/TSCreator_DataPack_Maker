@@ -12,10 +12,11 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 	PolygonsView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
 
 
-	PolygonsView.prototype.initialize = function() {
+	PolygonsView.prototype.initialize = function(app) {
+		this.app = app;
 		CurrentPolygon = null;
 
-		this.polygonsCollection = transectApp.PolygonsCollection;
+		this.polygonsCollection = this.app.PolygonsCollection;
 
 		this.enPolygons = false;
 
@@ -41,7 +42,7 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 	}
 
 	PolygonsView.prototype.addPolygon = function(polygon) {
-		var polygonView = new PolygonView(polygon);
+		var polygonView = new PolygonView(this.app, polygon);
 		this.$polygonsList.append(polygonView.el);
 	};
 
@@ -63,24 +64,24 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 		this.checkAndDeleteCurrentPolygon();
 
 		this.disableAllPolygons();
-		transectApp.CurrentPolygon = new Polygon();
-		this.polygonsCollection.add(transectApp.CurrentPolygon);
+		this.app.CurrentPolygon = new Polygon();
+		this.polygonsCollection.add(this.app.CurrentPolygon);
 		this.disableAllPolygons();
-		transectApp.CurrentPolygon.set({
+		this.app.CurrentPolygon.set({
 			'draw': true
 		});	
 	};
 
 	PolygonsView.prototype.checkAndDeleteCurrentPolygon = function() {
-		if (transectApp.CurrentPolygon) {
+		if (this.app.CurrentPolygon) {
 			// unset draw.
-			transectApp.CurrentPolygon.set({
+			this.app.CurrentPolygon.set({
 				'draw': false
 			});
 
 			// delete the polygon if the points are less than 3.
-			if (transectApp.CurrentPolygon.get('points').length < 3) {
-				transectApp.CurrentPolygon.destroy();
+			if (this.app.CurrentPolygon.get('points').length < 3) {
+				this.app.CurrentPolygon.destroy();
 			}
 		}
 	}
