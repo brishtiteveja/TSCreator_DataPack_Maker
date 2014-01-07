@@ -373,9 +373,6 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		});	
 		this.glow.show();
 		this.glow.toFront();
-		this.app.LinesSet.toFront(); // move the lines to the top
-		this.app.PointsSet.toFront(); // move the points to the top
-		this.app.TextsSet.toFront();
 		this.$el.addClass('hover');
 	}
 
