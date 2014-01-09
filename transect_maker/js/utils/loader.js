@@ -112,7 +112,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 
 	Loader.prototype.createPolygon = function(polygonData) {
 		var self = this;
-		var polygon = self.polygons.findWhere({name: polygonData.name, patternName: polygonData.patternName}) || new Polygon({name: polygonData.name});
+		var polygon = self.polygons.findWhere({name: polygonData.name, patternName: polygonData.patternName}) || new Polygon({name: polygonData.name, description: polygonData.description});
 		this.polygons.add(polygon);
 		polygonData.points.forEach(function(pointData) {
 			var point = self.points.findWhere({x: pointData.x, y: pointData.y}) || new Point({x: pointData.x, y: pointData.y}, self.app);
