@@ -75,7 +75,7 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 		});
 		var previousZones = _.clone(this.transectZones);
 		this.transectZones.reset(zones);
-// update zones with name
+		// update zones with name
 		this.transectZones.each(function(zone) {
 			var prevZone = previousZones.findWhere({topMarker: zone.get('topMarker'), baseMarker: zone.get('baseMarker')});
 			if (prevZone) {

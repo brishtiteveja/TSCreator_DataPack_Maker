@@ -13,6 +13,7 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 	TransectWellsView.prototype.initialize = function(app) {
 		this.app = app;
 		/* initialize transect wells collection */
+		this.transects = this.app.TransectsCollection;
 		this.transectWells = this.app.TransectWellsCollection;
 		this.enWells = false;
 
@@ -81,7 +82,17 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 				transects.push(new Transect({name: "Transect " + index}, wells[index - 1], well, self.app));
 			}
 		});
-		this.app.TransectsCollection.reset(transects);
+		var previousTransects = _.clone(this.transects)
+		this.transects.reset(transects);
+		this.transects.each(function(transect) {
+			var prevTransect = previousTransects.findWhere({wellLeft: transect.get('wellLeft'), wellRight: transect.get('wellRight')});
+			if (prevTransect) {
+				transect.set({
+					name: prevTransect.get('name'),
+					description: prevTransect.get('description'),
+				});
+			}
+		});
 	};
 
 	return TransectWellsView;
