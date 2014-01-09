@@ -40,6 +40,10 @@ define([
 		this.zones = this.app.ZonesCollection;
 		this.transectImage = this.app.TransectImage;
 
+		// sort collections
+		this.texts.sort();
+		this.polygons.sort();
+
 		// update points and texts
 		this.app.PointsCollection.updatePoints();
 		this.texts.updateTransectTexts();
@@ -264,6 +268,8 @@ define([
 
 			// Update pattern
 			currPolygon.set({patternName: polygon.get('patternName')});
+			// set description
+			currPolygon.set({description: polygon.get('description')});
 
 			self.updatePolygonLines(currPolygon, polygon);
 
@@ -605,8 +611,8 @@ define([
 			outputText += (well.referencePoints[i].name || "") + "\t";
 			outputText += well.referencePoints[i].point.get('age') + "\t";
 			outputText += "CALIBRATION = ";
-			outputText += Math.round((well.referencePoints[i].point.get('relativeY')*1000))/10
-			outputText += " " + well.referencePoints[i].point.get('zone').get('name') + "\t";
+			outputText += Math.round((well.referencePoints[i].point.get('relativeY')*1000))/10 + " % up the ";
+			outputText += well.referencePoints[i].point.get('zone').get('name') + "\t";
 		}
 		return outputText;
 	}

@@ -10,6 +10,10 @@
 			// border-bottom: 1px solid #fdcc59;
 			border-bottom: 1px solid #f1f1f1;
 
+			&.highlight {
+				background: #700000;
+			}
+
 			label {
 				@include settings_font;
 			}
@@ -18,6 +22,10 @@
 
 			.destroy {
 				@include trash;
+			}
+
+			.to-front {
+				@include eye;
 			}
 
 

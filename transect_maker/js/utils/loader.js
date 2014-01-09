@@ -135,7 +135,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		self.savedData.lines.forEach(function(line) {
 			var point1 = self.points.findWhere({x: line.point1.x, y: line.point1.y});
 			var point2 = self.points.findWhere({x: line.point2.x, y: line.point2.y});
-			var ln = self.lines.findWhere({point1: point1, point2: point2});
+			var ln = self.lines.findWhere({point1: point1, point2: point2}) || self.lines.findWhere({point1: point2, point2: point1});
 			if (ln) {
 				ln.set({
 					name: line.name,

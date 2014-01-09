@@ -5,23 +5,18 @@
 define(["baseCollection", "polygon"], function(BaseCollection, Polygon) {
 	var Polygons = BaseCollection.extend({
 		classname: "Polygons",
-		model: Polygon
+		model: Polygon,
+		comparator: function(polygon) {
+			var points = polygon.get('points');
+			var minY = Infinity;
+			points.each(function(point) {
+				if (point.get('y') <= minY) {
+					minY = point.get('y');
+				}
+			});
+			return minY;
+		},
 	});
-
-	Polygons.prototype.comparator = function(polygon) {
-		var points = polygon.get('points');
-		var minY = null;
-		points.each(function(point) {
-			if (minY == null) {
-				minY = point.get('y')
-			}
-
-			if (point.get('y') < minY) {
-				minY = point.get('y');
-			}
-		});
-		return minY;
-	}
 
 	return Polygons;
 });

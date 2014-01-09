@@ -175,13 +175,19 @@ define([
 	TransectAppView.prototype.exportCanvasAsImage = function() {}
 
 	TransectAppView.prototype.saveToLocalStorage = function() {
-		this.transectApp.exporter.export();
-		localStorage.transectApp = this.transectApp.exporter.getJSON();
+		var isOk = confirm("You are about to save the data. This will override any previous saved data. Are you sure you want to continue ?");
+		if (isOk) {
+			this.transectApp.exporter.export();
+			localStorage.transectApp = this.transectApp.exporter.getJSON();	
+		}
 	}
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
-		this.showCanvas();
-		this.transectApp.loader.loadFromLocalStorage();
+		var isOk = confirm("You are about to load the saved data. This will override your current data. Are you sure you want to continue ?");
+		if (isOk) {
+			this.showCanvas();
+			this.transectApp.loader.loadFromLocalStorage();	
+		}
 	}
 
 

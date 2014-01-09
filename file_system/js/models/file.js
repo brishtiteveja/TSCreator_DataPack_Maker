@@ -14,11 +14,19 @@ define(["baseModel"], function(BaseModel) {
 				size: fileEntry.Size || 0,
 				fullPath: fileEntry.fullPath,
 				url: fileEntry.toURL(),
-				selected: false
+				selected: false,
+				type: null,
 			}];
 			BaseModel.apply(this, attrs);
 		}
 	});
+
+	File.prototype.initialize = function() {
+		var ext = this.get('name').split('.').pop();
+		this.set({
+			type: ext
+		});
+	}
 
 	return File;
 });

@@ -10,11 +10,12 @@ define(["baseModel", "points", "lines"], function(BaseModel, Points, Lines) {
 				hover: false,
 				edit: false,
 				draw: false,
+				toFront: false,
 				name: attributes && attributes.name ? attributes.name : _.uniqueId("Polygon "),
 				patternName: attributes ? attributes.patternName : null,
 				points: new Points(),
 				lines: new Lines(),
-				description: attributes && attributes.description ? attributes.description : null
+				description: attributes !== undefined && attributes.description ? attributes.description : null,
 			}];
 			BaseModel.apply(this, attrs);
 		}

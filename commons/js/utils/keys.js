@@ -1,4 +1,6 @@
 var transectApp = transectApp || {};
+transectApp.KEY_EQUAL = 61;
+transectApp.KEY_MINUS = 45;
 transectApp.KEY_0 = 48;
 transectApp.KEY_1 = 49;
 transectApp.KEY_2 = 50;

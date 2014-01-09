@@ -11,6 +11,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			'click .polygon-data': 'togglePolygonForm',
 			'click a.polygon-list-tool': 'showList',
 			'click .destroy': 'destroy',
+			'click .to-front': 'toFront',
 			'keypress :input': 'updatePolygon',
 			'keyup :input': 'updatePolygon',
 			'click label.polygon-line-data': 'showPolygonLinesList',
@@ -364,19 +365,25 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	PolygonView.prototype.onMouseOver = function() {
 		if (!this.element) return;
+		this.element.attr({
+			opacity: 1,
+		});
+
 		if (this.glow !== undefined) {
 			this.glow.remove();	
 		}
 		this.glow = this.element.glow({
 			color: transectApp.glowColor,
-			width: 20
+			width: 40,
+			opacity: 1,
 		});	
 		this.glow.show();
-		this.glow.toFront();
 		this.$el.addClass('hover');
 	}
 
 	PolygonView.prototype.onMouseOut = function() {
+		if (!this.element) return;
+		this.setPolygonFill();
 		if (this.glow !== undefined) {
 			this.glow.hide();	
 		}
@@ -421,6 +428,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.togglePolygonForm();
 		}
 
+
 		this.polygon.set({
 			name: this.$polygonName.value,
 			description: this.$polygonDescription.value
@@ -430,9 +438,15 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	PolygonView.prototype.setRenderMode = function() {
 		if (this.polygon.get('draw')) {
 			this.setRenderFill();
+			this.$el.addClass('highlight');
 		} else {
 			this.setPolygonFill();
+			this.$el.removeClass('highlight');
 		}
+	}
+
+	PolygonView.prototype.toFront = function() {
+		if (this.element) this.bringToFront();
 	}
 
 	return PolygonView;

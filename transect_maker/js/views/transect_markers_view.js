@@ -73,7 +73,18 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 				zones.push(new Zone({name: "Zone " + index}, markers[index - 1], marker, self.app));
 			}
 		});
+		var previousZones = _.clone(this.transectZones);
 		this.transectZones.reset(zones);
+// update zones with name
+		this.transectZones.each(function(zone) {
+			var prevZone = previousZones.findWhere({topMarker: zone.get('topMarker'), baseMarker: zone.get('baseMarker')});
+			if (prevZone) {
+				zone.set({
+					name: prevZone.get('name'),
+					description: prevZone.get('description'),
+				});
+			}
+		});
 	};
 
 	return TransectMarkersView;

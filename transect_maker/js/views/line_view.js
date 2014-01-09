@@ -115,7 +115,8 @@ define(["baseView"], function(BaseView) {
 	LineView.prototype.setFinishedMode = function() {
 		this.element.attr({
 			'stroke-width': 2,
-			'stroke': transectApp.lineMouseOut
+			'stroke': transectApp.lineMouseOut,
+			'fill': transectApp.lineMouseOut
 		});
 		this.$el.removeClass('hover');
 	};
@@ -123,7 +124,8 @@ define(["baseView"], function(BaseView) {
 	LineView.prototype.setEditMode = function() {
 		this.element.attr({
 			'stroke-width': 6,
-			'stroke': transectApp.lineMouseOver
+			'stroke': transectApp.lineMouseOver,
+			'fill': transectApp.lineMouseOver
 		});
 		this.$el.addClass('hover');
 	};
