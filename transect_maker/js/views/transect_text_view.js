@@ -34,6 +34,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		this.listenTo(this.transectText, 'change:y', this.renderTransectText.bind(this));
 		this.listenTo(this.transectText, 'change:edit', this.editTransectText.bind(this));
 		this.listenTo(this.transectText, 'change:text', this.renderTransectText.bind(this));
+		this.listenTo(this.transectText, 'change:age', this.updateTscBBox.bind(this));
 		this.listenTo(this.transectText, 'destroy', this.delete.bind(this));
 		this.listenTo(this.transectText.get('settings'), 'change', this.renderTransectText.bind(this));
 	}

@@ -66,6 +66,8 @@ define([
 		this.app.TransectWellsCollection.each(function(well) {
 			self.wellsData[well.get('id')] = {
 				data: well,
+				points: new Points(),
+				polygons: new Polygons(),
 				referencePoints: [],
 			}
 		});
@@ -105,6 +107,7 @@ define([
 	Exporter.prototype.export = function() {
 		this.initialize();
 		this.processData();
+		this.updateWells();
 		this.sortData();
 		this.processTexts();
 	}
@@ -355,47 +358,46 @@ define([
 		var self = this;
 		polygonLines.each(function(line) {
 			if (self.isCloseToWell(well, line)	) {
-				if (line.get('point1').get('y') < line.get('point2').get('y')) {
-					if (! _.findWhere(self.wellsData[well.get('id')].referencePoints, {point: line.get('point1')})) {
-						self.wellsData[well.get('id')].referencePoints.push({
-							point: line.get('point1'),
-							pattern: "TOP",
-						});	
-					}
-					var refPoint = _.findWhere(self.wellsData[well.get('id')].referencePoints, {point: line.get('point2')})
-					if (refPoint == undefined) {
-						self.wellsData[well.get('id')].referencePoints.push({
-							point: line.get('point2'),
-							pattern: polygon.get('patternName') || "None",
-							name: polygon.get('name'),
-						});
-					} else {
-						var index = self.wellsData[well.get('id')].referencePoints.indexOf(refPoint);
-						self.wellsData[well.get('id')].referencePoints[index].name = polygon.get('name');
-						self.wellsData[well.get('id')].referencePoints[index].pattern = polygon.get('patternName') || "None";
-					}
-				} else {
-					if (! _.findWhere(self.wellsData[well.get('id')].referencePoints, {point: line.get('point2')})) {
-						self.wellsData[well.get('id')].referencePoints.push({
-							point: line.get('point2'),
-							pattern: "TOP",
-						});
-					}
-					var refPoint = _.findWhere(self.wellsData[well.get('id')].referencePoints, {point: line.get('point1')})
-					if (refPoint === undefined) {
-						self.wellsData[well.get('id')].referencePoints.push({
-							point: line.get('point1'),
-							pattern: polygon.get('patternName') || "None",
-							name: polygon.get('name'),
-						});
-					} else {
-						var index = self.wellsData[well.get('id')].referencePoints.indexOf(refPoint);
-						self.wellsData[well.get('id')].referencePoints[index].name = polygon.get('name');
-						self.wellsData[well.get('id')].referencePoints[index].pattern = polygon.get('patternName') || "None";
-					}
-				}
+				
+				self.wellsData[well.get('id')].polygons.add(polygon);
+				self.wellsData[well.get('id')].points.add(line.get('point1'));
+				self.wellsData[well.get('id')].points.add(line.get('point2'));
 			}
 		});
+	}
+
+	Exporter.prototype.updateWells = function() {
+		var self = this;
+		for (var id in self.wellsData) {
+			self.updateWell(self.wellsData[id]);
+		}
+	}
+
+	Exporter.prototype.updateWell = function(wellData) {
+		var self = this;
+		wellData.points.sortBy(function(point) {return point.get('y');});
+		wellData.points.each(function(point, index) {
+			var pattern = self.getPointPattern(point, wellData.polygons);
+			wellData.referencePoints.push({
+				point: point,
+				pattern: pattern ? pattern : "TOP",
+			});
+		});
+	}
+
+	Exporter.prototype.getPointPattern = function(point, polygons) {
+		var pointPolygons = new Polygons();
+		polygons.each(function(polygon) {
+			var polygonPoints = polygon.getPolyKPointsArray();
+			if (PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1)) {
+				pointPolygons.add(polygon);
+			}
+		});
+		if (pointPolygons.length == 0) return null;
+
+		pointPolygons.sort();
+
+		return pointPolygons.last().get('patternName');
 	}
 
 	Exporter.prototype.isCloseToWell = function(well, line) {
