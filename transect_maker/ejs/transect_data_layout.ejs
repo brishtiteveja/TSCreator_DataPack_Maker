@@ -89,7 +89,7 @@
 				<td><%= bBox.y1 %></td>
 				<td><%= bBox.x1 %></td>
 				<td>font-family: <%= fontFamily %>; font-size: <%= fontSize %>; </td>
-				<td><%= (bBox.y1 - bBox.y2) %></td>
+				<td><%= Math.round((bBox.y1 - bBox.y2)*100)/100 %></td>
 				<td><%= Math.round((bBox.x2 - bBox.x1)*100)/100 %></td>
 
 			</tr>
