@@ -195,7 +195,6 @@ define([
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
     	evt.preventDefault();
-    	evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 	}
 
 

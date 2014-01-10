@@ -116,7 +116,7 @@ define(["baseView"], function(BaseView) {
 		this.element.attr({
 			'stroke-width': 2,
 			'stroke': transectApp.lineMouseOut,
-			'fill': transectApp.lineMouseOut
+			'fill': 'none',
 		});
 		this.$el.removeClass('hover');
 	};
@@ -125,16 +125,12 @@ define(["baseView"], function(BaseView) {
 		this.element.attr({
 			'stroke-width': 6,
 			'stroke': transectApp.lineMouseOver,
-			'fill': transectApp.lineMouseOver
+			'fill': 'none',
 		});
 		this.$el.addClass('hover');
 	};
 
 	LineView.prototype.updateLine = function(evt) {
-
-		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
-			this.toggleLineForm();
-		}
 
 		var pattern = this.$("select.line-pattern option:selected").val();
 		this.line.set({

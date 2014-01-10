@@ -503,7 +503,7 @@ define([
 
 	Exporter.prototype.getText = function() {
 		var self = this;
-		var outputText = "";
+		var outputText = self.getMetaColumn();
 		for (var i=0; i < self.transects.length; i++) {
 			var transect = self.transects.at(i);
 			if (i == 0) {
@@ -515,6 +515,25 @@ define([
 			outputText += self.getWellOutputText(wellRightId);
 		}
 
+		return outputText;
+	}
+
+	Exporter.prototype.getMetaColumn = function() {
+		var self = this;
+		var outputText = "\n\nTRANSECTS\t:\t";
+		
+		for (var i=0; i < self.transects.length; i++) {
+			var transect = self.transects.at(i);
+			if (i == 0) {
+				var wellLeft = transect.get('wellLeft');
+				outputText += wellLeft.get('name') + "\t";
+			}
+			outputText += transect.get('name') + "\t";
+			var wellRight = transect.get('wellRight');
+			outputText += wellRight.get('name') + "\t";
+		}
+
+		outputText += "\n\n";
 		return outputText;
 	}
 
@@ -630,7 +649,7 @@ define([
 			output += "TEXT\t" + bBox.y1 + "\t" + bBox.x1;
 			output += "\t" + textData;
 			output += "\tfont-family: " + fontFamily + "; font-size: " + text.get('settings').get('fontSize') + ";";
-			output += "\t" + bBox.y2 + "\t" + bBox.x2;
+			output += "\t" + (bBox.y1 - bBox.y2) + "\t" + (bBox.x1 - bBox.x2); 
 		});
 		return output;
 	}

@@ -261,6 +261,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		if (this.element === undefined) return;
 		this.element.attr({
 			'opacity': 0.5,
+			'stroke': 0,
 			'fill': transectApp.renderFill
 		});
 	}
@@ -271,6 +272,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
 		this.element.attr({
 			'opacity': 0.8,
+			'stroke': 0,
 			'fill': fill
 		});
 		var url =  fill + " no-repeat" ;
@@ -366,7 +368,8 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	PolygonView.prototype.onMouseOver = function() {
 		if (!this.element) return;
 		this.element.attr({
-			opacity: 1,
+			'opacity': 1,
+			'stroke': 0,
 		});
 
 		if (this.glow !== undefined) {

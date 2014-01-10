@@ -30,6 +30,10 @@
 					@include click;
 				}
 			}
+
+			&.info {
+				bottom: 0px;
+			}
 			
 			a.icon {
 				@include app_font;

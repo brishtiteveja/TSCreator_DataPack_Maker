@@ -89,8 +89,8 @@
 				<td><%= bBox.y1 %></td>
 				<td><%= bBox.x1 %></td>
 				<td>font-family: <%= fontFamily %>; font-size: <%= fontSize %>; </td>
-				<td><%= bBox.y2 %></td>
-				<td><%= bBox.x2 %></td>
+				<td><%= (bBox.y1 - bBox.y2) %></td>
+				<td><%= (bBox.x1 - bBox.x2) %></td>
 
 			</tr>
 		<% } %>
