@@ -649,7 +649,7 @@ define([
 			output += "TEXT\t" + bBox.y1 + "\t" + bBox.x1;
 			output += "\t" + textData;
 			output += "\tfont-family: " + fontFamily + "; font-size: " + text.get('settings').get('fontSize') + ";";
-			output += "\t" + (bBox.y1 - bBox.y2) + "\t" + (bBox.x1 - bBox.x2); 
+			output += "\t" + (bBox.y1 - bBox.y2) + "\t" + Math.round((bBox.x2 - bBox.x1)*100)/100; 
 		});
 		return output;
 	}
