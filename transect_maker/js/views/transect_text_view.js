@@ -127,8 +127,8 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		var y11 = bBox.y2 - bBox.height; // top right y
 		var x00 = Math.round(transect.getRelativeX(x00)*1000)/10;
 		var x11 = Math.round(transect.getRelativeX(x11)*1000)/10;
-		var y00 = zone.getAbsoluteAge(y00);
-		var y11 = zone.getAbsoluteAge(y11);
+		var y00 = Math.round(zone.getAbsoluteAge(y00)*1000)/10;
+		var y11 = Math.round(zone.getAbsoluteAge(y11)*1000)/10;
 		this.transectText.set({
 			bBox: {x1: x00, x2: x11, y1: y00, y2: y11}
 		});
