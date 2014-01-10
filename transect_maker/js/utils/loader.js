@@ -26,22 +26,14 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 
 
 	Loader.prototype.reset = function() {
+		_.invoke(this.markers.toArray(), 'destroy');
+		_.invoke(this.wells.toArray(), 'destroy');
 		_.invoke(this.polygons.toArray(), 'destroy');
 		_.invoke(this.zones.toArray(), 'destroy');
 		_.invoke(this.transects.toArray(), 'destroy');
-		_.invoke(this.markers.toArray(), 'destroy');
-		_.invoke(this.wells.toArray(), 'destroy');
 		_.invoke(this.texts.toArray(), 'destroy');
 		_.invoke(this.points.toArray(), 'destroy');
 		_.invoke(this.lines.toArray(), 'destroy');
-		// this.polygons.reset();
-		// this.zones.reset();
-		// this.transects.reset();
-		// this.markers.reset();
-		// this.wells.reset();
-		// this.texts.reset();
-		// this.points.reset();
-		// this.lines.reset();
 	}
 
 	Loader.prototype.load = function() {
@@ -83,16 +75,25 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 	Loader.prototype.loadWellsAndTransects = function() {
 		var self = this;
 		self.savedData.transects.forEach(function(transect, index) {
-			var wellLeft = self.wells.findWhere({x: transect.wellLeft.x}) || new TransectWell(transect.wellLeft);
-			var wellRight = self.wells.findWhere({x: transect.wellRight.x}) || new TransectWell(transect.wellRight);
-			self.wells.add(wellLeft);
-			self.wells.add(wellRight);
+			var wellLeft = self.wells.findWhere({x: transect.wellLeft.x});
+			
+			var wellRight = self.wells.findWhere({x: transect.wellRight.x});
+
+			if (wellLeft === undefined) {
+				wellLeft = new TransectWell(transect.wellLeft);
+				self.wells.add(wellLeft);
+			}
+			
+			
+			if (wellRight === undefined) {
+				wellRight = new TransectWell(transect.wellRight);
+				self.wells.add(wellRight);	
+			}
 		});
 
 		self.savedData.transects.forEach(function(transect, index) {
 			var wellLeft = self.wells.findWhere({x: transect.wellLeft.x});
 			var wellRight = self.wells.findWhere({x: transect.wellRight.x});
-			({x: transect.wellRight.x});
 			var newTransect = self.transects.findWhere({'wellLeft': wellLeft, 'wellRight': wellRight});
 			if (newTransect !== undefined) {
 				newTransect.set({
