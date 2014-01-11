@@ -16,15 +16,25 @@ define(["baseModel"], function(BaseModel) {
 				url: fileEntry.toURL(),
 				selected: false,
 				type: null,
+				size: 0,
+				modificationTime: null,
 			}];
 			BaseModel.apply(this, attrs);
 		}
 	});
 
-	File.prototype.initialize = function() {
+	File.prototype.initialize = function(fileEntry, options) {
 		var ext = this.get('name').split('.').pop();
 		this.set({
 			type: ext
+		});
+	}
+
+	File.prototype.updateFileData = function(metadata) {
+		var date  =  new Date(metadata.modificationTime);
+		this.set({
+			size: metadata.size,
+			modificationTime: date.getTime(),
 		});
 	}
 

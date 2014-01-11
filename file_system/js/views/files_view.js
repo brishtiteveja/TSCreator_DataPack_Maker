@@ -108,8 +108,11 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 					self.writeTextToAFile(fileEntry, text);
 				});
 			});
-		}, self.errorHandler.bind(self));	
-
+		}, self.errorHandler.bind(self));
+	
+		this.fileSystem.set({
+			update: true
+		});
 	}
 
 	FilesView.prototype.writeJSONToAFile = function(fileEntry, content) {

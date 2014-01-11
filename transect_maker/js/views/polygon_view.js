@@ -7,6 +7,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		tagName: "li",
 		classname: "PolygonView",
 		events: {
+			'click .toggle': 'togglePolygonForm',
 			'click .toggle-polygon': 'togglePolygonForm',
 			'click .polygon-data': 'togglePolygonForm',
 			'click a.polygon-list-tool': 'showList',
@@ -256,7 +257,6 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		this.polygon.get('points').add(point);
 	}
 
-
 	PolygonView.prototype.setRenderFill = function() {
 		if (this.element === undefined) return;
 		this.element.attr({
@@ -266,12 +266,21 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		});
 	}
 
+	PolygonView.prototype.setRenderErrorFill = function() {
+		if (this.element === undefined) return;
+		this.element.attr({
+			'opacity': 0.5,
+			'stroke': 0,
+			'fill': "#FF0000",
+		});
+	}
+
 	PolygonView.prototype.setPolygonFill = function() {
 		if (this.element === undefined) return;
 		var pattern = this.polygon.get("patternName");
 		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
 		this.element.attr({
-			'opacity': 0.8,
+			'opacity': 0.5,
 			'stroke': 0,
 			'fill': fill
 		});
@@ -386,7 +395,12 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	PolygonView.prototype.onMouseOut = function() {
 		if (!this.element) return;
-		this.setPolygonFill();
+
+		if (this.polygon.isSimple()) {
+			this.setPolygonFill();	
+		} else {
+			this.setRenderErrorFill();
+		}
 		if (this.glow !== undefined) {
 			this.glow.hide();	
 		}
@@ -443,7 +457,11 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.setRenderFill();
 			this.$el.addClass('highlight');
 		} else {
-			this.setPolygonFill();
+			if (this.polygon.isSimple()) {
+				this.setPolygonFill();	
+			} else {
+				this.setRenderErrorFill();
+			}
 			this.$el.removeClass('highlight');
 		}
 	}
