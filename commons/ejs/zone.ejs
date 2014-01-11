@@ -1,0 +1,11 @@
+<div class="row">
+	<div class="toggle hide-data small-3 columns"></div>
+	<div class="zone-data small-17 columns ">
+		<label class="zone-label"><%= name %></label>
+		<label class="zone-label"><%= description || "You haven't written any description yet." %></label>
+	</div>
+	<div class="small-21 columns zone-form hide">
+		<input type="text" value="<%= name %>" name="zone-name">
+		<textarea name="zone-description" placeholder="You haven't written any description yet."><%= description%></textarea>
+	</div>
+</div>

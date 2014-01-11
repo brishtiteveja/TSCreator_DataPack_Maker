@@ -1,0 +1,195 @@
+/*==========================================
+=            MarkerView                    =
+==========================================*/
+
+define(["baseView"], function(BaseView) {
+
+	var MarkerView = BaseView.extend({
+		tagName: 'li',
+		classname: "MarkerView",
+		events: {
+			'click .toggle': 'toggleMarkerForm',
+			'click .marker-data': 'toggleMarkerForm',
+			'click .destroy': 'destroy',
+			'keypress :input': 'updateMarker',
+			'keyup :input': 'updateMarker',
+			'mouseover': "onMouseOver",
+			'mouseout': "onMouseOut",
+		}
+	});
+
+
+	/*==========  Template to be used in generation marker in the settings side panel.  ==========*/
+	MarkerView.prototype.template = new EJS({url: '/commons/ejs/marker.ejs'});
+
+
+	/*==========  Initialize the marker  ==========*/
+	MarkerView.prototype.initialize = function(app, marker, markersView) {
+		this.app = app;
+		/* initialize the the view the the marker instance and the collecting view */
+		this.markersView = markersView;
+		this.marker = marker;
+
+		/* render the marker as well as the settings */
+		this.render();
+
+		/* listen to the events */
+		this.listenTo(this.marker, 'change:edit', this.editMarker.bind(this));
+		this.listenTo(this.marker, 'change:y', this.renderMarker.bind(this));
+		this.listenTo(this.marker, 'change:age', this.renderMarker.bind(this));
+		this.listenTo(this.marker, 'change:name', this.renderMarker.bind(this));
+		this.listenTo(this.marker, 'change:hover', this.setHoverStatus.bind(this));
+		this.listenTo(this.marker, 'destroy', this.delete.bind(this));
+	};
+
+	/*==========  render the block  ==========*/
+	MarkerView.prototype.render = function() {
+		this.$el.html(this.template.render(this.marker.toJSON()));
+		/* get DOM elements after render */
+		this.$toggle = this.$(".toggle");
+		this.$markerForm = this.$(".marker-form");
+		this.$markerData = this.$(".marker-data");
+		this.$markerName = this.$('input[name="marker-name"]')[0];
+		this.$markerAge = this.$('input[name="marker-age"]')[0];
+
+		/* check edit state */
+		this.editMarker();
+
+		this.renderMarker();
+	};
+
+	/*==========  render the marker on the canvas  ==========*/
+	MarkerView.prototype.renderMarker = function() {
+		if (this.element === undefined) {
+			this.element = this.app.Canvas.path();
+			this.element.attr({
+				"stroke-width": 2,
+				"stroke": "#900000"
+			});
+			
+			/* attach listeners to the element */
+			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
+			this.element.toFront();
+			this.app.MarkersSet.push(this.element);
+		}
+		this.renderTooltip();
+		this.element.attr({'path': this.getPath()});
+	};
+
+	/*==========  render the tooltip for the marker in the canvas  ==========*/
+	MarkerView.prototype.renderTooltip = function() {
+		var age = this.marker.get('age') === null ? '-' : this.marker.get('age');
+		$(this.element.node).qtip({
+			content: {
+				text: this.marker.get('name') + "【" + age + " myr】"
+			},
+			position: {
+				my: 'bottom left', // Position my top left...
+				target: 'mouse', // my target 
+			}
+		});
+	};
+
+	/*==========  get path string for the marker  ==========*/
+	MarkerView.prototype.getPath = function() {
+		return "M0," + this.marker.get('y') + 'H' + this.app.Canvas.width;
+	};
+
+	/*==========  start dragging  ==========*/
+	MarkerView.prototype.dragStart = function(x, y, evt) {};
+
+	/*==========  while dragging  ==========*/
+	MarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
+		this.marker.set({
+			y: evt.offsetY
+		});
+	};
+
+	/*==========  when dragging is completed update the points and texts relative locations ==========*/
+	MarkerView.prototype.dragEnd = function(evt) {
+	};
+
+	MarkerView.prototype.onMouseOver = function() {
+		this.markersView.undelegateEvents();
+		this.$el.addClass('hover');
+		this.marker.set({
+			hover: true,
+		});
+	};
+
+	MarkerView.prototype.onMouseOut = function() {
+		this.markersView.delegateEvents();
+		this.$el.removeClass('hover');
+		this.marker.set({
+			hover: false,
+		});
+	};
+
+	MarkerView.prototype.setHoverStatus = function() {
+		if (this.marker.get('hover')) {			
+			this.element.attr({
+				"stroke-width": 5
+			});
+
+			this.$el.addClass('hover');
+		} else {
+			this.element.attr({
+				"stroke-width": 2
+			});
+
+			this.$el.removeClass('hover');
+		}
+	}
+
+	MarkerView.prototype.toggleMarkerForm = function() {
+		this.render();
+		this.marker.set({
+			'edit': !this.marker.get('edit')
+		});
+	};
+
+	MarkerView.prototype.editMarker = function() {
+		if (this.marker.get('edit')) {
+			this.$markerForm.removeClass('hide');
+			this.$markerData.addClass('hide');
+			this.$toggle.removeClass('hide-data');
+			this.$toggle.addClass('show-data');
+		} else {
+			this.$markerForm.addClass('hide');
+			this.$markerData.removeClass('hide');
+			this.$toggle.removeClass('show-data');
+			this.$toggle.addClass('hide-data');
+		}
+	};
+
+	MarkerView.prototype.updateMarker = function(evt) {
+		
+		if (evt.keyCode == 13) {
+			this.toggleMarkerForm();
+		}
+
+		var name = this.$markerName.value;
+		var age = parseFloat(this.$markerAge.value) || 0;
+
+		this.marker.set({
+			name: name,
+			age: age
+		});
+	};
+
+	MarkerView.prototype.delete = function() {
+		if (this.element !== undefined) this.element.remove();
+		this.$el.remove();
+		this.remove();
+	}
+
+	MarkerView.prototype.destroy = function() {
+		this.marker.destroy();
+	}
+
+	return MarkerView;
+});
+
+/*-----  End of MarkerView  ------*/
+

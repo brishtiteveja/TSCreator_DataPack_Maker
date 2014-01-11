@@ -1,0 +1,110 @@
+<!DOCTYPE html5>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-16">
+		<title>Block Column Maker</title>
+		<link rel="stylesheet" href="/stylesheets/app.css">
+		<link rel="stylesheet" href="/stylesheets/main.css">
+		<link rel="stylesheet" href="/stylesheets/qtip.css">
+
+		<!-- Libraries -->
+		<script type="text/javascript" src="/commons/js/lib/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/raphael-min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/underscore-min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/backbone-min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/backbone.localStorage-min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/ejs_production.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/qtip.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/numeric-1.2.6.min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/foundation/js/foundation.min.js"></script>
+
+		<!-- Utilities -->
+		<script type="text/javascript" src="/commons/js/utils/color_utils.js"></script>
+		<script type="text/javascript" src="/commons/js/utils/keys.js"></script>
+
+		<!-- Patterns -->
+		<script type="text/javascript" src="/pattern_manager/js/patterns_list.js"></script>
+		
+
+		<!-- RequireJS -->
+		<script src="/commons/js/lib/require-min.js" data-main="/block_column_maker/js/block_app.js"></script>
+	</head>
+	<body class="main">
+		<div class="container row">
+			<div id="toolbar" class="small-2 large-1 columns">
+				<ul class="side-nav">
+					<li><a href="#" class="block-tools icon icons_32-cursor_arrow_icon_32" title="mouse pointer"></a></li>
+					<li><a href="#add-marker" class="block-tools icon icons_32-cursor_H_split_icon_32" title="create a new timeline"></a></li>
+					<li><a href="#new-column" class="block-tools icon icons_32-sq_plus_icon_32" title="create a new block column"></a></li>
+					<li><a href="#new-block" class="block-tools icon icons_32-align_just_icon_32" title="create a new block"></a></li>
+					<li><a href="#save-to-local-storage" class="block-tools icon icons_save_icon_32" title="save to local storage"></a></li>
+					<li><a href="#reload-data" class="block-tools icon icons_32-reload_icon_32" title="reload data from local storage"></a></li>
+					<li><a href="#export-data" class="block-tools icon icons_32-doc_export_icon_32" title="export data"></a></li>
+					<li><a href="#file-system" class="block-tools icon icons_32-box_icon_32" title="sandbox"></a></li>
+					<li><a href="#info" class="block-tools icon icons_32-info_icon_32" tiitle="info"></a></li>
+				</ul>
+			</div>
+			<div id="display" class="small-18 large-21 columns">
+				<div id="export-panel" class="hide display-panel"></div>
+				<div id="file-system-panel" class="display-panel hide"></div>
+				<div id="canvas" class="" tabindex=1></div>
+				<div class="intro row display-panel hide" id="intro-screen">
+					<div class="content small-22 large-22 columns">
+						<div class="row">
+							<div class="small-22 large-22 columns">
+								<div class="header row">
+									<div class="columns small-12 large-10">
+										<h1>Timescale Creator</h1>		
+										<h2 class="subheader">block column maker</h2>
+									</div>
+									<div class="columns small-12 large-14">
+										<h2 class="subheader">Getting Started</h2>
+										<ul>
+											<li>
+												<div class="row">
+													<div class="small-10 columns large-6"><a href="#" title="">↪︎ intro</a></div>
+													<div class="small-14 large-18 columns"><a href="#" title="">a guided tour of block column maker.</a></div>
+												</div>
+											</li>
+											<li>
+												<div class="row">
+													<div class="small-10 columns large-6"><a href="#" title="">↪︎ load data</a></div>
+													<div class="small-14 drag-box large-18 columns" id="data-box"><h2 class="text-center text-message"><small class="data-status">drag & drop your datafile here</small></h2></div>
+												</div>
+											</li>
+											<li>
+												<div class="row continue-to-main" id="no-data">
+													<div class="small-10 columns large-14"></div>
+													<div class="small-14 columns large-10"><a href="#" title="" class="continue">continue without data ➤</a></div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="body"></div>
+								<div class="footer"></div>
+							</div>							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="settings" class="small-4 large-2 columns">
+				<div class="settings-nav">
+					<ul class="custom-sidenav-class">
+						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#markers">Time Lines</a></li>
+						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#zones">Zones</a></li>
+						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#columns">Columns</a></li>
+						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#defaults">Defaults</a></li>
+					</ul>
+					<div data-alert class="alert-box secondary canvas-status status-box"></div>
+				</div>
+				<div id="sections-panel">
+					<div class="settings-content" id="zones-list"></div>
+					<div class="settings-content" id="markers-list"></div>
+					<div class="settings-content" id="columns-list"></div>
+					<div class="settings-content" id="defaults-list"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

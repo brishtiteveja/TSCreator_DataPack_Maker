@@ -1,32 +1,11 @@
-<td class="toggle hide-data" width="3%"></td>
-<td  width="96%">
-	<div class="row large-12 columns">
-		<label class="block-data show"><%= name %></label>
-		<div class="block-form hide">
-			<label>Block Name</label>
-			<input type="text" value="<%= name %>" name="block-name">
-		</div>
+<div class="row">
+	<div class="toggle hide-data small-3 columns"></div>			
+	<label class="block-data small-17 columns block-label"><%= name %></label>
+	<div class="small-10 columns block-form hide">
+		<input type="text" value="<%= name %>" name="block-name">
 	</div>
-	<div class="row">
-		<label class="block-data large-12 columns"><%= topAge %>myr → <%= baseAge %>myr</label>
-		<div class="block-form hide">
-			<div class="large-5 columns">
-				<label>Top Age</label>
-				<input type="text" value="<%= topAge %>" name="top-age">
-			</div>
-			<label class="large-2 columns">→</label>
-			<div class="large-5 columns">
-				<label>Base Age</label>
-				<input type="text" value="<%= baseAge %>" name="base-age">
-			</div>
-		</div>
+	<div class="small-7 columns block-form hide">
+		<input type="text" name="block-age" value="<%= baseAge %>">
 	</div>
-	<div class="block-form row hide large-12 columns">
-		<label>Description</label>
-		<textarea placeholder="Description..." name="description"><%= description %></textarea>
-	</div>
-	<div class="block-form row hide large-12 columns">
-		<a href="#update-block" class="button secondary right small radius">update</a>
-	</div>
-</td>
-<td class="destroy" width="3%"></td>
+	<div class="small-4 columns"><a href="#" class="destroy"></a></div>
+</div>
