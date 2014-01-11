@@ -22,6 +22,13 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		}
 	});
 
+	Block.prototype.initialize = function() {
+		this.update();
+	}
+
+	Block.prototype.update = function() {
+	}
+
 	return Block;
 });
 /*-----  End of Block  ------*/

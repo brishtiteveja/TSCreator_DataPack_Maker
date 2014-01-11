@@ -125,22 +125,20 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 
 	BlockColumnView.prototype.addBlock = function(block) {
 		var blockView = new BlockView(this.app, block);
-
 	}
 
 	BlockColumnView.prototype.updateBlockColumns = function() {
-		// var self = this;
-		// var stratIndex = this.app.BlockColumnsCollection.indexOf(this.blockColumn);
-		// this.app.BlockColumnsCollection.each(function(blockColumn, index) {
-		// 	if (index > stratIndex) {
-		// 		debugger;
-		// 		var prevColumn = self.app.BlockColumnsCollection.at(index - 1);
-		// 		var x = prevColumn.get('x') + prevColumn.get('width');
-		// 		blockColumn.set({
-		// 			x: x
-		// 		});
-		// 	}
-		// });
+		var self = this;
+		var stratIndex = this.app.BlockColumnsCollection.indexOf(this.blockColumn);
+		this.app.BlockColumnsCollection.each(function(blockColumn, index) {
+			if (index > stratIndex) {
+				var prevColumn = self.app.BlockColumnsCollection.at(index - 1);
+				var x = prevColumn.get('x') + prevColumn.get('width');
+				blockColumn.set({
+					x: x
+				});
+			}
+		});
 	}
 
 	return BlockColumnView;

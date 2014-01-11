@@ -18,6 +18,9 @@ define(["baseView"], function(BaseView) {
 		this.app = app;
 		this.block = block;
 
+		this.listenTo(this.block.get('blockColumn'), 'change:x', this.renderBlock.bind(this));
+		this.listenTo(this.block.get('blockColumn'), 'change:width', this.renderBlock.bind(this));
+
 		this.render();
 	};
 

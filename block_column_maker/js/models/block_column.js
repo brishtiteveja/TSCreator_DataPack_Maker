@@ -22,6 +22,12 @@ define(["baseModel", "blocks", "settings"], function(BaseModel, Blocks, Settings
 		return blockColumn.get('x');
 	}
 
+	BlockColumn.prototype.updateAllBlocks = function() {
+		this.get('blocks').each(function(block) {
+			block.update();
+		});
+	}
+
 	return BlockColumn;
 });
 /*-----  End of BlockColumn  ------*/
