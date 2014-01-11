@@ -37,7 +37,7 @@ define([
 	}
 
 	FileSystemView.prototype.requestFileSystem = function(size) {
-		window.webkitRequestFileSystem(window.PERSISTANT, size, this.render.bind(this), this.errorHandler.bind(this));
+		window.webkitRequestFileSystem(webkitStorageInfo.PERSISTENT, size, this.render.bind(this), this.errorHandler.bind(this));
 	}
 
 	FileSystemView.prototype.render = function(fs) {
