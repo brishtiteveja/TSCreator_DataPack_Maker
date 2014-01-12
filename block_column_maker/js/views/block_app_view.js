@@ -57,6 +57,8 @@ define([
 		this.blockApp.Canvas = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
 		this.blockApp.MarkersSet = this.blockApp.Canvas.set();
+		this.blockApp.BlockMarkersSet = this.blockApp.Canvas.set();
+		this.blockApp.BlocksSet = this.blockApp.Canvas.set();
 		
 		this.render();
 	};

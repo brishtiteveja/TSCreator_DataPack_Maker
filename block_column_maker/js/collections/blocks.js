@@ -9,11 +9,6 @@ define(["baseCollection", "block"], function(BaseCollection, Block) {
 		model: Block
 	});
 
-
-	Blocks.prototype.comparator = function(block) {
-		return block.get('baseAge');
-	};
-
 	return Blocks;
 });
 /*-----  End of Blocks Collection  ------*/

@@ -3,7 +3,7 @@
 =            BlockColumnView            =
 ========================================*/
 
-define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) {
+define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], function(BaseView, BlockView, BlockMarkerView, Block, BlockMarker) {
 
 	var BlockColumnView = BaseView.extend({
 		tagName: "li",
@@ -32,11 +32,13 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 		this.listenTo(this.blockColumn, 'change:edit', this.editBlockColumn.bind(this));
 		this.listenTo(this.blockColumn, 'change', this.renderBlockColumn.bind(this));
 		this.listenTo(this.blockColumn.get('settings'), 'change', this.renderBlockColumn.bind(this));
-		this.listenTo(this.blockColumn.get('blocks'), 'add', this.addBlock.bind(this));
+		this.listenTo(this.blockColumn.get('blockMarkers'), 'add', this.addBlockMarker.bind(this));
+		this.listenTo(this.blockColumn.get('blocks'), 'reset', this.resetBlocks.bind(this));
 		this.listenTo(this.blockColumn, 'destroy', this.delete.bind(this));
 
 		this.listenToActionEvents();
 
+		this.toggleBlocks();
 	};
 
 	BlockColumnView.prototype.listenToActionEvents = function(evt) {
@@ -57,7 +59,6 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 		this.$blocksList = this.$('.blocks-list');
 
 		this.renderBlockColumn();
-
 		this.renderBlocks();
 	}
 
@@ -66,7 +67,7 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 			this.element = this.app.Canvas.rect(this.blockColumn.get('x'), 0, this.blockColumn.get('width'), this.app.Canvas.height);
 
 			/* attach listeners to the element */
-			this.element.dblclick(this.createBlock.bind(this));
+			this.element.dblclick(this.createBlockMarker.bind(this));
 
 			this.app.MarkersSet.toFront();
 		}
@@ -80,8 +81,13 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 		this.updateBlockColumns();
 	}
 
-	BlockColumnView.prototype.renderBlocks = function() {
+	BlockColumnView.prototype.resetBlocks = function() {
+		this.$blocksList.html('');
 		this.blockColumn.get('blocks').each(this.addBlock.bind(this));
+	}
+
+	BlockColumnView.prototype.renderBlocks = function() {
+		this.blockColumn.get('blocks').each(this.addBlockMarker.bind(this));
 	}
 
 	BlockColumnView.prototype.toggleBlockColumnForm = function() {
@@ -134,11 +140,47 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 		});
 	};
 
-	BlockColumnView.prototype.createBlock = function(evt) {
+	BlockColumnView.prototype.createBlockMarker = function(evt) {
 		if (!this.enBlocks) return;
-		var block = new Block({y: evt.offsetY, blockColumn: this.blockColumn});
-		this.blockColumn.get('blocks').add(block);
+		var blockMarker = new BlockMarker({y: evt.offsetY, blockColumn: this.blockColumn}, this.app);
+		this.blockColumn.get('blockMarkers').add(blockMarker);
 	}
+
+	BlockColumnView.prototype.addBlockMarker = function(blockMarker) {
+		var blockMarkerView = new BlockMarkerView(this.app, blockMarker);
+		this.updateBlocks();
+	}
+
+
+	BlockColumnView.prototype.updateBlocks = function() {
+		var self = this;
+		var blocks = [];
+		var blockMarkers = this.blockColumn.get('blockMarkers');
+
+		blockMarkers.sort();
+		
+		blockMarkers.each(function(blockMarker, index, blockMarkers) {
+			if (index > 0) {
+				blocks.push(new Block({name: "Block " + index, top: blockMarkers[index - 1], base: blockMarker, blockColumn: self.blockColumn}));
+			}
+		});
+
+		var previousBlocks = _.clone(this.blockColumn.get('blocks'));
+		
+		_.invoke(this.blockColumn.get('blocks').toArray(), 'destroy');
+		this.blockColumn.get('blocks').reset(blocks);
+		
+		this.blockColumn.get('blocks').each(function(block) {
+			var prevBlock = previousBlocks.findWhere({top: block.get('top'), base: block.get('base')});
+			if (prevBlock) {
+				block.set({
+					name: prevBlock.get('name'),
+					description: prevBlock.get('description'),
+				});
+			}
+		});
+	};
+
 
 	BlockColumnView.prototype.addBlock = function(block) {
 		var blockView = new BlockView(this.app, block);

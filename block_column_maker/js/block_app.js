@@ -32,9 +32,12 @@ requirejs.config({
 		// 
 		block: "/block_column_maker/js/models/block",
 		blocks: "/block_column_maker/js/collections/blocks",
+		blockMarker: "/block_column_maker/js/models/block_marker",
+		blockMarkers: "/block_column_maker/js/collections/block_markers",
 		blockColumn: "/block_column_maker/js/models/block_column",
 		blockColumns: "/block_column_maker/js/collections/block_columns",
 		blockView: "/block_column_maker/js/views/block_view",
+		blockMarkerView: "/block_column_maker/js/views/block_marker_view",
 		blockColumnView: "/block_column_maker/js/views/block_column_view",
 		blockColumnsView: "/block_column_maker/js/views/block_columns_view",
 
