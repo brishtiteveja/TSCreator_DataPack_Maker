@@ -140,7 +140,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 			if (ln) {
 				ln.set({
 					name: line.name,
-					pattern: line.pattern
+					pattern: ln.get('pattern') === "default" ? line.pattern : ln.get('pattern')
 				});	
 			}
 		});
