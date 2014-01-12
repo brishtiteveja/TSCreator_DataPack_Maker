@@ -378,8 +378,11 @@ define([
 		wellData.points.sortBy(function(point) {return point.get('y');});
 		wellData.points.each(function(point, index) {
 			var poly = self.getPointPattern(point, wellData.polygons);
-			var pattern = poly.get('patternName');
-			var name = poly.get('name');
+			var pattern = null, name = null;
+			if (poly) {
+				pattern = poly.get('patternName');
+				name = poly.get('name');	
+			}
 			wellData.referencePoints.push({
 				point: point,
 				pattern: pattern ? pattern : "TOP",
