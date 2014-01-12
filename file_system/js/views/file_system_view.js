@@ -37,7 +37,7 @@ define([
 	}
 
 	FileSystemView.prototype.requestFileSystem = function(size) {
-		window.webkitRequestFileSystem(window.PERSISTANT, size, this.render.bind(this), this.errorHandler.bind(this));
+		window.webkitRequestFileSystem(webkitStorageInfo.PERSISTENT, size, this.render.bind(this), this.errorHandler.bind(this));
 	}
 
 	FileSystemView.prototype.render = function(fs) {
@@ -45,6 +45,7 @@ define([
 
 		this.renderDirs();
 		this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
+		this.listenTo(this.fileSystem, "change:update", this.renderDirs.bind(this));
 	}
 
 	FileSystemView.prototype.renderDirs = function() {
@@ -66,8 +67,20 @@ define([
 	FileSystemView.prototype.readDir = function(results) {
 		var self = this;
 		if ((results === undefined) || (!results.length)) return;
+		if (self.fileSystem.get('update')) {
+			self.fileSystem.set({
+				'update': false
+			});
+			return;
+		}
+
+		_.invoke(self.files.toArray(), 'destroy');
 		results.forEach(function(fileEntry) {
-			self.files.add(new File(fileEntry));
+			var file = new File(fileEntry);
+			fileEntry.getMetadata(function(metadata) {
+				file.updateFileData(metadata);
+				self.files.add(file);
+			});
 		});
 	}
 

@@ -8,6 +8,10 @@ define(["baseCollection", "file"], function(BaseCollection, File) {
 		model: File,
 	});
 
+	Files.prototype.comparator = function(file) {
+		return  -file.get("modificationTime");
+	}
+
 	return Files;
 });
 

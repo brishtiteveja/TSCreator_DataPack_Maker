@@ -10,6 +10,7 @@ define(["baseModel"], function(BaseModel) {
 			var attrs = [{
 				fs : attributes.fs,
 				path: "/",
+				update: false,
 			}];
 			BaseModel.apply(this, attrs);
 		}
