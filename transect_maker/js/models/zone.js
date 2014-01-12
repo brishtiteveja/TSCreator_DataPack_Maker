@@ -34,7 +34,7 @@ define(["baseModel"], function(BaseModel) {
 	}
 
 	Zone.prototype.getRelativeY = function(y) {
-		if (this.get('topMarker').get('y') < y && y <= this.get('baseMarker').get('y')) {
+		if (this.get('topMarker').get('y') <= y && y < this.get('baseMarker').get('y')) {
 			var num = ((y - this.get('topMarker').get('y'))/(this.get('baseMarker').get('y') - this.get('topMarker').get('y')))
 			return Math.round(num * 1000) / 1000;
 		}
@@ -42,7 +42,7 @@ define(["baseModel"], function(BaseModel) {
 	}
 
 	Zone.prototype.getAbsoluteAge = function(y) {
-		if (this.get('topMarker').get('y') < y && y <= this.get('baseMarker').get('y') 
+		if (this.get('topMarker').get('y') <= y && y < this.get('baseMarker').get('y') 
 			&& this.get('topMarker').get('age') != null && this.get('baseMarker').get('age') != null) {
 			var num = ((y - this.get('topMarker').get('y'))/(this.get('baseMarker').get('y') - this.get('topMarker').get('y')))
 			age = num * (this.get('baseMarker').get('age') - this.get('topMarker').get('age')) + this.get('topMarker').get('age');
