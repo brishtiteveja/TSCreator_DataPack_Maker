@@ -387,7 +387,7 @@ define([
 			wellData.referencePoints.push({
 				point: point,
 				pattern: pattern ? pattern : "TOP",
-				name: name ? name : " ",
+				name: name ? name : "",
 			});
 		});
 	}
