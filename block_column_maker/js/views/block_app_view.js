@@ -54,7 +54,7 @@ define([
 		this.$displayPanels = this.$('.display-panel');
 
 		// Initialize the models
-		this.blockApp.Canvas = new Raphael(this.$canvas[0], "100%", "100%");
+		this.blockApp.Canvas = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
 		this.blockApp.MarkersSet = this.blockApp.Canvas.set();
 		
@@ -176,6 +176,8 @@ define([
 				this.loadFromLocalStorage();
 				break;
 			case "#new-column":
+				break;
+			case "#add_block":
 				break;
 			default:
 				break;

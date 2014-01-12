@@ -9,12 +9,14 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		constructor: function (attributes, options) {
 			var attrs  = [{
 				edit: false,
+				hover: false,
 				y: parseInt(attributes.y),
 				name: attributes.name || _.uniqueId("Block "),
 				description: attributes.description,
 				baseAge: null,
 				relativeBaseY: null,
 				settings: new Settings(),
+				topBlock: null,
 				blockColumn: attributes.blockColumn || null,
 			}];
 
@@ -23,10 +25,30 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	});
 
 	Block.prototype.initialize = function() {
-		this.update();
 	}
 
 	Block.prototype.update = function() {
+		this.set({
+			topBlock: this.getTopBlock()
+		});
+	}
+
+	Block.prototype.getTopBlock = function() {
+		var blocks = this.get('blockColumn').get('blocks');
+		blocks.sort();
+		var index = blocks.indexOf(this);
+		if (index > 0) {
+			return blocks.at(index - 1);	
+		} else {
+			return null;
+		}
+	}
+
+	Block.prototype.toJSON = function() {
+		var json = _.clone(this.attributes);
+		delete json["blockColumn"];
+		delete json["topBlock"];
+		return json;
 	}
 
 	return Block;

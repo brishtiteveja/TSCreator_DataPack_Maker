@@ -12,6 +12,7 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 			'click .toggle': 'toggleBlockColumnForm',
 			'click .block-column-data': 'toggleBlockColumnForm',
 			'click .destroy': 'destroy',
+			'click label.block-column-blocks-data': 'showBlocksList',
 			'keypress :input': 'updateBlockColumn',
 			'keyup :input': 'updateBlockColumn',
 			'change input[name="block-column-bg-color"]': 'updateBlockColumn',
@@ -32,9 +33,15 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 		this.listenTo(this.blockColumn, 'change', this.renderBlockColumn.bind(this));
 		this.listenTo(this.blockColumn.get('settings'), 'change', this.renderBlockColumn.bind(this));
 		this.listenTo(this.blockColumn.get('blocks'), 'add', this.addBlock.bind(this));
-		// this.listenTo(this.blockColumn, 'change:hover', this.setHoverStatus.bind(this));
 		this.listenTo(this.blockColumn, 'destroy', this.delete.bind(this));
+
+		this.listenToActionEvents();
+
 	};
+
+	BlockColumnView.prototype.listenToActionEvents = function(evt) {
+		$("a[href='#add-block']").unbind().click(this.toggleBlocks.bind(this));
+	}
 
 	BlockColumnView.prototype.render = function() {
 		this.$el.html(this.template.render(this.blockColumn.toJSON()));
@@ -47,8 +54,11 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 		this.$blockColumnWidth = this.$('input[name="block-column-width"]')[0];
 		this.$blockColumnBgColor = this.$('input[name="block-column-bg-color"]')[0];
 		this.$blockColumnDescription = this.$('textarea[name="block-column-description"]')[0];
+		this.$blocksList = this.$('.blocks-list');
 
 		this.renderBlockColumn();
+
+		this.renderBlocks();
 	}
 
 	BlockColumnView.prototype.renderBlockColumn = function() {
@@ -57,6 +67,8 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 
 			/* attach listeners to the element */
 			this.element.dblclick(this.createBlock.bind(this));
+
+			this.app.MarkersSet.toFront();
 		}
 
 		this.element.attr({
@@ -66,6 +78,10 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 		});
 
 		this.updateBlockColumns();
+	}
+
+	BlockColumnView.prototype.renderBlocks = function() {
+		this.blockColumn.get('blocks').each(this.addBlock.bind(this));
 	}
 
 	BlockColumnView.prototype.toggleBlockColumnForm = function() {
@@ -119,12 +135,14 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 	};
 
 	BlockColumnView.prototype.createBlock = function(evt) {
+		if (!this.enBlocks) return;
 		var block = new Block({y: evt.offsetY, blockColumn: this.blockColumn});
 		this.blockColumn.get('blocks').add(block);
 	}
 
 	BlockColumnView.prototype.addBlock = function(block) {
 		var blockView = new BlockView(this.app, block);
+		this.$blocksList.append(blockView.el);
 	}
 
 	BlockColumnView.prototype.updateBlockColumns = function() {
@@ -141,6 +159,23 @@ define(["baseView", "blockView", "block"], function(BaseView, BlockView, Block) 
 		});
 	}
 
+	BlockColumnView.prototype.showBlocksList = function() {
+		if (this.$blocksList.hasClass('hide')) {
+			this.$blocksList.removeClass('hide');
+		} else {
+			this.$blocksList.addClass('hide');
+		}
+	}
+
+	BlockColumnView.prototype.toggleBlocks = function(evt) {
+		if ($("a[href='#add-block']").parent().hasClass('active')) {
+			$("a[href='#add-block']").parent().removeClass('active');
+			this.enBlocks = false;
+		} else {
+			$("a[href='#add-block']").parent().addClass('active');
+			this.enBlocks = true;
+		}
+	};
 	return BlockColumnView;
 });
 

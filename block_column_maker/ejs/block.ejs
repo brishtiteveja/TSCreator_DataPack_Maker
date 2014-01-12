@@ -1,11 +1,16 @@
 <div class="row">
 	<div class="toggle hide-data small-3 columns"></div>			
-	<label class="block-data small-17 columns block-label"><%= name %></label>
-	<div class="small-10 columns block-form hide">
-		<input type="text" value="<%= name %>" name="block-name">
+	<label class="block-data small-18 columns block-label"><%= name %> <%= baseAge === null ? "N/A" : baseAge %>myr</label>
+	<div class="small-18 columns block-form hide">
+		<div class="row">
+			<div class="columns small-18">
+				<input type="text" value="<%= name %>" name="block-name">
+			</div>
+			<div class="columns small-6">
+				<input type="color" value="<%= settings.get('backgroundColor') %>" name="block-color" style="height: 37px; width: 100%">
+			</div>
+		</div>
+		<textarea name="block-description" placeholder="No description yet!"><%= description %></textarea>
 	</div>
-	<div class="small-7 columns block-form hide">
-		<input type="text" name="block-age" value="<%= baseAge %>">
-	</div>
-	<div class="small-4 columns"><a href="#" class="destroy"></a></div>
+	<div class="small-3 columns"><a href="#" class="destroy"></a></div>
 </div>
