@@ -387,7 +387,7 @@ define([
 			wellData.referencePoints.push({
 				point: point,
 				pattern: pattern ? pattern : "TOP",
-				name: name ? name : "",
+				name: name ? name : " ",
 			});
 		});
 	}
@@ -639,7 +639,7 @@ define([
 			outputText += (well.referencePoints[i].name || "") + "\t";
 			outputText += well.referencePoints[i].point.get('age') + "\t";
 			outputText += "CALIBRATION = ";
-			outputText += Math.round(((1- well.referencePoints[i].point.get('relativeY'))*1000))/10 + " % up the ";
+			outputText += Math.round(((1 - well.referencePoints[i].point.get('relativeY'))*1000))/10 + " % up the ";
 			outputText += well.referencePoints[i].point.get('zone').get('name') + "\t";
 		}
 		return outputText;
