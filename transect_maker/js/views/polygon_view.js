@@ -376,10 +376,6 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	PolygonView.prototype.onMouseOver = function() {
 		if (!this.element) return;
-		this.element.attr({
-			'opacity': 1,
-			'stroke': 0,
-		});
 
 		if (this.glow !== undefined) {
 			this.glow.remove();	

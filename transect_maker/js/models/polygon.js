@@ -7,6 +7,7 @@ define(["baseModel", "points", "lines", "polyK"], function(BaseModel, Points, Li
 		classname: "Polygon",
 		constructor: function(attributes, options) {
 			var attrs = [{
+				id: _.uniqueId("polygon_"),
 				hover: false,
 				edit: false,
 				draw: false,
