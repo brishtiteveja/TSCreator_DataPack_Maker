@@ -377,10 +377,17 @@ define([
 		var self = this;
 		wellData.points.sortBy(function(point) {return point.get('y');});
 		wellData.points.each(function(point, index) {
-			var pattern = self.getPointPattern(point, wellData.polygons);
+			var pgon = self.getPointPattern(point, wellData.polygons);
+			var pattern = null;
+			var name = null;
+			if (pgon != null) {
+				pattern = pgon.get('patternName');
+				name = pgon.get('name');
+			}
 			wellData.referencePoints.push({
 				point: point,
 				pattern: pattern ? pattern : "TOP",
+				name: name ? name : "",
 			});
 		});
 	}
@@ -397,7 +404,7 @@ define([
 
 		pointPolygons.sort();
 
-		return pointPolygons.last().get('patternName');
+		return pointPolygons.last();
 	}
 
 	Exporter.prototype.isCloseToWell = function(well, line) {
