@@ -75,6 +75,7 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 	TransectWellsView.prototype.updateTransects = function() {
 		var self = this;
 		var transectsToDestroy = [];
+		this.transectWells.sort();
 		this.transectWells.each(function(well, index, wells) {
 			if (index > 0) {
 				var transect = self.transects.findWhere({wellLeft: wells[index - 1], wellRight: well}) || new Transect({name: "Transect " + index}, wells[index - 1], well, self.app);

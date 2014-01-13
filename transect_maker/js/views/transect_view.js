@@ -25,6 +25,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.transect, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.transect, 'change:name', this.render.bind(this));
 		this.listenTo(this.transect, 'change:description', this.render.bind(this));
+		this.listenTo(this.transect, 'destroy', this.delete.bind(this));
 
 		/* render the dom element in the settings */
 		this.render();
@@ -99,6 +100,19 @@ define(["baseView"], function(BaseView) {
 			this.toggleTransectForm();
 		}
 	}
+
+
+	TransectView.prototype.delete = function() {
+		if (this.element !== undefined) this.element.remove();
+		this.$el.remove();
+		this.remove();
+	}
+
+	TransectView.prototype.destroy = function() {
+		this.transect.destroy();
+	}
+
+
 
 	return TransectView;
 });

@@ -10,7 +10,7 @@ define(["baseCollection", "transectWell"], function(BaseCollection, TransectWell
 	});
 
 	TransectWells.prototype.comparator = function(well) {
-		return well.get('x')
+		return well.get('x');
 	};
 
 
