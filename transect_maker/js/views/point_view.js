@@ -71,8 +71,10 @@ define(["baseView"], function(BaseView) {
 
 	PointView.prototype.renderTooltip = function() {
 		var content = this.point.get('name') + "<br/>";
-		content += this.point.get('zone').get('name') + "<br/>";
-		content += this.point.get('transect').get('name');
+		if (this.point.get('zone'))
+			content += this.point.get('zone').get('name') + "<br/>";
+		if (this.point.get('transect'))
+			content += this.point.get('transect').get('name');
 		$(this.element.node).qtip({
 			content: {
 				text: content
