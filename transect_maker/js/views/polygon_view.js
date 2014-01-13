@@ -249,7 +249,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		}
 
 		var point = this.app.PointsCollection.findWhere({x: locationX, y: locationY}) || new Point({x: locationX, y: locationY}, this.app);
-		if (point.get('transect') === null || point.get('zone') === null) {
+		if (point.get('transect') 	=== null || point.get('zone') === null) {
 			point.destroy();
 			return;
 		}

@@ -21,7 +21,7 @@ define(["baseView", "transectView", "transects"], function(BaseView, TransectVie
 			attach the listener to check for changes in the collection.
 		*/
 		this.listenTo(this.transects, "add", this.addTransect.bind(this));
-		this.listenTo(this.transects, "reset", this.render.bind(this));
+		this.listenTo(this.transects, "reset", this.resetTransect.bind(this));
 
 	};
 
@@ -37,8 +37,10 @@ define(["baseView", "transectView", "transects"], function(BaseView, TransectVie
 	};
 
 	TransectsView.prototype.resetTransect = function () {
-		this.$transectsTable('');
+		this.$transectsTable.html('');
 		this.transects.each(this.addTransect, this);
+		this.app.PointsCollection.updatePoints();
+		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	return TransectsView;

@@ -9,13 +9,17 @@ define(["baseCollection", "zone"], function(BaseCollection, Zone) {
 		model: Zone
 	});
 
+	Zones.prototype.comparator = function(zone) {
+		return zone.get('topMarker').get('y');
+	}
+
 
 	Zones.prototype.getZoneForY = function(y) {
 		/* return the zone to which the point belongs to */
 		var containingZone = null;
 		this.each(function(zone) {
 			if (zone.isYInsideZone(y)) {
-				containingZone = zone;	
+				containingZone = zone;
 			}
 		});
 		return containingZone;

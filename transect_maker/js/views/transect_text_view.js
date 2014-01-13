@@ -37,6 +37,17 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		this.listenTo(this.transectText, 'change:age', this.updateTscBBox.bind(this));
 		this.listenTo(this.transectText, 'destroy', this.delete.bind(this));
 		this.listenTo(this.transectText.get('settings'), 'change', this.renderTransectText.bind(this));
+
+		this.listenTo(this.app.ZonesCollection, 'remove', this.updateText.bind(this));
+		this.listenTo(this.app.TransectsCollection, 'remove', this.updateText.bind(this));
+	}
+
+	TransectTextView.prototype.updateText = function(model) {
+		if (model !== this.transectText.get('transect') && model !== this.transectText.get('zone')) {
+			return;
+		}
+		this.transectText.updateTransectAndZone();
+		this.render();
 	}
 
 	TransectTextView.prototype.render = function() {

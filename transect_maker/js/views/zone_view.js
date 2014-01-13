@@ -26,6 +26,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.zone, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.zone, 'change:name', this.render.bind(this));
 		this.listenTo(this.zone, 'change:description', this.render.bind(this));
+		// this.listenTo(this.zone, 'destroy', this.delete.bind(this));
 
 
 		/* render the dom element for the zone in the setting panel */
@@ -98,6 +99,17 @@ define(["baseView"], function(BaseView) {
 			this.toggleZoneForm();
 		}
 	}
+
+	ZoneView.prototype.delete = function() {
+		if (this.element !== undefined) this.element.remove();
+		this.$el.remove();
+		this.remove();
+	}
+
+	ZoneView.prototype.destroy = function() {
+		this.transectMarker.destroy();
+	}
+
 
 	return ZoneView;
 });

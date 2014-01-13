@@ -241,6 +241,14 @@ define([
 			this.polygonsView.togglePolygons();
 		}
 		
+		if (this.transectApp.Cursor.get('lockH')) {
+			this.cursorView.toggleHlock();
+		}
+		
+		if (this.transectApp.Cursor.get('lockV')) {
+			this.cursorView.toggleVlock();
+		}
+
 		this.polygonsView.checkAndDeleteCurrentPolygon();
 		
 		
