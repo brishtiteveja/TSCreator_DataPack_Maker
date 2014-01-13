@@ -171,12 +171,12 @@ define(["baseView"], function(BaseView) {
 			transect = this.point.get('transect');	
 			var x = transect.get('wellRight').get('x');
 			if (locationX > x) {
-				locationX = x;
+				locationX = x - 1;
 			}
 			var x = transect.get('wellLeft').get('x');
 			
 			if (locationX < x) {
-				locationX = x;
+				locationX = x + 1;
 			}
 		}
 
@@ -187,20 +187,24 @@ define(["baseView"], function(BaseView) {
 			var y = zone.get('baseMarker').get('y');
 			
 			if (locationY > y) {
-				locationY = y;
+				locationY = y - 1;
 			}
 
 			var y = zone.get('topMarker').get('y');
 			
 			if (locationY < y) {
-				locationY = y;
+				locationY = y + 1;
 			}
+
 		}
 
 		this.point.set({
 			x: locationX,
 			y: locationY
 		});
+
+
+		this.point.updateTransectAndZone();
 	}
 
 	PointView.prototype.togglePointForm = function(){
