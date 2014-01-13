@@ -204,15 +204,12 @@ define([
 		evt.stopPropagation();
     	evt.preventDefault();
     	var file = evt.dataTransfer.files[0];
-    	
-    	if (file.type === "application/json") {
-	    	var reader = new FileReader();
-			reader.onloadend = function(e) {
-				self.showCanvas();
-				self.transectApp.loader.loadData(this.result);
-			};
-	    	reader.readAsText(file);	
-    	}
+    	var reader = new FileReader();
+		reader.onloadend = function(e) {
+			self.showCanvas();
+			self.transectApp.loader.loadData(this.result);
+		};
+    	reader.readAsText(file);
 	}
 
 	TransectAppView.prototype.enableTool = function(evt) {
