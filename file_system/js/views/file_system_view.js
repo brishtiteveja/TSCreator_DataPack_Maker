@@ -111,12 +111,13 @@ define([
 	FileSystemView.prototype.toggleView = function(evt) {
 		if ($("a[href='#file-system']").parent().hasClass('active')) {
 			$("a[href='#file-system']").parent().removeClass('active');
-			this.$el.addClass('hide');
+			$(".display-panel").addClass('hide');
 			this.$canvas.removeClass('hide');
 		} else {
+			$(".transect-tools").parent().removeClass('active');
 			$("a[href='#file-system']").parent().addClass('active');
+			$(".display-panel").addClass('hide');
 			this.$el.removeClass('hide');
-			this.$canvas.addClass('hide');
 			this.app.exporter.export();
 		}
 	};

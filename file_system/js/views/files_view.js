@@ -91,6 +91,7 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 
 	FilesView.prototype.saveProject = function() {
 		// create project directory
+		$("#loading").removeClass("hide");
 		var self = this;
 		var dirName =	"transect-" + self.getTimeStamp();
 		self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function(dirEntry) {
@@ -102,16 +103,16 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 
 				self.newFile(dirEntry, jsonFile, function(fileEntry){
 					self.writeJSONToAFile(fileEntry, json);
-				});
-
-				self.newFile(dirEntry, textFile, function(fileEntry){
-					self.writeTextToAFile(fileEntry, text);
+					self.newFile(dirEntry, textFile, function(fileEntry){
+						self.writeTextToAFile(fileEntry, text);
+						$("#loading").addClass("hide");
+					});		
 				});
 			});
 		}, self.errorHandler.bind(self));
-	
+		
 		this.fileSystem.set({
-			update: true
+			update: !this.fileSystem.get('update')
 		});
 	}
 

@@ -185,8 +185,10 @@ define([
 	TransectAppView.prototype.loadFromLocalStorage = function() {
 		var isOk = confirm("You are about to load the saved data. This will override your current data. Are you sure you want to continue ?");
 		if (isOk) {
+			$("#loading").removeClass("hide");
+			this.transectApp.loader.loadFromLocalStorage();
 			this.showCanvas();
-			this.transectApp.loader.loadFromLocalStorage();	
+			$("#loading").addClass("hide");
 		}
 	}
 
@@ -199,6 +201,7 @@ define([
 
 
 	TransectAppView.prototype.dataDrop = function(evt) {
+    	$("#loading").removeClass("hide");
 		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
@@ -208,6 +211,7 @@ define([
 		reader.onloadend = function(e) {
 			self.showCanvas();
 			self.transectApp.loader.loadData(this.result);
+			$("#loading").addClass("hide");
 		};
     	reader.readAsText(file);
 	}

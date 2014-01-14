@@ -89,6 +89,10 @@ define(["baseView"], function(BaseView) {
 		this.file.set({
 			name: this.$fileName.textContent
 		});
+
+		this.fileSystem.set({
+			update: !this.fileSystem.get('update')
+		});
 	}
 
 	FileView.prototype.rename = function() {
@@ -139,6 +143,8 @@ define(["baseView"], function(BaseView) {
 		var self = this;
 		if (self.file.get('isDirectory') || !self.file.get("selected")) return;
 
+		$("#loading").removeClass("hide");
+
 		self.fileSystem.get("fs").root.getFile(self.file.get('fullPath'), {}, function(fileEntry) {
 
 			// Get a File object representing the file,
@@ -147,8 +153,9 @@ define(["baseView"], function(BaseView) {
 				var reader = new FileReader();
 
 				reader.onloadend = function(e) {
-					self.showCanvas();
+					self.showCanvas()
 					self.app.loader.loadData(this.result);
+					$("#loading").addClass("hide");
 				};
 
 				reader.readAsText(file);
