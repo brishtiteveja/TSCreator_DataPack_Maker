@@ -244,12 +244,16 @@ define([
 					polyPoints = PolyK.Reverse(polyPoints);
 				}
 
-				var polygonSlices = PolyK.Slice(
-					polyPoints, rightWellLine[0], 
-					rightWellLine[1], rightWellLine[2], rightWellLine[3]);
+				try {				
+					var polygonSlices = PolyK.Slice(
+						polyPoints, rightWellLine[0], 
+						rightWellLine[1], rightWellLine[2], rightWellLine[3]);
 
-				var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
-				newPolygons.add(polygonSlices.toArray());
+					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
+					newPolygons.add(polygonSlices.toArray());	
+				} catch(err) {
+					console.log("Polygon was not sliced properly.");
+				}
 			}
 
 			polygons = newPolygons;
