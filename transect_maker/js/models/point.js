@@ -29,6 +29,39 @@ define(["baseModel"], function(BaseModel) {
 	Point.prototype.updateTransectAndZone = function() {
 		var zone = this.get('app').ZonesCollection.getZoneForY(this.get('y'));
 		var transect = this.get('app').TransectsCollection.getTransectForX(this.get('x'));
+
+		if (zone === null) {
+			zone = this.get('app').ZonesCollection.getZoneForY(this.get('y') - 1);
+			if (zone === null) {
+				zone = this.get('app').ZonesCollection.getZoneForY(this.get('y') + 1);
+				if (zone !== null) {
+					this.set({
+						y: this.get('y') + 1
+					});
+				}
+			} else {
+				this.set({
+					y: this.get('y') - 1
+				});
+			}
+		}
+
+		if (transect === null) {
+			transect = this.get('app').TransectsCollection.getTransectForX(this.get('x') + 1);
+			if (transect === null){
+				transect = this.get('app').TransectsCollection.getTransectForX(this.get('x') - 1);
+				if (transect !== null) {
+					this.set({
+						x: this.get('x') - 1
+					});
+				}
+			} else {
+				this.set({
+					x: this.get('x') + 1
+				});
+			}
+		}
+
 		if (zone !== null && transect !== null) {
 			this.set({
 				transect: transect,
