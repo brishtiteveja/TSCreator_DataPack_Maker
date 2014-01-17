@@ -55,9 +55,6 @@ define(["baseView"], function(BaseView) {
 		/* render the well */
 		this.renderWell();
 
-		
-		this.app.PointsCollection.updatePoints();
-		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectWellView.prototype.renderWell = function() {
@@ -187,7 +184,11 @@ define(["baseView"], function(BaseView) {
 	}
 
 	TransectWellView.prototype.destroy = function() {
+		var transect1 = this.app.TransectsCollection.findWhere({wellLeft: this.transectWell});
+		var transect2 = this.app.TransectsCollection.findWhere({wellRight: this.transectWell});
 		this.transectWell.destroy();
+		if (transect1) transect1.destroy();
+		if (transect2) transect2.destroy();
 	}
 
 	return TransectWellView;

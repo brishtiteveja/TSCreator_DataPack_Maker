@@ -55,8 +55,6 @@ define(["baseView"], function(BaseView) {
 		this.editTransectMarker();
 
 		this.renderMarker();
-		this.app.PointsCollection.updatePoints();
-		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	/*==========  render the marker on the canvas  ==========*/
@@ -188,7 +186,11 @@ define(["baseView"], function(BaseView) {
 	}
 
 	TransectMarkerView.prototype.destroy = function() {
+		var zone1 = this.app.ZonesCollection.findWhere({topMarker: this.transectMarker});
+		var zone2 = this.app.ZonesCollection.findWhere({baseMarker: this.transectMarker});
 		this.transectMarker.destroy();
+		if (zone1) zone1.destroy();
+		if (zone2) zone2.destroy();
 	}
 
 	return TransectMarkerView;

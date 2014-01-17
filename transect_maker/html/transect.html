@@ -49,13 +49,12 @@
 					<li><a href="#reload-data" class="transect-tools icon icons_32-reload_icon_32" title="reload data from local storage"></a></li>
 					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32" title="export data"></a></li>
 					<li><a href="#file-system" class="transect-tools icon icons_32-box_icon_32" title="sandbox"></a></li>
-					<li><a href="#info" class="transect-tools icon icons_32-info_icon_32" tiitle="info"></a></li>
 				</ul>
 			</div>
 			<div id="display" class="small-18 large-21 columns">
 				<div id="export-panel" class="hide display-panel"></div>
 				<div id="file-system-panel" class="display-panel hide"></div>
-				<div id="canvas" class="hide" tabindex=1></div>
+				<div id="canvas" class="hide display-panel" tabindex=1></div>
 				<div class="intro row display-panel" id="intro-screen">
 					<div class="content small-22 large-22 columns">
 						<div class="row">
@@ -70,8 +69,7 @@
 										<ul>
 											<li>
 												<div class="row">
-													<div class="small-10 columns large-6"><a href="#" title="">↪︎ intro</a></div>
-													<div class="small-14 large-18 columns"><a href="#" title="">a guided tour of transect maker.</a></div>
+													<div class="small-24 columns"><a href="/docs/Gabi_TransectMakerManual2.pdf" title="">↪︎ a guided tour of transect maker.</a></div>
 												</div>
 											</li>
 											<!-- <li>
@@ -82,8 +80,7 @@
 											</li> -->
 											<li>
 												<div class="row">
-													<div class="small-10 columns large-6"><a href="#" title="">↪︎ load data</a></div>
-													<div class="small-14 drag-box large-18 columns" id="data-box"><h2 class="text-center text-message"><small class="data-status">drag & drop your datafile here</small></h2></div>
+													<div class="small-24 drag-box columns" id="data-box"><h2 class="text-center text-message"><small class="data-status">drag & drop your datafile here</small></h2></div>
 												</div>
 											</li>
 											<li>
@@ -100,6 +97,9 @@
 							</div>							
 						</div>
 					</div>
+				</div>
+				<div id="loading" class="hide">
+					<img src="/images/loading.gif" alt="loading">
 				</div>
 			</div>
 			<div id="settings" class="small-4 large-2 columns">

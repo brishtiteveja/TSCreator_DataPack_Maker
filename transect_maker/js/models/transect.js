@@ -30,7 +30,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 
 	Transect.prototype.getRelativeX = function(x) {
 		if (this.get('wellLeft').get('x') <= x && x < this.get('wellRight').get('x')) {
-			var num = ((x - this.get('wellLeft').get('x'))/(this.get('wellRight').get('x') - this.get('wellLeft').get('x')))
+			var num = ((x - this.get('wellLeft').get('x'))/(this.get('wellRight').get('x') - this.get('wellLeft').get('x')));
 			return Math.round(num * 1000) / 1000;
 		}
 		return null;

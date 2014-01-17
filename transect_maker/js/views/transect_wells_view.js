@@ -50,8 +50,6 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 		var transectWellView = new TransectWellView(this.app, well, this);
 		this.$wellsTable.append(transectWellView.el);
 		this.updateTransects();
-		this.app.PointsCollection.updatePoints();
-		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectWellsView.prototype.toggleWells = function(evt) {
@@ -76,23 +74,22 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 
 	TransectWellsView.prototype.updateTransects = function() {
 		var self = this;
-		var transects = [];
+		var transectsToDestroy = [];
+		this.transectWells.sort();
 		this.transectWells.each(function(well, index, wells) {
 			if (index > 0) {
-				transects.push(new Transect({name: "Transect " + index}, wells[index - 1], well, self.app));
+				var transect = self.transects.findWhere({wellLeft: wells[index - 1], wellRight: well}) || new Transect({name: "Transect " + index}, wells[index - 1], well, self.app);
+				self.transects.add(transect);
+
+				if (index < self.transectWells.length - 1) {
+					transect = self.transects.findWhere({wellLeft: wells[index - 1], wellRight: wells[index + 1]});
+					if (transect) {
+						transectsToDestroy.push(transect);
+					}
+				}
 			}
 		});
-		var previousTransects = _.clone(this.transects)
-		this.transects.reset(transects);
-		this.transects.each(function(transect) {
-			var prevTransect = previousTransects.findWhere({wellLeft: transect.get('wellLeft'), wellRight: transect.get('wellRight')});
-			if (prevTransect) {
-				transect.set({
-					name: prevTransect.get('name'),
-					description: prevTransect.get('description'),
-				});
-			}
-		});
+		_.invoke(transectsToDestroy, "destroy");
 	};
 
 	return TransectWellsView;

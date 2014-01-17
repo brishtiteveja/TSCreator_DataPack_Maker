@@ -32,6 +32,9 @@ define(["baseView", "cursor"], function(BaseView, Cursor) {
 	}
 
 	CursorView.prototype.toggleHlock = function() {
+		if (this.$vLock.parent().hasClass("active")) {
+			this.toggleVlock();
+		}
 		this.$hLock.parent().toggleClass("active");
 		this.cursor.set({
 			lockH: !this.cursor.get('lockH'),
@@ -39,6 +42,9 @@ define(["baseView", "cursor"], function(BaseView, Cursor) {
 	}
 
 	CursorView.prototype.toggleVlock = function() {
+		if (this.$hLock.parent().hasClass("active")) {
+			this.toggleHlock();
+		}
 		this.$vLock.parent().toggleClass("active");
 		this.cursor.set({
 			lockV: !this.cursor.get('lockV'),

@@ -79,16 +79,23 @@ define(["baseView"], function(BaseView) {
 	}
 
 	DataExportView.prototype.toggleExportView = function(evt) {
+		$("#loading").removeClass("hide");
 		if ($("a[href='#export-data']").parent().hasClass('active')) {
 			$("a[href='#export-data']").parent().removeClass('active');
-			this.$el.addClass('hide');
+			$(".display-panel").addClass('hide');
 			this.$canvas.removeClass('hide');
 		} else {
+			$(".transect-tools").parent().removeClass('active');
 			$("a[href='#export-data']").parent().addClass('active');
+			$(".display-panel").addClass('hide');
 			this.$el.removeClass('hide');
-			this.$canvas.addClass('hide');
 		}
-		this.render();
+		try {
+			this.render();
+			$("#loading").addClass("hide");
+		} catch (err) {
+			$("#loading").addClass("hide");
+		}
 	};
 
 	DataExportView.prototype.showData = function(evt) {

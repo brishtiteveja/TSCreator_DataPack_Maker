@@ -185,8 +185,10 @@ define([
 	TransectAppView.prototype.loadFromLocalStorage = function() {
 		var isOk = confirm("You are about to load the saved data. This will override your current data. Are you sure you want to continue ?");
 		if (isOk) {
+			$("#loading").removeClass("hide");
+			this.transectApp.loader.loadFromLocalStorage();
 			this.showCanvas();
-			this.transectApp.loader.loadFromLocalStorage();	
+			$("#loading").addClass("hide");
 		}
 	}
 
@@ -199,20 +201,19 @@ define([
 
 
 	TransectAppView.prototype.dataDrop = function(evt) {
+    	$("#loading").removeClass("hide");
 		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
     	evt.preventDefault();
     	var file = evt.dataTransfer.files[0];
-    	
-    	if (file.type === "application/json") {
-	    	var reader = new FileReader();
-			reader.onloadend = function(e) {
-				self.showCanvas();
-				self.transectApp.loader.loadData(this.result);
-			};
-	    	reader.readAsText(file);	
-    	}
+    	var reader = new FileReader();
+		reader.onloadend = function(e) {
+			self.showCanvas();
+			self.transectApp.loader.loadData(this.result);
+			$("#loading").addClass("hide");
+		};
+    	reader.readAsText(file);
 	}
 
 	TransectAppView.prototype.enableTool = function(evt) {
@@ -241,6 +242,14 @@ define([
 			this.polygonsView.togglePolygons();
 		}
 		
+		if (this.transectApp.Cursor.get('lockH')) {
+			this.cursorView.toggleHlock();
+		}
+		
+		if (this.transectApp.Cursor.get('lockV')) {
+			this.cursorView.toggleVlock();
+		}
+
 		this.polygonsView.checkAndDeleteCurrentPolygon();
 		
 		

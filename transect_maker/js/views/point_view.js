@@ -23,7 +23,20 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.point, 'destroy', this.removeElement.bind(this));
 		this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.point, 'change', this.render.bind(this));
+		this.listenTo(this.app.ZonesCollection, 'remove', this.updatePoint.bind(this));
+		this.listenTo(this.app.TransectsCollection, 'remove', this.updatePoint.bind(this));
 	};
+
+	PointView.prototype.updatePoint = function(model) {
+		
+		if (model !== this.point.get('transect') && model !== this.point.get('zone')) {
+			return;
+		}
+		
+		this.point.updateTransectAndZone();
+		this.render();
+	}
+
 
 	PointView.prototype.render = function() {
 		this.$el.html(this.template.render(this.point.toJSON()));
@@ -45,20 +58,23 @@ define(["baseView"], function(BaseView) {
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.click(this.onClick.bind(this));
 			this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
-			this.renderTooltip();
 
 			this.element.attr({
 				'fill': "#000000"
 			});
 		}
+
+		this.renderTooltip();
 		this.updateStatusBox();
 		this.updateElement();
 	};
 
 	PointView.prototype.renderTooltip = function() {
 		var content = this.point.get('name') + "<br/>";
-		content += this.point.get('zone').get('name') + "<br/>";
-		content += this.point.get('transect').get('name');
+		if (this.point.get('zone'))
+			content += this.point.get('zone').get('name') + "<br/>";
+		if (this.point.get('transect'))
+			content += this.point.get('transect').get('name');
 		$(this.element.node).qtip({
 			content: {
 				text: content
@@ -124,10 +140,6 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.onDragMove = function(dx, dy, x, y, evt) {
-		var transect = this.app.TransectsCollection.getTransectForX(evt.offsetX);
-		var zone = this.app.ZonesCollection.getZoneForY(evt.offsetY);
-		if (transect !== null && zone !== null) {
-
 			var locationX = evt.offsetX;
 			var locationY = evt.offsetY;
 
@@ -145,10 +157,54 @@ define(["baseView"], function(BaseView) {
 			});
 
 			this.point.updateTransectAndZone();
-		}
+			this.zone = this.point.get('zone');
 	}
 
 	PointView.prototype.onDragEnd = function(evt) {
+
+		var transect = this.app.TransectsCollection.getTransectForX(evt.offsetX);
+		var zone = this.app.ZonesCollection.getZoneForY(evt.offsetY);
+
+		var locationX = this.point.get('x');
+		var locationY = this.point.get('y');
+		if (transect === null) {
+			transect = this.point.get('transect');	
+			var x = transect.get('wellRight').get('x');
+			if (locationX > x) {
+				locationX = x - 1;
+			}
+			var x = transect.get('wellLeft').get('x');
+			
+			if (locationX < x) {
+				locationX = x + 1;
+			}
+		}
+
+		if (zone === null) {
+			
+			zone = this.point.get('zone');
+			
+			var y = zone.get('baseMarker').get('y');
+			
+			if (locationY > y) {
+				locationY = y - 1;
+			}
+
+			var y = zone.get('topMarker').get('y');
+			
+			if (locationY < y) {
+				locationY = y + 1;
+			}
+
+		}
+
+		this.point.set({
+			x: locationX,
+			y: locationY
+		});
+
+
+		this.point.updateTransectAndZone();
 	}
 
 	PointView.prototype.togglePointForm = function(){

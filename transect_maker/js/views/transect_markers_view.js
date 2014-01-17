@@ -45,8 +45,6 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 		var transectMarkerView = new TransectMarkerView(this.app, marker, this);
 		this.$markersTable.append(transectMarkerView.el);
 		this.updateZones();
-		this.app.PointsCollection.updatePoints();
-		this.app.TransectTextsCollection.updateTransectTexts();
 	};
 
 	TransectMarkersView.prototype.toggleMarkers = function(evt) {
@@ -67,24 +65,21 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 
 	TransectMarkersView.prototype.updateZones = function() {
 		var self = this;
-		var zones = [];
+		var zonesToDestroy = [];
+		this.transectMarkers.sort();
 		this.transectMarkers.each(function(marker, index, markers) {
 			if (index > 0) {
-				zones.push(new Zone({name: "Zone " + index}, markers[index - 1], marker, self.app));
+				var zone = self.transectZones.findWhere({topMarker: markers[index - 1], baseMarker: marker}) || new Zone({name: "New Zone " + index}, markers[index - 1], marker, self.app);
+				self.transectZones.add(zone);
+				if (index < self.transectMarkers.length - 1) {
+					zone = self.transectZones.findWhere({topMarker: markers[index - 1], baseMarker: markers[index + 1]});
+					if (zone) {
+						zonesToDestroy.push(zone);
+					}
+				}
 			}
 		});
-		var previousZones = _.clone(this.transectZones);
-		this.transectZones.reset(zones);
-		// update zones with name
-		this.transectZones.each(function(zone) {
-			var prevZone = previousZones.findWhere({topMarker: zone.get('topMarker'), baseMarker: zone.get('baseMarker')});
-			if (prevZone) {
-				zone.set({
-					name: prevZone.get('name'),
-					description: prevZone.get('description'),
-				});
-			}
-		});
+		_.invoke(zonesToDestroy, "destroy");
 	};
 
 	return TransectMarkersView;

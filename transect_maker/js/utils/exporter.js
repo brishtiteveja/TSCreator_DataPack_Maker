@@ -244,12 +244,16 @@ define([
 					polyPoints = PolyK.Reverse(polyPoints);
 				}
 
-				var polygonSlices = PolyK.Slice(
-					polyPoints, rightWellLine[0], 
-					rightWellLine[1], rightWellLine[2], rightWellLine[3]);
+				try {				
+					var polygonSlices = PolyK.Slice(
+						polyPoints, rightWellLine[0], 
+						rightWellLine[1], rightWellLine[2], rightWellLine[3]);
 
-				var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
-				newPolygons.add(polygonSlices.toArray());
+					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
+					newPolygons.add(polygonSlices.toArray());	
+				} catch(err) {
+					console.log("Polygon was not sliced properly.");
+				}
 			}
 
 			polygons = newPolygons;
@@ -377,10 +381,17 @@ define([
 		var self = this;
 		wellData.points.sortBy(function(point) {return point.get('y');});
 		wellData.points.each(function(point, index) {
-			var pattern = self.getPointPattern(point, wellData.polygons);
+			var pgon = self.getPointPattern(point, wellData.polygons);
+			var pattern = null;
+			var name = null;
+			if (pgon != null) {
+				pattern = pgon.get('patternName');
+				name = pgon.get('name');
+			}
 			wellData.referencePoints.push({
 				point: point,
 				pattern: pattern ? pattern : "TOP",
+				name: name ? name : "",
 			});
 		});
 	}
@@ -389,7 +400,8 @@ define([
 		var pointPolygons = new Polygons();
 		polygons.each(function(polygon) {
 			var polygonPoints = polygon.getPolyKPointsArray();
-			if (PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1)) {
+			if (PolyK.ContainsPoint(polygonPoints, point.get('x')+1, point.get('y') - 1) || 
+				PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1)) {
 				pointPolygons.add(polygon);
 			}
 		});
@@ -397,7 +409,7 @@ define([
 
 		pointPolygons.sort();
 
-		return pointPolygons.last().get('patternName');
+		return pointPolygons.last();
 	}
 
 	Exporter.prototype.isCloseToWell = function(well, line) {
@@ -632,7 +644,7 @@ define([
 			outputText += (well.referencePoints[i].name || "") + "\t";
 			outputText += well.referencePoints[i].point.get('age') + "\t";
 			outputText += "CALIBRATION = ";
-			outputText += Math.round((well.referencePoints[i].point.get('relativeY')*1000))/10 + " % up the ";
+			outputText += Math.round(((1 - well.referencePoints[i].point.get('relativeY'))*1000))/10 + " % up the ";
 			outputText += well.referencePoints[i].point.get('zone').get('name') + "\t";
 		}
 		return outputText;
