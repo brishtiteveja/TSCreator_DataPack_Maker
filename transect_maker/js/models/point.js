@@ -27,8 +27,11 @@ define(["baseModel"], function(BaseModel) {
 	};
 
 	Point.prototype.updateTransectAndZone = function() {
-		var zone = this.get('app').ZonesCollection.getZoneForY(this.get('y'));
-		var transect = this.get('app').TransectsCollection.getTransectForX(this.get('x'));
+		var zone = this.get('zone') === null ? this.get('app').ZonesCollection.getZoneForY(this.get('y')) :
+										this.get('app').ZonesCollection.getZoneInNeighborhoodForY(this.get('y'), this.get('zone'));
+
+		var transect = this.get('zone') === null ? this.get('app').TransectsCollection.getTransectForX(this.get('x')) :
+													this.get('app').TransectsCollection.getTransectInNeighborhoodForX(this.get('x'), this.get('transect'));
 
 		if (zone === null) {
 			zone = this.get('app').ZonesCollection.getZoneForY(this.get('y') - 1);

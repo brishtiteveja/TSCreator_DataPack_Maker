@@ -25,6 +25,24 @@ define(["baseCollection", "zone"], function(BaseCollection, Zone) {
 		return containingZone;
 	}
 
+	Zones.prototype.getZoneInNeighborhoodForY = function(y, zone) {
+		/* return the zone to which the point belongs to */
+		var index = this.indexOf(zone);
+		var zone1 = this.at(index - 1);
+		var zone2 = this.at(index + 1);
+		if (zone.isYInsideZone(y)) {
+			return zone;
+		}
+		if (zone1.isYInsideZone(y)) {
+			return zone1;
+		}
+		if (zone2.isYInsideZone(y)) {
+			return zone2;
+		}
+		return null;
+	}
+
+
 	return Zones;
 });
 

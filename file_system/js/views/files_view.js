@@ -93,11 +93,12 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 		// create project directory
 		$("#loading").removeClass("hide");
 		var self = this;
-		var dirName =	"transect-" + self.getTimeStamp();
+		var timeStamp = self.getTimeStamp();
+		var dirName =	"transect-" + timeStamp ;
 		self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function(dirEntry) {
 			self.newDir(dirEntry, dirName, function(dirEntry) {
-				var jsonFile = "transect.json";
-				var textFile = "transect.txt";
+				var jsonFile = "transect-data-" + timeStamp + ".json";
+				var textFile = "transect-data-" + timeStamp + ".txt";
 				var json = self.app.exporter.getJSON();
 				var text = self.app.exporter.getText();
 
