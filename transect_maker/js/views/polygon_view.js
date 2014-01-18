@@ -237,6 +237,9 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	}
 
 	PolygonView.prototype.addPoint = function(evt) {
+		if (this.app.supressDoubleClick) {
+			return;
+		}
 		if (!this.polygon.get('draw')) {return;}
 		var locationX = evt.offsetX;
 		var locationY = evt.offsetY;
