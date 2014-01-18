@@ -95,12 +95,27 @@ define(["baseView"], function(BaseView) {
 		return "M" + this.transectWell.get('x') + ",0" + 'V' + this.app.Canvas.height;
 	};
 
-	TransectWellView.prototype.dragStart = function(x, y, evt) {};
+	TransectWellView.prototype.dragStart = function(x, y, evt) {
+		var wells = this.app.TransectWellsCollection;
+		var index = wells.indexOf(this.transectWell);
+		this.prevWell = wells.at(index - 1);
+		this.nextWell = wells.at(index + 1);
+	};
 
 	TransectWellView.prototype.dragMove = function(dx, dy, x, y, evt) {
+		if (this.prevWell && this.nextWell && (this.prevWell.get('x') + 2 > evt.offsetX || evt.offsetX > this.nextWell.get('x') - 2)) {
+			return;
+		}
+		if (!this.prevWell && this.nextWell && evt.offsetX > this.nextWell.get('x') - 2) {
+			return;
+		}
+		if (this.prevWell && !this.nextWell && this.prevWell.get('x') + 2 > evt.offsetX) {
+			return;
+		}
+
 		this.transectWell.set({
 			x: evt.offsetX
-		});	
+		});
 	};
 
 	/*==========  when drag ends update the points and texts  ==========*/

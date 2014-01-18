@@ -55,6 +55,7 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 			$("a[href='#add-polygon']").parent().addClass('hide');
 			$("a[href='#new-polygon']").parent().removeClass('hide');
 			this.enPolygons = true;
+			this.createPolygon();
 		}
 	}
 

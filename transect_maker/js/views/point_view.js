@@ -118,11 +118,13 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.onMouseOver = function() {
+		this.app.supressDoubleClick = true;
 		this.updateStatusBox();
 		this.setEditMode();
 	};
 
 	PointView.prototype.onMouseOut = function() {
+		this.app.supressDoubleClick = false;
 		this.setFinishedMode();
 	};
 
@@ -130,6 +132,9 @@ define(["baseView"], function(BaseView) {
 		if (this.app.CurrentPolygon !== null && this.app.CurrentPolygon.get('draw')) {
 			this.app.CurrentPolygon.get('points').add(this.point);
 		}
+	}
+
+	PointView.prototype.onDblClick = function(evt) {
 	}
 
 	PointView.prototype.removeElement = function() {
