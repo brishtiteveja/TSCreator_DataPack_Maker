@@ -33,7 +33,8 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		this.listenTo(this.blockColumn, 'change', this.renderBlockColumn.bind(this));
 		this.listenTo(this.blockColumn.get('settings'), 'change', this.renderBlockColumn.bind(this));
 		this.listenTo(this.blockColumn.get('blockMarkers'), 'add', this.addBlockMarker.bind(this));
-		this.listenTo(this.blockColumn.get('blocks'), 'reset', this.resetBlocks.bind(this));
+		this.listenTo(this.blockColumn.get('blocks'), 'remove', this.removeBlock.bind(this));
+		this.listenTo(this.blockColumn.get('blocks'), 'add', this.addBlock.bind(this));
 		this.listenTo(this.blockColumn, 'destroy', this.delete.bind(this));
 
 		this.listenToActionEvents();
@@ -148,38 +149,40 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 
 	BlockColumnView.prototype.addBlockMarker = function(blockMarker) {
 		var blockMarkerView = new BlockMarkerView(this.app, blockMarker);
-		this.updateBlocks();
-	}
 
-
-	BlockColumnView.prototype.updateBlocks = function() {
 		var self = this;
-		var blocks = [];
+		var blocks = this.blockColumn.get('blocks');
 		var blockMarkers = this.blockColumn.get('blockMarkers');
 
 		blockMarkers.sort();
-		
-		blockMarkers.each(function(blockMarker, index, blockMarkers) {
-			if (index > 0) {
-				blocks.push(new Block({name: "Block " + index, top: blockMarkers[index - 1], base: blockMarker, blockColumn: self.blockColumn}));
-			}
-		});
 
-		var previousBlocks = _.clone(this.blockColumn.get('blocks'));
-		
-		_.invoke(this.blockColumn.get('blocks').toArray(), 'destroy');
-		this.blockColumn.get('blocks').reset(blocks);
-		
-		this.blockColumn.get('blocks').each(function(block) {
-			var prevBlock = previousBlocks.findWhere({top: block.get('top'), base: block.get('base')});
-			if (prevBlock) {
-				block.set({
-					name: prevBlock.get('name'),
-					description: prevBlock.get('description'),
-				});
+		var index = blockMarkers.indexOf(blockMarker);
+
+		var topMarker, baseMarker;
+
+		if (blockMarkers.length > 1) {
+			
+			if (index == 0) {
+				topMarker = blockMarkers.at(index);
+				baseMarker = blockMarkers.at(index + 1);
+			} else {
+				topMarker = blockMarkers.at(index - 1);
+				baseMarker = blockMarkers.at(index);
 			}
-		});
-	};
+			
+			var block = blocks.findWhere({top: topMarker, base: baseMarker}) ||
+						new Block({top: topMarker, base: baseMarker, blockColumn: self.blockColumn});
+			topMarker.get('blocks').add(block);
+			baseMarker.get('blocks').add(block);
+			blocks.add(block);
+		}
+	}
+
+	BlockColumnView.prototype.removeBlock = function(block) {
+		var topMarker = block.get('top');
+		var baseMarker = block.get('top');
+	}
+
 
 
 	BlockColumnView.prototype.addBlock = function(block) {

@@ -9,19 +9,21 @@ define(["baseView"], function(BaseView) {
 		classname: "BlockMarkerView",
 	});
 
-	BlockMarkerView.prototype.initialize = function(app, block) {
+	BlockMarkerView.prototype.initialize = function(app, blockMarker) {
 		this.app = app;
-		this.block = block;
+		this.blockMarker = blockMarker;
 
-		this.listenTo(this.block.get('blockColumn'), 'change:x', this.renderBlockMarker.bind(this));
-		this.listenTo(this.block.get('blockColumn'), 'change:width', this.renderBlockMarker.bind(this));
+		this.listenTo(this.blockMarker.get('blockColumn'), 'change:x', this.renderBlockMarker.bind(this));
+		this.listenTo(this.blockMarker.get('blockColumn'), 'change:width', this.renderBlockMarker.bind(this));
 
 		this.render();
 
 		/* listen to the events */
-		this.listenTo(this.block, 'change:y', this.renderBlockMarker.bind(this));
-		this.listenTo(this.block, 'change:hover', this.setHoverStatus.bind(this));
-		this.listenTo(this.block, 'destroy', this.delete.bind(this));
+		this.listenTo(this.blockMarker, 'change:y', this.renderBlockMarker.bind(this));
+		this.listenTo(this.blockMarker, 'change:hover', this.setHoverStatus.bind(this));
+		this.listenTo(this.blockMarker, 'destroy', this.delete.bind(this));
+		this.listenTo(this.blockMarker.get('blocks'), 'remove', this.checkAndDelete.bind(this));
+
 	};
 
 	BlockMarkerView.prototype.render = function() {
@@ -38,6 +40,7 @@ define(["baseView"], function(BaseView) {
 				"stroke": "#0000FF"
 			});
 
+			// this.element.click(this.onClick.bind(this));
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 
@@ -54,8 +57,8 @@ define(["baseView"], function(BaseView) {
 
 
 	BlockMarkerView.prototype.getPath = function() {
-		var x2 = this.block.get('blockColumn').get('x') + this.block.get('blockColumn').get('width');
-		return "M" + this.block.get('blockColumn').get('x') + "," + this.block.get('y') + "H" + x2;
+		var x2 = this.blockMarker.get('blockColumn').get('x') + this.blockMarker.get('blockColumn').get('width');
+		return "M" + this.blockMarker.get('blockColumn').get('x') + "," + this.blockMarker.get('y') + "H" + x2;
 	}
 
 	/*==========  start dragging  ==========*/
@@ -63,7 +66,7 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  while dragging  ==========*/
 	BlockMarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
-		this.block.set({
+		this.blockMarker.set({
 			y: evt.offsetY
 		});
 	};
@@ -71,21 +74,21 @@ define(["baseView"], function(BaseView) {
 
 	BlockMarkerView.prototype.onMouseOver = function() {
 		this.$el.addClass('hover');
-		this.block.set({
+		this.blockMarker.set({
 			hover: true,
 		});
 	};
 
 	BlockMarkerView.prototype.onMouseOut = function() {
 		this.$el.removeClass('hover');
-		this.block.set({
+		this.blockMarker.set({
 			hover: false,
 		});
 	};
 
 
 	BlockMarkerView.prototype.setHoverStatus = function() {
-		if (this.block.get('hover')) {			
+		if (this.blockMarker.get('hover')) {			
 			this.element.attr({
 				"stroke-width": 5
 			});
@@ -110,9 +113,19 @@ define(["baseView"], function(BaseView) {
 		this.remove();
 	}
 
-	BlockMarkerView.prototype.destroy = function() {
-		this.block.destroy();
+	BlockMarkerView.prototype.checkAndDelete = function() {
+		if (this.blockMarker.get('blocks').length == 0) {
+			this.destroy();
+		}
 	}
+
+	BlockMarkerView.prototype.destroy = function() {
+		this.blockMarker.destroy();
+	}
+
+	// ClassName.prototype.methodName = function(arguments) {
+	// 	// body...
+	// }
 	
 	return BlockMarkerView;
 });

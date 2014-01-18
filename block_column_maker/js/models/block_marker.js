@@ -2,7 +2,7 @@
 =            BlockMarker to represent the block boundaries.            =
 ======================================================================*/
 
-define(["baseModel"], function(BaseModel) {
+define(["baseModel", "blocks"], function(BaseModel, Blocks) {
 
 	var BlockMarker = BaseModel.extend({
 		classname: "BlockMarker",
@@ -17,6 +17,7 @@ define(["baseModel"], function(BaseModel) {
 				blockColumn   : attributes.blockColumn || null,
 				app           : app || null,
 				zone          : null,
+				blocks        : new Blocks(),
 			}];
 			BaseModel.apply(this, attrs);
 		}
