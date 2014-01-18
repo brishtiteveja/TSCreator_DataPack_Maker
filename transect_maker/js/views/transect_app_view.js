@@ -108,9 +108,26 @@ define([
 
 		this.transectApp.loader = new Loader(this.transectApp);
 		this.transectApp.exporter = new Exporter(this.transectApp);
+
+		this.listenToActionEvents();
 		
 		this.render();
 	};
+
+	TransectAppView.prototype.listenToActionEvents = function() {
+		var self = this;
+		$(".close-reveal-modal").click(function(evt) { $(evt.target).parent().foundation('reveal', 'close') });
+		
+		$('a[href=#continue-load-from-local-storage]').click(function(evt) { 
+			self.loadFromLocalStorage();
+			$(evt.target).parent().foundation('reveal', 'close')
+		});
+		
+		$('a[href=#continue-save-to-local-storage]').click(function(evt) {
+			self.saveToLocalStorage();
+			$(evt.target).parent().foundation('reveal', 'close')
+		});
+	}
 
 	TransectAppView.prototype.showCanvas = function() {
 		this.$canvas.removeClass('hide');
@@ -175,21 +192,15 @@ define([
 	TransectAppView.prototype.exportCanvasAsImage = function() {}
 
 	TransectAppView.prototype.saveToLocalStorage = function() {
-		var isOk = confirm("You are about to save the data. This will override any previous saved data. Are you sure you want to continue ?");
-		if (isOk) {
-			this.transectApp.exporter.export();
-			localStorage.transectApp = this.transectApp.exporter.getJSON();	
-		}
+		this.transectApp.exporter.export();
+		localStorage.transectApp = this.transectApp.exporter.getJSON();	
 	}
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
-		var isOk = confirm("You are about to load the saved data. This will override your current data. Are you sure you want to continue ?");
-		if (isOk) {
-			$("#loading").removeClass("hide");
-			this.transectApp.loader.loadFromLocalStorage();
-			this.showCanvas();
-			$("#loading").addClass("hide");
-		}
+		$("#loading").removeClass("hide");
+		this.transectApp.loader.loadFromLocalStorage();
+		this.showCanvas();
+		$("#loading").addClass("hide");
 	}
 
 
@@ -273,10 +284,12 @@ define([
 				this.fileSystemView.toggleView();
 				break;
 			case "#save-to-local-storage":
-				this.saveToLocalStorage();
+				$('#quick-save-data').foundation('reveal', 'open');
+				// this.saveToLocalStorage();
 				break;
 			case "#reload-data":
-				this.loadFromLocalStorage();
+			$('#load-saved-data').foundation('reveal', 'open');
+				// this.loadFromLocalStorage();
 			default:
 				break;
 		}
