@@ -119,13 +119,13 @@ define([
 		$(".close-reveal-modal").click(function(evt) { $(evt.target).parent().foundation('reveal', 'close') });
 		
 		$('a[href=#continue-load-from-local-storage]').click(function(evt) { 
+			$(evt.target).parent().foundation('reveal', 'close');
 			self.loadFromLocalStorage();
-			$(evt.target).parent().foundation('reveal', 'close')
 		});
 		
 		$('a[href=#continue-save-to-local-storage]').click(function(evt) {
+			$(evt.target).parent().foundation('reveal', 'close');
 			self.saveToLocalStorage();
-			$(evt.target).parent().foundation('reveal', 'close')
 		});
 	}
 
