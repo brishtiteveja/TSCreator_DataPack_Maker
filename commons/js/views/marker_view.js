@@ -97,10 +97,28 @@ define(["baseView"], function(BaseView) {
 	};
 
 	/*==========  start dragging  ==========*/
-	MarkerView.prototype.dragStart = function(x, y, evt) {};
+	MarkerView.prototype.dragStart = function(x, y, evt) {
+		var markers = this.app.MarkersCollection;
+		var index = markers.indexOf(this.marker);
+		this.prevMarker = markers.at(index - 1);
+		this.nextMarker = markers.at(index + 1);
+	};
 
 	/*==========  while dragging  ==========*/
 	MarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
+		
+		if (this.prevMarker && this.nextMarker && (this.prevMarker.get('y') + 2 > evt.offsetY || evt.offsetY > this.nextMarker.get('y') - 2)) {
+			return;
+		}
+		
+		if (!this.prevMarker && this.nextMarker && evt.offsetY > this.nextMarker.get('y') - 2) {
+			return;
+		}
+
+		if (this.prevMarker && !this.nextMarker && this.prevMarker.get('y') + 2 > evt.offsetY) {
+			return;
+		}
+
 		this.marker.set({
 			y: evt.offsetY
 		});

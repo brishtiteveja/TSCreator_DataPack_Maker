@@ -36,15 +36,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		this.listenTo(this.blockColumn.get('blocks'), 'remove', this.removeBlock.bind(this));
 		this.listenTo(this.blockColumn.get('blocks'), 'add', this.addBlock.bind(this));
 		this.listenTo(this.blockColumn, 'destroy', this.delete.bind(this));
-
-		this.listenToActionEvents();
-
-		this.toggleBlocks();
 	};
-
-	BlockColumnView.prototype.listenToActionEvents = function(evt) {
-		$("a[href='#add-block']").unbind().click(this.toggleBlocks.bind(this));
-	}
 
 	BlockColumnView.prototype.render = function() {
 		this.$el.html(this.template.render(this.blockColumn.toJSON()));
@@ -142,7 +134,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 	};
 
 	BlockColumnView.prototype.createBlockMarker = function(evt) {
-		if (!this.enBlocks) return;
+		if (!this.app.enBlocks) return;
 		var blockMarker = new BlockMarker({y: evt.offsetY, blockColumn: this.blockColumn}, this.app);
 		this.blockColumn.get('blockMarkers').add(blockMarker);
 	}
@@ -212,15 +204,6 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		}
 	}
 
-	BlockColumnView.prototype.toggleBlocks = function(evt) {
-		if ($("a[href='#add-block']").parent().hasClass('active')) {
-			$("a[href='#add-block']").parent().removeClass('active');
-			this.enBlocks = false;
-		} else {
-			$("a[href='#add-block']").parent().addClass('active');
-			this.enBlocks = true;
-		}
-	};
 	return BlockColumnView;
 });
 

@@ -153,6 +153,17 @@ define([
     	}
 	}
 
+
+	BlockAppView.prototype.toggleBlocks = function(evt) {		
+		if ($("a[href='#add-block']").parent().hasClass('active')) {
+			$("a[href='#add-block']").parent().removeClass('active');
+			this.blockApp.enBlocks = false;
+		} else {
+			$("a[href='#add-block']").parent().addClass('active');
+			this.blockApp.enBlocks = true;
+		}
+	};
+
 	BlockAppView.prototype.enableTool = function(evt) {
 		var source = evt.target.getAttribute('href');
 
@@ -179,7 +190,8 @@ define([
 				break;
 			case "#new-column":
 				break;
-			case "#add_block":
+			case "#add-block":
+				this.toggleBlocks();
 				break;
 			default:
 				break;

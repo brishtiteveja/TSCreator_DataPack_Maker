@@ -62,10 +62,28 @@ define(["baseView"], function(BaseView) {
 	}
 
 	/*==========  start dragging  ==========*/
-	BlockMarkerView.prototype.dragStart = function(x, y, evt) {};
+	BlockMarkerView.prototype.dragStart = function(x, y, evt) {
+		var markers = this.blockMarker.get('blockColumn').get('blockMarkers');
+		var index = markers.indexOf(this.blockMarker);
+		this.prevMarker = markers.at(index - 1);
+		this.nextMarker = markers.at(index + 1);
+	};
 
 	/*==========  while dragging  ==========*/
 	BlockMarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
+
+		if (this.prevMarker && this.nextMarker && (this.prevMarker.get('y') + 2 > evt.offsetY || evt.offsetY > this.nextMarker.get('y') - 2)) {
+			return;
+		}
+		
+		if (!this.prevMarker && this.nextMarker && evt.offsetY > this.nextMarker.get('y') - 2) {
+			return;
+		}
+
+		if (this.prevMarker && !this.nextMarker && this.prevMarker.get('y') + 2 > evt.offsetY) {
+			return;
+		}
+
 		this.blockMarker.set({
 			y: evt.offsetY
 		});
