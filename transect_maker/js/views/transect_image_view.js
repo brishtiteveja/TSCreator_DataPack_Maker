@@ -27,6 +27,7 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 		this.listenTo(this.transectImage, 'change:width', this.renderImage.bind(this));
 		this.listenTo(this.transectImage, 'change:height', this.renderImage.bind(this));
 		this.listenTo(this.transectImage, 'change:angle', this.renderImage.bind(this));
+		this.listenTo(this.transectImage, 'change:preserveAspectRatio', this.renderImage.bind(this));
 		this.render();
 	};
 

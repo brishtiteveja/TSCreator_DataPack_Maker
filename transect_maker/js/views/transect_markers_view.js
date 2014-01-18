@@ -18,8 +18,8 @@ define(["baseView", "transectMarkerView", "transectMarker", "zone"], function(Ba
 		this.enMarkers = false;
 
 		/* initialize listeners to listen the the changes in markers collection. */
-		this.listenTo(this.transectMarkers, "add", this.render.bind(this));
-		this.listenTo(this.transectMarkers, "remove", this.render.bind(this));
+		this.listenTo(this.transectMarkers, "add", this.addMarker.bind(this));
+		// this.listenTo(this.transectMarkers, "remove", this.render.bind(this));
 
 		this.listenToActionEvents();
 

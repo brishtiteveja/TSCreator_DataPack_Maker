@@ -21,6 +21,27 @@ define(["baseCollection", "transect"], function(BaseCollection, Transect) {
 		return containingTransect;
 	}
 
+	Transects.prototype.getTransectInNeighborhoodForX = function(x, transect) {
+		/* return the transect to which the point belongs to */
+		var index = this.indexOf(transect);
+		var transect1 = this.at(index - 1);
+		var transect2 = this.at(index + 1);
+		
+		if (transect1 && transect1.isXInsideTransect(x)) {
+			return transect1;
+		}
+
+		if (transect2 && transect2.isXInsideTransect(x)) {
+			return transect2;
+		}
+
+		if (transect.isXInsideTransect(x)) {
+			return transect;
+		}
+
+		return null;
+	}
+
 	return Transects;
 });
 

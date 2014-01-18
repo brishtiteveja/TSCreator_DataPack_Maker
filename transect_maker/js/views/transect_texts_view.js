@@ -19,7 +19,7 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 
 		this.listenToActionEvents();
 
-		this.listenTo(this.transectTexts, "add", this.render.bind(this));
+		this.listenTo(this.transectTexts, "add", this.addTransectText.bind(this));
 	}
 
 	TransectTextsView.prototype.render = function() {
