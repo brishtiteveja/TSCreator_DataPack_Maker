@@ -89,5 +89,5 @@
 		fileSystemView: "file_system/js/views/file_system_view",
 	},
 	name: "transect_maker/js/transect_app",
-	out: "transect_maker/js/transect-maker-built.0.1.34.js"
+	out: "transect_maker/js/transect-maker-built.0.1.35.js"
 })
