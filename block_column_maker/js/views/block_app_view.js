@@ -1,3 +1,4 @@
+
 /*====================================================================
 =            BlockAppView is the basic view for blocks            =
 ====================================================================*/
@@ -11,6 +12,8 @@ define([
 	"zonesView",
 	"blockColumns",
 	"blockColumnsView",
+	"dataExportView",
+	"exporter",
 	], function(
 		BaseView,
 		CursorView,
@@ -20,14 +23,16 @@ define([
 		Zones,
 		ZonesView,
 		BlockColumns,
-		BlockColumnsView) {
+		BlockColumnsView,
+		DataExportView,
+		Exporter) {
 
 	var BlockAppView = BaseView.extend({
 		el: ".container",
 		classname: "BlockAppView",
 		events: {
 			'click a.block-settings': 'showSettings',
-			'click a.block-tools': 'enableTool',
+			'click a.maker-tools': 'enableTool',
 			'click a.continue': 'showCanvas',
 			"dragover #data-box": "dataDragover",
 			"drop #data-box": "dataDrop",
@@ -53,6 +58,9 @@ define([
 		this.$canvas  = this.blockApp.$canvas;
 		this.$displayPanels = this.$('.display-panel');
 
+		//
+		this.blockApp.exporter = new Exporter(this.blockApp);
+
 		// Initialize the models
 		this.blockApp.Canvas = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
@@ -61,7 +69,24 @@ define([
 		this.blockApp.BlocksSet = this.blockApp.Canvas.set();
 		
 		this.render();
+
+		this.listenToActionEvents();
 	};
+
+	BlockAppView.prototype.listenToActionEvents = function() {
+		var self = this;
+		$(".close-reveal-modal").click(function(evt) { $(evt.target).parent().foundation('reveal', 'close') });
+		
+		$('a[href=#continue-load-from-local-storage]').click(function(evt) { 
+			$(evt.target).parent().foundation('reveal', 'close');
+			self.loadFromLocalStorage();
+		});
+		
+		$('a[href=#continue-save-to-local-storage]').click(function(evt) {
+			$(evt.target).parent().foundation('reveal', 'close');
+			self.saveToLocalStorage();
+		});
+	}
 
 	BlockAppView.prototype.showCanvas = function() {
 		this.$canvas.removeClass('hide');
@@ -69,11 +94,13 @@ define([
 	}
 
 	BlockAppView.prototype.render = function() {
-		this.fileSystemView = new FileSystemView(this.blockApp);
-		this.cursorView = new CursorView(this.blockApp);
+		this.dataExportView = new DataExportView(this.blockApp);
 
-		this.blockMarkersView = new MarkersView(this.blockApp);
+		this.cursorView = new CursorView(this.blockApp);
+		this.fileSystemView = new FileSystemView(this.blockApp);
+
 		this.zonesView = new ZonesView(this.blockApp);
+		this.markersView = new MarkersView(this.blockApp);
 
 		this.blockColumnsView = new BlockColumnsView(this.blockApp);
 	};
@@ -168,13 +195,17 @@ define([
 		var source = evt.target.getAttribute('href');
 
 		
-		if (this.blockMarkersView.enMarkers) {
-			this.blockMarkersView.toggleMarkers();	
+		if (this.markersView.enMarkers) {
+			this.markersView.toggleMarkers();	
+		}
+		
+		if (this.blockApp.enBlocks) {
+			this.toggleBlocks();	
 		}
 		
 		switch(source) {
 			case "#add-marker":
-				this.blockMarkersView.toggleMarkers();
+				this.markersView.toggleMarkers();
 				break;
 			case "#export-data":
 				this.dataExportView.toggleExportView();

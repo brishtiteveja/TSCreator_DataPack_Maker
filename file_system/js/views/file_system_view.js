@@ -114,7 +114,7 @@ define([
 			$(".display-panel").addClass('hide');
 			this.$canvas.removeClass('hide');
 		} else {
-			$(".transect-tools").parent().removeClass('active');
+			$(".maker-tools").parent().removeClass('active');
 			$("a[href='#file-system']").parent().addClass('active');
 			$(".display-panel").addClass('hide');
 			this.$el.removeClass('hide');

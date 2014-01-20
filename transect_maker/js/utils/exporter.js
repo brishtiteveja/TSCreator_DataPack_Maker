@@ -1,3 +1,4 @@
+
 /*===================================================================
 =            Exporter - Data exporter for transect maker            =
 ===================================================================*/
@@ -62,6 +63,7 @@ define([
 				matrix: {},
 			};
 		});
+
 		self.wellsData = {};
 		this.app.TransectWellsCollection.each(function(well) {
 			self.wellsData[well.get('id')] = {

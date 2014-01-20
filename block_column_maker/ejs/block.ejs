@@ -3,8 +3,15 @@
 	<label class="block-data small-18 columns block-label"><%= name %></label>
 	<div class="small-18 columns block-form hide">
 		<div class="row">
-			<div class="columns small-18">
+			<div class="columns small-10">
 				<input type="text" value="<%= name %>" name="block-name">
+			</div>
+			<div class="columns small-8">
+				<select class="small-18 columns block-line-style" style="height: 37px; width: 100%">
+					<option class="line-style" value="solid" selected>solid</option>
+					<option class="line-style" value="dashed">dashed</option>
+					<option class="line-style" value="dotted">dotted</option>
+				</select>
 			</div>
 			<div class="columns small-6">
 				<input type="color" value="<%= settings.get('backgroundColor') %>" name="block-color" style="height: 37px; width: 100%">

@@ -33,10 +33,10 @@ define(["baseCollection", "zone"], function(BaseCollection, Zone) {
 		if (zone.isYInsideZone(y)) {
 			return zone;
 		}
-		if (zone1.isYInsideZone(y)) {
+		if (zone1 && zone1.isYInsideZone(y)) {
 			return zone1;
 		}
-		if (zone2.isYInsideZone(y)) {
+		if (zone2 && zone2.isYInsideZone(y)) {
 			return zone2;
 		}
 		return null;

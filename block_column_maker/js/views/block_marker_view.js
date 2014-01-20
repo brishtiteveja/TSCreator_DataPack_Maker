@@ -9,21 +9,23 @@ define(["baseView"], function(BaseView) {
 		classname: "BlockMarkerView",
 	});
 
+	BlockMarkerView.prototype.statusBoxTemplate = new EJS({url: '/block_column_maker/ejs/status_box.ejs'});
+
 	BlockMarkerView.prototype.initialize = function(app, blockMarker) {
 		this.app = app;
 		this.blockMarker = blockMarker;
 
+		this.render();
+
 		this.listenTo(this.blockMarker.get('blockColumn'), 'change:x', this.renderBlockMarker.bind(this));
 		this.listenTo(this.blockMarker.get('blockColumn'), 'change:width', this.renderBlockMarker.bind(this));
 
-		this.render();
-
 		/* listen to the events */
-		this.listenTo(this.blockMarker, 'change:y', this.renderBlockMarker.bind(this));
 		this.listenTo(this.blockMarker, 'change:hover', this.setHoverStatus.bind(this));
+		this.listenTo(this.blockMarker, 'change', this.renderBlockMarker.bind(this));
 		this.listenTo(this.blockMarker, 'destroy', this.delete.bind(this));
 		this.listenTo(this.blockMarker.get('blocks'), 'remove', this.checkAndDelete.bind(this));
-
+		this.listenTo(this.app.ZonesCollection, 'remove', this.updateBlockMarker.bind(this));
 	};
 
 	BlockMarkerView.prototype.render = function() {
@@ -49,16 +51,31 @@ define(["baseView"], function(BaseView) {
 			this.app.MarkersSet.toFront();
 		}
 
+		var style = this.blockMarker.get('style');
+		var strokeDashArray = []
+		
+		if (style === "dashed") {
+			strokeDashArray = ["-"];
+		} else if (style === "dotted") {
+			strokeDashArray = ["."];
+		}
 
 		this.element.attr({
-			path: this.getPath()
+			"path": this.getPath(),
+			"stroke-dasharray": strokeDashArray,
 		});
+
+		this.updateStatusBox();
+	}
+
+	BlockMarkerView.prototype.updateStatusBox = function() {
+		this.app.StatusBox.html(this.statusBoxTemplate.render(this.blockMarker.toJSON()));
 	}
 
 
 	BlockMarkerView.prototype.getPath = function() {
 		var x2 = this.blockMarker.get('blockColumn').get('x') + this.blockMarker.get('blockColumn').get('width');
-		return "M" + this.blockMarker.get('blockColumn').get('x') + "," + this.blockMarker.get('y') + "H" + x2;
+		return ("M" + this.blockMarker.get('blockColumn').get('x') + "," + this.blockMarker.get('y') + "H" + x2);
 	}
 
 	/*==========  start dragging  ==========*/
@@ -87,6 +104,8 @@ define(["baseView"], function(BaseView) {
 		this.blockMarker.set({
 			y: evt.offsetY
 		});
+
+		this.blockMarker.updateZone();
 	};
 
 
@@ -141,10 +160,15 @@ define(["baseView"], function(BaseView) {
 		this.blockMarker.destroy();
 	}
 
-	// ClassName.prototype.methodName = function(arguments) {
-	// 	// body...
-	// }
-	
+	BlockMarkerView.prototype.updateBlockMarker = function(zone) {
+		if (zone !== this.blockMarker.get('zone')) {
+			return;
+		}
+		
+		this.blockMarker.updateZone();
+	}
+
+
 	return BlockMarkerView;
 });
 

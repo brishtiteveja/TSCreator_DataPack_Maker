@@ -35,10 +35,8 @@ define(["baseView"], function(BaseView) {
 
 		/* listen to the events */
 		this.listenTo(this.marker, 'change:edit', this.editMarker.bind(this));
-		this.listenTo(this.marker, 'change:y', this.renderMarker.bind(this));
-		this.listenTo(this.marker, 'change:age', this.renderMarker.bind(this));
-		this.listenTo(this.marker, 'change:name', this.renderMarker.bind(this));
 		this.listenTo(this.marker, 'change:hover', this.setHoverStatus.bind(this));
+		this.listenTo(this.marker, 'change', this.renderMarker.bind(this));
 		this.listenTo(this.marker, 'destroy', this.delete.bind(this));
 	};
 
@@ -203,7 +201,11 @@ define(["baseView"], function(BaseView) {
 	}
 
 	MarkerView.prototype.destroy = function() {
+		var zone1 = this.app.ZonesCollection.findWhere({topMarker: this.marker});
+		var zone2 = this.app.ZonesCollection.findWhere({baseMarker: this.marker});
 		this.marker.destroy();
+		if (zone1) zone1.destroy();
+		if (zone2) zone2.destroy();
 	}
 
 	return MarkerView;

@@ -55,7 +55,7 @@ define([
 		classname: "TransectAppView",
 		events: {
 			'click a.transect-settings': 'showSettings',
-			'click a.transect-tools': 'enableTool',
+			'click a.maker-tools': 'enableTool',
 			'click a.continue': 'showCanvas',
 			"dragover #data-box": "dataDragover",
 			"drop #data-box": "dataDrop",

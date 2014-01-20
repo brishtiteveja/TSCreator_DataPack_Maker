@@ -52,7 +52,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		this.$blocksList = this.$('.blocks-list');
 
 		this.renderBlockColumn();
-		this.renderBlocks();
+		// this.renderBlocks();
 	}
 
 	BlockColumnView.prototype.renderBlockColumn = function() {
@@ -84,7 +84,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 	}
 
 	BlockColumnView.prototype.toggleBlockColumnForm = function() {
-		this.render();
+		this.renderBlockColumn();
 		this.blockColumn.set({
 			'edit': !this.blockColumn.get('edit')
 		});
@@ -136,6 +136,12 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 	BlockColumnView.prototype.createBlockMarker = function(evt) {
 		if (!this.app.enBlocks) return;
 		var blockMarker = new BlockMarker({y: evt.offsetY, blockColumn: this.blockColumn}, this.app);
+
+		if (blockMarker.get('zone') === null) {
+			blockMarker.destroy();
+			return;
+		}
+		
 		this.blockColumn.get('blockMarkers').add(blockMarker);
 	}
 

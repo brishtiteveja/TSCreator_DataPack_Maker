@@ -4,83 +4,49 @@
 ======================================*/
 
 define(["baseView"], function(BaseView) {
+	
 	var DataExportView = BaseView.extend({
 		el: "#export-panel",
 		classname: "DataExportView",
 		events: {
 			'click a.show-data': "showData"
 		}
-	})
+	});
 
-	DataExportView.prototype.template = new EJS({url: '/transect_maker/ejs/data_export_panel.ejs'});
-	DataExportView.prototype.transectWellDataTemplate = new EJS({url: '/transect_maker/ejs/wells_data.ejs'});
-	DataExportView.prototype.transectDataLayout = new EJS({url: '/transect_maker/ejs/transect_data_layout.ejs'});
+	DataExportView.prototype.template = new EJS({url: '/block_column_maker/ejs/data_export_panel.ejs'});
+	DataExportView.prototype.blockColumnWellDataTemplate = new EJS({url: '/block_column_maker/ejs/block_data.ejs'});
 
 	DataExportView.prototype.initialize = function(app) {
 		this.app = app;
-		this.markers = this.app.TransectMarkersCollection;
-		this.polygons = this.app.PolygonsCollection;
+		this.exporter = this.app.exporter;
+
+		this.markers = this.app.MarkersCollection;
+		this.blockColumns = this.app.BlockColumnsCollection;
 		this.render();
 		this.$canvas = $("#canvas");
 	}
 
 	DataExportView.prototype.render = function() {
-		this.exporter = this.app.exporter;
-		this.transects = this.app.TransectsCollection;
-		this.$el.html(this.template.render({transects: this.transects.toJSON()}));
+		this.exporter.export();
+		this.$el.html(this.template.render({blockColumns: this.blockColumns.toJSON()}));
 
-		this.$transectData = this.$(".transect-data");
+		this.$blockColumnsData = this.$(".block-columns-data");
 		this.$showData = this.$(".show-data");
 		this.$dataTable = this.$(".data-table");
 		this.$dataRaw = this.$(".data-raw");
 		this.$dataJSON = this.$(".data-json");
-		this.$textData = this.$("textarea[name*=transect-data-text]")[0];
-		this.$textJSON = this.$("textarea[name*=transect-data-json]")[0];
+		this.$textData = this.$("textarea[name*=block-columns-data-text]")[0];
+		this.$textJSON = this.$("textarea[name*=block-columns-data-json]")[0];
 		this.$showTable = this.$('a[href="#show-table"]');
 		this.$showRaw = this.$('a[href="#show-raw"]');
 		this.$showJSON = this.$('a[href="#show-raw"]');
 
-		this.exporter.export();
-		this.renderWellsData();
-		this.renderTransectsData();
+
 		this.renderDataInText();
-		// this.renderDataInJSON();
-	}
 
-	DataExportView.prototype.isAgeSet = function() {
-		for (var i=0; i<this.markers.length; i++) {
-			var marker = this.markers.at(i);
-			if (marker.get('age') == null) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	DataExportView.prototype.renderWellsData = function() {
-		var wellsData = this.exporter.wellsData;
-		for (var id in wellsData) {
-			this.$("#" + id).html(this.transectWellDataTemplate.render(wellsData[id]));
-		}
-	}
-
-	DataExportView.prototype.renderTransectsData = function() {
-		var transectsData = this.exporter.transectsData;
-		for (var id in transectsData) {
-			this.$("#" + id).html(this.transectDataLayout.render(transectsData[id]));
-		}
-	}
-
-	DataExportView.prototype.renderDataInText = function() {
-		this.$textData.value = this.exporter.getText();
-	}
-
-	DataExportView.prototype.renderDataInJSON = function() {
-		this.$textJSON.value = this.exporter.getJSON();
 	}
 
 	DataExportView.prototype.toggleExportView = function(evt) {
-		
 		$("#loading").removeClass("hide");
 		
 		if ($("a[href='#export-data']").parent().hasClass('active')) {
@@ -93,18 +59,22 @@ define(["baseView"], function(BaseView) {
 			$(".display-panel").addClass('hide');
 			this.$el.removeClass('hide');
 		}
-		
+
 		try {
 			this.render();
 			$("#loading").addClass("hide");
 		} catch (err) {
 			$("#loading").addClass("hide");
 		}
+	}
 
-	};
+	DataExportView.prototype.renderDataInText = function() {
+		this.$textData.value = this.exporter.getText();
+	}
+
 
 	DataExportView.prototype.showData = function(evt) {
-		this.$transectData.addClass("hide");
+		this.$blockColumnsData.addClass("hide");
 		this.$showData.removeClass("alert");
 		$(evt.target).addClass("alert");
 		var href = $(evt.target).attr("href");
@@ -122,4 +92,3 @@ define(["baseView"], function(BaseView) {
 });
 
 /*-----  End of DataExportView  ------*/
-

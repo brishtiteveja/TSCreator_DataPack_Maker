@@ -8,16 +8,18 @@ define(["baseModel", "blocks"], function(BaseModel, Blocks) {
 		classname: "BlockMarker",
 		constructor: function (attributes, app) {
 			var attrs = [{
-				edit          : false,
-				hover         : false,
-				y             : parseInt(attributes.y),
-				id            : _.uniqueId("block-marker-"),
-				baseAge       : null,
-				relativeBaseY : null,
-				blockColumn   : attributes.blockColumn || null,
-				app           : app || null,
-				zone          : null,
-				blocks        : new Blocks(),
+				name        : _.uniqueId("block-marker-"),
+				edit        : false,
+				hover       : false,
+				y           : parseInt(attributes.y),
+				id          : _.uniqueId("block-marker-"),
+				age         : null,
+				relativeY   : null,
+				blockColumn : attributes.blockColumn || null,
+				style       : "solid",
+				app         : app || null,
+				zone        : null,
+				blocks      : new Blocks(),
 			}];
 			BaseModel.apply(this, attrs);
 		}
@@ -27,8 +29,16 @@ define(["baseModel", "blocks"], function(BaseModel, Blocks) {
 		this.updateZone();
 	}
 
+	BlockMarker.prototype.toJSON = function() {
+		var json = _.clone(this.attributes);
+		delete json["blocks"];
+		return json;
+	}
+
 	BlockMarker.prototype.updateZone = function() {
-		var zone = this.get('app').ZonesCollection.getZoneForY(this.get('y'));
+		var zone = this.get('zone') === null ? this.get('app').ZonesCollection.getZoneForY(this.get('y')) :
+										this.get('app').ZonesCollection.getZoneInNeighborhoodForY(this.get('y'), this.get('zone'));
+
 		if (zone !== null) {
 			this.set({
 				zone: zone

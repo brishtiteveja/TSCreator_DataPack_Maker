@@ -18,23 +18,18 @@ define(["baseView", "zoneView", "zone"], function(BaseView, ZoneView, Zone) {
 		/* render the dom for the tables */
 		this.render();
 
-		this.listenTo(this.zones, "add", this.addZone.bind(this));
-		this.listenTo(this.zones, "reset", this.resetZones.bind(this));
+		this.listenTo(this.zones, "add", this.render.bind(this));
 	};
 
 	ZonesView.prototype.render = function() {
 		this.$el.html(this.template.render({name: "Zones"}));
 		this.$zonesTable = this.$(".data-list");
+		this.zones.each(this.addZone.bind(this));
 	};
 
 	ZonesView.prototype.addZone = function(zone) {
 		var zoneView = new ZoneView(zone);
 		this.$zonesTable.append(zoneView.el);
-	};
-
-	ZonesView.prototype.resetZones = function() {
-		this.$zonesTable.html('');
-		this.zones.each(this.addZone, this);
 	};
 
 	return ZonesView;

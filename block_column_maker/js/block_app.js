@@ -28,6 +28,10 @@ requirejs.config({
 		zonesView: "/commons/js/views/zones_view",
 		zone: "/commons/js/models/zone",
 		zones: "/commons/js/collections/zones",
+		
+		// Data Exporter
+		exporter: "/block_column_maker/js/utils/exporter",
+		dataExportView: "/block_column_maker/js/views/data_export_view",
 
 		// 
 		block: "/block_column_maker/js/models/block",

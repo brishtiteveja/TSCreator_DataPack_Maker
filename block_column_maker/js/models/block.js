@@ -22,6 +22,12 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		}
 	});
 
+	Block.prototype.initialize = function() {
+		this.get('settings').set({
+			'backgroundColor': "#FF0000"
+		});
+	}
+
 	Block.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
 		delete json["blockColumn"];

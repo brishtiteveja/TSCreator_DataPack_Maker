@@ -65,24 +65,21 @@ define(["baseView", "markerView", "marker", "zone"], function(BaseView, MarkerVi
 
 	MarkersView.prototype.updateZones = function() {
 		var self = this;
-		var zones = [];
+		var zonesToDestroy = [];
+		this.markers.sort();
 		this.markers.each(function(marker, index, markers) {
 			if (index > 0) {
-				zones.push(new Zone({name: "Zone " + index}, markers[index - 1], marker, self.app));
+				var zone = self.zones.findWhere({topMarker: markers[index - 1], baseMarker: marker}) || new Zone({name: "New Zone " + index}, markers[index - 1], marker, self.app);
+				self.zones.add(zone);
+				if (index < self.markers.length - 1) {
+					zone = self.zones.findWhere({topMarker: markers[index - 1], baseMarker: markers[index + 1]});
+					if (zone) {
+						zonesToDestroy.push(zone);
+					}
+				}
 			}
 		});
-		var previousZones = _.clone(this.zones);
-		this.zones.reset(zones);
-		// update zones with name
-		this.zones.each(function(zone) {
-			var prevZone = previousZones.findWhere({topMarker: zone.get('topMarker'), baseMarker: zone.get('baseMarker')});
-			if (prevZone) {
-				zone.set({
-					name: prevZone.get('name'),
-					description: prevZone.get('description'),
-				});
-			}
-		});
+		_.invoke(zonesToDestroy, "destroy");
 	};
 
 	return MarkersView;

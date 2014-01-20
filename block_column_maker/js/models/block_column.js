@@ -1,9 +1,11 @@
+
 /*=============================================================================================
 =            BlockColumn is a nested collection that contains collection of blocks            =
 =============================================================================================*/
 
 define(["baseModel", "blocks", "blockMarkers", "settings"], function(BaseModel, Blocks, BlockMarkers, Settings) {
-	var BlockColumn = BaseModel.extend({
+	
+	var BlockColumn = BaseModel.extend({	
 		classname: "BlockColumn",		
 		constructor: function (attributes) {
 			var attrs = [{
@@ -24,6 +26,14 @@ define(["baseModel", "blocks", "blockMarkers", "settings"], function(BaseModel, 
 		return blockColumn.get('x');
 	}
 
+	BlockColumn.prototype.toJSON = function() {
+		var json = _.clone(this.attributes);
+		delete json["blockMarkers"];
+		return json;
+	}
+
 	return BlockColumn;
+
 });
+
 /*-----  End of BlockColumn  ------*/
