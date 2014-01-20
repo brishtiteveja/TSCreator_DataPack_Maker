@@ -166,6 +166,7 @@ define(["baseView"], function(BaseView) {
 		}
 		
 		this.blockMarker.updateZone();
+		this.render();
 	}
 
 
