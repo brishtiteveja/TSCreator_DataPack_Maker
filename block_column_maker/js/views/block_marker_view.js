@@ -26,6 +26,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.blockMarker, 'destroy', this.delete.bind(this));
 		this.listenTo(this.blockMarker.get('blocks'), 'remove', this.checkAndDelete.bind(this));
 		this.listenTo(this.app.ZonesCollection, 'remove', this.updateBlockMarker.bind(this));
+		this.listenTo(this.app.ZonesCollection, 'change', this.updateBlockMarker.bind(this));
 	};
 
 	BlockMarkerView.prototype.render = function() {
@@ -65,6 +66,7 @@ define(["baseView"], function(BaseView) {
 			"stroke-dasharray": strokeDashArray,
 		});
 
+		this.blockMarker.updateZone();
 		this.updateStatusBox();
 	}
 
@@ -104,8 +106,6 @@ define(["baseView"], function(BaseView) {
 		this.blockMarker.set({
 			y: evt.offsetY
 		});
-
-		this.blockMarker.updateZone();
 	};
 
 
@@ -164,11 +164,10 @@ define(["baseView"], function(BaseView) {
 		if (zone !== this.blockMarker.get('zone')) {
 			return;
 		}
-		
 		this.blockMarker.updateZone();
 		this.render();
-	}
 
+	}
 
 	return BlockMarkerView;
 });

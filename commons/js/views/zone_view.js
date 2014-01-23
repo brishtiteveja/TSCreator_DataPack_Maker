@@ -26,6 +26,8 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.zone, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.zone, 'change:name', this.render.bind(this));
 		this.listenTo(this.zone, 'change:description', this.render.bind(this));
+		this.listenTo(this.zone.get('topMarker'), 'change', this.toggleZone.bind(this));
+		this.listenTo(this.zone.get('baseMarker'), 'change', this.toggleZone.bind(this));
 		this.listenTo(this.zone, 'destroy', this.delete.bind(this));
 
 
@@ -108,6 +110,12 @@ define(["baseView"], function(BaseView) {
 
 	ZoneView.prototype.destroy = function() {
 		this.zone.destroy();
+	}
+
+	ZoneView.prototype.toggleZone = function() {
+		this.zone.set({
+			toggle: !this.zone.get('toggle')
+		});
 	}
 
 	return ZoneView;

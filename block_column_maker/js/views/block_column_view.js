@@ -172,6 +172,9 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 						new Block({top: topMarker, base: baseMarker, blockColumn: self.blockColumn});
 			topMarker.get('blocks').add(block);
 			baseMarker.get('blocks').add(block);
+			baseMarker.set({
+				name: block.get('name') + " Base"
+			});
 			blocks.add(block);
 		}
 	}
@@ -180,8 +183,6 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		var topMarker = block.get('top');
 		var baseMarker = block.get('top');
 	}
-
-
 
 	BlockColumnView.prototype.addBlock = function(block) {
 		var blockView = new BlockView(this.app, block);

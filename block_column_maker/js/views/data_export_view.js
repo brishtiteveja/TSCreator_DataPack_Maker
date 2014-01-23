@@ -14,7 +14,7 @@ define(["baseView"], function(BaseView) {
 	});
 
 	DataExportView.prototype.template = new EJS({url: '/block_column_maker/ejs/data_export_panel.ejs'});
-	DataExportView.prototype.blockColumnWellDataTemplate = new EJS({url: '/block_column_maker/ejs/block_data.ejs'});
+	DataExportView.prototype.blockColumnDataTemplate = new EJS({url: '/block_column_maker/ejs/block_column_data.ejs'});
 
 	DataExportView.prototype.initialize = function(app) {
 		this.app = app;
@@ -41,9 +41,18 @@ define(["baseView"], function(BaseView) {
 		this.$showRaw = this.$('a[href="#show-raw"]');
 		this.$showJSON = this.$('a[href="#show-raw"]');
 
-
 		this.renderDataInText();
 
+		this.renderDataInTable();
+
+	}
+
+	DataExportView.prototype.renderDataInTable = function() {
+		var self = this;
+		this.blockColumns.each(function(blockColumn) {
+			var id = blockColumn.id;
+			self.$("#" + id).html(self.blockColumnDataTemplate.render(blockColumn.toJSON()))
+		});
 	}
 
 	DataExportView.prototype.toggleExportView = function(evt) {

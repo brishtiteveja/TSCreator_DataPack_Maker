@@ -2,6 +2,7 @@
 /*====================================================================
 =            BlockAppView is the basic view for blocks            =
 ====================================================================*/
+
 define([
 	"baseView",
 	"cursorView",
@@ -140,19 +141,13 @@ define([
 	BlockAppView.prototype.exportCanvasAsImage = function() {}
 
 	BlockAppView.prototype.saveToLocalStorage = function() {
-		var isOk = confirm("You are about to save the data. This will override any previous saved data. Are you sure you want to continue ?");
-		if (isOk) {
-			this.blockApp.exporter.export();
-			localStorage.blockApp = this.blockApp.exporter.getJSON();	
-		}
+		this.blockApp.exporter.export();
+		localStorage.blockApp = this.blockApp.exporter.getJSON();
 	}
 
 	BlockAppView.prototype.loadFromLocalStorage = function() {
-		var isOk = confirm("You are about to load the saved data. This will override your current data. Are you sure you want to continue ?");
-		if (isOk) {
-			this.showCanvas();
-			this.blockApp.loader.loadFromLocalStorage();	
-		}
+		this.showCanvas();
+		this.blockApp.loader.loadFromLocalStorage();
 	}
 
 
@@ -214,10 +209,10 @@ define([
 				this.fileSystemView.toggleView();
 				break;
 			case "#save-to-local-storage":
-				this.saveToLocalStorage();
+				$('#quick-save-data').foundation('reveal', 'open');
 				break;
 			case "#reload-data":
-				this.loadFromLocalStorage();
+				$('#load-saved-data').foundation('reveal', 'open');
 				break;
 			case "#new-column":
 				break;
@@ -231,5 +226,6 @@ define([
 
 	return BlockAppView;
 });
+
 /*-----  End of Section comment block  ------*/
 

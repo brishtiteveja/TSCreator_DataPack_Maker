@@ -182,12 +182,19 @@ define(["baseView"], function(BaseView) {
 	};
 
 	BlockView.prototype.delete = function() {
-		if (this.bgBox !== undefined) this.bgBox.remove();
+		if (this.bgBox !== undefined) {
+			this.bgBox.remove();
+			this.blockText.remove();
+			this.bBox.remove();
+		}
 		this.$el.remove();
 		this.remove();
 	}
 
 	BlockView.prototype.destroy = function() {
+		this.block.get('base').set({
+			name: "TOP"
+		});
 		this.block.destroy();
 	}
 
@@ -203,6 +210,12 @@ define(["baseView"], function(BaseView) {
 			name: name,
 			description: description,
 		});
+
+		this.block.get('base').set({
+			name: name + " Base"
+		});
+
+
 		this.block.get('settings').set({
 			backgroundColor: color
 		});

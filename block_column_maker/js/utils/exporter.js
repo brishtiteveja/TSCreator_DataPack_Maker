@@ -10,6 +10,7 @@ define([], function() {
 
 	Exporter.prototype.initialize = function() {
 		this.markers = this.app.MarkersCollection;
+		this.zones = this.app.ZonesCollection;
 		this.blockColumns = this.app.BlockColumnsCollection;
 	}
 
@@ -19,7 +20,7 @@ define([], function() {
 
 	Exporter.prototype.getText = function() {
 		var self = this;
-		var outputText = this.getMetaColumnData();
+		var outputText = "\n\n";
 		this.blockColumns.each(function(blockColumn) {
 			outputText += self.getBlockColumnData(blockColumn);
 		});
@@ -44,7 +45,7 @@ define([], function() {
 		outputText += "\tUSGS-Named";
 		outputText += "\t" + (blockColumn.get('description') || "");
 
-		blockColumn.get('blocks').each(function(block) {
+		blockColumn.get('blocks').each(function(block, index) {
 			outputText += self.getBlockData(block);
 		});
 
@@ -53,12 +54,28 @@ define([], function() {
 
 	Exporter.prototype.getBlockData = function(block) {
 		var outputText = "\n";
+
+		var top = block.get("top");
+		if (top.get('blocks').length < 2) {
+			outputText += "\t" + top.get('name');
+			outputText += "\t" + (top.get('age') || "n/a") ;
+			outputText += "\n";
+		}
+
 		outputText += "\t" + block.get('name');
 		outputText += "\t" + (block.get('base').get('age') || "n/a") ;
 		outputText += "\t" + block.get('base').get('style');
 		outputText += "\t" + (block.get('description') || "");
+		outputText += "\t" + CssToTscColor(block.get('settings').get('backgroundColor'));
 
 		return outputText;
+	}
+
+	Exporter.prototype.getJSON = function() {
+		var json = {};
+		json["zones"] = this.zones.toJSON();
+		json["blockColumns"] = this.blockColumns.toJSON();
+		return JSON.stringify(json);
 	}
 
 	return Exporter;

@@ -8,7 +8,7 @@ define(["baseModel", "blocks"], function(BaseModel, Blocks) {
 		classname: "BlockMarker",
 		constructor: function (attributes, app) {
 			var attrs = [{
-				name        : _.uniqueId("block-marker-"),
+				name        : "TOP",
 				edit        : false,
 				hover       : false,
 				y           : parseInt(attributes.y),
@@ -32,6 +32,8 @@ define(["baseModel", "blocks"], function(BaseModel, Blocks) {
 	BlockMarker.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
 		delete json["blocks"];
+		delete json["blockColumn"];
+		delete json["app"];
 		return json;
 	}
 

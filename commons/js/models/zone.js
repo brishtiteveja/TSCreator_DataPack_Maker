@@ -19,6 +19,7 @@ define(["baseModel"], function(BaseModel) {
 				description: attributes.description || null,
 				topMarker: topMarker,
 				baseMarker: baseMarker,
+				toggle: false,
 			}];
 			BaseModel.apply(this, attrs);
 		}
