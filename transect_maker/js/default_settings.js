@@ -7,7 +7,7 @@ transectApp.glowColor = "#0000CC";
 transectApp.renderFill = "#66FF66";
 transectApp.lineMouseOver = "#FF0000";
 transectApp.lineMouseOut = "#000000";
-transectApp.precision = 5; // rounding of to nearest percentage.
+transectApp.precision = 1; // rounding of to nearest percentage.
 transectApp.steps = Math.round(100/transectApp.precision);
 
 // fonts 

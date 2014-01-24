@@ -252,7 +252,9 @@ define([
 					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
 					newPolygons.add(polygonSlices.toArray());	
 				} catch(err) {
-					console.log("Polygon was not sliced properly.");
+					var polygonSlices = PolyK.Slice(polyPoints, rightWellLine);
+					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
+					newPolygons.add(polygonSlices.toArray());
 				}
 			}
 
