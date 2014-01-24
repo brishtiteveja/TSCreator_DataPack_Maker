@@ -344,6 +344,14 @@ define([
 				}
 			}
 
+			if (percent > 97) {
+				percent = 100;
+			}
+
+			if (percent < 3) {
+				percent = 0;
+			}
+
 			if (!(age in matrix)) {
 				matrix[String(age)] = {};
 			}
