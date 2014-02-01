@@ -125,12 +125,65 @@ define([
 
 		for (var id in self.transectsData) {
 			self.sortTransectsData(self.transectsData[id]);
+			self.sortMatrixDataAndUpdateEndPoints(self.transectsData[id])
 		}	
 
 		for (var id in self.wellsData) {
 			self.sortWellsData(self.wellsData[id]);
 		}
 		
+	}
+
+	Exporter.prototype.sortMatrixDataAndUpdateEndPoints = function(transectData) {
+		var closeTo0 = [];
+		var closeTo100 = [];
+
+		
+		
+		for (var i in transectData.matrixPositions) {
+			if (transectData.matrixPositions[i] < 3) {
+				closeTo0.push(transectData.matrixPositions[i]);
+			} else if (transectData.matrixPositions[i] > 97) {
+				closeTo100.push(transectData.matrixPositions[i]);
+			}
+		}
+
+		closeTo0.sort(function(a,b){return a-b});
+		closeTo100.sort(function(a,b){return b-a}); //reverse sort
+		                                            //
+		debugger;
+
+		for (var i in transectData.matrixAges) {
+			var ageData = transectData.matrix[transectData.matrixAges[i]];
+
+			for (var j in closeTo0) {
+				if (closeTo0[j] in ageData) {
+					var point = ageData[closeTo0[j]];
+					delete ageData[closeTo0[j]];
+					ageData["0"] = point;
+
+					if (transectData.matrixPositions.indexOf(0) < 0) {
+						transectData.matrixPositions.push(0);
+					}
+					
+					break;
+				}
+			}
+			
+			for (var j in closeTo100) {
+				if (closeTo100[j] in ageData) {
+					var point = ageData[closeTo100[j]];
+					delete ageData[closeTo100[j]];
+					ageData["100"] = point;
+
+					if (transectData.matrixPositions.indexOf(100) < 0) {
+						transectData.matrixPositions.push(100);
+					}
+					
+					break;
+				}
+			}
+		}
 	}
 
 	Exporter.prototype.sortTransectsData = function(transect) {
@@ -332,7 +385,7 @@ define([
 		polygonPoints.each(function(point) {
 			var age = point.get('age');
 			
-			var percent = self.PRECISION*Math.round(point.get('relativeX')*100/self.PRECISION);
+			var percent = Math.round(point.get('relativeX')*10000)/100.0;
 
 			var pointTransect = point.get('transect');
 			
@@ -342,14 +395,6 @@ define([
 				} else {
 					percent = 0;
 				}
-			}
-
-			if (percent > 97) {
-				percent = 100;
-			}
-
-			if (percent < 3) {
-				percent = 0;
 			}
 
 			if (!(age in matrix)) {
@@ -410,7 +455,8 @@ define([
 		var pointPolygons = new Polygons();
 		polygons.each(function(polygon) {
 			var polygonPoints = polygon.getPolyKPointsArray();
-			if (PolyK.ContainsPoint(polygonPoints, point.get('x')+1, point.get('y') - 1) || 
+			if (PolyK.ContainsPoint(polygonPoints, point.get('x') + 1, point.get('y') - 1) || 
+				PolyK.ContainsPoint(polygonPoints, point.get('x') - 1, point.get('y') - 1) || 
 				PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1)) {
 				pointPolygons.add(polygon);
 			}
