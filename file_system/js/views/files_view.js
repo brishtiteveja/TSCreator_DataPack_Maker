@@ -94,11 +94,11 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 		$("#loading").removeClass("hide");
 		var self = this;
 		var timeStamp = self.getTimeStamp();
-		var dirName =	"transect-" + timeStamp ;
+		var dirName =	this.app.type + "-" + timeStamp ;
 		self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function(dirEntry) {
 			self.newDir(dirEntry, dirName, function(dirEntry) {
-				var jsonFile = "transect-data-" + timeStamp + ".json";
-				var textFile = "transect-data-" + timeStamp + ".txt";
+				var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
+				var textFile = self.app.type + "-data-" + timeStamp + ".txt";
 				var json = self.app.exporter.getJSON();
 				var text = self.app.exporter.getText();
 

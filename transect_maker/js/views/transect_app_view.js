@@ -66,7 +66,7 @@ define([
 
 	TransectAppView.prototype.initialize = function() {
 
-		this.transectApp = {};
+		this.transectApp = {type : "transect"};
 
 		this.transectApp.TransectsCollection = new Transects();
 		this.transectApp.TransectTextsCollection = new TransectTexts();

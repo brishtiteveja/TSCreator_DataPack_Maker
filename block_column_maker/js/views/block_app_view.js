@@ -14,6 +14,7 @@ define([
 	"blockColumns",
 	"blockColumnsView",
 	"dataExportView",
+	"loader",
 	"exporter",
 	], function(
 		BaseView,
@@ -26,6 +27,7 @@ define([
 		BlockColumns,
 		BlockColumnsView,
 		DataExportView,
+		Loader,
 		Exporter) {
 
 	var BlockAppView = BaseView.extend({
@@ -44,7 +46,7 @@ define([
 
 	BlockAppView.prototype.initialize = function() {
 
-		this.blockApp = {};
+		this.blockApp = {type : "block"};
 
 		this.blockApp.BlockColumnsCollection = new BlockColumns();
 		this.blockApp.ZonesCollection = new Zones();
@@ -60,6 +62,7 @@ define([
 		this.$displayPanels = this.$('.display-panel');
 
 		//
+		this.blockApp.loader = new Loader(this.blockApp);
 		this.blockApp.exporter = new Exporter(this.blockApp);
 
 		// Initialize the models

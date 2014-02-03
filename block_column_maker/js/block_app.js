@@ -28,6 +28,9 @@ requirejs.config({
 		zonesView: "/commons/js/views/zones_view",
 		zone: "/commons/js/models/zone",
 		zones: "/commons/js/collections/zones",
+
+		// Data Loader
+		loader: "/block_column_maker/js/utils/loader",
 		
 		// Data Exporter
 		exporter: "/block_column_maker/js/utils/exporter",
