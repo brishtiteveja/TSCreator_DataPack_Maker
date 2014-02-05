@@ -151,7 +151,7 @@ define([
 		closeTo0.sort(function(a,b){return a-b});
 		closeTo100.sort(function(a,b){return b-a}); //reverse sort
 		                                            //
-		
+		debugger;
 
 		for (var i in transectData.matrixAges) {
 			var ageData = transectData.matrix[transectData.matrixAges[i]];
@@ -305,7 +305,6 @@ define([
 					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
 					newPolygons.add(polygonSlices.toArray());	
 				} catch(err) {
-					
 					var polygonSlices = PolyK.Slice(polyPoints, rightWellLine);
 					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
 					newPolygons.add(polygonSlices.toArray());
@@ -392,9 +391,9 @@ define([
 			
 			if (pointTransect !== transect) {
 				if (pointTransect.get('wellLeft') === transect.get('wellRight')) {
-					percent = 100;
+					percent = 101;
 				} else {
-					percent = 0;
+					percent = -1;
 				}
 			}
 
@@ -630,7 +629,7 @@ define([
 		var self = this;
 		var transect = self.transectsData[transectId];
 		var ages = transect.matrixAges;
-		var positions = transect.matrixPositions;
+		var positions = transect.matrixPositions.sort(function(a, b) {return (parseFloat(a) - parseFloat(b));});
 		// matrix header
 		var outputText = "\n\t\t";
 		for (var i=0; i< positions.length; i++) {
