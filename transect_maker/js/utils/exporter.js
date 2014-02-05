@@ -151,7 +151,7 @@ define([
 		closeTo0.sort(function(a,b){return a-b});
 		closeTo100.sort(function(a,b){return b-a}); //reverse sort
 		                                            //
-		debugger;
+		
 
 		for (var i in transectData.matrixAges) {
 			var ageData = transectData.matrix[transectData.matrixAges[i]];
@@ -305,6 +305,7 @@ define([
 					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
 					newPolygons.add(polygonSlices.toArray());	
 				} catch(err) {
+					
 					var polygonSlices = PolyK.Slice(polyPoints, rightWellLine);
 					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
 					newPolygons.add(polygonSlices.toArray());
