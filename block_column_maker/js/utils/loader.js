@@ -67,7 +67,7 @@ define(["zone", "marker", "blockColumn", "blockMarker"], function(Zone, Marker, 
 	}
 
 	Loader.prototype.addBlockToColumn = function(blockData, column) {
-		
+		debugger;
 	}
 
 	return Loader;
