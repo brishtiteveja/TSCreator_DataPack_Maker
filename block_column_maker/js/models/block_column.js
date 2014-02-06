@@ -28,7 +28,6 @@ define(["baseModel", "blocks", "blockMarkers", "settings"], function(BaseModel, 
 
 	BlockColumn.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
-		delete json["blockMarkers"];
 		return json;
 	}
 

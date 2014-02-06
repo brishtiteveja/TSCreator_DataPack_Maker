@@ -211,6 +211,17 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		}
 	}
 
+	BlockColumnView.prototype.delete = function() {
+		if (this.element) this.element.remove();
+		this.$el.remove();
+		this.remove();
+	}
+
+	BlockColumnView.prototype.destroy = function() {
+		_.invoke(this.blockColumn.get('blocks').toArray(), "destroy");
+		this.blockColumn.destroy();
+	}
+
 	return BlockColumnView;
 });
 

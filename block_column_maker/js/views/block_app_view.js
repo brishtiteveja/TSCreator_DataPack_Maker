@@ -52,6 +52,7 @@ define([
 		this.blockApp.ZonesCollection = new Zones();
 		this.blockApp.MarkersCollection = new Markers();
 
+
 		this.blockApp.StatusBox = $(".status-box");
 
 		// refer to the important DOM elements.

@@ -182,7 +182,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	BlockView.prototype.delete = function() {
-		if (this.blockTest) this.blockText.remove();
+		if (this.blockText) this.blockText.remove();
 		if (this.bgBox) this.bgBox.remove();
 		if (this.bBox) this.bBox.remove();
 		if (this.glow) this.glow.remove();

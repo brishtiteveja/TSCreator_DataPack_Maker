@@ -24,6 +24,7 @@ define(["zone", "marker", "blockColumn", "blockMarker"], function(Zone, Marker, 
 	Loader.prototype.reset = function() {
 		_.invoke(this.markers.toArray(), 'destroy');
 		_.invoke(this.zones.toArray(), 'destroy');
+		_.invoke(this.blockColumns.toArray(), 'destroy');
 	}
 
 	Loader.prototype.load = function() {
@@ -57,17 +58,41 @@ define(["zone", "marker", "blockColumn", "blockMarker"], function(Zone, Marker, 
 
 	Loader.prototype.loadBlockColumns = function() {
 		var self = this;
-		this.savedData.blockColumns.forEach(function(blockColumn) {
-			var column = new BlockColumn(blockColumn);
+		this.savedData.blockColumns.forEach(function(blockColumnData) {
+			var column = new BlockColumn(blockColumnData);
 			self.blockColumns.add(column);
-			blockColumn.blocks.forEach(function(blockData) {
-				self.addBlockToColumn(blockData, column);
-			});
+			
+			self.addBlockMarkers(blockColumnData, column);
+			self.updateBlockNames(blockColumnData, column);
 		});
 	}
 
-	Loader.prototype.addBlockToColumn = function(blockData, column) {
-		debugger;
+	Loader.prototype.addBlockMarkers = function(blockColumnData, column) {
+		var self = this;
+		blockColumnData.blockMarkers.forEach(function(blockMarkerData) {
+			self.addBlockMarkerToColumn(blockMarkerData, column);
+		});		
+	}
+
+	Loader.prototype.addBlockMarkerToColumn = function(blockMarkerData, column) {
+		var self = this;
+		var blockMarker = column.get('blockMarkers').findWhere({y: blockMarkerData.y}) ||
+		 new BlockMarker({name: blockMarkerData.name, y: blockMarkerData.y, blockColumn: column}, this.app);
+		column.get('blockMarkers').add(blockMarker);
+	}
+
+	Loader.prototype.updateBlockNames = function(blockColumnData, column) {
+		var self = this;
+		blockColumnData.blocks.forEach(function(blockData) {
+			var top = column.get('blockMarkers').findWhere({y: blockData.top.y});
+			var base = column.get('blockMarkers').findWhere({y: blockData.base.y});
+			if (top !== null && base !== null) {
+				var block = column.get('blocks').findWhere({top: top, base: base});	
+				block.set({
+					name: blockData.name
+				});
+			}
+		});
 	}
 
 	return Loader;
