@@ -150,9 +150,7 @@ define([
 
 		closeTo0.sort(function(a,b){return a-b});
 		closeTo100.sort(function(a,b){return b-a}); //reverse sort
-		                                            //
-		debugger;
-
+		
 		for (var i in transectData.matrixAges) {
 			var ageData = transectData.matrix[transectData.matrixAges[i]];
 
@@ -283,7 +281,7 @@ define([
 				var currPolygon = polygons.at(i); // get the current polygon
 
 				// get the right well line and use this to split the current polygon.
-				var rightWellLine = self.getLineSegmentForWell(transect.get('wellRight')).getPolyKPointsArray();
+				var rightWellLine = self.getLineSegmentForWell(transect.get('wellRight'));
 				
 				// We split the polygon using the right well of the current transect.
 				// This will generate new polygons, ones that lie
@@ -305,9 +303,6 @@ define([
 					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
 					newPolygons.add(polygonSlices.toArray());	
 				} catch(err) {
-					var polygonSlices = PolyK.Slice(polyPoints, rightWellLine);
-					var polygonSlices = self.getPolygonsFromPolyKPolygonsArray(polygonSlices);
-					newPolygons.add(polygonSlices.toArray());
 				}
 			}
 
@@ -370,6 +365,7 @@ define([
 				return transect;
 			}
 		}
+
 		return null;
 	}
 
@@ -470,8 +466,7 @@ define([
 
 	Exporter.prototype.isCloseToWell = function(well, line) {
 		var self = this;
-		var wellLine = self.getLineSegmentForWell(well);
-		var wellLinePoints = wellLine.getPolyKPointsArray();
+		var wellLinePoints = self.getLineSegmentForWell(well);
 		var PADDING = 5;
 		var linePoints = [
 			wellLinePoints[0] + PADDING, wellLinePoints[1],
@@ -538,16 +533,7 @@ define([
 	}
 
 	Exporter.prototype.getLineSegmentForWell = function(well) {
-		var point1 = this.points.findWhere({x: Math.floor(well.get('x')), y: 0}) || new Point({x: Math.floor(well.get('x')), y: 0}, this.app);
-		var point2 = this.points.findWhere({x: Math.floor(well.get('x')), y: Math.floor(this.app.Canvas.height)}) || new Point({x: Math.floor(well.get('x')), y: Math.floor(this.app.Canvas.height)}, this.app);
-		
-		this.points.add(point1);
-		this.points.add(point2);
-
-		var line = this.lines.findWhere({'point1': point1, 'point2': point2}) || this.lines.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
-		this.lines.add(line);	
-
-		return line;
+		return [Math.floor(well.get('x')), 0, Math.floor(well.get('x')), this.app.Canvas.height];
 	}
 
 	Exporter.prototype.getPolygonsFromPolyKPolygonsArray = function(polygonsArray) {
