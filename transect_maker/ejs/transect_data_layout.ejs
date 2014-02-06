@@ -17,7 +17,7 @@
 		<tr>
 			<th></th>
 			<th></th>
-			<% %>
+			<% matrixPositions.sort( function(a, b) { return (parseFloat(a) - parseFloat(b)); });%>
 			<% for (var i = 0; i<matrixPositions.length; i++) { %>
 			<th><%=  matrixPositions[i] %></th>
 			<% } %>

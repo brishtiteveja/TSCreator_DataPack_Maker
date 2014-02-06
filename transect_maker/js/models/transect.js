@@ -22,14 +22,14 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	});
 
 	Transect.prototype.isXInsideTransect = function(x) {
-		if (this.get('wellLeft').get('x') <= x && x < this.get('wellRight').get('x')) {
+		if (this.get('wellLeft').get('x') < x && x < this.get('wellRight').get('x')) {
 			return true;
 		}
 		return false;
 	}
 
 	Transect.prototype.getRelativeX = function(x) {
-		if (this.get('wellLeft').get('x') <= x && x < this.get('wellRight').get('x')) {
+		if (this.get('wellLeft').get('x') < x && x < this.get('wellRight').get('x')) {
 			var num = ((x - this.get('wellLeft').get('x'))/(this.get('wellRight').get('x') - this.get('wellLeft').get('x')));
 			return Math.round(num * 1000) / 1000;
 		}
@@ -37,10 +37,10 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	}
 
 	Transect.prototype.getPolyKPointsArray = function() {
-		return ([this.get('wellLeft').get('x'), 0,
-			this.get('wellRight').get('x'), 0,
-			this.get('wellRight').get('x'), this.app.Canvas.height,
-			this.get('wellLeft').get('x'), this.app.Canvas.height]);
+		return ([this.get('wellLeft').get('x') - 2, 0,
+			this.get('wellRight').get('x') + 2, 0,
+			this.get('wellRight').get('x') + 2, this.app.Canvas.height,
+			this.get('wellLeft').get('x') - 2, this.app.Canvas.height]);
 	}
 
 	return Transect;
