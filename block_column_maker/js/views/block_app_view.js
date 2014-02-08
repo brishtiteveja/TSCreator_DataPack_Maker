@@ -190,6 +190,35 @@ define([
 		}
 	};
 
+	BlockAppView.prototype.dataDragover = function(evt) {
+		var evt = evt.originalEvent;
+		evt.stopPropagation();
+    	evt.preventDefault();
+	}
+
+
+	BlockAppView.prototype.dataDrop = function(evt) {
+    	$("#loading").removeClass("hide");
+		var self = this;
+		var evt = evt.originalEvent;
+		evt.stopPropagation();
+    	evt.preventDefault();
+    	var file = evt.dataTransfer.files[0];
+    	var ext = file.name.split(".").pop();
+    	var reader = new FileReader();
+		reader.onloadend = function(e) {
+			self.showCanvas();
+			if (ext === "json") {
+				self.blockApp.loader.loadData(this.result);
+			}
+			if (ext === "txt") {
+				self.blockApp.loader.loadTextData(this.result);
+			}
+			$("#loading").addClass("hide");
+		};
+    	reader.readAsText(file);
+	}
+
 	BlockAppView.prototype.enableTool = function(evt) {
 		var source = evt.target.getAttribute('href');
 

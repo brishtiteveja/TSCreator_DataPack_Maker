@@ -218,10 +218,13 @@ define([
 		evt.stopPropagation();
     	evt.preventDefault();
     	var file = evt.dataTransfer.files[0];
+    	var ext = file.name.split(".").pop();
     	var reader = new FileReader();
 		reader.onloadend = function(e) {
 			self.showCanvas();
-			self.transectApp.loader.loadData(this.result);
+			if (ext === "json") {
+				self.transectApp.loader.loadData(this.result);
+			}
 			$("#loading").addClass("hide");
 		};
     	reader.readAsText(file);

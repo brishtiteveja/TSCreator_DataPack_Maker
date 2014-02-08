@@ -45,12 +45,12 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.block.get('blockColumn'), 'change:x', this.renderBlock.bind(this));
 		this.listenTo(this.block.get('blockColumn'), 'change:width', this.renderBlock.bind(this));
 		
-		this.listenTo(this.top, 'change:y', this.renderBlock.bind(this));
-		this.listenTo(this.top, 'change:age', this.renderBlock.bind(this));
-		this.listenTo(this.top, 'change:relativeY', this.renderBlock.bind(this));
-		this.listenTo(this.base, 'change:y', this.renderBlock.bind(this));
-		this.listenTo(this.base, 'change:age', this.renderBlock.bind(this));
-		this.listenTo(this.base, 'change:relativeY', this.renderBlock.bind(this));
+		this.listenTo(this.top, 'change:y', this.renderTooltip.bind(this));
+		this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));
+		this.listenTo(this.top, 'change:relativeY', this.renderTooltip.bind(this));
+		this.listenTo(this.base, 'change:y', this.renderTooltip.bind(this));
+		this.listenTo(this.base, 'change:age', this.renderTooltip.bind(this));
+		this.listenTo(this.base, 'change:relativeY', this.renderTooltip.bind(this));
 		
 		this.listenTo(this.block.get('settings'), 'change', this.renderBlock.bind(this));
 		this.listenTo(this.block, 'destroy', this.delete.bind(this));

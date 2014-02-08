@@ -21,6 +21,42 @@ define(["zone", "marker", "blockColumn", "blockMarker"], function(Zone, Marker, 
 		this.load();
 	}
 
+	Loader.prototype.loadTextData = function(data) {
+		this.reset();
+		this.textData = data;
+		this.parseTextData(data);
+	}
+
+	Loader.prototype.parseTextData = function(data) {
+		var self = this;
+		var lines = data.split('\n');
+		var blockColumn = null;
+		for (var i in lines) {
+			var line = lines[i].split("\t");
+			for (var j in line) {
+				if ((line.length > 2) && (line[j].toLowerCase() === "block")) {
+					var x = blockColumn ? blockColumn.get('x') + blockColumn.get('width') : 0;
+					blockColumn = new BlockColumn({name: line[0], x: x, width: parseInt(line[2])});
+					self.blockColumns.add(blockColumn);
+				} else {
+					if (blockColumn !== null && line.length > 2) {
+						self.parseBlockTextData(blockColumn, line);
+					}
+				}
+			}
+		}
+	}
+
+	Loader.prototype.parseBlockTextData = function(column, blockData) {
+		var prevBlock = column.get('blocks').last();
+		var topY = prevBlock ? prevBlock.get("base").get('y') : 0;
+		var baseY = topY + 10;
+		var top = new BlockMarker({y: topY});
+		var base = new BlockMarker({y: baseY});
+		var block = new Block({name: blockData[1], top: top, base: base});
+		column.get('blocks').add(block);
+	}
+
 	Loader.prototype.reset = function() {
 		_.invoke(this.markers.toArray(), 'destroy');
 		_.invoke(this.zones.toArray(), 'destroy');
