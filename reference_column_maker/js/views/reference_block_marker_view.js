@@ -64,7 +64,18 @@ define(["baseView"], function(BaseView) {
 			"stroke-dasharray": strokeDashArray,
 		});
 
+
+		this.resizeCanvas();
 		this.updateStatusBox();
+	}
+
+	ReferenceBlockMarkerView.prototype.resizeCanvas = function() {
+		var height = Math.max(this.app.Canvas.height, this.blockMarker.get('y') + 100)
+		this.blockMarker.get('blockColumn').set({
+			height: height
+		});
+
+		this.app.Canvas.setSize(this.app.Canvas.width, height);
 	}
 
 	ReferenceBlockMarkerView.prototype.updateStatusBox = function() {

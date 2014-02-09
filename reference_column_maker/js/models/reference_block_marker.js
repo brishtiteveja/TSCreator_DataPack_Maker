@@ -13,7 +13,7 @@ define(["baseModel", "referenceBlocks"], function(BaseModel, ReferenceBlocks) {
 				hover       : false,
 				y           : parseInt(attributes.y),
 				id          : _.uniqueId("block-marker-"),
-				age         : null,
+				age         : attributes.age ?  parseFloat(attributes.age): null,
 				blockColumn : attributes.blockColumn || null,
 				style       : "solid",
 				app         : app || null,

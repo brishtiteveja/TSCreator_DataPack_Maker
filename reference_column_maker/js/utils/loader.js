@@ -23,20 +23,21 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 		this.reset();
 		this.textData = data;
 		this.parseTextData(data);
+		this.updateYCdtsWrtAge();
 	}
 
 	Loader.prototype.parseTextData = function(data) {
 		var self = this;
-		var lines = data.split('\n');
+		var lines = data.split(/\r\n|\r|\n/g);
 		var referenceBlockColumn = null;
 		for (var i in lines) {
 			var line = lines[i].split("\t");
 			if ((line.length > 2) && (line[1].toLowerCase() === "block")) {
 				var x = referenceBlockColumn ? referenceBlockColumn.get('x') + referenceBlockColumn.get('width') : 0;
-				referenceBlockColumn = new ReferenceBlockColumn({name: line[0], x: x, width: parseInt(line[2])});
+				referenceBlockColumn = new ReferenceBlockColumn({name: line[0], x: x});
 				self.referenceBlockColumns.add(referenceBlockColumn);
 			} else {
-				if (referenceBlockColumn !== null && line.length > 2) {
+				if (referenceBlockColumn && line.length > 1) {
 					self.parseBlockTextData(referenceBlockColumn, line);
 				}
 			}
@@ -51,16 +52,62 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 		var top = column.get("blockMarkers").findWhere({y: topY})
 		
 		if (top === undefined) {
-			top = new ReferenceBlockMarker({name: prevBlock ? prevBlock.get('name') + " base": "TOP", y: topY, blockColumn: column});
+			top = new ReferenceBlockMarker({name: "top", y: topY, blockColumn: column, age: referenceBlockData[2]});
 			column.get('blockMarkers').add(top);
-		}
+		} else {
+			var base = column.get("blockMarkers").findWhere({y: baseY});
 
-		var base = column.get("blockMarkers").findWhere({y: baseY});
+			if (base === undefined) {
+				base = new ReferenceBlockMarker({y: baseY, blockColumn: column, age: referenceBlockData[2]});
+				column.get('blockMarkers').add(base);	
+			}
 
-		if (base === undefined) {
-			base = new ReferenceBlockMarker({name: referenceBlockData.name + " base", y: baseY, blockColumn: column});
-			column.get('blockMarkers').add(base);	
+			base.set({
+				name: referenceBlockData[1]  + " base"
+			});
+
+			var block = column.get('blocks').findWhere({top: top, base: base});
+			block.set({
+				name: referenceBlockData[1] || " "
+			});	
+
+			block.get('settings').set({
+				backgroundColor: TscToCssColor(referenceBlockData[5])
+			});
 		}
+	}
+
+	Loader.prototype.updateYCdtsWrtAge = function() {
+		var self = this;
+		var topAge = this.getMinAge();
+		self.referenceBlockColumns.each(function(column) {
+			self.updateColumnYCdtsWrtAge(column, topAge);
+		});
+	}
+
+	Loader.prototype.updateColumnYCdtsWrtAge = function(column, topAge) {
+		var self = this;
+		column.get('blockMarkers').each(function(blockMarker) {
+			self.updateBlockMarkerYCdtsWrtAge(blockMarker, topAge);
+		});
+	}
+
+	Loader.prototype.updateBlockMarkerYCdtsWrtAge = function(blockMarker, topAge) {
+		var y = Math.round((blockMarker.get('age') - topAge)*5);
+		debugger;
+		blockMarker.set({
+			y: y
+		});
+	}
+
+	Loader.prototype.getMinAge = function() {
+		var self = this;
+		var minAge = 0;
+		self.referenceBlockColumns.each(function(column) {
+			var age = column.get('blockMarkers').first().get('age');
+			minAge = Math.min(age, minAge);
+		});
+		return minAge;
 	}
 
 	Loader.prototype.reset = function() {

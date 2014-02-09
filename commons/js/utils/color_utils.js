@@ -3,7 +3,7 @@
  */
 TscToCssColor = function(color) {
 	rgb = color.split("/");
-	return this.rgbToHex(rgb[0], rgb[1], rgb[2]);
+	return RgbToHex(rgb[0], rgb[1], rgb[2]);
 };
 
 

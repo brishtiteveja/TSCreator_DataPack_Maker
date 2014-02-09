@@ -67,6 +67,7 @@ define(["baseView", "referenceBlockView", "referenceBlockMarkerView", "reference
 		this.element.attr({
 			x: this.blockColumn.get('x'),
 			width: this.blockColumn.get('width'),
+			height: this.blockColumn.get('height'),
 			fill: this.blockColumn.get('settings').get('backgroundColor')
 		});
 

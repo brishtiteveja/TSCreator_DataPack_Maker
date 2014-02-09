@@ -13,6 +13,7 @@ define(["baseModel", "referenceBlocks", "referenceBlockMarkers", "settings"], fu
 				id           : _.uniqueId("column-"),
 				name         : attributes.name || _.uniqueId("Column "),
 				width        : parseInt(attributes.width) || 200,
+				height       : 100,
 				description  : attributes.description || null,
 				blockMarkers : new ReferenceBlockMarkers(),
 				blocks       : new ReferenceBlocks(),
