@@ -1,13 +1,13 @@
 
 /*===============================================================================================================
-=            BlockView is the view that handles changes to the block column it is instantiated with.            =
+=            ReferenceBlockView is the view that handles changes to the block column it is instantiated with.            =
 ===============================================================================================================*/
 
 define(["baseView"], function(BaseView) {
 	
-	var BlockView = BaseView.extend({
+	var ReferenceBlockView = BaseView.extend({
 		tagName: 'li',
-		classname: "BlockView",
+		classname: "ReferenceBlockView",
 		events: {
 			'click .toggle': 'toggleBlockForm',
 			'click .block-data': 'toggleBlockForm',
@@ -21,9 +21,9 @@ define(["baseView"], function(BaseView) {
 		}
 	});
 
-	BlockView.prototype.template = new EJS({url: '/block_column_maker/ejs/block.ejs'});
+	ReferenceBlockView.prototype.template = new EJS({url: '/reference_column_maker/ejs/block.ejs'});
 
-	BlockView.prototype.initialize = function(app, block) {
+	ReferenceBlockView.prototype.initialize = function(app, block) {
 		this.app = app;
 		this.block = block;
 		this.top = this.block.get('top');
@@ -33,6 +33,8 @@ define(["baseView"], function(BaseView) {
 			this.blockSet = this.app.Canvas.set();
 			this.app.BlocksSet.push(this.blockSet);
 		}
+
+		debugger;
 
 		this.render();
 
@@ -47,17 +49,15 @@ define(["baseView"], function(BaseView) {
 		
 		this.listenTo(this.top, 'change:y', this.renderBlock.bind(this));
 		this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));
-		this.listenTo(this.top, 'change:relativeY', this.renderTooltip.bind(this));
 		this.listenTo(this.base, 'change:y', this.renderBlock.bind(this));
 		this.listenTo(this.base, 'change:age', this.renderTooltip.bind(this));
-		this.listenTo(this.base, 'change:relativeY', this.renderTooltip.bind(this));
 		
 		this.listenTo(this.block.get('settings'), 'change', this.renderBlock.bind(this));
 		this.listenTo(this.block, 'destroy', this.delete.bind(this));
 
 	};
 
-	BlockView.prototype.render = function() {
+	ReferenceBlockView.prototype.render = function() {
 		this.$el.html(this.template.render(this.block.toJSON()));
 		this.$toggle = this.$(".toggle");
 		this.$blockForm = this.$(".block-form");
@@ -73,7 +73,7 @@ define(["baseView"], function(BaseView) {
 		this.renderBlock();
 	};
 
-	BlockView.prototype.renderBlock = function() {
+	ReferenceBlockView.prototype.renderBlock = function() {
 
 		if (this.bgBox === undefined) {
 			this.bgBox = this.app.Canvas.rect();
@@ -123,7 +123,7 @@ define(["baseView"], function(BaseView) {
 		this.renderTooltip();
 	}
 
-	BlockView.prototype.renderTooltip = function() {
+	ReferenceBlockView.prototype.renderTooltip = function() {
 		$(this.bBox.node).qtip({
 			content: {
 				text: this.block.get('name') + "<br>" + (this.block.get('description') || "No description yet!")
@@ -135,14 +135,14 @@ define(["baseView"], function(BaseView) {
 		});
 	};
 
-	BlockView.prototype.onMouseOver = function() {
+	ReferenceBlockView.prototype.onMouseOver = function() {
 		this.$el.addClass('hover');
 		this.block.set({
 			hover: true,
 		});
 	};
 
-	BlockView.prototype.onMouseOut = function() {
+	ReferenceBlockView.prototype.onMouseOut = function() {
 		this.$el.removeClass('hover');
 		this.block.set({
 			hover: false,
@@ -150,7 +150,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 
-	BlockView.prototype.setHoverStatus = function() {
+	ReferenceBlockView.prototype.setHoverStatus = function() {
 		if (this.block.get('hover')) {
 			this.$el.addClass('hover');
 			this.glow  = this.bBox.glow();
@@ -160,14 +160,14 @@ define(["baseView"], function(BaseView) {
 		}
 	}
 
-	BlockView.prototype.toggleBlockForm = function() {
+	ReferenceBlockView.prototype.toggleBlockForm = function() {
 		this.render();
 		this.block.set({
 			'edit': !this.block.get('edit')
 		});
 	};
 
-	BlockView.prototype.editBlock = function() {
+	ReferenceBlockView.prototype.editBlock = function() {
 		if (this.block.get('edit')) {
 			this.$blockForm.removeClass('hide');
 			this.$blockData.addClass('hide');
@@ -181,7 +181,7 @@ define(["baseView"], function(BaseView) {
 		}
 	};
 
-	BlockView.prototype.delete = function() {
+	ReferenceBlockView.prototype.delete = function() {
 		if (this.blockText) this.blockText.remove();
 		if (this.bgBox) this.bgBox.remove();
 		if (this.bBox) this.bBox.remove();
@@ -190,14 +190,14 @@ define(["baseView"], function(BaseView) {
 		this.remove();
 	}
 
-	BlockView.prototype.destroy = function() {
+	ReferenceBlockView.prototype.destroy = function() {
 		this.block.get('base').set({
 			name: "TOP"
 		});
 		this.block.destroy();
 	}
 
-	BlockView.prototype.updateBlock = function(evt) {
+	ReferenceBlockView.prototype.updateBlock = function(evt) {
 		if (evt.keyCode === 13) {
 			this.toggleBlockForm();
 		}
@@ -224,7 +224,7 @@ define(["baseView"], function(BaseView) {
 		});
 	}
 	
-	return BlockView;
+	return ReferenceBlockView;
 });
 
-/*-----  End of BlockView  ------*/
+/*-----  End of ReferenceBlockView  ------*/

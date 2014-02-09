@@ -1,0 +1,96 @@
+]<h3><%=  name %></h3>
+<table>
+	<thead></thead>
+	<tbody>
+		<tr>
+			<th><%= data.get('name') %></th>
+			<th>transect</th>
+			<th><%= data.get('width') %></th>
+			<th><%= CssToTscColor(data.get('settings').get('backgroundColor')) %></th>
+			<th><%= data.get('status') %></th>
+			<% for (var i = 0; i <matrixPositions.length + 2 - 5; i++) { %>
+			<th></th>
+			<% } %>
+		</tr>
+		<tr>
+			<th></th>
+			<th></th>
+			<% %>
+			<% for (var i = 0; i<matrixPositions.length; i++) { %>
+			<th><%=  matrixPositions[i] %></th>
+			<% } %>
+		</tr>
+		<% for (var i=0; i<matrixAges.length; i++) { %>
+			<tr>
+				<td></td>
+				<td><%= matrixAges[i] %></td>
+				<% for (var j=0; j<matrixPositions.length; j++) { %>
+					<% var point = matrix[String(matrixAges[i])][String(matrixPositions[j])] %>
+					<% if ((point === undefined) || (point === null)) { %>
+						<td></td>
+					<% } else { %>
+						<td><%= point %></td>
+					<% } %>
+				<% } %>
+			</tr>
+		<% } %>
+		<% for (var i=0; i < polygons.length; i++) { %>
+			<% var polygon = polygons.at(i); %>
+			<tr>
+				<td>POLYGON</td>
+				<td>pattern: <%= polygon.get('patternName') || "None" %></td>
+				<td><%= polygon.get('name') %></td>
+				<td><%= polygon.get('description') %></td>
+				<% for (var k = 0; k <matrixPositions.length + 2 - 4; k++) { %>
+				<td></td>
+				<% } %>
+			</tr>
+
+			<% var lines = polygon.get('lines'); %>
+			<% var points = polygon.get('points'); %>
+
+			
+			<% for (var j=0; j<points.length; j++) { %>
+				<% var point1 = points.at(j); %>
+				<% var point2 = points.at((j+1)%points.length); %>
+				<%var line = lines.findWhere({'point1': point1, 'point2': point2}) || lines.findWhere({'point1': point2, 'point2': point1}); %>
+				<% var pattern = line.get('pattern'); %>
+				
+				<tr>
+					<td></td>
+					<td><%= point1.get('name').substring(1) %></td>
+					<td></td>
+					<% for (var k = 0; k <matrixPositions.length + 2 - 3; k++) { %>
+					<td></td>
+					<% } %>
+				</tr>
+				<% if (pattern !== "default") { %>
+					<td></td>
+					<td></td>
+					<td><%= pattern %></td>
+					<% for (var k = 0; k <matrixPositions.length + 2 - 3; k++) { %>
+					<td></td>
+					<% } %>
+				<% } %>
+			<% } %>
+
+		<% } %>
+
+		<% for (var i=0; i < texts.length; i++) { %>
+			<% var text = texts.at(i).toJSON(); %>
+			<% var bBox = text.bBox; %>
+			<% var textData = text.text.split('\n').join(''); %>
+			<% var fontSize = text.settings.get('fontSize'); %>
+			<% var fontFamily = text.settings.get('fontFamily').split(',')[0]; %>
+			<tr>
+				<td>TEXT</td>
+				<td><%= bBox.y1 %></td>
+				<td><%= bBox.x1 %></td>
+				<td>font-family: <%= fontFamily %>; font-size: <%= fontSize %>; </td>
+				<td><%= Math.round((bBox.y1 - bBox.y2)*100)/100 %></td>
+				<td><%= Math.round((bBox.x2 - bBox.x1)*100)/100 %></td>
+
+			</tr>
+		<% } %>
+	</tbody>
+</table>

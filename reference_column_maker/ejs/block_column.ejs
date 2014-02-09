@@ -1,0 +1,22 @@
+<div class="row">
+	<div class="toggle hide-data small-3 columns"></div>
+	<lable class="block-column-data small-18 columns"><%= name %></lable>
+	<div class="small-18 columns block-column-form hide">
+		<input type="text" value="<%= name %>" name="block-column-name">
+		<div class="row">
+			<div class="small-18 columns block-column-form hide">
+				<input type="number" value="<%= width %>" name="block-column-width" max="1000" min="0">
+			</div>
+			<div class="small-6 columns block-column-form hide">
+				<input type="color" value="<%= settings.get('backgroundColor') %>" name="block-column-bg-color" style="height: 37px; width: 100%">
+			</div>
+		</div>
+		<textarea name="block-column-description" placeholder="No description yet!"><%= description %></textarea>
+	</div>
+	<div class="small-3 columns"><a href="#" class="destroy"></a></div>
+</div>
+<div class="row">
+	<div class="small-3 columns">↳</div>
+	<label class="block-column-blocks-data small-21 columns">Blocks</label>
+	<ul class="blocks-list block-column-block-form small-21 columns hide"></ul>
+</div>

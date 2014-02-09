@@ -1,0 +1,24 @@
+<h3><%= name %></h3>
+<table>
+	<thead></thead>
+	<tbody>
+		<tr>
+			<th><%= name %></th>
+			<th>block</th>
+			<th><%= width %></th>
+			<th><%= CssToTscColor(settings.get('backgroundColor')) %></th>
+			<th><%= description %></th>
+		</tr>
+		<% for (var i=0; i < blocks.length; i++) { %>
+			<% var block = blocks.at(i); %>
+			<tr>
+				<td></td>
+				<td><%= block.get("name") %></td>
+				<td><%= block.get("base").get("age") || "n/a" %></td>
+				<td><%= block.get('base').get('style') %></td>
+				<td><%= (block.get('description') || "")%></td>
+				<td><%= CssToTscColor(block.get('settings').get('backgroundColor')) %></td>
+			</tr>
+		<% } %>
+	</tbody>
+</table>
