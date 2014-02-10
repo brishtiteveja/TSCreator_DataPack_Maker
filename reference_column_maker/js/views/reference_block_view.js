@@ -44,7 +44,7 @@ define(["baseView"], function(BaseView) {
 		
 		this.listenTo(this.block.get('blockColumn'), 'change:x', this.renderBlock.bind(this));
 		this.listenTo(this.block.get('blockColumn'), 'change:width', this.renderBlock.bind(this));
-		
+
 		
 		this.listenTo(this.top, 'change:y', this.renderBlock.bind(this));
 		this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));

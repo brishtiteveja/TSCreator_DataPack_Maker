@@ -155,7 +155,6 @@ define([
     	evt.preventDefault();
     	var file = evt.dataTransfer.files[0];
     	var ext = file.name.split('.').pop();
-    	debugger;
     	if (file.type === "application/json") {
 	    	var reader = new FileReader();
 			reader.onloadend = function(e) {

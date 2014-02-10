@@ -14,9 +14,13 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 	}
 
 	Loader.prototype.loadData = function(data) {
-		this.savedData = JSON.parse(data);
+		this.savedData = data;
 		this.reset();
 		this.load();
+	}
+
+	Loader.prototype.loadJSONData = function(data) {
+		this.loadData(JSON.parse(data));
 	}
 
 	Loader.prototype.loadTextData = function(data) {
@@ -37,8 +41,17 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 				referenceBlockColumn = new ReferenceBlockColumn({name: line[0], x: x});
 				self.referenceBlockColumns.add(referenceBlockColumn);
 			} else {
-				if (referenceBlockColumn && line.length > 1) {
-					self.parseBlockTextData(referenceBlockColumn, line);
+				if (referenceBlockColumn && line.length > 1 ) {
+					var age = parseFloat(line[2]);
+					if (line[1].toLowerCase() === "top") {
+						if (!age) {
+							age = 0;
+							line[2] = 0;
+						}
+					}
+					if (age >= 0) {
+						self.parseBlockTextData(referenceBlockColumn, line);	
+					}
 				}
 			}
 		}
@@ -68,7 +81,8 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 
 			var block = column.get('blocks').findWhere({top: top, base: base});
 			block.set({
-				name: referenceBlockData[1] || " "
+				name: referenceBlockData[1] || " ",
+				description: referenceBlockData[4] || null,
 			});	
 
 			block.get('settings').set({
@@ -94,7 +108,6 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 
 	Loader.prototype.updateBlockMarkerYCdtsWrtAge = function(blockMarker, topAge) {
 		var y = Math.round((blockMarker.get('age') - topAge)*5);
-		debugger;
 		blockMarker.set({
 			y: y
 		});
@@ -115,10 +128,10 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 	}
 
 	Loader.prototype.load = function() {
-		this.ReferenceloadBlockColumns();
+		this.loadBlockColumns();
 	}
 
-	Loader.prototype.ReferenceloadBlockColumns = function() {
+	Loader.prototype.loadBlockColumns = function() {
 		var self = this;
 		this.savedData.referenceBlockColumns.forEach(function(referenceBlockColumnData) {
 			var column = new ReferenceBlockColumn(referenceBlockColumnData);
@@ -139,7 +152,7 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 	Loader.prototype.addBlockMarkerToColumn = function(referenceBlockMarkerData, column) {
 		var self = this;
 		var referenceBlockMarker = column.get('blockMarkers').findWhere({y: referenceBlockMarkerData.y}) ||
-		 new ReferenceBlockMarker({name: referenceBlockMarkerData.name, y: referenceBlockMarkerData.y, blockColumn: column}, this.app);
+		 new ReferenceBlockMarker({name: referenceBlockMarkerData.name, y: referenceBlockMarkerData.y, blockColumn: column, age: referenceBlockMarkerData.age}, this.app);
 		column.get('blockMarkers').add(referenceBlockMarker);
 	}
 
@@ -149,10 +162,19 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 			var top = column.get('blockMarkers').findWhere({y: referenceBlockData.top.y});
 			var base = column.get('blockMarkers').findWhere({y: referenceBlockData.base.y});
 			if (top !== null && base !== null) {
-				var referenceBlock = column.get('blocks').findWhere({top: top, base: base});	
-				referenceBlock.set({
-					name: referenceBlockData.name
-				});
+				var referenceBlock = column.get('blocks').findWhere({top: top, base: base});
+				if (referenceBlock) {
+					referenceBlock.set({
+						name: referenceBlockData.name,
+						description: referenceBlockData.description
+					});
+
+					referenceBlock.get('settings').set({
+						backgroundColor: referenceBlockData.settings.backgroundColor
+					});
+				} else {
+					debugger;
+				}
 			}
 		});
 	}

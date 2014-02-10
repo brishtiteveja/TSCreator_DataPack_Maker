@@ -71,7 +71,13 @@ define(["baseView", "referenceBlockView", "referenceBlockMarkerView", "reference
 			fill: this.blockColumn.get('settings').get('backgroundColor')
 		});
 
+		this.resizeCanvas();
 		this.updateBlockColumns();
+	}
+
+	ReferenceBlockColumnView.prototype.resizeCanvas = function() {
+		var width = Math.max(this.app.Canvas.width, this.blockColumn.get('x') + this.blockColumn.get('width'));
+		this.app.Canvas.setSize(width, this.app.Canvas.height);
 	}
 
 	ReferenceBlockColumnView.prototype.resetBlocks = function() {

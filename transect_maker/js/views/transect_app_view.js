@@ -24,7 +24,8 @@ define([
 	"points",
 	"zones",
 	"transectWells",
-	"transectMarkers"
+	"transectMarkers",
+	"referenceColumnSideView",
 	], function(
 		BaseView,
 		CursorView,
@@ -48,7 +49,8 @@ define([
 		Points,
 		Zones,
 		TransectWells,
-		TransectMarkers) {
+		TransectMarkers,
+		ReferenceColumnSideView) {
 
 	var TransectAppView = BaseView.extend({
 		el: ".container",
@@ -152,9 +154,9 @@ define([
 
 		this.transectTextsView = new TransectTextsView(this.transectApp);
 
-
-
 		this.polygonsView = new PolygonsView(this.transectApp);
+
+		this.referenceColumnSideView = new ReferenceColumnSideView(this.transectApp);
 	};
 
 	/**
