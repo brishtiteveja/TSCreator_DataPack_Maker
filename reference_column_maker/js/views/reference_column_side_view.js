@@ -20,21 +20,23 @@ define([
 	});
 
 	ReferenceColumnSideView.prototype.template = new EJS({url: '/reference_column_maker/ejs/reference_column.ejs'});
+	ReferenceColumnSideView.prototype.settingsTemplate = new EJS({url: '/reference_column_maker/ejs/reference_column_settings.ejs'});
 
 	/*==========  Initialize block view  ==========*/
 
-	ReferenceColumnSideView.prototype.initialize = function() {
+	ReferenceColumnSideView.prototype.initialize = function(app) {
+
+		this.app = app;
+		this.$settings = $("#ref-col-set-list");
 
 		this.referenceColumnApp = {type : "reference-block"};
-
 		this.referenceColumnApp.ReferenceBlockColumnsCollection = new ReferenceBlockColumns();
-
-		this.$el.html(this.template.render({}));
-
 		this.referenceColumnApp.StatusBox = this.$(".status-box");
+
 
 		// refer to the important DOM elements.
 
+		this.$el.html(this.template.render({}));
 		this.referenceColumnApp.$canvas = this.$("#ref-canvas");
 		this.$canvas  = this.referenceColumnApp.$canvas;
 
@@ -60,10 +62,28 @@ define([
 		var self = this;
 		$.get( "/commons/json/default-reference-column-data.json", function(data) {
 			self.referenceColumnApp.loader.loadData(data);
+			self.positionMarkersAtEquiDistance();
+			self.$settings.html(self.settingsTemplate.render(self.referenceColumnApp));
 		});
 	}
 
-
+	ReferenceColumnSideView.prototype.positionMarkersAtEquiDistance = function() {
+		var self = this;
+		self.referenceColumnApp.ReferenceBlockColumnsCollection.each(function(blockColumn) {
+			blockColumn.get('blockMarkers').each(function(blockMarker, index, blockMarkers) {
+				if (index > 0) {
+					var prevMarker = blockMarkers[index - 1];
+					blockMarker.set({
+						y: prevMarker.get('y') + 50
+					});
+				} else {
+					blockMarker.set({
+						y: 50
+					});
+				}
+			});
+		});
+	}
 
 	return ReferenceColumnSideView;
 });

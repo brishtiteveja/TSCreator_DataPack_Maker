@@ -1,0 +1,34 @@
+<div class="row">
+	<h3>Time Frame</h3>
+</div>
+<div class="row">
+	<div class="small-12 columns">
+		<div class="row">
+			<div class="small-10 columns">
+				<label class="right inline">Top Age</label>	
+			</div>
+			<div class="small-14 columns">
+				<input type="text" placeholder="0" />
+			</div>
+		</div>
+	</div>
+	<div class="small-12 columns">
+		<div class="row">
+			<div class="small-10 columns">
+				<label class="right inline">Base Age</label>	
+			</div>
+			<div class="small-14 columns">
+				<input type="text" placeholder="0" />
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="large-6 columns">
+      <label>Choose Reference Column</label>
+		<% for (var i = 0; i < ReferenceBlockColumnsCollection.length; i++) { %>
+			<% var column = ReferenceBlockColumnsCollection.at(i) %>
+      		<input type="radio" name="ref_column" value="<%= column.get('id') %>"><label for="ref_column"><%= column.get('name') %></label>
+		<% } %>
+    </div>
+</div>

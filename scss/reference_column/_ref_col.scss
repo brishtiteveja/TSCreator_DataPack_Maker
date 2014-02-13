@@ -1,0 +1,12 @@
+@import "../utils/styles";
+
+
+#ref-col-set-list {
+	padding-left: 30px;
+
+	@include settings_font;
+
+	label, h3 {
+		@include settings_font;
+	}
+}

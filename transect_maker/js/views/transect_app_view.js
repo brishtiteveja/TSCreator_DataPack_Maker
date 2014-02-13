@@ -156,7 +156,7 @@ define([
 
 		this.polygonsView = new PolygonsView(this.transectApp);
 
-		this.referenceColumnSideView = new ReferenceColumnSideView(this.transectApp);
+		this.referenceColumnSideView = new ReferenceColumnSideView(this.transectApp, "#reference-column-settings");
 	};
 
 	/**
