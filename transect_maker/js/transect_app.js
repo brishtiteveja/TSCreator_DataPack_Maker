@@ -92,6 +92,7 @@ requirejs.config({
 		referenceColumnLoader     : "/reference_column_maker/js/utils/loader",
 
 		// Reference column
+		referenceColumn           : "/reference_column_maker/js/models/reference_column",
 		referenceBlock            : "/reference_column_maker/js/models/reference_block",
 		referenceBlocks           : "/reference_column_maker/js/collections/reference_blocks",
 		referenceBlockMarker      : "/reference_column_maker/js/models/reference_block_marker",

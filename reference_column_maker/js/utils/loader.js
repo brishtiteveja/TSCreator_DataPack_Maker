@@ -5,12 +5,12 @@
 
 define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], function(ReferenceBlockColumn, ReferenceBlockMarker, ReferenceBlock) {
 	var Loader = function(app) {
-		this.app = app;
+		this.app = app;	
 		this.referenceBlockColumns = this.app.ReferenceBlockColumnsCollection;
 	}
 
 	Loader.prototype.loadFromLocalStorage = function() {
-		this.loadData(localStorage.referenceColumnApp);
+		this.loadJSONData(localStorage.referenceColumnApp);
 	}
 
 	Loader.prototype.loadData = function(data) {
@@ -134,12 +134,17 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 	Loader.prototype.loadBlockColumns = function() {
 		var self = this;
 		this.savedData.referenceBlockColumns.forEach(function(referenceBlockColumnData) {
-			var column = new ReferenceBlockColumn(referenceBlockColumnData);
-			self.referenceBlockColumns.add(column);
-			
-			self.addBlockMarkers(referenceBlockColumnData, column);
-			self.updateBlockNames(referenceBlockColumnData, column);
+			self.loadBlockColumn(referenceBlockColumnData);
 		});
+	}
+
+	Loader.prototype.loadBlockColumn = function(referenceBlockColumnData) {
+		var self = this;
+		var column = new ReferenceBlockColumn(referenceBlockColumnData);
+		self.referenceBlockColumns.add(column);
+		
+		self.addBlockMarkers(referenceBlockColumnData, column);
+		self.updateBlockNames(referenceBlockColumnData, column);
 	}
 
 	Loader.prototype.addBlockMarkers = function(referenceBlockColumnData, column) {
@@ -172,8 +177,6 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 					referenceBlock.get('settings').set({
 						backgroundColor: referenceBlockData.settings.backgroundColor
 					});
-				} else {
-					debugger;
 				}
 			}
 		});

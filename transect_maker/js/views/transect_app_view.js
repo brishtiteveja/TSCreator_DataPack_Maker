@@ -157,6 +157,10 @@ define([
 		this.polygonsView = new PolygonsView(this.transectApp);
 
 		this.referenceColumnSideView = new ReferenceColumnSideView(this.transectApp, "#reference-column-settings");
+
+		$('.linked').scroll(function(){
+			$('.linked').scrollTop($(this).scrollTop());
+		});
 	};
 
 	/**

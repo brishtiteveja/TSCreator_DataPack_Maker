@@ -20,6 +20,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.blockMarker.get('blockColumn'), 'change:x', this.renderBlockMarker.bind(this));
 		this.listenTo(this.blockMarker.get('blockColumn'), 'change:width', this.renderBlockMarker.bind(this));
 
+
 		/* listen to the events */
 		this.listenTo(this.blockMarker, 'change:hover', this.setHoverStatus.bind(this));
 		this.listenTo(this.blockMarker, 'change', this.renderBlockMarker.bind(this));
@@ -50,6 +51,10 @@ define(["baseView"], function(BaseView) {
 			this.app.MarkersSet.toFront();
 		}
 
+		if (this.blockMarker.get('marker')) {
+			this.listenTo(this.blockMarker.get('marker'), 'change:y', this.updateBlockMakereY.bind(this));	
+		}
+
 		var style = this.blockMarker.get('style');
 		var strokeDashArray = []
 		
@@ -78,8 +83,18 @@ define(["baseView"], function(BaseView) {
 		this.app.Canvas.setSize(this.app.Canvas.width, height);
 	}
 
+	ReferenceBlockMarkerView.prototype.updateBlockMakereY = function() {
+		if (this.blockMarker.get('marker')) {
+			this.blockMarker.set({
+				y: this.blockMarker.get('marker').get('y')
+			});
+		}
+	}
+
 	ReferenceBlockMarkerView.prototype.updateStatusBox = function() {
-		this.app.StatusBox.html(this.statusBoxTemplate.render(this.blockMarker.toJSON()));
+		if (this.app.StatusBox) {
+			this.app.StatusBox.html(this.statusBoxTemplate.render(this.blockMarker.toJSON()));	
+		}
 	}
 
 

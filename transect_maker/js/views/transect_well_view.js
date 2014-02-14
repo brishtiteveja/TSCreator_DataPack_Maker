@@ -76,7 +76,17 @@ define(["baseView"], function(BaseView) {
 		this.renderTooltip();
 
 		this.element.attr({'path': this.getPath()});
+
+		this.resizeCanvas();
 	};
+
+
+	TransectWellView.prototype.resizeCanvas = function() {
+		var width = Math.max(this.app.Canvas.width, this.transectWell.get('x') + 100);
+		var height = this.app.Canvas.height;
+		this.app.Canvas.setSize(width, height);
+	}
+
 
 	TransectWellView.prototype.renderTooltip = function() {
 		$(this.element.node).qtip({

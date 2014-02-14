@@ -75,7 +75,21 @@ define(["baseView"], function(BaseView) {
 		this.renderTooltip();
 		this.element.attr({'path': this.getPath()});
 		this.app.TransectTextsCollection.updateTransectTexts();
+
+		this.resizeCanvas();
 	};
+
+
+	TransectMarkerView.prototype.resizeCanvas = function() {
+		var width = this.app.Canvas.width;
+		var height = Math.max(this.app.Canvas.height, this.transectMarker.get('y') + 100);
+		if (this.app.refCol && this.app.refCol.Canvas) {
+			height = Math.max(this.app.refCol.Canvas.height, height);
+			this.app.refCol.Canvas.setSize(width, height);
+		}
+		this.app.Canvas.setSize(width, height);
+	}
+
 
 	/*==========  render the tooltip for the marker in the canvas  ==========*/
 	TransectMarkerView.prototype.renderTooltip = function() {

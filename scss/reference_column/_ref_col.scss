@@ -2,11 +2,21 @@
 
 
 #ref-col-set-list {
-	padding-left: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
 
 	@include settings_font;
 
-	label, h3 {
+	label, h1, h2, h3, h4, h5 {
 		@include settings_font;
+	}
+	
+	.drag-box {
+		@include clearfix;
+		@include rounded_borders(#aaa, 5px, 5px, dashed);
+		height: 30%;
+		margin: auto;
+		text-align:center;
+		vertical-align:middle; //now we can center vertically like in a TD
 	}
 }

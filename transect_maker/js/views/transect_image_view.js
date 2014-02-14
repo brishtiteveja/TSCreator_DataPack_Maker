@@ -93,7 +93,12 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 		// translate image such that it lies on origin.
 		var tstr = "t" + (-bBox.x) + "," + (-bBox.y) + "r" + this.transectImage.get('angle');
 		this.element.transform(tstr);
-		this.app.Canvas.setSize(bBox.width + 50, bBox.height + 50);
+		var height = bBox.height + 50;
+		if (this.app.refCol && this.app.refCol.Canvas) {
+			height = Math.max(this.app.refCol.Canvas, height);
+			this.app.refCol.Canvas.setSize(bBox.width + 50, height);
+		}
+		this.app.Canvas.setSize(bBox.width + 50, height);
 	}
 
 	TransectImageView.prototype.updateImageWidth = function() {

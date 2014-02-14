@@ -1,34 +1,42 @@
 <div class="row">
-	<h3>Time Frame</h3>
+	<h3>Choose Time Frame</h3>
 </div>
 <div class="row">
 	<div class="small-12 columns">
 		<div class="row">
-			<div class="small-10 columns">
-				<label class="right inline">Top Age</label>	
+			<div class="small-8 columns">
+				<h4 class="left inline">Top</h4>
 			</div>
-			<div class="small-14 columns">
-				<input type="text" placeholder="0" />
+			<div class="small-16 columns">
+				<input type="text" placeholder="0" class="left" value="0" name="top-age"/>
 			</div>
 		</div>
 	</div>
 	<div class="small-12 columns">
 		<div class="row">
-			<div class="small-10 columns">
-				<label class="right inline">Base Age</label>	
+			<div class="small-8 columns">
+				<h4 class="left inline">Base</h4>
 			</div>
-			<div class="small-14 columns">
-				<input type="text" placeholder="0" />
+			<div class="small-16 columns">
+				<input type="text" placeholder="0" class="left" value="15" name="base-age"/>
 			</div>
 		</div>
 	</div>
 </div>
+<hr>
 <div class="row">
-	<div class="large-6 columns">
-      <label>Choose Reference Column</label>
-		<% for (var i = 0; i < ReferenceBlockColumnsCollection.length; i++) { %>
-			<% var column = ReferenceBlockColumnsCollection.at(i) %>
-      		<input type="radio" name="ref_column" value="<%= column.get('id') %>"><label for="ref_column"><%= column.get('name') %></label>
-		<% } %>
-    </div>
+	<h4>Choose Reference Column</h4>
+</div>
+<% for (var i = 0; i < refCols.length; i++) { %>
+	<div class="row">
+			<% var column = refCols[i] %>
+			<input type="radio" name="ref-column" value="<%= column.id %>"><label for="ref-column"><h4><%= column.name %></h4></label>
+	</div>
+<% } %>
+<div class="row">
+	<input type="radio" name="ref-column" value="none" checked><label for="ref-column"><h4>None</h4></label>
+</div>
+<hr>
+<div class="row">
+	<div class="small-24 drag-box columns" id="reference-column-box"><span class="text-center">drag & drop your reference column here</span></div>
 </div>

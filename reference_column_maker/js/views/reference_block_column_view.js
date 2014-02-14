@@ -191,6 +191,9 @@ define(["baseView", "referenceBlockView", "referenceBlockMarkerView", "reference
 
 	ReferenceBlockColumnView.prototype.updateBlockColumns = function() {
 		var self = this;
+		if (!this.app.ReferenceBlockColumnsCollection) {
+			return;
+		}
 		var stratIndex = this.app.ReferenceBlockColumnsCollection.indexOf(this.blockColumn);
 		this.app.ReferenceBlockColumnsCollection.each(function(blockColumn, index) {
 			if (index > stratIndex) {
@@ -212,13 +215,13 @@ define(["baseView", "referenceBlockView", "referenceBlockMarkerView", "reference
 	}
 
 	ReferenceBlockColumnView.prototype.delete = function() {
+		_.invoke(this.blockColumn.get('blocks').toArray(), "destroy");
 		if (this.element) this.element.remove();
 		this.$el.remove();
 		this.remove();
 	}
 
 	ReferenceBlockColumnView.prototype.destroy = function() {
-		_.invoke(this.blockColumn.get('blocks').toArray(), "destroy");
 		this.blockColumn.destroy();
 	}
 
