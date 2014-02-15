@@ -720,6 +720,7 @@ define([
 		json["image"] = this.transectImage.toJSON();
 		json["points"] = this.app.PointsCollection.toJSON();
 		json["lines"] = this.app.LinesCollection.toJSON();
+		json["referenceColumn"] = this.app.referenceColumn.toJSON();
 		return JSON.stringify(json);
 	}
 

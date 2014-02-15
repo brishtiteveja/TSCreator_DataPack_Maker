@@ -26,6 +26,8 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.blockMarker, 'change', this.renderBlockMarker.bind(this));
 		this.listenTo(this.blockMarker, 'destroy', this.delete.bind(this));
 		this.listenTo(this.blockMarker.get('blocks'), 'remove', this.checkAndDelete.bind(this));
+
+		this.render();
 	};
 
 	ReferenceBlockMarkerView.prototype.render = function() {
@@ -72,7 +74,21 @@ define(["baseView"], function(BaseView) {
 
 		this.resizeCanvas();
 		this.updateStatusBox();
+		this.renderTooltip();
 	}
+
+	ReferenceBlockMarkerView.prototype.renderTooltip = function() {
+		var self = this;
+		$(this.element.node).qtip({
+			content: {
+				text: this.blockMarker.get('name') + "(" + this.blockMarker.get('age') + " myr )"
+			},
+			position: {
+				my: 'bottom left', // Position my top left...
+				target: 'mouse', // my target 
+			}
+		});
+	};
 
 	ReferenceBlockMarkerView.prototype.resizeCanvas = function() {
 		var height = Math.max(this.app.Canvas.height, this.blockMarker.get('y') + 100)

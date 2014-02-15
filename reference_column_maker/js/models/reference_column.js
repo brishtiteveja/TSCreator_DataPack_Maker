@@ -9,9 +9,10 @@ define(["baseModel", "referenceBlockColumn"], function(BaseModel, ReferenceBlock
 		classname: "ReferenceColumn",		
 		constructor: function (attributes) {
 			var attrs = [{
-				column   : attributes.column || null,
-				top      : attributes.top || null,
-				base     : attributes.base || null,
+				column      : attributes.column || null,
+				top         : attributes.top || null,
+				base        : attributes.base || null,
+				columnsData : attributes.columnsData || null,
 			}];
 			BaseModel.apply(this, attrs);
 		}

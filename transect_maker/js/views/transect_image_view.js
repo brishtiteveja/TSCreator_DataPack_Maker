@@ -96,7 +96,7 @@ define(["baseView", "transectImage"], function(BaseView, TransectImage) {
 		var height = bBox.height + 50;
 		if (this.app.refCol && this.app.refCol.Canvas) {
 			height = Math.max(this.app.refCol.Canvas, height);
-			this.app.refCol.Canvas.setSize(bBox.width + 50, height);
+			this.app.refCol.Canvas.setSize(this.app.refCol.Canvas.width, height);
 		}
 		this.app.Canvas.setSize(bBox.width + 50, height);
 	}

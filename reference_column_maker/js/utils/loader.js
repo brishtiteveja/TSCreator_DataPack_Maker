@@ -157,8 +157,11 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 	Loader.prototype.addBlockMarkerToColumn = function(referenceBlockMarkerData, column) {
 		var self = this;
 		var referenceBlockMarker = column.get('blockMarkers').findWhere({y: referenceBlockMarkerData.y}) ||
-		 new ReferenceBlockMarker({name: referenceBlockMarkerData.name, y: referenceBlockMarkerData.y, blockColumn: column, age: referenceBlockMarkerData.age}, this.app);
+		 new ReferenceBlockMarker({y: referenceBlockMarkerData.y, blockColumn: column, age: referenceBlockMarkerData.age}, this.app);
 		column.get('blockMarkers').add(referenceBlockMarker);
+		referenceBlockMarker.set({
+			name: referenceBlockMarkerData.name
+		});
 	}
 
 	Loader.prototype.updateBlockNames = function(referenceBlockColumnData, column) {

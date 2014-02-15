@@ -27,9 +27,9 @@
 <div class="row">
 	<h4>Choose Reference Column</h4>
 </div>
-<% for (var i = 0; i < refCols.length; i++) { %>
+<% for (var i = 0; i < columnsData.length; i++) { %>
 	<div class="row">
-			<% var column = refCols[i] %>
+			<% var column = columnsData[i] %>
 			<input type="radio" name="ref-column" value="<%= column.id %>"><label for="ref-column"><h4><%= column.name %></h4></label>
 	</div>
 <% } %>

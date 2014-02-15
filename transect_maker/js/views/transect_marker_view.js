@@ -85,7 +85,7 @@ define(["baseView"], function(BaseView) {
 		var height = Math.max(this.app.Canvas.height, this.transectMarker.get('y') + 100);
 		if (this.app.refCol && this.app.refCol.Canvas) {
 			height = Math.max(this.app.refCol.Canvas.height, height);
-			this.app.refCol.Canvas.setSize(width, height);
+			this.app.refCol.Canvas.setSize(this.app.refCol.Canvas.width, height);
 		}
 		this.app.Canvas.setSize(width, height);
 	}

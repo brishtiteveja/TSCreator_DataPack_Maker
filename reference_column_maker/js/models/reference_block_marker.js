@@ -8,7 +8,7 @@ define(["baseModel", "referenceBlocks"], function(BaseModel, ReferenceBlocks) {
 		classname: "ReferenceBlockMarker",
 		constructor: function (attributes, app) {
 			var attrs = [{
-				name        : "TOP",
+				name        : attributes.name || "TOP",
 				edit        : false,
 				hover       : false,
 				y           : parseInt(attributes.y),
