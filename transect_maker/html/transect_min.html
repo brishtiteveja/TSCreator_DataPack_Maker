@@ -28,32 +28,33 @@
 
 		<!-- default settings for transect -->
 		<script src="/transect_maker/js/default_settings.js" type="text/javascript"></script>
-
+		
 
 		<!-- RequireJS -->
 		<script src="/commons/js/lib/require-min.js"></script>
-		<script src="/transect_maker/js/transect-maker-built.0.1.44.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/transect_maker/js/transect-maker-built.0.1.45.js" type="text/javascript" charset="utf-8" async defer></script>
 
 	</head>
 	<body class="main">
 		<div class="container row">
 			<div id="toolbar" class="small-2 large-1 columns">
 				<ul class="side-nav">
-					<li><a href="#" class="transect-tools icon icons_32-cursor_arrow_icon_32" title="mouse pointer"></a></li>
-					<li><a href="#lock-cursor-h" class="transect-tools icon icons_32-padlock_closed_icon_32 text-right" title="lock cursor in X.">↔︎</a></li>
-					<li><a href="#lock-cursor-v" class="transect-tools icon icons_32-padlock_closed_icon_32 text-right" title="lock cursor in V.">↕︎</a></li>
-					<li><a href="#add-marker" class="transect-tools icon icons_32-cursor_H_split_icon_32" title="create a new timeline"></a></li>
-					<li><a href="#add-well" class="transect-tools icon icons_32-cursor_V_split_icon_32" title="create a new well"></a></li>
-					<li><a href="#add-polygon" class="transect-tools icon icons-polygon4" title="polygons tool"></a></li>
-					<li class="hide"><a href="#new-polygon" class="transect-tools icon icons_32-sq_plus_icon_32" title="create a new polygon"></a></li>
-					<li><a href="#add-transect-text" class="transect-tools icon icons_32-text_letter_t_icon_32" title="create new transect text"></a></li>
-					<li><a href="#save-to-local-storage" class="transect-tools icon icons_save_icon_32" title="save to local storage"></a></li>
-					<li><a href="#reload-data" class="transect-tools icon icons_32-reload_icon_32" title="reload data from local storage"></a></li>
-					<li><a href="#export-data" class="transect-tools icon icons_32-doc_export_icon_32" title="export data"></a></li>
-					<li><a href="#file-system" class="transect-tools icon icons_32-box_icon_32" title="sandbox"></a></li>
+					<li><a href="#" class="maker-tools icon icons_32-cursor_arrow_icon_32" title="mouse pointer"></a></li>
+					<li><a href="#lock-cursor-h" class="maker-tools icon icons_32-padlock_closed_icon_32 text-right" title="lock cursor in X.">↔︎</a></li>
+					<li><a href="#lock-cursor-v" class="maker-tools icon icons_32-padlock_closed_icon_32 text-right" title="lock cursor in V.">↕︎</a></li>
+					<li><a href="#add-marker" class="maker-tools icon icons_32-cursor_H_split_icon_32" title="create a new timeline"></a></li>
+					<li><a href="#add-well" class="maker-tools icon icons_32-cursor_V_split_icon_32" title="create a new well"></a></li>
+					<li><a href="#add-polygon" class="maker-tools icon icons-polygon4" title="polygons tool"></a></li>
+					<li class="hide"><a href="#new-polygon" class="maker-tools icon icons_32-sq_plus_icon_32" title="create a new polygon"></a></li>
+					<li><a href="#add-transect-text" class="maker-tools icon icons_32-text_letter_t_icon_32" title="create new transect text"></a></li>
+					<li><a href="#show-ref-panel" class="maker-tools icon icons_32-indent_decrease_icon_32" title="show reference panel"></a></li>
+					<li><a href="#save-to-local-storage" class="maker-tools icon icons_save_icon_32" title="save to local storage"></a></li>
+					<li><a href="#reload-data" class="maker-tools icon icons_32-reload_icon_32" title="reload data from local storage"></a></li>
+					<li><a href="#export-data" class="maker-tools icon icons_32-doc_export_icon_32" title="export data"></a></li>
+					<li><a href="#file-system" class="maker-tools icon icons_32-box_icon_32" title="sandbox"></a></li>
 				</ul>
 			</div>
-			<div id="display" class="small-18 large-21 columns">
+			<div id="display" class="small-18 large-21 columns linked">
 				<div id="export-panel" class="hide display-panel"></div>
 				<div id="file-system-panel" class="display-panel hide"></div>
 				<div id="canvas" class="hide display-panel" tabindex=1></div>
@@ -74,12 +75,6 @@
 													<div class="small-24 columns"><a href="/docs/Gabi_TransectMakerManual2.pdf" title="">↪︎ a guided tour of transect maker.</a></div>
 												</div>
 											</li>
-											<!-- <li>
-												<div class="row">
-													<div class="small-10 columns large-6"><a href="#" title="">↪︎ set image</a></div>
-													<div class="small-14 drag-box large-18 columns" id="image-box"><h2 class="text-center text-message"><small class="image-status">drag & drop your image here</small></h2></div>
-												</div>
-											</li> -->
 											<li>
 												<div class="row">
 													<div class="small-24 drag-box columns" id="data-box"><h2 class="text-center text-message"><small class="data-status">drag & drop your datafile here</small></h2></div>
@@ -100,6 +95,7 @@
 						</div>
 					</div>
 				</div>
+				<div id="ref-panel" class="linked hidden"></div>
 			</div>
 			<div id="load-saved-data" class="reveal-modal" data-reveal>
 				<h2> Are you sure you want to continue ?</h2>
@@ -127,6 +123,7 @@
 						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#polygons">Polygons</a></li>
 						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#texts">Texts</a></li>
 						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#bg-image-settings">Image</a></li>
+						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#ref-col-set">Reference</a></li>
 						<li class="settings-links"><a class="transect-settings icons_32-cogs_icon_32" href="#defaults">Defaults</a></li>
 					</ul>
 					<div data-alert class="alert-box secondary canvas-status status-box"></div>
@@ -139,6 +136,7 @@
 					<div class="settings-content" id="markers-list"></div>
 					<div class="settings-content" id="texts-list"></div>
 					<div class="settings-content" id="bg-image-settings-list"></div>
+					<div class="settings-content" id="ref-col-set-list"></div>
 					<div class="settings-content" id="defaults-list"></div>
 				</div>
 			</div>
