@@ -13,8 +13,8 @@ define(["baseView"], function(BaseView) {
 		}
 	});
 
-	DataExportView.prototype.template = new EJS({url: '/block_column_maker/ejs/data_export_panel.ejs'});
-	DataExportView.prototype.blockColumnDataTemplate = new EJS({url: '/block_column_maker/ejs/block_column_data.ejs'});
+	DataExportView.prototype.template = new EJS({url: '/reference_column_maker/ejs/data_export_panel.ejs'});
+	DataExportView.prototype.blockColumnDataTemplate = new EJS({url: '/reference_column_maker/ejs/block_column_data.ejs'});
 
 	DataExportView.prototype.initialize = function(app) {
 		this.app = app;

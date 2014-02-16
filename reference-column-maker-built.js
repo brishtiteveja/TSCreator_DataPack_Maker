@@ -52,5 +52,5 @@
 
 
 	name: "reference_column_maker/js/reference_column_app",
-	out: "reference_column_maker/js/reference_column-maker-built.0.0.1.js"
+	out: "reference_column_maker/js/reference_column-maker-built.0.0.2.js"
 })
