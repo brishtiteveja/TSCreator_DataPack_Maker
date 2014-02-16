@@ -42,6 +42,11 @@ define(["baseModel"], function(BaseModel) {
 		return null;
 	}
 
+	Zone.prototype.getAbsoluteY = function(relY) {
+		var y = this.get('topMarker').get('y') + (this.get('baseMarker').get('y') - this.get('topMarker').get('y'))*relY;
+		return y;
+	}
+
 	Zone.prototype.getAbsoluteAge = function(y) {
 		if (this.get('topMarker').get('y') <= y && y < this.get('baseMarker').get('y') 
 			&& this.get('topMarker').get('age') != null && this.get('baseMarker').get('age') != null) {

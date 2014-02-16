@@ -98,8 +98,6 @@ define(["baseView"], function(BaseView) {
 			"height"       : this.base.get('y') - this.top.get('y'),
 		});
 
-		debugger;
-
 		var textX = Math.round(this.block.get('blockColumn').get('x') + this.block.get('blockColumn').get('width')/2);
 		var textY = Math.round((this.top.get('y') + this.base.get('y'))/2)
 		var textSize = Math.min(Math.round(this.base.get('y') - this.top.get('y')), 16);

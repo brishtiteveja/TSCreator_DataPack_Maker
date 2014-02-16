@@ -7,7 +7,9 @@ define(["baseView"], function(BaseView) {
 		tagName: 'li',
 		classname: "PointView",
 		events: {
-			'click .toggle': 'togglePointForm',
+			'change input[name="relative-y"]': 'updatePoint',
+			'change input[name="relative-x"]': 'updatePoint',
+			'click .point-data': 'togglePointForm',
 			'mouseover': "onMouseOver",
 			'mouseout': "onMouseOut",
 		}
@@ -21,8 +23,10 @@ define(["baseView"], function(BaseView) {
 		this.point = point;
 		this.render();
 		this.listenTo(this.point, 'destroy', this.removeElement.bind(this));
+		this.listenTo(this.point, 'change:age', this.render.bind(this));
 		this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
-		this.listenTo(this.point, 'change', this.render.bind(this));
+		this.listenTo(this.point, 'change:x', this.renderPoint.bind(this));
+		this.listenTo(this.point, 'change:y', this.renderPoint.bind(this));
 		this.listenTo(this.app.ZonesCollection, 'remove', this.updatePoint.bind(this));
 		this.listenTo(this.app.TransectsCollection, 'remove', this.updatePoint.bind(this));
 	};
@@ -35,6 +39,7 @@ define(["baseView"], function(BaseView) {
 		
 		this.point.updateTransectAndZone();
 		this.render();
+		this.toggleEditStatus();
 	}
 
 
@@ -44,8 +49,10 @@ define(["baseView"], function(BaseView) {
 		this.$toggle = this.$(".toggle"),
 		this.$pointForm = this.$(".point-form");
 		this.$pointData = this.$(".point-data");
-		this.$pointName = this.$('input[name="point-name"]')[0];
-		this.$pointAge = this.$('input[name="point-age"]')[0];
+		this.$pointName = this.$('input[name="point-name"]');
+		this.$pointAge = this.$('input[name="point-age"]');
+		this.$pointRelativeX = this.$('input[name="relative-x"]');
+		this.$pointRelativeY = this.$('input[name="relative-y"]');
 
 		this.renderPoint();
 	};
@@ -227,11 +234,28 @@ define(["baseView"], function(BaseView) {
 			this.setEditMode();
 		} else {
 			this.$pointForm.addClass('hide');
-			this.$pointData.removeClass('hide');
 			this.$toggle.removeClass('show-data');
+			this.$pointData.removeClass('hide');
 			this.$toggle.addClass('hide-data');
 			this.setFinishedMode();
 		}
+	}
+
+	PointView.prototype.updatePoint = function(evt) {			
+		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+			this.togglePolygonForm();
+		}
+
+		var relX = this.$pointRelativeX.val()*1.0/100;
+		var relY = this.$pointRelativeY.val()*1.0/100;
+
+		var x = this.point.get('transect').getAbsoluteX(relX);
+		var y = this.point.get('zone').getAbsoluteY(relY);
+
+		this.point.set({
+			x: x,
+			y: y
+		});
 	}
 
 	return PointView;

@@ -18,13 +18,6 @@
 	// text elements seems to mis align when the div is hidden.
 	// reference: https://github.com/DmitryBaranovskiy/raphael/issues/491
 
-	.hidden {
-		height: 1px;
-		width: 1px;
-		overflow: hidden;
-		position: absolute;
-		z-index: -100;
-	}
 
 	> #ref-panel {
 		position: fixed;
@@ -32,6 +25,13 @@
 		height: 100%;
 		width: 200px;
 		overflow: auto;
+		&.hidden {
+			height: 1px;
+			width: 1px;
+			overflow: hidden;
+			position: absolute;
+			z-index: -100;
+		}
 
 		@include display_background;
 	}

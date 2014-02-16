@@ -28,6 +28,11 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		return false;
 	}
 
+	Transect.prototype.getAbsoluteX = function(relX) {
+		var x = this.get('wellLeft').get('x') + (this.get('wellRight').get('x') - this.get('wellLeft').get('x'))*relX;
+		return x;
+	}
+
 	Transect.prototype.getRelativeX = function(x) {
 		if (this.get('wellLeft').get('x') < x && x < this.get('wellRight').get('x')) {
 			var num = ((x - this.get('wellLeft').get('x'))/(this.get('wellRight').get('x') - this.get('wellLeft').get('x')));

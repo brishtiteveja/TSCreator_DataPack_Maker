@@ -24,6 +24,11 @@ define(["baseModel"], function(BaseModel) {
 		}
 	});
 
+	Zone.prototype.getAbsoluteY = function(relY) {
+		var y = this.get('topMarker').get('y') + (this.get('baseMarker').get('y') - this.get('topMarker').get('y'))*relY;
+		return y;
+	}
+	
 	Zone.prototype.isYInsideZone = function(y) {
 		/* Check if the zone contains the point. i.e. the point should lie
 		between the topMarker and baseMarker */

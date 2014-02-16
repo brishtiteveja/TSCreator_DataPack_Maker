@@ -11,8 +11,8 @@ define(["baseModel", "referenceBlockColumn"], function(BaseModel, ReferenceBlock
 			var attrs = [{
 				columnId    : attributes.columnId || "none",
 				column      : attributes.column || null,
-				top         : attributes.top || null,
-				base        : attributes.base || null,
+				top         : attributes.top || 0,
+				base        : attributes.base || 15,
 				columnsData : attributes.columnsData || null,
 			}];
 			BaseModel.apply(this, attrs);
