@@ -39,7 +39,7 @@ define(["baseView"], function(BaseView) {
 		/* listen to the events */
 		this.listenTo(this.block, 'change:edit', this.editBlock.bind(this));
 		this.listenTo(this.block, 'change:hover', this.setHoverStatus.bind(this));
-		this.listenTo(this.block, 'change:name', this.render.bind(this));
+		this.listenTo(this.block, 'change:name', this.renderBlock.bind(this));
 		this.listenTo(this.block, 'change:description', this.render.bind(this));
 		
 		this.listenTo(this.block.get('blockColumn'), 'change:x', this.renderBlock.bind(this));

@@ -199,7 +199,7 @@ define([
 		reader.onloadend = function(e) {
 			self.showCanvas();
 			if (ext === "json") {
-				self.referenceColumnApp.loader.loadData(this.result);
+				self.referenceColumnApp.loader.loadJSONData(this.result);
 			}
 			if (ext === "txt") {
 				self.referenceColumnApp.loader.loadTextData(this.result);
