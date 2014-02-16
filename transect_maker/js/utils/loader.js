@@ -1,3 +1,4 @@
+
 /*=================================================================
 =            Loader that loads tsc data into the maker            =
 =================================================================*/
@@ -34,11 +35,19 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 		_.invoke(this.texts.toArray(), 'destroy');
 		_.invoke(this.points.toArray(), 'destroy');
 		_.invoke(this.lines.toArray(), 'destroy');
+
+		// reset the reference column so that we can redraw the whole thing again.
+		if (this.app.referenceColumn) {
+			this.app.referenceColumn.set({
+				columnId: "none"
+			});	
+		}
+		
 	}
 
 	Loader.prototype.load = function() {
 		this.loadImage();
-		this.loadMarkersAndZones();
+		this.loadReferenceColumnData();
 		this.loadWellsAndTransects();
 		this.loadPolygons();
 		this.loadTexts();
@@ -47,6 +56,33 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 
 	Loader.prototype.loadImage = function() {
 		this.app.TransectImage.set(this.savedData.image);
+	}
+
+	Loader.prototype.loadReferenceColumnData = function() {
+		var self = this;
+		if (self.savedData.referenceColumn) {
+			self.app.referenceColumn.set({
+				columnId: self.savedData.referenceColumn.columnId,
+				columnData: self.savedData.referenceColumn.columnData,
+				top: self.savedData.referenceColumn.top,
+				base: self.savedData.referenceColumn.base,
+			});
+			self.updateMarkerPositions();
+		} else {
+			self.loadMarkersAndZones();
+		}
+	}
+
+	Loader.prototype.updateMarkerPositions = function() {
+		var self = this;
+		self.savedData.markers.forEach(function(markerData) {
+			var marker = self.app.TransectMarkersCollection.findWhere({age: markerData.age});
+			if (marker) {
+				marker.set({
+					y: markerData.y
+				});
+			}
+		});
 	}
 
 	Loader.prototype.loadMarkersAndZones = function() {

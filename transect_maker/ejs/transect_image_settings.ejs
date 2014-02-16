@@ -1,16 +1,5 @@
 <div class="row">
-	<% if (visible) { %>
-		<input type="checkbox" name="image-visible" checked><label>Show Image</label>
-	<% } else { %>
-		<input type="checkbox" name="image-visible"><label>Show Image</label>
-	<% } %>
-</div>
-<div class="row">
-	<% if (preserveAspectRatio) { %>
-		<input type="checkbox" name="preserve-aspect-ratio" checked><label>Preserve Aspect Ratio</label>
-	<% } else { %>
-		<input type="checkbox" name="preserve-aspect-ratio"><label>Preserve Aspect Ratio</label>
-	<% } %>
+	<h3>Choose Image Dimensions</h3>
 </div>
 <div class="row">
 	<div class="columns small-8">
@@ -25,6 +14,24 @@
 		<label>Rotate</label>
 		<input type="number" name="angle" step="0.1" min="-180" max="180" value="<%= angle %>">
 	</div>
+</div>
+<div class="row">
+	<% if (visible) { %>
+		<input type="checkbox" name="image-visible" checked><label>Show Image</label>
+	<% } else { %>
+		<input type="checkbox" name="image-visible"><label>Show Image</label>
+	<% } %>
+</div>
+<div class="row">
+	<% if (preserveAspectRatio) { %>
+		<input type="checkbox" name="preserve-aspect-ratio" checked><label>Preserve Aspect Ratio</label>
+	<% } else { %>
+		<input type="checkbox" name="preserve-aspect-ratio"><label>Preserve Aspect Ratio</label>
+	<% } %>
+</div>
+<hr>
+<div class="row">
+	<h3>Change Image</h3>
 </div>
 <div class="row">
 	<div class="small-24 drag-box columns" id="image-box"><span class="text-center">drag & drop your image here</span></div>

@@ -14,6 +14,18 @@
 		background: #fff;
 	}
 
+	// hidden is for hiding div that contains canvas with text elements.
+	// text elements seems to mis align when the div is hidden.
+	// reference: https://github.com/DmitryBaranovskiy/raphael/issues/491
+
+	.hidden {
+		height: 1px;
+		width: 1px;
+		overflow: hidden;
+		position: absolute;
+		z-index: -100;
+	}
+
 	> #ref-panel {
 		position: fixed;
 		top: 0px;

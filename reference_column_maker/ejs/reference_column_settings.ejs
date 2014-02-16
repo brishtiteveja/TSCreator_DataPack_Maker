@@ -8,7 +8,7 @@
 				<h4 class="left inline">Top</h4>
 			</div>
 			<div class="small-16 columns">
-				<input type="text" placeholder="0" class="left" value="0" name="top-age"/>
+				<input type="text" placeholder="0" class="left" value="<%= top %>" name="top-age"/>
 			</div>
 		</div>
 	</div>
@@ -18,7 +18,7 @@
 				<h4 class="left inline">Base</h4>
 			</div>
 			<div class="small-16 columns">
-				<input type="text" placeholder="0" class="left" value="15" name="base-age"/>
+				<input type="text" placeholder="0" class="left" value="<%= base %>" name="base-age"/>
 			</div>
 		</div>
 	</div>
@@ -30,13 +30,24 @@
 <% for (var i = 0; i < columnsData.length; i++) { %>
 	<div class="row">
 			<% var column = columnsData[i] %>
-			<input type="radio" name="ref-column" value="<%= column.id %>"><label for="ref-column"><h4><%= column.name %></h4></label>
+			<% if (column.id === columnId) { %>
+				<input type="radio" name="ref-column" value="<%= column.id %>" checked><label for="ref-column"><h4><%= column.name %></h4></label>
+			<% } else { %>
+				<input type="radio" name="ref-column" value="<%= column.id %>"><label for="ref-column"><h4><%= column.name %></h4></label>
+			<% } %>
 	</div>
 <% } %>
 <div class="row">
-	<input type="radio" name="ref-column" value="none" checked><label for="ref-column"><h4>None</h4></label>
+	<% if (columnId === "none") { %>
+		<input type="radio" name="ref-column" value="none" checked><label for="ref-column"><h4>None</h4></label>
+	<% } else { %>
+		<input type="radio" name="ref-column" value="none"><label for="ref-column"><h4>None</h4></label>
+	<% } %>
 </div>
 <hr>
+<div class="row">
+	<h4>Change Reference Column</h4>
+</div>
 <div class="row">
 	<div class="small-24 drag-box columns" id="reference-column-box"><span class="text-center">drag & drop your reference column here</span></div>
 </div>

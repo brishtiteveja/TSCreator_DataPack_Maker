@@ -1,5 +1,6 @@
 #bg-image-settings-list {
 	padding: 10px;
+
 	.row {
 		padding: 10px;
 		> .drag-box {
@@ -9,11 +10,14 @@
 			margin: auto;
 			text-align:center;
 			vertical-align:middle; //now we can center vertically like in a TD
+
+			&:hover {
+				background: #555;
+			}
 		}
 
-		label {
-			padding:10px;
-			color: #fff;
+		label, h1, h2, h3, h4, h5 {
+			@include settings_font;
 		}
 
 		> .columns {

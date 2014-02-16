@@ -18,5 +18,9 @@
 		margin: auto;
 		text-align:center;
 		vertical-align:middle; //now we can center vertically like in a TD
+		
+		&:hover {
+			background: #555;
+		}
 	}
 }

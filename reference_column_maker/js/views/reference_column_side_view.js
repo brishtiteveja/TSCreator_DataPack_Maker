@@ -25,6 +25,8 @@ define([
 			'keypress :input': 'updateReferenceColumnSettings',
 			'keyup :input': 'updateReferenceColumnSettings',
 			'click input[type=radio]': 'updateReferenceColumnSettings',
+			"dragover #reference-column-box": "dataDragover",
+			"drop #reference-column-box": "dataDrop",
 		}
 	});
 
@@ -54,9 +56,9 @@ define([
 		this.app.referenceColumn = this.referenceColumn;
 
 		this.listenTo(this.referenceColumn, 'change:columnsData', this.render.bind(this));
-		this.listenTo(this.referenceColumn, 'change:columnId', this.updateReferenceColumn.bind(this));
-		this.listenTo(this.referenceColumn, 'change:top', this.updateReferenceColumn.bind(this));
-		this.listenTo(this.referenceColumn, 'change:base', this.updateReferenceColumn.bind(this));
+		this.listenTo(this.referenceColumn, 'change:columnId', this.render.bind(this));
+		this.listenTo(this.referenceColumn, 'change:top', this.render.bind(this));
+		this.listenTo(this.referenceColumn, 'change:base', this.render.bind(this));
 
 		this.renderReferenceColumnCanvas();
 		
@@ -69,7 +71,7 @@ define([
 		var self = this;
 		this.$enRefPanel = $("a[href='#show-ref-panel']");
 		this.$enRefPanel.click(function() {
-			self.$refPanel.toggleClass("hide");
+			self.$refPanel.toggleClass("hidden");
 		})
 	}
 
@@ -87,7 +89,7 @@ define([
 		this.app.refCol.BlockMarkersSet = this.app.refCol.Canvas.set();
 		this.app.refCol.BlocksSet = this.app.refCol.Canvas.set();
 
-		this.listenToActionEvents();		
+		this.listenToActionEvents();
 	}
 
 	ReferenceColumnSideView.prototype.loadReferenceColumnData = function() {
@@ -107,6 +109,7 @@ define([
 		self.$el.html(self.settingsTemplate.render(self.referenceColumn.toJSON()));
 		this.$topAge = this.$('input[name="top-age"]');
 		this.$baseAge = this.$('input[name="base-age"]');
+		this.updateReferenceColumn();
 	};
 
 	ReferenceColumnSideView.prototype.updateReferenceColumnSettings = function(evt) {
@@ -141,10 +144,9 @@ define([
 			this.referenceColumn.get('column').destroy();
 		}
 
-		if (this.referenceColumn.get('top') > this.referenceColumn.get('base') || this.referenceColumn.get('columnId') == "none") {
+		if (this.referenceColumn.get('top') > this.referenceColumn.get('base') || this.referenceColumn.get('columnId') === "none") {
 			return;
 		}
-
 		
 		var columnData = this.getColumnData(this.referenceColumn.get('columnId'));
 		this.referenceColumn.set({
@@ -241,6 +243,34 @@ define([
 			}
 		});
 	}
+
+	ReferenceColumnSideView.prototype.dataDragover = function(evt) {
+		var evt = evt.originalEvent;
+		evt.stopPropagation();
+    	evt.preventDefault();
+	}
+
+
+	ReferenceColumnSideView.prototype.dataDrop = function(evt) {
+    	$("#loading").removeClass("hide");
+		var self = this;
+		var evt = evt.originalEvent;
+		evt.stopPropagation();
+    	evt.preventDefault();
+    	var file = evt.dataTransfer.files[0];
+    	var ext = file.name.split(".").pop();
+    	var reader = new FileReader();
+		reader.onloadend = function(e) {
+			if (ext === "json") {
+				self.referenceColumn.set({
+					columnsData: JSON.parse(this.result).referenceBlockColumns,
+				});
+			}
+			$("#loading").addClass("hide");
+		};
+    	reader.readAsText(file);
+	}
+
 
 	return ReferenceColumnSideView;
 });

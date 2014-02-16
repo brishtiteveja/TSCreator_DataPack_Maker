@@ -38,6 +38,7 @@ define([
 		this.texts = this.app.TransectTextsCollection;
 		this.polygons = this.app.PolygonsCollection;
 		this.transects = this.app.TransectsCollection;
+		this.markers = this.app.TransectMarkersCollection;
 		this.zones = this.app.ZonesCollection;
 		this.transectImage = this.app.TransectImage;
 
@@ -714,6 +715,7 @@ define([
 	Exporter.prototype.getJSON = function() {
 		var json = {};
 		json["transects"] = this.transects.toJSON();
+		json["markers"] = this.markers.toJSON();
 		json["zones"] = this.zones.toJSON();
 		json["polygons"] = this.polygons.toJSON();
 		json["texts"] = this.texts.toJSON();
