@@ -138,9 +138,9 @@ define([
 	}
 
 	ReferenceColumnSideView.prototype.updateReferenceColumn = function(model, value, options) {
+		_.invoke(this.markers.toArray(), 'destroy');
+		_.invoke(this.zones.toArray(), 'destroy');
 		if (this.referenceColumn.get('column')) {
-			_.invoke(this.markers.toArray(), 'destroy');
-			_.invoke(this.zones.toArray(), 'destroy');
 			this.referenceColumn.get('column').destroy();
 		}
 
