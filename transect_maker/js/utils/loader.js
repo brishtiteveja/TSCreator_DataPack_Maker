@@ -60,7 +60,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 
 	Loader.prototype.loadReferenceColumnData = function() {
 		var self = this;
-		if (self.savedData.referenceColumn) {
+		if (self.savedData.referenceColumn && self.savedData.referenceColumn.columnId !== "none") {
 			self.app.referenceColumn.set({
 				columnId: self.savedData.referenceColumn.columnId,
 				columnData: self.savedData.referenceColumn.columnData,
