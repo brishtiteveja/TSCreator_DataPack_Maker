@@ -247,7 +247,7 @@ define(["baseView"], function(BaseView) {
 		}
 
 		var relX = this.$pointRelativeX.val()*1.0/100;
-		var relY = this.$pointRelativeY.val()*1.0/100;
+		var relY = (100 - this.$pointRelativeY.val()*1.0)/100;
 
 		var x = this.point.get('transect').getAbsoluteX(relX);
 		var y = this.point.get('zone').getAbsoluteY(relY);
