@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="export-nav-section columns small-6 large-3">
+		<ul class="side-nav">
+			<% for (var i=0; i<lithologyColumns.length; i++) { %>
+				<li><a class="active" href="#<%= lithologyColumns[i].id %>"><%= lithologyColumns[i].name %></a></li>
+			<% } %>
+		</ul>
+	</div>
+	<div class="export-data-section columns small-18 large-21">
+		<div class="button-bar sticky">
+			<ul class="button-group round right">
+				<li><a href="#show-table" class="show-data tiny button secondary alert">table</a></li>
+				<li><a href="#show-raw" class="show-data tiny button secondary">text</a></li>
+			</ul>
+		</div>
+		<div class="data-table lithology-columns-data">
+			<% for (var i=0; i<lithologyColumns.length; i++) { %>
+				<div id="<%= lithologyColumns[i].id %>"></div>
+			<% } %>
+		</div>
+		<div class="data-raw hide lithology-columns-data"><textarea name="lithology-columns-data-text" readonly=></textarea></div>
+	</div>
+</div>
