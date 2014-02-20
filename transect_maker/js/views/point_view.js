@@ -10,6 +10,7 @@ define(["baseView"], function(BaseView) {
 			'change input[name="relative-y"]': 'updatePoint',
 			'change input[name="relative-x"]': 'updatePoint',
 			'click .point-data': 'togglePointForm',
+			'click .arrow' : 'togglePointForm',
 			'mouseover': "onMouseOver",
 			'mouseout': "onMouseOut",
 		}
@@ -74,6 +75,7 @@ define(["baseView"], function(BaseView) {
 		this.renderTooltip();
 		this.updateStatusBox();
 		this.updateElement();
+		this.point.updateTransectAndZone();
 	};
 
 	PointView.prototype.renderTooltip = function() {
@@ -220,6 +222,7 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.togglePointForm = function(){
+		this.render();
 		this.point.set({
 			'edit' : !this.point.get('edit')
 		});
@@ -241,7 +244,7 @@ define(["baseView"], function(BaseView) {
 		}
 	}
 
-	PointView.prototype.updatePoint = function(evt) {			
+	PointView.prototype.updatePoint = function(evt) {
 		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
 			this.togglePolygonForm();
 		}
