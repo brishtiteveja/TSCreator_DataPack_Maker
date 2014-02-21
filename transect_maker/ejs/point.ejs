@@ -1,12 +1,12 @@
 <div class="row">
-	<div class="small-3 columns">↳</div>
+	<div class="small-3 columns arrow">↳</div>
 	<label class="point-data small-21 columns"><%= name %> - <%= age || "na" %> myr</label>
 	<div class="small-11 columns point-form hide">
 		<label for="relative-x" class="left inline">Relative X</label>
-		<input type="number" name="relative-x" step="0.1" min="0" max="100" value="<%= Math.round(relativeX*1000)/10 %>">
+		<input type="text" name="relative-x" step="0.1" min="0" max="100" value="<%= Math.round(relativeX*1000)/10 %>">
 	</div>
 	<div class="small-10 columns point-form hide">
 		<label for="relative-y" class="left inline">Relative Y</label>
-		<input type="number" name="relative-y" step="0.1" min="0" max="100" value="<%= Math.round(relativeY*1000)/10 %>">
+		<input type="text" name="relative-y" step="0.1" min="0" max="100" value="<%= Math.round((1.0 - relativeY)*1000)/10 %>">
 	</div>
 </div>

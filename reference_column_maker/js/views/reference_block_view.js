@@ -47,9 +47,9 @@ define(["baseView"], function(BaseView) {
 
 		
 		this.listenTo(this.top, 'change:y', this.renderBlock.bind(this));
-		this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));
+		this.listenTo(this.top, 'change:age', this.render.bind(this));
 		this.listenTo(this.base, 'change:y', this.renderBlock.bind(this));
-		this.listenTo(this.base, 'change:age', this.renderTooltip.bind(this));
+		this.listenTo(this.base, 'change:age', this.render.bind(this));
 		
 		this.listenTo(this.block.get('settings'), 'change', this.renderBlock.bind(this));
 		this.listenTo(this.block, 'destroy', this.delete.bind(this));
@@ -62,7 +62,8 @@ define(["baseView"], function(BaseView) {
 		this.$blockForm = this.$(".block-form");
 		this.$blockData = this.$(".block-data");
 		this.$blockName = this.$('input[name="block-name"]')[0];
-		this.$blockAge = this.$('input[name="block-age"]')[0];
+		this.$topAge = this.$('input[name="top-age"]')[0];
+		this.$baseAge = this.$('input[name="base-age"]')[0];
 		this.$blockColor = this.$('input[name="block-color"]')[0];
 		this.$blockDescription = this.$('textarea[name="block-description"]')[0];
 
@@ -197,22 +198,30 @@ define(["baseView"], function(BaseView) {
 	}
 
 	ReferenceBlockView.prototype.updateBlock = function(evt) {
-		if (evt.keyCode === 13) {
-			this.toggleBlockForm();
-		}
 		var name = this.$blockName.value;
 		var description = this.$blockDescription.value;
 		var color = this.$blockColor.value;
 		var style = this.$("select.block-line-style option:selected").val();
-		this.block.set({
-			name: name,
-			description: description,
-		});
+		
+		if (evt.keyCode === 27) {
+			this.toggleBlockForm();
+		}
+		
+		if (evt.keyCode === 13) {
+			this.block.set({
+				name: name,
+				description: description,
+			});
 
-		this.block.get('base').set({
-			name: name + " Base"
-		});
-
+			this.block.get('base').set({
+				name: name + " Base",
+				age: parseFloat(this.$baseAge.value || 0),
+			});
+			
+			this.block.get('top').set({
+				age: parseFloat(this.$topAge.value || 0),
+			});
+		}
 		this.block.get('settings').set({
 			backgroundColor: color
 		});

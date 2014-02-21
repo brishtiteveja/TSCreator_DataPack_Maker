@@ -454,9 +454,11 @@ define([
 		var pointPolygons = new Polygons();
 		polygons.each(function(polygon) {
 			var polygonPoints = polygon.getPolyKPointsArray();
-			if (PolyK.ContainsPoint(polygonPoints, point.get('x') + 1, point.get('y') - 1) || 
-				PolyK.ContainsPoint(polygonPoints, point.get('x') - 1, point.get('y') - 1) || 
-				PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1)) {
+			// We check the if the patter persists for a certain range above the current 
+			// to determine if the point can be considered as a pattern point.
+			if (PolyK.ContainsPoint(polygonPoints, point.get('x') + 1, point.get('y') - 3) || 
+				PolyK.ContainsPoint(polygonPoints, point.get('x') - 1, point.get('y') - 3) || 
+				PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 3)) {
 				pointPolygons.add(polygon);
 			}
 		});

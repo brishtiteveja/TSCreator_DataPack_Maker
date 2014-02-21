@@ -3,21 +3,38 @@
 	<label class="block-data small-18 columns block-label"><%= name %></label>
 	<div class="small-18 columns block-form hide">
 		<div class="row">
-			<div class="columns small-10">
+			<div class="columns small-18">
 				<input type="text" value="<%= name %>" name="block-name">
-			</div>
-			<div class="columns small-8">
-				<select class="small-18 columns block-line-style" style="height: 37px; width: 100%">
-					<option class="line-style" value="solid" selected>solid</option>
-					<option class="line-style" value="dashed">dashed</option>
-					<option class="line-style" value="dotted">dotted</option>
-				</select>
 			</div>
 			<div class="columns small-6">
 				<input type="color" value="<%= settings.get('backgroundColor') %>" name="block-color" style="height: 37px; width: 100%">
 			</div>
 		</div>
-		<textarea name="block-description" placeholder="No description yet!"><%= description %></textarea>
+		<div class="row">
+			<div class="columns small-12">
+				<label for="top-age">Top Age</label>
+				<input type="number" value="<%= top.get('age') %>" name="top-age">
+			</div>
+			<div class="columns small-12">
+				<label for="top-age">Base Age</label>
+				<input type="number" value="<%= base.get('age') %>" name="base-age">
+			</div>
+		</div>
+		<div class="row">
+			<div class="small-8 columns">
+				<label class="left inline">Line Style</label>
+			</div>
+			<div class="columns small-16">
+				<select class="small-8 columns block-line-style" style="height: 37px; width: 100%">
+					<option class="line-style" value="solid" selected>solid</option>
+					<option class="line-style" value="dashed">dashed</option>
+					<option class="line-style" value="dotted">dotted</option>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<textarea name="block-description" placeholder="No description yet!"><%= description %></textarea>
+		</div>
 	</div>
 	<div class="small-3 columns"><a href="#" class="destroy"></a></div>
 </div>

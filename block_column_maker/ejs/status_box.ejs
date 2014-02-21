@@ -4,5 +4,5 @@
 	<li><%= zone ? zone.get('name') : "n/a" %></li>
 	<li>y ➜ <%= y %> px</li>
 	<li>age ➜ <%= age || 0 %></li>
-	<li>relY ➜ <%= Math.round(relativeY*100) %> %</li>
+	<li>relY ➜ <%= Math.round((1 - relativeY)*100) %> %</li>
 </ul>
