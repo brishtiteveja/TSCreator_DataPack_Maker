@@ -1,6 +1,6 @@
 
 /*====================================================================
-=            ReferenceColumnSideView is the basic view for blocks            =
+=       ReferenceColumnSideView is the basic view for blocks         =
 ====================================================================*/
 
 define([
@@ -119,10 +119,10 @@ define([
 			columnId : self.$columnId.val(),
 		});
 
-		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			self.referenceColumn.set({
-				top      : parseFloat(self.$topAge.val()),
-				base     : parseFloat(self.$baseAge.val()),
+				top  : parseFloat(self.$topAge.val()),
+				base : parseFloat(self.$baseAge.val()),
 			});
 		}
 	}
@@ -149,9 +149,15 @@ define([
 		}
 		
 		var columnData = this.getColumnData(this.referenceColumn.get('columnId'));
-		this.referenceColumn.set({
-			column: this.loadBlockColumn(columnData)
-		});
+		if (columnData) {
+			this.referenceColumn.set({
+				column: this.loadBlockColumn(columnData)
+			});	
+		} else {
+			this.referenceColumn.set({
+				columnId: "none"
+			});	
+		}
 
 		this.resizeReferenceColumnCanvas();
 	}
@@ -184,6 +190,7 @@ define([
 			if (referenceBlockMarkerData.age < top || referenceBlockMarkerData.age > base) {
 				return;
 			}
+
 			self.addBlockMarkerToColumn(referenceBlockMarkerData, column);
 		});		
 	}

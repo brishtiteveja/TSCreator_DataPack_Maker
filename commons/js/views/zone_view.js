@@ -91,7 +91,7 @@ define(["baseView"], function(BaseView) {
 
 	ZoneView.prototype.updateZone = function(evt) {
 
-		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			var name = this.$zoneName.value;
 			var description = this.$zoneDescription.value;
 			this.zone.set({

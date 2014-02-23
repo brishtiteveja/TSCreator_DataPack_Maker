@@ -90,7 +90,7 @@ define(["baseView"], function(BaseView) {
 
 	TransectView.prototype.updateTransect = function(evt) {
 
-		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			var name = this.$name.value;
 			var description = this.$description.value;
 			this.transect.set({

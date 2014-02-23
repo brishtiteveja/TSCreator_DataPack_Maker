@@ -265,7 +265,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		this.element.attr({
 			'opacity': 0.5,
 			'stroke': 0,
-			'fill': transectApp.renderFill
+			'fill': TimescaleApp.renderFill
 		});
 	}
 
@@ -281,7 +281,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	PolygonView.prototype.setPolygonFill = function() {
 		if (this.element === undefined) return;
 		var pattern = this.polygon.get("patternName");
-		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
+		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : TimescaleApp.polygonFill;
 		this.element.attr({
 			'opacity': 0.5,
 			'stroke': 0,
@@ -384,7 +384,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.glow.remove();	
 		}
 		this.glow = this.element.glow({
-			color: transectApp.glowColor,
+			color: TimescaleApp.glowColor,
 			width: 40,
 			opacity: 1,
 		});	
@@ -440,7 +440,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	PolygonView.prototype.updatePolygon = function(evt) {
 
-		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			this.togglePolygonForm();
 		}
 

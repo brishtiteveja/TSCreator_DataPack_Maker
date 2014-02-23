@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="toggle hide-data small-3 columns"></div>			
-	<label class="block-data small-18 columns block-label"><%= name %></label>
+	<label class="block-data small-18 columns block-label"><%= name %> ➜ <%= top.get('age') && top.get('age') >= 0 ? top.get('age') : "n/a" %>  to <%= base.get('age') && base.get('age') ? base.get('age') : "n/a" %></label>
 	<div class="small-18 columns block-form hide">
 		<div class="row">
 			<div class="columns small-18">

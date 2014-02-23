@@ -188,7 +188,7 @@ define(["baseView"], function(BaseView) {
 
 	TransectWellView.prototype.updateWell = function(evt) {
 
-		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			this.toggleWellForm();
 		}
 

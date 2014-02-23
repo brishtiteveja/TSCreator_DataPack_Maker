@@ -199,7 +199,7 @@ define(["baseView"], function(BaseView) {
 
 	TransectMarkerView.prototype.updateMarker = function(evt) {
 		
-		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			this.toggleMarkerForm();
 		}
 

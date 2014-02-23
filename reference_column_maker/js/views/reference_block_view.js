@@ -58,6 +58,7 @@ define(["baseView"], function(BaseView) {
 
 	ReferenceBlockView.prototype.render = function() {
 		this.$el.html(this.template.render(this.block.toJSON()));
+		
 		this.$toggle = this.$(".toggle");
 		this.$blockForm = this.$(".block-form");
 		this.$blockData = this.$(".block-data");

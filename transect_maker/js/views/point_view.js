@@ -245,7 +245,7 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.updatePoint = function(evt) {
-		if (evt.keyCode == transectApp.ENTER || evt.keyCode == transectApp.ESC) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			this.togglePolygonForm();
 		}
 

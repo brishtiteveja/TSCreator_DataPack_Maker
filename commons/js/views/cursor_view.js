@@ -23,10 +23,10 @@ define(["baseView", "cursor"], function(BaseView, Cursor) {
 	};
 
 	CursorView.prototype.togglelock = function(evt) {
-		if (evt.keyCode == transectApp.KEY_MINUS) {
+		if (evt.keyCode == TimescaleApp.KEY_MINUS) {
 			this.toggleHlock();
 		}
-		if (evt.keyCode == transectApp.KEY_EQUAL) {
+		if (evt.keyCode == TimescaleApp.KEY_EQUAL) {
 			this.toggleVlock();
 		}
 	}
