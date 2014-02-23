@@ -47,7 +47,8 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 
 	Loader.prototype.load = function() {
 		this.loadImage();
-		this.loadReferenceColumnData();
+		this.loadMarkersAndZones();
+		// this.loadReferenceColumnData();
 		this.loadWellsAndTransects();
 		this.loadPolygons();
 		this.loadTexts();
