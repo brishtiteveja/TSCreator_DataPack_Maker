@@ -12,6 +12,13 @@
 
 	> #canvas {
 		background: #fff;
+		&.hidden {
+			height: 1px;
+			width: 1px;
+			overflow: hidden;
+			position: absolute;
+			z-index: -100;
+		}
 	}
 
 	// hidden is for hiding div that contains canvas with text elements.

@@ -204,8 +204,8 @@ define([
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
 		$("#loading").removeClass("hide");
-		this.transectApp.loader.loadFromLocalStorage();
 		this.showCanvas();
+		this.transectApp.loader.loadFromLocalStorage();
 		$("#loading").addClass("hide");
 	}
 
