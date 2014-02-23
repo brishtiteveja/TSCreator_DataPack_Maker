@@ -197,7 +197,7 @@ define([
 
 	ReferenceColumnSideView.prototype.addBlockMarkerToColumn = function(referenceBlockMarkerData, column, index, referenceBlockColumnData) {
 		var self = this;
-		referenceBlockMarkerData.y = 50*(index + 1);
+		referenceBlockMarkerData.y = column.get('blockMarkers').length > 0 ? (column.get('blockMarkers').length + 1)*50 : 50;
 
 		var referenceBlockMarker = column.get('blockMarkers').findWhere({age: referenceBlockMarkerData.age}) ||
 		 new ReferenceBlockMarker({y: referenceBlockMarkerData.y, blockColumn: column, age: referenceBlockMarkerData.age}, this.app);
@@ -222,20 +222,23 @@ define([
 			var referenceBlock = column.get('blocks').last();
 			var referenceBlockData = referenceBlockColumnData.blocks[index - 1];
 
-			zone.set({
-				name: referenceBlockData.name,
-				description: referenceBlockData.description
-			});	
+			if (zone) {
+				zone.set({
+					name: referenceBlockData.name,
+					description: referenceBlockData.description
+				});		
+			}
 
+			if (referenceBlock) {
+				referenceBlock.set({
+					name: referenceBlockData.name,
+					description: referenceBlockData.description
+				});
 
-			referenceBlock.set({
-				name: referenceBlockData.name,
-				description: referenceBlockData.description
-			});
-
-			referenceBlock.get('settings').set({
-				backgroundColor: referenceBlockData.settings.backgroundColor
-			});
+				referenceBlock.get('settings').set({
+					backgroundColor: referenceBlockData.settings.backgroundColor
+				});
+			}
 		}
 
 	}

@@ -107,5 +107,5 @@
 	},
 
 	name: "transect_maker/js/transect_app",
-	out: "transect_maker/js/transect-maker-built.0.1.55.js"
+	out: "transect_maker/js/transect-maker-built.0.1.56.js"
 })
