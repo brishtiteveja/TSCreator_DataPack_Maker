@@ -89,10 +89,6 @@ define(["baseView"], function(BaseView) {
 		this.file.set({
 			name: this.$fileName.textContent
 		});
-
-		this.fileSystem.set({
-			update: !this.fileSystem.get('update')
-		});
 	}
 
 	FileView.prototype.rename = function() {
@@ -107,6 +103,11 @@ define(["baseView"], function(BaseView) {
 				}
 				self.fileSystem.get('fs').root.getDirectory(path, {}, function(dirEntry) {
 					fileEntry.moveTo(dirEntry, self.file.get("name"));
+
+					self.fileSystem.set({
+						update: !self.fileSystem.get('update')
+					});
+
 				}, self.errorHandler.bind(this));
 			}, self.errorHandler.bind(this));
 		} else {
@@ -119,6 +120,11 @@ define(["baseView"], function(BaseView) {
 				}
 				self.fileSystem.get('fs').root.getDirectory(path, {}, function(dirEntry) {
 					fileEntry.moveTo(dirEntry, self.file.get("name"));
+
+					self.fileSystem.set({
+						update: !self.fileSystem.get('update')
+					});
+
 				}, self.errorHandler.bind(this));
 			}, self.errorHandler.bind(this));
 		}

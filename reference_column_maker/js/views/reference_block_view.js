@@ -40,7 +40,7 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.block, 'change:edit', this.editBlock.bind(this));
 		this.listenTo(this.block, 'change:hover', this.setHoverStatus.bind(this));
 		this.listenTo(this.block, 'change:name', this.renderBlock.bind(this));
-		this.listenTo(this.block, 'change:description', this.render.bind(this));
+		this.listenTo(this.block, 'change:description', this.renderBlock.bind(this));
 		
 		this.listenTo(this.block.get('blockColumn'), 'change:x', this.renderBlock.bind(this));
 		this.listenTo(this.block.get('blockColumn'), 'change:width', this.renderBlock.bind(this));
@@ -204,15 +204,13 @@ define(["baseView"], function(BaseView) {
 		var color = this.$blockColor.value;
 		var style = this.$("select.block-line-style option:selected").val();
 		
-		if (evt.keyCode === 27) {
-			this.toggleBlockForm();
-		}
 		
-		if (evt.keyCode === 13) {
-			this.block.set({
-				name: name,
-				description: description,
-			});
+		this.block.set({
+			name: name,
+			description: description,
+		});
+
+		if ((evt.keyCode === TimescaleApp.ENTER) || (evt.keyCode === TimescaleApp.ESC)) {
 
 			this.block.get('base').set({
 				name: name + " Base",
@@ -222,7 +220,11 @@ define(["baseView"], function(BaseView) {
 			this.block.get('top').set({
 				age: parseFloat(this.$topAge.value || 0),
 			});
+
+
+			this.toggleBlockForm();
 		}
+		
 		this.block.get('settings').set({
 			backgroundColor: color
 		});

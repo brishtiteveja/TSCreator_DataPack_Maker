@@ -33,11 +33,11 @@ define([
 		this.$canvas = $("#canvas");
 		var oneGB = 1024*1024*1024;
 		// requesting a file system
-		window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-		this.requestFileSystem();
+		this.requestFileSystem(oneGB);
 	}
 
 	FileSystemView.prototype.requestFileSystem = function(size) {
+		window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 		if (window.requestFileSystem) {
 			window.requestFileSystem(window.PERSISTENT, size, this.render.bind(this), this.errorHandler.bind(this));	
 		}

@@ -54,7 +54,8 @@ define(["baseView"], function(BaseView) {
 		}
 
 		if (this.blockMarker.get('marker')) {
-			this.listenTo(this.blockMarker.get('marker'), 'change:y', this.updateBlockMakereY.bind(this));	
+			// this is if marker is not null then changes to the marker should change changes to the 
+			this.listenTo(this.blockMarker.get('marker'), 'change:y', this.updateBlockMakereY.bind(this));
 		}
 
 		var style = this.blockMarker.get('style');
