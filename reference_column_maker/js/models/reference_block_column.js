@@ -10,7 +10,7 @@ define(["baseModel", "referenceBlocks", "referenceBlockMarkers", "settings"], fu
 		constructor: function (attributes) {
 			var attrs = [{
 				x            : attributes.x || 0,
-				id           : _.uniqueId("column-"),
+				id           : attributes.id || _.uniqueId("column-"),
 				name         : attributes.name || _.uniqueId("Column "),
 				width        : parseInt(attributes.width) || 200,
 				height       : 100,

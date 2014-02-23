@@ -153,13 +153,13 @@ define([
 			this.referenceColumn.set({
 				column: this.loadBlockColumn(columnData)
 			});	
+			this.resizeReferenceColumnCanvas();
 		} else {
 			this.referenceColumn.set({
 				columnId: "none"
 			});	
 		}
 
-		this.resizeReferenceColumnCanvas();
 	}
 
 	ReferenceColumnSideView.prototype.loadBlockColumn = function(referenceBlockColumnData) {
@@ -169,7 +169,7 @@ define([
 		var columnView = new ReferenceBlockColumnView(this.app.refCol, column);
 		
 		self.addBlockMarkers(referenceBlockColumnData, column);
-		self.updateBlockNames(referenceBlockColumnData, column);
+		// self.updateBlockNames(referenceBlockColumnData, column);
 
 		return column;
 	}
@@ -186,21 +186,23 @@ define([
 		var self = this;
 		var top = self.referenceColumn.get('top');
 		var base = self.referenceColumn.get('base');
-		referenceBlockColumnData.blockMarkers.forEach(function(referenceBlockMarkerData) {
+		referenceBlockColumnData.blockMarkers.forEach(function(referenceBlockMarkerData, index) {
 			if (referenceBlockMarkerData.age < top || referenceBlockMarkerData.age > base) {
 				return;
 			}
 
-			self.addBlockMarkerToColumn(referenceBlockMarkerData, column);
+			self.addBlockMarkerToColumn(referenceBlockMarkerData, column, index, referenceBlockColumnData);
 		});		
 	}
 
-	ReferenceColumnSideView.prototype.addBlockMarkerToColumn = function(referenceBlockMarkerData, column) {
+	ReferenceColumnSideView.prototype.addBlockMarkerToColumn = function(referenceBlockMarkerData, column, index, referenceBlockColumnData) {
 		var self = this;
-		var prevBlock = column.get('blockMarkers').last();
-		referenceBlockMarkerData.y = prevBlock ? prevBlock.get('y') + 50 : 50;
+		referenceBlockMarkerData.y = 50*(index + 1);
+
 		var referenceBlockMarker = column.get('blockMarkers').findWhere({age: referenceBlockMarkerData.age}) ||
 		 new ReferenceBlockMarker({y: referenceBlockMarkerData.y, blockColumn: column, age: referenceBlockMarkerData.age}, this.app);
+
+
 		column.get('blockMarkers').add(referenceBlockMarker);
 
 		var marker = self.markers.findWhere({age: referenceBlockMarkerData.age}) || new TransectMarker(referenceBlockMarkerData);
@@ -214,8 +216,32 @@ define([
 		marker.set({
 			name: referenceBlockMarkerData.name,
 		});
+
+		if (index > 0) {
+			var zone = self.zones.last();
+			var referenceBlock = column.get('blocks').last();
+			var referenceBlockData = referenceBlockColumnData.blocks[index - 1];
+
+			zone.set({
+				name: referenceBlockData.name,
+				description: referenceBlockData.description
+			});	
+
+
+			referenceBlock.set({
+				name: referenceBlockData.name,
+				description: referenceBlockData.description
+			});
+
+			referenceBlock.get('settings').set({
+				backgroundColor: referenceBlockData.settings.backgroundColor
+			});
+		}
+
 	}
 
+
+	// This function is pretty complex so implementing a simpler version of the function.
 	ReferenceColumnSideView.prototype.updateBlockNames = function(referenceBlockColumnData, column) {
 		var self = this;
 		referenceBlockColumnData.blocks.forEach(function(referenceBlockData, index, referenceBlocksData) {
