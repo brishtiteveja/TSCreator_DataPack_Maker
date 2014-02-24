@@ -439,14 +439,19 @@ define([
 			var pgon = self.getPointPattern(point, wellData.polygons);
 			var pattern = null;
 			var name = null;
+			var description = "CALIBRATION = ";
+			description += Math.round(((1 - point.get('relativeY'))*1000))/10 + " % up the ";
+			description += point.get('zone').get('name') + ". ";
 			if (pgon != null) {
 				pattern = pgon.get('patternName');
 				name = pgon.get('name');
+				description +=  name + " - " + (pgon.get('description') || "");
 			}
 			wellData.referencePoints.push({
 				point: point,
 				pattern: pattern ? pattern : "TOP",
 				name: name ? name : "",
+				description: description ? description : ""
 			});
 		});
 	}
@@ -691,9 +696,7 @@ define([
 			outputText += (well.referencePoints[i].pattern || "None") + "\t";
 			outputText += (well.referencePoints[i].name || "") + "\t";
 			outputText += well.referencePoints[i].point.get('age') + "\t";
-			outputText += "CALIBRATION = ";
-			outputText += Math.round(((1 - well.referencePoints[i].point.get('relativeY'))*1000))/10 + " % up the ";
-			outputText += well.referencePoints[i].point.get('zone').get('name') + "\t";
+			outputText += well.referencePoints[i].description + "\t";
 		}
 		return outputText;
 	}
