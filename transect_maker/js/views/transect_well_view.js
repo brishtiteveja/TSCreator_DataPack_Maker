@@ -48,6 +48,7 @@ define(["baseView"], function(BaseView) {
 		this.$wellName = this.$('input[name="well-name"]')[0];
 		this.$wellLat = this.$('input[name="well-lat"]')[0];
 		this.$wellLon = this.$('input[name="well-lon"]')[0];
+		this.$wellDescription = this.$('textarea[name="well-description"]')[0];
 
 		/* check edit state */
 		this.editTransectWell();
@@ -195,10 +196,12 @@ define(["baseView"], function(BaseView) {
 		var name = this.$wellName.value;
 		var lat = parseFloat(this.$wellLat.value);
 		var lon = parseFloat(this.$wellLon.value);
+		var description = this.$wellDescription.value;
 		this.transectWell.set({
 			name: name,
 			lat: lat,
-			lon: lon
+			lon: lon,
+			description: description
 		});
 	};
 

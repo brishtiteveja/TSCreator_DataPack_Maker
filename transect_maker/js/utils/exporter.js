@@ -37,6 +37,7 @@ define([
 		// refer to the global objects.
 		this.texts = this.app.TransectTextsCollection;
 		this.polygons = this.app.PolygonsCollection;
+		this.wells = this.app.TransectWellsCollection;
 		this.transects = this.app.TransectsCollection;
 		this.markers = this.app.TransectMarkersCollection;
 		this.zones = this.app.ZonesCollection;
@@ -439,14 +440,16 @@ define([
 			var pgon = self.getPointPattern(point, wellData.polygons);
 			var pattern = null;
 			var name = null;
-			var description = "CALIBRATION = ";
-			description += Math.round(((1 - point.get('relativeY'))*1000))/10 + " % up the ";
-			description += point.get('zone').get('name') + ". ";
+			var description = "";
 			if (pgon != null) {
 				pattern = pgon.get('patternName');
 				name = pgon.get('name');
 				description +=  name + " - " + (pgon.get('description') || "");
 			}
+
+			description += " CALIBRATION = ";
+			description += Math.round(((1 - point.get('relativeY'))*1000))/10 + " % up the ";
+			description += point.get('zone').get('name') + ". ";
 			wellData.referencePoints.push({
 				point: point,
 				pattern: pattern ? pattern : "TOP",
@@ -462,9 +465,9 @@ define([
 			var polygonPoints = polygon.getPolyKPointsArray();
 			// We check the if the patter persists for a certain range above the current 
 			// to determine if the point can be considered as a pattern point.
-			if (PolyK.ContainsPoint(polygonPoints, point.get('x') + 1, point.get('y') - 3) || 
-				PolyK.ContainsPoint(polygonPoints, point.get('x') - 1, point.get('y') - 3) || 
-				PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 3)) {
+			if (PolyK.ContainsPoint(polygonPoints, point.get('x') + 1, point.get('y') - 2) || 
+				PolyK.ContainsPoint(polygonPoints, point.get('x') - 1, point.get('y') - 2) || 
+				PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 2)) {
 				pointPolygons.add(polygon);
 			}
 		});
@@ -715,6 +718,31 @@ define([
 			output += "\t" + Math.round((bBox.y1 - bBox.y2)*100)/100 + "\t" + Math.round((bBox.x2 - bBox.x1)*100)/100; 
 		});
 		return output;
+	}
+
+	Exporter.prototype.getMapData = function() {
+		var self = this;
+		var outputText = "COMMENT\tDATA COLUMNS\n\nHEADER-DATACOL\tNAME\tLAT\tLON\tNOTE\n";
+		self.wells.each(function(well) {
+			outputText += "\n";
+			outputText += "DATACOL\t";
+			outputText += well.get("name") + "\t";
+			outputText += (well.get("lat") || "n/a") + "\t";
+			outputText += (well.get("lon") || "n/a") + "\t";
+			outputText += well.get("description") + "\t";
+		});
+
+		outputText += "\n\nHEADER-INFORMATION\tPOINTS\tNAME\tLAT\tLON\tNOTE\n";
+		self.wells.each(function(well) {
+			outputText += "\n";
+			outputText += "INFOPT\t";
+			outputText += well.get("name") + "\t";
+			outputText += (well.get("lat") || "n/a") + "\t";
+			outputText += (well.get("lon") || "n/a") + "\t";
+			outputText += well.get("description") + "\t";
+		});
+
+		return outputText;
 	}
 
 

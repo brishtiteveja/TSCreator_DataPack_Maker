@@ -34,17 +34,21 @@ define(["baseView"], function(BaseView) {
 		this.$dataTable = this.$(".data-table");
 		this.$dataRaw = this.$(".data-raw");
 		this.$dataJSON = this.$(".data-json");
+		this.$mapData = this.$(".map-data");
 		this.$textData = this.$("textarea[name*=transect-data-text]")[0];
 		this.$textJSON = this.$("textarea[name*=transect-data-json]")[0];
+		this.$textMap = this.$("textarea[name*=transect-map-data]")[0];
 		this.$showTable = this.$('a[href="#show-table"]');
 		this.$showRaw = this.$('a[href="#show-raw"]');
-		this.$showJSON = this.$('a[href="#show-raw"]');
+		this.$showJSON = this.$('a[href="#show-json"]');
+		this.$showMap = this.$('a[href="#show-map-data"]');
 
 		this.exporter.export();
 		this.renderWellsData();
 		this.renderTransectsData();
 		this.renderDataInText();
 		// this.renderDataInJSON();
+		this.renderMapData();
 	}
 
 	DataExportView.prototype.isAgeSet = function() {
@@ -78,6 +82,10 @@ define(["baseView"], function(BaseView) {
 	DataExportView.prototype.renderDataInJSON = function() {
 		this.$textJSON.value = this.exporter.getJSON();
 	}
+	
+	DataExportView.prototype.renderMapData = function() {
+		this.$textMap.value = this.exporter.getMapData();
+	}
 
 	DataExportView.prototype.toggleExportView = function(evt) {
 		
@@ -100,7 +108,6 @@ define(["baseView"], function(BaseView) {
 		} catch (err) {
 			$("#loading").addClass("hide");
 		}
-
 	};
 
 	DataExportView.prototype.showData = function(evt) {
@@ -113,8 +120,8 @@ define(["baseView"], function(BaseView) {
 			this.$dataTable.removeClass("hide");
 		} else if (href === "#show-raw") {
 			this.$dataRaw.removeClass("hide");
-		} else if (href === "#show-json") {
-			this.$dataJSON.removeClass("hide");
+		} else if (href === "#show-map-data") {
+			this.$mapData.removeClass("hide");
 		}
 	}
 
