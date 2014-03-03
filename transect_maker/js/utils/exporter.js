@@ -722,6 +722,15 @@ define([
 
 	Exporter.prototype.getMapData = function() {
 		var self = this;
+		var outputText = self.getMapDataColData();
+		outputText += self.getMapInfoPtData();
+		outputText += self.getMapTransectData();
+
+		return outputText;
+	}
+
+	Exporter.prototype.getMapDataColData = function() {
+		var self = this;
 		var outputText = "COMMENT\tDATA COLUMNS\n\nHEADER-DATACOL\tNAME\tLAT\tLON\tNOTE\n";
 		self.wells.each(function(well) {
 			outputText += "\n";
@@ -729,17 +738,37 @@ define([
 			outputText += well.get("name") + "\t";
 			outputText += (well.get("lat") || "n/a") + "\t";
 			outputText += (well.get("lon") || "n/a") + "\t";
-			outputText += well.get("description") + "\t";
+			outputText += (well.get("description") || "");
 		});
+		
+		return outputText;
+	}
 
-		outputText += "\n\nHEADER-INFORMATION\tPOINTS\tNAME\tLAT\tLON\tNOTE\n";
+	Exporter.prototype.getMapInfoPtData = function() {
+		var self = this;
+		var outputText = "\n\n\nCOMMENT\tINFO POINTS\n\nHEADER-INFORMATION\tPOINTS\tNAME\tLAT\tLON\tNOTE\n";
 		self.wells.each(function(well) {
 			outputText += "\n";
 			outputText += "INFOPT\t";
 			outputText += well.get("name") + "\t";
 			outputText += (well.get("lat") || "n/a") + "\t";
 			outputText += (well.get("lon") || "n/a") + "\t";
-			outputText += well.get("description") + "\t";
+			outputText += (well.get("description") || "");
+		});
+
+		return outputText;
+	}
+
+	Exporter.prototype.getMapTransectData = function() {
+		var self = this;
+		var outputText = "\n\n\nCOMMENT\tTRANSECTS\n\nHEADER-TRANSECTS\tNAME\tSTARTLOC\tENDLOC\tNOTE\n"
+		self.transects.each(function(transect) {
+			outputText += "\n";
+			outputText += "TRANSECT\t";
+			outputText += transect.get("name") + "\t";
+			outputText += transect.get("wellLeft").get("name") + "\t";
+			outputText += transect.get("wellRight").get("name") + "\t";
+			outputText += (transect.get("description") || "");
 		});
 
 		return outputText;
