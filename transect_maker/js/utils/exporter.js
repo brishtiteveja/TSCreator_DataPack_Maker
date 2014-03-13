@@ -465,9 +465,8 @@ define([
 			var polygonPoints = polygon.getPolyKPointsArray();
 			// We check the if the patter persists for a certain range above the current 
 			// to determine if the point can be considered as a pattern point.
-			if (PolyK.ContainsPoint(polygonPoints, point.get('x') + 1, point.get('y') - 2) || 
-				PolyK.ContainsPoint(polygonPoints, point.get('x') - 1, point.get('y') - 2) || 
-				PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 2)) {
+			if ((PolyK.ContainsPoint(polygonPoints, point.get('x') + 1, point.get('y') - 1) && PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1)) ||
+				(PolyK.ContainsPoint(polygonPoints, point.get('x') - 1, point.get('y') - 1) && PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1))) {
 				pointPolygons.add(polygon);
 			}
 		});
@@ -475,7 +474,7 @@ define([
 
 		pointPolygons.sort();
 
-		return pointPolygons.last();
+		return pointPolygons.first();
 	}
 
 	Exporter.prototype.isCloseToWell = function(well, line) {
