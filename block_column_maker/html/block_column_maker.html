@@ -37,6 +37,7 @@
 					<li><a href="#add-marker" class="maker-tools icon icons_32-cursor_H_split_icon_32" title="create a new timeline"></a></li>
 					<li><a href="#new-column" class="maker-tools icon icons_32-sq_plus_icon_32" title="create a new block column"></a></li>
 					<li><a href="#add-block" class="maker-tools icon icons_32-align_just_icon_32" title="create a new block"></a></li>
+					<li><a href="#show-ref-panel" class="maker-tools icon icons_32-indent_decrease_icon_32" title="show reference panel"></a></li>
 					<li><a href="#save-to-local-storage" class="maker-tools icon icons_save_icon_32" title="save to local storage"></a></li>
 					<li><a href="#reload-data" class="maker-tools icon icons_32-reload_icon_32" title="reload data from local storage"></a></li>
 					<li><a href="#export-data" class="maker-tools icon icons_32-doc_export_icon_32" title="export data"></a></li>
@@ -85,6 +86,7 @@
 						</div>
 					</div>
 				</div>
+				<div id="ref-panel" class="linked hidden"></div>
 			</div>
 			<div id="load-saved-data" class="reveal-modal" data-reveal>
 				<h2> Are you sure you want to continue ?</h2>
@@ -108,6 +110,7 @@
 						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#markers">Time Lines</a></li>
 						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#zones">Zones</a></li>
 						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#columns">Columns</a></li>
+						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#ref-col-set">Reference</a></li>
 						<li class="settings-links"><a class="block-settings icons_32-cogs_icon_32" href="#defaults">Defaults</a></li>
 					</ul>
 					<div data-alert class="alert-box secondary canvas-status status-box"></div>
@@ -116,6 +119,7 @@
 					<div class="settings-content" id="zones-list"></div>
 					<div class="settings-content" id="markers-list"></div>
 					<div class="settings-content" id="columns-list"></div>
+					<div class="settings-content" id="ref-col-set-list"></div>
 					<div class="settings-content" id="defaults-list"></div>
 				</div>
 			</div>

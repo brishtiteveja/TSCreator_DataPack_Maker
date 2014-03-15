@@ -75,6 +75,7 @@ define([], function() {
 		var json = {};
 		json["zones"] = this.zones.toJSON();
 		json["blockColumns"] = this.blockColumns.toJSON();
+		json["referenceColumn"] = this.app.referenceColumn.toJSON();
 		return JSON.stringify(json);
 	}
 

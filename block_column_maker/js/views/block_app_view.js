@@ -16,6 +16,7 @@ define([
 	"dataExportView",
 	"loader",
 	"exporter",
+	"referenceColumnSideView",
 	], function(
 		BaseView,
 		CursorView,
@@ -28,7 +29,8 @@ define([
 		BlockColumnsView,
 		DataExportView,
 		Loader,
-		Exporter) {
+		Exporter,
+		ReferenceColumnSideView) {
 
 	var BlockAppView = BaseView.extend({
 		el: ".container",
@@ -108,6 +110,13 @@ define([
 		this.markersView = new MarkersView(this.blockApp);
 
 		this.blockColumnsView = new BlockColumnsView(this.blockApp);
+
+
+		this.referenceColumnSideView = new ReferenceColumnSideView(this.blockApp, "#reference-column-settings");
+
+		$('.linked').scroll(function(){
+			$('.linked').scrollTop($(this).scrollTop());
+		});
 	};
 
 	/**
