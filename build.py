@@ -80,7 +80,35 @@ def update_block():
 	update_block_built()
 
 
+def update_reference_min():
+	reference_min = "./reference_column_maker/html/reference_column_maker_min.html"
+	reference_old_built = "reference-column-maker-built." + old_version() + ".js"
+	reference_new_built = "reference-column-maker-built." + new_version() + ".js"
+	cmd = "sed s/" + reference_old_built + "/" + reference_new_built + "/g " + reference_min + " > " + reference_min + ".bak && mv " + reference_min + ".bak " + " " + reference_min
+	os.system(cmd)
+
+
+def update_reference_built():
+	main = "reference_column_maker/js/reference_column_app"
+	reference_built = "./reference-column-maker-built.js"
+	reference_new_built = "reference_column_maker/js/reference-column-maker-built." + new_version() + ".js"
+	cmd = "r.js -o " + reference_built + " name=" + main + " out=" + reference_new_built
+	os.system(cmd)
+
+
+def clean_reference():
+	cmd = "rm reference_column_maker/js/reference-maker-built.*.js"
+	os.system(cmd)
+
+
+def update_reference():
+	clean_reference()
+	update_reference_min()
+	update_reference_built()
+
+
 def main():
+	update_reference()
 	update_transect()
 	update_block()
 	update_version()
