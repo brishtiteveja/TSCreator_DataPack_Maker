@@ -106,6 +106,6 @@
 		referenceColumnSideView   : "reference_column_maker/js/views/reference_column_side_view",
 	},
 
-	name: "transect_maker/js/transect_app",
-	out: "transect_maker/js/transect-maker-built.0.1.61.js"
+	// name: "transect_maker/js/transect_app",
+	// out: "transect_maker/js/transect-maker-built.0.1.61.js"
 })
