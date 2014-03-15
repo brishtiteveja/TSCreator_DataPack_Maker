@@ -70,7 +70,7 @@ def update_block_built():
 
 
 def clean_block():
-	cmd = "rm block_column_maker/js/block-maker-built.*.js"
+	cmd = "rm block_column_maker/js/block-column-maker-built.*.js"
 	os.system(cmd)
 
 
@@ -97,7 +97,7 @@ def update_reference_built():
 
 
 def clean_reference():
-	cmd = "rm reference_column_maker/js/reference-maker-built.*.js"
+	cmd = "rm reference_column_maker/js/reference-column-maker-built.*.js"
 	os.system(cmd)
 
 
