@@ -6,7 +6,7 @@ define([
 	"cursorView",
 	"transectsView",
 	"transectImageView",
-	"transectMarkersView",
+	"markersView",
 	"transectWellsView",
 	"transectTextsView",
 	"zonesView",
@@ -24,14 +24,14 @@ define([
 	"points",
 	"zones",
 	"transectWells",
-	"transectMarkers",
+	"markers",
 	"referenceColumnSideView",
 	], function(
 		BaseView,
 		CursorView,
 		TransectsView,
 		TransectImageView,
-		TransectMarkersView,
+		MarkersView,
 		TransectWellsView,
 		TransectTextsView,
 		ZonesView,
@@ -49,7 +49,7 @@ define([
 		Points,
 		Zones,
 		TransectWells,
-		TransectMarkers,
+		Markers,
 		ReferenceColumnSideView) {
 
 	var TransectAppView = BaseView.extend({
@@ -77,7 +77,7 @@ define([
 		this.transectApp.PointsCollection = new Points();
 		this.transectApp.ZonesCollection = new Zones();
 		this.transectApp.TransectWellsCollection = new TransectWells();
-		this.transectApp.TransectMarkersCollection = new TransectMarkers();
+		this.transectApp.MarkersCollection = new Markers();
 
 		this.transectApp.CurrentPolygon = null;
 		
@@ -146,7 +146,7 @@ define([
 
 		this.transectImageView = new TransectImageView(this.transectApp);
 
-		this.transectMarkersView = new TransectMarkersView(this.transectApp);
+		this.markersView = new MarkersView(this.transectApp);
 		this.zonesView = new ZonesView(this.transectApp);
 
 		this.transectWellsView = new TransectWellsView(this.transectApp);
@@ -246,8 +246,8 @@ define([
 			) return;
 
 		
-		if (this.transectMarkersView.enMarkers) {
-			this.transectMarkersView.toggleMarkers();	
+		if (this.markersView.enMarkers) {
+			this.markersView.toggleMarkers();	
 		}
 
 		if (this.transectWellsView.enWells) {
@@ -275,7 +275,7 @@ define([
 		
 		switch(source) {
 			case "#add-marker":
-				this.transectMarkersView.toggleMarkers();
+				this.markersView.toggleMarkers();
 				break;
 			case "#add-well":
 				this.transectWellsView.toggleWells();

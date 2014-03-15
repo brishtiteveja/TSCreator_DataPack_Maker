@@ -9,14 +9,14 @@ define([
 	"referenceBlockColumn",
 	"referenceBlockColumnView",
 	"referenceColumnSideView",
-	"referenceBlockMarker", "referenceBlock", "transectMarker"
+	"referenceBlockMarker", "referenceBlock", "marker"
 	], function(
 		BaseView,
 		ReferenceColumn,
 		ReferenceBlockColumn,
 		ReferenceBlockColumnView,
 		ReferenceColumnSideView,
-		ReferenceBlockMarker, ReferenceBlock, TransectMarker) {
+		ReferenceBlockMarker, ReferenceBlock, Marker) {
 
 	var ReferenceColumnSideView = BaseView.extend({
 		el: "#ref-col-set-list",
@@ -40,7 +40,7 @@ define([
 		this.app = app;
 		this.app.refCol = {};
 		this.zones = this.app.ZonesCollection;
-		this.markers = this.app.TransectMarkersCollection;
+		this.markers = this.app.MarkersCollection;
 
 
 		// Initialize the reference column with default attributes.
@@ -205,7 +205,7 @@ define([
 
 		column.get('blockMarkers').add(referenceBlockMarker);
 
-		var marker = self.markers.findWhere({age: referenceBlockMarkerData.age}) || new TransectMarker(referenceBlockMarkerData);
+		var marker = self.markers.findWhere({age: referenceBlockMarkerData.age}) || new Marker(referenceBlockMarkerData);
 		self.markers.add(marker);
 
 		referenceBlockMarker.set({

@@ -124,6 +124,13 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  when dragging is completed update the points and texts relative locations ==========*/
 	MarkerView.prototype.dragEnd = function(evt) {
+		if (this.app.PointsCollection) {
+			this.app.PointsCollection.updatePoints();	
+		}
+
+		if (this.app.TransectTextsCollection) {
+			this.app.TransectTextsCollection.updateTransectTexts();	
+		}
 	};
 
 	MarkerView.prototype.onMouseOver = function() {

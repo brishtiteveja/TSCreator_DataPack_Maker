@@ -18,22 +18,22 @@
 		transectImage             : "transect_maker/js/models/transect_image",
 
 		// Markers
-		transectMarkersView       : "transect_maker/js/views/transect_markers_view",
-		transectMarkerView        : "transect_maker/js/views/transect_marker_view",
-		transectMarker            : "transect_maker/js/models/transect_marker",
-		transectMarkers           : "transect_maker/js/collections/transect_markers",
+		markersView               : "commons/js/views/markers_view",
+		markerView                : "commons/js/views/marker_view",
+		marker                    : "commons/js/models/marker",
+		markers                   : "commons/js/collections/markers",
 		
 		// Wells
 		transectWellsView         : "transect_maker/js/views/transect_wells_view",
 		transectWellView          : "transect_maker/js/views/transect_well_view",
 		transectWell              : "transect_maker/js/models/transect_well",
 		transectWells             : "transect_maker/js/collections/transect_wells",
-		
+
 		// Zones
-		zoneView                  : "transect_maker/js/views/zone_view",
-		zonesView                 : "transect_maker/js/views/zones_view",
-		zone                      : "transect_maker/js/models/zone",
-		zones                     : "transect_maker/js/collections/zones",
+		zoneView                  : "commons/js/views/zone_view",
+		zonesView                 : "commons/js/views/zones_view",
+		zone                      : "commons/js/models/zone",
+		zones                     : "commons/js/collections/zones",
 		
 		// Transects
 		transectView              : "transect_maker/js/views/transect_view",
@@ -105,7 +105,4 @@
 		referenceBlockColumnsView : "reference_column_maker/js/views/reference_block_columns_view",
 		referenceColumnSideView   : "reference_column_maker/js/views/reference_column_side_view",
 	},
-
-	// name: "transect_maker/js/transect_app",
-	// out: "transect_maker/js/transect-maker-built.0.1.61.js"
 })
