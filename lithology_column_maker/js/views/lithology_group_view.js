@@ -10,12 +10,12 @@ define(["baseView"], function(BaseView) {
 		classname: "LithologyGroupView",
 		events: {
 			'click .toggle': 'toggleLithologyGroupForm',
-			'click .lithologyGroup-data': 'toggleLithologyGroupForm',
+			'click .lithology-group-data': 'toggleLithologyGroupForm',
 			'click .destroy': 'destroy',
 			'keypress :input': 'updateLithologyGroup',
 			'keyup :input': 'updateLithologyGroup',
-			'change input[name="lithologyGroup-color"]': 'updateLithologyGroup',
-			'change select.lithologyGroup-line-style': 'updateLithologyGroup',
+			'change input[name="lithology-group-color"]': 'updateLithologyGroup',
+			'change select.lithology-group-line-style': 'updateLithologyGroup',
 			'mouseover': "onMouseOver",
 			'mouseout': "onMouseOut",
 		}
@@ -60,12 +60,12 @@ define(["baseView"], function(BaseView) {
 	LithologyGroupView.prototype.render = function() {
 		this.$el.html(this.template.render(this.lithologyGroup.toJSON()));
 		this.$toggle = this.$(".toggle");
-		this.$lithologyGroupForm = this.$(".lithologyGroup-form");
-		this.$lithologyGroupData = this.$(".lithologyGroup-data");
-		this.$lithologyGroupName = this.$('input[name="lithologyGroup-name"]')[0];
-		this.$lithologyGroupAge = this.$('input[name="lithologyGroup-age"]')[0];
-		this.$lithologyGroupColor = this.$('input[name="lithologyGroup-color"]')[0];
-		this.$lithologyGroupDescription = this.$('textarea[name="lithologyGroup-description"]')[0];
+		this.$lithologyGroupForm = this.$(".lithology-group-form");
+		this.$lithologyGroupData = this.$(".lithology-group-data");
+		this.$lithologyGroupName = this.$('input[name="lithology-group-name"]')[0];
+		this.$lithologyGroupAge = this.$('input[name="lithology-group-age"]')[0];
+		this.$lithologyGroupColor = this.$('input[name="lithology-group-color"]')[0];
+		this.$lithologyGroupDescription = this.$('textarea[name="lithology-group-description"]')[0];
 
 		/* check edit state */
 		this.editLithologyGroup();
@@ -235,7 +235,7 @@ define(["baseView"], function(BaseView) {
 		var name = this.$lithologyGroupName.value;
 		var description = this.$lithologyGroupDescription.value;
 		var color = this.$lithologyGroupColor.value;
-		var style = this.$("select.lithologyGroup-line-style option:selected").val();
+		var style = this.$("select.lithology-group-line-style option:selected").val();
 		this.lithologyGroup.set({
 			name: name,
 			description: description,

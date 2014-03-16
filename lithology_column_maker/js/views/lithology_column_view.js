@@ -12,7 +12,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			'click .toggle': 'toggleLithologyColumnForm',
 			'click .lithology-column-data': 'toggleLithologyColumnForm',
 			'click .destroy': 'destroy',
-			'click label.lithology-column-lithology-data': 'showLithologysList',
+			'click label.lithology-column-lithologys-data': 'showLithologysList',
 			'keypress :input': 'updateLithologyColumn',
 			'keyup :input': 'updateLithologyColumn',
 			'change input[name="lithology-column-bg-color"]': 'updateLithologyColumn',
@@ -34,7 +34,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		this.listenTo(this.lithologyColumn.get('settings'), 'change', this.renderLithologyColumn.bind(this));
 		this.listenTo(this.lithologyColumn.get('lithologyGroupMarkers'), 'add', this.addLithologyGroupMarker.bind(this));
 		this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'remove', this.removeLithology.bind(this));
-		this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'add', this.addLithology.bind(this));
+		this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'add', this.addLithologyGroup.bind(this));
 		this.listenTo(this.lithologyColumn, 'destroy', this.delete.bind(this));
 	};
 
@@ -49,7 +49,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		this.$lithologyColumnWidth = this.$('input[name="lithology-column-width"]')[0];
 		this.$lithologyColumnBgColor = this.$('input[name="lithology-column-bg-color"]')[0];
 		this.$lithologyColumnDescription = this.$('textarea[name="lithology-column-description"]')[0];
-		this.$lithologyGroupsList = this.$('.lithology-list');
+		this.$lithologyGroupsList = this.$('.lithology-groups-list');
 
 		this.renderLithologyColumn();
 		// this.renderLithologys();
@@ -74,7 +74,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		this.updateLithologyColumns();
 	}
 
-	LithologyColumnView.prototype.resetLithologys = function() {
+	LithologyColumnView.prototype.resetLithologyGroups = function() {
 		this.$lithologyGroupsList.html('');
 		this.lithologyColumn.get('lithologyGroups').each(this.addLithology.bind(this));
 	}
@@ -168,24 +168,24 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 				baseMarker = lithologyGroupMarkers.at(index);
 			}
 			
-			var lithology = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
+			var lithologyGroup = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
 						new LithologyGroup({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
-			topMarker.get('lithologyGroups').add(lithology);
-			baseMarker.get('lithologyGroups').add(lithology);
+			topMarker.get('lithologyGroups').add(lithologyGroup);
+			baseMarker.get('lithologyGroups').add(lithologyGroup);
 			baseMarker.set({
-				name: lithology.get('name') + " Base"
+				name: lithologyGroup.get('name') + " Base"
 			});
-			lithologyGroups.add(lithology);
+			lithologyGroups.add(lithologyGroup);
 		}
 	}
 
-	LithologyColumnView.prototype.removeLithology = function(lithology) {
-		var topMarker = lithology.get('top');
-		var baseMarker = lithology.get('top');
+	LithologyColumnView.prototype.removeLithology = function(lithologyGroup) {
+		var topMarker = lithologyGroup.get('top');
+		var baseMarker = lithologyGroup.get('top');
 	}
 
-	LithologyColumnView.prototype.addLithology = function(lithology) {
-		var lithologyGroupView = new LithologyGroupView(this.app, lithology);
+	LithologyColumnView.prototype.addLithologyGroup = function(lithologyGroup) {
+		var lithologyGroupView = new LithologyGroupView(this.app, lithologyGroup);
 		this.$lithologyGroupsList.append(lithologyGroupView.el);
 	}
 
