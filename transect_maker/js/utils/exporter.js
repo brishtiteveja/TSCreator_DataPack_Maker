@@ -39,7 +39,7 @@ define([
 		this.polygons = this.app.PolygonsCollection;
 		this.wells = this.app.TransectWellsCollection;
 		this.transects = this.app.TransectsCollection;
-		this.markers = this.app.TransectMarkersCollection;
+		this.markers = this.app.MarkersCollection;
 		this.zones = this.app.ZonesCollection;
 		this.transectImage = this.app.TransectImage;
 
