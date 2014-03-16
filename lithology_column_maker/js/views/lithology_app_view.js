@@ -71,7 +71,9 @@ define([
 		// 
 		this.lithologyApp.MarkersSet = this.lithologyApp.Canvas.set();
 		this.lithologyApp.LithologyMarkersSet = this.lithologyApp.Canvas.set();
+		this.lithologyApp.LithologyGroupMarkersSet = this.lithologyApp.Canvas.set();
 		this.lithologyApp.LithologysSet = this.lithologyApp.Canvas.set();
+		this.lithologyApp.LithologyGroupsSet = this.lithologyApp.Canvas.set();
 		
 		this.render();
 
