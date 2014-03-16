@@ -74,6 +74,13 @@ define(["baseView"], function(BaseView) {
 	};
 
 	LithologyGroupView.prototype.renderLithologyGroup = function() {
+		this.renderLithologyGroupBlock();
+		this.renderLithologyGroupPatternsBlock();
+	}
+
+	LithologyGroupView.prototype.renderLithologyGroupBlock = function() {
+
+		var width = Math.floor(this.lithologyGroup.get('lithologyColumn').get('width')/2);
 
 		if (this.bgBox === undefined) {
 			this.bgBox = this.app.Canvas.rect();
@@ -95,11 +102,11 @@ define(["baseView"], function(BaseView) {
 			"fill"         : this.lithologyGroup.get('settings').get('backgroundColor'),
 			"x"            : this.lithologyGroup.get('lithologyColumn').get('x'),
 			"y"            : this.top.get('y'),
-			"width"        : this.lithologyGroup.get('lithologyColumn').get('width'),
+			"width"        : width,
 			"height"       : this.base.get('y') - this.top.get('y'),
 		});
 
-		var textX = Math.round(this.lithologyGroup.get('lithologyColumn').get('x') + this.lithologyGroup.get('lithologyColumn').get('width')/2);
+		var textX = Math.round(this.lithologyGroup.get('lithologyColumn').get('x') + width/2);
 		var textY = Math.round((this.top.get('y') + this.base.get('y'))/2)
 		var textSize = Math.min(Math.round(this.base.get('y') - this.top.get('y')), 16);
 
@@ -116,11 +123,35 @@ define(["baseView"], function(BaseView) {
 			"fill"         : "#FFF",
 			"x"            : this.lithologyGroup.get('lithologyColumn').get('x'),
 			"y"            : this.top.get('y'),
-			"width"        : this.lithologyGroup.get('lithologyColumn').get('width'),
+			"width"        : width,
 			"height"       : this.base.get('y') - this.top.get('y'),
 		});
 
 		this.renderTooltip();
+	}
+
+	LithologyGroupView.prototype.renderLithologyGroupPatternsBlock = function() {
+		var width = Math.floor(this.lithologyGroup.get('lithologyColumn').get('width')/2);
+		var x = this.lithologyGroup.get('lithologyColumn').get('x') + width;
+
+
+		if (this.patternsBox === undefined) {
+			this.patternsBox = this.app.Canvas.rect();
+			
+			this.lithologyGroupSet.push(this.patternsBox);
+
+			this.app.MarkersSet.toFront();
+			this.app.LithologyGroupMarkersSet.toFront();
+		}
+
+		this.patternsBox.attr({
+			"stroke-width" : 0,
+			"fill"         : "#FFF",
+			"x"            : x,
+			"y"            : this.top.get('y'),
+			"width"        : width,
+			"height"       : this.base.get('y') - this.top.get('y'),
+		});
 	}
 
 	LithologyGroupView.prototype.renderTooltip = function() {
