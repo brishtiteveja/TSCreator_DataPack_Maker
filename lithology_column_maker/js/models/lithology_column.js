@@ -3,7 +3,7 @@
 =            LithologyColumn is a nested collection that contains collection of lithologys            =
 =============================================================================================*/
 
-define(["baseModel", "lithologyGroups", "lithologyGroupMarkers", "settings"], function(BaseModel, LithologyGroups, LithologyGroupMarkers, Settings) {
+define(["baseModel", "lithologyMarkers", "lithologys", "lithologyGroups", "lithologyGroupMarkers", "settings"], function(BaseModel, LithologyMarkers, Lithologys, LithologyGroups, LithologyGroupMarkers, Settings) {
 	
 	var LithologyColumn = BaseModel.extend({	
 		classname: "LithologyColumn",		
@@ -14,6 +14,8 @@ define(["baseModel", "lithologyGroups", "lithologyGroupMarkers", "settings"], fu
 				name                  : attributes.name || _.uniqueId("Column "),
 				width                 : parseInt(attributes.width) || 400,
 				description           : attributes.description || null,
+				lithologyMarkers      : new LithologyMarkers(),
+				lithologys            : new Lithologys(),
 				lithologyGroupMarkers : new LithologyGroupMarkers(),
 				lithologyGroups       : new LithologyGroups(),
 				settings              : new Settings(),

@@ -2,7 +2,7 @@
 =            This is the model for lithology. LithologyGroup is a datapoint in the lithology column.            =
 ===============================================================================================================*/
 
-define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(BaseModel, Settings, Lithologys, lithologyMarkers) {
+define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(BaseModel, Settings, Lithologys, LithologyMarkers) {
 	
 	var LithologyGroup = BaseModel.extend({
 		classname: "LithologyGroup",
@@ -16,7 +16,7 @@ define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(Bas
 				top              : attributes.top || null,
 				base             : attributes.base || null,
 				lithologyColumn  : attributes.lithologyColumn || null,
-				lithologyMarkers : new lithologyMarkers(),
+				lithologyMarkers : new LithologyMarkers(),
 				lithologys       : new Lithologys()
 			}];
 

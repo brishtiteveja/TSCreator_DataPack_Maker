@@ -42,8 +42,8 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.lithology, 'change:name', this.renderLithology.bind(this));
 		this.listenTo(this.lithology, 'change:description', this.renderLithology.bind(this));
 		
-		this.listenTo(this.lithology.get('lithologyColumn'), 'change:x', this.renderLithology.bind(this));
-		this.listenTo(this.lithology.get('lithologyColumn'), 'change:width', this.renderLithology.bind(this));
+		this.listenTo(this.lithology.get('lithologyGroup'), 'change:x', this.renderLithology.bind(this));
+		this.listenTo(this.lithology.get('lithologyGroup'), 'change:width', this.renderLithology.bind(this));
 		
 		this.listenTo(this.top, 'change:y', this.renderLithology.bind(this));
 		this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));
@@ -93,13 +93,13 @@ define(["baseView"], function(BaseView) {
 		this.bgBox.attr({
 			"stroke-width" : 0,
 			"fill"         : this.lithology.get('settings').get('backgroundColor'),
-			"x"            : this.lithology.get('lithologyColumn').get('x'),
+			"x"            : this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
 			"y"            : this.top.get('y'),
-			"width"        : this.lithology.get('lithologyColumn').get('width'),
+			"width"        : this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
 			"height"       : this.base.get('y') - this.top.get('y'),
 		});
 
-		var textX = Math.round(this.lithology.get('lithologyColumn').get('x') + this.lithology.get('lithologyColumn').get('width')/2);
+		var textX = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2 + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/4);
 		var textY = Math.round((this.top.get('y') + this.base.get('y'))/2)
 		var textSize = Math.min(Math.round(this.base.get('y') - this.top.get('y')), 16);
 
@@ -114,9 +114,9 @@ define(["baseView"], function(BaseView) {
 			"stroke-width" : 2,
 			"opacity"      : 0,
 			"fill"         : "#FFF",
-			"x"            : this.lithology.get('lithologyColumn').get('x'),
+			"x"            : this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
 			"y"            : this.top.get('y'),
-			"width"        : this.lithology.get('lithologyColumn').get('width'),
+			"width"        : this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
 			"height"       : this.base.get('y') - this.top.get('y'),
 		});
 
