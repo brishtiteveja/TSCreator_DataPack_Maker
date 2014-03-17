@@ -12,7 +12,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			'click .toggle': 'toggleLithologyColumnForm',
 			'click .lithology-column-data': 'toggleLithologyColumnForm',
 			'click .destroy': 'destroy',
-			'click label.lithology-column-lithologys-data': 'showLithologysList',
+			'click label.lithology-column-lithologys-data': 'showLithologyGroupsList',
 			'keypress :input': 'updateLithologyColumn',
 			'keyup :input': 'updateLithologyColumn',
 			'change input[name="lithology-column-bg-color"]': 'updateLithologyColumn',
@@ -203,7 +203,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		});
 	}
 
-	LithologyColumnView.prototype.showLithologysList = function() {
+	LithologyColumnView.prototype.showLithologyGroupsList = function() {
 		if (this.$lithologyGroupsList.hasClass('hide')) {
 			this.$lithologyGroupsList.removeClass('hide');
 		} else {

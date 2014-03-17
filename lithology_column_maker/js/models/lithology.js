@@ -1,6 +1,7 @@
-/*==============================================================================================
-=            This is the model for lithology. Lithology is a datapoint in the lithology column.            =
-==============================================================================================*/
+
+/*============================================================================================================
+=            This is the model for lithology. Lithology is a datapoint in the lithology column.              =
+============================================================================================================*/
 
 define(["baseModel", "settings"], function(BaseModel, Settings) {
 	
@@ -24,7 +25,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 
 	Lithology.prototype.initialize = function() {
 		this.get('settings').set({
-			'backgroundColor': "#FF0000"
+			'backgroundColor': "#EEEEEE"
 		});
 	}
 

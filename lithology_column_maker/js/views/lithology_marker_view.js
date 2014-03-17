@@ -15,10 +15,8 @@ define(["baseView"], function(BaseView) {
 		this.app = app;
 		this.lithologyMarker = lithologyMarker;
 
-		this.render();
-
-		this.listenTo(this.lithologyMarker.get('lithologyGroup'), 'change:x', this.renderLithologyMarker.bind(this));
-		this.listenTo(this.lithologyMarker.get('lithologyGroup'), 'change:width', this.renderLithologyMarker.bind(this));
+		this.listenTo(this.lithologyMarker.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithologyMarker.bind(this));
+		this.listenTo(this.lithologyMarker.get('lithologyGroup').get('lithologyColumn'), 'change:width', this.renderLithologyMarker.bind(this));
 
 		/* listen to the events */
 		this.listenTo(this.lithologyMarker, 'change:hover', this.setHoverStatus.bind(this));
@@ -27,6 +25,12 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.lithologyMarker.get('lithologys'), 'remove', this.checkAndDelete.bind(this));
 		this.listenTo(this.app.ZonesCollection, 'remove', this.updateLithologyMarker.bind(this));
 		this.listenTo(this.app.ZonesCollection, 'change', this.updateLithologyMarker.bind(this));
+
+		if (this.lithologyMarker.get('lithologyGroupMarker')) {
+			this.listenTo(this.lithologyMarker.get('lithologyGroupMarker'), 'change:y', this.moveLithologyMarkerWithGroupMarker.bind(this));	
+		}
+
+		this.render();
 	};
 
 	LithologyMarkerView.prototype.render = function() {
@@ -70,6 +74,12 @@ define(["baseView"], function(BaseView) {
 		this.updateStatusBox();
 	}
 
+	LithologyMarkerView.prototype.moveLithologyMarkerWithGroupMarker = function() {
+		this.lithologyMarker.set({
+			y: this.lithologyMarker.get('lithologyGroupMarker').get('y')
+		});
+	}
+
 	LithologyMarkerView.prototype.updateStatusBox = function() {
 		this.app.StatusBox.html(this.statusBoxTemplate.render(this.lithologyMarker.toJSON()));
 	}
@@ -78,7 +88,7 @@ define(["baseView"], function(BaseView) {
 	LithologyMarkerView.prototype.getPath = function() {
 		var width = Math.floor(this.lithologyMarker.get('lithologyGroup').get('lithologyColumn').get('width')/2);
 		var x1 = this.lithologyMarker.get('lithologyGroup').get('lithologyColumn').get('x') + width;
-		var x2 = this.lithologyMarker.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithologyMarker.get('lithologyGroup').get('width');
+		var x2 = x1 + width;
 		return ("M" + x1 + "," + this.lithologyMarker.get('y') + "H" + x2);
 	}
 

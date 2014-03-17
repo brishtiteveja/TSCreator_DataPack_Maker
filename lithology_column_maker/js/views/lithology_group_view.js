@@ -12,6 +12,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			'click .toggle': 'toggleLithologyGroupForm',
 			'click .lithology-group-data': 'toggleLithologyGroupForm',
 			'click .destroy': 'destroy',
+			'click label.lithology-group-lithologys-data': 'showLithologysList',
 			'keypress :input': 'updateLithologyGroup',
 			'keyup :input': 'updateLithologyGroup',
 			'change input[name="lithology-group-color"]': 'updateLithologyGroup',
@@ -56,14 +57,13 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		this.listenTo(this.lithologyGroup.get('settings'), 'change', this.renderLithologyGroup.bind(this));
 		this.listenTo(this.lithologyGroup, 'destroy', this.delete.bind(this));
 
-
-
 		// Render the group
 		this.render();
 
 		// initialize the group as one lithology which will be later
 		// split into two, when double clicked on it.
-		this.initializeLithologymarkers();
+		this.initializeLithologyMarkers();
+
 	};
 
 	LithologyGroupView.prototype.render = function() {
@@ -75,6 +75,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		this.$lithologyGroupAge = this.$('input[name="lithology-group-age"]')[0];
 		this.$lithologyGroupColor = this.$('input[name="lithology-group-color"]')[0];
 		this.$lithologyGroupDescription = this.$('textarea[name="lithology-group-description"]')[0];
+		this.$lithologysList = this.$('.lithologys-list');
 
 		/* check edit state */
 		this.editLithologyGroup();
@@ -100,6 +101,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			this.lithologyGroupSet.push(this.bBox);
 
 			this.app.MarkersSet.toFront();
+			this.app.LithologyMarkersSet.toFront();
 			this.app.LithologyGroupMarkersSet.toFront();
 
 			this.bBox.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
@@ -107,7 +109,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 
 		this.bgBox.attr({
 			"stroke-width" : 2,
-			"stroke"       : "#000",
+			"stroke"       : "#000000",
 			"fill"         : this.lithologyGroup.get('settings').get('backgroundColor'),
 			"x"            : this.lithologyGroup.get('lithologyColumn').get('x'),
 			"y"            : this.top.get('y'),
@@ -128,9 +130,9 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 
 		this.bBox.attr({
 			"stroke-width" : 2,
-			"stroke"       : "#000",
+			"stroke"       : "#000000",
 			"opacity"      : 0,
-			"fill"         : "#FFF",
+			"fill"         : "#FFFFFF",
 			"x"            : this.lithologyGroup.get('lithologyColumn').get('x'),
 			"y"            : this.top.get('y'),
 			"width"        : width,
@@ -140,7 +142,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		this.renderTooltip();
 	}
 
-	LithologyGroupView.prototype.initializeLithologymarkers = function() {
+	LithologyGroupView.prototype.initializeLithologyMarkers = function() {
 		var column = this.lithologyGroup.get("lithologyColumn");
 		var topMarker = column.get("lithologyMarkers").findWhere({y: this.top.get('y')}) 
 		|| new LithologyMarker({y: this.top.get('y'), lithologyGroupMarker: this.top, lithologyGroup: this.lithologyGroup}, this.app);
@@ -198,9 +200,8 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 	}
 
 	LithologyGroupView.prototype.addLithology = function(lithology) {
-		debugger;
 		var lithologyView = new LithologyView(this.app, lithology);
-		// this.$lithologyGroupsList.append(lithologyGroupView.el);
+		this.$lithologysList.append(lithologyView.el);
 	}
 
 	LithologyGroupView.prototype.renderTooltip = function() {
@@ -275,6 +276,15 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			name: "TOP"
 		});
 		this.lithologyGroup.destroy();
+	}
+
+
+	LithologyGroupView.prototype.showLithologysList = function() {
+		if (this.$lithologysList.hasClass('hide')) {
+			this.$lithologysList.removeClass('hide');
+		} else {
+			this.$lithologysList.addClass('hide');
+		}
 	}
 
 	LithologyGroupView.prototype.updateLithologyGroup = function(evt) {

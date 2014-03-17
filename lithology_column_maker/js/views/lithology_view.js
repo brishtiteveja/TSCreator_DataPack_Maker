@@ -3,7 +3,7 @@
 =            LithologyView is the view that handles changes to the lithology column it is instantiated with.            =
 ===============================================================================================================*/
 
-define(["baseView"], function(BaseView) {
+define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 	
 	var LithologyView = BaseView.extend({
 		tagName: 'li',
@@ -34,7 +34,6 @@ define(["baseView"], function(BaseView) {
 			this.app.LithologysSet.push(this.lithologySet);
 		}
 
-		this.render();
 
 		/* listen to the events */
 		this.listenTo(this.lithology, 'change:edit', this.editLithology.bind(this));
@@ -42,8 +41,8 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.lithology, 'change:name', this.renderLithology.bind(this));
 		this.listenTo(this.lithology, 'change:description', this.renderLithology.bind(this));
 		
-		this.listenTo(this.lithology.get('lithologyGroup'), 'change:x', this.renderLithology.bind(this));
-		this.listenTo(this.lithology.get('lithologyGroup'), 'change:width', this.renderLithology.bind(this));
+		this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithology.bind(this));
+		this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:width', this.renderLithology.bind(this));
 		
 		this.listenTo(this.top, 'change:y', this.renderLithology.bind(this));
 		this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));
@@ -54,6 +53,8 @@ define(["baseView"], function(BaseView) {
 		
 		this.listenTo(this.lithology.get('settings'), 'change', this.renderLithology.bind(this));
 		this.listenTo(this.lithology, 'destroy', this.delete.bind(this));
+
+		this.render();
 
 	};
 
@@ -86,8 +87,12 @@ define(["baseView"], function(BaseView) {
 
 			this.app.MarkersSet.toFront();
 			this.app.LithologyMarkersSet.toFront();
+			this.app.LithologyGroupMarkersSet.toFront();
 
 			this.bBox.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+
+			/* attach listeners to the bBox so that when clicked it splits the lithology */
+			this.bBox.dblclick(this.createLithologyMarker.bind(this));
 		}
 
 		this.bgBox.attr({
@@ -121,6 +126,13 @@ define(["baseView"], function(BaseView) {
 		});
 
 		this.renderTooltip();
+	}
+
+	LithologyView.prototype.createLithologyMarker = function (evt) {
+		if (!this.app.enLithologys) return;
+		var lithologyMarker = new LithologyMarker({y: evt.offsetY, lithologyGroup: this.lithology.get('lithologyGroup')}, this.app);
+		this.lithology.get('lithologyGroup').get('lithologyMarkers').add(lithologyMarker);
+		this.lithology.destroy();
 	}
 
 	LithologyView.prototype.renderTooltip = function() {

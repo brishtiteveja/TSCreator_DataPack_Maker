@@ -10,7 +10,7 @@ define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(Bas
 			var attrs  = [{
 				edit             : false,
 				hover            : false,
-				name             : attributes.name || _.uniqueId("LithologyGroup "),
+				name             : attributes.name || _.uniqueId("Group "),
 				description      : attributes.description,
 				settings         : new Settings(),
 				top              : attributes.top || null,
@@ -26,7 +26,7 @@ define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(Bas
 
 	LithologyGroup.prototype.initialize = function() {
 		this.get('settings').set({
-			'backgroundColor': "#CCFF33"
+			'backgroundColor': "#FFFFFF"
 		});
 	}
 
