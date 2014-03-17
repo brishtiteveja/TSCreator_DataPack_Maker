@@ -40,6 +40,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		this.listenTo(this.lithology, 'change:hover', this.setHoverStatus.bind(this));
 		this.listenTo(this.lithology, 'change:name', this.renderLithology.bind(this));
 		this.listenTo(this.lithology, 'change:description', this.renderLithology.bind(this));
+		this.listenTo(this.lithology, 'change:pattern', this.renderLithology.bind(this));
 		
 		this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithology.bind(this));
 		this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:width', this.renderLithology.bind(this));
@@ -67,12 +68,40 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		this.$lithologyAge = this.$('input[name="lithology-age"]')[0];
 		this.$lithologyColor = this.$('input[name="lithology-color"]')[0];
 		this.$lithologyDescription = this.$('textarea[name="lithology-description"]')[0];
+		this.$patternsList = this.$('.patterns-list');
+		this.$lithologyPattern = this.$('select.lithology-pattern');
+		this.$lithologyImage = this.$('.lithology-image');
+
+		this.$lithologyPattern.change(this.updateLithologyPattern.bind(this));
 
 		/* check edit state */
 		this.editLithology();
 
 		this.renderLithology();
 	};
+
+	LithologyView.prototype.updateLithologyPattern = function() {
+		var pattern = this.$('select.lithology-pattern option:selected').val();
+		this.lithology.set({
+			'pattern': pattern
+		});
+	}
+
+
+	LithologyView.prototype.setLithologyFill = function() {
+		if (this.bgBox === undefined) return;
+		var pattern = this.lithology.get("pattern");
+		var fill =  pattern  ? "url('/pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" : "#EEEEEE";
+		var percent = pattern  ? parseFloat(this.app.patternsData[pattern].width)/100 : 1;
+		var width = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')*percent/2)
+		this.bgBox.attr({
+			'fill': fill,
+			'width': width
+		});
+		var url =  fill + " no-repeat" ;
+		this.$lithologyImage.css("background", url);
+	}
+
 
 	LithologyView.prototype.renderLithology = function() {
 
@@ -125,6 +154,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 			"height"       : this.base.get('y') - this.top.get('y'),
 		});
 
+		this.setLithologyFill();
 		this.renderTooltip();
 	}
 

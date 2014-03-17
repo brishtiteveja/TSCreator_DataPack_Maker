@@ -17,7 +17,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 				top            : attributes.top || null,
 				base           : attributes.base || null,
 				lithologyGroup : attributes.lithologyGroup || null,
-				patternName    : attributes.patternName || null,
+				pattern    : attributes.pattern || null,
 				app            : app || null,
 			}];
 

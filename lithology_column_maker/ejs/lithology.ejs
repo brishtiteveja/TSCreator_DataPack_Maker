@@ -16,18 +16,20 @@
 		</div>
 		<div class="row">
 			<div class="columns small-18">
-				<select class="lithology-pattern" value="<% patternName %>">
+				<select class="lithology-pattern" value="<% pattern %>">
 					<option class="pattern-option" value="none">None</option>
-					<% for (var pattern in app.patternsData) { %>
-						<% if (patternName === pattern) { %>
-							<option class="pattern-option" value="<%= pattern %>" selected><%= pattern %></option>
+					<% for (var key in app.patternsData) { %>
+						<% if (pattern === key) { %>
+							<option class="pattern-option" value="<%= key %>" selected><%= app.patternsData[key].name %></option>
 						<% } else { %>
-							<option class="pattern-option" value="<%= pattern %>"><%= pattern %></option>
+							<option class="pattern-option" value="<%= key %>"><%= app.patternsData[key].name %></option>
 						<% } %>
 					<% } %>
 				</select>
 			</div>
-			<div class="patterns-image small-6 columns"></div>
+			<div class="small-6 columns">
+				<div class="lithology-image" style="height: 37px; width: 100%"></div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="columns small-24">
