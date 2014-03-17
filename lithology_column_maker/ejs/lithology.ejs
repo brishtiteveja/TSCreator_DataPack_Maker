@@ -3,21 +3,37 @@
 	<label class="lithology-data small-18 columns lithology-label"><%= name %></label>
 	<div class="small-18 columns lithology-form hide">
 		<div class="row">
-			<div class="columns small-10">
+			<div class="columns small-14">
 				<input type="text" value="<%= name %>" name="lithology-name">
 			</div>
-			<div class="columns small-8">
+			<div class="columns small-10">
 				<select class="small-18 columns lithology-line-style" style="height: 37px; width: 100%">
 					<option class="line-style" value="solid" selected>solid</option>
 					<option class="line-style" value="dashed">dashed</option>
 					<option class="line-style" value="dotted">dotted</option>
 				</select>
 			</div>
-			<div class="columns small-6">
-				<input type="color" value="<%= settings.get('backgroundColor') %>" name="lithology-color" style="height: 37px; width: 100%">
+		</div>
+		<div class="row">
+			<div class="columns small-18">
+				<select class="lithology-pattern" value="<% patternName %>">
+					<option class="pattern-option" value="none">None</option>
+					<% for (var pattern in app.patternsData) { %>
+						<% if (patternName === pattern) { %>
+							<option class="pattern-option" value="<%= pattern %>" selected><%= pattern %></option>
+						<% } else { %>
+							<option class="pattern-option" value="<%= pattern %>"><%= pattern %></option>
+						<% } %>
+					<% } %>
+				</select>
+			</div>
+			<div class="patterns-image small-6 columns"></div>
+		</div>
+		<div class="row">
+			<div class="columns small-24">
+				<textarea name="lithology-description" placeholder="No description yet!"><%= description %></textarea>
 			</div>
 		</div>
-		<textarea name="lithology-description" placeholder="No description yet!"><%= description %></textarea>
 	</div>
 	<div class="small-3 columns"><a href="#" class="destroy"></a></div>
 </div>

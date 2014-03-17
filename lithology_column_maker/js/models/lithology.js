@@ -7,16 +7,18 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	
 	var Lithology = BaseModel.extend({
 		classname: "Lithology",
-		constructor: function (attributes, options) {
+		constructor: function (attributes, app) {
 			var attrs  = [{
-				edit: false,
-				hover: false,
-				name: attributes.name || _.uniqueId("Lithology "),
-				description: attributes.description,
-				settings: new Settings(),
-				top: attributes.top || null,
-				base: attributes.base || null,
-				lithologyGroup: attributes.lithologyGroup || null,
+				edit           : false,
+				hover          : false,
+				name           : attributes.name || _.uniqueId("Lithology "),
+				description    : attributes.description,
+				settings       : new Settings(),
+				top            : attributes.top || null,
+				base           : attributes.base || null,
+				lithologyGroup : attributes.lithologyGroup || null,
+				patternName    : attributes.patternName || null,
+				app            : app || null,
 			}];
 
 			BaseModel.apply(this, attrs);

@@ -173,7 +173,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 				var topMarker = lithologyMarkers.at(index);
 				var baseMarker = lithologyMarkers.at(index + 1);		
 				var lithology = lithologys.findWhere({top: topMarker, base: baseMarker}) ||
-							new Lithology({top: topMarker, base: baseMarker, lithologyGroup: self.lithologyGroup});
+							new Lithology({top: topMarker, base: baseMarker, lithologyGroup: self.lithologyGroup}, this.app);
 
 				topMarker.get('lithologys').add(lithology);
 				baseMarker.get('lithologys').add(lithology);
@@ -187,7 +187,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 				var topMarker = lithologyMarkers.at(index - 1);
 				var baseMarker = lithologyMarkers.at(index);
 				var lithology = lithologys.findWhere({top: topMarker, base: baseMarker}) ||
-							new Lithology({top: topMarker, base: baseMarker, lithologyGroup: self.lithologyGroup});
+							new Lithology({top: topMarker, base: baseMarker, lithologyGroup: self.lithologyGroup}, this.app);
 
 				topMarker.get('lithologys').add(lithology);
 				baseMarker.get('lithologys').add(lithology);
