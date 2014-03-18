@@ -33,6 +33,7 @@ define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(Bas
 	LithologyGroup.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
 		delete json["lithologyColumn"];
+		delete json["lithologyMarkers"];
 		return json;
 	}
 

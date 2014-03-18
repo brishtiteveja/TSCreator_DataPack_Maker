@@ -17,7 +17,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 				top            : attributes.top || null,
 				base           : attributes.base || null,
 				lithologyGroup : attributes.lithologyGroup || null,
-				pattern    : attributes.pattern || null,
+				pattern        : attributes.pattern || null,
 				app            : app || null,
 			}];
 
@@ -34,7 +34,16 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	Lithology.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
 		delete json["lithologyColumn"];
+		delete json["lithologyGroup"];
+		delete json["app"];
 		return json;
+	}
+
+	Lithology.prototype.getPatternName = function() {
+		if (this.get('pattern')) {
+			return this.get('app').patternsData[this.get('pattern')].name;
+		}
+		return null;
 	}
 
 	return Lithology;

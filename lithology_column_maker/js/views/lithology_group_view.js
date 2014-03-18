@@ -52,7 +52,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		this.listenTo(this.base, 'change:relativeY', this.renderTooltip.bind(this));
 
 		this.listenTo(this.lithologyGroup.get('lithologyMarkers'), 'add', this.addLithologyMarker.bind(this));
-		this.listenTo(this.lithologyGroup.get('lithologys'), 'add', this.addLithology.bind(this));
+		this.listenTo(this.lithologyGroup.get('lithologys'), 'add', this.render.bind(this));
 		
 		this.listenTo(this.lithologyGroup.get('settings'), 'change', this.renderLithologyGroup.bind(this));
 		this.listenTo(this.lithologyGroup, 'destroy', this.delete.bind(this));
@@ -81,6 +81,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		this.editLithologyGroup();
 
 		this.renderLithologyGroup();
+		this.lithologyGroup.get('lithologys').each(this.addLithology.bind(this));
 	};
 
 	LithologyGroupView.prototype.renderLithologyGroup = function() {
@@ -95,6 +96,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			this.bgBox = this.app.Canvas.rect();
 			this.lithologyGroupText = this.app.Canvas.text();
 			this.bBox = this.app.Canvas.rect();
+			this.bgLithBox = this.app.Canvas.rect();
 			
 			this.lithologyGroupSet.push(this.bgBox);
 			this.lithologyGroupSet.push(this.lithologyGroupText);
@@ -112,6 +114,16 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			"stroke"       : "#000000",
 			"fill"         : this.lithologyGroup.get('settings').get('backgroundColor'),
 			"x"            : this.lithologyGroup.get('lithologyColumn').get('x'),
+			"y"            : this.top.get('y'),
+			"width"        : width,
+			"height"       : this.base.get('y') - this.top.get('y'),
+		});
+		
+		this.bgLithBox.attr({
+			"stroke-width" : 2,
+			"stroke"       : "#000000",
+			"fill"         : this.lithologyGroup.get('settings').get('backgroundColor'),
+			"x"            : this.lithologyGroup.get('lithologyColumn').get('x') + width,
 			"y"            : this.top.get('y'),
 			"width"        : width,
 			"height"       : this.base.get('y') - this.top.get('y'),
@@ -264,6 +276,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 
 	LithologyGroupView.prototype.delete = function() {
 		if (this.lithologyGroupText) this.lithologyGroupText.remove();
+		if (this.bgLithBox) this.bgLithBox.remove();
 		if (this.bgBox) this.bgBox.remove();
 		if (this.bBox) this.bBox.remove();
 		if (this.glow) this.glow.remove();
@@ -275,6 +288,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		this.lithologyGroup.get('base').set({
 			name: "TOP"
 		});
+		_.invoke(this.lithologyGroup.get('lithologys').toArray(), 'destroy');
 		this.lithologyGroup.destroy();
 	}
 

@@ -9,6 +9,11 @@ define(["baseCollection", "lithology"], function(BaseCollection, Lithology) {
 		model: Lithology
 	});
 
+	Lithologys.prototype.comparator = function(lithology) {
+		return lithology.get('top').get('y');
+	};
+
+
 	return Lithologys;
 });
 /*-----  End of Lithologys Collection  ------*/

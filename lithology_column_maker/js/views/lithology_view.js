@@ -60,7 +60,9 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 	};
 
 	LithologyView.prototype.render = function() {
-		this.$el.html(this.template.render(this.lithology.toJSON()));
+		var json = this.lithology.toJSON();
+		json['app'] = this.app;
+		this.$el.html(this.template.render(json));
 		this.$toggle = this.$(".toggle");
 		this.$lithologyForm = this.$(".lithology-form");
 		this.$lithologyData = this.$(".lithology-data");
@@ -89,28 +91,29 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 
 
 	LithologyView.prototype.setLithologyFill = function() {
-		if (this.bgBox === undefined) return;
+		if (this.lithBox === undefined) return;
 		var pattern = this.lithology.get("pattern");
 		var fill =  pattern  ? "url('/pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" : "#EEEEEE";
 		var percent = pattern  ? parseFloat(this.app.patternsData[pattern].width)/100 : 1;
 		var width = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')*percent/2)
-		this.bgBox.attr({
+		this.lithBox.attr({
 			'fill': fill,
 			'width': width
 		});
-		var url =  fill + " no-repeat" ;
+		var url =  fill + " repeat-x" ;
 		this.$lithologyImage.css("background", url);
 	}
 
 
 	LithologyView.prototype.renderLithology = function() {
 
-		if (this.bgBox === undefined) {
+		if (this.lithBox === undefined) {
 			this.bgBox = this.app.Canvas.rect();
+			this.lithBox = this.app.Canvas.rect();
 			this.lithologyText = this.app.Canvas.text();
 			this.bBox = this.app.Canvas.rect();
 			
-			this.lithologySet.push(this.bgBox);
+			this.lithologySet.push(this.lithBox);
 			this.lithologySet.push(this.lithologyText);
 			this.lithologySet.push(this.bBox);
 
@@ -124,7 +127,17 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 			this.bBox.dblclick(this.createLithologyMarker.bind(this));
 		}
 
+
 		this.bgBox.attr({
+			"stroke-width" : 0,
+			"fill"         : "#FFFFFF",
+			"x"            : this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
+			"y"            : this.top.get('y'),
+			"width"        : this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
+			"height"       : this.base.get('y') - this.top.get('y'),
+		});
+
+		this.lithBox.attr({
 			"stroke-width" : 0,
 			"fill"         : this.lithology.get('settings').get('backgroundColor'),
 			"x"            : this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
@@ -195,7 +208,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 	LithologyView.prototype.setHoverStatus = function() {
 		if (this.lithology.get('hover')) {
 			this.$el.addClass('hover');
-			this.glow  = this.bBox.glow();
+			this.glow  = this.bgBox.glow();
 		} else {
 			if (this.glow) this.glow.remove();
 			this.$el.removeClass('hover');
@@ -226,6 +239,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 	LithologyView.prototype.delete = function() {
 		if (this.lithologyText) this.lithologyText.remove();
 		if (this.bgBox) this.bgBox.remove();
+		if (this.lithBox) this.lithBox.remove();
 		if (this.bBox) this.bBox.remove();
 		if (this.glow) this.glow.remove();
 		this.$el.remove();
