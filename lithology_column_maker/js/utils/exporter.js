@@ -93,7 +93,6 @@ define([], function() {
 		json["zones"] = this.zones.toJSON();
 		json["lithologyColumns"] = this.lithologyColumns.toJSON();
 		json["referenceColumn"] = this.app.referenceColumn.toJSON();
-		json["patternData"] = this.app.patternData.toJSON();
 		
 		return JSON.stringify(json);
 	}
