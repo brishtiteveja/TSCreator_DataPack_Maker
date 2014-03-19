@@ -52,6 +52,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		this.$lithologyGroupsList = this.$('.lithology-groups-list');
 
 		this.renderLithologyColumn();
+		this.resizeCanvas();
 		// this.renderLithologys();
 	}
 
@@ -219,7 +220,9 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			}
 		}
 
-
+		this.element.attr({
+			height: this.app.Canvas.height,
+		});
 	}
 
 	LithologyColumnView.prototype.removeLithology = function(lithologyGroup) {
@@ -266,6 +269,12 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 	LithologyColumnView.prototype.destroy = function() {
 		this.lithologyColumn.destroy();
+	}
+
+
+	LithologyColumnView.prototype.resizeCanvas = function() {
+		var width = Math.max(this.app.Canvas.width, this.lithologyColumn.get('x') + this.lithologyColumn.get('width'));
+		this.app.Canvas.setSize(width, this.app.Canvas.height);
 	}
 
 	return LithologyColumnView;

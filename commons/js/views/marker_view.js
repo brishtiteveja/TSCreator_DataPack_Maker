@@ -73,6 +73,7 @@ define(["baseView"], function(BaseView) {
 		}
 		this.renderTooltip();
 		this.element.attr({'path': this.getPath()});
+		this.resizeCanvas();
 	};
 
 	/*==========  render the tooltip for the marker in the canvas  ==========*/
@@ -213,6 +214,12 @@ define(["baseView"], function(BaseView) {
 		this.marker.destroy();
 		if (zone1) zone1.destroy();
 		if (zone2) zone2.destroy();
+	}
+
+
+	MarkerView.prototype.resizeCanvas = function() {
+		var height = Math.max(this.app.Canvas.height, this.marker.get('y') + 100)
+		this.app.Canvas.setSize(this.app.Canvas.width, height);
 	}
 
 	return MarkerView;
