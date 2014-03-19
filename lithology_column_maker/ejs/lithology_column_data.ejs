@@ -7,6 +7,7 @@
 			<th>facies</th>
 			<th><%= width %></th>
 			<th><%= CssToTscColor(settings.get('backgroundColor')) %></th>
+			<th>notitle</th>
 			<th><%= description %></th>
 		</tr>
 		<% for (var i=0; i < lithologyGroups.length; i++) { %>
@@ -15,27 +16,26 @@
 				<td><%= lithologyGroup.get("name") %></td>
 				<td>Primary</td>
 				<td></td>
+				<td></td>
 				<td><%= (lithologyGroup.get('description') || "")%></td>
-				<td><%= CssToTscColor(lithologyGroup.get('settings').get('backgroundColor')) %></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>TOP</td>
-				<td></td>
-				<td><%= lithologyGroup.get("top").get("age") || "n/a" %></td>
-				<td></td>
-				<td>CALIBRATION = <%= Math.round((1 - lithologyGroup.get("top").get("relativeY"))*1000)*1.0/10.0 %>% up the <%= lithologyGroup.get("top").get("zone").get('name') %></td>
 			</tr>
 			<% var lithologys = lithologyGroup.get('lithologys') %>
 			<% for (var j=0; j < lithologys.length; j++) { %>
 				<% var lithology = lithologys.at(j); %>
+				<% if (lithology.get('top').get('lithologys').length < 2) { %>
+					<tr>
+						<td></td>
+						<td>TOP</td>
+						<td></td>
+						<td><%= lithology.get("top").get("age") || "n/a" %></td>
+						<td>CALIBRATION = <%= Math.round((1 - lithology.get("top").get("relativeY"))*1000)*1.0/10.0 %>% up the <%= lithology.get("top").get("zone").get('name') %></td>
+					</tr>
+				<% } %>
 				<tr>
 					<td></td>
 					<td><%= (lithology.getPatternName() || "") %></td>
 					<td><%= lithology.get("name") %></td>
 					<td><%= lithology.get("base").get("age") || "n/a" %></td>
-					<td><%= lithology.get('base').get('style') %></td>
 					<td><%= (lithology.get('description') || "") %> CALIBRATION = <%= Math.round((1 - lithology.get("base").get("relativeY"))*1000)*1.0/10.0 %>% up the <%= lithology.get("base").get("zone").get('name') %></td>
 				</tr>
 			<% } %>

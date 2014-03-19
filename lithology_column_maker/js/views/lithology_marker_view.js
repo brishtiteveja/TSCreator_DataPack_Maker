@@ -115,9 +115,16 @@ define(["baseView"], function(BaseView) {
 			return;
 		}
 
+		if (this.lithologyMarker.get('lithologyGroupMarker')) {
+			this.lithologyMarker.get('lithologyGroupMarker').set({
+				y: evt.offsetY
+			});
+		}
+
 		this.lithologyMarker.set({
 			y: evt.offsetY
 		});
+
 	};
 
 

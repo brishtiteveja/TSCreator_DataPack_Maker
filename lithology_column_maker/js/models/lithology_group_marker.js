@@ -8,6 +8,8 @@ define(["baseModel", "lithologyGroups"], function(BaseModel, LithologyGroups) {
 		classname: "LithologyGroupMarker",
 		constructor: function (attributes, app) {
 			var attrs = [{
+
+				id              : _.uniqueId("lithology-group-marker-id"),
 				name            : "TOP",
 				edit            : false,
 				hover           : false,

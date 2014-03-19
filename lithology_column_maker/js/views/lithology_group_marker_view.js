@@ -76,7 +76,7 @@ define(["baseView"], function(BaseView) {
 
 
 	LithologyGroupMarkerView.prototype.getPath = function() {
-		var x2 = this.lithologyGroupMarker.get('lithologyColumn').get('x') + this.lithologyGroupMarker.get('lithologyColumn').get('width');
+		var x2 = this.lithologyGroupMarker.get('lithologyColumn').get('x') + Math.round(this.lithologyGroupMarker.get('lithologyColumn').get('width')/2);
 		return ("M" + this.lithologyGroupMarker.get('lithologyColumn').get('x') + "," + this.lithologyGroupMarker.get('y') + "H" + x2);
 	}
 
@@ -151,7 +151,7 @@ define(["baseView"], function(BaseView) {
 	}
 
 	LithologyGroupMarkerView.prototype.checkAndDelete = function() {
-		if (this.lithologyGroupMarker.get('lithologys').length == 0) {
+		if (this.lithologyGroupMarker.get('lithologyGroups').length == 0) {
 			this.destroy();
 		}
 	}

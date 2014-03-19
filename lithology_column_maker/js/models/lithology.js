@@ -11,6 +11,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 			var attrs  = [{
 				edit           : false,
 				hover          : false,
+				id             : _.uniqueId("lithology-id"),
 				name           : attributes.name || _.uniqueId("Lithology "),
 				description    : attributes.description,
 				settings       : new Settings(),

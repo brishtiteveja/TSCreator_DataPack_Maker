@@ -57,7 +57,9 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 	LithologyColumnView.prototype.renderLithologyColumn = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.rect(this.lithologyColumn.get('x'), 0, this.lithologyColumn.get('width'), this.app.Canvas.height);
+			this.element = this.app.Canvas.rect();
+			this.headingBox = this.app.Canvas.rect();
+			this.headingText = this.app.Canvas.text();
 
 			/* attach listeners to the element */
 			this.element.dblclick(this.createLithologyGroupMarker.bind(this));
@@ -67,9 +69,31 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 		this.element.attr({
 			x: this.lithologyColumn.get('x'),
+			y: 0,
 			width: this.lithologyColumn.get('width'),
-			fill: this.lithologyColumn.get('settings').get('backgroundColor')
+			fill: this.lithologyColumn.get('settings').get('backgroundColor'),
+			height: this.app.Canvas.height,
 		});
+
+		this.headingBox.attr({
+			x: this.lithologyColumn.get('x'),
+			y: 0,
+			width: this.lithologyColumn.get('width'),
+			fill: "#FFFFFF",
+			height: 50,
+		});
+
+		var textX = Math.round(this.lithologyColumn.get('x') + this.lithologyColumn.get('width')/2);
+		var textY = 25
+		var textSize = 24;
+
+		this.headingText.attr({
+			"x" : textX,
+			"y" : textY,
+			"text": this.lithologyColumn.get('name'),
+			"font-size": textSize,
+		});
+		
 
 		this.updateLithologyColumns();
 	}
@@ -159,24 +183,43 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		var topMarker, baseMarker;
 
 		if (lithologyGroupMarkers.length > 1) {
+		
+			if (index < lithologyGroupMarkers.length - 1) {
+				var topMarker = lithologyGroupMarkers.at(index);
+				var baseMarker = lithologyGroupMarkers.at(index + 1);		
+
+				var lithologyGroup = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
+							new LithologyGroup({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
+				
+				topMarker.get('lithologyGroups').add(lithologyGroup);
+				baseMarker.get('lithologyGroups').add(lithologyGroup);
+				
+				baseMarker.set({
+					name: lithologyGroup.get('name') + " Base"
+				});
+				
+				lithologyGroups.add(lithologyGroup);
+			} 
 			
-			if (index == 0) {
-				topMarker = lithologyGroupMarkers.at(index);
-				baseMarker = lithologyGroupMarkers.at(index + 1);
-			} else {
-				topMarker = lithologyGroupMarkers.at(index - 1);
-				baseMarker = lithologyGroupMarkers.at(index);
+			if (index > 0){
+				var topMarker = lithologyGroupMarkers.at(index - 1);
+				var baseMarker = lithologyGroupMarkers.at(index);
+				
+				var lithologyGroup = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
+							new LithologyGroup({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
+				
+				topMarker.get('lithologyGroups').add(lithologyGroup);
+				baseMarker.get('lithologyGroups').add(lithologyGroup);
+				
+				baseMarker.set({
+					name: lithologyGroup.get('name') + " Base"
+				});
+				
+				lithologyGroups.add(lithologyGroup);
 			}
-			
-			var lithologyGroup = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
-						new LithologyGroup({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
-			topMarker.get('lithologyGroups').add(lithologyGroup);
-			baseMarker.get('lithologyGroups').add(lithologyGroup);
-			baseMarker.set({
-				name: lithologyGroup.get('name') + " Base"
-			});
-			lithologyGroups.add(lithologyGroup);
 		}
+
+
 	}
 
 	LithologyColumnView.prototype.removeLithology = function(lithologyGroup) {
@@ -213,7 +256,10 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 	LithologyColumnView.prototype.delete = function() {
 		_.invoke(this.lithologyColumn.get('lithologyGroups').toArray(), "destroy");
+
 		if (this.element) this.element.remove();
+		if (this.headingText) this.headingText.remove();
+		if (this.headingBox) this.headingBox.remove();
 		this.$el.remove();
 		this.remove();
 	}

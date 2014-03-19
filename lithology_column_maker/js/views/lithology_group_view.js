@@ -36,7 +36,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		}
 
 		/* listen to the events */
-		this.listenTo(this.lithologyGroup, 'change:edit', this.editLithologyGroup.bind(this));
+		this.listenTo(this.lithologyGroup, 'change:edit', this.render.bind(this));
 		this.listenTo(this.lithologyGroup, 'change:hover', this.setHoverStatus.bind(this));
 		this.listenTo(this.lithologyGroup, 'change:name', this.renderLithologyGroup.bind(this));
 		this.listenTo(this.lithologyGroup, 'change:description', this.renderLithologyGroup.bind(this));
@@ -98,6 +98,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			this.bBox = this.app.Canvas.rect();
 			this.bgLithBox = this.app.Canvas.rect();
 			
+			this.lithologyGroupSet.push(this.bgLithBox);
 			this.lithologyGroupSet.push(this.bgBox);
 			this.lithologyGroupSet.push(this.lithologyGroupText);
 			this.lithologyGroupSet.push(this.bBox);
@@ -107,7 +108,9 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			this.app.LithologyGroupMarkersSet.toFront();
 
 			this.bBox.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+			this.bgLithBox.dblclick(this.createLithologyMarker.bind(this));
 		}
+
 
 		this.bgBox.attr({
 			"stroke-width" : 2,
@@ -120,9 +123,9 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		});
 		
 		this.bgLithBox.attr({
-			"stroke-width" : 2,
+			"stroke-width" : 0,
 			"stroke"       : "#000000",
-			"fill"         : this.lithologyGroup.get('settings').get('backgroundColor'),
+			"fill"         : "#FFFFFF",
 			"x"            : this.lithologyGroup.get('lithologyColumn').get('x') + width,
 			"y"            : this.top.get('y'),
 			"width"        : width,
@@ -141,7 +144,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		});
 
 		this.bBox.attr({
-			"stroke-width" : 2,
+			"stroke-width" : 0,
 			"stroke"       : "#000000",
 			"opacity"      : 0,
 			"fill"         : "#FFFFFF",
@@ -152,6 +155,13 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		});
 
 		this.renderTooltip();
+	}
+
+	LithologyGroupView.prototype.createLithologyMarker = function (evt) {
+		if (!this.app.enLithologys) return;
+		var lithologyMarker = this.lithologyGroup.get('lithologyColumn').get('lithologyMarkers').findWhere({y: evt.offsetY}) || new LithologyMarker({y: evt.offsetY, lithologyGroup: this.lithologyGroup}, this.app);
+		this.lithologyGroup.get('lithologyMarkers').add(lithologyMarker);
+		this.lithologyGroup.get('lithologyColumn').get('lithologyMarkers').add(lithologyMarker);
 	}
 
 	LithologyGroupView.prototype.initializeLithologyMarkers = function() {
@@ -169,6 +179,9 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 
 	LithologyGroupView.prototype.addLithologyMarker = function(lithologyMarker) {
 		var self = this;
+
+		// Add lithology marker to the column markers collection.
+		self.lithologyGroup.get('lithologyColumn').get('lithologyMarkers').add(lithologyMarker);
 		
 		var lithologyMarkerView = new LithologyMarkerView(this.app, lithologyMarker);
 
@@ -192,7 +205,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 				baseMarker.set({
 					name: lithology.get('name') + " Base"
 				});
-				lithologys.add(lithology);
+				this.lithologyGroup.get('lithologys').add(lithology);
 			} 
 			
 			if (index > 0){
@@ -206,7 +219,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 				baseMarker.set({
 					name: lithology.get('name') + " Base"
 				});
-				lithologys.add(lithology);
+				this.lithologyGroup.get('lithologys').add(lithology);
 			}
 		}
 	}
@@ -275,6 +288,9 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 	};
 
 	LithologyGroupView.prototype.delete = function() {
+
+		_.invoke(this.lithologyGroup.get('lithologys').toArray(), 'destroy');
+
 		if (this.lithologyGroupText) this.lithologyGroupText.remove();
 		if (this.bgLithBox) this.bgLithBox.remove();
 		if (this.bgBox) this.bgBox.remove();
@@ -288,7 +304,6 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		this.lithologyGroup.get('base').set({
 			name: "TOP"
 		});
-		_.invoke(this.lithologyGroup.get('lithologys').toArray(), 'destroy');
 		this.lithologyGroup.destroy();
 	}
 
@@ -302,9 +317,10 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 	}
 
 	LithologyGroupView.prototype.updateLithologyGroup = function(evt) {
-		if (evt.keyCode === 13) {
+		if (evt.keyCode === TimescaleApp.ENTER || evt.keyCode === TimescaleApp.ESC) {
 			this.toggleLithologyGroupForm();
 		}
+
 		var name = this.$lithologyGroupName.value;
 		var description = this.$lithologyGroupDescription.value;
 		var color = this.$lithologyGroupColor.value;

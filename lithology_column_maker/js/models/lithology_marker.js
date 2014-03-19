@@ -8,6 +8,7 @@ define(["baseModel", "lithologys"], function(BaseModel, Lithologys) {
 		classname: "LithologyMarker",
 		constructor: function (attributes, app) {
 			var attrs = [{
+				id                   : _.uniqueId("lithology-marker-id"),
 				name                 : "TOP",
 				edit                 : false,
 				hover                : false,
@@ -32,6 +33,8 @@ define(["baseModel", "lithologys"], function(BaseModel, Lithologys) {
 
 	LithologyMarker.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
+		delete json["lithologyGroup"];
+		delete json["lithologyGroupMarker"];
 		delete json["lithologys"];
 		delete json["lithologyColumn"];
 		delete json["app"];

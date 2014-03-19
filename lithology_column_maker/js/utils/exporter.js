@@ -30,7 +30,7 @@ define([], function() {
 	}
 
 	Exporter.prototype.getMetaColumnData = function () {
-		var outputText = "Lithologys:";
+		var outputText = "Lithologys\t:";
 		this.lithologyColumns.each(function(lithologyColumn) {
 			outputText += "\t" + lithologyColumn.get('name');
 		});
@@ -41,9 +41,11 @@ define([], function() {
 	Exporter.prototype.getLithologyColumnData = function(lithologyColumn) {
 		var self = this;
 		var outputText = "\n\n" + lithologyColumn.get('name');
-		outputText += "\tlithology";
+		outputText += "\tfacies";
 		outputText += "\t" + lithologyColumn.get('width');
-		outputText += "\tUSGS-Named";
+		outputText += "\t" + CssToTscColor(lithologyColumn.get('settings').get('backgroundColor'));
+		outputText += "\tnotitle";
+		outputText += "\t";
 		outputText += "\t" + (lithologyColumn.get('description') || "");
 
 		lithologyColumn.get('lithologyGroups').each(function(lithologyGroup) {
@@ -57,15 +59,8 @@ define([], function() {
 		var self = this;
 		var outputText = "\n" + lithologyGroup.get("name");
 		outputText += "\tPrimary";
+		outputText += "\t";
 		outputText += "\t" + (lithologyGroup.get('description') || "");
-		outputText += "\t" + CssToTscColor(lithologyGroup.get('settings').get('backgroundColor'));
-
-		outputText += "\n";
-		outputText += "\tTOP";
-		outputText += "\t";
-		outputText += "\t" + (lithologyGroup.get("top").get("age") || "n/a");
-		outputText += "\t";
-		outputText += "\t" + (lithologyGroup.get('description') || "") + "CALIBRATION = "+ (Math.round((1 - lithologyGroup.get("top").get("relativeY"))*1000)*1.0/10.0) + "% up the " + lithologyGroup.get("top").get("zone").get('name');
 
 		lithologyGroup.get('lithologys').each(function(lithology) {
 			outputText += self.getLithologyData(lithology);
@@ -76,10 +71,18 @@ define([], function() {
 
 	Exporter.prototype.getLithologyData = function(lithology) {
 		var outputText = "\n";
+
+		if (lithology.get('top').get('lithologys').length < 2) {
+			outputText += "\tTOP";
+			outputText += "\t";
+			outputText += "\t" + (lithology.get("top").get("age") || "n/a");
+			outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = "+ (Math.round((1 - lithology.get("top").get("relativeY"))*1000)*1.0/10.0) + "% up the " + lithology.get("top").get("zone").get('name');		
+			outputText += "\n";
+		}
+
 		outputText += "\t" + (lithology.getPatternName() || "");
 		outputText += "\t" + lithology.get('name');
 		outputText += "\t" + (lithology.get('base').get('age') || "n/a") ;
-		outputText += "\t" + lithology.get('base').get('style');
 		outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = "+ (Math.round((1 - lithology.get("base").get("relativeY"))*1000)*1.0/10.0) + "% up the " + lithology.get("base").get("zone").get('name');
 
 		return outputText;
@@ -90,6 +93,8 @@ define([], function() {
 		json["zones"] = this.zones.toJSON();
 		json["lithologyColumns"] = this.lithologyColumns.toJSON();
 		json["referenceColumn"] = this.app.referenceColumn.toJSON();
+		json["patternData"] = this.app.patternData.toJSON();
+		
 		return JSON.stringify(json);
 	}
 

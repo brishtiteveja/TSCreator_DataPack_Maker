@@ -10,7 +10,8 @@ define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(Bas
 			var attrs  = [{
 				edit             : false,
 				hover            : false,
-				name             : attributes.name || _.uniqueId("Group "),
+				id               : _.uniqueId("lithology-group-id-"),
+ 	  			name             : attributes.name || _.uniqueId("Group "),
 				description      : attributes.description,
 				settings         : new Settings(),
 				top              : attributes.top || null,
@@ -33,7 +34,6 @@ define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(Bas
 	LithologyGroup.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
 		delete json["lithologyColumn"];
-		delete json["lithologyMarkers"];
 		return json;
 	}
 

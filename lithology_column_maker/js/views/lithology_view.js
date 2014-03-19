@@ -14,6 +14,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 			'click .destroy': 'destroy',
 			'keypress :input': 'updateLithology',
 			'keyup :input': 'updateLithology',
+			'change input[name="lithology-name"]': 'updateLithology',
 			'change input[name="lithology-color"]': 'updateLithology',
 			'change select.lithology-line-style': 'updateLithology',
 			'mouseover': "onMouseOver",
@@ -68,7 +69,6 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		this.$lithologyData = this.$(".lithology-data");
 		this.$lithologyName = this.$('input[name="lithology-name"]')[0];
 		this.$lithologyAge = this.$('input[name="lithology-age"]')[0];
-		this.$lithologyColor = this.$('input[name="lithology-color"]')[0];
 		this.$lithologyDescription = this.$('textarea[name="lithology-description"]')[0];
 		this.$patternsList = this.$('.patterns-list');
 		this.$lithologyPattern = this.$('select.lithology-pattern');
@@ -173,8 +173,9 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 
 	LithologyView.prototype.createLithologyMarker = function (evt) {
 		if (!this.app.enLithologys) return;
-		var lithologyMarker = new LithologyMarker({y: evt.offsetY, lithologyGroup: this.lithology.get('lithologyGroup')}, this.app);
+		var lithologyMarker = this.lithology.get('lithologyGroup').get('lithologyColumn').get('lithologyMarkers').findWhere({y: evt.offsetY}) || new LithologyMarker({y: evt.offsetY, lithologyGroup: this.lithology.get('lithologyGroup')}, this.app);
 		this.lithology.get('lithologyGroup').get('lithologyMarkers').add(lithologyMarker);
+		this.lithology.get('lithologyGroup').get('lithologyColumn').get('lithologyMarkers').add(lithologyMarker);
 		this.lithology.destroy();
 	}
 
@@ -254,12 +255,11 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 	}
 
 	LithologyView.prototype.updateLithology = function(evt) {
-		if (evt.keyCode === 13) {
+		if (evt.keyCode === TimescaleApp.ENTER || evt.keyCode === TimescaleApp.ESC) {
 			this.toggleLithologyForm();
 		}
 		var name = this.$lithologyName.value;
 		var description = this.$lithologyDescription.value;
-		var color = this.$lithologyColor.value;
 		var style = this.$("select.lithology-line-style option:selected").val();
 		this.lithology.set({
 			name: name,
@@ -268,11 +268,6 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 
 		this.lithology.get('base').set({
 			name: name + " Base"
-		});
-
-
-		this.lithology.get('settings').set({
-			backgroundColor: color
 		});
 
 		this.base.set({
