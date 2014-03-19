@@ -109,10 +109,38 @@ def update_reference():
 	update_reference_built()
 
 
+def update_lithology_min():
+	lithology_min = "./lithology_column_maker/html/lithology_column_maker_min.html"
+	lithology_old_built = "lithology-column-maker-built." + old_version() + ".js"
+	lithology_new_built = "lithology-column-maker-built." + new_version() + ".js"
+	cmd = "sed s/" + lithology_old_built + "/" + lithology_new_built + "/g " + lithology_min + " > " + lithology_min + ".bak && mv " + lithology_min + ".bak " + " " + lithology_min
+	os.system(cmd)
+
+
+def update_lithology_built():
+	main = "lithology_column_maker/js/lithology_app"
+	lithology_built = "./lithology-column-maker-built.js"
+	lithology_new_built = "lithology_column_maker/js/lithology-column-maker-built." + new_version() + ".js"
+	cmd = "r.js -o " + lithology_built + " name=" + main + " out=" + lithology_new_built
+	os.system(cmd)
+
+
+def clean_lithology():
+	cmd = "rm lithology_column_maker/js/lithology-column-maker-built.*.js"
+	os.system(cmd)
+
+
+def update_lithology():
+	clean_lithology()
+	update_lithology_min()
+	update_lithology_built()
+
+
 def main():
 	update_reference()
 	update_transect()
 	update_block()
+	update_lithology()
 	update_version()
 
 main()
