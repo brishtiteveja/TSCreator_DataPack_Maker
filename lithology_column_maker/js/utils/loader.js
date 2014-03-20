@@ -183,7 +183,7 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 				// We are setting and resetting the edit so that the div element of the view is
 				// re-rendered to show updated info.
 
-				lithologyGroup.set({edit: false});
+				lithology.set({edit: false});
 			}
 		});
 	}
