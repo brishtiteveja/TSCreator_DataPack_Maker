@@ -24,7 +24,7 @@ define(["baseView", "lithologyColumnView", "lithologyColumn"], function(BaseView
 	}
 
 	LithologyColumnsView.prototype.listenToActionEvents = function() {
-		$('a[href="#new-column"').bind('click', this.createLithologyColumn.bind(this));
+		$('a[href="#new-column"]').bind('click', this.createLithologyColumn.bind(this));
 	}
 
 	LithologyColumnsView.prototype.render = function() {
