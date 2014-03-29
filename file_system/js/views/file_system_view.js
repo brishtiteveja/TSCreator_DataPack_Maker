@@ -33,14 +33,13 @@ define([
 		this.$canvas = $("#canvas");
 		var oneGB = 1024*1024*1024;
 		// requesting a file system
-		this.requestFileSystem(oneGB);
+		if (navigator && navigator.webkitPersistentStorage) {
+			navigator.webkitPersistentStorage.requestQuota(oneGB, this.requestFileSystem.bind(this), this.errorHandler.bind(this));	
+		}
 	}
 
 	FileSystemView.prototype.requestFileSystem = function(size) {
-		window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-		if (window.requestFileSystem) {
-			window.requestFileSystem(window.PERSISTENT, size, this.render.bind(this), this.errorHandler.bind(this));	
-		}
+		window.webkitRequestFileSystem(window.PERSISTANT, size, this.render.bind(this), this.errorHandler.bind(this));
 	}
 
 	FileSystemView.prototype.render = function(fs) {
