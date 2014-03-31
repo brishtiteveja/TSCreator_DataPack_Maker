@@ -203,10 +203,8 @@ define([
 	}
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
-		$("#loading").removeClass("hide");
 		this.showCanvas();
 		this.transectApp.loader.loadFromLocalStorage();
-		$("#loading").addClass("hide");
 	}
 
 
@@ -218,7 +216,6 @@ define([
 
 
 	TransectAppView.prototype.dataDrop = function(evt) {
-    	$("#loading").removeClass("hide");
 		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
@@ -231,7 +228,6 @@ define([
 			if (ext === "json") {
 				self.transectApp.loader.loadData(this.result);
 			}
-			$("#loading").addClass("hide");
 		};
     	reader.readAsText(file);
 	}

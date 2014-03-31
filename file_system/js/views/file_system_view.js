@@ -39,7 +39,7 @@ define([
 	}
 
 	FileSystemView.prototype.requestFileSystem = function(size) {
-		window.webkitRequestFileSystem(window.PERSISTANT, size, this.render.bind(this), this.errorHandler.bind(this));
+		window.webkitRequestFileSystem(webkitStorageInfo.PERSISTENT, size, this.render.bind(this), this.errorHandler.bind(this));
 	}
 
 	FileSystemView.prototype.render = function(fs) {
@@ -48,6 +48,7 @@ define([
 		this.renderDirs();
 		this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
 		this.listenTo(this.fileSystem, "change:update", this.renderDirs.bind(this));
+		
 	}
 
 	FileSystemView.prototype.renderDirs = function() {
@@ -76,7 +77,6 @@ define([
 			return;
 		}
 
-		_.invoke(self.files.toArray(), 'destroy');
 		results.forEach(function(fileEntry) {
 			var file = new File(fileEntry);
 			fileEntry.getMetadata(function(metadata) {

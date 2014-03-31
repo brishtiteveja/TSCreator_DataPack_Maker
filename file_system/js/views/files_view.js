@@ -19,7 +19,7 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 		this.files = files;
 
 		this.listenTo(this.files, "add", this.render.bind(this));
-		this.listenTo(this.files, "remove", this.render.bind(this));
+		this.listenTo(this.files, "remove", this.delFile.bind(this));
 
 		this.listenToActionEvents();
 		this.render();
@@ -91,7 +91,6 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 
 	FilesView.prototype.saveProject = function() {
 		// create project directory
-		$("#loading").removeClass("hide");
 		var self = this;
 		var timeStamp = self.getTimeStamp();
 		var dirName =	this.app.type + "-" + timeStamp ;
@@ -106,7 +105,6 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 					self.writeJSONToAFile(fileEntry, json);
 					self.newFile(dirEntry, textFile, function(fileEntry){
 						self.writeTextToAFile(fileEntry, text);
-						$("#loading").addClass("hide");
 					});		
 				});
 			});
@@ -180,6 +178,12 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
 	
 	FilesView.prototype.errorHandler = function(e) {
 		console.log('Error: ' + e.name + " " + e.message);
+	}
+
+	FilesView.prototype.delFile = function() {
+		this.fileSystem.set({
+			update: !this.fileSystem.get("update")
+		});
 	}
 
 
