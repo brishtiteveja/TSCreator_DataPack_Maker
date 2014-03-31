@@ -444,10 +444,9 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.togglePolygonForm();
 		}
 
-
 		this.polygon.set({
 			name: this.$polygonName.value,
-			description: this.$polygonDescription.value
+			description: this.$polygonDescription.value.split("\n").join(" ")
 		});
 	}
 
