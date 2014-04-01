@@ -11,6 +11,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		events: {
 			'click .toggle': 'toggleLithologyForm',
 			'click .lithology-data': 'toggleLithologyForm',
+			'click .data-labels': 'toggleLithologyForm',
 			'click .destroy': 'destroy',
 			'keypress :input': 'updateLithology',
 			'keyup :input': 'updateLithology',

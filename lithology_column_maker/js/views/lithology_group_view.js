@@ -11,6 +11,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		events: {
 			'click .toggle': 'toggleLithologyGroupForm',
 			'click .lithology-group-data': 'toggleLithologyGroupForm',
+			'click .data-labels': 'toggleLithologyGroupForm',
 			'click .destroy': 'destroy',
 			'click label.lithology-group-lithologys-data': 'showLithologysList',
 			'keypress :input': 'updateLithologyGroup',

@@ -1,12 +1,14 @@
 <div class="row">
-	<div class="toggle hide-data small-3 columns"></div>			
-	<label class="lithology-group-data small-18 columns lithology-group-label"><%= name %></label>
-	<div class="small-18 columns lithology-group-form hide">
+	<div class="toggle hide-data small-1 columns"></div>
+	<label class="lithology-group-data small-22 columns lithology-group-label"><%= name %></label>
+	<div class="small-22 columns lithology-group-form hide">
 		<div class="row">
 			<div class="columns small-10">
+				<label for="lithlogy-group-name" class="data-labels">Name</label>
 				<input type="text" value="<%= name %>" name="lithology-group-name">
 			</div>
 			<div class="columns small-8">
+				<label>Style</label>
 				<select class="small-18 columns lithology-group-line-style" style="height: 37px; width: 100%">
 					<option class="line-style" value="solid" selected>solid</option>
 					<option class="line-style" value="dashed">dashed</option>
@@ -14,15 +16,17 @@
 				</select>
 			</div>
 			<div class="columns small-6">
+				<label for="lithology-group-color">Bg.</label>
 				<input type="color" value="<%= settings.get('backgroundColor') %>" name="lithology-group-color" style="height: 37px; width: 100%">
 			</div>
 		</div>
+		<label for="lithology-group-description">Description</label>
 		<textarea name="lithology-group-description" placeholder="No description yet!"><%= description %></textarea>
 	</div>
-	<div class="small-3 columns"><a href="#" class="destroy"></a></div>
+	<div class="small-1 columns"><a href="#" class="destroy"></a></div>
 </div>
 <div class="row">
-	<div class="small-3 columns">↳</div>
-	<label class="lithology-group-lithologys-data small-21 columns">Lithologys</label>
-	<ul class="lithologys-list lithology-group-lithology-form small-21 columns hide"></ul>
+	<div class="small-1 columns">↳</div>
+	<label class="lithology-group-lithologys-data small-23 columns">Formations</label>
+	<ul class="lithologys-list lithology-group-lithology-form small-23 columns hide"></ul>
 </div>

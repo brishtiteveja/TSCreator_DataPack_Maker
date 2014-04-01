@@ -72,6 +72,12 @@ define(["baseView"], function(BaseView) {
 
 		this.lithologyMarker.updateZone();
 		this.updateStatusBox();
+
+		if (this.lithologyMarker.get('lithologyGroupMarker')) {
+			this.lithologyMarker.get('lithologyGroupMarker').set({
+				y: this.lithologyMarker.get('y')
+			});
+		}
 	}
 
 	LithologyMarkerView.prototype.moveLithologyMarkerWithGroupMarker = function() {
@@ -113,12 +119,6 @@ define(["baseView"], function(BaseView) {
 
 		if (this.prevMarker && !this.nextMarker && this.prevMarker.get('y') + 2 > evt.offsetY) {
 			return;
-		}
-
-		if (this.lithologyMarker.get('lithologyGroupMarker')) {
-			this.lithologyMarker.get('lithologyGroupMarker').set({
-				y: evt.offsetY
-			});
 		}
 
 		this.lithologyMarker.set({

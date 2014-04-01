@@ -11,6 +11,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		events: {
 			'click .toggle': 'toggleLithologyColumnForm',
 			'click .lithology-column-data': 'toggleLithologyColumnForm',
+			'click .data-labels': 'toggleLithologyColumnForm',
 			'click .destroy': 'destroy',
 			'click label.lithology-column-lithologys-data': 'showLithologyGroupsList',
 			'keypress :input': 'updateLithologyColumn',
@@ -22,6 +23,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 	});
 
 	LithologyColumnView.prototype.template = new EJS({url: '/lithology_column_maker/ejs/lithology_column.ejs'});
+	LithologyColumnView.prototype.colInfoTemplate = new EJS({url: '/lithology_column_maker/ejs/lithology_column_info.ejs'});
 
 	LithologyColumnView.prototype.initialize = function(app, lithologyColumn) {	
 		this.app = app;
@@ -40,6 +42,12 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 	LithologyColumnView.prototype.render = function() {
 		this.$el.html(this.template.render(this.lithologyColumn.toJSON()));
+		this.$lithologyGroupsList = this.$('.lithology-groups-list');
+		this.renderColumnInfo();
+	}
+
+	LithologyColumnView.prototype.renderColumnInfo = function() {
+		this.$(".column-info").html(this.colInfoTemplate.render(this.lithologyColumn.toJSON()));
 
 		/* get DOM elements after render */
 		this.$toggle = this.$(".toggle");
@@ -49,11 +57,9 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		this.$lithologyColumnWidth = this.$('input[name="lithology-column-width"]')[0];
 		this.$lithologyColumnBgColor = this.$('input[name="lithology-column-bg-color"]')[0];
 		this.$lithologyColumnDescription = this.$('textarea[name="lithology-column-description"]')[0];
-		this.$lithologyGroupsList = this.$('.lithology-groups-list');
 
 		this.renderLithologyColumn();
 		this.resizeCanvas();
-		// this.renderLithologys();
 	}
 
 	LithologyColumnView.prototype.renderLithologyColumn = function() {
@@ -109,7 +115,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 	}
 
 	LithologyColumnView.prototype.toggleLithologyColumnForm = function() {
-		this.renderLithologyColumn();
+		this.renderColumnInfo();
 		this.lithologyColumn.set({
 			'edit': !this.lithologyColumn.get('edit')
 		});
@@ -138,7 +144,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 	LithologyColumnView.prototype.updateLithologyColumn = function(evt) {
 		
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			this.toggleLithologyColumnForm();
 		}
 
