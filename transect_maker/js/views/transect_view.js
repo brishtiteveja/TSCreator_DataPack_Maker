@@ -92,7 +92,7 @@ define(["baseView"], function(BaseView) {
 
 		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			var name = this.$name.value;
-			var description = this.$description.value;
+			var description = this.$description.value.split("\n").join(" ");
 			this.transect.set({
 				name: name,
 				description: description

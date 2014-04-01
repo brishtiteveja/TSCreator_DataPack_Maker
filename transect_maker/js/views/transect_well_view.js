@@ -196,7 +196,7 @@ define(["baseView"], function(BaseView) {
 		var name = this.$wellName.value;
 		var lat = parseFloat(this.$wellLat.value);
 		var lon = parseFloat(this.$wellLon.value);
-		var description = this.$wellDescription.value;
+		var description = this.$wellDescription.value.split("\n").join(" ");
 		this.transectWell.set({
 			name: name,
 			lat: lat,

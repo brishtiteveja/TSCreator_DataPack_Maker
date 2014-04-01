@@ -1,0 +1,19 @@
+<div class="toggle hide-data small-1 columns"></div>
+<lable class="lithology-column-data small-22 columns"><%= name %></lable>
+<div class="small-22 columns lithology-column-form hide">
+	<label for="lithology-column-name" class="data-labels">Name</label>
+	<input type="text" value="<%= name %>" name="lithology-column-name">
+	<div class="row">
+		<div class="small-18 columns lithology-column-form hide">
+			<label for="lithology-column-width">Width</label>
+			<input type="number" value="<%= width %>" name="lithology-column-width" max="1000" min="0">
+		</div>
+		<div class="small-6 columns lithology-column-form hide">
+			<label for="lithology-column-bg-color">Bg.</label>
+			<input type="color" value="<%= settings.get('backgroundColor') %>" name="lithology-column-bg-color" style="height: 37px; width: 100%">
+		</div>
+	</div>
+	<label for="lithology-column-description">Description</label>
+	<textarea name="lithology-column-description" placeholder="No description yet!"><%= description %></textarea>
+</div>
+<div class="small-1 columns"><a href="#" class="destroy"></a></div>

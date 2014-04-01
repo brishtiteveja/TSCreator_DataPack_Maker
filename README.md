@@ -1,6 +1,6 @@
 # Timescale Creator
 
-A to visualize the Earth's history using various visual representations.
+A tool to visualize the Earth's history using various visual representations.
 This suit contains various column generation tools.
 
 ## Libraries Used
@@ -62,3 +62,12 @@ If you'd like to upgrade to a newer version of Foundation down the road just run
 ```bash
 bower update
 ```
+
+## Pushing Updates to Production
+
+If you'd like to push changes to production then run build script. Build script will minimize all the application and updated the html.
+
+```bash
+python build.py
+```
+ 

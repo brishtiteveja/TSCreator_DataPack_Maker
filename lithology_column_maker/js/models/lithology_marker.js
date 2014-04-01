@@ -1,6 +1,6 @@
-/*======================================================================
+/*==============================================================================
 =            LithologyMarker to represent the lithology boundaries.            =
-======================================================================*/
+==============================================================================*/
 
 define(["baseModel", "lithologys"], function(BaseModel, Lithologys) {
 
@@ -8,18 +8,20 @@ define(["baseModel", "lithologys"], function(BaseModel, Lithologys) {
 		classname: "LithologyMarker",
 		constructor: function (attributes, app) {
 			var attrs = [{
-				name        : "TOP",
-				edit        : false,
-				hover       : false,
-				y           : parseInt(attributes.y),
-				id          : _.uniqueId("lithology-marker-"),
-				age         : null,
-				relativeY   : null,
-				lithologyColumn : attributes.lithologyColumn || null,
-				style       : "solid",
-				app         : app || null,
-				zone        : null,
-				lithologys      : new Lithologys(),
+				id                   : _.uniqueId("lithology-marker-id"),
+				name                 : "TOP",
+				edit                 : false,
+				hover                : false,
+				y                    : parseInt(attributes.y),
+				id                   : _.uniqueId("lithology-marker-"),
+				age                  : null,
+				relativeY            : null,
+				lithologyGroup       : attributes.lithologyGroup || null,
+				lithologyGroupMarker : attributes.lithologyGroupMarker || null,
+				style                : "solid",
+				app                  : app || null,
+				zone                 : null,
+				lithologys           : new Lithologys(),
 			}];
 			BaseModel.apply(this, attrs);
 		}
@@ -31,6 +33,8 @@ define(["baseModel", "lithologys"], function(BaseModel, Lithologys) {
 
 	LithologyMarker.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
+		delete json["lithologyGroup"];
+		delete json["lithologyGroupMarker"];
 		delete json["lithologys"];
 		delete json["lithologyColumn"];
 		delete json["app"];

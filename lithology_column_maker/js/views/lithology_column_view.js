@@ -3,7 +3,7 @@
 =            LithologyColumnView            =
 ========================================*/
 
-define(["baseView", "lithologyView", "lithologyMarkerView", "lithology", "lithologyMarker"], function(BaseView, LithologyView, LithologyMarkerView, Lithology, LithologyMarker) {
+define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithologyGroup", "lithologyGroupMarker"], function(BaseView, LithologyGroupView, LithologyGroupMarkerView, LithologyGroup, LithologyGroupMarker) {
 
 	var LithologyColumnView = BaseView.extend({
 		tagName: "li",
@@ -11,8 +11,9 @@ define(["baseView", "lithologyView", "lithologyMarkerView", "lithology", "lithol
 		events: {
 			'click .toggle': 'toggleLithologyColumnForm',
 			'click .lithology-column-data': 'toggleLithologyColumnForm',
+			'click .data-labels': 'toggleLithologyColumnForm',
 			'click .destroy': 'destroy',
-			'click label.lithology-column-lithologys-data': 'showLithologysList',
+			'click label.lithology-column-lithologys-data': 'showLithologyGroupsList',
 			'keypress :input': 'updateLithologyColumn',
 			'keyup :input': 'updateLithologyColumn',
 			'change input[name="lithology-column-bg-color"]': 'updateLithologyColumn',
@@ -22,6 +23,7 @@ define(["baseView", "lithologyView", "lithologyMarkerView", "lithology", "lithol
 	});
 
 	LithologyColumnView.prototype.template = new EJS({url: '/lithology_column_maker/ejs/lithology_column.ejs'});
+	LithologyColumnView.prototype.colInfoTemplate = new EJS({url: '/lithology_column_maker/ejs/lithology_column_info.ejs'});
 
 	LithologyColumnView.prototype.initialize = function(app, lithologyColumn) {	
 		this.app = app;
@@ -32,14 +34,20 @@ define(["baseView", "lithologyView", "lithologyMarkerView", "lithology", "lithol
 		this.listenTo(this.lithologyColumn, 'change:edit', this.editLithologyColumn.bind(this));
 		this.listenTo(this.lithologyColumn, 'change', this.renderLithologyColumn.bind(this));
 		this.listenTo(this.lithologyColumn.get('settings'), 'change', this.renderLithologyColumn.bind(this));
-		this.listenTo(this.lithologyColumn.get('lithologyMarkers'), 'add', this.addLithologyMarker.bind(this));
-		this.listenTo(this.lithologyColumn.get('lithologys'), 'remove', this.removeLithology.bind(this));
-		this.listenTo(this.lithologyColumn.get('lithologys'), 'add', this.addLithology.bind(this));
+		this.listenTo(this.lithologyColumn.get('lithologyGroupMarkers'), 'add', this.addLithologyGroupMarker.bind(this));
+		this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'remove', this.removeLithology.bind(this));
+		this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'add', this.addLithologyGroup.bind(this));
 		this.listenTo(this.lithologyColumn, 'destroy', this.delete.bind(this));
 	};
 
 	LithologyColumnView.prototype.render = function() {
 		this.$el.html(this.template.render(this.lithologyColumn.toJSON()));
+		this.$lithologyGroupsList = this.$('.lithology-groups-list');
+		this.renderColumnInfo();
+	}
+
+	LithologyColumnView.prototype.renderColumnInfo = function() {
+		this.$(".column-info").html(this.colInfoTemplate.render(this.lithologyColumn.toJSON()));
 
 		/* get DOM elements after render */
 		this.$toggle = this.$(".toggle");
@@ -49,42 +57,65 @@ define(["baseView", "lithologyView", "lithologyMarkerView", "lithology", "lithol
 		this.$lithologyColumnWidth = this.$('input[name="lithology-column-width"]')[0];
 		this.$lithologyColumnBgColor = this.$('input[name="lithology-column-bg-color"]')[0];
 		this.$lithologyColumnDescription = this.$('textarea[name="lithology-column-description"]')[0];
-		this.$lithologysList = this.$('.lithologys-list');
 
 		this.renderLithologyColumn();
-		// this.renderLithologys();
+		this.resizeCanvas();
 	}
 
 	LithologyColumnView.prototype.renderLithologyColumn = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.rect(this.lithologyColumn.get('x'), 0, this.lithologyColumn.get('width'), this.app.Canvas.height);
+			this.element = this.app.Canvas.rect();
+			this.headingBox = this.app.Canvas.rect();
+			this.headingText = this.app.Canvas.text();
 
 			/* attach listeners to the element */
-			this.element.dblclick(this.createLithologyMarker.bind(this));
+			this.element.dblclick(this.createLithologyGroupMarker.bind(this));
 
 			this.app.MarkersSet.toFront();
 		}
 
 		this.element.attr({
 			x: this.lithologyColumn.get('x'),
+			y: 0,
 			width: this.lithologyColumn.get('width'),
-			fill: this.lithologyColumn.get('settings').get('backgroundColor')
+			fill: this.lithologyColumn.get('settings').get('backgroundColor'),
+			height: this.app.Canvas.height,
 		});
+
+		this.headingBox.attr({
+			x: this.lithologyColumn.get('x'),
+			y: 0,
+			width: this.lithologyColumn.get('width'),
+			fill: "#FFFFFF",
+			height: 50,
+		});
+
+		var textX = Math.round(this.lithologyColumn.get('x') + this.lithologyColumn.get('width')/2);
+		var textY = 25
+		var textSize = 24;
+
+		this.headingText.attr({
+			"x" : textX,
+			"y" : textY,
+			"text": this.lithologyColumn.get('name'),
+			"font-size": textSize,
+		});
+		
 
 		this.updateLithologyColumns();
 	}
 
-	LithologyColumnView.prototype.resetLithologys = function() {
-		this.$lithologysList.html('');
-		this.lithologyColumn.get('lithologys').each(this.addLithology.bind(this));
+	LithologyColumnView.prototype.resetLithologyGroups = function() {
+		this.$lithologyGroupsList.html('');
+		this.lithologyColumn.get('lithologyGroups').each(this.addLithology.bind(this));
 	}
 
 	LithologyColumnView.prototype.renderLithologys = function() {
-		this.lithologyColumn.get('lithologys').each(this.addLithologyMarker.bind(this));
+		this.lithologyColumn.get('lithologyGroups').each(this.addLithologyGroupMarker.bind(this));
 	}
 
 	LithologyColumnView.prototype.toggleLithologyColumnForm = function() {
-		this.renderLithologyColumn();
+		this.renderColumnInfo();
 		this.lithologyColumn.set({
 			'edit': !this.lithologyColumn.get('edit')
 		});
@@ -113,7 +144,7 @@ define(["baseView", "lithologyView", "lithologyMarkerView", "lithology", "lithol
 
 	LithologyColumnView.prototype.updateLithologyColumn = function(evt) {
 		
-		if (evt.keyCode == 13) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			this.toggleLithologyColumnForm();
 		}
 
@@ -133,60 +164,81 @@ define(["baseView", "lithologyView", "lithologyMarkerView", "lithology", "lithol
 		});
 	};
 
-	LithologyColumnView.prototype.createLithologyMarker = function(evt) {
+	LithologyColumnView.prototype.createLithologyGroupMarker = function(evt) {
 		if (!this.app.enLithologys) return;
-		var lithologyMarker = new LithologyMarker({y: evt.offsetY, lithologyColumn: this.lithologyColumn}, this.app);
+		var lithologyGroupMarker = new LithologyGroupMarker({y: evt.offsetY, lithologyColumn: this.lithologyColumn}, this.app);
 
-		if (lithologyMarker.get('zone') === null) {
-			lithologyMarker.destroy();
+		if (lithologyGroupMarker.get('zone') === null) {
+			lithologyGroupMarker.destroy();
 			return;
 		}
 		
-		this.lithologyColumn.get('lithologyMarkers').add(lithologyMarker);
+		this.lithologyColumn.get('lithologyGroupMarkers').add(lithologyGroupMarker);
 	}
 
-	LithologyColumnView.prototype.addLithologyMarker = function(lithologyMarker) {
-		var lithologyMarkerView = new LithologyMarkerView(this.app, lithologyMarker);
+	LithologyColumnView.prototype.addLithologyGroupMarker = function(lithologyGroupMarker) {
+		var lithologyGroupMarkerView = new LithologyGroupMarkerView(this.app, lithologyGroupMarker);
 
 		var self = this;
-		var lithologys = this.lithologyColumn.get('lithologys');
-		var lithologyMarkers = this.lithologyColumn.get('lithologyMarkers');
+		var lithologyGroups = this.lithologyColumn.get('lithologyGroups');
+		var lithologyGroupMarkers = this.lithologyColumn.get('lithologyGroupMarkers');
 
-		lithologyMarkers.sort();
+		lithologyGroupMarkers.sort();
 
-		var index = lithologyMarkers.indexOf(lithologyMarker);
+		var index = lithologyGroupMarkers.indexOf(lithologyGroupMarker);
 
 		var topMarker, baseMarker;
 
-		if (lithologyMarkers.length > 1) {
+		if (lithologyGroupMarkers.length > 1) {
+		
+			if (index < lithologyGroupMarkers.length - 1) {
+				var topMarker = lithologyGroupMarkers.at(index);
+				var baseMarker = lithologyGroupMarkers.at(index + 1);		
+
+				var lithologyGroup = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
+							new LithologyGroup({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
+				
+				topMarker.get('lithologyGroups').add(lithologyGroup);
+				baseMarker.get('lithologyGroups').add(lithologyGroup);
+				
+				baseMarker.set({
+					name: lithologyGroup.get('name') + " Base"
+				});
+				
+				lithologyGroups.add(lithologyGroup);
+			} 
 			
-			if (index == 0) {
-				topMarker = lithologyMarkers.at(index);
-				baseMarker = lithologyMarkers.at(index + 1);
-			} else {
-				topMarker = lithologyMarkers.at(index - 1);
-				baseMarker = lithologyMarkers.at(index);
+			if (index > 0){
+				var topMarker = lithologyGroupMarkers.at(index - 1);
+				var baseMarker = lithologyGroupMarkers.at(index);
+				
+				var lithologyGroup = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
+							new LithologyGroup({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
+				
+				topMarker.get('lithologyGroups').add(lithologyGroup);
+				baseMarker.get('lithologyGroups').add(lithologyGroup);
+				
+				baseMarker.set({
+					name: lithologyGroup.get('name') + " Base"
+				});
+				
+				lithologyGroups.add(lithologyGroup);
 			}
-			
-			var lithology = lithologys.findWhere({top: topMarker, base: baseMarker}) ||
-						new Lithology({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
-			topMarker.get('lithologys').add(lithology);
-			baseMarker.get('lithologys').add(lithology);
-			baseMarker.set({
-				name: lithology.get('name') + " Base"
-			});
-			lithologys.add(lithology);
 		}
+
+		this.element.attr({
+			height: this.app.Canvas.height,
+		});
 	}
 
-	LithologyColumnView.prototype.removeLithology = function(lithology) {
-		var topMarker = lithology.get('top');
-		var baseMarker = lithology.get('top');
+	LithologyColumnView.prototype.removeLithology = function(lithologyGroup) {
+		var topMarker = lithologyGroup.get('top');
+		var baseMarker = lithologyGroup.get('top');
 	}
 
-	LithologyColumnView.prototype.addLithology = function(lithology) {
-		var lithologyView = new LithologyView(this.app, lithology);
-		this.$lithologysList.append(lithologyView.el);
+	LithologyColumnView.prototype.addLithologyGroup = function(lithologyGroup) {
+		var lithologyGroupView = new LithologyGroupView(this.app, lithologyGroup);
+		this.$lithologyGroupsList.append(lithologyGroupView.el);
 	}
 
 	LithologyColumnView.prototype.updateLithologyColumns = function() {
@@ -203,23 +255,32 @@ define(["baseView", "lithologyView", "lithologyMarkerView", "lithology", "lithol
 		});
 	}
 
-	LithologyColumnView.prototype.showLithologysList = function() {
-		if (this.$lithologysList.hasClass('hide')) {
-			this.$lithologysList.removeClass('hide');
+	LithologyColumnView.prototype.showLithologyGroupsList = function() {
+		if (this.$lithologyGroupsList.hasClass('hide')) {
+			this.$lithologyGroupsList.removeClass('hide');
 		} else {
-			this.$lithologysList.addClass('hide');
+			this.$lithologyGroupsList.addClass('hide');
 		}
 	}
 
 	LithologyColumnView.prototype.delete = function() {
-		_.invoke(this.lithologyColumn.get('lithologys').toArray(), "destroy");
+		_.invoke(this.lithologyColumn.get('lithologyGroups').toArray(), "destroy");
+
 		if (this.element) this.element.remove();
+		if (this.headingText) this.headingText.remove();
+		if (this.headingBox) this.headingBox.remove();
 		this.$el.remove();
 		this.remove();
 	}
 
 	LithologyColumnView.prototype.destroy = function() {
 		this.lithologyColumn.destroy();
+	}
+
+
+	LithologyColumnView.prototype.resizeCanvas = function() {
+		var width = Math.max(this.app.Canvas.width, this.lithologyColumn.get('x') + this.lithologyColumn.get('width'));
+		this.app.Canvas.setSize(width, this.app.Canvas.height);
 	}
 
 	return LithologyColumnView;

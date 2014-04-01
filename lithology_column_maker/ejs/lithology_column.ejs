@@ -1,22 +1,6 @@
-<div class="row">
-	<div class="toggle hide-data small-3 columns"></div>
-	<lable class="lithology-column-data small-18 columns"><%= name %></lable>
-	<div class="small-18 columns lithology-column-form hide">
-		<input type="text" value="<%= name %>" name="lithology-column-name">
-		<div class="row">
-			<div class="small-18 columns lithology-column-form hide">
-				<input type="number" value="<%= width %>" name="lithology-column-width" max="1000" min="0">
-			</div>
-			<div class="small-6 columns lithology-column-form hide">
-				<input type="color" value="<%= settings.get('backgroundColor') %>" name="lithology-column-bg-color" style="height: 37px; width: 100%">
-			</div>
-		</div>
-		<textarea name="lithology-column-description" placeholder="No description yet!"><%= description %></textarea>
-	</div>
-	<div class="small-3 columns"><a href="#" class="destroy"></a></div>
-</div>
-<div class="row">
-	<div class="small-3 columns">↳</div>
-	<label class="lithology-column-lithologys-data small-21 columns">Lithologys</label>
-	<ul class="lithologys-list lithology-column-lithology-form small-21 columns hide"></ul>
+<div class="row column-info"></div>
+<div class="row formation-info">
+	<div class="small-1 columns">↳</div>
+	<label class="lithology-column-lithologys-data small-23 columns">Groups</label>
+	<ul class="lithology-groups-list lithology-column-lithology-form small-23 columns hide"></ul>
 </div>

@@ -33,14 +33,13 @@ define([
 		this.$canvas = $("#canvas");
 		var oneGB = 1024*1024*1024;
 		// requesting a file system
-		this.requestFileSystem(oneGB);
+		if (navigator && navigator.webkitPersistentStorage) {
+			navigator.webkitPersistentStorage.requestQuota(oneGB, this.requestFileSystem.bind(this), this.errorHandler.bind(this));	
+		}
 	}
 
 	FileSystemView.prototype.requestFileSystem = function(size) {
-		window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-		if (window.requestFileSystem) {
-			window.requestFileSystem(window.PERSISTENT, size, this.render.bind(this), this.errorHandler.bind(this));	
-		}
+		window.webkitRequestFileSystem(webkitStorageInfo.PERSISTENT, size, this.render.bind(this), this.errorHandler.bind(this));
 	}
 
 	FileSystemView.prototype.render = function(fs) {
@@ -49,6 +48,7 @@ define([
 		this.renderDirs();
 		this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
 		this.listenTo(this.fileSystem, "change:update", this.renderDirs.bind(this));
+		
 	}
 
 	FileSystemView.prototype.renderDirs = function() {
@@ -77,7 +77,6 @@ define([
 			return;
 		}
 
-		_.invoke(self.files.toArray(), 'destroy');
 		results.forEach(function(fileEntry) {
 			var file = new File(fileEntry);
 			fileEntry.getMetadata(function(metadata) {

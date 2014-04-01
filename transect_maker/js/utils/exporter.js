@@ -39,7 +39,7 @@ define([
 		this.polygons = this.app.PolygonsCollection;
 		this.wells = this.app.TransectWellsCollection;
 		this.transects = this.app.TransectsCollection;
-		this.markers = this.app.TransectMarkersCollection;
+		this.markers = this.app.MarkersCollection;
 		this.zones = this.app.ZonesCollection;
 		this.transectImage = this.app.TransectImage;
 
@@ -199,7 +199,9 @@ define([
 	Exporter.prototype.sortWellsData = function(well) {
 		well.referencePoints = _.uniq(well.referencePoints);
 		well.referencePoints = _.sortBy(well.referencePoints, function(referencePoint) {return referencePoint.point.get('age');});
-		well.referencePoints[0].pattern = "TOP";
+		if (well.referencePoints.length > 0) {
+			well.referencePoints[0].pattern = "TOP";	
+		}
 	}
 
 

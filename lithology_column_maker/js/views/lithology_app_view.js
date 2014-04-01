@@ -16,6 +16,7 @@ define([
 	"dataExportView",
 	"loader",
 	"exporter",
+	"referenceColumnSideView"
 	], function(
 		BaseView,
 		CursorView,
@@ -28,7 +29,8 @@ define([
 		LithologyColumnsView,
 		DataExportView,
 		Loader,
-		Exporter) {
+		Exporter,
+		ReferenceColumnSideView) {
 
 	var LithologyAppView = BaseView.extend({
 		el: ".container",
@@ -71,12 +73,21 @@ define([
 		// 
 		this.lithologyApp.MarkersSet = this.lithologyApp.Canvas.set();
 		this.lithologyApp.LithologyMarkersSet = this.lithologyApp.Canvas.set();
+		this.lithologyApp.LithologyGroupMarkersSet = this.lithologyApp.Canvas.set();
 		this.lithologyApp.LithologysSet = this.lithologyApp.Canvas.set();
-		
-		this.render();
+		this.lithologyApp.LithologyGroupsSet = this.lithologyApp.Canvas.set();
 
-		this.listenToActionEvents();
+		this.loadPatternsDataAndRender();
 	};
+
+	LithologyAppView.prototype.loadPatternsDataAndRender = function() {
+		var self = this;
+		$.get( "/pattern_manager/json/patterns.json", function(data) {
+			self.lithologyApp.patternsData = data;
+			self.render();
+			self.listenToActionEvents();
+		});
+	}
 
 	LithologyAppView.prototype.listenToActionEvents = function() {
 		var self = this;
@@ -108,7 +119,14 @@ define([
 		this.markersView = new MarkersView(this.lithologyApp);
 
 		this.lithologyColumnsView = new LithologyColumnsView(this.lithologyApp);
+
+		this.referenceColumnSideView = new ReferenceColumnSideView(this.lithologyApp, "#reference-column-settings");
+
+		$('.linked').scroll(function(){
+			$('.linked').scrollTop($(this).scrollTop());
+		});
 	};
+
 
 	/**
 

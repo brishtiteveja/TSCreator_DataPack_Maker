@@ -21,6 +21,7 @@ define([], function() {
 	Exporter.prototype.getText = function() {
 		var self = this;
 		var outputText = "\n\n";
+		outputText += self.getMetaColumnData();
 		this.lithologyColumns.each(function(lithologyColumn) {
 			outputText += self.getLithologyColumnData(lithologyColumn);
 		});
@@ -29,7 +30,7 @@ define([], function() {
 	}
 
 	Exporter.prototype.getMetaColumnData = function () {
-		var outputText = "Lithologys:";
+		var outputText = "Lithologys\t:";
 		this.lithologyColumns.each(function(lithologyColumn) {
 			outputText += "\t" + lithologyColumn.get('name');
 		});
@@ -40,12 +41,28 @@ define([], function() {
 	Exporter.prototype.getLithologyColumnData = function(lithologyColumn) {
 		var self = this;
 		var outputText = "\n\n" + lithologyColumn.get('name');
-		outputText += "\tlithology";
+		outputText += "\tfacies";
 		outputText += "\t" + lithologyColumn.get('width');
-		outputText += "\tUSGS-Named";
+		outputText += "\t" + CssToTscColor(lithologyColumn.get('settings').get('backgroundColor'));
+		outputText += "\tnotitle";
+		outputText += "\t";
 		outputText += "\t" + (lithologyColumn.get('description') || "");
 
-		lithologyColumn.get('lithologys').each(function(lithology, index) {
+		lithologyColumn.get('lithologyGroups').each(function(lithologyGroup) {
+			outputText += self.getLithologyGroupData(lithologyGroup);
+		});
+
+		return outputText;
+	}
+
+	Exporter.prototype.getLithologyGroupData = function (lithologyGroup) {
+		var self = this;
+		var outputText = "\n" + lithologyGroup.get("name");
+		outputText += "\tPrimary";
+		outputText += "\t";
+		outputText += "\t" + (lithologyGroup.get('description') || "");
+
+		lithologyGroup.get('lithologys').each(function(lithology) {
 			outputText += self.getLithologyData(lithology);
 		});
 
@@ -55,18 +72,18 @@ define([], function() {
 	Exporter.prototype.getLithologyData = function(lithology) {
 		var outputText = "\n";
 
-		var top = lithology.get("top");
-		if (top.get('lithologys').length < 2) {
-			outputText += "\t" + top.get('name');
-			outputText += "\t" + (top.get('age') || "n/a") ;
+		if (lithology.get('top').get('lithologys').length < 2) {
+			outputText += "\tTOP";
+			outputText += "\t";
+			outputText += "\t" + (lithology.get("top").get("age") || "n/a");
+			outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = "+ (Math.round((1 - lithology.get("top").get("relativeY"))*1000)*1.0/10.0) + "% up the " + lithology.get("top").get("zone").get('name');		
 			outputText += "\n";
 		}
 
+		outputText += "\t" + (lithology.getPatternName() || "");
 		outputText += "\t" + lithology.get('name');
 		outputText += "\t" + (lithology.get('base').get('age') || "n/a") ;
-		outputText += "\t" + lithology.get('base').get('style');
-		outputText += "\t" + (lithology.get('description') || "");
-		outputText += "\t" + CssToTscColor(lithology.get('settings').get('backgroundColor'));
+		outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = "+ (Math.round((1 - lithology.get("base").get("relativeY"))*1000)*1.0/10.0) + "% up the " + lithology.get("base").get("zone").get('name');
 
 		return outputText;
 	}
@@ -75,6 +92,8 @@ define([], function() {
 		var json = {};
 		json["zones"] = this.zones.toJSON();
 		json["lithologyColumns"] = this.lithologyColumns.toJSON();
+		json["referenceColumn"] = this.app.referenceColumn.toJSON();
+		
 		return JSON.stringify(json);
 	}
 

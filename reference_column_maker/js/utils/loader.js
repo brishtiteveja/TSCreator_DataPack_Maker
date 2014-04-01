@@ -14,7 +14,7 @@ define(["referenceBlockColumn", "referenceBlockMarker", "referenceBlock"], funct
 	}
 
 	Loader.prototype.loadData = function(data) {
-		this.savedData = data;
+		this.savedData = JSON.parse(data);
 		this.reset();
 		this.load();
 	}

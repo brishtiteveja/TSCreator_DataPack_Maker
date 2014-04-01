@@ -1,0 +1,237 @@
+{
+    "bandediron": {
+        "image": "banded_iron.svg", 
+        "name": "Banded Iron", 
+        "width": "100"
+    }, 
+    "basement": {
+        "image": "basement.svg", 
+        "name": "Basement", 
+        "width": "100"
+    }, 
+    "brackish": {
+        "image": "brackish.svg", 
+        "name": "Brackish", 
+        "width": "75"
+    }, 
+    "chalk": {
+        "image": "chalk.svg", 
+        "name": "Chalk", 
+        "width": "90"
+    }, 
+    "chert": {
+        "image": "chert.svg", 
+        "name": "Chert", 
+        "width": "100"
+    }, 
+    "clayeylimestone": {
+        "image": "clayey_limestone.svg", 
+        "name": "Clayey limestone", 
+        "width": "80"
+    }, 
+    "clayeysandstone": {
+        "image": "clayey_sandstone.svg", 
+        "name": "Clayey sandstone", 
+        "width": "87.5"
+    }, 
+    "claystone": {
+        "image": "claystone.svg", 
+        "name": "Claystone", 
+        "width": "75"
+    }, 
+    "coal": {
+        "image": "coal.svg", 
+        "name": "Coal", 
+        "width": "80"
+    }, 
+    "coarsegrainedclastics": {
+        "image": "coarse-grained_clastics.svg", 
+        "name": "Coarse-grained clastics", 
+        "width": "100"
+    }, 
+    "coarsegrainedsandstone": {
+        "image": "coarse-grained_sandstone.svg", 
+        "name": "Coarse-grained sandstone", 
+        "width": "97.5"
+    }, 
+    "conglomerate": {
+        "image": "conglomerate.svg", 
+        "name": "Conglomerate", 
+        "width": "100"
+    }, 
+    "continentalmarl": {
+        "image": "continental_marl.svg", 
+        "name": "Continental marl", 
+        "width": "75"
+    }, 
+    "dolomite": {
+        "image": "dolomite.svg", 
+        "name": "Dolomite", 
+        "width": "100"
+    }, 
+    "dolomiticlimestone": {
+        "image": "dolomitic_limestone.svg", 
+        "name": "Dolomitic limestone", 
+        "width": "100"
+    }, 
+    "evaporite": {
+        "image": "evaporite.svg", 
+        "name": "Evaporite", 
+        "width": "72.5"
+    }, 
+    "finegrainedclastics": {
+        "image": "fine-grained_clastics.svg", 
+        "name": "Fine-grained clastics", 
+        "width": "87.5"
+    }, 
+    "finegrainedsandstone": {
+        "image": "fine-grained_sandstone.svg", 
+        "name": "Fine-grained sandstone", 
+        "width": "90"
+    }, 
+    "gap": {
+        "image": "gap.svg", 
+        "name": "Gap", 
+        "width": "65"
+    }, 
+    "glacialtill": {
+        "image": "glacial_till.svg", 
+        "name": "Glacial till", 
+        "width": "100"
+    }, 
+    "gneiss": {
+        "image": "gneiss.svg", 
+        "name": "Gneiss", 
+        "width": "100"
+    }, 
+    "granitic": {
+        "image": "granitic.svg", 
+        "name": "Granitic", 
+        "width": "100"
+    }, 
+    "gypsiferousclaystone": {
+        "image": "gypsiferous_claystone.svg", 
+        "name": "Gypsiferous claystone", 
+        "width": "77.5"
+    }, 
+    "gypsumanhydrite": {
+        "image": "gypsum-anhydrite.svg", 
+        "name": "Gypsum-Anhydrite", 
+        "width": "75"
+    }, 
+    "halite": {
+        "image": "halite.svg", 
+        "name": "Halite", 
+        "width": "70"
+    }, 
+    "lacustrine": {
+        "image": "lacustrine.svg", 
+        "name": "Lacustrine", 
+        "width": "75"
+    }, 
+    "lava": {
+        "image": "lava.svg", 
+        "name": "Lava", 
+        "width": "100"
+    }, 
+    "limestone": {
+        "image": "limestone.svg", 
+        "name": "Limestone", 
+        "width": "97.5"
+    }, 
+    "metavolcanics": {
+        "image": "metavolcanics.svg", 
+        "name": "Metavolcanics", 
+        "width": "97.5"
+    }, 
+    "mixedmarine": {
+        "image": "mixed_marine.svg", 
+        "name": "Mixed marine", 
+        "width": "90"
+    }, 
+    "nodata": {
+        "image": "no_data.svg", 
+        "name": "No Data", 
+        "width": "65"
+    }, 
+    "ooliticlimestone": {
+        "image": "oolitic_limestone.svg", 
+        "name": "Oolitic limestone", 
+        "width": "97.5"
+    }, 
+    "pelagicbiogenic": {
+        "image": "pelagic_biogenic.svg", 
+        "name": "Pelagic biogenic", 
+        "width": "90"
+    }, 
+    "pelagicmarl": {
+        "image": "pelagic_marl.svg", 
+        "name": "Pelagic marl", 
+        "width": "80"
+    }, 
+    "reeflimestone": {
+        "image": "reef_limestone.svg", 
+        "name": "Reef limestone", 
+        "width": "100"
+    }, 
+    "saline": {
+        "image": "saline.svg", 
+        "name": "Saline", 
+        "width": "72.5"
+    }, 
+    "sandstone": {
+        "image": "sandstone.svg", 
+        "name": "Sandstone", 
+        "width": "95"
+    }, 
+    "sandyclaystone": {
+        "image": "sandy_claystone.svg", 
+        "name": "Sandy claystone", 
+        "width": "82.5"
+    }, 
+    "sandylimestone": {
+        "image": "sandy_limestone.svg", 
+        "name": "Sandy limestone", 
+        "width": "95"
+    }, 
+    "shallowmarinecarbonate": {
+        "image": "shallow-marine_carbonate.svg", 
+        "name": "Shallow-marine carbonate", 
+        "width": "100"
+    }, 
+    "shallowmarinemarl": {
+        "image": "shallow-marine_marl.svg", 
+        "name": "Shallow-marine marl", 
+        "width": "80"
+    }, 
+    "siliceouschalk": {
+        "image": "siliceous_chalk.svg", 
+        "name": "Siliceous chalk", 
+        "width": "95"
+    }, 
+    "siliceouslimestone": {
+        "image": "siliceous_limestone.svg", 
+        "name": "Siliceous limestone", 
+        "width": "100"
+    }, 
+    "siltstone": {
+        "image": "siltstone.svg", 
+        "name": "Siltstone", 
+        "width": "80"
+    }, 
+    "soil": {
+        "image": "soil.svg", 
+        "name": "Soil", 
+        "width": "70"
+    }, 
+    "volcanicash": {
+        "image": "volcanic_ash.svg", 
+        "name": "Volcanic ash", 
+        "width": "85"
+    }, 
+    "volcanics": {
+        "image": "volcanics.svg", 
+        "name": "Volcanics", 
+        "width": "100"
+    }
+}

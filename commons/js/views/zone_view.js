@@ -93,7 +93,7 @@ define(["baseView"], function(BaseView) {
 
 		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			var name = this.$zoneName.value;
-			var description = this.$zoneDescription.value;
+			var description = this.$zoneDescription.value.split("\n").join(" ");
 			this.zone.set({
 				name: name,
 				description: description

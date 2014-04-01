@@ -2,13 +2,13 @@
 /*=================================================================
 =            Loader that loads tsc data into the maker            =
 =================================================================*/
-define(["transectMarker", "transectWell", "polygon", "point", "transectText"], function(TransectMarker, TransectWell, Polygon, Point, TransectText){
+define(["marker", "transectWell", "polygon", "point", "transectText"], function(Marker, TransectWell, Polygon, Point, TransectText){
 	var Loader = function(app) {
 		this.app = app;
 		this.polygons = this.app.PolygonsCollection;
 		this.zones = this.app.ZonesCollection;
 		this.transects = this.app.TransectsCollection;
-		this.markers = this.app.TransectMarkersCollection;
+		this.markers = this.app.MarkersCollection;
 		this.wells = this.app.TransectWellsCollection;
 		this.texts = this.app.TransectTextsCollection;
 		this.points = this.app.PointsCollection;
@@ -77,7 +77,7 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 	Loader.prototype.updateMarkerPositions = function() {
 		var self = this;
 		self.savedData.markers.forEach(function(markerData) {
-			var marker = self.app.TransectMarkersCollection.findWhere({age: markerData.age});
+			var marker = self.app.MarkersCollection.findWhere({age: markerData.age});
 			if (marker) {
 				marker.set({
 					y: markerData.y
@@ -89,8 +89,8 @@ define(["transectMarker", "transectWell", "polygon", "point", "transectText"], f
 	Loader.prototype.loadMarkersAndZones = function() {
 		var self = this;
 		self.savedData.zones.forEach(function(zone, index) {
-			var topMarker = self.markers.findWhere({y: zone.topMarker.y}) || new TransectMarker(zone.topMarker);
-			var baseMarker = self.markers.findWhere({y: zone.baseMarker.y}) || new TransectMarker(zone.baseMarker);
+			var topMarker = self.markers.findWhere({y: zone.topMarker.y}) || new Marker(zone.topMarker);
+			var baseMarker = self.markers.findWhere({y: zone.baseMarker.y}) || new Marker(zone.baseMarker);
 			self.markers.add(topMarker);
 			self.markers.add(baseMarker);
 			

@@ -15,10 +15,8 @@ define(["baseView"], function(BaseView) {
 		this.app = app;
 		this.lithologyMarker = lithologyMarker;
 
-		this.render();
-
-		this.listenTo(this.lithologyMarker.get('lithologyColumn'), 'change:x', this.renderLithologyMarker.bind(this));
-		this.listenTo(this.lithologyMarker.get('lithologyColumn'), 'change:width', this.renderLithologyMarker.bind(this));
+		this.listenTo(this.lithologyMarker.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithologyMarker.bind(this));
+		this.listenTo(this.lithologyMarker.get('lithologyGroup').get('lithologyColumn'), 'change:width', this.renderLithologyMarker.bind(this));
 
 		/* listen to the events */
 		this.listenTo(this.lithologyMarker, 'change:hover', this.setHoverStatus.bind(this));
@@ -27,6 +25,12 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.lithologyMarker.get('lithologys'), 'remove', this.checkAndDelete.bind(this));
 		this.listenTo(this.app.ZonesCollection, 'remove', this.updateLithologyMarker.bind(this));
 		this.listenTo(this.app.ZonesCollection, 'change', this.updateLithologyMarker.bind(this));
+
+		if (this.lithologyMarker.get('lithologyGroupMarker')) {
+			this.listenTo(this.lithologyMarker.get('lithologyGroupMarker'), 'change:y', this.moveLithologyMarkerWithGroupMarker.bind(this));	
+		}
+
+		this.render();
 	};
 
 	LithologyMarkerView.prototype.render = function() {
@@ -68,6 +72,18 @@ define(["baseView"], function(BaseView) {
 
 		this.lithologyMarker.updateZone();
 		this.updateStatusBox();
+
+		if (this.lithologyMarker.get('lithologyGroupMarker')) {
+			this.lithologyMarker.get('lithologyGroupMarker').set({
+				y: this.lithologyMarker.get('y')
+			});
+		}
+	}
+
+	LithologyMarkerView.prototype.moveLithologyMarkerWithGroupMarker = function() {
+		this.lithologyMarker.set({
+			y: this.lithologyMarker.get('lithologyGroupMarker').get('y')
+		});
 	}
 
 	LithologyMarkerView.prototype.updateStatusBox = function() {
@@ -76,13 +92,15 @@ define(["baseView"], function(BaseView) {
 
 
 	LithologyMarkerView.prototype.getPath = function() {
-		var x2 = this.lithologyMarker.get('lithologyColumn').get('x') + this.lithologyMarker.get('lithologyColumn').get('width');
-		return ("M" + this.lithologyMarker.get('lithologyColumn').get('x') + "," + this.lithologyMarker.get('y') + "H" + x2);
+		var width = Math.floor(this.lithologyMarker.get('lithologyGroup').get('lithologyColumn').get('width')/2);
+		var x1 = this.lithologyMarker.get('lithologyGroup').get('lithologyColumn').get('x') + width;
+		var x2 = x1 + width;
+		return ("M" + x1 + "," + this.lithologyMarker.get('y') + "H" + x2);
 	}
 
 	/*==========  start dragging  ==========*/
 	LithologyMarkerView.prototype.dragStart = function(x, y, evt) {
-		var markers = this.lithologyMarker.get('lithologyColumn').get('lithologyMarkers');
+		var markers = this.lithologyMarker.get('lithologyGroup').get('lithologyMarkers');
 		var index = markers.indexOf(this.lithologyMarker);
 		this.prevMarker = markers.at(index - 1);
 		this.nextMarker = markers.at(index + 1);
@@ -106,6 +124,7 @@ define(["baseView"], function(BaseView) {
 		this.lithologyMarker.set({
 			y: evt.offsetY
 		});
+
 	};
 
 

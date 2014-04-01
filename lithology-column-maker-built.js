@@ -30,23 +30,36 @@
 		zones                     : "commons/js/collections/zones",
 
 		// Data Loader
-		loader                    : "block_column_maker/js/utils/loader",
+		loader                    : "lithology_column_maker/js/utils/loader",
 		
 		// Data Exporter
-		exporter                  : "block_column_maker/js/utils/exporter",
-		dataExportView            : "block_column_maker/js/views/data_export_view",
+		exporter                  : "lithology_column_maker/js/utils/exporter",
+		dataExportView            : "lithology_column_maker/js/views/data_export_view",
 
-		// 
-		block                     : "block_column_maker/js/models/block",
-		blocks                    : "block_column_maker/js/collections/blocks",
-		blockMarker               : "block_column_maker/js/models/block_marker",
-		blockMarkers              : "block_column_maker/js/collections/block_markers",
-		blockColumn               : "block_column_maker/js/models/block_column",
-		blockColumns              : "block_column_maker/js/collections/block_columns",
-		blockView                 : "block_column_maker/js/views/block_view",
-		blockMarkerView           : "block_column_maker/js/views/block_marker_view",
-		blockColumnView           : "block_column_maker/js/views/block_column_view",
-		blockColumnsView          : "block_column_maker/js/views/block_columns_view",
+		// Lithology column models 
+		lithology                 : "lithology_column_maker/js/models/lithology",
+		lithologys                : "lithology_column_maker/js/collections/lithologys",
+		
+		lithologyMarker           : "lithology_column_maker/js/models/lithology_marker",
+		lithologyMarkers          : "lithology_column_maker/js/collections/lithology_markers",
+		
+		lithologyGroupMarker      : "lithology_column_maker/js/models/lithology_group_marker",
+		lithologyGroupMarkers     : "lithology_column_maker/js/collections/lithology_group_markers",
+		
+		lithologyGroup            : "lithology_column_maker/js/models/lithology_group",
+		lithologyGroups           : "lithology_column_maker/js/collections/lithology_groups",
+		
+		lithologyColumn           : "lithology_column_maker/js/models/lithology_column",
+		lithologyColumns          : "lithology_column_maker/js/collections/lithology_columns",
+		
+		lithologyView             : "lithology_column_maker/js/views/lithology_view",
+		lithologyMarkerView       : "lithology_column_maker/js/views/lithology_marker_view",
+		
+		lithologyGroupView        : "lithology_column_maker/js/views/lithology_group_view",
+		lithologyGroupMarkerView  : "lithology_column_maker/js/views/lithology_group_marker_view",
+		
+		lithologyColumnView       : "lithology_column_maker/js/views/lithology_column_view",
+		lithologyColumnsView      : "lithology_column_maker/js/views/lithology_columns_view",
 
 		// Libraries
 		polyK                     : "commons/js/lib/polyK",
@@ -59,8 +72,9 @@
 		fileSystem                : "file_system/js/models/file_system",
 		fileSystemView            : "file_system/js/views/file_system_view",
 
-		// Block App View
-		blockAppView              : "block_column_maker/js/views/block_app_view",
+		// 
+		lithologyAppView          : "lithology_column_maker/js/views/lithology_app_view",
+
 
 		// Reference Column Data Loader
 		referenceColumnLoader     : "reference_column_maker/js/utils/loader",

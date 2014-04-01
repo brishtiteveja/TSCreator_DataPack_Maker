@@ -27,7 +27,11 @@ define(["baseView"], function(BaseView) {
 	}
 
 	DataExportView.prototype.render = function() {
-		this.exporter.export();
+		try {
+			this.exporter.export();	
+		} catch (e) {
+			alert("Please verify your transect! Errors are preventing the maker from generating valid outputs.");
+		}
 		this.$el.html(this.template.render({blockColumns: this.blockColumns.toJSON()}));
 
 		this.$blockColumnsData = this.$(".block-columns-data");

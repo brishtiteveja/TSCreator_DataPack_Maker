@@ -265,7 +265,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		this.element.attr({
 			'opacity': 0.5,
 			'stroke': 0,
-			'fill': TimescaleApp.renderFill
+			'fill': transectApp.renderFill
 		});
 	}
 
@@ -281,7 +281,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	PolygonView.prototype.setPolygonFill = function() {
 		if (this.element === undefined) return;
 		var pattern = this.polygon.get("patternName");
-		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : TimescaleApp.polygonFill;
+		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
 		this.element.attr({
 			'opacity': 0.5,
 			'stroke': 0,
@@ -384,7 +384,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.glow.remove();	
 		}
 		this.glow = this.element.glow({
-			color: TimescaleApp.glowColor,
+			color: transectApp.glowColor,
 			width: 40,
 			opacity: 1,
 		});	
@@ -444,10 +444,9 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.togglePolygonForm();
 		}
 
-
 		this.polygon.set({
 			name: this.$polygonName.value,
-			description: this.$polygonDescription.value
+			description: this.$polygonDescription.value.split("\n").join(" ")
 		});
 	}
 

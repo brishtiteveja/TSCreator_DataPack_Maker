@@ -24,6 +24,7 @@ define(["baseView"], function(BaseView) {
 		
 		this.listenTo(this.file, "change:selected", this.setSelected.bind(this));
 		this.listenTo(this.file, "change:name", this.rename.bind(this));
+		this.listenTo(this.file, "destroy", this.delete.bind(this));
 		this.listenToActionEvents();
 
 		this.render();
@@ -104,9 +105,7 @@ define(["baseView"], function(BaseView) {
 				self.fileSystem.get('fs').root.getDirectory(path, {}, function(dirEntry) {
 					fileEntry.moveTo(dirEntry, self.file.get("name"));
 
-					self.fileSystem.set({
-						update: !self.fileSystem.get('update')
-					});
+					self.file.destroy();
 
 				}, self.errorHandler.bind(this));
 			}, self.errorHandler.bind(this));
@@ -120,11 +119,7 @@ define(["baseView"], function(BaseView) {
 				}
 				self.fileSystem.get('fs').root.getDirectory(path, {}, function(dirEntry) {
 					fileEntry.moveTo(dirEntry, self.file.get("name"));
-
-					self.fileSystem.set({
-						update: !self.fileSystem.get('update')
-					});
-
+					self.file.destroy();
 				}, self.errorHandler.bind(this));
 			}, self.errorHandler.bind(this));
 		}
@@ -161,7 +156,6 @@ define(["baseView"], function(BaseView) {
 				reader.onloadend = function(e) {
 					self.showCanvas()
 					self.app.loader.loadData(this.result);
-					$("#loading").addClass("hide");
 				};
 
 				reader.readAsText(file);
@@ -174,6 +168,11 @@ define(["baseView"], function(BaseView) {
 		$("#canvas").removeClass('hide');
 		$("#file-system-panel").addClass('hide');
 		$("a[href='#file-system']").parent().removeClass('active');
+	}
+
+	FileView.prototype.delete = function() {
+		this.$el.remove();
+		this.remove();
 	}
 
 	return FileView;
