@@ -12,9 +12,25 @@ def read_patterns_dir(directory):
 	return patterns
 
 
+def output_patterns_dir(directory):
+	patterns = {}
+	files = os.listdir(directory)
+	files.sort()
+	for file in files:
+		if file.endswith(".svg") or file.endswith(".png"):
+			patterns[get_pattern_name_with_spaces(file)] = file
+	return patterns
+
+
 def get_pattern_name(file):
 	key = file.split(".")[0]
 	key = key.replace('_', '').replace(' ', '').replace('-', '').lower()
+	return key
+
+
+def get_pattern_name_with_spaces(file):
+	key = file.split(".")[0]
+	key = key.replace('_', ' ').replace('-', ' ').title()
 	return key
 
 
@@ -39,4 +55,4 @@ def read_patterns_width(path):
 	return json.dumps(sorted_patterns)
 
 
-print read_patterns_width("./patternwidths.txt")
+print output_patterns_dir("../patterns")
