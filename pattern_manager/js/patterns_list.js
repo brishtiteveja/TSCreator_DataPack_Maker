@@ -21,7 +21,7 @@ tscApp.PATTERNS = {
 	'Cs Dark Gray': 'cs_dark_gray.png',
 	'Cs Dark Green': 'cs_dark_green.png',
 	'Cs Dark Magenta': 'cs_dark_magenta.png',
-	'Cs Dark Navy': 'cs_dark_navy.png'
+	'Cs Dark Navy': 'cs_dark_navy.png',
 	'Cs Dark Olive Green': 'cs_dark_olive_green.png',
 	'Cs Dark Orange': 'cs_dark_orange.png',
 	'Cs Dark Pink': 'cs_dark_pink.png',
@@ -96,5 +96,5 @@ tscApp.PATTERNS = {
 	'Two Tone Red Green': 'two_tone_red_green.png',
 	'Two Tone Red': 'two_tone_red.png',
 	'Volcanic Ash': 'volcanic_ash.svg',
-	'Volcanics': 'volcanics.svg',
+	'Volcanics': 'volcanics.svg'
 }
