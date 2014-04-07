@@ -153,7 +153,7 @@ define(["marker", "transectWell", "polygon", "point", "transectText"], function(
 		var polygon = self.polygons.findWhere({id: polygonData.id, name: polygonData.name, patternName: polygonData.patternName}) || new Polygon({id: polygonData.id, name: polygonData.name, description: polygonData.description});
 		this.polygons.add(polygon);
 		polygonData.points.forEach(function(pointData) {
-			var point = self.points.findWhere({x: pointData.x, y: pointData.y}) || new Point({x: pointData.x, y: pointData.y}, self.app);
+			var point = self.points.findWhere({x: parseInt(pointData.x), y: parseInt(pointData.y)}) || new Point({x: parseInt(pointData.x), y: parseInt(pointData.y)}, self.app);
 			polygon.get('points').add(point);
 		});
 		polygon.set({patternName: polygonData.patternName}); // we do this after so that the pattern show up by default.
@@ -171,8 +171,8 @@ define(["marker", "transectWell", "polygon", "point", "transectText"], function(
 	Loader.prototype.updateLines = function() {
 		var self = this;
 		self.savedData.lines.forEach(function(line) {
-			var point1 = self.points.findWhere({x: line.point1.x, y: line.point1.y});
-			var point2 = self.points.findWhere({x: line.point2.x, y: line.point2.y});
+			var point1 = self.points.findWhere({x: parseInt(line.point1.x), y: parseInt(line.point1.y)});
+			var point2 = self.points.findWhere({x: parseInt(line.point2.x), y: parseInt(line.point2.y)});
 			var ln = self.lines.findWhere({point1: point1, point2: point2}) || self.lines.findWhere({point1: point2, point2: point1});
 			if (ln) {
 				ln.set({

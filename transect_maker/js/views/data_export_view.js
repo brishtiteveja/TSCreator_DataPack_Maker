@@ -88,9 +88,6 @@ define(["baseView"], function(BaseView) {
 	}
 
 	DataExportView.prototype.toggleExportView = function(evt) {
-		
-		$("#loading").removeClass("hide");
-		
 		if ($("a[href='#export-data']").parent().hasClass('active')) {
 			$("a[href='#export-data']").parent().removeClass('active');
 			$(".display-panel").addClass('hide');

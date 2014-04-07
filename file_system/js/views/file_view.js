@@ -143,9 +143,7 @@ define(["baseView"], function(BaseView) {
 	FileView.prototype.loadData = function() {
 		var self = this;
 		if (self.file.get('isDirectory') || !self.file.get("selected")) return;
-
-		$("#loading").removeClass("hide");
-
+		
 		self.fileSystem.get("fs").root.getFile(self.file.get('fullPath'), {}, function(fileEntry) {
 
 			// Get a File object representing the file,
