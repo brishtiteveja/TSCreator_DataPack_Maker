@@ -96,17 +96,14 @@ define(["baseView"], function(BaseView) {
 			$(".display-panel").addClass('hide');
 			this.$canvas.removeClass('hide');
 		} else {
+			try {
+				this.render();
+			} catch (err) {
+			}
 			$(".maker-tools").parent().removeClass('active');
 			$("a[href='#export-data']").parent().addClass('active');
 			$(".display-panel").addClass('hide');
 			this.$el.removeClass('hide');
-		}
-		
-		try {
-			this.render();
-			$("#loading").addClass("hide");
-		} catch (err) {
-			$("#loading").addClass("hide");
 		}
 	};
 

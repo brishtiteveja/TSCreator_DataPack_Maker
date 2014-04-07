@@ -47,9 +47,9 @@ define([
 		this.texts.sort();
 		this.polygons.sort();
 
-		// update points and texts
-		this.app.PointsCollection.updatePoints();
-		this.texts.updateTransectTexts();
+		// // update points and texts
+		// this.app.PointsCollection.updatePoints();
+		// this.texts.updateTransectTexts();
 
 		// initialize the objects to store the processed data.
 		// 
