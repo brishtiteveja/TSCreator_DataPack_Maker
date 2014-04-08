@@ -41,4 +41,4 @@ define(["baseCollection", "point"], function(BaseCollection, Point) {
 	return Points;
 });
 
-	/*-----  End of Points  ------*/
+/*-----  End of Points  ------*/

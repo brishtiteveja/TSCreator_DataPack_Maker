@@ -42,6 +42,14 @@ define([
 		window.webkitRequestFileSystem(webkitStorageInfo.PERSISTENT, size, this.render.bind(this), this.errorHandler.bind(this));
 	}
 
+	FileSystemView.prototype.updateQuota = function() {
+		var self = this;
+		window.webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.PERSISTENT, //the type can be either TEMPORARY or PERSISTENT
+		function(used, remaining) {
+			self.$quota.html("Used " + parseInt(used/100000)/10 + " mb of " + parseInt(remaining/100000)/10  + " mb.");
+		}, self.errorHandler.bind(self));
+	}
+
 	FileSystemView.prototype.render = function(fs) {
 		this.fileSystem = new FileSystem({fs: fs});
 
@@ -53,6 +61,7 @@ define([
 
 	FileSystemView.prototype.renderDirs = function() {
 		this.$el.html(this.template.render(this.fileSystem.toJSON()));
+		this.$quota = this.$(".quota");
 		var self = this;
 		var path = this.fileSystem.get('path');
 		this.files = new Files();
@@ -65,6 +74,7 @@ define([
 		}, self.errorHandler);
 
 		this.readDir();
+		this.updateQuota();
 	}
 
 	FileSystemView.prototype.readDir = function(results) {
