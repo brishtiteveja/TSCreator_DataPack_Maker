@@ -13,9 +13,9 @@ requirejs.config({
 		cursorView                : "/commons/js/views/cursor_view",
 		cursor                    : "/commons/js/models/cursor",
 
-		// Transect Image
+		// Image
 		imageView                 : "/commons/js/views/image_view",
-		image                     : "/commons/js/models/image",
+		imageOb                   : "/commons/js/models/image",
 
 		// Markers
 		markersView               : "/commons/js/views/markers_view",

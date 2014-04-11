@@ -64,10 +64,14 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 	}
 
 	Loader.prototype.load = function() {
+		this.loadImage();
 		this.loadMarkersAndZones();
 		this.loadLithologyColumns();
 	}
 
+	Loader.prototype.loadImage = function() {
+		this.app.ImageOb.set(this.savedData.image);
+	}
 
 	Loader.prototype.loadMarkersAndZones = function() {
 		var self = this;

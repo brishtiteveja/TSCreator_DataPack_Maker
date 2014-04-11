@@ -121,6 +121,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			"y"            : this.top.get('y'),
 			"width"        : width,
 			"height"       : this.base.get('y') - this.top.get('y'),
+			"opacity"      : 0.5,
 		});
 		
 		this.bgLithBox.attr({
@@ -131,6 +132,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			"y"            : this.top.get('y'),
 			"width"        : width,
 			"height"       : this.base.get('y') - this.top.get('y'),
+			"opacity"      : 0.5,
 		});
 
 		var textX = Math.round(this.lithologyGroup.get('lithologyColumn').get('x') + width/2);

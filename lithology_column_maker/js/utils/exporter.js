@@ -9,6 +9,7 @@ define([], function() {
 	}
 
 	Exporter.prototype.initialize = function() {
+		this.imageOb = this.app.ImageOb;
 		this.markers = this.app.MarkersCollection;
 		this.zones = this.app.ZonesCollection;
 		this.lithologyColumns = this.app.LithologyColumnsCollection;
@@ -90,6 +91,8 @@ define([], function() {
 
 	Exporter.prototype.getJSON = function() {
 		var json = {};
+		debugger;
+		json["image"] = this.imageOb.toJSON();
 		json["zones"] = this.zones.toJSON();
 		json["lithologyColumns"] = this.lithologyColumns.toJSON();
 		json["referenceColumn"] = this.app.referenceColumn.toJSON();

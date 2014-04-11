@@ -1,11 +1,11 @@
 /*=========================================
-=            ImageView            =
+=            ImageObView            =
 =========================================*/
 
-define(["baseView", "image"], function(BaseView, Image) {
-	var ImageView = BaseView.extend({
+define(["baseView", "imageOb"], function(BaseView, ImageOb) {
+	var ImageObView = BaseView.extend({
 		el: '#bg-image-settings-list',
-		classname: 'ImageView',
+		classname: 'ImageObView',
 		events: {
 			'change input[name="width"]': 'updateImageWidth',
 			'change input[name="height"]': 'updateImageHeight',
@@ -17,11 +17,11 @@ define(["baseView", "image"], function(BaseView, Image) {
 		}
 	});
 
-	ImageView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_image_settings.ejs'});
+	ImageObView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_image_settings.ejs'});
 
-	ImageView.prototype.initialize = function(app) {
+	ImageObView.prototype.initialize = function(app) {
 		this.app = app;
-		this.image = this.app.Image;
+		this.image = this.app.ImageOb;
 
 		this.listenTo(this.image, 'change:data', this.renderData.bind(this));
 		this.listenTo(this.image, 'change:width', this.renderImage.bind(this));
@@ -31,7 +31,7 @@ define(["baseView", "image"], function(BaseView, Image) {
 		this.render();
 	};
 
-	ImageView.prototype.render = function() {
+	ImageObView.prototype.render = function() {
 		this.$el.html(this.template.render(this.image.toJSON()));
 		this.$width = this.$('input[name="width"]')[0];
 		this.$height = this.$('input[name="height"]')[0];
@@ -41,14 +41,14 @@ define(["baseView", "image"], function(BaseView, Image) {
 		this.renderData();
 	};
 
-	ImageView.prototype.renderData = function() {
+	ImageObView.prototype.renderData = function() {
 		if (this.image.get("data") === null) return;
 		if (this.element) this.element.remove();
 		this.element = this.app.Canvas.image(this.image.get('data'));
 		this.renderImage();
 	}
 
-	ImageView.prototype.renderImage = function() {
+	ImageObView.prototype.renderImage = function() {
 		if (this.element === undefined) {
 			this.element = this.app.Canvas.image(this.image.get('data'));
 		}
@@ -74,20 +74,20 @@ define(["baseView", "image"], function(BaseView, Image) {
 		this.resizeCanvas();
 	}
 
-	ImageView.prototype.updateHtmlElements = function() {
+	ImageObView.prototype.updateHtmlElements = function() {
 		if (this.image.get("data") === null) return;
 		this.$width.value = this.image.get('width');
 		this.$height.value = this.image.get('height');
 		this.$angle.value = this.image.get('angle');
 	}
 
-	ImageView.prototype.rotate = function(angle) {
+	ImageObView.prototype.rotate = function(angle) {
 		if (this.image.get("data") === null) return;
 		var tstr = "t0,0r"+angle;
 		this.element.transform(tstr);
 	}
 
-	ImageView.prototype.resizeCanvas = function() {
+	ImageObView.prototype.resizeCanvas = function() {
 		if (this.image.get("data") === null) return;
 		var bBox = this.element.getBBox();
 		// translate image such that it lies on origin.
@@ -101,7 +101,7 @@ define(["baseView", "image"], function(BaseView, Image) {
 		this.app.Canvas.setSize(bBox.width + 50, height);
 	}
 
-	ImageView.prototype.updateImageWidth = function() {
+	ImageObView.prototype.updateImageWidth = function() {
 		if (this.image.get("data") === null) return;
 		if (this.image.get('preserveAspectRatio')) {
 			var height = parseInt(this.$width.value)*this.image.get('origHeight')/this.image.get('origWidth');
@@ -110,7 +110,7 @@ define(["baseView", "image"], function(BaseView, Image) {
 		this.updateImage();
 	}
 
-	ImageView.prototype.updateImageHeight = function() {
+	ImageObView.prototype.updateImageHeight = function() {
 		if (this.image.get("data") === null) return;
 		if (this.image.get('preserveAspectRatio')) {
 			var width = parseInt(this.$height.value)*this.image.get('origWidth')/this.image.get('origHeight');
@@ -119,7 +119,7 @@ define(["baseView", "image"], function(BaseView, Image) {
 		this.updateImage();
 	}
 
-	ImageView.prototype.updateImage = function() {
+	ImageObView.prototype.updateImage = function() {
 		if (this.image.get("data") === null) return;
 		this.image.set({
 			width: parseInt(this.$width.value),
@@ -130,7 +130,7 @@ define(["baseView", "image"], function(BaseView, Image) {
 		});
 	}
 
-	ImageView.prototype.imageDragover = function(evt) {
+	ImageObView.prototype.imageDragover = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
     	evt.preventDefault();
@@ -138,7 +138,7 @@ define(["baseView", "image"], function(BaseView, Image) {
 	}
 
 
-	ImageView.prototype.imageDrop = function(evt) {
+	ImageObView.prototype.imageDrop = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
     	evt.preventDefault();
@@ -154,11 +154,11 @@ define(["baseView", "image"], function(BaseView, Image) {
     	}
 	}
 
-	ImageView.prototype.readImage = function(evt) {
+	ImageObView.prototype.readImage = function(evt) {
 		var self = this;
 		var img = new Image();
 		$(img).load(function() {
-			self.app.Image.set({
+			self.app.ImageOb.set({
 				"data": evt.target.result,
 				"width": img.width,
 				"height": img.height,
@@ -167,6 +167,6 @@ define(["baseView", "image"], function(BaseView, Image) {
 		img.src = evt.target.result;
 	}
 
-	return ImageView;
+	return ImageObView;
 });
-/*-----  End of ImageView  ------*/
+/*-----  End of ImageObView  ------*/

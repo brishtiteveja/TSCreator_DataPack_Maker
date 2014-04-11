@@ -56,7 +56,7 @@ define(["marker", "transectWell", "polygon", "point", "transectText"], function(
 	}
 
 	Loader.prototype.loadImage = function() {
-		this.app.Image.set(this.savedData.image);
+		this.app.ImageOb.set(this.savedData.image);
 	}
 
 	Loader.prototype.loadReferenceColumnData = function() {

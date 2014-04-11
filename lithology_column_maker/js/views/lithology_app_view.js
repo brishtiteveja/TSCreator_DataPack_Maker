@@ -16,7 +16,9 @@ define([
 	"dataExportView",
 	"loader",
 	"exporter",
-	"referenceColumnSideView"
+	"referenceColumnSideView",
+	"imageView",
+	"imageOb"
 	], function(
 		BaseView,
 		CursorView,
@@ -30,7 +32,9 @@ define([
 		DataExportView,
 		Loader,
 		Exporter,
-		ReferenceColumnSideView) {
+		ReferenceColumnSideView,
+		ImageView,
+		ImageOb) {
 
 	var LithologyAppView = BaseView.extend({
 		el: ".container",
@@ -69,6 +73,7 @@ define([
 		this.lithologyApp.exporter = new Exporter(this.lithologyApp);
 
 		// Initialize the models
+		this.lithologyApp.ImageOb = new ImageOb({});
 		this.lithologyApp.Canvas = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
 		this.lithologyApp.MarkersSet = this.lithologyApp.Canvas.set();
@@ -113,6 +118,10 @@ define([
 		this.dataExportView = new DataExportView(this.lithologyApp);
 
 		this.cursorView = new CursorView(this.lithologyApp);
+
+
+		this.imageView = new ImageView(this.lithologyApp);
+
 		this.fileSystemView = new FileSystemView(this.lithologyApp);
 
 		this.zonesView = new ZonesView(this.lithologyApp);

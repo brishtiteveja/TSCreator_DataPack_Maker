@@ -41,7 +41,7 @@ define([
 		this.transects = this.app.TransectsCollection;
 		this.markers = this.app.MarkersCollection;
 		this.zones = this.app.ZonesCollection;
-		this.transectImage = this.app.TransectImage;
+		this.transectImage = this.app.ImageOb;
 
 		// sort collections
 		this.texts.sort();

@@ -80,6 +80,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			width: this.lithologyColumn.get('width'),
 			fill: this.lithologyColumn.get('settings').get('backgroundColor'),
 			height: this.app.Canvas.height,
+			opacity: 0.5,
 		});
 
 		this.headingBox.attr({
@@ -88,6 +89,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			width: this.lithologyColumn.get('width'),
 			fill: "#FFFFFF",
 			height: 50,
+			opacity: 0.5,
 		});
 
 		var textX = Math.round(this.lithologyColumn.get('x') + this.lithologyColumn.get('width')/2);
