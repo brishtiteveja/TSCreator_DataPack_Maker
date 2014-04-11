@@ -1,10 +1,10 @@
 /*======================================================================================
-=            TransectImage is used for saving transect image related state.            =
+=            Image is used for saving transect image related state.            =
 ======================================================================================*/
 
 define(["baseModel"], function(BaseModel) {
-	var TransectImage = BaseModel.extend({	
-		classname: "TransectImage",
+	var Image = BaseModel.extend({	
+		classname: "Image",
 		constructor: function(attributes, options) {
 			var attrs = [{
 				x: "x" in attributes ? attributes.x : 0,
@@ -22,8 +22,8 @@ define(["baseModel"], function(BaseModel) {
 		}
 	});
 
-	return TransectImage;
+	return Image;
 });
 
-/*-----  End of TransectImage  ------*/
+/*-----  End of Image  ------*/
 

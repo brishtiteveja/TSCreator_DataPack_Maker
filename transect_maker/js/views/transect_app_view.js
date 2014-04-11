@@ -5,7 +5,7 @@ define([
 	"baseView",
 	"cursorView",
 	"transectsView",
-	"transectImageView",
+	"imageView",
 	"markersView",
 	"transectWellsView",
 	"transectTextsView",
@@ -14,7 +14,7 @@ define([
 	"dataImportView",
 	"dataExportView",
 	"fileSystemView",
-	"transectImage",
+	"image",
 	"loader",
 	"exporter",
 	"transects",
@@ -30,7 +30,7 @@ define([
 		BaseView,
 		CursorView,
 		TransectsView,
-		TransectImageView,
+		ImageView,
 		MarkersView,
 		TransectWellsView,
 		TransectTextsView,
@@ -39,7 +39,7 @@ define([
 		DataImportView,
 		DataExportView,
 		FileSystemView,
-		TransectImage,
+		Image,
 		Loader,
 		Exporter,
 		Transects,
@@ -97,7 +97,7 @@ define([
 
 		// Initialize the models
 
-		this.transectApp.TransectImage = new TransectImage({});
+		this.transectApp.Image = new Image({});
 		this.transectApp.Canvas = new Raphael(this.$canvas[0], this.transectApp.width, this.transectApp.height);
 		
 		this.transectApp.TextsSet = this.transectApp.Canvas.set();
@@ -144,7 +144,7 @@ define([
 
 		this.cursorView = new CursorView(this.transectApp);
 
-		this.transectImageView = new TransectImageView(this.transectApp);
+		this.transectImageView = new ImageView(this.transectApp);
 
 		this.markersView = new MarkersView(this.transectApp);
 		this.zonesView = new ZonesView(this.transectApp);
