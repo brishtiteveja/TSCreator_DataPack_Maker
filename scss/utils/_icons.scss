@@ -121,3 +121,8 @@
 	background: url('/images/cc/black/png/icons_32/indent_decrease_icon_32.png');
 	@include icon_32;
 }
+
+.icon_32-cesium_scene3d {
+	@include icon_32;
+	background: url();
+}
