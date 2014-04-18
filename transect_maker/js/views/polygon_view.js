@@ -23,7 +23,9 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		}
 	});
 
-	PolygonView.prototype.template = new EJS({url: '/transect_maker/ejs/polygon.ejs'});
+	PolygonView.prototype.template = new EJS({
+		url: '/transect_maker/ejs/polygon.ejs'
+	});
 
 	/*==========  initialize the polygon view.  ==========*/
 
@@ -75,7 +77,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		this.listenTo(this.polygon, 'destroy', this.delete.bind(this));
 
 		/* listen to the changes in the  */
-		
+
 	};
 
 	PolygonView.prototype.updatePolygonLines = function() {
@@ -95,7 +97,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 		// get the appropriate dom elements from the newly added view
 		this.$togglePolygon = this.$(".toggle-polygon");
-		this.$polygonForm = this.$(".polygon-form"); 
+		this.$polygonForm = this.$(".polygon-form");
 		this.$polygonData = this.$(".polygon-data");
 		this.$polygonName = this.$('input[name="polygon-name"]')[0];
 		this.$polygonDescription = this.$('textarea[name="polygon-description"]')[0];
@@ -176,26 +178,44 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	/* Reset the lines, i.e. delete all the lines that are currently in 
 	polygon and redraw them this give the animated effect of expanding 
 	this polygon as well as moving a point without breaking the polygon */
-	PolygonView.prototype.resetLines = function() {	
+	PolygonView.prototype.resetLines = function() {
 		var lines = [];
 
 		// delete the last line in the old polygon and add a new line
 		var point1 = this.polygon.get('points').at(this.polygon.get('points').length - 2);
 		var point2 = this.polygon.get('points').first();
-		var line = this.app.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || this.app.LinesCollection.findWhere({'point1': point2, 'point2': point1});
+		var line = this.app.LinesCollection.findWhere({
+			'point1': point1,
+			'point2': point2
+		}) || this.app.LinesCollection.findWhere({
+			'point1': point2,
+			'point2': point1
+		});
 
-		if (line !== undefined && line.get('polygons').length  < 2) {
+		if (line !== undefined && line.get('polygons').length < 2) {
 			line.destroy();
 		}
 
 		point1 = this.polygon.get('points').at(this.polygon.get('points').length - 2);
 		point2 = this.polygon.get('points').last();
-		var line1 = this.app.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || this.app.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
+		var line1 = this.app.LinesCollection.findWhere({
+			'point1': point1,
+			'point2': point2
+		}) || this.app.LinesCollection.findWhere({
+			'point1': point2,
+			'point2': point1
+		}) || new Line({}, point1, point2);
 		line1.get('polygons').add(this.polygon)
 
 		point1 = this.polygon.get('points').last();
 		point2 = this.polygon.get('points').first();
-		var line2 = this.app.LinesCollection.findWhere({'point1': point1, 'point2': point2}) || this.app.LinesCollection.findWhere({'point1': point2, 'point2': point1}) || new Line({}, point1, point2);
+		var line2 = this.app.LinesCollection.findWhere({
+			'point1': point1,
+			'point2': point2
+		}) || this.app.LinesCollection.findWhere({
+			'point1': point2,
+			'point2': point1
+		}) || new Line({}, point1, point2);
 		line2.get('polygons').add(this.polygon)
 
 		this.polygon.get('lines').add([line1, line2]);
@@ -233,26 +253,34 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	}
 
 	PolygonView.prototype.resetPolygonPoints = function() {
-		this.polygon.get('points').each(this.addPointToPolygon, this);	
+		this.polygon.get('points').each(this.addPointToPolygon, this);
 	}
 
 	PolygonView.prototype.addPoint = function(evt) {
 		if (this.app.supressDoubleClick) {
 			return;
 		}
-		if (!this.polygon.get('draw')) {return;}
+		if (!this.polygon.get('draw')) {
+			return;
+		}
 		var locationX = evt.offsetX;
 		var locationY = evt.offsetY;
 		if (this.polygon.get('points').length > 0 && this.app.Cursor.get('lockH')) {
 			locationY = this.polygon.get('points').last().get('y');
 		}
-		
+
 		if (this.polygon.get('points').length > 0 && this.app.Cursor.get('lockV')) {
 			locationX = this.polygon.get('points').last().get('x');
 		}
 
-		var point = this.app.PointsCollection.findWhere({x: locationX, y: locationY}) || new Point({x: locationX, y: locationY}, this.app);
-		if (point.get('transect') 	=== null || point.get('zone') === null) {
+		var point = this.app.PointsCollection.findWhere({
+			x: locationX,
+			y: locationY
+		}) || new Point({
+			x: locationX,
+			y: locationY
+		}, this.app);
+		if (point.get('transect') === null || point.get('zone') === null) {
 			point.destroy();
 			return;
 		}
@@ -281,19 +309,19 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	PolygonView.prototype.setPolygonFill = function() {
 		if (this.element === undefined) return;
 		var pattern = this.polygon.get("patternName");
-		var fill =  pattern  ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
+		var fill = pattern ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
 		this.element.attr({
 			'opacity': 0.5,
 			'stroke': 0,
 			'fill': fill
 		});
-		var url =  fill + " no-repeat" ;
+		var url = fill + " no-repeat";
 		this.$patternImage.css("background", url);
 	}
 
 	PolygonView.prototype.toggleEditStatus = function() {
 		if (this.element === undefined) return;
-		
+
 		if (this.polygon.get('edit')) {
 			this.$polygonForm.removeClass('hide');
 			this.$polygonData.addClass('hide');
@@ -324,11 +352,17 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			if (index == 0) {
 				path += point.get('x') + ',' + point.get('y');
 			} else {
-				var line = self.polygon.get('lines').findWhere({'point1' : points[index - 1], 'point2' : point});
+				var line = self.polygon.get('lines').findWhere({
+					'point1': points[index - 1],
+					'point2': point
+				});
 				if (line !== undefined) {
-					path += line.getPath();	
+					path += line.getPath();
 				} else {
-					line = self.polygon.get('lines').findWhere({'point1' : point, 'point2' : points[index - 1]});
+					line = self.polygon.get('lines').findWhere({
+						'point1': point,
+						'point2': points[index - 1]
+					});
 					if (line !== undefined) {
 						var tempLine = new Line({}, points[index - 1], point);
 						path += tempLine.getPathFromPattern(line.get('pattern'));
@@ -336,11 +370,17 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 					}
 				}
 				if (index > 0 && index === points.length - 1) {
-					line = self.polygon.get('lines').findWhere({'point1' : point, 'point2' : points[0]});
+					line = self.polygon.get('lines').findWhere({
+						'point1': point,
+						'point2': points[0]
+					});
 					if (line !== undefined) {
-						path += line.getPath();	
+						path += line.getPath();
 					} else {
-						line = self.polygon.get('lines').findWhere({'point1' : points[0], 'point2' : point});
+						line = self.polygon.get('lines').findWhere({
+							'point1': points[0],
+							'point2': point
+						});
 						if (line !== undefined) {
 							var tempLine = new Line({}, point, points[0]);
 							path += tempLine.getStraightPath();
@@ -368,7 +408,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	PolygonView.prototype.renderTooltip = function() {
 		$(this.element.node).qtip({
 			content: {
-				text: this.polygon.get('name') + "【" + this.polygon.get('patternName') + "】<br>" +( this.polygon.get('description') || "No description yet!")
+				text: this.polygon.get('name') + "【" + this.polygon.get('patternName') + "】<br>" + (this.polygon.get('description') || "No description yet!")
 			},
 			position: {
 				my: 'bottom left', // Position my top left...
@@ -381,13 +421,13 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		if (!this.element) return;
 
 		if (this.glow !== undefined) {
-			this.glow.remove();	
+			this.glow.remove();
 		}
 		this.glow = this.element.glow({
 			color: transectApp.glowColor,
 			width: 40,
 			opacity: 1,
-		});	
+		});
 		this.glow.show();
 		this.$el.addClass('hover');
 	}
@@ -396,12 +436,12 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		if (!this.element) return;
 
 		if (this.polygon.isSimple()) {
-			this.setPolygonFill();	
+			this.setPolygonFill();
 		} else {
 			this.setRenderErrorFill();
 		}
 		if (this.glow !== undefined) {
-			this.glow.hide();	
+			this.glow.hide();
 		}
 		this.$el.removeClass('hover');
 	}
@@ -456,7 +496,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.$el.addClass('highlight');
 		} else {
 			if (this.polygon.isSimple()) {
-				this.setPolygonFill();	
+				this.setPolygonFill();
 			} else {
 				this.setRenderErrorFill();
 			}
@@ -472,4 +512,3 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 });
 
 /*-----  End of PolygonView  ------*/
-

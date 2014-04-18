@@ -17,7 +17,9 @@ define(["baseView"], function(BaseView) {
 	});
 
 
-	LineView.prototype.template = new EJS({url: '../../../transect_maker/ejs/line.ejs'});
+	LineView.prototype.template = new EJS({
+		url: '../../../transect_maker/ejs/line.ejs'
+	});
 
 
 	LineView.prototype.initialize = function(app, line) {
@@ -141,4 +143,3 @@ define(["baseView"], function(BaseView) {
 	return LineView;
 });
 /*-----  End of LineView  ------*/
-

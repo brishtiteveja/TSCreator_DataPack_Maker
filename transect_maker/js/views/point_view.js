@@ -10,14 +10,18 @@ define(["baseView"], function(BaseView) {
 			'change input[name="relative-y"]': 'updatePoint',
 			'change input[name="relative-x"]': 'updatePoint',
 			'click .point-data': 'togglePointForm',
-			'click .arrow' : 'togglePointForm',
+			'click .arrow': 'togglePointForm',
 			'mouseover': "onMouseOver",
 			'mouseout': "onMouseOut",
 		}
 	});
 
-	PointView.prototype.template = new EJS({url: '/transect_maker/ejs/point.ejs'});
-	PointView.prototype.statusBoxTemplate = new EJS({url: '/transect_maker/ejs/status_box.ejs'});
+	PointView.prototype.template = new EJS({
+		url: '/transect_maker/ejs/point.ejs'
+	});
+	PointView.prototype.statusBoxTemplate = new EJS({
+		url: '/transect_maker/ejs/status_box.ejs'
+	});
 
 	PointView.prototype.initialize = function(app, point) {
 		this.app = app;
@@ -33,11 +37,11 @@ define(["baseView"], function(BaseView) {
 	};
 
 	PointView.prototype.updatePoint = function(model) {
-		
+
 		if (model !== this.point.get('transect') && model !== this.point.get('zone')) {
 			return;
 		}
-		
+
 		this.point.updateTransectAndZone();
 		this.render();
 		this.toggleEditStatus();
@@ -61,7 +65,7 @@ define(["baseView"], function(BaseView) {
 	PointView.prototype.renderPoint = function() {
 		if (this.element === undefined) {
 			this.element = this.app.Canvas.circle(this.point.get('x'), this.point.get('y'), 4);
-			
+
 			this.app.PointsSet.push(this.element);
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.click(this.onClick.bind(this));
@@ -101,7 +105,7 @@ define(["baseView"], function(BaseView) {
 			'cy': this.point.get('y'),
 		});
 		this.renderTooltip();
-		this.updateStatusBox(); 
+		this.updateStatusBox();
 	}
 
 	PointView.prototype.updateStatusBox = function() {
@@ -110,7 +114,7 @@ define(["baseView"], function(BaseView) {
 
 	PointView.prototype.setFinishedMode = function() {
 		this.element.attr({
-			r : 4,
+			r: 4,
 			fill: "#000000",
 			stroke: "#000000"
 		});
@@ -143,35 +147,33 @@ define(["baseView"], function(BaseView) {
 		}
 	}
 
-	PointView.prototype.onDblClick = function(evt) {
-	}
+	PointView.prototype.onDblClick = function(evt) {}
 
 	PointView.prototype.removeElement = function() {
 		this.element.remove();
 	}
 
-	PointView.prototype.onDragStart = function(x, y, evt) {
-	}
+	PointView.prototype.onDragStart = function(x, y, evt) {}
 
 	PointView.prototype.onDragMove = function(dx, dy, x, y, evt) {
-			var locationX = evt.offsetX;
-			var locationY = evt.offsetY;
+		var locationX = evt.offsetX;
+		var locationY = evt.offsetY;
 
-			if (this.app.Cursor.get('lockH')) {
-				locationY = this.point.get('y');
-			}
-			
-			if (this.app.Cursor.get('lockV')) {
-				locationX = this.point.get('x');
-			}
+		if (this.app.Cursor.get('lockH')) {
+			locationY = this.point.get('y');
+		}
 
-			this.point.set({
-				x: locationX,
-				y: locationY
-			});
+		if (this.app.Cursor.get('lockV')) {
+			locationX = this.point.get('x');
+		}
 
-			this.point.updateTransectAndZone();
-			this.zone = this.point.get('zone');
+		this.point.set({
+			x: locationX,
+			y: locationY
+		});
+
+		this.point.updateTransectAndZone();
+		this.zone = this.point.get('zone');
 	}
 
 	PointView.prototype.onDragEnd = function(evt) {
@@ -182,30 +184,30 @@ define(["baseView"], function(BaseView) {
 		var locationX = this.point.get('x');
 		var locationY = this.point.get('y');
 		if (transect === null) {
-			transect = this.point.get('transect');	
+			transect = this.point.get('transect');
 			var x = transect.get('wellRight').get('x');
 			if (locationX > x) {
 				locationX = x - 1;
 			}
 			var x = transect.get('wellLeft').get('x');
-			
+
 			if (locationX < x) {
 				locationX = x + 1;
 			}
 		}
 
 		if (zone === null) {
-			
+
 			zone = this.point.get('zone');
-			
+
 			var y = zone.get('baseMarker').get('y');
-			
+
 			if (locationY > y) {
 				locationY = y - 1;
 			}
 
 			var y = zone.get('topMarker').get('y');
-			
+
 			if (locationY < y) {
 				locationY = y + 1;
 			}
@@ -221,10 +223,10 @@ define(["baseView"], function(BaseView) {
 		this.point.updateTransectAndZone();
 	}
 
-	PointView.prototype.togglePointForm = function(){
+	PointView.prototype.togglePointForm = function() {
 		this.render();
 		this.point.set({
-			'edit' : !this.point.get('edit')
+			'edit': !this.point.get('edit')
 		});
 	}
 
@@ -249,8 +251,8 @@ define(["baseView"], function(BaseView) {
 			this.togglePolygonForm();
 		}
 
-		var relX = this.$pointRelativeX.val()*1.0/100;
-		var relY = (100 - this.$pointRelativeY.val()*1.0)/100;
+		var relX = this.$pointRelativeX.val() * 1.0 / 100;
+		var relY = (100 - this.$pointRelativeY.val() * 1.0) / 100;
 
 		if (this.point.get('transect') && this.point.get('zone')) {
 			var x = this.point.get('transect').getAbsoluteX(relX);
@@ -259,11 +261,10 @@ define(["baseView"], function(BaseView) {
 			this.point.set({
 				x: x,
 				y: y
-			});	
+			});
 		}
 	}
 
 	return PointView;
 });
 /*-----  End of PointView  ------*/
-
