@@ -1,7 +1,3 @@
-/*=================================
-=            PointView            =
-=================================*/
-
 define(["baseView"], function(BaseView) {
 	var PointView = BaseView.extend({
 		tagName: 'li',
@@ -76,10 +72,8 @@ define(["baseView"], function(BaseView) {
 			});
 		}
 
-		this.renderTooltip();
 		this.updateStatusBox();
 		this.updateElement();
-		this.point.updateTransectAndZone();
 	};
 
 	PointView.prototype.renderTooltip = function() {
@@ -104,7 +98,6 @@ define(["baseView"], function(BaseView) {
 			'cx': this.point.get('x'),
 			'cy': this.point.get('y'),
 		});
-		this.renderTooltip();
 		this.updateStatusBox();
 	}
 
@@ -262,6 +255,7 @@ define(["baseView"], function(BaseView) {
 				x: x,
 				y: y
 			});
+			this.point.updateTransectAndZone();
 		}
 	}
 

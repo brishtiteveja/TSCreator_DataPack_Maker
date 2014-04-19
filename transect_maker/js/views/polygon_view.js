@@ -233,8 +233,8 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		this.app.MarkersSet.toFront();
 		this.app.WellsSet.toFront();
 		this.app.LinesSet.toFront(); // move the lines to the top
-		this.app.PointsSet.toFront(); // move the points to the top
 		this.app.TextsSet.toFront();
+		this.app.PointsSet.toFront(); // move the points to the top
 	}
 
 
@@ -309,7 +309,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	PolygonView.prototype.setPolygonFill = function() {
 		if (this.element === undefined) return;
 		var pattern = this.polygon.get("patternName");
-		var fill = pattern ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
+		var fill = pattern && tscApp.PATTERNS[pattern] ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[pattern] + "')" : transectApp.polygonFill;
 		this.element.attr({
 			'opacity': 0.5,
 			'stroke': 0,
