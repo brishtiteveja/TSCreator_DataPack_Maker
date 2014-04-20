@@ -116,18 +116,26 @@ define(["baseView"], function(BaseView) {
 	};
 
 	TransectWellView.prototype.dragMove = function(dx, dy, x, y, evt) {
-		if (this.prevWell && this.nextWell && (this.prevWell.get('x') + 2 > evt.offsetX || evt.offsetX > this.nextWell.get('x') - 2)) {
+
+		var locationX = evt.offsetX;
+		var locationY = evt.offsetY;
+
+
+		var cdts = ViewboxToCanvas(this.app, locationX, locationY);
+		locationX = cdts.x;
+		locationY = cdts.y;
+		if (this.prevWell && this.nextWell && (this.prevWell.get('x') + 2 > locationX || locationX > this.nextWell.get('x') - 2)) {
 			return;
 		}
-		if (!this.prevWell && this.nextWell && evt.offsetX > this.nextWell.get('x') - 2) {
+		if (!this.prevWell && this.nextWell && locationX > this.nextWell.get('x') - 2) {
 			return;
 		}
-		if (this.prevWell && !this.nextWell && this.prevWell.get('x') + 2 > evt.offsetX) {
+		if (this.prevWell && !this.nextWell && this.prevWell.get('x') + 2 > locationX) {
 			return;
 		}
 
 		this.transectWell.set({
-			x: evt.offsetX
+			x: locationX
 		});
 	};
 
