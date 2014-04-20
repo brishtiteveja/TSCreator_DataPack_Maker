@@ -8,7 +8,9 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 		classname: "TransectWellsView"
 	});
 
-	TransectWellsView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
+	TransectWellsView.prototype.template = new EJS({
+		url: '../../../commons/ejs/data_tbl.ejs'
+	});
 
 	TransectWellsView.prototype.initialize = function(app) {
 		this.app = app;
@@ -28,7 +30,9 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 
 	TransectWellsView.prototype.render = function() {
 		/* render the wells list */
-		this.$el.html(this.template.render({name: "Reference Wells"}));
+		this.$el.html(this.template.render({
+			name: "Reference Wells"
+		}));
 
 		/* get well table dom element */
 		this.$wellsTable = this.$(".data-list");
@@ -63,7 +67,13 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 
 	TransectWellsView.prototype.createWell = function(evt) {
 		if (this.enWells) {
-			this.transectWells.add(new TransectWell({x: evt.offsetX}));	
+			var locationX = evt.offsetX;
+			if (this.app.type === "transectApp") {
+				locationX = ViewboxToCanvas(this.app, locationX, locationY).x;
+			}
+			this.transectWells.add(new TransectWell({
+				x: locationX
+			}));
 		}
 	};
 
@@ -77,11 +87,19 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 		this.transectWells.sort();
 		this.transectWells.each(function(well, index, wells) {
 			if (index > 0) {
-				var transect = self.transects.findWhere({wellLeft: wells[index - 1], wellRight: well}) || new Transect({name: "Transect " + index}, wells[index - 1], well, self.app);
+				var transect = self.transects.findWhere({
+					wellLeft: wells[index - 1],
+					wellRight: well
+				}) || new Transect({
+					name: "Transect " + index
+				}, wells[index - 1], well, self.app);
 				self.transects.add(transect);
 
 				if (index < self.transectWells.length - 1) {
-					transect = self.transects.findWhere({wellLeft: wells[index - 1], wellRight: wells[index + 1]});
+					transect = self.transects.findWhere({
+						wellLeft: wells[index - 1],
+						wellRight: wells[index + 1]
+					});
 					if (transect) {
 						transectsToDestroy.push(transect);
 					}

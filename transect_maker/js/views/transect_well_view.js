@@ -1,7 +1,3 @@
-/*========================================
-=            TransectWellView            =
-========================================*/
-
 define(["baseView"], function(BaseView) {
 	var TransectWellView = BaseView.extend({
 		tagName: 'li',
@@ -10,14 +6,16 @@ define(["baseView"], function(BaseView) {
 			'click .toggle': 'toggleWellForm',
 			'click .well-data': 'toggleWellForm',
 			'click .destroy': 'destroy',
-	    	'keypress :input': 'updateWell',
-	    	'keyup :input': 'updateWell',
+			'keypress :input': 'updateWell',
+			'keyup :input': 'updateWell',
 			'mouseover': "onMouseOver",
 			'mouseout': "onMouseOut",
 		}
 	});
 
-	TransectWellView.prototype.template = new EJS({url: '../../../transect_maker/ejs/transect_well.ejs'});
+	TransectWellView.prototype.template = new EJS({
+		url: '../../../transect_maker/ejs/transect_well.ejs'
+	});
 
 	TransectWellView.prototype.initialize = function(app, transectWell, transectWellsView) {
 		this.app = app;
@@ -72,13 +70,17 @@ define(["baseView"], function(BaseView) {
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 		}
-		
+
 		/* render tooltip */
 		this.renderTooltip();
 
-		this.element.attr({'path': this.getPath()});
+		this.element.attr({
+			'path': this.getPath()
+		});
 
-		this.resizeCanvas();
+		if (this.app.type !== "transect") {
+			this.resizeCanvas();
+		}
 	};
 
 
@@ -103,7 +105,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	TransectWellView.prototype.getPath = function() {
-		return "M" + this.transectWell.get('x') + ",0" + 'V' + this.app.Canvas.height;
+		return "M" + this.transectWell.get('x') + ",0" + 'V' + this.app.height;
 	};
 
 	TransectWellView.prototype.dragStart = function(x, y, evt) {
@@ -130,7 +132,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	/*==========  when drag ends update the points and texts  ==========*/
-	
+
 	TransectWellView.prototype.dragEnd = function(evt) {
 		this.app.PointsCollection.updatePoints();
 		this.app.TransectTextsCollection.updateTransectTexts();
@@ -151,7 +153,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	TransectWellView.prototype.setHoverStatus = function() {
-		if (this.transectWell.get('hover')) {			
+		if (this.transectWell.get('hover')) {
 			this.element.attr({
 				"stroke-width": 5
 			});
@@ -212,8 +214,12 @@ define(["baseView"], function(BaseView) {
 	}
 
 	TransectWellView.prototype.destroy = function() {
-		var transect1 = this.app.TransectsCollection.findWhere({wellLeft: this.transectWell});
-		var transect2 = this.app.TransectsCollection.findWhere({wellRight: this.transectWell});
+		var transect1 = this.app.TransectsCollection.findWhere({
+			wellLeft: this.transectWell
+		});
+		var transect2 = this.app.TransectsCollection.findWhere({
+			wellRight: this.transectWell
+		});
 		this.transectWell.destroy();
 		if (transect1) transect1.destroy();
 		if (transect2) transect2.destroy();
@@ -221,5 +227,3 @@ define(["baseView"], function(BaseView) {
 
 	return TransectWellView;
 });
-
-/*-----  End of TransectWellView  ------*/

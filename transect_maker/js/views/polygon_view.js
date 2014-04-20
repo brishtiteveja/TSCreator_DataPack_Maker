@@ -1,7 +1,3 @@
-/*===================================
-=            PolygonView            =
-===================================*/
-
 define(["baseView", "pointView", "lineView", "point", "points", "line", "lines", "polyK"], function(BaseView, PointView, LineView, Point, Points, Line, Lines, PolyK) {
 	var PolygonView = BaseView.extend({
 		tagName: "li",
@@ -172,7 +168,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	}
 
 	PolygonView.prototype.updateCanvasDimensions = function(point) {
-		this.app.Canvas.setSize(Math.max(this.app.Canvas.width, point.get('x')), Math.max(this.app.Canvas.height, point.get('y') + 100));
+		// this.app.Canvas.setSize(Math.max(this.app.Canvas.width, point.get('x')), Math.max(this.app.Canvas.height, point.get('y') + 100));
 	}
 
 	/* Reset the lines, i.e. delete all the lines that are currently in 
@@ -265,6 +261,11 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		}
 		var locationX = evt.offsetX;
 		var locationY = evt.offsetY;
+
+		var cdts = ViewboxToCanvas(this.app, locationX, locationY);
+		locationX = cdts.x;
+		locationY = cdts.y;
+
 		if (this.polygon.get('points').length > 0 && this.app.Cursor.get('lockH')) {
 			locationY = this.polygon.get('points').last().get('y');
 		}
@@ -510,5 +511,3 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	return PolygonView;
 });
-
-/*-----  End of PolygonView  ------*/

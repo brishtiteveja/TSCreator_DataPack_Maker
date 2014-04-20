@@ -1,14 +1,12 @@
-/*==========================================
-=            MarkersView            =
-==========================================*/
-
 define(["baseView", "markerView", "marker", "zone"], function(BaseView, MarkerView, Marker, Zone) {
 	var MarkersView = BaseView.extend({
 		el: "#markers-list",
 		classname: "MarkersView"
 	});
 
-	MarkersView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
+	MarkersView.prototype.template = new EJS({
+		url: '/commons/ejs/data_tbl.ejs'
+	});
 
 	MarkersView.prototype.initialize = function(app) {
 		this.app = app;
@@ -27,12 +25,14 @@ define(["baseView", "markerView", "marker", "zone"], function(BaseView, MarkerVi
 		this.render();
 	};
 
-	MarkersView.prototype.listenToActionEvents = function () {
+	MarkersView.prototype.listenToActionEvents = function() {
 		$("#canvas").bind('dblclick', this.createMarker.bind(this));
 	};
 
 	MarkersView.prototype.render = function() {
-		this.$el.html(this.template.render({name: "Markers"}));
+		this.$el.html(this.template.render({
+			name: "Markers"
+		}));
 		this.$markersTable = this.$(".data-list");
 		this.renderMarkers();
 	};
@@ -59,7 +59,13 @@ define(["baseView", "markerView", "marker", "zone"], function(BaseView, MarkerVi
 
 	MarkersView.prototype.createMarker = function(evt) {
 		if (this.enMarkers) {
-			this.markers.add(new Marker({y: evt.offsetY}));
+			var locationY = evt.offsetY;
+			if (this.app.type === "transectApp") {
+				locationY = ViewboxToCanvas(this.app, locationX, locationY).y;
+			}
+			this.markers.add(new Marker({
+				y: locationY
+			}));
 		}
 	};
 
@@ -69,10 +75,18 @@ define(["baseView", "markerView", "marker", "zone"], function(BaseView, MarkerVi
 		this.markers.sort();
 		this.markers.each(function(marker, index, markers) {
 			if (index > 0) {
-				var zone = self.zones.findWhere({topMarker: markers[index - 1], baseMarker: marker}) || new Zone({name: "New Zone " + index}, markers[index - 1], marker, self.app);
+				var zone = self.zones.findWhere({
+					topMarker: markers[index - 1],
+					baseMarker: marker
+				}) || new Zone({
+					name: "New Zone " + index
+				}, markers[index - 1], marker, self.app);
 				self.zones.add(zone);
 				if (index < self.markers.length - 1) {
-					zone = self.zones.findWhere({topMarker: markers[index - 1], baseMarker: markers[index + 1]});
+					zone = self.zones.findWhere({
+						topMarker: markers[index - 1],
+						baseMarker: markers[index + 1]
+					});
 					if (zone) {
 						zonesToDestroy.push(zone);
 					}
@@ -84,4 +98,3 @@ define(["baseView", "markerView", "marker", "zone"], function(BaseView, MarkerVi
 
 	return MarkersView;
 });
-/*-----  End of MarkersView  ------*/

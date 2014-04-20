@@ -1,7 +1,3 @@
-/*==========================================
-=            MarkerView                    =
-==========================================*/
-
 define(["baseView"], function(BaseView) {
 
 	var MarkerView = BaseView.extend({
@@ -20,7 +16,9 @@ define(["baseView"], function(BaseView) {
 
 
 	/*==========  Template to be used in generation marker in the settings side panel.  ==========*/
-	MarkerView.prototype.template = new EJS({url: '/commons/ejs/marker.ejs'});
+	MarkerView.prototype.template = new EJS({
+		url: '/commons/ejs/marker.ejs'
+	});
 
 
 	/*==========  Initialize the marker  ==========*/
@@ -64,7 +62,7 @@ define(["baseView"], function(BaseView) {
 				"stroke-width": 2,
 				"stroke": "#900000"
 			});
-			
+
 			/* attach listeners to the element */
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
@@ -72,8 +70,12 @@ define(["baseView"], function(BaseView) {
 			this.app.MarkersSet.push(this.element);
 		}
 		this.renderTooltip();
-		this.element.attr({'path': this.getPath()});
-		this.resizeCanvas();
+		this.element.attr({
+			'path': this.getPath()
+		});
+		if (this.app.type !== "transect") {
+			this.resizeCanvas();
+		}
 	};
 
 	/*==========  render the tooltip for the marker in the canvas  ==========*/
@@ -92,7 +94,7 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  get path string for the marker  ==========*/
 	MarkerView.prototype.getPath = function() {
-		return "M0," + this.marker.get('y') + 'H' + this.app.Canvas.width;
+		return "M0," + this.marker.get('y') + 'H' + this.app.width;
 	};
 
 	/*==========  start dragging  ==========*/
@@ -105,32 +107,43 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  while dragging  ==========*/
 	MarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
-		
-		if (this.prevMarker && this.nextMarker && (this.prevMarker.get('y') + 2 > evt.offsetY || evt.offsetY > this.nextMarker.get('y') - 2)) {
-			return;
+
+		var locationX, locationY;
+
+		if (this.app.type === "transect") {
+			var cdts = ViewboxToCanvas(this.app, evt.offsetX, evt.offsetY);
+			locationX = cdts.x;
+			locationY = cdts.y;
+		} else {
+			locationX = evt.offsetX;
+			locationY = evt.offsety;
 		}
-		
-		if (!this.prevMarker && this.nextMarker && evt.offsetY > this.nextMarker.get('y') - 2) {
+
+		if (this.prevMarker && this.nextMarker && (this.prevMarker.get('y') + 2 > locationY || locationY > this.nextMarker.get('y') - 2)) {
 			return;
 		}
 
-		if (this.prevMarker && !this.nextMarker && this.prevMarker.get('y') + 2 > evt.offsetY) {
+		if (!this.prevMarker && this.nextMarker && locationY > this.nextMarker.get('y') - 2) {
+			return;
+		}
+
+		if (this.prevMarker && !this.nextMarker && this.prevMarker.get('y') + 2 > locationY) {
 			return;
 		}
 
 		this.marker.set({
-			y: evt.offsetY
+			y: locationY
 		});
 	};
 
 	/*==========  when dragging is completed update the points and texts relative locations ==========*/
 	MarkerView.prototype.dragEnd = function(evt) {
 		if (this.app.PointsCollection) {
-			this.app.PointsCollection.updatePoints();	
+			this.app.PointsCollection.updatePoints();
 		}
 
 		if (this.app.TransectTextsCollection) {
-			this.app.TransectTextsCollection.updateTransectTexts();	
+			this.app.TransectTextsCollection.updateTransectTexts();
 		}
 	};
 
@@ -151,7 +164,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	MarkerView.prototype.setHoverStatus = function() {
-		if (this.marker.get('hover')) {			
+		if (this.marker.get('hover')) {
 			this.element.attr({
 				"stroke-width": 5
 			});
@@ -188,7 +201,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	MarkerView.prototype.updateMarker = function(evt) {
-		
+
 		if (evt.keyCode == 13) {
 			this.toggleMarkerForm();
 		}
@@ -209,8 +222,12 @@ define(["baseView"], function(BaseView) {
 	}
 
 	MarkerView.prototype.destroy = function() {
-		var zone1 = this.app.ZonesCollection.findWhere({topMarker: this.marker});
-		var zone2 = this.app.ZonesCollection.findWhere({baseMarker: this.marker});
+		var zone1 = this.app.ZonesCollection.findWhere({
+			topMarker: this.marker
+		});
+		var zone2 = this.app.ZonesCollection.findWhere({
+			baseMarker: this.marker
+		});
 		this.marker.destroy();
 		if (zone1) zone1.destroy();
 		if (zone2) zone2.destroy();
@@ -224,6 +241,3 @@ define(["baseView"], function(BaseView) {
 
 	return MarkerView;
 });
-
-/*-----  End of MarkerView  ------*/
-

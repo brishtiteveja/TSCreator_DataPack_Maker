@@ -1,6 +1,3 @@
-/*====================================================================
-=            TransectAppView is the basic view for transects            =
-====================================================================*/
 define([
 	"baseView",
 	"cursorView",
@@ -26,31 +23,31 @@ define([
 	"transectWells",
 	"markers",
 	"referenceColumnSideView",
-	], function(
-		BaseView,
-		CursorView,
-		TransectsView,
-		ImageView,
-		MarkersView,
-		TransectWellsView,
-		TransectTextsView,
-		ZonesView,
-		PolygonsView,
-		DataImportView,
-		DataExportView,
-		FileSystemView,
-		ImageOb,
-		Loader,
-		Exporter,
-		Transects,
-		TransectTexts,
-		Polygons,
-		Lines,
-		Points,
-		Zones,
-		TransectWells,
-		Markers,
-		ReferenceColumnSideView) {
+], function(
+	BaseView,
+	CursorView,
+	TransectsView,
+	ImageView,
+	MarkersView,
+	TransectWellsView,
+	TransectTextsView,
+	ZonesView,
+	PolygonsView,
+	DataImportView,
+	DataExportView,
+	FileSystemView,
+	ImageOb,
+	Loader,
+	Exporter,
+	Transects,
+	TransectTexts,
+	Polygons,
+	Lines,
+	Points,
+	Zones,
+	TransectWells,
+	Markers,
+	ReferenceColumnSideView) {
 
 	var TransectAppView = BaseView.extend({
 		el: ".container",
@@ -68,7 +65,9 @@ define([
 
 	TransectAppView.prototype.initialize = function() {
 
-		this.transectApp = {type : "transect"};
+		this.transectApp = {
+			type: "transect"
+		};
 
 		this.transectApp.TransectsCollection = new Transects();
 		this.transectApp.TransectTextsCollection = new TransectTexts();
@@ -80,11 +79,7 @@ define([
 		this.transectApp.MarkersCollection = new Markers();
 
 		this.transectApp.CurrentPolygon = null;
-		
-		this.transectApp.x = 0;
-		this.transectApp.y = 0;
-		this.transectApp.width = 2000;
-		this.transectApp.height = 2000;
+
 
 		this.transectApp.StatusBox = $(".status-box");
 
@@ -92,14 +87,22 @@ define([
 
 		this.$introScreen = this.$("#intro-screen");
 		this.transectApp.$canvas = this.$("#canvas");
-		this.$canvas  = this.transectApp.$canvas;
+		this.transectApp.$display = this.$("#display");
+		this.$canvas = this.transectApp.$canvas;
 		this.$displayPanels = this.$('.display-panel');
+
+		this.transectApp.x = 0;
+		this.transectApp.y = 0;
+		this.transectApp.width = this.transectApp.$display.width();
+		this.transectApp.height = this.transectApp.$display.height();
 
 		// Initialize the models
 
 		this.transectApp.ImageOb = new ImageOb({});
 		this.transectApp.Canvas = new Raphael(this.$canvas[0], this.transectApp.width, this.transectApp.height);
-		
+		this.transectApp.Canvas.setViewBox(0, 0, this.transectApp.width, this.transectApp.height);
+		this.initPan();
+
 		this.transectApp.TextsSet = this.transectApp.Canvas.set();
 		this.transectApp.MarkersSet = this.transectApp.Canvas.set();
 		this.transectApp.WellsSet = this.transectApp.Canvas.set();
@@ -112,19 +115,31 @@ define([
 		this.transectApp.exporter = new Exporter(this.transectApp);
 
 		this.listenToActionEvents();
-		
+
 		this.render();
 	};
 
+	TransectAppView.prototype.initPan = function() {
+		this.transectApp.BgRect = this.transectApp.Canvas.rect(0, 0, this.transectApp.width, this.transectApp.height);
+		this.transectApp.BgRect.attr({
+			"fill": "#ffffff",
+			"fill-opacity": 0,
+		});
+		this.transectApp.BgRect.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
+		this.disPan();
+	}
+
 	TransectAppView.prototype.listenToActionEvents = function() {
 		var self = this;
-		$(".close-reveal-modal").click(function(evt) { $(evt.target).parent().foundation('reveal', 'close') });
-		
-		$('a[href=#continue-load-from-local-storage]').click(function(evt) { 
+		$(".close-reveal-modal").click(function(evt) {
+			$(evt.target).parent().foundation('reveal', 'close')
+		});
+
+		$('a[href=#continue-load-from-local-storage]').click(function(evt) {
 			$(evt.target).parent().foundation('reveal', 'close');
 			self.loadFromLocalStorage();
 		});
-		
+
 		$('a[href=#continue-save-to-local-storage]').click(function(evt) {
 			$(evt.target).parent().foundation('reveal', 'close');
 			self.saveToLocalStorage();
@@ -158,7 +173,7 @@ define([
 
 		this.referenceColumnSideView = new ReferenceColumnSideView(this.transectApp, "#reference-column-settings");
 
-		$('.linked').scroll(function(){
+		$('.linked').scroll(function() {
 			$('.linked').scrollTop($(this).scrollTop());
 		});
 	};
@@ -189,8 +204,7 @@ define([
 	};
 
 	TransectAppView.prototype.showExportDataPanel = function(evt) {
-		if (this.$exportPanel.hasClass('active')) {
-		} else {
+		if (this.$exportPanel.hasClass('active')) {} else {
 			this.dataExportView.render();
 		}
 	}
@@ -199,7 +213,7 @@ define([
 
 	TransectAppView.prototype.saveToLocalStorage = function() {
 		this.transectApp.exporter.export();
-		localStorage.transectApp = this.transectApp.exporter.getJSON();	
+		localStorage.transectApp = this.transectApp.exporter.getJSON();
 	}
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
@@ -211,7 +225,7 @@ define([
 	TransectAppView.prototype.dataDragover = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
+		evt.preventDefault();
 	}
 
 
@@ -219,17 +233,17 @@ define([
 		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
-    	var file = evt.dataTransfer.files[0];
-    	var ext = file.name.split(".").pop();
-    	var reader = new FileReader();
+		evt.preventDefault();
+		var file = evt.dataTransfer.files[0];
+		var ext = file.name.split(".").pop();
+		var reader = new FileReader();
 		reader.onloadend = function(e) {
 			self.showCanvas();
 			if (ext === "json") {
 				self.transectApp.loader.loadData(this.result);
 			}
 		};
-    	reader.readAsText(file);
+		reader.readAsText(file);
 	}
 
 	TransectAppView.prototype.enableTool = function(evt) {
@@ -239,37 +253,39 @@ define([
 			source === "#new-polygon" ||
 			source === "#lock-cursor-h" ||
 			source === "#lock-cursor-v"
-			) return;
+		) return;
 
-		
+
 		if (this.markersView.enMarkers) {
-			this.markersView.toggleMarkers();	
+			this.markersView.toggleMarkers();
 		}
 
 		if (this.transectWellsView.enWells) {
-			this.transectWellsView.toggleWells();	
+			this.transectWellsView.toggleWells();
 		}
 
 		if (this.transectTextsView.enTransectTexts) {
-			this.transectTextsView.toggleTransectTexts();	
+			this.transectTextsView.toggleTransectTexts();
 		}
 
 		if (this.polygonsView.enPolygons) {
 			this.polygonsView.togglePolygons();
 		}
-		
+
 		if (this.transectApp.Cursor.get('lockH')) {
 			this.cursorView.toggleHlock();
 		}
-		
+
 		if (this.transectApp.Cursor.get('lockV')) {
 			this.cursorView.toggleVlock();
 		}
 
 		this.polygonsView.checkAndDeleteCurrentPolygon();
-		
-		
-		switch(source) {
+
+		this.disPan();
+
+
+		switch (source) {
 			case "#add-marker":
 				this.markersView.toggleMarkers();
 				break;
@@ -293,14 +309,78 @@ define([
 				// this.saveToLocalStorage();
 				break;
 			case "#reload-data":
-			$('#load-saved-data').foundation('reveal', 'open');
+				$('#load-saved-data').foundation('reveal', 'open');
 				// this.loadFromLocalStorage();
+				break;
+			case "#zoom-in":
+				this.zoomIn();
+				break;
+			case "#zoom-out":
+				this.zoomOut();
+				break;
+			case "#pan":
+				this.enPan();
+				break;
 			default:
 				break;
 		}
 	};
 
+	TransectAppView.prototype.zoomIn = function() {
+		var vBox = this.transectApp.Canvas.canvas.viewBox.baseVal;
+		this.transectApp.BgRect.attr({
+			width: vBox.width * 0.8,
+			height: vBox.height * 0.8
+		});
+		this.transectApp.Canvas.setViewBox(vBox.x, vBox.y, vBox.width * 0.8, vBox.height * 0.8);
+	}
+
+	TransectAppView.prototype.zoomOut = function() {
+		var vBox = this.transectApp.Canvas.canvas.viewBox.baseVal;
+		this.transectApp.BgRect.attr({
+			width: vBox.width * 1.2,
+			height: vBox.height * 1.2
+		});
+		this.transectApp.Canvas.setViewBox(vBox.x, vBox.y, vBox.width * 1.2, vBox.height * 1.2);
+
+	}
+
+	TransectAppView.prototype.enPan = function() {
+		this.pan = true;
+		this.transectApp.BgRect.attr({
+			"fill-opacity": 0.5,
+		});
+		this.transectApp.BgRect.toFront();
+		$("a[href='#pan']").parent().addClass('active');
+	}
+
+
+	TransectAppView.prototype.disPan = function() {
+		this.pan = false;
+		this.transectApp.BgRect.attr({
+			"fill-opacity": 0,
+		});
+		this.transectApp.BgRect.toBack();
+		$("a[href='#pan']").parent().removeClass('active');
+	}
+
+	TransectAppView.prototype.onDragStart = function(x, y, evt) {
+		var vBox = this.transectApp.Canvas.canvas.viewBox.baseVal;
+		this.initX = vBox.x;
+		this.initY = vBox.y;
+	}
+
+	TransectAppView.prototype.onDragMove = function(dx, dy, x, y, evt) {
+		if (!this.pan) return;
+		var vBox = this.transectApp.Canvas.canvas.viewBox.baseVal;
+		this.transectApp.BgRect.attr({
+			x: this.initX - dx,
+			y: this.initY - dy,
+		})
+		this.transectApp.Canvas.setViewBox(this.initX - dx, this.initY - dy, vBox.width, vBox.height);
+	}
+
+	TransectAppView.prototype.onDragEnd = function(evt) {}
+
 	return TransectAppView;
 });
-/*-----  End of Section comment block  ------*/
-
