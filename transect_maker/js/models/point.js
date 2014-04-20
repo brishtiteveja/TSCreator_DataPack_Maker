@@ -1,7 +1,3 @@
-/*===================================
-=            Point Model            =
-===================================*/
-
 define(["baseModel"], function(BaseModel) {
 	var Point = BaseModel.extend({
 		classname: "Point",
@@ -28,10 +24,10 @@ define(["baseModel"], function(BaseModel) {
 
 	Point.prototype.updateTransectAndZone = function() {
 		var zone = this.get('zone') === null ? this.get('app').ZonesCollection.getZoneForY(this.get('y')) :
-										this.get('app').ZonesCollection.getZoneInNeighborhoodForY(this.get('y'), this.get('zone'));
+			this.get('app').ZonesCollection.getZoneInNeighborhoodForY(this.get('y'), this.get('zone'));
 
 		var transect = this.get('zone') === null ? this.get('app').TransectsCollection.getTransectForX(this.get('x')) :
-													this.get('app').TransectsCollection.getTransectInNeighborhoodForX(this.get('x'), this.get('transect'));
+			this.get('app').TransectsCollection.getTransectInNeighborhoodForX(this.get('x'), this.get('transect'));
 
 		if (zone === null) {
 			zone = this.get('app').ZonesCollection.getZoneForY(this.get('y') - 1);
@@ -51,7 +47,7 @@ define(["baseModel"], function(BaseModel) {
 
 		if (transect === null) {
 			transect = this.get('app').TransectsCollection.getTransectForX(this.get('x') + 1);
-			if (transect === null){
+			if (transect === null) {
 				transect = this.get('app').TransectsCollection.getTransectForX(this.get('x') - 1);
 				if (transect !== null) {
 					this.set({
@@ -69,7 +65,7 @@ define(["baseModel"], function(BaseModel) {
 			this.set({
 				transect: transect,
 				zone: zone
-			});	
+			});
 			this.updateRelativeCoordinates();
 		}
 	}
@@ -97,4 +93,3 @@ define(["baseModel"], function(BaseModel) {
 
 	return Point;
 });
-/*-----  End of Point Model  ------*/

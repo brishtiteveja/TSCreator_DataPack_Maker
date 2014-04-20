@@ -1,7 +1,3 @@
-/*=========================================
-=            ImageObView            =
-=========================================*/
-
 define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 	var ImageObView = BaseView.extend({
 		el: '#bg-image-settings-list',
@@ -17,7 +13,9 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 		}
 	});
 
-	ImageObView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_image_settings.ejs'});
+	ImageObView.prototype.template = new EJS({
+		url: '/transect_maker/ejs/transect_image_settings.ejs'
+	});
 
 	ImageObView.prototype.initialize = function(app) {
 		this.app = app;
@@ -62,7 +60,7 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 			opacity: this.image.get('visible') ? 1 : 0,
 		});
 
-		if(this.image.get("origHeight") == null || this.image.get("origWidth") == null) {
+		if (this.image.get("origHeight") == null || this.image.get("origWidth") == null) {
 			this.image.set({
 				origWidth: this.image.get('width'),
 				origHeight: this.image.get('height'),
@@ -83,7 +81,7 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 
 	ImageObView.prototype.rotate = function(angle) {
 		if (this.image.get("data") === null) return;
-		var tstr = "t0,0r"+angle;
+		var tstr = "t0,0r" + angle;
 		this.element.transform(tstr);
 	}
 
@@ -95,16 +93,22 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 		this.element.transform(tstr);
 		var height = bBox.height + 50;
 		if (this.app.refCol && this.app.refCol.Canvas) {
-			height = Math.max(this.app.refCol.Canvas, height);
+			height = Math.max(this.app.refCol.Canvas.height, height);
 			this.app.refCol.Canvas.setSize(this.app.refCol.Canvas.width, height);
 		}
-		this.app.Canvas.setSize(bBox.width + 50, height);
+
+		if (this.app.type !== "transect") {
+			this.app.Canvas.setSize(bBox.width + 50, height);
+		} else {
+			this.app.width = bBox.width + 50;
+			this.app.height = height;
+		}
 	}
 
 	ImageObView.prototype.updateImageWidth = function() {
 		if (this.image.get("data") === null) return;
 		if (this.image.get('preserveAspectRatio')) {
-			var height = parseInt(this.$width.value)*this.image.get('origHeight')/this.image.get('origWidth');
+			var height = parseInt(this.$width.value) * this.image.get('origHeight') / this.image.get('origWidth');
 			this.$height.value = height;
 		}
 		this.updateImage();
@@ -113,7 +117,7 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 	ImageObView.prototype.updateImageHeight = function() {
 		if (this.image.get("data") === null) return;
 		if (this.image.get('preserveAspectRatio')) {
-			var width = parseInt(this.$height.value)*this.image.get('origWidth')/this.image.get('origHeight');
+			var width = parseInt(this.$height.value) * this.image.get('origWidth') / this.image.get('origHeight');
 			this.$width.value = width;
 		}
 		this.updateImage();
@@ -133,25 +137,22 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 	ImageObView.prototype.imageDragover = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
-    	evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 	}
 
 
 	ImageObView.prototype.imageDrop = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
-    	var file = evt.dataTransfer.files[0];
-    	
-    	if (file.type === "image/png"
-    		|| file.type === "image/jpg"
-    		|| file.type === "image/jpeg"
-    		|| file.type === "image/gif") {
-	    	var reader = new FileReader();
-	    	reader.onload = this.readImage.bind(this);
-	    	reader.readAsDataURL(file);	
-    	}
+		evt.preventDefault();
+		var file = evt.dataTransfer.files[0];
+
+		if (file.type === "image/png" || file.type === "image/jpg" || file.type === "image/jpeg" || file.type === "image/gif") {
+			var reader = new FileReader();
+			reader.onload = this.readImage.bind(this);
+			reader.readAsDataURL(file);
+		}
 	}
 
 	ImageObView.prototype.readImage = function(evt) {
@@ -169,4 +170,3 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 
 	return ImageObView;
 });
-/*-----  End of ImageObView  ------*/

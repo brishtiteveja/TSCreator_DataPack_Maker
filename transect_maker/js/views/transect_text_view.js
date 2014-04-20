@@ -21,7 +21,9 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 	});
 
 	/* template for transect text */
-	TransectTextView.prototype.template = new EJS({url: '/transect_maker/ejs/transect_text.ejs'});
+	TransectTextView.prototype.template = new EJS({
+		url: '/transect_maker/ejs/transect_text.ejs'
+	});
 
 	TransectTextView.prototype.initialize = function(app, transectText, transectTextsView) {
 		this.app = app;
@@ -66,7 +68,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 
 		/* listen to changes in form. */
 
-		
+
 
 		this.renderTransectText();
 		return this;
@@ -94,7 +96,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 			this.boundingBox.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.boundingBox.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 		}
-		
+
 		this.element.attr({
 			"text": this.transectText.get('text'),
 			"x": this.transectText.get('x'),
@@ -136,12 +138,17 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		var y00 = bBox.y + bBox.height; // lower left y
 		var x11 = bBox.x2; // top right x
 		var y11 = bBox.y2 - bBox.height; // top right y
-		var x00 = Math.round(transect.getRelativeX(x00)*1000)/10;
-		var x11 = Math.round(transect.getRelativeX(x11)*1000)/10;
-		var y00 = Math.round(zone.getAbsoluteAge(y00)*100)/100;
-		var y11 = Math.round(zone.getAbsoluteAge(y11)*100)/100;
+		var x00 = Math.round(transect.getRelativeX(x00) * 1000) / 10;
+		var x11 = Math.round(transect.getRelativeX(x11) * 1000) / 10;
+		var y00 = Math.round(zone.getAbsoluteAge(y00) * 100) / 100;
+		var y11 = Math.round(zone.getAbsoluteAge(y11) * 100) / 100;
 		this.transectText.set({
-			bBox: {x1: x00, x2: x11, y1: y00, y2: y11}
+			bBox: {
+				x1: x00,
+				x2: x11,
+				y1: y00,
+				y2: y11
+			}
 		});
 	}
 
@@ -170,12 +177,15 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 
 	/*==========  while dragging  ==========*/
 	TransectTextView.prototype.dragMove = function(dx, dy, x, y, evt) {
-		var transect = this.app.TransectsCollection.getTransectForX(evt.offsetX);
-		var zone = this.app.ZonesCollection.getZoneForY(evt.offsetY);
+		var cdts = ViewboxToCanvas(this.app, evt.offsetX, evt.offsetY);
+		var locationX = cdts.x;
+		var locationY = cdts.y;
+		var transect = this.app.TransectsCollection.getTransectForX(locationX);
+		var zone = this.app.ZonesCollection.getZoneForY(locationY);
 		if (transect !== null && zone !== null) {
 			this.transectText.set({
-				x: evt.offsetX,	
-				y: evt.offsetY,
+				x: locationX,
+				y: locationY,
 			});
 			this.transectText.updateTransectAndZone();
 		}
@@ -223,7 +233,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 	};
 
 	TransectTextView.prototype.updateText = function(evt) {
-		
+
 		if (evt.keyCode == TimescaleApp.ESC) {
 			this.toggleTextForm();
 		}
@@ -235,7 +245,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		});
 		var fontFamily = this.$("select[name='text-font-family'] option:selected").val();
 		this.transectText.get('settings').set({
-			fontSize: this.$textFontSize.value,
+			textFontSize: this.$textFontSize.value,
 			fill: this.$textFontColor.value,
 			fontFamily: fontFamily,
 		})
@@ -245,17 +255,21 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		var transectBox = this.transectText.get('transect').getPolyKPointsArray();
 		var zoneBox = this.transectText.get('zone').getPolyKPointsArray();
 		var bBox = this.element.getBBox();
-		return (PolyK.ContainsPoint(transectBox, bBox.x, bBox.y) && 
-			PolyK.ContainsPoint(transectBox, bBox.x2, bBox.y2) && 
-			PolyK.ContainsPoint(zoneBox, bBox.x, bBox.y) && 
-			PolyK.ContainsPoint(zoneBox, bBox.x2, bBox.y2))
+		if (PolyK.ContainsPoint(transectBox, bBox.x, bBox.y) &&
+			PolyK.ContainsPoint(transectBox, bBox.x2, bBox.y2) &&
+			PolyK.ContainsPoint(zoneBox, bBox.x, bBox.y) &&
+			PolyK.ContainsPoint(zoneBox, bBox.x2, bBox.y2)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	TransectTextView.prototype.delete = function() {
-		if  (this.backgroundBox !== undefined) this.backgroundBox.remove();
-		if  (this.element !== undefined) this.element.remove();
-		if  (this.boundingBox !== undefined) this.boundingBox.remove();
-		if  (this.set !== undefined) this.set.remove();
+		if (this.backgroundBox !== undefined) this.backgroundBox.remove();
+		if (this.element !== undefined) this.element.remove();
+		if (this.boundingBox !== undefined) this.boundingBox.remove();
+		if (this.set !== undefined) this.set.remove();
 		this.$el.remove();
 		this.remove();
 	}

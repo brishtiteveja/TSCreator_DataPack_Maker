@@ -1,7 +1,3 @@
-/*================================
-=            Transect            =
-================================*/
-
 define(["baseModel", "settings"], function(BaseModel, Settings) {
 	var Transect = BaseModel.extend({
 		classname: "Transect",
@@ -29,13 +25,13 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	}
 
 	Transect.prototype.getAbsoluteX = function(relX) {
-		var x = this.get('wellLeft').get('x') + (this.get('wellRight').get('x') - this.get('wellLeft').get('x'))*relX;
+		var x = this.get('wellLeft').get('x') + (this.get('wellRight').get('x') - this.get('wellLeft').get('x')) * relX;
 		return x;
 	}
 
 	Transect.prototype.getRelativeX = function(x) {
 		if (this.get('wellLeft').get('x') < x && x < this.get('wellRight').get('x')) {
-			var num = ((x - this.get('wellLeft').get('x'))/(this.get('wellRight').get('x') - this.get('wellLeft').get('x')));
+			var num = ((x - this.get('wellLeft').get('x')) / (this.get('wellRight').get('x') - this.get('wellLeft').get('x')));
 			return Math.round(num * 1000) / 1000;
 		}
 		return null;
@@ -44,12 +40,10 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	Transect.prototype.getPolyKPointsArray = function() {
 		return ([this.get('wellLeft').get('x') - 2, 0,
 			this.get('wellRight').get('x') + 2, 0,
-			this.get('wellRight').get('x') + 2, this.app.Canvas.height,
-			this.get('wellLeft').get('x') - 2, this.app.Canvas.height]);
+			this.get('wellRight').get('x') + 2, this.app.height,
+			this.get('wellLeft').get('x') - 2, this.app.height
+		]);
 	}
 
 	return Transect;
 });
-
-/*-----  End of Transect  ------*/
-

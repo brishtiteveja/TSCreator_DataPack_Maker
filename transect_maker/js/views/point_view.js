@@ -1,7 +1,3 @@
-/*=================================
-=            PointView            =
-=================================*/
-
 define(["baseView"], function(BaseView) {
 	var PointView = BaseView.extend({
 		tagName: 'li',
@@ -76,10 +72,8 @@ define(["baseView"], function(BaseView) {
 			});
 		}
 
-		this.renderTooltip();
 		this.updateStatusBox();
 		this.updateElement();
-		this.point.updateTransectAndZone();
 	};
 
 	PointView.prototype.renderTooltip = function() {
@@ -104,7 +98,6 @@ define(["baseView"], function(BaseView) {
 			'cx': this.point.get('x'),
 			'cy': this.point.get('y'),
 		});
-		this.renderTooltip();
 		this.updateStatusBox();
 	}
 
@@ -159,6 +152,11 @@ define(["baseView"], function(BaseView) {
 		var locationX = evt.offsetX;
 		var locationY = evt.offsetY;
 
+
+		var cdts = ViewboxToCanvas(this.app, locationX, locationY);
+		locationX = cdts.x;
+		locationY = cdts.y;
+
 		if (this.app.Cursor.get('lockH')) {
 			locationY = this.point.get('y');
 		}
@@ -166,6 +164,7 @@ define(["baseView"], function(BaseView) {
 		if (this.app.Cursor.get('lockV')) {
 			locationX = this.point.get('x');
 		}
+
 
 		this.point.set({
 			x: locationX,
@@ -178,8 +177,9 @@ define(["baseView"], function(BaseView) {
 
 	PointView.prototype.onDragEnd = function(evt) {
 
-		var transect = this.app.TransectsCollection.getTransectForX(evt.offsetX);
-		var zone = this.app.ZonesCollection.getZoneForY(evt.offsetY);
+		var cdts = ViewboxToCanvas(this.app, evt.offsetX, evt.offsetY);
+		var transect = this.app.TransectsCollection.getTransectForX(cdts.x);
+		var zone = this.app.ZonesCollection.getZoneForY(cdts.y);
 
 		var locationX = this.point.get('x');
 		var locationY = this.point.get('y');
@@ -262,6 +262,7 @@ define(["baseView"], function(BaseView) {
 				x: x,
 				y: y
 			});
+			this.point.updateTransectAndZone();
 		}
 	}
 
