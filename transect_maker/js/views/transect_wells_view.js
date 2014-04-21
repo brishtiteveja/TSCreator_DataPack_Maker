@@ -68,7 +68,7 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 	TransectWellsView.prototype.createWell = function(evt) {
 		if (this.enWells) {
 			var locationX = evt.offsetX;
-			if (this.app.type === "transectApp") {
+			if (this.app.type === "transect") {
 				locationX = ViewboxToCanvas(this.app, locationX, locationY).x;
 			}
 			this.transectWells.add(new TransectWell({

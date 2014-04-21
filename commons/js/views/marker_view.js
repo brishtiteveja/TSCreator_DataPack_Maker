@@ -73,9 +73,10 @@ define(["baseView"], function(BaseView) {
 		this.element.attr({
 			'path': this.getPath()
 		});
-		if (this.app.type !== "transect") {
+		if (this.app.type === "transect") {} else {
 			this.resizeCanvas();
 		}
+
 	};
 
 	/*==========  render the tooltip for the marker in the canvas  ==========*/
@@ -94,7 +95,7 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  get path string for the marker  ==========*/
 	MarkerView.prototype.getPath = function() {
-		return "M0," + this.marker.get('y') + 'H' + this.app.width;
+		return "M0," + this.marker.get('y') + 'H' + (this.app.width || this.app.Canvas.width);
 	};
 
 	/*==========  start dragging  ==========*/

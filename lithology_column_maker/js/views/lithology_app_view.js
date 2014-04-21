@@ -1,4 +1,3 @@
-
 /*====================================================================
 =            LithologyAppView is the basic view for lithologys            =
 ====================================================================*/
@@ -19,22 +18,22 @@ define([
 	"referenceColumnSideView",
 	"imageView",
 	"imageOb"
-	], function(
-		BaseView,
-		CursorView,
-		FileSystemView,
-		Markers,
-		MarkersView,
-		Zones,
-		ZonesView,
-		LithologyColumns,
-		LithologyColumnsView,
-		DataExportView,
-		Loader,
-		Exporter,
-		ReferenceColumnSideView,
-		ImageView,
-		ImageOb) {
+], function(
+	BaseView,
+	CursorView,
+	FileSystemView,
+	Markers,
+	MarkersView,
+	Zones,
+	ZonesView,
+	LithologyColumns,
+	LithologyColumnsView,
+	DataExportView,
+	Loader,
+	Exporter,
+	ReferenceColumnSideView,
+	ImageView,
+	ImageOb) {
 
 	var LithologyAppView = BaseView.extend({
 		el: ".container",
@@ -52,7 +51,9 @@ define([
 
 	LithologyAppView.prototype.initialize = function() {
 
-		this.lithologyApp = {type : "lithology"};
+		this.lithologyApp = {
+			type: "lithology"
+		};
 
 		this.lithologyApp.LithologyColumnsCollection = new LithologyColumns();
 		this.lithologyApp.ZonesCollection = new Zones();
@@ -65,7 +66,7 @@ define([
 
 		this.$introScreen = this.$("#intro-screen");
 		this.lithologyApp.$canvas = this.$("#canvas");
-		this.$canvas  = this.lithologyApp.$canvas;
+		this.$canvas = this.lithologyApp.$canvas;
 		this.$displayPanels = this.$('.display-panel');
 
 		//
@@ -83,11 +84,16 @@ define([
 		this.lithologyApp.LithologyGroupsSet = this.lithologyApp.Canvas.set();
 
 		this.loadPatternsDataAndRender();
+
+
+		$('.linked').scroll(function() {
+			$('.linked').scrollTop($(this).scrollTop());
+		});
 	};
 
 	LithologyAppView.prototype.loadPatternsDataAndRender = function() {
 		var self = this;
-		$.get( "/pattern_manager/json/patterns.json", function(data) {
+		$.get("/pattern_manager/json/patterns.json", function(data) {
 			self.lithologyApp.patternsData = data;
 			self.render();
 			self.listenToActionEvents();
@@ -96,13 +102,15 @@ define([
 
 	LithologyAppView.prototype.listenToActionEvents = function() {
 		var self = this;
-		$(".close-reveal-modal").click(function(evt) { $(evt.target).parent().foundation('reveal', 'close') });
-		
-		$('a[href=#continue-load-from-local-storage]').click(function(evt) { 
+		$(".close-reveal-modal").click(function(evt) {
+			$(evt.target).parent().foundation('reveal', 'close')
+		});
+
+		$('a[href=#continue-load-from-local-storage]').click(function(evt) {
 			$(evt.target).parent().foundation('reveal', 'close');
 			self.loadFromLocalStorage();
 		});
-		
+
 		$('a[href=#continue-save-to-local-storage]').click(function(evt) {
 			$(evt.target).parent().foundation('reveal', 'close');
 			self.saveToLocalStorage();
@@ -130,10 +138,6 @@ define([
 		this.lithologyColumnsView = new LithologyColumnsView(this.lithologyApp);
 
 		this.referenceColumnSideView = new ReferenceColumnSideView(this.lithologyApp, "#reference-column-settings");
-
-		$('.linked').scroll(function(){
-			$('.linked').scrollTop($(this).scrollTop());
-		});
 	};
 
 
@@ -163,8 +167,7 @@ define([
 	};
 
 	LithologyAppView.prototype.showExportDataPanel = function(evt) {
-		if (this.$exportPanel.hasClass('active')) {
-		} else {
+		if (this.$exportPanel.hasClass('active')) {} else {
 			this.dataExportView.render();
 		}
 	}
@@ -185,7 +188,7 @@ define([
 	LithologyAppView.prototype.dataDragover = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
+		evt.preventDefault();
 	}
 
 
@@ -193,21 +196,21 @@ define([
 		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
-    	var file = evt.dataTransfer.files[0];
-    	
-    	if (file.type === "application/json") {
-	    	var reader = new FileReader();
+		evt.preventDefault();
+		var file = evt.dataTransfer.files[0];
+
+		if (file.type === "application/json") {
+			var reader = new FileReader();
 			reader.onloadend = function(e) {
 				self.showCanvas();
 				self.lithologyApp.loader.loadData(this.result);
 			};
-	    	reader.readAsText(file);	
-    	}
+			reader.readAsText(file);
+		}
 	}
 
 
-	LithologyAppView.prototype.toggleLithologys = function(evt) {		
+	LithologyAppView.prototype.toggleLithologys = function(evt) {
 		if ($("a[href='#add-lithology']").parent().hasClass('active')) {
 			$("a[href='#add-lithology']").parent().removeClass('active');
 			this.lithologyApp.enLithologys = false;
@@ -220,19 +223,19 @@ define([
 	LithologyAppView.prototype.dataDragover = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
+		evt.preventDefault();
 	}
 
 
 	LithologyAppView.prototype.dataDrop = function(evt) {
-    	$("#loading").removeClass("hide");
+		$("#loading").removeClass("hide");
 		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
-    	var file = evt.dataTransfer.files[0];
-    	var ext = file.name.split(".").pop();
-    	var reader = new FileReader();
+		evt.preventDefault();
+		var file = evt.dataTransfer.files[0];
+		var ext = file.name.split(".").pop();
+		var reader = new FileReader();
 		reader.onloadend = function(e) {
 			self.showCanvas();
 			if (ext === "json") {
@@ -243,22 +246,22 @@ define([
 			}
 			$("#loading").addClass("hide");
 		};
-    	reader.readAsText(file);
+		reader.readAsText(file);
 	}
 
 	LithologyAppView.prototype.enableTool = function(evt) {
 		var source = evt.target.getAttribute('href');
 
-		
+
 		if (this.markersView.enMarkers) {
-			this.markersView.toggleMarkers();	
+			this.markersView.toggleMarkers();
 		}
-		
+
 		if (this.lithologyApp.enLithologys) {
-			this.toggleLithologys();	
+			this.toggleLithologys();
 		}
-		
-		switch(source) {
+
+		switch (source) {
 			case "#add-marker":
 				this.markersView.toggleMarkers();
 				break;
@@ -288,4 +291,3 @@ define([
 });
 
 /*-----  End of Section comment lithology  ------*/
-
