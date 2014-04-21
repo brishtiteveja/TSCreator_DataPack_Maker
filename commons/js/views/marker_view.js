@@ -109,15 +109,14 @@ define(["baseView"], function(BaseView) {
 	/*==========  while dragging  ==========*/
 	MarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
 
-		var locationX, locationY;
+
+		var locationX = evt.offsetX;
+		var locationY = evt.offsetY;
 
 		if (this.app.type === "transect") {
 			var cdts = ViewboxToCanvas(this.app, evt.offsetX, evt.offsetY);
 			locationX = cdts.x;
 			locationY = cdts.y;
-		} else {
-			locationX = evt.offsetX;
-			locationY = evt.offsety;
 		}
 
 		if (this.prevMarker && this.nextMarker && (this.prevMarker.get('y') + 2 > locationY || locationY > this.nextMarker.get('y') - 2)) {
