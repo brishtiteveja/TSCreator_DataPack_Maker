@@ -52,6 +52,8 @@ define(["baseView"], function(BaseView) {
 		this.editMarker();
 
 		this.renderMarker();
+
+		this.renderTooltip();
 	};
 
 	/*==========  render the marker on the canvas  ==========*/
@@ -69,7 +71,6 @@ define(["baseView"], function(BaseView) {
 			this.element.toFront();
 			this.app.MarkersSet.push(this.element);
 		}
-		this.renderTooltip();
 		this.element.attr({
 			'path': this.getPath()
 		});
@@ -213,6 +214,8 @@ define(["baseView"], function(BaseView) {
 			name: name,
 			age: age
 		});
+
+		this.renderTooltip();
 	};
 
 	MarkerView.prototype.delete = function() {
