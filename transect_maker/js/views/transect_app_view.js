@@ -123,7 +123,7 @@ define([
 		this.transectApp.BgRect = this.transectApp.Canvas.rect(0, 0, this.transectApp.width, this.transectApp.height);
 		this.transectApp.BgRect.attr({
 			"fill": "#ffffff",
-			"fill-opacity": 0,
+			"fill-opacity": 1,
 		});
 		this.transectApp.BgRect.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
 		this.disPan();
@@ -366,7 +366,7 @@ define([
 		this.pan = false;
 		this.transectApp.BgRect.attr({
 			"fill": "#ffffff",
-			"fill-opacity": 0,
+			"fill-opacity": 1,
 		});
 		this.transectApp.BgRect.toBack();
 		$("a[href='#pan']").parent().removeClass('active');
