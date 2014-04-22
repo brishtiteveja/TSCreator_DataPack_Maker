@@ -366,7 +366,7 @@ define([
 		this.pan = false;
 		this.transectApp.BgRect.attr({
 			"fill": "#ffffff",
-			"fill-opacity": 1,
+			"fill-opacity": 0,
 		});
 		this.transectApp.BgRect.toBack();
 		$("a[href='#pan']").parent().removeClass('active');
