@@ -123,7 +123,7 @@ define([
 		this.transectApp.BgRect = this.transectApp.Canvas.rect(0, 0, this.transectApp.width, this.transectApp.height);
 		this.transectApp.BgRect.attr({
 			"fill": "#ffffff",
-			"fill-opacity": 1,
+			"fill-opacity": 0,
 		});
 		this.transectApp.BgRect.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
 		this.disPan();
