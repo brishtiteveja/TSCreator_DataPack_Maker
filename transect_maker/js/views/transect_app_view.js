@@ -1,4 +1,5 @@
 define([
+	"raphael",
 	"baseView",
 	"cursorView",
 	"transectsView",
@@ -24,6 +25,7 @@ define([
 	"markers",
 	"referenceColumnSideView",
 ], function(
+	Raphael,
 	BaseView,
 	CursorView,
 	TransectsView,
