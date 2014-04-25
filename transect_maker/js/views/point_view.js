@@ -61,8 +61,9 @@ define(["baseView"], function(BaseView) {
 			});
 		}
 
-		this.updateStatusBox();
 		this.updateElement();
+		this.updateStatusBox();
+		this.renderTooltip();
 	};
 
 	PointView.prototype.renderTooltip = function() {
@@ -240,11 +241,6 @@ define(["baseView"], function(BaseView) {
 		if (model !== this.point.get('transect') && model !== this.point.get('zone')) {
 			return;
 		}
-
-		this.point.set({
-			transect: null,
-			zone: null
-		});
 
 		this.point.updateTransectAndZone();
 		this.render();

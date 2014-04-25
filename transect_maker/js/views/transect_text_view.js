@@ -48,12 +48,6 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		if (model !== this.transectText.get('transect') && model !== this.transectText.get('zone')) {
 			return;
 		}
-
-		this.transectText.set({
-			zone: null,
-			transect: null
-		});
-
 		this.transectText.updateTransectAndZone();
 		this.render();
 	}
