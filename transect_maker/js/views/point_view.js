@@ -63,7 +63,6 @@ define(["baseView"], function(BaseView) {
 
 		this.updateElement();
 		this.updateStatusBox();
-		this.renderTooltip();
 	};
 
 	PointView.prototype.renderTooltip = function() {
