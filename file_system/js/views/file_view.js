@@ -14,14 +14,16 @@ define(["baseView"], function(BaseView) {
 		}
 	});
 
-	FileView.prototype.template = new EJS({url: "/file_system/ejs/file.ejs"});
+	FileView.prototype.template = new EJS({
+		url: "/file_system/ejs/file.ejs"
+	});
 
 	FileView.prototype.initialize = function(file, files, fileSystem, app) {
 		this.app = app;
 		this.fileSystem = fileSystem;
 		this.files = files;
 		this.file = file;
-		
+
 		this.listenTo(this.file, "change:selected", this.setSelected.bind(this));
 		this.listenTo(this.file, "change:name", this.rename.bind(this));
 		this.listenTo(this.file, "destroy", this.delete.bind(this));
@@ -64,15 +66,15 @@ define(["baseView"], function(BaseView) {
 
 	FileView.prototype.select = function() {
 		var self = this;
-		this.files.each(function(file){
+		this.files.each(function(file) {
 			if (file == self.file) {
 				file.set({
 					selected: !file.get('selected')
-				});	
+				});
 			} else {
 				file.set({
 					selected: false
-				});	
+				});
 			}
 		});
 	}
@@ -135,7 +137,7 @@ define(["baseView"], function(BaseView) {
 			});
 		}
 	}
-	
+
 	FileView.prototype.errorHandler = function(e) {
 		console.log('Error: ' + e.name + " " + e.message);
 	}
@@ -143,7 +145,7 @@ define(["baseView"], function(BaseView) {
 	FileView.prototype.loadData = function() {
 		var self = this;
 		if (self.file.get('isDirectory') || !self.file.get("selected")) return;
-		
+
 		self.fileSystem.get("fs").root.getFile(self.file.get('fullPath'), {}, function(fileEntry) {
 
 			// Get a File object representing the file,
@@ -177,4 +179,3 @@ define(["baseView"], function(BaseView) {
 });
 
 /*-----  End of FileView  ------*/
-

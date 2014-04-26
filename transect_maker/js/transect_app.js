@@ -1,6 +1,8 @@
 requirejs.config({
 	paths: {
 
+		raphael: "/commons/js/lib/raphael",
+
 		// Base components
 		baseView: "/commons/js/views/base_view",
 		baseModel: "/commons/js/models/base_model",

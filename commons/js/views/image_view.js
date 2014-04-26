@@ -51,6 +51,9 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 			this.element = this.app.Canvas.image(this.image.get('data'));
 		}
 		this.element.toBack();
+		if (this.app.BgRect) {
+			this.app.BgRect.toBack();
+		}
 		this.app.imageElement = this.element;
 		this.element.attr({
 			x: this.image.get('x'),

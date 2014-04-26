@@ -1,4 +1,5 @@
 define([
+	"raphael",
 	"baseView",
 	"cursorView",
 	"transectsView",
@@ -24,6 +25,7 @@ define([
 	"markers",
 	"referenceColumnSideView",
 ], function(
+	Raphael,
 	BaseView,
 	CursorView,
 	TransectsView,
@@ -123,7 +125,7 @@ define([
 		this.transectApp.BgRect = this.transectApp.Canvas.rect(0, 0, this.transectApp.width, this.transectApp.height);
 		this.transectApp.BgRect.attr({
 			"fill": "#ffffff",
-			"fill-opacity": 0,
+			"fill-opacity": 1,
 		});
 		this.transectApp.BgRect.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
 		this.disPan();
@@ -332,6 +334,9 @@ define([
 			width: vBox.width * 0.8,
 			height: vBox.height * 0.8
 		});
+
+		this.transectApp.width = Math.max(vBox.width * 0.8, this.transectApp.width);
+		this.transectApp.height = Math.max(vBox.height * 0.8, this.transectApp.height);
 		this.transectApp.Canvas.setViewBox(vBox.x, vBox.y, vBox.width * 0.8, vBox.height * 0.8);
 	}
 
@@ -341,6 +346,9 @@ define([
 			width: vBox.width * 1.2,
 			height: vBox.height * 1.2
 		});
+
+		this.transectApp.width = Math.max(vBox.width * 1.2, this.transectApp.width);
+		this.transectApp.height = Math.max(vBox.height * 1.2, this.transectApp.height);
 		this.transectApp.Canvas.setViewBox(vBox.x, vBox.y, vBox.width * 1.2, vBox.height * 1.2);
 
 	}
@@ -348,6 +356,7 @@ define([
 	TransectAppView.prototype.enPan = function() {
 		this.pan = true;
 		this.transectApp.BgRect.attr({
+			"fill": "#FFCC66",
 			"fill-opacity": 0.5,
 		});
 		this.transectApp.BgRect.toFront();
@@ -358,7 +367,8 @@ define([
 	TransectAppView.prototype.disPan = function() {
 		this.pan = false;
 		this.transectApp.BgRect.attr({
-			"fill-opacity": 0,
+			"fill": "#ffffff",
+			"fill-opacity": 1,
 		});
 		this.transectApp.BgRect.toBack();
 		$("a[href='#pan']").parent().removeClass('active');

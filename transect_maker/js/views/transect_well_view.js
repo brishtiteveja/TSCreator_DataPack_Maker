@@ -28,11 +28,8 @@ define(["baseView"], function(BaseView) {
 
 		/* listen to the events */
 		this.listenTo(this.transectWell, 'change:edit', this.editTransectWell.bind(this));
-		this.listenTo(this.transectWell, 'change:x', this.renderWell.bind(this));
-		this.listenTo(this.transectWell, 'change:name', this.renderWell.bind(this));
-		this.listenTo(this.transectWell, 'change:lat', this.renderWell.bind(this));
-		this.listenTo(this.transectWell, 'change:lon', this.renderWell.bind(this));
 		this.listenTo(this.transectWell, 'change:hover', this.setHoverStatus.bind(this));
+		this.listenTo(this.transectWell, 'change', this.renderWell.bind(this));
 		this.listenTo(this.transectWell, 'destroy', this.delete.bind(this));
 	};
 
@@ -54,6 +51,9 @@ define(["baseView"], function(BaseView) {
 		/* render the well */
 		this.renderWell();
 
+		/* render tooltip */
+		this.renderTooltip();
+
 	};
 
 	TransectWellView.prototype.renderWell = function() {
@@ -71,8 +71,6 @@ define(["baseView"], function(BaseView) {
 			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 		}
 
-		/* render tooltip */
-		this.renderTooltip();
 
 		this.element.attr({
 			'path': this.getPath()
@@ -213,6 +211,8 @@ define(["baseView"], function(BaseView) {
 			lon: lon,
 			description: description
 		});
+
+		this.renderTooltip();
 	};
 
 	TransectWellView.prototype.delete = function() {

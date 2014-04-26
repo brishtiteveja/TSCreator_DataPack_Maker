@@ -40,11 +40,11 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		this.listenTo(this.transectText, 'destroy', this.delete.bind(this));
 		this.listenTo(this.transectText.get('settings'), 'change', this.renderTransectText.bind(this));
 
-		this.listenTo(this.app.ZonesCollection, 'remove', this.updateText.bind(this));
-		this.listenTo(this.app.TransectsCollection, 'remove', this.updateText.bind(this));
+		this.listenTo(this.transectText.get('zone'), 'remove', this.updateTextTransectAndZone.bind(this));
+		this.listenTo(this.transectText.get('transect'), 'remove', this.updateTextTransectAndZone.bind(this));
 	}
 
-	TransectTextView.prototype.updateText = function(model) {
+	TransectTextView.prototype.updateTextTransectAndZone = function(model) {
 		if (model !== this.transectText.get('transect') && model !== this.transectText.get('zone')) {
 			return;
 		}

@@ -84,6 +84,11 @@ define([
 		this.lithologyApp.LithologyGroupsSet = this.lithologyApp.Canvas.set();
 
 		this.loadPatternsDataAndRender();
+
+
+		$('.linked').scroll(function() {
+			$('.linked').scrollTop($(this).scrollTop());
+		});
 	};
 
 	LithologyAppView.prototype.loadPatternsDataAndRender = function() {
@@ -133,10 +138,13 @@ define([
 		this.lithologyColumnsView = new LithologyColumnsView(this.lithologyApp);
 
 		this.referenceColumnSideView = new ReferenceColumnSideView(this.lithologyApp, "#reference-column-settings");
+<<<<<<< HEAD
 
 		$('.linked').scroll(function() {
 			$('.linked').scrollTop($(this).scrollTop());
 		});
+=======
+>>>>>>> master
 	};
 
 

@@ -28,20 +28,9 @@ define(["baseView"], function(BaseView) {
 		this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.point, 'change:x', this.renderPoint.bind(this));
 		this.listenTo(this.point, 'change:y', this.renderPoint.bind(this));
-		this.listenTo(this.app.ZonesCollection, 'remove', this.updatePoint.bind(this));
-		this.listenTo(this.app.TransectsCollection, 'remove', this.updatePoint.bind(this));
+		this.listenTo(this.point.get('zone'), 'destroy', this.updatePointTransetAndZone.bind(this));
+		this.listenTo(this.point.get('transect'), 'destroy', this.updatePointTransetAndZone.bind(this));
 	};
-
-	PointView.prototype.updatePoint = function(model) {
-
-		if (model !== this.point.get('transect') && model !== this.point.get('zone')) {
-			return;
-		}
-
-		this.point.updateTransectAndZone();
-		this.render();
-		this.toggleEditStatus();
-	}
 
 
 	PointView.prototype.render = function() {
@@ -72,8 +61,8 @@ define(["baseView"], function(BaseView) {
 			});
 		}
 
-		this.updateStatusBox();
 		this.updateElement();
+		this.updateStatusBox();
 	};
 
 	PointView.prototype.renderTooltip = function() {
@@ -244,6 +233,17 @@ define(["baseView"], function(BaseView) {
 			this.$toggle.addClass('hide-data');
 			this.setFinishedMode();
 		}
+	}
+
+	PointView.prototype.updatePointTransetAndZone = function(model) {
+
+		if (model !== this.point.get('transect') && model !== this.point.get('zone')) {
+			return;
+		}
+
+		this.point.updateTransectAndZone();
+		this.render();
+		this.toggleEditStatus();
 	}
 
 	PointView.prototype.updatePoint = function(evt) {

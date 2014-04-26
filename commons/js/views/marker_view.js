@@ -52,6 +52,8 @@ define(["baseView"], function(BaseView) {
 		this.editMarker();
 
 		this.renderMarker();
+
+		this.renderTooltip();
 	};
 
 	/*==========  render the marker on the canvas  ==========*/
@@ -69,13 +71,13 @@ define(["baseView"], function(BaseView) {
 			this.element.toFront();
 			this.app.MarkersSet.push(this.element);
 		}
-		this.renderTooltip();
 		this.element.attr({
 			'path': this.getPath()
 		});
-		if (this.app.type !== "transect") {
+		if (this.app.type === "transect") {} else {
 			this.resizeCanvas();
 		}
+
 	};
 
 	/*==========  render the tooltip for the marker in the canvas  ==========*/
@@ -94,7 +96,7 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  get path string for the marker  ==========*/
 	MarkerView.prototype.getPath = function() {
-		return "M0," + this.marker.get('y') + 'H' + this.app.width;
+		return "M0," + this.marker.get('y') + 'H' + (this.app.width || this.app.Canvas.width);
 	};
 
 	/*==========  start dragging  ==========*/
@@ -108,15 +110,14 @@ define(["baseView"], function(BaseView) {
 	/*==========  while dragging  ==========*/
 	MarkerView.prototype.dragMove = function(dx, dy, x, y, evt) {
 
-		var locationX, locationY;
+
+		var locationX = evt.offsetX;
+		var locationY = evt.offsetY;
 
 		if (this.app.type === "transect") {
 			var cdts = ViewboxToCanvas(this.app, evt.offsetX, evt.offsetY);
 			locationX = cdts.x;
 			locationY = cdts.y;
-		} else {
-			locationX = evt.offsetX;
-			locationY = evt.offsety;
 		}
 
 		if (this.prevMarker && this.nextMarker && (this.prevMarker.get('y') + 2 > locationY || locationY > this.nextMarker.get('y') - 2)) {
@@ -213,6 +214,8 @@ define(["baseView"], function(BaseView) {
 			name: name,
 			age: age
 		});
+
+		this.renderTooltip();
 	};
 
 	MarkerView.prototype.delete = function() {
