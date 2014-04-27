@@ -3,12 +3,9 @@
 =================================================================================================*/
 
 define([], function() {
-	var BaseCollection = Backbone.Collection.extend({
-		localStorage: new Backbone.LocalStorage('timescale-creator')
-	});
+	var BaseCollection = Backbone.Collection.extend({});
 
 	return BaseCollection;
 })
 
 /*-----  End of BaseCollection  ------*/
-

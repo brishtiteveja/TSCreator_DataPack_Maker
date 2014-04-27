@@ -395,12 +395,15 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 	}
 
 	PolygonView.prototype.renderPolygonElement = function() {
-		if (this.element !== undefined) {
-			this.element.remove();
+		if (this.element === undefined) {
+			this.element = this.app.Canvas.path();
+			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+			this.app.PolygonsSet.push(this.element);
 		}
-		this.element = this.app.Canvas.path(this.getPath());
-		this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
-		this.app.PolygonsSet.push(this.element);
+
+		this.element.attr({
+			path: this.getPath()
+		});
 		this.renderTooltip();
 		this.setRenderMode();
 		this.bringToFront();

@@ -7,6 +7,7 @@
 @import "file_system/file_system_icons";
 @import "file_system/file_system_panel";
 @import "reference_column/ref_col";
+@import "polymaps/maps";
 
 body {
 	> .row{
@@ -23,4 +24,8 @@ body {
 
 .toggle {
 	cursor: hand;
+}
+compass .back {
+  fill: #eee;
+  fill-opacity: .8;
 }

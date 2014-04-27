@@ -1,50 +1,23 @@
-define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, Polygon) {
+define(["baseView",
+	"polygonView",
+	"polygon"
+], function(BaseView,
+	PolygonView,
+	Polygon) {
+
 	var PolygonsView = BaseView.extend({
-		el: "#polygons-list",
-		classname: "PolygonsView",
+		el: "#polygons-list"
 	});
 
-	/* Template for the polygons line the setting panel on the right side */
 	PolygonsView.prototype.template = new EJS({
 		url: '/commons/ejs/data_tbl.ejs'
 	});
 
-
 	PolygonsView.prototype.initialize = function(app) {
 		this.app = app;
-		CurrentPolygon = null;
-
-		this.polygonsCollection = this.app.PolygonsCollection;
-
-		this.enPolygons = false;
-
-		this.render();
-
-		this.listenToActionEvents();
-
+		this.polygonsCollection = app.PolygonsCollection;
 		this.listenTo(this.polygonsCollection, 'add', this.addPolygon.bind(this));
-	};
-
-	PolygonsView.prototype.render = function() {
-		this.$el.html(this.template.render({
-			name: "Polygons"
-		}));
-		this.$polygonsList = this.$(".data-list");
-		this.renderPolygons();
-	};
-
-	PolygonsView.prototype.renderPolygons = function() {
-		this.polygonsCollection.each(this.addPolygon.bind(this));
 	}
-
-	PolygonsView.prototype.listenToActionEvents = function() {
-		$('a[href="#new-polygon"]').click(this.createPolygon.bind(this));
-	}
-
-	PolygonsView.prototype.addPolygon = function(polygon) {
-		var polygonView = new PolygonView(this.app, polygon);
-		this.$polygonsList.append(polygonView.el);
-	};
 
 	PolygonsView.prototype.togglePolygons = function() {
 		if ($("a[href='#add-polygon']").parent().hasClass('hide')) {
@@ -71,7 +44,13 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 		this.app.CurrentPolygon.set({
 			'draw': true
 		});
-	};
+	}
+
+	PolygonsView.prototype.disableAllPolygons = function() {
+		this.polygonsCollection.each(function(polygon) {
+			polygon.set('draw', false);
+		});
+	}
 
 	PolygonsView.prototype.checkAndDeleteCurrentPolygon = function() {
 		if (this.app.CurrentPolygon) {
@@ -87,11 +66,8 @@ define(["baseView", "polygonView", "polygon"], function(BaseView, PolygonView, P
 		}
 	}
 
-	PolygonsView.prototype.disableAllPolygons = function() {
-		this.polygonsCollection.each(function(polygon) {
-			polygon.set('draw', false);
-		});
-	}
-
+	PolygonsView.prototype.addPolygon = function(polygon) {
+		var polygonView = new PolygonView(this.app, polygon);
+	};
 	return PolygonsView;
 });

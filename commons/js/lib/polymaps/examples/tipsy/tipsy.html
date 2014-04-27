@@ -114,6 +114,7 @@ function cancel(e) {
 function update(tip) {
   if (!tip.visible) return; // ignore
   var p = map.locationPoint(tip.location);
+  debugger;
   tip.anchor.style.left = p.x - radius + "px";
   tip.anchor.style.top = p.y - radius + "px";
   $(tip.anchor).tipsy("show");
