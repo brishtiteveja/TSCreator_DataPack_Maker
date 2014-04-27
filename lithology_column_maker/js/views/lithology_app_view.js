@@ -138,13 +138,6 @@ define([
 		this.lithologyColumnsView = new LithologyColumnsView(this.lithologyApp);
 
 		this.referenceColumnSideView = new ReferenceColumnSideView(this.lithologyApp, "#reference-column-settings");
-<<<<<<< HEAD
-
-		$('.linked').scroll(function() {
-			$('.linked').scrollTop($(this).scrollTop());
-		});
-=======
->>>>>>> master
 	};
 
 
