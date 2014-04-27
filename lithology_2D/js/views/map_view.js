@@ -10,6 +10,7 @@ define(["raphael", "baseView"], function(Raphael, BaseView) {
 	MapView.prototype.initialize = function(app) {
 		this.app = app;
 		this.app.po = org.polymaps;
+		this.app.drag = this.app.po.drag();
 		this.app.map = this.app.po.map()
 			.container(this.app.Paper.canvas)
 			.zoomRange([2, 9])
@@ -17,7 +18,7 @@ define(["raphael", "baseView"], function(Raphael, BaseView) {
 			.add(this.app.po.image().url("http://s3.amazonaws.com/com.modestmaps.bluemarble/{Z}-r{Y}-c{X}.jpg"))
 			.add(this.app.po.arrow())
 			.add(this.app.po.wheel())
-			.add(this.app.po.drag())
+			.add(this.app.drag)
 			.add(this.app.po.grid());
 
 		this.points = [];

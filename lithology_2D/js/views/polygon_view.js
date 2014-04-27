@@ -34,7 +34,8 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 		this.element.attr({
 			path: this.getPath(),
 			stroke: "#ff0000",
-			fill: "#ff00ff"
+			fill: "#555555",
+			opacity: 0.8
 		});
 	}
 

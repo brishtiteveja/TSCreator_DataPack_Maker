@@ -28,9 +28,9 @@ define(["baseView"], function(BaseView) {
 		if (this.element === undefined) {
 			this.element = this.app.Paper.circle(this.point.get('x'), this.point.get('y'), 4);
 
-			// this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			// this.element.click(this.onClick.bind(this));
-			// this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
+			this.element.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
 
 			this.element.attr({
 				'fill': "#ffff00"
@@ -41,9 +41,22 @@ define(["baseView"], function(BaseView) {
 	}
 
 	PointView.prototype.updateElement = function() {
+
+		var cdts = {
+			x: this.point.get('x'),
+			y: this.point.get('y')
+		};
+
+		var wCdts = this.app.map.pointLocation(cdts);
+
 		this.element.attr({
 			'cx': this.point.get('x'),
-			'cy': this.point.get('y'),
+			'cy': this.point.get('y')
+		});
+
+		this.point.set({
+			lat: wCdts.lat,
+			lon: wCdts.lon
 		});
 	}
 
@@ -60,6 +73,32 @@ define(["baseView"], function(BaseView) {
 			x: cdts.x || this.point.get('x'),
 			y: cdts.y || this.point.get('y')
 		})
+	}
+
+	PointView.prototype.onDragStart = function(x, y, evt) {
+		this.app.map.remove(this.app.drag);
+	}
+
+	PointView.prototype.onDragMove = function(x, y, dx, dy, evt) {
+		this.point.set({
+			x: evt.offsetX,
+			y: evt.offsetY
+		});
+	}
+	PointView.prototype.onDragEnd = function(evt) {
+		this.app.map.add(this.app.drag);
+	}
+
+	PointView.prototype.onMouseOver = function(evt) {
+		this.element.attr({
+			"r": 10
+		});
+	}
+
+	PointView.prototype.onMouseOut = function(evt) {
+		this.element.attr({
+			"r": 5
+		});
 	}
 
 	return PointView;
