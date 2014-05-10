@@ -20,6 +20,7 @@ define(["raphael", "baseView"], function(Raphael, BaseView) {
 			.container(this.app.Paper.canvas)
 			.zoomRange([2, 18])
 			.zoom(7)
+			.add(this.app.mapLayer2)
 			.add(this.app.mapLayer1)
 			.add(this.app.po.arrow())
 			.add(this.app.po.wheel())
@@ -41,11 +42,11 @@ define(["raphael", "baseView"], function(Raphael, BaseView) {
 
 	MapView.prototype.change = function(evt) {
 		if (this.app.map.zoom() > 9) {
-			this.app.map.remove(this.app.mapLayer1);
-			this.app.map.add(this.app.mapLayer2);
+			this.app.mapLayer1.visible(false);
+			this.app.mapLayer2.visible(true);
 		} else {
-			this.app.map.remove(this.app.mapLayer2);
-			this.app.map.add(this.app.mapLayer1);
+			this.app.mapLayer1.visible(true);
+			this.app.mapLayer2.visible(false);
 		}
 	}
 
