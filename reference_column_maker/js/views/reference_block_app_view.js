@@ -28,7 +28,7 @@ define([
 		events: {
 			'click a.block-settings': 'showSettings',
 			'click a.maker-tools': 'enableTool',
-			'click a.continue': 'showCanvas',
+			'click a.continue': 'showPaper',
 			"dragover #data-box": "dataDragover",
 			"drop #data-box": "dataDrop",
 		}
@@ -56,11 +56,11 @@ define([
 		this.referenceColumnApp.exporter = new Exporter(this.referenceColumnApp);
 
 		// Initialize the models
-		this.referenceColumnApp.Canvas = new Raphael(this.$canvas[0], 2000, 2000);
+		this.referenceColumnApp.Paper = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
-		this.referenceColumnApp.MarkersSet = this.referenceColumnApp.Canvas.set();
-		this.referenceColumnApp.BlockMarkersSet = this.referenceColumnApp.Canvas.set();
-		this.referenceColumnApp.BlocksSet = this.referenceColumnApp.Canvas.set();
+		this.referenceColumnApp.MarkersSet = this.referenceColumnApp.Paper.set();
+		this.referenceColumnApp.BlockMarkersSet = this.referenceColumnApp.Paper.set();
+		this.referenceColumnApp.BlocksSet = this.referenceColumnApp.Paper.set();
 		
 		this.render();
 
@@ -82,7 +82,7 @@ define([
 		});
 	}
 
-	ReferenceBlockAppView.prototype.showCanvas = function() {
+	ReferenceBlockAppView.prototype.showPaper = function() {
 		this.$canvas.removeClass('hide');
 		this.$introScreen.addClass('hide');
 	}
@@ -128,7 +128,7 @@ define([
 		}
 	}
 
-	ReferenceBlockAppView.prototype.exportCanvasAsImage = function() {}
+	ReferenceBlockAppView.prototype.exportPaperAsImage = function() {}
 
 	ReferenceBlockAppView.prototype.saveToLocalStorage = function() {
 		this.referenceColumnApp.exporter.export();
@@ -136,7 +136,7 @@ define([
 	}
 
 	ReferenceBlockAppView.prototype.loadFromLocalStorage = function() {
-		this.showCanvas();
+		this.showPaper();
 		this.referenceColumnApp.loader.loadFromLocalStorage();
 	}
 
@@ -158,7 +158,7 @@ define([
     	if (file.type === "application/json") {
 	    	var reader = new FileReader();
 			reader.onloadend = function(e) {
-				self.showCanvas();
+				self.showPaper();
 				if (ext === "json") {
 					self.referenceColumnApp.loader.loadData(this.result);
 				} else if (ext === "txt") {
@@ -197,7 +197,7 @@ define([
     	var ext = file.name.split(".").pop();
     	var reader = new FileReader();
 		reader.onloadend = function(e) {
-			self.showCanvas();
+			self.showPaper();
 			if (ext === "json") {
 				self.referenceColumnApp.loader.loadJSONData(this.result);
 			}

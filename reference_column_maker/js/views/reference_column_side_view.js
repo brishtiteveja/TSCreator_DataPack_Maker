@@ -60,7 +60,7 @@ define([
 		this.listenTo(this.referenceColumn, 'change:top', this.render.bind(this));
 		this.listenTo(this.referenceColumn, 'change:base', this.render.bind(this));
 
-		this.renderReferenceColumnCanvas();
+		this.renderReferenceColumnPaper();
 		
 		// load the column data from the json file on the server and 
 		// populate the reference panel settings with the related information.
@@ -75,19 +75,19 @@ define([
 		})
 	}
 
-	ReferenceColumnSideView.prototype.renderReferenceColumnCanvas = function() {
+	ReferenceColumnSideView.prototype.renderReferenceColumnPaper = function() {
 
 		// render the reference panel to contain empty svg
 		this.$refPanel = $("#ref-panel");
 		this.$refPanel.html(this.template.render({}));
 		this.app.refCol.$canvas = $("#ref-canvas");
 		this.$canvas  = this.app.refCol.$canvas;
-		this.app.refCol.Canvas = new Raphael(this.$canvas[0], 0, 0);
+		this.app.refCol.Paper = new Raphael(this.$canvas[0], 0, 0);
 
 		// 
-		this.app.refCol.MarkersSet = this.app.refCol.Canvas.set();
-		this.app.refCol.BlockMarkersSet = this.app.refCol.Canvas.set();
-		this.app.refCol.BlocksSet = this.app.refCol.Canvas.set();
+		this.app.refCol.MarkersSet = this.app.refCol.Paper.set();
+		this.app.refCol.BlockMarkersSet = this.app.refCol.Paper.set();
+		this.app.refCol.BlocksSet = this.app.refCol.Paper.set();
 
 		this.listenToActionEvents();
 	}
@@ -153,7 +153,7 @@ define([
 			this.referenceColumn.set({
 				column: this.loadBlockColumn(columnData)
 			});	
-			this.resizeReferenceColumnCanvas();
+			this.resizeReferenceColumnPaper();
 		} else {
 			this.referenceColumn.set({
 				columnId: "none"
@@ -174,12 +174,12 @@ define([
 		return column;
 	}
 
-	ReferenceColumnSideView.prototype.resizeReferenceColumnCanvas = function() {
+	ReferenceColumnSideView.prototype.resizeReferenceColumnPaper = function() {
 		var width = this.referenceColumn.get('column').get('width');
 		var height = this.referenceColumn.get('column').get('blockMarkes') ? this.referenceColumn.get('column').get('blockMarkes').last().get('y') + 100 : 0;
-		height = Math.max(this.app.Canvas.height, height);
-		this.app.refCol.Canvas.setSize(width, height);
-		this.app.Canvas.setSize(this.app.Canvas.width, height);
+		height = Math.max(this.app.Paper.height, height);
+		this.app.refCol.Paper.setSize(width, height);
+		this.app.Paper.setSize(this.app.Paper.width, height);
 	}
 
 	ReferenceColumnSideView.prototype.addBlockMarkers = function(referenceBlockColumnData, column) {

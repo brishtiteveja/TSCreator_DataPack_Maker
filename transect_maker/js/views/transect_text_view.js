@@ -72,12 +72,12 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 	}
 
 	TransectTextView.prototype.renderTransectText = function() {
-		this.set = this.app.Canvas.set();
+		this.set = this.app.Paper.set();
 		if (this.element === undefined || this.boundingBox === undefined) {
 
-			this.backgroundBox = this.app.Canvas.rect();
-			this.element = this.app.Canvas.text();
-			this.boundingBox = this.app.Canvas.rect();
+			this.backgroundBox = this.app.Paper.rect();
+			this.element = this.app.Paper.text();
+			this.boundingBox = this.app.Paper.rect();
 
 			this.set.push(this.backgroundBox);
 			this.set.push(this.element);
@@ -174,7 +174,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 
 	/*==========  while dragging  ==========*/
 	TransectTextView.prototype.dragMove = function(dx, dy, x, y, evt) {
-		var cdts = ViewboxToCanvas(this.app, evt.offsetX, evt.offsetY);
+		var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
 		var locationX = cdts.x;
 		var locationY = cdts.y;
 		var transect = this.app.TransectsCollection.getTransectForX(locationX);

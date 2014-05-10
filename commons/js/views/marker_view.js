@@ -58,7 +58,7 @@ define(["baseView"], function(BaseView) {
 	/*==========  render the marker on the canvas  ==========*/
 	MarkerView.prototype.renderMarker = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.path();
+			this.element = this.app.Paper.path();
 			this.element.attr({
 				"stroke-width": 2,
 				"stroke": "#900000"
@@ -74,7 +74,7 @@ define(["baseView"], function(BaseView) {
 			'path': this.getPath()
 		});
 		if (this.app.type === "transect") {} else {
-			this.resizeCanvas();
+			this.resizePaper();
 		}
 
 		this.renderTooltip();
@@ -96,7 +96,7 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  get path string for the marker  ==========*/
 	MarkerView.prototype.getPath = function() {
-		return "M0," + this.marker.get('y') + 'H' + (this.app.width || this.app.Canvas.width);
+		return "M0," + this.marker.get('y') + 'H' + (this.app.width || this.app.Paper.width);
 	};
 
 	/*==========  start dragging  ==========*/
@@ -115,7 +115,7 @@ define(["baseView"], function(BaseView) {
 		var locationY = evt.offsetY;
 
 		if (this.app.type === "transect") {
-			var cdts = ViewboxToCanvas(this.app, evt.offsetX, evt.offsetY);
+			var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
 			locationX = cdts.x;
 			locationY = cdts.y;
 		}
@@ -231,9 +231,9 @@ define(["baseView"], function(BaseView) {
 	}
 
 
-	MarkerView.prototype.resizeCanvas = function() {
-		var height = Math.max(this.app.Canvas.height, this.marker.get('y') + 100)
-		this.app.Canvas.setSize(this.app.Canvas.width, height);
+	MarkerView.prototype.resizePaper = function() {
+		var height = Math.max(this.app.Paper.height, this.marker.get('y') + 100)
+		this.app.Paper.setSize(this.app.Paper.width, height);
 	}
 
 	return MarkerView;

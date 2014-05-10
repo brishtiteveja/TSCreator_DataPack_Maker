@@ -62,7 +62,7 @@ define(["baseView", "markerView", "marker", "zone"], function(BaseView, MarkerVi
 			var locationX = evt.offsetX;
 			var locationY = evt.offsetY;
 			if (this.app.type === "transect") {
-				locationY = ViewboxToCanvas(this.app, locationX, locationY).y;
+				locationY = ViewboxToPaper(this.app, locationX, locationY).y;
 			}
 			this.markers.add(new Marker({
 				y: locationY

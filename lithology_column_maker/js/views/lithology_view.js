@@ -33,7 +33,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		this.base = this.lithology.get('base');
 
 		if (this.lithologySet === undefined) {
-			this.lithologySet = this.app.Canvas.set();
+			this.lithologySet = this.app.Paper.set();
 			this.app.LithologysSet.push(this.lithologySet);
 		}
 
@@ -111,10 +111,10 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 	LithologyView.prototype.renderLithology = function() {
 
 		if (this.lithBox === undefined) {
-			this.bgBox = this.app.Canvas.rect();
-			this.lithBox = this.app.Canvas.rect();
-			this.lithologyText = this.app.Canvas.text();
-			this.bBox = this.app.Canvas.rect();
+			this.bgBox = this.app.Paper.rect();
+			this.lithBox = this.app.Paper.rect();
+			this.lithologyText = this.app.Paper.text();
+			this.bBox = this.app.Paper.rect();
 			
 			this.lithologySet.push(this.lithBox);
 			this.lithologySet.push(this.lithologyText);

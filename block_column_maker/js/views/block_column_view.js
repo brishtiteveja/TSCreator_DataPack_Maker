@@ -57,7 +57,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 
 	BlockColumnView.prototype.renderBlockColumn = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.rect(this.blockColumn.get('x'), 0, this.blockColumn.get('width'), this.app.Canvas.height);
+			this.element = this.app.Paper.rect(this.blockColumn.get('x'), 0, this.blockColumn.get('width'), this.app.Paper.height);
 
 			/* attach listeners to the element */
 			this.element.dblclick(this.createBlockMarker.bind(this));

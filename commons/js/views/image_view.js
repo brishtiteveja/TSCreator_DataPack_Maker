@@ -42,13 +42,13 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 	ImageObView.prototype.renderData = function() {
 		if (this.image.get("data") === null) return;
 		if (this.element) this.element.remove();
-		this.element = this.app.Canvas.image(this.image.get('data'));
+		this.element = this.app.Paper.image(this.image.get('data'));
 		this.renderImage();
 	}
 
 	ImageObView.prototype.renderImage = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.image(this.image.get('data'));
+			this.element = this.app.Paper.image(this.image.get('data'));
 		}
 		this.element.toBack();
 		if (this.app.BgRect) {
@@ -72,7 +72,7 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 
 		this.rotate(this.image.get('angle'));
 		this.updateHtmlElements();
-		this.resizeCanvas();
+		this.resizePaper();
 	}
 
 	ImageObView.prototype.updateHtmlElements = function() {
@@ -88,20 +88,20 @@ define(["baseView", "imageOb"], function(BaseView, ImageOb) {
 		this.element.transform(tstr);
 	}
 
-	ImageObView.prototype.resizeCanvas = function() {
+	ImageObView.prototype.resizePaper = function() {
 		if (this.image.get("data") === null) return;
 		var bBox = this.element.getBBox();
 		// translate image such that it lies on origin.
 		var tstr = "t" + (-bBox.x) + "," + (-bBox.y) + "r" + this.image.get('angle');
 		this.element.transform(tstr);
 		var height = bBox.height + 50;
-		if (this.app.refCol && this.app.refCol.Canvas) {
-			height = Math.max(this.app.refCol.Canvas.height, height);
-			this.app.refCol.Canvas.setSize(this.app.refCol.Canvas.width, height);
+		if (this.app.refCol && this.app.refCol.Paper) {
+			height = Math.max(this.app.refCol.Paper.height, height);
+			this.app.refCol.Paper.setSize(this.app.refCol.Paper.width, height);
 		}
 
 		if (this.app.type !== "transect") {
-			this.app.Canvas.setSize(bBox.width + 50, height);
+			this.app.Paper.setSize(bBox.width + 50, height);
 		} else {
 			this.app.width = bBox.width + 50;
 			this.app.height = height;

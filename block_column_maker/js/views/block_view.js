@@ -30,7 +30,7 @@ define(["baseView"], function(BaseView) {
 		this.base = this.block.get('base');
 
 		if (this.blockSet === undefined) {
-			this.blockSet = this.app.Canvas.set();
+			this.blockSet = this.app.Paper.set();
 			this.app.BlocksSet.push(this.blockSet);
 		}
 
@@ -76,9 +76,9 @@ define(["baseView"], function(BaseView) {
 	BlockView.prototype.renderBlock = function() {
 
 		if (this.bgBox === undefined) {
-			this.bgBox = this.app.Canvas.rect();
-			this.blockText = this.app.Canvas.text();
-			this.bBox = this.app.Canvas.rect();
+			this.bgBox = this.app.Paper.rect();
+			this.blockText = this.app.Paper.text();
+			this.bBox = this.app.Paper.rect();
 			
 			this.blockSet.push(this.bgBox);
 			this.blockSet.push(this.blockText);

@@ -1,10 +1,10 @@
 /*====================================================
-=            CanvasView is the basic view            =
+=            PaperView is the basic view            =
 ====================================================*/
 
-var CanvasView = BaseView.extend({
+var PaperView = BaseView.extend({
 	el: ".container",
-	classname: "CanvasView",
+	classname: "PaperView",
 	events: {
 		'click a[href*="blocks"]': "showBlockSettings",
 		'click a[href*="defaults"]': "showDefaultSettings",
@@ -12,35 +12,35 @@ var CanvasView = BaseView.extend({
 	}
 });
 
-CanvasView.prototype.initialize = function() {
+PaperView.prototype.initialize = function() {
 	this.$canvas = this.$("#canvas");
 	this.$blockSettings = $("#block-settings");
 	this.$defaultSettings = $("#default-settings");
 
-	Canvas = new Raphael(this.$canvas[0], 1000, 1000);
+	Paper = new Raphael(this.$canvas[0], 1000, 1000);
 	this.render();
 };
 
-CanvasView.prototype.render = function() {
+PaperView.prototype.render = function() {
 	this.renderMasterColumn();
 };
 
-CanvasView.prototype.renderMasterColumn = function() {
+PaperView.prototype.renderMasterColumn = function() {
 	MasterChronoStratColumn = new BlockColumn(MasterChronoStratigraphy, 10, 10);
 	MasterChronoStratView = new BlockColumnView(MasterChronoStratColumn);
 };
 
-CanvasView.prototype.showBlockSettings = function(evt) {
+PaperView.prototype.showBlockSettings = function(evt) {
 	this.$blockSettings.addClass("active");
 	this.$defaultSettings.removeClass("active");
 };
 
-CanvasView.prototype.showDefaultSettings = function(evt) {
+PaperView.prototype.showDefaultSettings = function(evt) {
 	this.$blockSettings.removeClass("active");
 	this.$defaultSettings.addClass("active");
 };
 
-CanvasView.prototype.createBlock = function(evt) {
+PaperView.prototype.createBlock = function(evt) {
 	var block = new Block({
 		name: "New Column",
 		baseAge: MasterChronoStratColumn.baseAge() + 10
@@ -48,5 +48,5 @@ CanvasView.prototype.createBlock = function(evt) {
 	MasterChronoStratColumn.addBlock(block);
 };
 
-/*-----  End of CanvasView  ------*/
+/*-----  End of PaperView  ------*/
 

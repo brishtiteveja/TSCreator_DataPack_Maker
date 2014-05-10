@@ -52,7 +52,7 @@ define(["baseView"], function(BaseView) {
 
 	PointView.prototype.renderPoint = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.circle(this.point.get('x'), this.point.get('y'), 4);
+			this.element = this.app.Paper.circle(this.point.get('x'), this.point.get('y'), 4);
 
 			this.app.PointsSet.push(this.element);
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
@@ -144,7 +144,7 @@ define(["baseView"], function(BaseView) {
 		var locationY = evt.offsetY;
 
 
-		var cdts = ViewboxToCanvas(this.app, locationX, locationY);
+		var cdts = ViewboxToPaper(this.app, locationX, locationY);
 		locationX = cdts.x;
 		locationY = cdts.y;
 
@@ -168,7 +168,7 @@ define(["baseView"], function(BaseView) {
 
 	PointView.prototype.onDragEnd = function(evt) {
 
-		var cdts = ViewboxToCanvas(this.app, evt.offsetX, evt.offsetY);
+		var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
 		var transect = this.app.TransectsCollection.getTransectForX(cdts.x);
 		var zone = this.app.ZonesCollection.getZoneForY(cdts.y);
 

@@ -30,8 +30,8 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		this.polygon = polygon;
 
 		// create raphael sets to store points and lines 
-		this.pointsSet = this.app.Canvas.set();
-		this.linesSet = this.app.Canvas.set();
+		this.pointsSet = this.app.Paper.set();
+		this.linesSet = this.app.Paper.set();
 
 		// render 
 		this.render();
@@ -158,7 +158,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			this.resetLines();
 		}
 		this.app.PointsCollection.add(point);
-		this.updateCanvasDimensions(point);
+		this.updatePaperDimensions(point);
 	}
 
 	PolygonView.prototype.isSimple = function(point) {
@@ -166,8 +166,8 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		return PolyK.IsSimple(pointsArray);
 	}
 
-	PolygonView.prototype.updateCanvasDimensions = function(point) {
-		// this.app.Canvas.setSize(Math.max(this.app.Canvas.width, point.get('x')), Math.max(this.app.Canvas.height, point.get('y') + 100));
+	PolygonView.prototype.updatePaperDimensions = function(point) {
+		// this.app.Paper.setSize(Math.max(this.app.Paper.width, point.get('x')), Math.max(this.app.Paper.height, point.get('y') + 100));
 	}
 
 	/* Reset the lines, i.e. delete all the lines that are currently in 
@@ -261,7 +261,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		var locationX = evt.offsetX;
 		var locationY = evt.offsetY;
 
-		var cdts = ViewboxToCanvas(this.app, locationX, locationY);
+		var cdts = ViewboxToPaper(this.app, locationX, locationY);
 		locationX = cdts.x;
 		locationY = cdts.y;
 
@@ -395,7 +395,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
 	PolygonView.prototype.renderPolygonElement = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.path();
+			this.element = this.app.Paper.path();
 			this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.app.PolygonsSet.push(this.element);
 		}

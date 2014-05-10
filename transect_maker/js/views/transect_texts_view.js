@@ -30,7 +30,7 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 
 	TransectTextsView.prototype.renderTransectTexts = function() {
 		if (this.set == undefined) {
-			this.set = this.app.Canvas.set();
+			this.set = this.app.Paper.set();
 		}
 		this.transectTexts.each(this.addTransectText.bind(this));
 	}

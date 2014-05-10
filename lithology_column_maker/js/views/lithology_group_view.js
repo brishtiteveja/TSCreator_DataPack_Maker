@@ -32,7 +32,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		this.base = this.lithologyGroup.get('base');
 
 		if (this.lithologyGroupSet === undefined) {
-			this.lithologyGroupSet = this.app.Canvas.set();
+			this.lithologyGroupSet = this.app.Paper.set();
 			this.app.LithologyGroupsSet.push(this.lithologyGroupSet);
 		}
 
@@ -94,10 +94,10 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 		var width = Math.floor(this.lithologyGroup.get('lithologyColumn').get('width')/2);
 
 		if (this.bgBox === undefined) {
-			this.bgBox = this.app.Canvas.rect();
-			this.lithologyGroupText = this.app.Canvas.text();
-			this.bBox = this.app.Canvas.rect();
-			this.bgLithBox = this.app.Canvas.rect();
+			this.bgBox = this.app.Paper.rect();
+			this.lithologyGroupText = this.app.Paper.text();
+			this.bBox = this.app.Paper.rect();
+			this.bgLithBox = this.app.Paper.rect();
 			
 			this.lithologyGroupSet.push(this.bgLithBox);
 			this.lithologyGroupSet.push(this.bgBox);

@@ -57,7 +57,7 @@ define([
 		events: {
 			'click a.transect-settings': 'showSettings',
 			'click a.maker-tools': 'enableTool',
-			'click a.continue': 'showCanvas',
+			'click a.continue': 'showPaper',
 			"dragover #data-box": "dataDragover",
 			"drop #data-box": "dataDrop",
 		}
@@ -101,16 +101,16 @@ define([
 		// Initialize the models
 
 		this.transectApp.ImageOb = new ImageOb({});
-		this.transectApp.Canvas = new Raphael(this.$canvas[0], this.transectApp.width, this.transectApp.height);
-		this.transectApp.Canvas.setViewBox(0, 0, this.transectApp.width, this.transectApp.height);
+		this.transectApp.Paper = new Raphael(this.$canvas[0], this.transectApp.width, this.transectApp.height);
+		this.transectApp.Paper.setViewBox(0, 0, this.transectApp.width, this.transectApp.height);
 		this.initPan();
 
-		this.transectApp.TextsSet = this.transectApp.Canvas.set();
-		this.transectApp.MarkersSet = this.transectApp.Canvas.set();
-		this.transectApp.WellsSet = this.transectApp.Canvas.set();
-		this.transectApp.PointsSet = this.transectApp.Canvas.set();
-		this.transectApp.LinesSet = this.transectApp.Canvas.set();
-		this.transectApp.PolygonsSet = this.transectApp.Canvas.set();
+		this.transectApp.TextsSet = this.transectApp.Paper.set();
+		this.transectApp.MarkersSet = this.transectApp.Paper.set();
+		this.transectApp.WellsSet = this.transectApp.Paper.set();
+		this.transectApp.PointsSet = this.transectApp.Paper.set();
+		this.transectApp.LinesSet = this.transectApp.Paper.set();
+		this.transectApp.PolygonsSet = this.transectApp.Paper.set();
 
 
 		this.transectApp.loader = new Loader(this.transectApp);
@@ -122,7 +122,7 @@ define([
 	};
 
 	TransectAppView.prototype.initPan = function() {
-		this.transectApp.BgRect = this.transectApp.Canvas.rect(0, 0, this.transectApp.width, this.transectApp.height);
+		this.transectApp.BgRect = this.transectApp.Paper.rect(0, 0, this.transectApp.width, this.transectApp.height);
 		this.transectApp.BgRect.attr({
 			"fill": "#ffffff",
 			"fill-opacity": 1,
@@ -148,7 +148,7 @@ define([
 		});
 	}
 
-	TransectAppView.prototype.showCanvas = function() {
+	TransectAppView.prototype.showPaper = function() {
 		this.$canvas.removeClass('hide');
 		this.$introScreen.addClass('hide');
 	}
@@ -211,7 +211,7 @@ define([
 		}
 	}
 
-	TransectAppView.prototype.exportCanvasAsImage = function() {}
+	TransectAppView.prototype.exportPaperAsImage = function() {}
 
 	TransectAppView.prototype.saveToLocalStorage = function() {
 		this.transectApp.exporter.export();
@@ -219,7 +219,7 @@ define([
 	}
 
 	TransectAppView.prototype.loadFromLocalStorage = function() {
-		this.showCanvas();
+		this.showPaper();
 		this.transectApp.loader.loadFromLocalStorage();
 	}
 
@@ -240,7 +240,7 @@ define([
 		var ext = file.name.split(".").pop();
 		var reader = new FileReader();
 		reader.onloadend = function(e) {
-			self.showCanvas();
+			self.showPaper();
 			if (ext === "json") {
 				self.transectApp.loader.loadData(this.result);
 			}
@@ -329,7 +329,7 @@ define([
 	};
 
 	TransectAppView.prototype.zoomIn = function() {
-		var vBox = this.transectApp.Canvas.canvas.viewBox.baseVal;
+		var vBox = this.transectApp.Paper.canvas.viewBox.baseVal;
 		this.transectApp.BgRect.attr({
 			width: vBox.width * 0.8,
 			height: vBox.height * 0.8
@@ -337,11 +337,11 @@ define([
 
 		this.transectApp.width = Math.max(vBox.width * 0.8, this.transectApp.width);
 		this.transectApp.height = Math.max(vBox.height * 0.8, this.transectApp.height);
-		this.transectApp.Canvas.setViewBox(vBox.x, vBox.y, vBox.width * 0.8, vBox.height * 0.8);
+		this.transectApp.Paper.setViewBox(vBox.x, vBox.y, vBox.width * 0.8, vBox.height * 0.8);
 	}
 
 	TransectAppView.prototype.zoomOut = function() {
-		var vBox = this.transectApp.Canvas.canvas.viewBox.baseVal;
+		var vBox = this.transectApp.Paper.canvas.viewBox.baseVal;
 		this.transectApp.BgRect.attr({
 			width: vBox.width * 1.2,
 			height: vBox.height * 1.2
@@ -349,7 +349,7 @@ define([
 
 		this.transectApp.width = Math.max(vBox.width * 1.2, this.transectApp.width);
 		this.transectApp.height = Math.max(vBox.height * 1.2, this.transectApp.height);
-		this.transectApp.Canvas.setViewBox(vBox.x, vBox.y, vBox.width * 1.2, vBox.height * 1.2);
+		this.transectApp.Paper.setViewBox(vBox.x, vBox.y, vBox.width * 1.2, vBox.height * 1.2);
 
 	}
 
@@ -375,19 +375,19 @@ define([
 	}
 
 	TransectAppView.prototype.onDragStart = function(x, y, evt) {
-		var vBox = this.transectApp.Canvas.canvas.viewBox.baseVal;
+		var vBox = this.transectApp.Paper.canvas.viewBox.baseVal;
 		this.initX = vBox.x;
 		this.initY = vBox.y;
 	}
 
 	TransectAppView.prototype.onDragMove = function(dx, dy, x, y, evt) {
 		if (!this.pan) return;
-		var vBox = this.transectApp.Canvas.canvas.viewBox.baseVal;
+		var vBox = this.transectApp.Paper.canvas.viewBox.baseVal;
 		this.transectApp.BgRect.attr({
 			x: this.initX - dx,
 			y: this.initY - dy,
 		})
-		this.transectApp.Canvas.setViewBox(this.initX - dx, this.initY - dy, vBox.width, vBox.height);
+		this.transectApp.Paper.setViewBox(this.initX - dx, this.initY - dy, vBox.width, vBox.height);
 	}
 
 	TransectAppView.prototype.onDragEnd = function(evt) {}

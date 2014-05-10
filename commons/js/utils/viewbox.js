@@ -1,7 +1,7 @@
-ViewboxToCanvas = function(app, x, y) {
-	var vBox = app.Canvas.canvas.viewBox.baseVal;
-	var width = app.Canvas.width;
-	var height = app.Canvas.height;
+ViewboxToPaper = function(app, x, y) {
+	var vBox = app.Paper.canvas.viewBox.baseVal;
+	var width = app.Paper.width;
+	var height = app.Paper.height;
 	var relX = x / width;
 	var relY = y / height;
 

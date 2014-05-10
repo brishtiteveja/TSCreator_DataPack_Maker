@@ -37,7 +37,7 @@ define(["baseView"], function(BaseView) {
 	ReferenceBlockMarkerView.prototype.renderBlockMarker = function() {
 
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.path();
+			this.element = this.app.Paper.path();
 			
 			this.element.attr({
 				"stroke-width": 2,
@@ -73,7 +73,7 @@ define(["baseView"], function(BaseView) {
 		});
 
 
-		this.resizeCanvas();
+		this.resizePaper();
 		this.updateStatusBox();
 		this.renderTooltip();
 	}
@@ -91,13 +91,13 @@ define(["baseView"], function(BaseView) {
 		});
 	};
 
-	ReferenceBlockMarkerView.prototype.resizeCanvas = function() {
-		var height = Math.max(this.app.Canvas.height, this.blockMarker.get('y') + 100)
+	ReferenceBlockMarkerView.prototype.resizePaper = function() {
+		var height = Math.max(this.app.Paper.height, this.blockMarker.get('y') + 100)
 		this.blockMarker.get('blockColumn').set({
 			height: height
 		});
 
-		this.app.Canvas.setSize(this.app.Canvas.width, height);
+		this.app.Paper.setSize(this.app.Paper.width, height);
 	}
 
 	ReferenceBlockMarkerView.prototype.updateBlockMakereY = function() {

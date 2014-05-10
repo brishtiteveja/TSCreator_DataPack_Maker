@@ -56,7 +56,7 @@ define(["baseView", "referenceBlockView", "referenceBlockMarkerView", "reference
 
 	ReferenceBlockColumnView.prototype.renderBlockColumn = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.rect(this.blockColumn.get('x'), 0, this.blockColumn.get('width'), this.app.Canvas.height);
+			this.element = this.app.Paper.rect(this.blockColumn.get('x'), 0, this.blockColumn.get('width'), this.app.Paper.height);
 
 			/* attach listeners to the element */
 			this.element.dblclick(this.createBlockMarker.bind(this));
@@ -71,13 +71,13 @@ define(["baseView", "referenceBlockView", "referenceBlockMarkerView", "reference
 			fill: this.blockColumn.get('settings').get('backgroundColor')
 		});
 
-		this.resizeCanvas();
+		this.resizePaper();
 		this.updateBlockColumns();
 	}
 
-	ReferenceBlockColumnView.prototype.resizeCanvas = function() {
-		var width = Math.max(this.app.Canvas.width, this.blockColumn.get('x') + this.blockColumn.get('width'));
-		this.app.Canvas.setSize(width, this.app.Canvas.height);
+	ReferenceBlockColumnView.prototype.resizePaper = function() {
+		var width = Math.max(this.app.Paper.width, this.blockColumn.get('x') + this.blockColumn.get('width'));
+		this.app.Paper.setSize(width, this.app.Paper.height);
 	}
 
 	ReferenceBlockColumnView.prototype.resetBlocks = function() {

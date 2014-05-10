@@ -36,7 +36,7 @@ define(["baseView"], function(BaseView) {
 	BlockMarkerView.prototype.renderBlockMarker = function() {
 
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.path();
+			this.element = this.app.Paper.path();
 			
 			this.element.attr({
 				"stroke-width": 2,

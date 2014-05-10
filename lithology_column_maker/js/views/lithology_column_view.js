@@ -59,14 +59,14 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		this.$lithologyColumnDescription = this.$('textarea[name="lithology-column-description"]')[0];
 
 		this.renderLithologyColumn();
-		this.resizeCanvas();
+		this.resizePaper();
 	}
 
 	LithologyColumnView.prototype.renderLithologyColumn = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.rect();
-			this.headingBox = this.app.Canvas.rect();
-			this.headingText = this.app.Canvas.text();
+			this.element = this.app.Paper.rect();
+			this.headingBox = this.app.Paper.rect();
+			this.headingText = this.app.Paper.text();
 
 			/* attach listeners to the element */
 			this.element.dblclick(this.createLithologyGroupMarker.bind(this));
@@ -79,7 +79,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			y: 0,
 			width: this.lithologyColumn.get('width'),
 			fill: this.lithologyColumn.get('settings').get('backgroundColor'),
-			height: this.app.Canvas.height,
+			height: this.app.Paper.height,
 			opacity: 0.5,
 		});
 
@@ -229,7 +229,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		}
 
 		this.element.attr({
-			height: this.app.Canvas.height,
+			height: this.app.Paper.height,
 		});
 	}
 
@@ -280,9 +280,9 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 	}
 
 
-	LithologyColumnView.prototype.resizeCanvas = function() {
-		var width = Math.max(this.app.Canvas.width, this.lithologyColumn.get('x') + this.lithologyColumn.get('width'));
-		this.app.Canvas.setSize(width, this.app.Canvas.height);
+	LithologyColumnView.prototype.resizePaper = function() {
+		var width = Math.max(this.app.Paper.width, this.lithologyColumn.get('x') + this.lithologyColumn.get('width'));
+		this.app.Paper.setSize(width, this.app.Paper.height);
 	}
 
 	return LithologyColumnView;

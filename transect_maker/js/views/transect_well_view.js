@@ -55,7 +55,7 @@ define(["baseView"], function(BaseView) {
 
 	TransectWellView.prototype.renderWell = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.path();
+			this.element = this.app.Paper.path();
 			this.element.attr({
 				"stroke-width": 2,
 				"stroke": "#900000"
@@ -74,16 +74,16 @@ define(["baseView"], function(BaseView) {
 		});
 
 		if (this.app.type !== "transect") {
-			this.resizeCanvas();
+			this.resizePaper();
 		}
 		this.renderTooltip();
 	};
 
 
-	TransectWellView.prototype.resizeCanvas = function() {
-		var width = Math.max(this.app.Canvas.width, this.transectWell.get('x') + 100);
-		var height = this.app.Canvas.height;
-		this.app.Canvas.setSize(width, height);
+	TransectWellView.prototype.resizePaper = function() {
+		var width = Math.max(this.app.Paper.width, this.transectWell.get('x') + 100);
+		var height = this.app.Paper.height;
+		this.app.Paper.setSize(width, height);
 	}
 
 
@@ -117,7 +117,7 @@ define(["baseView"], function(BaseView) {
 		var locationY = evt.offsetY;
 
 
-		var cdts = ViewboxToCanvas(this.app, locationX, locationY);
+		var cdts = ViewboxToPaper(this.app, locationX, locationY);
 		locationX = cdts.x;
 		locationY = cdts.y;
 		if (this.prevWell && this.nextWell && (this.prevWell.get('x') + 2 > locationX || locationX > this.nextWell.get('x') - 2)) {

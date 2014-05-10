@@ -53,7 +53,7 @@ define(["baseView"], function(BaseView) {
 
 	LineView.prototype.renderLine = function() {
 		if (this.element === undefined) {
-			this.element = this.app.Canvas.path();
+			this.element = this.app.Paper.path();
 			this.app.LinesSet.push(this.element);
 		}
 		var path = "M" + this.line.get("point1").get('x') + "," + this.line.get("point1").get('y');

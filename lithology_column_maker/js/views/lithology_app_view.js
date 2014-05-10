@@ -41,7 +41,7 @@ define([
 		events: {
 			'click a.lithology-settings': 'showSettings',
 			'click a.maker-tools': 'enableTool',
-			'click a.continue': 'showCanvas',
+			'click a.continue': 'showPaper',
 			"dragover #data-box": "dataDragover",
 			"drop #data-box": "dataDrop",
 		}
@@ -75,13 +75,13 @@ define([
 
 		// Initialize the models
 		this.lithologyApp.ImageOb = new ImageOb({});
-		this.lithologyApp.Canvas = new Raphael(this.$canvas[0], 2000, 2000);
+		this.lithologyApp.Paper = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
-		this.lithologyApp.MarkersSet = this.lithologyApp.Canvas.set();
-		this.lithologyApp.LithologyMarkersSet = this.lithologyApp.Canvas.set();
-		this.lithologyApp.LithologyGroupMarkersSet = this.lithologyApp.Canvas.set();
-		this.lithologyApp.LithologysSet = this.lithologyApp.Canvas.set();
-		this.lithologyApp.LithologyGroupsSet = this.lithologyApp.Canvas.set();
+		this.lithologyApp.MarkersSet = this.lithologyApp.Paper.set();
+		this.lithologyApp.LithologyMarkersSet = this.lithologyApp.Paper.set();
+		this.lithologyApp.LithologyGroupMarkersSet = this.lithologyApp.Paper.set();
+		this.lithologyApp.LithologysSet = this.lithologyApp.Paper.set();
+		this.lithologyApp.LithologyGroupsSet = this.lithologyApp.Paper.set();
 
 		this.loadPatternsDataAndRender();
 
@@ -117,7 +117,7 @@ define([
 		});
 	}
 
-	LithologyAppView.prototype.showCanvas = function() {
+	LithologyAppView.prototype.showPaper = function() {
 		this.$canvas.removeClass('hide');
 		this.$introScreen.addClass('hide');
 	}
@@ -172,7 +172,7 @@ define([
 		}
 	}
 
-	LithologyAppView.prototype.exportCanvasAsImage = function() {}
+	LithologyAppView.prototype.exportPaperAsImage = function() {}
 
 	LithologyAppView.prototype.saveToLocalStorage = function() {
 		this.lithologyApp.exporter.export();
@@ -180,7 +180,7 @@ define([
 	}
 
 	LithologyAppView.prototype.loadFromLocalStorage = function() {
-		this.showCanvas();
+		this.showPaper();
 		this.lithologyApp.loader.loadFromLocalStorage();
 	}
 
@@ -202,7 +202,7 @@ define([
 		if (file.type === "application/json") {
 			var reader = new FileReader();
 			reader.onloadend = function(e) {
-				self.showCanvas();
+				self.showPaper();
 				self.lithologyApp.loader.loadData(this.result);
 			};
 			reader.readAsText(file);
@@ -237,7 +237,7 @@ define([
 		var ext = file.name.split(".").pop();
 		var reader = new FileReader();
 		reader.onloadend = function(e) {
-			self.showCanvas();
+			self.showPaper();
 			if (ext === "json") {
 				self.lithologyApp.loader.loadData(this.result);
 			}

@@ -38,7 +38,7 @@ define([
 		events: {
 			'click a.block-settings': 'showSettings',
 			'click a.maker-tools': 'enableTool',
-			'click a.continue': 'showCanvas',
+			'click a.continue': 'showPaper',
 			"dragover #data-box": "dataDragover",
 			"drop #data-box": "dataDrop",
 		}
@@ -69,11 +69,11 @@ define([
 		this.blockApp.exporter = new Exporter(this.blockApp);
 
 		// Initialize the models
-		this.blockApp.Canvas = new Raphael(this.$canvas[0], 2000, 2000);
+		this.blockApp.Paper = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
-		this.blockApp.MarkersSet = this.blockApp.Canvas.set();
-		this.blockApp.BlockMarkersSet = this.blockApp.Canvas.set();
-		this.blockApp.BlocksSet = this.blockApp.Canvas.set();
+		this.blockApp.MarkersSet = this.blockApp.Paper.set();
+		this.blockApp.BlockMarkersSet = this.blockApp.Paper.set();
+		this.blockApp.BlocksSet = this.blockApp.Paper.set();
 		
 		this.render();
 
@@ -95,7 +95,7 @@ define([
 		});
 	}
 
-	BlockAppView.prototype.showCanvas = function() {
+	BlockAppView.prototype.showPaper = function() {
 		this.$canvas.removeClass('hide');
 		this.$introScreen.addClass('hide');
 	}
@@ -151,7 +151,7 @@ define([
 		}
 	}
 
-	BlockAppView.prototype.exportCanvasAsImage = function() {}
+	BlockAppView.prototype.exportPaperAsImage = function() {}
 
 	BlockAppView.prototype.saveToLocalStorage = function() {
 		this.blockApp.exporter.export();
@@ -159,7 +159,7 @@ define([
 	}
 
 	BlockAppView.prototype.loadFromLocalStorage = function() {
-		this.showCanvas();
+		this.showPaper();
 		this.blockApp.loader.loadFromLocalStorage();
 	}
 
@@ -181,7 +181,7 @@ define([
     	if (file.type === "application/json") {
 	    	var reader = new FileReader();
 			reader.onloadend = function(e) {
-				self.showCanvas();
+				self.showPaper();
 				self.blockApp.loader.loadData(this.result);
 			};
 	    	reader.readAsText(file);	
@@ -216,7 +216,7 @@ define([
     	var ext = file.name.split(".").pop();
     	var reader = new FileReader();
 		reader.onloadend = function(e) {
-			self.showCanvas();
+			self.showPaper();
 			if (ext === "json") {
 				self.blockApp.loader.loadData(this.result);
 			}
