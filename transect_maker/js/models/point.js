@@ -34,7 +34,6 @@ define(["baseModel"], function(BaseModel) {
 
 		var transect = this.get('app').TransectsCollection.getTransectForX(this.get('x'));
 
-
 		if (zone === null) {
 			zone = this.get('app').ZonesCollection.getZoneForY(this.get('y') - 1);
 			if (zone === null) {
