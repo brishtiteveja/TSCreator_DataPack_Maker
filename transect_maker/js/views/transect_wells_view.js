@@ -95,19 +95,8 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 					name: "Transect " + index
 				}, wells[index - 1], well, self.app);
 				self.transects.add(transect);
-
-				if (index < self.transectWells.length - 1) {
-					transect = self.transects.findWhere({
-						wellLeft: wells[index - 1],
-						wellRight: wells[index + 1]
-					});
-					if (transect) {
-						transectsToDestroy.push(transect);
-					}
-				}
 			}
 		});
-		_.invoke(transectsToDestroy, "destroy");
 	};
 
 	return TransectWellsView;

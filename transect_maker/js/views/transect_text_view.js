@@ -31,7 +31,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		this.transectText = transectText;
 		this.render();
 
-
+		this.listenTo(this.transectText, 'update', this.render.bind(this));
 		this.listenTo(this.transectText, 'change:x', this.renderTransectText.bind(this));
 		this.listenTo(this.transectText, 'change:y', this.renderTransectText.bind(this));
 		this.listenTo(this.transectText, 'change:edit', this.editTransectText.bind(this));
@@ -40,16 +40,13 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		this.listenTo(this.transectText, 'destroy', this.delete.bind(this));
 		this.listenTo(this.transectText.get('settings'), 'change', this.renderTransectText.bind(this));
 
-		this.listenTo(this.transectText.get('zone'), 'remove', this.updateTextTransectAndZone.bind(this));
-		this.listenTo(this.transectText.get('transect'), 'remove', this.updateTextTransectAndZone.bind(this));
+		this.listenTo(this.transectText.get('zone'), 'destroy', this.updateTextTransectAndZone.bind(this));
+		this.listenTo(this.transectText.get('transect'), 'destroy', this.updateTextTransectAndZone.bind(this));
 	}
 
 	TransectTextView.prototype.updateTextTransectAndZone = function(model) {
-		if (model !== this.transectText.get('transect') && model !== this.transectText.get('zone')) {
-			return;
-		}
 		this.transectText.updateTransectAndZone();
-		this.render();
+		this.transectText.update();
 	}
 
 	TransectTextView.prototype.render = function() {

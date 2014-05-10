@@ -1,7 +1,3 @@
-/*================================
-=            ZoneView            =
-================================*/
-
 define(["baseView"], function(BaseView) {
 	var ZoneView = BaseView.extend({
 		/* ZoneView is the vie that handles view related to the 
@@ -18,16 +14,16 @@ define(["baseView"], function(BaseView) {
 		}
 	});
 
-	ZoneView.prototype.template = new EJS({url: '/commons/ejs/zone.ejs'});
+	ZoneView.prototype.template = new EJS({
+		url: '/commons/ejs/zone.ejs'
+	});
 
 	ZoneView.prototype.initialize = function(zone) {
 		this.zone = zone;
 
 		this.listenTo(this.zone, 'change:edit', this.toggleEditStatus.bind(this));
-		this.listenTo(this.zone, 'change:name', this.render.bind(this));
-		this.listenTo(this.zone, 'change:description', this.render.bind(this));
-		this.listenTo(this.zone.get('topMarker'), 'change', this.toggleZone.bind(this));
-		this.listenTo(this.zone.get('baseMarker'), 'change', this.toggleZone.bind(this));
+		this.listenTo(this.zone.get('topMarker'), 'dragEnd', this.markersMoved.bind(this));
+		this.listenTo(this.zone.get('baseMarker'), 'dragEnd', this.markersMoved.bind(this));
 		this.listenTo(this.zone, 'destroy', this.delete.bind(this));
 
 
@@ -92,14 +88,14 @@ define(["baseView"], function(BaseView) {
 	ZoneView.prototype.updateZone = function(evt) {
 
 		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
-			var name = this.$zoneName.value;
-			var description = this.$zoneDescription.value.split("\n").join(" ");
-			this.zone.set({
-				name: name,
-				description: description
-			});
 			this.toggleZoneForm();
 		}
+		var name = this.$zoneName.value;
+		var description = this.$zoneDescription.value.split("\n").join(" ");
+		this.zone.set({
+			name: name,
+			description: description
+		});
 	}
 
 	ZoneView.prototype.delete = function() {
@@ -118,6 +114,9 @@ define(["baseView"], function(BaseView) {
 		});
 	}
 
+	ZoneView.prototype.markersMoved = function() {
+		this.zone.update();
+	}
+
 	return ZoneView;
 });
-/*-----  End of ZoneView  ------*/

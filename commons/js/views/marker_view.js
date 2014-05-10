@@ -34,7 +34,8 @@ define(["baseView"], function(BaseView) {
 		/* listen to the events */
 		this.listenTo(this.marker, 'change:edit', this.editMarker.bind(this));
 		this.listenTo(this.marker, 'change:hover', this.setHoverStatus.bind(this));
-		this.listenTo(this.marker, 'change', this.renderMarker.bind(this));
+		this.listenTo(this.marker, 'update', this.renderMarker.bind(this));
+		this.listenTo(this.marker, 'change:y', this.renderMarker.bind(this));
 		this.listenTo(this.marker, 'destroy', this.delete.bind(this));
 	};
 
@@ -52,8 +53,6 @@ define(["baseView"], function(BaseView) {
 		this.editMarker();
 
 		this.renderMarker();
-
-		this.renderTooltip();
 	};
 
 	/*==========  render the marker on the canvas  ==========*/
@@ -78,6 +77,7 @@ define(["baseView"], function(BaseView) {
 			this.resizeCanvas();
 		}
 
+		this.renderTooltip();
 	};
 
 	/*==========  render the tooltip for the marker in the canvas  ==========*/
@@ -139,13 +139,7 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  when dragging is completed update the points and texts relative locations ==========*/
 	MarkerView.prototype.dragEnd = function(evt) {
-		if (this.app.PointsCollection) {
-			this.app.PointsCollection.updatePoints();
-		}
-
-		if (this.app.TransectTextsCollection) {
-			this.app.TransectTextsCollection.updateTransectTexts();
-		}
+		this.marker.dragEnd();
 	};
 
 	MarkerView.prototype.onMouseOver = function() {
@@ -215,7 +209,7 @@ define(["baseView"], function(BaseView) {
 			age: age
 		});
 
-		this.renderTooltip();
+		this.marker.update();
 	};
 
 	MarkerView.prototype.delete = function() {

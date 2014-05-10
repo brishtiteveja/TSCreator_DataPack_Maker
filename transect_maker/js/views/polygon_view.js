@@ -44,8 +44,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 		this.listenTo(this.polygon, 'change:draw', this.setRenderMode.bind(this));
 
 		// listen to the change in name attribute
-		this.listenTo(this.polygon, 'change:name', this.updatePolygonView.bind(this));
-		this.listenTo(this.polygon, 'change:description', this.updatePolygonView.bind(this));
+		this.listenTo(this.polygon, 'update', this.updatePolygonView.bind(this));
 		this.listenTo(this.polygon, 'change:patternName', this.updatePolygonView.bind(this));
 
 		/* listen to the changes in the points and re-render the lines. That is 
@@ -492,6 +491,8 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 			name: this.$polygonName.value,
 			description: this.$polygonDescription.value.split("\n").join(" ")
 		});
+
+		this.polygon.update();
 	}
 
 	PolygonView.prototype.setRenderMode = function() {

@@ -26,6 +26,10 @@ define(["baseCollection", "zone"], function(BaseCollection, Zone) {
 	}
 
 	Zones.prototype.getZoneInNeighborhoodForY = function(y, zone) {
+		this.sort();
+		if (!zone) {
+			return null;
+		}
 		/* return the zone to which the point belongs to */
 		var index = this.indexOf(zone);
 		var zone1 = this.at(index - 1);
@@ -47,4 +51,3 @@ define(["baseCollection", "zone"], function(BaseCollection, Zone) {
 });
 
 /*-----  End of Zones  ------*/
-	

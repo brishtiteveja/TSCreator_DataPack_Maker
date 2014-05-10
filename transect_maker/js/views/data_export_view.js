@@ -1,4 +1,3 @@
-
 /*======================================
 =            DataExportView            =
 ======================================*/
@@ -12,9 +11,15 @@ define(["baseView"], function(BaseView) {
 		}
 	})
 
-	DataExportView.prototype.template = new EJS({url: '/transect_maker/ejs/data_export_panel.ejs'});
-	DataExportView.prototype.transectWellDataTemplate = new EJS({url: '/transect_maker/ejs/wells_data.ejs'});
-	DataExportView.prototype.transectDataLayout = new EJS({url: '/transect_maker/ejs/transect_data_layout.ejs'});
+	DataExportView.prototype.template = new EJS({
+		url: '/transect_maker/ejs/data_export_panel.ejs'
+	});
+	DataExportView.prototype.transectWellDataTemplate = new EJS({
+		url: '/transect_maker/ejs/wells_data.ejs'
+	});
+	DataExportView.prototype.transectDataLayout = new EJS({
+		url: '/transect_maker/ejs/transect_data_layout.ejs'
+	});
 
 	DataExportView.prototype.initialize = function(app) {
 		this.app = app;
@@ -27,7 +32,9 @@ define(["baseView"], function(BaseView) {
 	DataExportView.prototype.render = function() {
 		this.exporter = this.app.exporter;
 		this.transects = this.app.TransectsCollection;
-		this.$el.html(this.template.render({transects: this.transects.toJSON()}));
+		this.$el.html(this.template.render({
+			transects: this.transects.toJSON()
+		}));
 
 		this.$transectData = this.$(".transect-data");
 		this.$showData = this.$(".show-data");
@@ -52,7 +59,7 @@ define(["baseView"], function(BaseView) {
 	}
 
 	DataExportView.prototype.isAgeSet = function() {
-		for (var i=0; i<this.markers.length; i++) {
+		for (var i = 0; i < this.markers.length; i++) {
 			var marker = this.markers.at(i);
 			if (marker.get('age') == null) {
 				return false;
@@ -82,7 +89,7 @@ define(["baseView"], function(BaseView) {
 	DataExportView.prototype.renderDataInJSON = function() {
 		this.$textJSON.value = this.exporter.getJSON();
 	}
-	
+
 	DataExportView.prototype.renderMapData = function() {
 		this.$textMap.value = this.exporter.getMapData();
 	}
@@ -93,10 +100,7 @@ define(["baseView"], function(BaseView) {
 			$(".display-panel").addClass('hide');
 			this.$canvas.removeClass('hide');
 		} else {
-			try {
-				this.render();
-			} catch (err) {
-			}
+			this.render();
 			$(".maker-tools").parent().removeClass('active');
 			$("a[href='#export-data']").parent().addClass('active');
 			$(".display-panel").addClass('hide');
@@ -123,4 +127,3 @@ define(["baseView"], function(BaseView) {
 });
 
 /*-----  End of DataExportView  ------*/
-

@@ -22,6 +22,10 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		}
 	});
 
+	TransectWell.prototype.dragEnd = function() {
+		this.trigger('dragEnd');
+	}
+
 	return TransectWell;
 });
 

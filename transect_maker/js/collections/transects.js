@@ -10,6 +10,11 @@ define(["baseCollection", "transect"], function(BaseCollection, Transect) {
 		model: Transect
 	});
 
+	Transects.prototype.comparator = function(transect) {
+		return transect.get('wellLeft').get('x');
+	}
+
+
 	Transects.prototype.getTransectForX = function(x) {
 		/* return the transect to which the point belongs to */
 		var containingTransect = null;
@@ -22,11 +27,17 @@ define(["baseCollection", "transect"], function(BaseCollection, Transect) {
 	}
 
 	Transects.prototype.getTransectInNeighborhoodForX = function(x, transect) {
+
+		this.sort();
+
+		if (!transect) {
+			return null;
+		}
 		/* return the transect to which the point belongs to */
 		var index = this.indexOf(transect);
 		var transect1 = this.at(index - 1);
 		var transect2 = this.at(index + 1);
-		
+
 		if (transect1 && transect1.isXInsideTransect(x)) {
 			return transect1;
 		}
