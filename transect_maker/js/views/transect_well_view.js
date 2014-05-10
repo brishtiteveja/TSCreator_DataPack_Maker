@@ -29,7 +29,8 @@ define(["baseView"], function(BaseView) {
 		/* listen to the events */
 		this.listenTo(this.transectWell, 'change:edit', this.editTransectWell.bind(this));
 		this.listenTo(this.transectWell, 'change:hover', this.setHoverStatus.bind(this));
-		this.listenTo(this.transectWell, 'change', this.renderWell.bind(this));
+		this.listenTo(this.transectWell, 'change:x', this.renderWell.bind(this));
+		this.listenTo(this.transectWell, 'update', this.renderWell.bind(this));
 		this.listenTo(this.transectWell, 'destroy', this.delete.bind(this));
 	};
 
@@ -50,10 +51,6 @@ define(["baseView"], function(BaseView) {
 
 		/* render the well */
 		this.renderWell();
-
-		/* render tooltip */
-		this.renderTooltip();
-
 	};
 
 	TransectWellView.prototype.renderWell = function() {
@@ -79,6 +76,7 @@ define(["baseView"], function(BaseView) {
 		if (this.app.type !== "transect") {
 			this.resizeCanvas();
 		}
+		this.renderTooltip();
 	};
 
 
@@ -140,8 +138,7 @@ define(["baseView"], function(BaseView) {
 	/*==========  when drag ends update the points and texts  ==========*/
 
 	TransectWellView.prototype.dragEnd = function(evt) {
-		this.app.PointsCollection.updatePoints();
-		this.app.TransectTextsCollection.updateTransectTexts();
+		this.transectWell.dragEnd();
 	};
 
 	TransectWellView.prototype.onMouseOver = function() {
@@ -212,7 +209,7 @@ define(["baseView"], function(BaseView) {
 			description: description
 		});
 
-		this.renderTooltip();
+		this.well.update();
 	};
 
 	TransectWellView.prototype.delete = function() {

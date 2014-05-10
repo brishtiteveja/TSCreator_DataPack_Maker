@@ -26,11 +26,16 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	}
 
 	TransectText.prototype.updateTransectAndZone = function() {
-		var zone = this.get('zone') === null || !this.get('app').ZonesCollection.contains(this.get('zone')) ? this.get('app').ZonesCollection.getZoneForY(this.get('y')) :
-			this.get('app').ZonesCollection.getZoneInNeighborhoodForY(this.get('y'), this.get('zone'));
+		// var zone = this.get('zone') === null || !this.get('app').ZonesCollection.contains(this.get('zone')) ? this.get('app').ZonesCollection.getZoneForY(this.get('y')) :
+		// 	this.get('app').ZonesCollection.getZoneInNeighborhoodForY(this.get('y'), this.get('zone'));
 
-		var transect = this.get('transect') === null || !this.get('app').TransectsCollection.contains(this.get('transect')) ? this.get('app').TransectsCollection.getTransectForX(this.get('x')) :
-			this.get('app').TransectsCollection.getTransectInNeighborhoodForX(this.get('x'), this.get('transect'));
+		// var transect = this.get('transect') === null || !this.get('app').TransectsCollection.contains(this.get('transect')) ? this.get('app').TransectsCollection.getTransectForX(this.get('x')) :
+		// 	this.get('app').TransectsCollection.getTransectInNeighborhoodForX(this.get('x'), this.get('transect'));
+
+		var zone = this.get('app').ZonesCollection.getZoneForY(this.get('y'));
+
+		var transect = this.get('app').TransectsCollection.getTransectForX(this.get('x'));
+
 
 		if (zone !== null && transect !== null) {
 			this.set({

@@ -1,7 +1,3 @@
-	/*====================================
-=            TransectView            =
-====================================*/
-
 define(["baseView"], function(BaseView) {
 	var TransectView = BaseView.extend({
 		tagName: 'li',
@@ -16,16 +12,20 @@ define(["baseView"], function(BaseView) {
 		}
 	});
 
-	TransectView.prototype.template = new EJS({ url: '../../../transect_maker/ejs/transect.ejs' });
+	TransectView.prototype.template = new EJS({
+		url: '../../../transect_maker/ejs/transect.ejs'
+	});
 
-	TransectView.prototype.initialize = function(transect) {
+	TransectView.prototype.initialize = function(app, transect) {
+		this.app = app;
 		this.transect = transect;
 
 		/* list to the changes to edit attribute */
 		this.listenTo(this.transect, 'change:edit', this.toggleEditStatus.bind(this));
-		this.listenTo(this.transect, 'change:name', this.render.bind(this));
-		this.listenTo(this.transect, 'change:description', this.render.bind(this));
 		this.listenTo(this.transect, 'destroy', this.delete.bind(this));
+		this.listenTo(this.transect.get('wellLeft'), 'dragEnd', this.wellsMoved.bind(this));
+		this.listenTo(this.transect.get('wellRight'), 'dragEnd', this.wellsMoved.bind(this));
+		this.listenTo(this.app.TransectWellsCollection, 'add', this.checkAndDelete.bind(this));
 
 		/* render the dom element in the settings */
 		this.render();
@@ -108,13 +108,18 @@ define(["baseView"], function(BaseView) {
 		this.remove();
 	}
 
-	TransectView.prototype.destroy = function() {
-		this.transect.destroy();
+	TransectView.prototype.checkAndDelete = function(well) {
+		var x = well.get('x');
+
+		if (this.transect.isXInsideTransect(x)) {
+			this.transect.destroy();
+		}
 	}
 
+	TransectView.prototype.wellsMoved = function() {
+		this.transect.update();
+	}
 
 
 	return TransectView;
 });
-
-/*-----  End of TransectView  ------*/

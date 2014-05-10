@@ -12,10 +12,14 @@ define(["baseModel"], function(BaseModel) {
 				y: attributes.y,
 				age: attributes.age !== undefined ? attributes.age : null,
 				hover: false,
-			}];	
+			}];
 			BaseModel.apply(this, attrs);
 		}
 	});
+
+	Marker.prototype.dragEnd = function() {
+		this.trigger('dragEnd');
+	}
 
 	return Marker;
 });
