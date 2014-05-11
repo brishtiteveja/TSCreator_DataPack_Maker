@@ -1,14 +1,12 @@
-/*=================================
-=            ZonesView            =
-=================================*/
-
 define(["baseView", "zoneView", "zone"], function(BaseView, ZoneView, Zone) {
 	var ZonesView = BaseView.extend({
 		el: "#zones-list",
 		classname: "ZonesView",
 	});
 
-	ZonesView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
+	ZonesView.prototype.template = new EJS({
+		url: '../../../commons/ejs/data_tbl.ejs'
+	});
 
 	ZonesView.prototype.initialize = function(app) {
 		this.app = app
@@ -22,7 +20,9 @@ define(["baseView", "zoneView", "zone"], function(BaseView, ZoneView, Zone) {
 	};
 
 	ZonesView.prototype.render = function() {
-		this.$el.html(this.template.render({name: "Zones"}));
+		this.$el.html(this.template.render({
+			name: "Zones"
+		}));
 		this.$zonesTable = this.$(".data-list");
 		this.zones.each(this.addZone.bind(this));
 	};
@@ -34,5 +34,3 @@ define(["baseView", "zoneView", "zone"], function(BaseView, ZoneView, Zone) {
 
 	return ZonesView;
 });
-
-/*-----  End of ZonesView  ------*/

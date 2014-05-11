@@ -17,7 +17,8 @@ define([
 	"exporter",
 	"referenceColumnSideView",
 	"imageView",
-	"imageOb"
+	"imageOb",
+	"defaultView"
 ], function(
 	BaseView,
 	CursorView,
@@ -33,7 +34,8 @@ define([
 	Exporter,
 	ReferenceColumnSideView,
 	ImageView,
-	ImageOb) {
+	ImageOb,
+	DefaultView) {
 
 	var LithologyAppView = BaseView.extend({
 		el: ".container",
@@ -51,37 +53,37 @@ define([
 
 	LithologyAppView.prototype.initialize = function() {
 
-		this.lithologyApp = {
+		this.app = {
 			type: "lithology"
 		};
 
-		this.lithologyApp.LithologyColumnsCollection = new LithologyColumns();
-		this.lithologyApp.ZonesCollection = new Zones();
-		this.lithologyApp.MarkersCollection = new Markers();
+		this.app.LithologyColumnsCollection = new LithologyColumns();
+		this.app.ZonesCollection = new Zones();
+		this.app.MarkersCollection = new Markers();
 
 
-		this.lithologyApp.StatusBox = $(".status-box");
+		this.app.StatusBox = $(".status-box");
 
 		// refer to the important DOM elements.
 
 		this.$introScreen = this.$("#intro-screen");
-		this.lithologyApp.$canvas = this.$("#canvas");
-		this.$canvas = this.lithologyApp.$canvas;
+		this.app.$canvas = this.$("#canvas");
+		this.$canvas = this.app.$canvas;
 		this.$displayPanels = this.$('.display-panel');
 
 		//
-		this.lithologyApp.loader = new Loader(this.lithologyApp);
-		this.lithologyApp.exporter = new Exporter(this.lithologyApp);
+		this.app.loader = new Loader(this.app);
+		this.app.exporter = new Exporter(this.app);
 
 		// Initialize the models
-		this.lithologyApp.ImageOb = new ImageOb({});
-		this.lithologyApp.Paper = new Raphael(this.$canvas[0], 2000, 2000);
+		this.app.ImageOb = new ImageOb({});
+		this.app.Paper = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
-		this.lithologyApp.MarkersSet = this.lithologyApp.Paper.set();
-		this.lithologyApp.LithologyMarkersSet = this.lithologyApp.Paper.set();
-		this.lithologyApp.LithologyGroupMarkersSet = this.lithologyApp.Paper.set();
-		this.lithologyApp.LithologysSet = this.lithologyApp.Paper.set();
-		this.lithologyApp.LithologyGroupsSet = this.lithologyApp.Paper.set();
+		this.app.MarkersSet = this.app.Paper.set();
+		this.app.LithologyMarkersSet = this.app.Paper.set();
+		this.app.LithologyGroupMarkersSet = this.app.Paper.set();
+		this.app.LithologysSet = this.app.Paper.set();
+		this.app.LithologyGroupsSet = this.app.Paper.set();
 
 		this.loadPatternsDataAndRender();
 
@@ -94,7 +96,7 @@ define([
 	LithologyAppView.prototype.loadPatternsDataAndRender = function() {
 		var self = this;
 		$.get("/pattern_manager/json/patterns.json", function(data) {
-			self.lithologyApp.patternsData = data;
+			self.app.patternsData = data;
 			self.render();
 			self.listenToActionEvents();
 		});
@@ -123,21 +125,23 @@ define([
 	}
 
 	LithologyAppView.prototype.render = function() {
-		this.dataExportView = new DataExportView(this.lithologyApp);
 
-		this.cursorView = new CursorView(this.lithologyApp);
+		this.defaultView = new DefaultView(this.app);
+		this.dataExportView = new DataExportView(this.app);
+
+		this.cursorView = new CursorView(this.app);
 
 
-		this.imageView = new ImageView(this.lithologyApp);
+		this.imageView = new ImageView(this.app);
 
-		this.fileSystemView = new FileSystemView(this.lithologyApp);
+		this.fileSystemView = new FileSystemView(this.app);
 
-		this.zonesView = new ZonesView(this.lithologyApp);
-		this.markersView = new MarkersView(this.lithologyApp);
+		this.zonesView = new ZonesView(this.app);
+		this.markersView = new MarkersView(this.app);
 
-		this.lithologyColumnsView = new LithologyColumnsView(this.lithologyApp);
+		this.lithologyColumnsView = new LithologyColumnsView(this.app);
 
-		this.referenceColumnSideView = new ReferenceColumnSideView(this.lithologyApp, "#reference-column-settings");
+		this.referenceColumnSideView = new ReferenceColumnSideView(this.app, "#reference-column-settings");
 	};
 
 
@@ -175,13 +179,13 @@ define([
 	LithologyAppView.prototype.exportPaperAsImage = function() {}
 
 	LithologyAppView.prototype.saveToLocalStorage = function() {
-		this.lithologyApp.exporter.export();
-		localStorage.lithologyApp = this.lithologyApp.exporter.getJSON();
+		this.app.exporter.export();
+		localStorage.app = this.app.exporter.getJSON();
 	}
 
 	LithologyAppView.prototype.loadFromLocalStorage = function() {
 		this.showPaper();
-		this.lithologyApp.loader.loadFromLocalStorage();
+		this.app.loader.loadFromLocalStorage();
 	}
 
 
@@ -203,7 +207,7 @@ define([
 			var reader = new FileReader();
 			reader.onloadend = function(e) {
 				self.showPaper();
-				self.lithologyApp.loader.loadData(this.result);
+				self.app.loader.loadData(this.result);
 			};
 			reader.readAsText(file);
 		}
@@ -213,10 +217,10 @@ define([
 	LithologyAppView.prototype.toggleLithologys = function(evt) {
 		if ($("a[href='#add-lithology']").parent().hasClass('active')) {
 			$("a[href='#add-lithology']").parent().removeClass('active');
-			this.lithologyApp.enLithologys = false;
+			this.app.enLithologys = false;
 		} else {
 			$("a[href='#add-lithology']").parent().addClass('active');
-			this.lithologyApp.enLithologys = true;
+			this.app.enLithologys = true;
 		}
 	};
 
@@ -239,10 +243,10 @@ define([
 		reader.onloadend = function(e) {
 			self.showPaper();
 			if (ext === "json") {
-				self.lithologyApp.loader.loadData(this.result);
+				self.app.loader.loadData(this.result);
 			}
 			if (ext === "txt") {
-				self.lithologyApp.loader.loadTextData(this.result);
+				self.app.loader.loadTextData(this.result);
 			}
 			$("#loading").addClass("hide");
 		};
@@ -257,7 +261,7 @@ define([
 			this.markersView.toggleMarkers();
 		}
 
-		if (this.lithologyApp.enLithologys) {
+		if (this.app.enLithologys) {
 			this.toggleLithologys();
 		}
 

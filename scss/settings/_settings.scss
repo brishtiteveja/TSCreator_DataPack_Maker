@@ -2,6 +2,7 @@
 @import "markers_list";
 @import "polygons";
 @import "image_settings";
+@import "default_settings";
 
 #settings {
 	@include sidebar_style;
