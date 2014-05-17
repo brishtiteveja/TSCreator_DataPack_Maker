@@ -46,6 +46,28 @@ define(["baseView",
 		});
 	}
 
+	PolygonsView.prototype.createOverlay = function(lithologyColumn) {
+		if (!lithologyColumn) return;
+
+		this.checkAndDeleteCurrentPolygon();
+
+		this.disableAllPolygons();
+		if (lithologyColumn.get('polygon') == null) {
+			debugger;
+			this.app.CurrentPolygon = new Polygon();
+			this.polygonsCollection.add(this.app.CurrentPolygon);
+			lithologyColumn.set({
+				polygon: this.app.CurrentPolygon
+			});
+		} else {
+			this.app.CurrentPolygon = lithologyColumn.get('polygon');
+		}
+		this.disableAllPolygons();
+		this.app.CurrentPolygon.set({
+			'draw': true
+		});
+	}
+
 	PolygonsView.prototype.disableAllPolygons = function() {
 		this.polygonsCollection.each(function(polygon) {
 			polygon.set('draw', false);

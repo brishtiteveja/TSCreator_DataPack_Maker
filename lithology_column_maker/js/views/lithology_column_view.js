@@ -307,8 +307,15 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 	}
 
 	LithologyColumnView.prototype.addOverlay = function() {
-		debugger;
+		this.app.lithology2dView.polygonsView.createOverlay(this.lithologyColumn);
 	}
+
+	LithologyColumnView.prototype.checkAndDeleteCurrentPolygon = function() {
+
+		return true;
+	}
+
+
 
 	return LithologyColumnView;
 });

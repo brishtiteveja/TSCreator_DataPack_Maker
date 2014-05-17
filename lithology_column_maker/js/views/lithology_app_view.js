@@ -130,6 +130,8 @@ define([
 
 		this.lithology2dView = new Lithology2dView(this.app);
 
+		this.app.lithology2dView = this.lithology2dView;
+
 		this.rulerView = new RulerView(this.app);
 
 		this.defaultView = new DefaultView(this.app);
