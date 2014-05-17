@@ -18,6 +18,8 @@ define(["raphael", "baseView"], function(Raphael, BaseView) {
 			.hosts(["a.", "b.", "c.", ""]));
 
 		this.renderMap();
+
+		this.$el.addClass('hide');
 	}
 
 	MapView.prototype.renderMap = function() {

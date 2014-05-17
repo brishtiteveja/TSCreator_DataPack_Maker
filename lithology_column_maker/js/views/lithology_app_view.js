@@ -46,7 +46,6 @@ define([
 			'click a.lithology-settings': 'showSettings',
 			'click a.maker-tools': 'enableTool',
 			'click a.continue': 'showPaper',
-			'click a[href="#show-map"]': 'toggleMapView',
 			"dragover #data-box": "dataDragover",
 			"drop #data-box": "dataDrop",
 		}
@@ -258,7 +257,7 @@ define([
 		reader.readAsText(file);
 	}
 
-	LithologyAppView.prototype.toggleMapView = function(evt) {
+	LithologyAppView.prototype.toggleMapView = function() {
 
 		if ($("a[href='#show-map']").parent().hasClass('active')) {
 			$("a[href='#show-map']").parent().removeClass('active');
@@ -266,8 +265,8 @@ define([
 			$("#map").addClass('hide');
 			this.$canvas.removeClass('hide');
 		} else {
-			$("a[href='#show-map']").parent().addClass('active');
 			$(".maker-tools").parent().removeClass('active');
+			$("a[href='#show-map']").parent().addClass('active');
 			$(".display-panel").addClass('hide');
 			$("#map").removeClass('hide');
 		}
@@ -306,6 +305,9 @@ define([
 				break;
 			case "#add-lithology":
 				this.toggleLithologys();
+				break;
+			case "#show-map":
+				this.toggleMapView();
 				break;
 			default:
 				break;
