@@ -1,14 +1,12 @@
-/*=========================================
-=            TransectTextsView            =
-=========================================*/
-
 define(["baseView", "transectTextView", "transectText"], function(BaseView, TransectTextView, TransectText) {
 	var TransectTextsView = BaseView.extend({
 		el: "#texts-list",
 		classname: "TransectTextsView"
 	});
 
-	TransectTextsView.prototype.template = new EJS({url: '../../../commons/ejs/data_tbl.ejs'});
+	TransectTextsView.prototype.template = new EJS({
+		url: '../../../commons/ejs/data_tbl.ejs'
+	});
 
 	TransectTextsView.prototype.initialize = function(app) {
 		this.app = app;
@@ -23,7 +21,9 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 	}
 
 	TransectTextsView.prototype.render = function() {
-		this.$el.html(this.template.render({name: "Transect Texts"}));
+		this.$el.html(this.template.render({
+			name: "Transect Texts"
+		}));
 		this.$textsList = this.$(".data-list");
 		this.renderTransectTexts();
 	}
@@ -40,23 +40,32 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 	}
 
 	TransectTextsView.prototype.addTransectText = function(transectText) {
-		
+
 		var transectTextView = new TransectTextView(this.app, transectText, this);
 		this.$textsList.append(transectTextView.el);
 		this.set.push(transectTextView.element);
 	}
 
 	TransectTextsView.prototype.createTransectText = function(evt) {
-		
+
 		if (this.enTransectTexts) {
-		
-			var transectText = this.transectTexts.findWhere({x: evt.offsetX, y: evt.offsetY}) || new TransectText({x: evt.offsetX, y: evt.offsetY}, this.app);
-			
+			var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
+			var locationX = cdts.x;
+			var locationY = cdts.y;
+
+			var transectText = this.transectTexts.findWhere({
+				x: locationX,
+				y: locationY
+			}) || new TransectText({
+				x: locationX,
+				y: locationY
+			}, this.app);
+
 			if (transectText.get('transect') === null || transectText.get('zone') === null) {
 				transectText.destroy();
 				return;
 			}
-			
+
 			this.transectTexts.add(transectText);
 		}
 	}
@@ -73,6 +82,3 @@ define(["baseView", "transectTextView", "transectText"], function(BaseView, Tran
 
 	return TransectTextsView;
 });
-
-/*-----  End of TransectTextsView  ------*/
-

@@ -3,7 +3,6 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		classname: "TransectText",
 		constructor: function(attributes, app) {
 
-			var settings = new Settings();
 			var attrs = [{
 				edit: false,
 				text: attributes.text || _.uniqueId("Text "),
@@ -12,7 +11,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 				age: 0,
 				transect: null,
 				zone: null,
-				settings: settings,
+				settings: new Settings(),
 				// bounding box for the text.
 				bBox: null,
 				app: app
@@ -22,6 +21,9 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 	});
 
 	TransectText.prototype.initialize = function() {
+		this.get('settings').set({
+			'fill': "#000"
+		});
 		this.updateTransectAndZone();
 	}
 

@@ -46,6 +46,7 @@ define(["baseView"], function(BaseView) {
 	};
 
 	TransectView.prototype.toggleTransectForm = function() {
+		this.render();
 		this.transect.set({
 			'edit': !this.transect.get('edit')
 		});
@@ -91,14 +92,14 @@ define(["baseView"], function(BaseView) {
 	TransectView.prototype.updateTransect = function(evt) {
 
 		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
-			var name = this.$name.value;
-			var description = this.$description.value.split("\n").join(" ");
-			this.transect.set({
-				name: name,
-				description: description
-			});
 			this.toggleTransectForm();
 		}
+		var name = this.$name.value;
+		var description = this.$description.value.split("\n").join(" ");
+		this.transect.set({
+			name: name,
+			description: description
+		});
 	}
 
 
