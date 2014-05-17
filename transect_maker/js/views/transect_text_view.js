@@ -84,12 +84,6 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 			this.set.push(this.boundingBox);
 			this.app.TextsSet.push(this.set);
 
-			this.boundingBox.attr({
-				"fill": "#f1f1f1",
-				"fill-opacity": 0,
-				"r": "2px",
-			});
-
 			this.boundingBox.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 			this.boundingBox.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 		}
@@ -101,6 +95,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 			"font-size": this.transectText.get('settings').get('fontSize'),
 			"font-family": this.transectText.get('settings').get('fontFamily'),
 			"fill": this.transectText.get('settings').get('fill'),
+			"fill-opacity": 1,
 		});
 
 		this.backgroundBox.attr({
@@ -117,6 +112,10 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		});
 
 		this.boundingBox.attr({
+			"fill": "#f1f1f1",
+			"r": "2px",
+			"fill-opacity": 0,
+			"opacity": 0,
 			"width": this.element.getBBox().width,
 			"height": this.element.getBBox().height,
 			"x": this.element.getBBox().x,
@@ -242,7 +241,7 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		});
 		var fontFamily = this.$("select[name='text-font-family'] option:selected").val();
 		this.transectText.get('settings').set({
-			textFontSize: this.$textFontSize.value,
+			fontSize: this.$textFontSize.value,
 			fill: this.$textFontColor.value,
 			fontFamily: fontFamily,
 		})
