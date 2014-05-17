@@ -40,7 +40,33 @@
 			z-index: -100;
 		}
 
+		&::-webkit-scrollbar { 
+			display: none; 
+		}
+
 		@include display_background;
+	}
+
+	> #ruler-panel {
+		position: fixed;
+		top: 0px;
+		height: 100%;
+		width: 50px;
+		overflow: auto;
+		background-color: #ffffff;
+		&.hidden {
+			height: 1px;
+			width: 1px;
+			overflow: hidden;
+			position: absolute;
+			z-index: -100;
+		}
+
+		&::-webkit-scrollbar { 
+			display: none; 
+		}
+
+		// @include display_background;
 	}
 
 
@@ -96,4 +122,8 @@
 			}
 		}
 	}
+}
+
+.invisible {
+	opacity: 0px;
 }

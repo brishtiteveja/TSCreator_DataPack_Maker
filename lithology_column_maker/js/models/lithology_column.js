@@ -1,24 +1,22 @@
+define(["baseModel", "lithologyMarkers", "lithologys", "lithologyGroups", "lithologyGroupMarkers", "settings", "polygons"], function(BaseModel, LithologyMarkers, Lithologys, LithologyGroups, LithologyGroupMarkers, Settings, Polygons) {
 
-/*=============================================================================================
-=            LithologyColumn is a nested collection that contains collection of lithologys            =
-=============================================================================================*/
-
-define(["baseModel", "lithologyMarkers", "lithologys", "lithologyGroups", "lithologyGroupMarkers", "settings"], function(BaseModel, LithologyMarkers, Lithologys, LithologyGroups, LithologyGroupMarkers, Settings) {
-	
-	var LithologyColumn = BaseModel.extend({	
-		classname: "LithologyColumn",		
-		constructor: function (attributes) {
+	var LithologyColumn = BaseModel.extend({
+		classname: "LithologyColumn",
+		constructor: function(params) {
 			var attrs = [{
-				x                     : attributes.x || 0,
-				id                    : _.uniqueId("column-"),
-				name                  : attributes.name || _.uniqueId("Column "),
-				width                 : parseInt(attributes.width) || 400,
-				description           : attributes.description || null,
-				lithologyMarkers      : new LithologyMarkers(),
-				lithologys            : new Lithologys(),
-				lithologyGroupMarkers : new LithologyGroupMarkers(),
-				lithologyGroups       : new LithologyGroups(),
-				settings              : new Settings(),
+				x: params.x || 0,
+				id: _.uniqueId("column-"),
+				name: params.name || _.uniqueId("Column "),
+				width: parseInt(params.width) || 400,
+				description: params.description || null,
+				lithologyMarkers: new LithologyMarkers(),
+				lithologys: new Lithologys(),
+				lithologyGroupMarkers: new LithologyGroupMarkers(),
+				lithologyGroups: new LithologyGroups(),
+				settings: new Settings(),
+				polygon: null,
+				lat: null,
+				lon: null,
 			}];
 			BaseModel.apply(this, attrs);
 		}
@@ -37,5 +35,3 @@ define(["baseModel", "lithologyMarkers", "lithologys", "lithologyGroups", "litho
 	return LithologyColumn;
 
 });
-
-/*-----  End of LithologyColumn  ------*/

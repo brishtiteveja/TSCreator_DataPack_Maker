@@ -25,8 +25,7 @@ define([
 			type: "lithology2D"
 		}
 
-
-		this.app.Paper = new Raphael("canvas", this.$("#display").width(), this.$("#display").height());
+		this.app.Paper = new Raphael("map", this.$("#display").width(), this.$("#display").height());
 		this.app.PolygonsCollection = new Polygons();
 		this.renderViews();
 	}
@@ -34,6 +33,11 @@ define([
 	Lithology2dView.prototype.renderViews = function() {
 		this.mapView = new MapView(this.app);
 		this.polygonsView = new PolygonsView(this.app);
+	}
+
+	Lithology2dView.prototype.resize = function() {
+		this.app.Paper.setSize(this.$("#display").width(), this.$("#display").height());
+		this.mapView.renderMap();
 	}
 
 	Lithology2dView.prototype.showSettings = function(evt) {

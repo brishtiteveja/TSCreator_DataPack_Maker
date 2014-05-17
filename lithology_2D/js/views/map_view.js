@@ -1,7 +1,7 @@
 define(["raphael", "baseView"], function(Raphael, BaseView) {
 
 	var MapView = BaseView.extend({
-		el: "#canvas",
+		el: "#map",
 		events: {
 			'dblclick': "addPoint"
 		}
@@ -16,6 +16,11 @@ define(["raphael", "baseView"], function(Raphael, BaseView) {
 		this.app.mapLayer2 = this.app.po.image().url(this.app.po.url("http://{S}tile.cloudmade.com" + "/1a1b06b230af4efdbb989ea99e9841af" // http://cloudmade.com/register
 				+ "/998/256/{Z}/{X}/{Y}.png")
 			.hosts(["a.", "b.", "c.", ""]));
+
+		this.renderMap();
+	}
+
+	MapView.prototype.renderMap = function() {
 		this.app.map = this.app.po.map()
 			.container(this.app.Paper.canvas)
 			.zoomRange([2, 18])

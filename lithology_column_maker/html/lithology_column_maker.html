@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="/commons/js/lib/ejs_production.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/qtip.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/numeric-1.2.6.min.js"></script>
+		<script type="text/javascript" src="../../commons/js/lib/polymaps/polymaps.min.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/foundation/js/foundation.min.js"></script>
 
 		<!-- Utilities -->
@@ -34,9 +35,11 @@
 			<div id="toolbar" class="small-2 large-1 columns">
 				<ul class="side-nav">
 					<li><a href="#" class="maker-tools icon icons_32-cursor_arrow_icon_32" title="mouse pointer"></a></li>
+					<li><a href="#show-map" class="maker-tools icon icons_32-globe_2_icon_32" title="show map view"></a></li>
 					<li><a href="#add-marker" class="maker-tools icon icons_32-cursor_H_split_icon_32" title="create a new timeline"></a></li>
 					<li><a href="#new-column" class="maker-tools icon icons_32-sq_plus_icon_32" title="create a new lithology column"></a></li>
 					<li><a href="#add-lithology" class="maker-tools icon icons_32-align_just_icon_32" title="create a new lithology"></a></li>
+					<li><a href="#show-ruler" class="maker-tools icon icons_32-186-ruler" title="show ruler"></a></li>
 					<li><a href="#show-ref-panel" class="maker-tools icon icons_32-indent_decrease_icon_32" title="show reference panel"></a></li>
 					<li><a href="#save-to-local-storage" class="maker-tools icon icons_save_icon_32" title="save to local storage"></a></li>
 					<li><a href="#reload-data" class="maker-tools icon icons_32-reload_icon_32" title="reload data from local storage"></a></li>
@@ -48,8 +51,7 @@
 			<div id="display" class="small-18 large-21 columns linked">
 				<div id="export-panel" class="display-panel hide"></div>
 				<div id="file-system-panel" class="display-panel hide"></div>
-				<div id="canvas" class="display-panel hide" tabindex=1></div>
-				<div class="intro row display-panel" id="intro-screen">
+				<div class="intro row display-panel hide" id="intro-screen" tabindex=1>
 					<div class="content small-22 large-22 columns">
 						<div class="row">
 							<div class="small-22 large-22 columns">
@@ -86,7 +88,11 @@
 						</div>
 					</div>
 				</div>
+
+				<div id="canvas" class="display-panel hide" tabindex=2></div>
+				<div id="map" class="display-panel" tabindex=3></div>
 				<div id="ref-panel" class="linked hidden"></div>
+				<div id="ruler-panel" class="linked hidden"></div>
 			</div>
 			<div id="load-saved-data" class="reveal-modal" data-reveal>
 				<h2> Are you sure you want to continue ?</h2>

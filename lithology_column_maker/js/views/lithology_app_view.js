@@ -1,8 +1,5 @@
-/*====================================================================
-=            LithologyAppView is the basic view for lithologys            =
-====================================================================*/
-
 define([
+	"raphael",
 	"baseView",
 	"cursorView",
 	"fileSystemView",
@@ -18,8 +15,11 @@ define([
 	"referenceColumnSideView",
 	"imageView",
 	"imageOb",
-	"defaultView"
+	"defaultView",
+	"rulerView",
+	"lithology2dView"
 ], function(
+	Raphael,
 	BaseView,
 	CursorView,
 	FileSystemView,
@@ -35,7 +35,9 @@ define([
 	ReferenceColumnSideView,
 	ImageView,
 	ImageOb,
-	DefaultView) {
+	DefaultView,
+	RulerView,
+	Lithology2dView) {
 
 	var LithologyAppView = BaseView.extend({
 		el: ".container",
@@ -44,6 +46,7 @@ define([
 			'click a.lithology-settings': 'showSettings',
 			'click a.maker-tools': 'enableTool',
 			'click a.continue': 'showPaper',
+			'click a[href="#show-map"]': 'toggleMapView',
 			"dragover #data-box": "dataDragover",
 			"drop #data-box": "dataDrop",
 		}
@@ -125,6 +128,10 @@ define([
 	}
 
 	LithologyAppView.prototype.render = function() {
+
+		this.lithology2dView = new Lithology2dView(this.app);
+
+		this.rulerView = new RulerView(this.app);
 
 		this.defaultView = new DefaultView(this.app);
 		this.dataExportView = new DataExportView(this.app);
@@ -232,7 +239,6 @@ define([
 
 
 	LithologyAppView.prototype.dataDrop = function(evt) {
-		$("#loading").removeClass("hide");
 		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
@@ -248,9 +254,24 @@ define([
 			if (ext === "txt") {
 				self.app.loader.loadTextData(this.result);
 			}
-			$("#loading").addClass("hide");
 		};
 		reader.readAsText(file);
+	}
+
+	LithologyAppView.prototype.toggleMapView = function(evt) {
+
+		if ($("a[href='#show-map']").parent().hasClass('active')) {
+			$("a[href='#show-map']").parent().removeClass('active');
+			$(".display-panel").addClass('hide');
+			$("#map").addClass('hide');
+			this.$canvas.removeClass('hide');
+		} else {
+			$("a[href='#show-map']").parent().addClass('active');
+			$(".maker-tools").parent().removeClass('active');
+			$(".display-panel").addClass('hide');
+			$("#map").removeClass('hide');
+		}
+
 	}
 
 	LithologyAppView.prototype.enableTool = function(evt) {
@@ -293,5 +314,3 @@ define([
 
 	return LithologyAppView;
 });
-
-/*-----  End of Section comment lithology  ------*/

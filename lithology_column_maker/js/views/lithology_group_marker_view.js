@@ -1,15 +1,12 @@
-
-/*===============================================================================================================
-=            LithologyGroupMarkerView is the view that handles changes to the lithology column it is instantiated with.            =
-===============================================================================================================*/
-
 define(["baseView"], function(BaseView) {
-	
+
 	var LithologyGroupMarkerView = BaseView.extend({
 		classname: "LithologyGroupMarkerView",
 	});
 
-	LithologyGroupMarkerView.prototype.statusBoxTemplate = new EJS({url: '/lithology_column_maker/ejs/status_box.ejs'});
+	LithologyGroupMarkerView.prototype.statusBoxTemplate = new EJS({
+		url: '/lithology_column_maker/ejs/status_box.ejs'
+	});
 
 	LithologyGroupMarkerView.prototype.initialize = function(app, lithologyGroupMarker) {
 		this.app = app;
@@ -37,7 +34,7 @@ define(["baseView"], function(BaseView) {
 
 		if (this.element === undefined) {
 			this.element = this.app.Paper.path();
-			
+
 			this.element.attr({
 				"stroke-width": 2,
 				"stroke": "#0000FF"
@@ -54,7 +51,7 @@ define(["baseView"], function(BaseView) {
 
 		var style = this.lithologyGroupMarker.get('style');
 		var strokeDashArray = []
-		
+
 		if (style === "dashed") {
 			strokeDashArray = ["-"];
 		} else if (style === "dotted") {
@@ -76,7 +73,7 @@ define(["baseView"], function(BaseView) {
 
 
 	LithologyGroupMarkerView.prototype.getPath = function() {
-		var x2 = this.lithologyGroupMarker.get('lithologyColumn').get('x') + Math.round(this.lithologyGroupMarker.get('lithologyColumn').get('width')/2);
+		var x2 = this.lithologyGroupMarker.get('lithologyColumn').get('x') + Math.round(this.lithologyGroupMarker.get('lithologyColumn').get('width') / 2);
 		return ("M" + this.lithologyGroupMarker.get('lithologyColumn').get('x') + "," + this.lithologyGroupMarker.get('y') + "H" + x2);
 	}
 
@@ -94,7 +91,7 @@ define(["baseView"], function(BaseView) {
 		if (this.prevMarker && this.nextMarker && (this.prevMarker.get('y') + 2 > evt.offsetY || evt.offsetY > this.nextMarker.get('y') - 2)) {
 			return;
 		}
-		
+
 		if (!this.prevMarker && this.nextMarker && evt.offsetY > this.nextMarker.get('y') - 2) {
 			return;
 		}
@@ -125,7 +122,7 @@ define(["baseView"], function(BaseView) {
 
 
 	LithologyGroupMarkerView.prototype.setHoverStatus = function() {
-		if (this.lithologyGroupMarker.get('hover')) {			
+		if (this.lithologyGroupMarker.get('hover')) {
 			this.element.attr({
 				"stroke-width": 5
 			});
@@ -141,8 +138,7 @@ define(["baseView"], function(BaseView) {
 	}
 
 
-	LithologyGroupMarkerView.prototype.dragEnd = function(evt) {
-	};
+	LithologyGroupMarkerView.prototype.dragEnd = function(evt) {};
 
 	LithologyGroupMarkerView.prototype.delete = function() {
 		if (this.element !== undefined) this.element.remove();
@@ -171,5 +167,3 @@ define(["baseView"], function(BaseView) {
 
 	return LithologyGroupMarkerView;
 });
-
-/*-----  End of LithologyGroupMarkerView  ------*/

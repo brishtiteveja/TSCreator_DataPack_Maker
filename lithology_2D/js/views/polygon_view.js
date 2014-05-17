@@ -18,7 +18,7 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 		// add a point when we double click on canvas.
 		this.listenTo(this.polygon.get('points'), 'add', this.addPoint.bind(this));
 		this.listenTo(this.polygon.get('points'), 'change', this.renderPolygonElement.bind(this));
-		$("#canvas").bind('dblclick', this.createPoint.bind(this));
+		$("#map").bind('dblclick', this.createPoint.bind(this));
 	}
 
 	PolygonView.prototype.addPoint = function(point) {

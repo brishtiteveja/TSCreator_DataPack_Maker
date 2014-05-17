@@ -13,6 +13,16 @@
 			<input type="color" value="<%= settings.get('backgroundColor') %>" name="lithology-column-bg-color" style="height: 37px; width: 100%">
 		</div>
 	</div>
+	<div class="row">
+		<div class="small-12 columns lithology-column-form hide">
+			<label for="lithology-column-lat">Latitude</label>
+			<input type="number"  name="lithology-column-lat">
+		</div>
+		<div class="small-12 columns lithology-column-form hide">
+			<label for="lithology-column-lon">Longitude</label>
+			<input type="number"  name="lithology-column-lon">
+		</div>
+	</div>
 	<label for="lithology-column-description">Description</label>
 	<textarea name="lithology-column-description" placeholder="No description yet!"><%= description %></textarea>
 </div>

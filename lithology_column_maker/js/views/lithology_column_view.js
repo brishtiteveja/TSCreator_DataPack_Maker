@@ -1,8 +1,3 @@
-
-/*========================================
-=            LithologyColumnView            =
-========================================*/
-
 define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithologyGroup", "lithologyGroupMarker"], function(BaseView, LithologyGroupView, LithologyGroupMarkerView, LithologyGroup, LithologyGroupMarker) {
 
 	var LithologyColumnView = BaseView.extend({
@@ -13,6 +8,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			'click .lithology-column-data': 'toggleLithologyColumnForm',
 			'click .data-labels': 'toggleLithologyColumnForm',
 			'click .destroy': 'destroy',
+			'click a[href="#add-overlay"]': 'addOverlay',
 			'click label.lithology-column-lithologys-data': 'showLithologyGroupsList',
 			'keypress :input': 'updateLithologyColumn',
 			'keyup :input': 'updateLithologyColumn',
@@ -22,10 +18,15 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		}
 	});
 
-	LithologyColumnView.prototype.template = new EJS({url: '/lithology_column_maker/ejs/lithology_column.ejs'});
-	LithologyColumnView.prototype.colInfoTemplate = new EJS({url: '/lithology_column_maker/ejs/lithology_column_info.ejs'});
+	LithologyColumnView.prototype.template = new EJS({
+		url: '/lithology_column_maker/ejs/lithology_column.ejs'
+	});
 
-	LithologyColumnView.prototype.initialize = function(app, lithologyColumn) {	
+	LithologyColumnView.prototype.colInfoTemplate = new EJS({
+		url: '/lithology_column_maker/ejs/lithology_column_info.ejs'
+	});
+
+	LithologyColumnView.prototype.initialize = function(app, lithologyColumn) {
 		this.app = app;
 		this.lithologyColumn = lithologyColumn;
 
@@ -92,17 +93,17 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			opacity: 0.5,
 		});
 
-		var textX = Math.round(this.lithologyColumn.get('x') + this.lithologyColumn.get('width')/2);
+		var textX = Math.round(this.lithologyColumn.get('x') + this.lithologyColumn.get('width') / 2);
 		var textY = 25
 		var textSize = 24;
 
 		this.headingText.attr({
-			"x" : textX,
-			"y" : textY,
+			"x": textX,
+			"y": textY,
 			"text": this.lithologyColumn.get('name'),
 			"font-size": textSize,
 		});
-		
+
 
 		this.updateLithologyColumns();
 	}
@@ -145,7 +146,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 
 	LithologyColumnView.prototype.updateLithologyColumn = function(evt) {
-		
+
 		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
 			this.toggleLithologyColumnForm();
 		}
@@ -154,13 +155,13 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		var description = this.$lithologyColumnDescription.value;
 		var width = this.$lithologyColumnWidth.value;
 		var bgColor = this.$lithologyColumnBgColor.value;
-		
+
 		this.lithologyColumn.set({
 			name: name,
 			description: description,
 			width: parseInt(width) || 0,
 		});
-		
+
 		this.lithologyColumn.get('settings').set({
 			backgroundColor: bgColor
 		});
@@ -168,13 +169,16 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 	LithologyColumnView.prototype.createLithologyGroupMarker = function(evt) {
 		if (!this.app.enLithologys) return;
-		var lithologyGroupMarker = new LithologyGroupMarker({y: evt.offsetY, lithologyColumn: this.lithologyColumn}, this.app);
+		var lithologyGroupMarker = new LithologyGroupMarker({
+			y: evt.offsetY,
+			lithologyColumn: this.lithologyColumn
+		}, this.app);
 
 		if (lithologyGroupMarker.get('zone') === null) {
 			lithologyGroupMarker.destroy();
 			return;
 		}
-		
+
 		this.lithologyColumn.get('lithologyGroupMarkers').add(lithologyGroupMarker);
 	}
 
@@ -192,38 +196,52 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		var topMarker, baseMarker;
 
 		if (lithologyGroupMarkers.length > 1) {
-		
+
 			if (index < lithologyGroupMarkers.length - 1) {
 				var topMarker = lithologyGroupMarkers.at(index);
-				var baseMarker = lithologyGroupMarkers.at(index + 1);		
+				var baseMarker = lithologyGroupMarkers.at(index + 1);
 
-				var lithologyGroup = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
-							new LithologyGroup({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
-				
+				var lithologyGroup = lithologyGroups.findWhere({
+					top: topMarker,
+					base: baseMarker
+				}) ||
+					new LithologyGroup({
+						top: topMarker,
+						base: baseMarker,
+						lithologyColumn: self.lithologyColumn
+					});
+
 				topMarker.get('lithologyGroups').add(lithologyGroup);
 				baseMarker.get('lithologyGroups').add(lithologyGroup);
-				
+
 				baseMarker.set({
 					name: lithologyGroup.get('name') + " Base"
 				});
-				
+
 				lithologyGroups.add(lithologyGroup);
-			} 
-			
-			if (index > 0){
+			}
+
+			if (index > 0) {
 				var topMarker = lithologyGroupMarkers.at(index - 1);
 				var baseMarker = lithologyGroupMarkers.at(index);
-				
-				var lithologyGroup = lithologyGroups.findWhere({top: topMarker, base: baseMarker}) ||
-							new LithologyGroup({top: topMarker, base: baseMarker, lithologyColumn: self.lithologyColumn});
-				
+
+				var lithologyGroup = lithologyGroups.findWhere({
+					top: topMarker,
+					base: baseMarker
+				}) ||
+					new LithologyGroup({
+						top: topMarker,
+						base: baseMarker,
+						lithologyColumn: self.lithologyColumn
+					});
+
 				topMarker.get('lithologyGroups').add(lithologyGroup);
 				baseMarker.get('lithologyGroups').add(lithologyGroup);
-				
+
 				baseMarker.set({
 					name: lithologyGroup.get('name') + " Base"
 				});
-				
+
 				lithologyGroups.add(lithologyGroup);
 			}
 		}
@@ -283,9 +301,14 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 	LithologyColumnView.prototype.resizePaper = function() {
 		var width = Math.max(this.app.Paper.width, this.lithologyColumn.get('x') + this.lithologyColumn.get('width'));
 		this.app.Paper.setSize(width, this.app.Paper.height);
+		if (this.app.ruler) {
+			this.app.ruler.resize();
+		}
+	}
+
+	LithologyColumnView.prototype.addOverlay = function() {
+		debugger;
 	}
 
 	return LithologyColumnView;
 });
-
-/*-----  End of LithologyColumnView  ------*/

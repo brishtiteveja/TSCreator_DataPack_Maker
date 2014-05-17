@@ -6,6 +6,9 @@ requirejs.config({
 		baseModel: "/commons/js/models/base_model",
 		baseCollection: "/commons/js/collections/base_collection",
 
+		ruler: "/commons/js/models/ruler",
+		rulerView: "/commons/js/views/ruler_view",
+
 		defaultView: "/commons/js/views/default_view",
 
 		// App
@@ -68,7 +71,8 @@ requirejs.config({
 		lithologyColumnsView: "/lithology_column_maker/js/views/lithology_columns_view",
 
 		// Libraries
-		polyK: "/commons/js/lib/polyK",
+		polyK: "../../commons/js/lib/polyK",
+		raphael: "../../commons/js/lib/raphael",
 
 		// File System
 		file: "/file_system/js/models/file",
@@ -81,6 +85,22 @@ requirejs.config({
 		// 
 		lithologyAppView: "/lithology_column_maker/js/views/lithology_app_view",
 
+		// Points
+		pointView: "../../lithology_2D/js/views/point_view",
+		point: "../../lithology_2D/js/models/point",
+		points: "../../lithology_2D/js/collections/points",
+
+		// Polygon
+		polygonView: "../../lithology_2D/js/views/polygon_view",
+		polygonsView: "../../lithology_2D/js/views/polygons_view",
+		polygon: "../../lithology_2D/js/models/polygon",
+		polygons: "../../lithology_2D/js/collections/polygons",
+
+
+		// Map View
+		mapView: "../../lithology_2D/js/views/map_view",
+
+		lithology2dView: "../../lithology_2D/js/views/lithology_2d_view",
 
 		// Reference Column Data Loader
 		referenceColumnLoader: "/reference_column_maker/js/utils/loader",
