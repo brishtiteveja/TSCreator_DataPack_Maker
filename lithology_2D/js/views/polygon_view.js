@@ -7,12 +7,31 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 		this.polygon = polygon;
 		this.pointsSet = this.app.Paper.set();
 		this.listenToActionEvents();
+		this.render();
 	}
 
 	PolygonView.prototype.template = new EJS({
-		url: '/lithology_2D/ejs/point.ejs'
+		url: '/lithology_2D/ejs/polygon.ejs'
 	});
 
+
+	PolygonView.prototype.render = function() {
+		// render the view for the polygon in the settings panel.
+		this.$el.html(this.template.render(this.polygon.toJSON()));
+
+		// get the appropriate dom elements from the newly added view
+		this.$togglePolygon = this.$(".toggle-polygon");
+		this.$polygonForm = this.$(".polygon-form");
+		this.$polygonData = this.$(".polygon-data");
+		this.$polygonName = this.$('input[name="polygon-name"]')[0];
+		this.$polygonDescription = this.$('textarea[name="polygon-description"]')[0];
+
+		this.renderPoints();
+	}
+
+	PolygonView.prototype.renderPoints = function() {
+		this.polygon.get('points').each(this.addPoint.bind(this));
+	}
 
 	PolygonView.prototype.listenToActionEvents = function() {
 		// add a point when we double click on canvas.

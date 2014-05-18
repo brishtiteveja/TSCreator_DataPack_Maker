@@ -17,7 +17,22 @@ define(["baseView",
 		this.app = app;
 		this.polygonsCollection = app.PolygonsCollection;
 		this.listenTo(this.polygonsCollection, 'add', this.addPolygon.bind(this));
+		this.render();
 	}
+
+
+	PolygonsView.prototype.render = function() {
+		this.$el.html(this.template.render({
+			name: "Polygons"
+		}));
+		this.$polygonsList = this.$(".data-list");
+		this.renderPolygons();
+	};
+
+	PolygonsView.prototype.renderPolygons = function() {
+		this.polygonsCollection.each(this.addPolygon.bind(this));
+	}
+
 
 	PolygonsView.prototype.togglePolygons = function() {
 		if ($("a[href='#add-polygon']").parent().hasClass('hide')) {
@@ -53,7 +68,6 @@ define(["baseView",
 
 		this.disableAllPolygons();
 		if (lithologyColumn.get('polygon') == null) {
-			debugger;
 			this.app.CurrentPolygon = new Polygon();
 			this.polygonsCollection.add(this.app.CurrentPolygon);
 			lithologyColumn.set({
@@ -90,6 +104,8 @@ define(["baseView",
 
 	PolygonsView.prototype.addPolygon = function(polygon) {
 		var polygonView = new PolygonView(this.app, polygon);
+		debugger;
+		this.$polygonsList.append(polygonView.el);
 	};
 	return PolygonsView;
 });
