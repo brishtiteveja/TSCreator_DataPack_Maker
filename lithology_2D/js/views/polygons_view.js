@@ -104,7 +104,6 @@ define(["baseView",
 
 	PolygonsView.prototype.addPolygon = function(polygon) {
 		var polygonView = new PolygonView(this.app, polygon);
-		debugger;
 		this.$polygonsList.append(polygonView.el);
 	};
 	return PolygonsView;

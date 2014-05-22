@@ -1,6 +1,8 @@
 define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) {
 
-	var PolygonView = BaseView.extend({});
+	var PolygonView = BaseView.extend({
+		tagName: "li",
+	});
 
 	PolygonView.prototype.initialize = function(app, polygon) {
 		this.app = app;
