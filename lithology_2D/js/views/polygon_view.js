@@ -2,12 +2,23 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 
 	var PolygonView = BaseView.extend({
 		tagName: "li",
+		events: {
+			'click .toggle': 'togglePolygonForm',
+			'click .toggle-polygon': 'togglePolygonForm',
+			'click .polygon-data': 'togglePolygonForm',
+			'click a.polygon-list-tool': 'showList',
+			'click .destroy': 'destroy',
+			'click .to-front': 'toFront',
+			'keypress :input': 'updatePolygon',
+			'keyup :input': 'updatePolygon',
+			'mouseover': "onMouseOver",
+			'mouseout': "onMouseOut",
+		}
 	});
 
 	PolygonView.prototype.initialize = function(app, polygon) {
 		this.app = app;
 		this.polygon = polygon;
-		this.pointsSet = this.app.Paper.set();
 		this.listenToActionEvents();
 		this.render();
 	}
@@ -37,6 +48,7 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 
 	PolygonView.prototype.listenToActionEvents = function() {
 		// add a point when we double click on canvas.
+		this.listenTo(this.polygon, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.polygon.get('points'), 'add', this.addPoint.bind(this));
 		this.listenTo(this.polygon.get('points'), 'change', this.renderPolygonElement.bind(this));
 		$("#map").bind('dblclick', this.createPoint.bind(this));
@@ -50,14 +62,19 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 	PolygonView.prototype.renderPolygonElement = function() {
 		if (this.element === undefined) {
 			this.element = this.app.Paper.path();
+			this.app.PolygonSet.push(this.element);
+			this.element.mouseover(this.onMouseOver.bind(this));
+			this.element.mouseout(this.onMouseOut.bind(this));
 		}
 
 		this.element.attr({
 			path: this.getPath(),
 			stroke: "#ff0000",
-			fill: "#555555",
+			fill: "#FFFF00",
 			opacity: 0.8
 		});
+
+		this.app.orderElements();
 	}
 
 	PolygonView.prototype.createPoint = function(evt) {
@@ -101,6 +118,59 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 		return path;
 	}
 
+	PolygonView.prototype.togglePolygonForm = function() {
+		this.render();
+		this.polygon.set({
+			'edit': !this.polygon.get('edit')
+		});
+	}
+
+	PolygonView.prototype.toggleEditStatus = function() {
+		if (this.polygon.get('edit')) {
+			this.$polygonForm.removeClass('hide');
+			this.$polygonData.addClass('hide');
+			this.$togglePolygon.removeClass('hide-data');
+			this.$togglePolygon.addClass('show-data');
+		} else {
+			this.$polygonForm.addClass('hide');
+			this.$polygonData.removeClass('hide');
+			this.$togglePolygon.removeClass('show-data');
+			this.$togglePolygon.addClass('hide-data');
+		}
+	}
+
+	PolygonView.prototype.onMouseOver = function() {
+		if (!this.element) return;
+
+		if (this.glow !== undefined) {
+			this.glow.remove();
+		}
+		this.glow = this.element.glow({
+			color: "#f00",
+			width: 40,
+			opacity: 1,
+		});
+		this.glow.show();
+		this.$el.addClass('hover');
+	}
+
+	PolygonView.prototype.onMouseOut = function() {
+		if (!this.element) return;
+
+		if (this.polygon.isSimple()) {
+			this.setPolygonFill();
+		} else {
+			this.setErrorFill();
+		}
+		if (this.glow !== undefined) {
+			this.glow.hide();
+		}
+		this.$el.removeClass('hover');
+	}
+
+	PolygonView.prototype.setPolygonFill = function() {}
+
+	PolygonView.prototype.setErrorFill = function() {}
 
 	return PolygonView;
 });

@@ -35,6 +35,8 @@ define(["baseView"], function(BaseView) {
 			this.element.attr({
 				'fill': "#ffff00"
 			});
+
+			this.app.PointSet.push(this.element);
 		}
 
 		this.updateElement();

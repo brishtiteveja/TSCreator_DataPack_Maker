@@ -18,5 +18,22 @@ define(["baseModel", "points", "polyK"], function(BaseModel, Points, PolyK) {
 		}
 	});
 
+
+	/* PolyK points array is specific to PolyK library */
+	Polygon.prototype.getPolyKPointsArray = function() {
+		var array = [];
+		this.get('points').each(function(point) {
+			array.push(point.get('x'));
+			array.push(point.get('y'));
+		});
+		return array;
+	}
+
+	Polygon.prototype.isSimple = function() {
+		var pointsArray = this.getPolyKPointsArray();
+		return PolyK.IsSimple(pointsArray);
+	}
+
+
 	return Polygon;
 })

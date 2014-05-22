@@ -27,7 +27,20 @@ define([
 
 		this.app.Paper = new Raphael("map", this.$("#display").width(), this.$("#display").height());
 		this.app.PolygonsCollection = new Polygons();
+		this.app.PolygonSet = this.app.Paper.set();
+		this.app.PointSet = this.app.Paper.set();
+		this.app.LinesSet = this.app.Paper.set();
+		this.PolygonSet = this.app.PolygonSet;
+		this.PointSet = this.app.PointSet;
+		this.LinesSet = this.app.LinesSet;
+		this.app.orderElements = this.orderElements;
 		this.renderViews();
+	}
+
+	Lithology2dView.prototype.orderElements = function() {
+		this.PolygonSet.toFront();
+		this.PointSet.toFront();
+		this.LinesSet.toFront();
 	}
 
 	Lithology2dView.prototype.renderViews = function() {

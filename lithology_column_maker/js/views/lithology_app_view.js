@@ -86,6 +86,9 @@ define([
 		this.app.LithologyGroupMarkersSet = this.app.Paper.set();
 		this.app.LithologysSet = this.app.Paper.set();
 		this.app.LithologyGroupsSet = this.app.Paper.set();
+		this.app.PolygonSet = this.app.Paper.set();
+		this.app.PointSet = this.app.Paper.set();
+		this.app.LineSet = this.app.Paper.set();
 
 		this.loadPatternsDataAndRender();
 
