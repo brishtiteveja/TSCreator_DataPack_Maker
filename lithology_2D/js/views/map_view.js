@@ -15,7 +15,7 @@ define(["raphael", "baseView"], function(Raphael, BaseView) {
 		this.app.mapLayer1 = this.app.po.image().url("http://s3.amazonaws.com/com.modestmaps.bluemarble/{Z}-r{Y}-c{X}.jpg");
 		this.renderMap();
 
-		// this.$el.addClass('hide');
+		this.$el.addClass('hide');
 	}
 
 	MapView.prototype.renderMap = function() {
