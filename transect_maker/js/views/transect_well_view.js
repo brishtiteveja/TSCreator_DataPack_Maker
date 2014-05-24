@@ -1,4 +1,5 @@
 define(["baseView"], function(BaseView) {
+
 	var TransectWellView = BaseView.extend({
 		tagName: 'li',
 		classname: 'TransectWellView',
