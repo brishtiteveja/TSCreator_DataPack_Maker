@@ -66,12 +66,14 @@ define(["baseView",
 
 		this.checkAndDeleteCurrentPolygon();
 
-		this.disableAllPolygons();
 		if (lithologyColumn.get('polygon') == null) {
 			this.app.CurrentPolygon = new Polygon();
 			this.polygonsCollection.add(this.app.CurrentPolygon);
 			lithologyColumn.set({
 				polygon: this.app.CurrentPolygon
+			});
+			this.app.CurrentPolygon.set({
+				lithologyColumn: lithologyColumn
 			});
 		} else {
 			this.app.CurrentPolygon = lithologyColumn.get('polygon');
@@ -80,6 +82,7 @@ define(["baseView",
 		this.app.CurrentPolygon.set({
 			'draw': true
 		});
+		lithologyColumn.update();
 	}
 
 	PolygonsView.prototype.disableAllPolygons = function() {

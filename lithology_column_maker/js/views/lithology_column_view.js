@@ -1,4 +1,16 @@
-define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithologyGroup", "lithologyGroupMarker"], function(BaseView, LithologyGroupView, LithologyGroupMarkerView, LithologyGroup, LithologyGroupMarker) {
+define([
+	"baseView",
+	"lithologyGroupView",
+	"lithologyGroupMarkerView",
+	"lithologyGroup",
+	"lithologyGroupMarker"
+], function(
+	BaseView,
+	LithologyGroupView,
+	LithologyGroupMarkerView,
+	LithologyGroup,
+	LithologyGroupMarker
+) {
 
 	var LithologyColumnView = BaseView.extend({
 		tagName: "li",
@@ -9,6 +21,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			'click .data-labels': 'toggleLithologyColumnForm',
 			'click .destroy': 'destroy',
 			'click a[href="#add-overlay"]': 'addOverlay',
+			'click a[href="#edit-overlay"]': 'editOverlay',
 			'click label.lithology-column-lithologys-data': 'showLithologyGroupsList',
 			'keypress :input': 'updateLithologyColumn',
 			'keyup :input': 'updateLithologyColumn',
@@ -33,6 +46,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 		this.render();
 
 		this.listenTo(this.lithologyColumn, 'change:edit', this.editLithologyColumn.bind(this));
+		this.listenTo(this.lithologyColumn, 'update', this.renderLithologyColumn.bind(this));
 		this.listenTo(this.lithologyColumn, 'change', this.renderLithologyColumn.bind(this));
 		this.listenTo(this.lithologyColumn.get('settings'), 'change', this.renderLithologyColumn.bind(this));
 		this.listenTo(this.lithologyColumn.get('lithologyGroupMarkers'), 'add', this.addLithologyGroupMarker.bind(this));
@@ -44,6 +58,7 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 	LithologyColumnView.prototype.render = function() {
 		this.$el.html(this.template.render(this.lithologyColumn.toJSON()));
 		this.$lithologyGroupsList = this.$('.lithology-groups-list');
+		this.$lithologyPolygon = this.$('.lithology-polygon');
 		this.renderColumnInfo();
 	}
 
@@ -103,7 +118,6 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 			"text": this.lithologyColumn.get('name'),
 			"font-size": textSize,
 		});
-
 
 		this.updateLithologyColumns();
 	}
@@ -308,6 +322,18 @@ define(["baseView", "lithologyGroupView", "lithologyGroupMarkerView", "lithology
 
 	LithologyColumnView.prototype.addOverlay = function() {
 		this.app.lithology2dView.polygonsView.createOverlay(this.lithologyColumn);
+	}
+
+	LithologyColumnView.prototype.editOverlay = function() {
+		if (this.lithologyColumn.get('polygon').get('draw')) {
+			this.app.lithology2dView.polygonsView.disableAllPolygons();
+		} else {
+			this.app.lithology2dView.polygonsView.disableAllPolygons();
+			this.lithologyColumn.get('polygon').set({
+				'draw': !this.lithologyColumn.get('polygon').get('draw')
+			});
+		}
+		this.lithologyColumn.update();
 	}
 
 	return LithologyColumnView;

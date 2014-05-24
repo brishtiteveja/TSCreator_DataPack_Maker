@@ -237,6 +237,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 					name: lithology.get('name') + " Base"
 				});
 				this.lithologyGroup.get('lithologys').add(lithology);
+				this.lithologyGroup.get('lithologyColumn').get('lithologys').add(lithology);
 			}
 
 			if (index > 0) {
@@ -258,6 +259,7 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 					name: lithology.get('name') + " Base"
 				});
 				this.lithologyGroup.get('lithologys').add(lithology);
+				this.lithologyGroup.get('lithologyColumn').get('lithologys').add(lithology);
 			}
 		}
 	}

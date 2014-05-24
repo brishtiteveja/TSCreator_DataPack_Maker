@@ -17,7 +17,8 @@ define([
 	"imageOb",
 	"defaultView",
 	"rulerView",
-	"lithology2dView"
+	"lithology2dView",
+	"animation"
 ], function(
 	Raphael,
 	BaseView,
@@ -37,7 +38,8 @@ define([
 	ImageOb,
 	DefaultView,
 	RulerView,
-	Lithology2dView) {
+	Lithology2dView,
+	Animation) {
 
 	var LithologyAppView = BaseView.extend({
 		el: ".container",
@@ -86,11 +88,9 @@ define([
 		this.app.LithologyGroupMarkersSet = this.app.Paper.set();
 		this.app.LithologysSet = this.app.Paper.set();
 		this.app.LithologyGroupsSet = this.app.Paper.set();
-		this.app.PolygonSet = this.app.Paper.set();
-		this.app.PointSet = this.app.Paper.set();
-		this.app.LineSet = this.app.Paper.set();
 
 		this.loadPatternsDataAndRender();
+
 
 
 		$('.linked').scroll(function() {
@@ -221,6 +221,13 @@ define([
 				self.app.loader.loadData(this.result);
 			};
 			reader.readAsText(file);
+		} else {
+			// var reader = new FileReader();
+			// reader.onloadend = function(e) {
+			// 	self.showPaper();
+			// 	self.app.loader.loadTextData(this.result);
+			// };
+			// reader.readAsText(file);
 		}
 	}
 

@@ -12,6 +12,7 @@ define(["baseModel", "points", "polyK"], function(BaseModel, Points, PolyK) {
 				points: new Points(),
 				topAge: params ? params.topAge : null,
 				baseAge: params ? params.baseAge : null,
+				lithologyColumn: null,
 				description: params !== undefined && params.description ? params.description : null,
 			}];
 			BaseModel.apply(this, attrs);
@@ -34,6 +35,15 @@ define(["baseModel", "points", "polyK"], function(BaseModel, Points, PolyK) {
 		return PolyK.IsSimple(pointsArray);
 	}
 
+	Polygon.prototype.getAgePatter = function(age) {
+		this.get('lithologyColumn')
+	}
+
+	Polygon.prototype.toJSON = function() {
+		var json = _.clone(this.attributes);
+		delete json["lithologyColumn"];
+		return json;
+	}
 
 	return Polygon;
 })

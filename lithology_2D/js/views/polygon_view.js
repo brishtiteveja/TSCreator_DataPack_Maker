@@ -51,7 +51,9 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 		this.listenTo(this.polygon, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.polygon.get('points'), 'add', this.addPoint.bind(this));
 		this.listenTo(this.polygon.get('points'), 'change', this.renderPolygonElement.bind(this));
+		this.listenTo(this.app.animation, 'change:age', this.setPolygonFill.bind(this));
 		$("#map").bind('dblclick', this.createPoint.bind(this));
+
 	}
 
 	PolygonView.prototype.addPoint = function(point) {
@@ -168,9 +170,22 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 		this.$el.removeClass('hover');
 	}
 
-	PolygonView.prototype.setPolygonFill = function() {}
 
 	PolygonView.prototype.setErrorFill = function() {}
 
+
+	PolygonView.prototype.setPolygonFill = function() {
+		if (!this.element) return;
+		var lithology = this.polygon.get('lithologyColumn').getLithologyForAge(this.app.animation.get('age'));
+		if (lithology) {
+			var pattern = lithology.get("pattern");
+			var fill = pattern ? "url('/pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" : "#EEEEEE";
+			this.element.attr({
+				'opacity': 0.5,
+				'stroke': 0,
+				'fill': fill
+			});
+		}
+	}
 	return PolygonView;
 });

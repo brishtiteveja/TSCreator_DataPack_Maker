@@ -28,8 +28,18 @@ define(["baseModel", "lithologyMarkers", "lithologys", "lithologyGroups", "litho
 
 	LithologyColumn.prototype.toJSON = function() {
 		var json = _.clone(this.attributes);
-		delete json['lithologys'];
 		return json;
+	}
+
+	LithologyColumn.prototype.getLithologyForAge = function(age) {
+		var lith = null;
+		this.get('lithologys').each(function(lithology) {
+			if (lithology.get('top').get('age') < age && lithology.get('base').get('age') > age) {
+				lith = lithology;
+			}
+		});
+
+		return lith;
 	}
 
 	return LithologyColumn;

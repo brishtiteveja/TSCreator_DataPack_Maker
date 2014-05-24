@@ -15,5 +15,11 @@ define(["baseModel"], function(BaseModel) {
 		}
 	});
 
+	Point.prototype.toJSON = function() {
+		var json = _.clone(this.attributes);
+		delete json["app"];
+		return json;
+	}
+
 	return Point;
 });

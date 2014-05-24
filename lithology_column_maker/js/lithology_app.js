@@ -34,6 +34,11 @@ requirejs.config({
 		zone: "/commons/js/models/zone",
 		zones: "/commons/js/collections/zones",
 
+
+		// Animation
+		animation: "../../commons/js/models/animation",
+
+
 		// Image
 		imageView: "/commons/js/views/image_view",
 		imageOb: "/commons/js/models/image",
@@ -95,7 +100,6 @@ requirejs.config({
 		polygonsView: "../../lithology_2D/js/views/polygons_view",
 		polygon: "../../lithology_2D/js/models/polygon",
 		polygons: "../../lithology_2D/js/collections/polygons",
-
 
 		// Map View
 		mapView: "../../lithology_2D/js/views/map_view",

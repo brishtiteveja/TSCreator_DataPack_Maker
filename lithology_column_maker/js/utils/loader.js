@@ -21,41 +21,53 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 		this.load();
 	}
 
-	// Loader.prototype.loadTextData = function(data) {
-	// 	this.reset();
-	// 	this.textData = data;
-	// 	this.parseTextData(data);
-	// }
+	Loader.prototype.loadTextData = function(data) {
+		this.reset();
+		this.textData = data;
+		this.parseTextData(data);
+	}
 
-	// Loader.prototype.parseTextData = function(data) {
-	// 	var self = this;
-	// 	var lines = data.split('\n');
-	// 	var lithologyColumn = null;
-	// 	for (var i in lines) {
-	// 		var line = lines[i].split("\t");
-	// 		for (var j in line) {
-	// 			if ((line.length > 2) && (line[j].toLowerCase() === "lithology")) {
-	// 				var x = lithologyColumn ? lithologyColumn.get('x') + lithologyColumn.get('width') : 0;
-	// 				lithologyColumn = new LithologyColumn({name: line[0], x: x, width: parseInt(line[2])});
-	// 				self.lithologyColumns.add(lithologyColumn);
-	// 			} else {
-	// 				if (lithologyColumn !== null && line.length > 2) {
-	// 					self.parseLithologyTextData(lithologyColumn, line);
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
+	Loader.prototype.parseTextData = function(data) {
+		var self = this;
+		var lines = data.split('\n');
+		var lithologyColumn = null;
+		for (var i in lines) {
+			var line = lines[i].split("\t");
+			for (var j in line) {
+				if ((line.length > 2) && (line[j].toLowerCase() === "lithology")) {
+					var x = lithologyColumn ? lithologyColumn.get('x') + lithologyColumn.get('width') : 0;
+					lithologyColumn = new LithologyColumn({
+						name: line[0],
+						x: x,
+						width: parseInt(line[2])
+					});
+					self.lithologyColumns.add(lithologyColumn);
+				} else {
+					if (lithologyColumn !== null && line.length > 2) {
+						self.parseLithologyTextData(lithologyColumn, line);
+					}
+				}
+			}
+		}
+	}
 
-	// Loader.prototype.parseLithologyTextData = function(column, lithologyData) {
-	// 	var prevLithology = column.get('lithologys').last();
-	// 	var topY = prevLithology ? prevLithology.get("base").get('y') : 0;
-	// 	var baseY = topY + 10;
-	// 	var top = new LithologyGroupMarker({y: topY});
-	// 	var base = new LithologyGroupMarker({y: baseY});
-	// 	var lithology = new Lithology({name: lithologyData[1], top: top, base: base});
-	// 	column.get('lithologys').add(lithology);
-	// }
+	Loader.prototype.parseLithologyTextData = function(column, lithologyData) {
+		var prevLithology = column.get('lithologys').last();
+		var topY = prevLithology ? prevLithology.get("base").get('y') : 0;
+		var baseY = topY + 10;
+		var top = new LithologyGroupMarker({
+			y: topY
+		});
+		var base = new LithologyGroupMarker({
+			y: baseY
+		});
+		var lithology = new Lithology({
+			name: lithologyData[1],
+			top: top,
+			base: base
+		});
+		column.get('lithologys').add(lithology);
+	}
 
 	Loader.prototype.reset = function() {
 		_.invoke(this.markers.toArray(), 'destroy');

@@ -1,10 +1,24 @@
 <div class="row column-info"></div>
 <div class="row formation-info">
 	<label class="lithology-column-lithologys-data small-16 columns">↳Groups</label>
-	<div class="columns small-8">
-		<a href="#add-overlay" class="button tiny">add overlay</a>
-	</div>
 </div>
 <div class="row formation-info">
 	<ul class="lithology-groups-list lithology-column-lithology-form small-24 columns hide"></ul>
+</div>
+<div class="row formation-info">
+	<div class="small-16 columns">
+		<label class="lithology-overlay row">↳Overlay</label>
+		<ul class="lithology-overlay row hide"></ul>
+	</div>
+	<div class="columns small-8">
+		<% if (!polygon) { %>
+			<a href="#add-overlay" class="button tiny">add overlay</a>
+		<% } else { %>
+			<% if (polygon.get('draw')) { %>
+				<a href="#edit-overlay" class="button tiny alert">finish overlay</a>
+			<% } else { %>
+				<a href="#edit-overlay" class="button tiny success">edit overlay</a>
+			<% } %>
+		<% } %>
+	</div>
 </div>

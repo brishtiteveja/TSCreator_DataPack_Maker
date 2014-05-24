@@ -30,7 +30,7 @@ define([], function() {
 		return outputText;
 	}
 
-	Exporter.prototype.getMetaColumnData = function () {
+	Exporter.prototype.getMetaColumnData = function() {
 		var outputText = "Lithologys\t:";
 		this.lithologyColumns.each(function(lithologyColumn) {
 			outputText += "\t" + lithologyColumn.get('name');
@@ -56,7 +56,7 @@ define([], function() {
 		return outputText;
 	}
 
-	Exporter.prototype.getLithologyGroupData = function (lithologyGroup) {
+	Exporter.prototype.getLithologyGroupData = function(lithologyGroup) {
 		var self = this;
 		var outputText = "\n" + lithologyGroup.get("name");
 		outputText += "\tPrimary";
@@ -77,26 +77,25 @@ define([], function() {
 			outputText += "\tTOP";
 			outputText += "\t";
 			outputText += "\t" + (lithology.get("top").get("age") || "n/a");
-			outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = "+ (Math.round((1 - lithology.get("top").get("relativeY"))*1000)*1.0/10.0) + "% up the " + lithology.get("top").get("zone").get('name');		
+			outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
 			outputText += "\n";
 		}
 
 		outputText += "\t" + (lithology.getPatternName() || "");
 		outputText += "\t" + lithology.get('name');
-		outputText += "\t" + (lithology.get('base').get('age') || "n/a") ;
-		outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = "+ (Math.round((1 - lithology.get("base").get("relativeY"))*1000)*1.0/10.0) + "% up the " + lithology.get("base").get("zone").get('name');
+		outputText += "\t" + (lithology.get('base').get('age') || "n/a");
+		outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("base").get("zone").get('name');
 
 		return outputText;
 	}
 
 	Exporter.prototype.getJSON = function() {
 		var json = {};
-		debugger;
 		json["image"] = this.imageOb.toJSON();
 		json["zones"] = this.zones.toJSON();
 		json["lithologyColumns"] = this.lithologyColumns.toJSON();
 		json["referenceColumn"] = this.app.referenceColumn.toJSON();
-		
+
 		return JSON.stringify(json);
 	}
 
@@ -104,4 +103,3 @@ define([], function() {
 });
 
 /*-----  End of Exporter - Data Exporter for lithology maker  ------*/
-

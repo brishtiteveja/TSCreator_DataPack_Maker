@@ -3,13 +3,15 @@ define([
 	"baseView",
 	"mapView",
 	"polygonsView",
-	"polygons"
+	"polygons",
+	"animation"
 ], function(
 	Raphael,
 	BaseView,
 	MapView,
 	PolygonsView,
-	Polygons
+	Polygons,
+	Animation
 ) {
 
 	var Lithology2dView = BaseView.extend({
@@ -27,6 +29,9 @@ define([
 
 		this.app.Paper = new Raphael("map", this.$("#display").width(), this.$("#display").height());
 		this.app.PolygonsCollection = new Polygons();
+		// 
+		this.app.animation = new Animation();
+		//
 		this.app.PolygonSet = this.app.Paper.set();
 		this.app.PointSet = this.app.Paper.set();
 		this.app.LinesSet = this.app.Paper.set();
@@ -34,7 +39,16 @@ define([
 		this.PointSet = this.app.PointSet;
 		this.LinesSet = this.app.LinesSet;
 		this.app.orderElements = this.orderElements;
-		this.renderViews();
+		this.loadPatternsDataAndRender();
+	}
+
+
+	Lithology2dView.prototype.loadPatternsDataAndRender = function() {
+		var self = this;
+		$.get("/pattern_manager/json/patterns.json", function(data) {
+			self.app.patternsData = data;
+			self.render();
+		});
 	}
 
 	Lithology2dView.prototype.orderElements = function() {
@@ -43,7 +57,7 @@ define([
 		this.LinesSet.toFront();
 	}
 
-	Lithology2dView.prototype.renderViews = function() {
+	Lithology2dView.prototype.render = function() {
 		this.mapView = new MapView(this.app);
 		this.polygonsView = new PolygonsView(this.app);
 	}
