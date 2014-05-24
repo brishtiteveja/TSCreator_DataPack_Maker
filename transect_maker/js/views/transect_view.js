@@ -21,6 +21,7 @@ define(["baseView"], function(BaseView) {
 		this.transect = transect;
 
 		/* list to the changes to edit attribute */
+		this.listenTo(this.transect, 'update', this.render.bind(this));
 		this.listenTo(this.transect, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.transect, 'destroy', this.delete.bind(this));
 		this.listenTo(this.transect.get('wellLeft'), 'dragEnd', this.wellsMoved.bind(this));

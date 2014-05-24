@@ -101,6 +101,7 @@ define(["baseView"], function(BaseView) {
 
 	/*==========  start dragging  ==========*/
 	MarkerView.prototype.dragStart = function(x, y, evt) {
+		this.element.toFront();
 		var markers = this.app.MarkersCollection;
 		var index = markers.indexOf(this.marker);
 		this.prevMarker = markers.at(index - 1);

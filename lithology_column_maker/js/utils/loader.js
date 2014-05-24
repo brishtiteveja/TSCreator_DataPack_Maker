@@ -1,8 +1,3 @@
-/*=====================================================================
-=            Loader that loads lithology data into lithology maker            =
-=====================================================================*/
-
-
 define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyMarker"], function(Zone, Marker, LithologyColumn, LithologyGroupMarker, LithologyMarker) {
 	var Loader = function(app) {
 		this.app = app;
@@ -88,22 +83,34 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 	Loader.prototype.loadMarkersAndZones = function() {
 		var self = this;
 		self.savedData.zones.forEach(function(zone, index) {
-			var topMarker = self.markers.findWhere({y: zone.topMarker.y}) || new Marker(zone.topMarker);
-			var baseMarker = self.markers.findWhere({y: zone.baseMarker.y}) || new Marker(zone.baseMarker);
+			var topMarker = self.markers.findWhere({
+				y: zone.topMarker.y
+			}) || new Marker(zone.topMarker);
+			var baseMarker = self.markers.findWhere({
+				y: zone.baseMarker.y
+			}) || new Marker(zone.baseMarker);
 			self.markers.add(topMarker);
 			self.markers.add(baseMarker);
-			
+
 		});
-		
+
 		self.savedData.zones.forEach(function(zone, index) {
-			var topMarker = self.markers.findWhere({y: zone.topMarker.y});
-			var baseMarker = self.markers.findWhere({y: zone.baseMarker.y});
-			var newZone = self.zones.findWhere({'topMarker': topMarker, 'baseMarker': baseMarker});
+			var topMarker = self.markers.findWhere({
+				y: zone.topMarker.y
+			});
+			var baseMarker = self.markers.findWhere({
+				y: zone.baseMarker.y
+			});
+			var newZone = self.zones.findWhere({
+				'topMarker': topMarker,
+				'baseMarker': baseMarker
+			});
 			if (newZone !== undefined) {
 				newZone.set({
 					name: zone.name,
 					description: zone.description,
-				});	
+				});
+				newZone.update()
 			}
 		});
 	}
@@ -113,7 +120,7 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 		this.savedData.lithologyColumns.forEach(function(lithologyColumnData) {
 			var column = new LithologyColumn(lithologyColumnData);
 			self.lithologyColumns.add(column);
-			
+
 			self.addLithologyGroupMarkers(lithologyColumnData, column);
 			self.updateLithologyGroups(lithologyColumnData, column);
 			self.deleteUnnecessaryLithologyGroups(lithologyColumnData, column);
@@ -124,23 +131,36 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 		var self = this;
 		lithologyColumnData.lithologyGroupMarkers.forEach(function(lithologyGroupMarkerData) {
 			self.addLithologyGroupMarkerToColumn(lithologyGroupMarkerData, column);
-		});		
+		});
 	}
 
 	Loader.prototype.addLithologyGroupMarkerToColumn = function(lithologyGroupMarkerData, column) {
 		var self = this;
-		var lithologyGroupMarker = column.get('lithologyGroupMarkers').findWhere({y: lithologyGroupMarkerData.y}) ||
-		 new LithologyGroupMarker({name: lithologyGroupMarkerData.name, y: lithologyGroupMarkerData.y, lithologyColumn: column}, this.app);
+		var lithologyGroupMarker = column.get('lithologyGroupMarkers').findWhere({
+			y: lithologyGroupMarkerData.y
+		}) ||
+			new LithologyGroupMarker({
+				name: lithologyGroupMarkerData.name,
+				y: lithologyGroupMarkerData.y,
+				lithologyColumn: column
+			}, this.app);
 		column.get('lithologyGroupMarkers').add(lithologyGroupMarker);
 	}
 
 	Loader.prototype.updateLithologyGroups = function(lithologyColumnData, column) {
 		var self = this;
 		lithologyColumnData.lithologyGroups.forEach(function(lithologyGroupData) {
-			var top = column.get('lithologyGroupMarkers').findWhere({y: lithologyGroupData.top.y});
-			var base = column.get('lithologyGroupMarkers').findWhere({y: lithologyGroupData.base.y});
+			var top = column.get('lithologyGroupMarkers').findWhere({
+				y: lithologyGroupData.top.y
+			});
+			var base = column.get('lithologyGroupMarkers').findWhere({
+				y: lithologyGroupData.base.y
+			});
 			if (top !== null && base !== null) {
-				var lithologyGroup = column.get('lithologyGroups').findWhere({top: top, base: base});	
+				var lithologyGroup = column.get('lithologyGroups').findWhere({
+					top: top,
+					base: base
+				});
 				lithologyGroup.set({
 					edit: true,
 					id: lithologyGroupData.id,
@@ -153,7 +173,9 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 				// We are setting and resetting the edit so that the div element of the view is
 				// re-rendered to show updated info.
 
-				lithologyGroup.set({edit: false});
+				lithologyGroup.set({
+					edit: false
+				});
 
 				// Add Markers and Lithologys
 				self.updateLithologyGroupWithLithologys(lithologyGroupData, lithologyGroup);
@@ -170,11 +192,17 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 		});
 	}
 
-	Loader.prototype.addLithologyMarkerToGroup = function(lithologyMarkerData,lithologyGroup) {
+	Loader.prototype.addLithologyMarkerToGroup = function(lithologyMarkerData, lithologyGroup) {
 		var self = this;
 		var column = lithologyGroup.get('lithologyColumn');
-		var lithologyMarker = column.get('lithologyMarkers').findWhere({y: lithologyMarkerData.y}) ||
-		 new LithologyMarker({name: lithologyMarkerData.name, y: lithologyMarkerData.y, lithologyGroup: lithologyGroup}, this.app);
+		var lithologyMarker = column.get('lithologyMarkers').findWhere({
+			y: lithologyMarkerData.y
+		}) ||
+			new LithologyMarker({
+				name: lithologyMarkerData.name,
+				y: lithologyMarkerData.y,
+				lithologyGroup: lithologyGroup
+			}, this.app);
 		lithologyGroup.get('lithologyMarkers').add(lithologyMarker);
 	}
 
@@ -182,10 +210,21 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 		var self = this;
 		var column = lithologyGroup.get('lithologyColumn');
 		lithologyGroupData.lithologys.forEach(function(lithologyData) {
-			var top = lithologyGroup.get('lithologyMarkers').findWhere({y: lithologyData.top.y}) || column.get('lithologyMarkers').findWhere({y: lithologyData.top.y});
-			var base = lithologyGroup.get('lithologyMarkers').findWhere({y: lithologyData.base.y}) || column.get('lithologyMarkers').findWhere({y: lithologyData.base.y});
+			var top = lithologyGroup.get('lithologyMarkers').findWhere({
+				y: lithologyData.top.y
+			}) || column.get('lithologyMarkers').findWhere({
+				y: lithologyData.top.y
+			});
+			var base = lithologyGroup.get('lithologyMarkers').findWhere({
+				y: lithologyData.base.y
+			}) || column.get('lithologyMarkers').findWhere({
+				y: lithologyData.base.y
+			});
 			if (top !== null && base !== null) {
-				var lithology = lithologyGroup.get('lithologys').findWhere({top: top, base: base});	
+				var lithology = lithologyGroup.get('lithologys').findWhere({
+					top: top,
+					base: base
+				});
 				lithology.set({
 					edit: true,
 					id: lithologyData.id,
@@ -199,15 +238,17 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 				// We are setting and resetting the edit so that the div element of the view is
 				// re-rendered to show updated info.
 
-				lithology.set({edit: false});
+				lithology.set({
+					edit: false
+				});
 			}
 		});
 	}
 
 	// This function checks the given groupId with the ids in the saved list and return true
 	// if the id exists or not.
-	
-	Loader.prototype.groupExists = function (groupId, lithologyColumnData) {
+
+	Loader.prototype.groupExists = function(groupId, lithologyColumnData) {
 		var exists = false;
 
 		for (var i = 0; i < lithologyColumnData.lithologyGroups.length; i++) {
@@ -219,8 +260,8 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 		}
 		return exists;
 	}
-	
-	Loader.prototype.lithologyExists = function (lithologyId, lithologyGroupData) {
+
+	Loader.prototype.lithologyExists = function(lithologyId, lithologyGroupData) {
 		var exists = false;
 
 		for (var i = 0; i < lithologyGroupData.lithologys.length; i++) {
@@ -241,7 +282,7 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 			}
 		});
 	}
-	
+
 	Loader.prototype.deleteUnnecessaryLithologys = function(lithologyGroupData, lithologyGroup) {
 		var self = this;
 		lithologyGroup.get('lithologys').each(function(lithology) {
@@ -253,6 +294,3 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 
 	return Loader;
 });
-
-/*-----  End of Loader that loads lithology data into lithology maker  ------*/
-

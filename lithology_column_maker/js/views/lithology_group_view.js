@@ -1,4 +1,16 @@
-define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lithologyView"], function(BaseView, LithologyMarker, LithologyMarkerView, Lithology, LithologyView) {
+define([
+	"baseView",
+	"lithologyMarker",
+	"lithologyMarkerView",
+	"lithology",
+	"lithologyView"
+], function(
+	BaseView,
+	LithologyMarker,
+	LithologyMarkerView,
+	Lithology,
+	LithologyView
+) { >>> >>> > master
 
 	var LithologyGroupView = BaseView.extend({
 		tagName: 'li',
@@ -177,11 +189,11 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			y: this.top.get('y'),
 			lithologyGroupMarker: this.top,
 			lithologyGroup: this.lithologyGroup
-		}, this.app);
+		}, this.app); << << << < HEAD
 
 		this.top.set({
 			lithologyMarker: topMarker
-		});
+		}); === === = >>> >>> > master
 
 		this.lithologyGroup.get('lithologyMarkers').add(topMarker);
 
@@ -191,11 +203,11 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			y: this.base.get('y'),
 			lithologyGroupMarker: this.base,
 			lithologyGroup: this.lithologyGroup
-		}, this.app);
+		}, this.app); << << << < HEAD
 
 		this.base.set({
 			lithologyMarker: baseMarker
-		});
+		}); === === = >>> >>> > master
 
 		this.lithologyGroup.get('lithologyMarkers').add(baseMarker);
 	}
@@ -236,8 +248,8 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 				baseMarker.set({
 					name: lithology.get('name') + " Base"
 				});
-				this.lithologyGroup.get('lithologys').add(lithology);
-				this.lithologyGroup.get('lithologyColumn').get('lithologys').add(lithology);
+				this.lithologyGroup.get('lithologys').add(lithology); << << << < HEAD
+				this.lithologyGroup.get('lithologyColumn').get('lithologys').add(lithology); === === = >>> >>> > master
 			}
 
 			if (index > 0) {
@@ -383,6 +395,5 @@ define(["baseView", "lithologyMarker", "lithologyMarkerView", "lithology", "lith
 			style: style
 		});
 	}
-
 	return LithologyGroupView;
 });
