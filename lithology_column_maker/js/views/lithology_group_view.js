@@ -10,7 +10,7 @@ define([
 	LithologyMarkerView,
 	Lithology,
 	LithologyView
-) { >>> >>> > master
+) {
 
 	var LithologyGroupView = BaseView.extend({
 		tagName: 'li',
