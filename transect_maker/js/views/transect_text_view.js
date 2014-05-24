@@ -126,6 +126,12 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 		this.renderTooltip();
 	}
 
+	TransectTextView.prototype.toFront = function() {
+		this.backgroundBox.toFront();
+		this.element.toFront();
+		this.boundingBox.toFront();
+	}
+
 	TransectTextView.prototype.updateTscBBox = function() {
 		var transect = this.transectText.get('transect');
 		var zone = this.transectText.get('zone');
@@ -168,7 +174,9 @@ define(["baseView", "point", "polyK"], function(BaseView, Point, PolyK) {
 	}
 
 	/*==========  start dragging  ==========*/
-	TransectTextView.prototype.dragStart = function(x, y, evt) {};
+	TransectTextView.prototype.dragStart = function(x, y, evt) {
+		this.toFront();
+	};
 
 
 	/*==========  while dragging  ==========*/

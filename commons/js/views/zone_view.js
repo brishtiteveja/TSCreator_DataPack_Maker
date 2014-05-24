@@ -20,7 +20,7 @@ define(["baseView"], function(BaseView) {
 
 	ZoneView.prototype.initialize = function(zone) {
 		this.zone = zone;
-
+		this.listenTo(this.zone, 'update', this.render.bind(this));
 		this.listenTo(this.zone, 'change:edit', this.toggleEditStatus.bind(this));
 		this.listenTo(this.zone.get('topMarker'), 'dragEnd', this.markersMoved.bind(this));
 		this.listenTo(this.zone.get('baseMarker'), 'dragEnd', this.markersMoved.bind(this));

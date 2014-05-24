@@ -114,6 +114,8 @@ define(["marker", "transectWell", "polygon", "point", "transectText"], function(
 					name: zone.name,
 					description: zone.description,
 				});
+
+				newZone.update();
 			}
 		});
 	}
@@ -157,6 +159,7 @@ define(["marker", "transectWell", "polygon", "point", "transectText"], function(
 					name: transect.name,
 					description: transect.description,
 				});
+				newTransect.update();
 			}
 		});
 	}
