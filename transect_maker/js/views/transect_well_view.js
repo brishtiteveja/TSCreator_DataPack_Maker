@@ -105,6 +105,8 @@ define(["baseView"], function(BaseView) {
 	};
 
 	TransectWellView.prototype.dragStart = function(x, y, evt) {
+		this.element.toFront();
+
 		var wells = this.app.TransectWellsCollection;
 		var index = wells.indexOf(this.transectWell);
 		this.prevWell = wells.at(index - 1);
