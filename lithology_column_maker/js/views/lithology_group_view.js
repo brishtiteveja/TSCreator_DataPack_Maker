@@ -189,11 +189,11 @@ define([
 			y: this.top.get('y'),
 			lithologyGroupMarker: this.top,
 			lithologyGroup: this.lithologyGroup
-		}, this.app); << << << < HEAD
+		}, this.app);
 
 		this.top.set({
 			lithologyMarker: topMarker
-		}); === === = >>> >>> > master
+		});
 
 		this.lithologyGroup.get('lithologyMarkers').add(topMarker);
 
@@ -203,11 +203,11 @@ define([
 			y: this.base.get('y'),
 			lithologyGroupMarker: this.base,
 			lithologyGroup: this.lithologyGroup
-		}, this.app); << << << < HEAD
+		}, this.app);
 
 		this.base.set({
 			lithologyMarker: baseMarker
-		}); === === = >>> >>> > master
+		});
 
 		this.lithologyGroup.get('lithologyMarkers').add(baseMarker);
 	}
@@ -248,8 +248,8 @@ define([
 				baseMarker.set({
 					name: lithology.get('name') + " Base"
 				});
-				this.lithologyGroup.get('lithologys').add(lithology); << << << < HEAD
-				this.lithologyGroup.get('lithologyColumn').get('lithologys').add(lithology); === === = >>> >>> > master
+				this.lithologyGroup.get('lithologys').add(lithology);
+				this.lithologyGroup.get('lithologyColumn').get('lithologys').add(lithology);
 			}
 
 			if (index > 0) {

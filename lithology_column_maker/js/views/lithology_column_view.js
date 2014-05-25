@@ -79,6 +79,7 @@ define([
 	}
 
 	LithologyColumnView.prototype.renderLithologyColumn = function() {
+		debugger;
 		if (this.element === undefined) {
 			this.element = this.app.Paper.rect();
 			this.headingBox = this.app.Paper.rect();
