@@ -3,14 +3,13 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 	var PolygonView = BaseView.extend({
 		tagName: "li",
 		events: {
-			'click .toggle': 'togglePolygonForm',
 			'click .toggle-polygon': 'togglePolygonForm',
 			'click .polygon-data': 'togglePolygonForm',
 			'click a.polygon-list-tool': 'showList',
 			'click .destroy': 'destroy',
 			'click .to-front': 'toFront',
-			'keypress :input': 'updatePolygon',
-			'keyup :input': 'updatePolygon',
+			'keypress :input.polygon': 'updatePolygon',
+			'keyup :input.polygon': 'updatePolygon',
 			'mouseover': "onMouseOver",
 			'mouseout': "onMouseOut",
 		}
@@ -40,6 +39,7 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 		this.$polygonDescription = this.$('textarea[name="polygon-description"]')[0];
 
 		this.renderPoints();
+
 	}
 
 	PolygonView.prototype.renderPoints = function() {
@@ -48,7 +48,9 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 
 	PolygonView.prototype.listenToActionEvents = function() {
 		// add a point when we double click on canvas.
+		this.listenTo(this.polygon, 'update', this.updatePolygonView.bind(this));
 		this.listenTo(this.polygon, 'change:edit', this.toggleEditStatus.bind(this));
+		this.listenTo(this.polygon, 'update', this.toggleEditStatus.bind(this));
 		this.listenTo(this.polygon.get('points'), 'add', this.addPoint.bind(this));
 		this.listenTo(this.polygon.get('points'), 'change', this.renderPolygonElement.bind(this));
 		this.listenTo(this.app.animation, 'change:age', this.setPolygonFill.bind(this));
@@ -121,7 +123,6 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 	}
 
 	PolygonView.prototype.togglePolygonForm = function() {
-		this.render();
 		this.polygon.set({
 			'edit': !this.polygon.get('edit')
 		});
@@ -186,6 +187,27 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 				'fill': fill
 			});
 		}
+	}
+
+	PolygonView.prototype.updatePolygonView = function() {
+		this.$polygonData.html(this.polygon.get('name') + " → " + this.polygon.get('patternName'));
+		this.renderPolygonElement();
+		this.setPolygonFill();
+		this.toggleEditStatus();
+	}
+
+	PolygonView.prototype.updatePolygon = function(evt) {
+		if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
+			this.togglePolygonForm();
+		}
+
+
+		this.polygon.set({
+			name: this.$polygonName.value,
+			description: this.$polygonDescription.value.split("\n").join(" ")
+		});
+
+		this.polygon.update();
 	}
 	return PolygonView;
 });

@@ -2,25 +2,25 @@
 <lable class="lithology-column-data small-22 columns"><%= name %></lable>
 <div class="small-22 columns lithology-column-form hide">
 	<label for="lithology-column-name" class="data-labels">Name</label>
-	<input type="text" value="<%= name %>" name="lithology-column-name">
+	<input class="lithology-column" type="text" value="<%= name %>" name="lithology-column-name">
 	<div class="row">
 		<div class="small-18 columns lithology-column-form hide">
 			<label for="lithology-column-width">Width</label>
-			<input type="number" value="<%= width %>" name="lithology-column-width" max="1000" min="0">
+			<input class="lithology-column" type="number" value="<%= width %>" name="lithology-column-width" max="1000" min="0">
 		</div>
 		<div class="small-6 columns lithology-column-form hide">
 			<label for="lithology-column-bg-color">Bg.</label>
-			<input type="color" value="<%= settings.get('backgroundColor') %>" name="lithology-column-bg-color" style="height: 37px; width: 100%">
+			<input class="lithology-column" type="color" value="<%= settings.get('backgroundColor') %>" name="lithology-column-bg-color" style="height: 37px; width: 100%">
 		</div>
 	</div>
 	<div class="row">
 		<div class="small-12 columns lithology-column-form hide">
 			<label for="lithology-column-lat">Latitude</label>
-			<input type="number"  name="lithology-column-lat">
+			<input class="lithology-column" type="number"  name="lithology-column-lat">
 		</div>
 		<div class="small-12 columns lithology-column-form hide">
 			<label for="lithology-column-lon">Longitude</label>
-			<input type="number"  name="lithology-column-lon">
+			<input class="lithology-column" type="number"  name="lithology-column-lon">
 		</div>
 	</div>
 	<label for="lithology-column-description">Description</label>

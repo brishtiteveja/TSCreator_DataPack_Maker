@@ -3,13 +3,15 @@ define([
 	"lithologyGroupView",
 	"lithologyGroupMarkerView",
 	"lithologyGroup",
-	"lithologyGroupMarker"
+	"lithologyGroupMarker",
+	"polygonView"
 ], function(
 	BaseView,
 	LithologyGroupView,
 	LithologyGroupMarkerView,
 	LithologyGroup,
-	LithologyGroupMarker
+	LithologyGroupMarker,
+	PolygonView
 ) {
 
 	var LithologyColumnView = BaseView.extend({
@@ -23,8 +25,8 @@ define([
 			'click a[href="#add-overlay"]': 'addOverlay',
 			'click a[href="#edit-overlay"]': 'editOverlay',
 			'click label.lithology-column-lithologys-data': 'showLithologyGroupsList',
-			'keypress :input': 'updateLithologyColumn',
-			'keyup :input': 'updateLithologyColumn',
+			'keypress :input.lithology-column': 'updateLithologyColumn',
+			'keyup :input.lithology-column': 'updateLithologyColumn',
 			'change input[name="lithology-column-bg-color"]': 'updateLithologyColumn',
 			'mouseover': "onMouseOver",
 			'mouseout': "onMouseOut",
@@ -79,7 +81,6 @@ define([
 	}
 
 	LithologyColumnView.prototype.renderLithologyColumn = function() {
-		debugger;
 		if (this.element === undefined) {
 			this.element = this.app.Paper.rect();
 			this.headingBox = this.app.Paper.rect();
@@ -119,6 +120,11 @@ define([
 			"text": this.lithologyColumn.get('name'),
 			"font-size": textSize,
 		});
+
+		if (this.lithologyColumn.get('polygon')) {
+			this.polygonView = new PolygonView(this.app.lithology2dView.app, this.lithologyColumn.get('polygon'));
+			this.$(".overlay").html(this.polygonView.el);
+		}
 
 		this.updateLithologyColumns();
 	}
