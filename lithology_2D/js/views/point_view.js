@@ -18,6 +18,7 @@ define(["baseView"], function(BaseView) {
 		this.app.map.on("move", this.updatePoint.bind(this));
 		this.listenTo(this.point, 'change:x', this.renderPoint.bind(this));
 		this.listenTo(this.point, 'change:y', this.renderPoint.bind(this));
+		this.listenTo(this.point, 'destroy', this.delete.bind(this));
 	}
 
 	PointView.prototype.render = function() {
@@ -102,6 +103,12 @@ define(["baseView"], function(BaseView) {
 		this.element.attr({
 			"r": 5
 		});
+	}
+
+	PointView.prototype.delete = function() {
+		if (this.element) this.element.remove();
+		this.$el.remove();
+		this.remove();
 	}
 
 	return PointView;

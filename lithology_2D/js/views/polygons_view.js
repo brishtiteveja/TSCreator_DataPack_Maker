@@ -66,7 +66,7 @@ define(["baseView",
 
 		this.checkAndDeleteCurrentPolygon();
 
-		if (lithologyColumn.get('polygon') == null) {
+		if (!lithologyColumn.get('polygon')) {
 			this.app.CurrentPolygon = new Polygon();
 			this.polygonsCollection.add(this.app.CurrentPolygon);
 			lithologyColumn.set({
@@ -87,7 +87,9 @@ define(["baseView",
 
 	PolygonsView.prototype.disableAllPolygons = function() {
 		this.polygonsCollection.each(function(polygon) {
-			polygon.set('draw', false);
+			polygon.set({
+				'draw': false
+			});
 		});
 	}
 

@@ -6,7 +6,7 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 			'click .toggle-polygon': 'togglePolygonForm',
 			'click .polygon-data': 'togglePolygonForm',
 			'click a.polygon-list-tool': 'showList',
-			'click .destroy': 'destroy',
+			'click a[href="#polygon-destroy"]': 'destroy',
 			'click .to-front': 'toFront',
 			'keypress :input.polygon': 'updatePolygon',
 			'keyup :input.polygon': 'updatePolygon',
@@ -28,6 +28,10 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 
 
 	PolygonView.prototype.render = function() {
+
+		if (!this.pointSet) {
+			this.pointSet = this.app.Paper.set();
+		}
 		// render the view for the polygon in the settings panel.
 		this.$el.html(this.template.render(this.polygon.toJSON()));
 
@@ -54,21 +58,28 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 		this.listenTo(this.polygon.get('points'), 'add', this.addPoint.bind(this));
 		this.listenTo(this.polygon.get('points'), 'change', this.renderPolygonElement.bind(this));
 		this.listenTo(this.app.animation, 'change:age', this.setPolygonFill.bind(this));
+
+		/* destroy the view  if the model is  removed from the collection.*/
+		this.listenTo(this.polygon, 'destroy', this.delete.bind(this));
+
 		$("#map").bind('dblclick', this.createPoint.bind(this));
 
 	}
 
 	PolygonView.prototype.addPoint = function(point) {
 		var pointView = new PointView(this.app, point);
+		this.pointSet.push(pointView.element);
 		this.renderPolygonElement();
 	}
 
 	PolygonView.prototype.renderPolygonElement = function() {
-		if (this.element === undefined) {
+
+		if (!this.element) {
 			this.element = this.app.Paper.path();
 			this.app.PolygonSet.push(this.element);
 			this.element.mouseover(this.onMouseOver.bind(this));
 			this.element.mouseout(this.onMouseOut.bind(this));
+
 		}
 
 		this.element.attr({
@@ -209,5 +220,19 @@ define(["baseView", "point", "pointView"], function(BaseView, Point, PointView) 
 
 		this.polygon.update();
 	}
+
+	PolygonView.prototype.destroy = function() {
+		_.invoke(this.polygon.get('points').toArray(), 'destroy');
+		this.polygon.destroy();
+	}
+
+
+	PolygonView.prototype.delete = function() {
+		if (this.element !== undefined) this.element.remove();
+		if (this.glow !== undefined) this.glow.remove();
+		this.$el.remove();
+		this.remove();
+	}
+
 	return PolygonView;
 });

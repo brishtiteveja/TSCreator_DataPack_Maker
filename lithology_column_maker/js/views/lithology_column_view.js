@@ -21,9 +21,10 @@ define([
 			'click .toggle': 'toggleLithologyColumnForm',
 			'click .lithology-column-data': 'toggleLithologyColumnForm',
 			'click .data-labels': 'toggleLithologyColumnForm',
-			'click .destroy': 'destroy',
+			'click a[href="#lithology-column-destroy"]': 'destroy',
 			'click a[href="#add-overlay"]': 'addOverlay',
 			'click a[href="#edit-overlay"]': 'editOverlay',
+			'click a[href="#finish-overlay"]': 'finishOverlay',
 			'click label.lithology-column-lithologys-data': 'showLithologyGroupsList',
 			'keypress :input.lithology-column': 'updateLithologyColumn',
 			'keyup :input.lithology-column': 'updateLithologyColumn',
@@ -55,6 +56,7 @@ define([
 		this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'remove', this.removeLithology.bind(this));
 		this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'add', this.addLithologyGroup.bind(this));
 		this.listenTo(this.lithologyColumn, 'destroy', this.delete.bind(this));
+
 	};
 
 	LithologyColumnView.prototype.render = function() {
@@ -75,6 +77,10 @@ define([
 		this.$lithologyColumnWidth = this.$('input[name="lithology-column-width"]')[0];
 		this.$lithologyColumnBgColor = this.$('input[name="lithology-column-bg-color"]')[0];
 		this.$lithologyColumnDescription = this.$('textarea[name="lithology-column-description"]')[0];
+
+		this.$addOverlay = this.$('a[href="#add-overlay"]');
+		this.$editOverlay = this.$('a[href="#edit-overlay"]');
+		this.$finishOverlay = this.$('a[href="#finish-overlay"]');
 
 		this.renderLithologyColumn();
 		this.resizePaper();
@@ -121,7 +127,9 @@ define([
 			"font-size": textSize,
 		});
 
-		if (this.lithologyColumn.get('polygon')) {
+		if (this.lithologyColumn.get('polygon') && !this.polygonView) {
+			this.listenTo(this.lithologyColumn.get('polygon'), 'change:draw', this.updateButtons.bind(this));
+			this.listenTo(this.lithologyColumn.get('polygon'), 'destroy', this.deletePolygon.bind(this));
 			this.polygonView = new PolygonView(this.app.lithology2dView.app, this.lithologyColumn.get('polygon'));
 			this.$(".overlay").html(this.polygonView.el);
 		}
@@ -329,18 +337,44 @@ define([
 
 	LithologyColumnView.prototype.addOverlay = function() {
 		this.app.lithology2dView.polygonsView.createOverlay(this.lithologyColumn);
+		this.$addOverlay.parent().addClass('hide');
+		this.$finishOverlay.parent().removeClass('hide');
 	}
 
 	LithologyColumnView.prototype.editOverlay = function() {
-		if (this.lithologyColumn.get('polygon').get('draw')) {
-			this.app.lithology2dView.polygonsView.disableAllPolygons();
-		} else {
-			this.app.lithology2dView.polygonsView.disableAllPolygons();
-			this.lithologyColumn.get('polygon').set({
-				'draw': !this.lithologyColumn.get('polygon').get('draw')
-			});
+		this.app.lithology2dView.polygonsView.disableAllPolygons();
+		this.lithologyColumn.get('polygon').set({
+			'draw': true
+		});
+
+	}
+
+	LithologyColumnView.prototype.finishOverlay = function() {
+		this.app.lithology2dView.polygonsView.disableAllPolygons();
+		this.lithologyColumn.get('polygon').set({
+			'draw': false
+		});
+	}
+
+	LithologyColumnView.prototype.updateButtons = function() {
+		if (this.lithologyColumn.get('polygon')) {
+			if (this.lithologyColumn.get('polygon').get('draw')) {
+				this.$editOverlay.parent().addClass('hide');
+				this.$finishOverlay.parent().removeClass('hide');
+			} else {
+				this.$editOverlay.parent().removeClass('hide');
+				this.$finishOverlay.parent().addClass('hide');
+			}
 		}
-		this.lithologyColumn.update();
+	}
+
+	LithologyColumnView.prototype.deletePolygon = function() {
+		this.lithologyColumn.set({
+			'polygon': null
+		});
+		this.$addOverlay.parent().removeClass('hide');
+		this.$finishOverlay.parent().addClass('hide');
+		this.$editOverlay.parent().addClass('hide');
 	}
 
 	return LithologyColumnView;
