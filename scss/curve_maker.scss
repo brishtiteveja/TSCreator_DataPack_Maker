@@ -1,0 +1,58 @@
+@import "utils/styles";
+
+body {
+  @include prevent_drag_and_drop;
+
+  #canvas {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+span.icon {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.toolbar {
+  background: #F1F1F1;
+  width: 52px;
+  overflow: auto;
+  > div {
+    border-bottom: 1px solid #000;
+    height: 40px;
+    margin: 0px;
+    padding: 8px 0px 0px 11px;
+    cursor: pointer;
+  }
+  .selected {
+    background: #777777;
+  }
+
+  .maker-tools {
+    background: url('/images/cc/black/png/icons_32-sb581baf3ca.png');
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+  }
+}
+
+
+.tool-pointer { background-position: 0px -1920px; }
+.tool-lock-cursor-h { background-position: 0px -5792px; }
+.tool-lock-cursor-v { background-position: 0px -5792px; }
+.tool-zoom-in { background-position: 0px -2688px; }
+.tool-zoom-out { background-position: 0px -2688px; }
+.tool-pan { background-position: 0px -1088px; }
+.tool-add-marker { background-position: 0px -7584px; }
+.tool-add-well { background-position: 0px -7712px; }
+.tool-add-range-lines { background-position: 0px -288px; }
+.tool-add-polygon { background: url('/images/icons/polygon4.png'); background-position: 0px 0px;}
+.tool-new-polygon { background-position: 0px -8800px; }
+.tool-add-transect-text { background-position: 0px -8736px; }
+.tool-show-ref-panel { background-position: 0px -7968px; }
+.tool-save-to-local-storage { background-position: 0px -8704px; }
+.tool-reload-data { background-position: 0px -6464px; }
+.tool-export-data { background-position: 0px -3712px; }
+.tool-file-system { background-position: 0px -768px; }
+
