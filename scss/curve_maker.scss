@@ -28,16 +28,14 @@ span.icon {
   .selected {
     background: #777777;
   }
-
-  .maker-tools {
-    background: url('/images/cc/black/png/icons_32-sb581baf3ca.png');
-    background-repeat: no-repeat;
-    height: 32px;
-    width: 32px;
-  }
 }
 
-
+.maker-tools {
+  background: url('/images/cc/black/png/icons_32-sb581baf3ca.png');
+  background-repeat: no-repeat;
+  height: 32px;
+  width: 32px;
+}
 .tool-pointer { background-position: 0px -1920px; }
 .tool-lock-cursor-h { background-position: 0px -5792px; }
 .tool-lock-cursor-v { background-position: 0px -5792px; }

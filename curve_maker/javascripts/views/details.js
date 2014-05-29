@@ -9,6 +9,8 @@
       __extends(Details, _super);
 
       function Details() {
+        this.render = __bind(this.render, this);
+        this.activateDetail = __bind(this.activateDetail, this);
         this.addOne = __bind(this.addOne, this);
         return Details.__super__.constructor.apply(this, arguments);
       }
@@ -16,14 +18,50 @@
       Details.prototype.tagName = "div";
 
       Details.prototype.initialize = function(options) {
-        this.detailList = new DetailCollection();
+        this.detailList = options.detailList;
         this.detailList.on("add", this.addOne);
         return this;
       };
 
       Details.prototype.addOne = function(m) {
         var newDetailView;
-        newDetailView = new DetailView;
+        newDetailView = new DetailView({
+          model: m
+        }).render();
+        m.detailView = newDetailView;
+        this.$el.append(newDetailView.el);
+        return this;
+      };
+
+      Details.prototype.activateDetail = function() {
+        return this;
+      };
+
+      Details.prototype.render = function() {
+        this.detailList.add({
+          name: "detail-button-time-lines",
+          title: "Show time line details"
+        });
+        this.detailList.add({
+          name: "detail-button-zones",
+          title: "Show zone details"
+        });
+        this.detailList.add({
+          name: "detail-button-range-lines",
+          title: "Show range line details"
+        });
+        this.detailList.add({
+          name: "detail-button-background-image",
+          title: "Set up background image"
+        });
+        this.detailList.add({
+          name: "detail-button-reference-columns",
+          title: "Set reference columns"
+        });
+        this.detailList.add({
+          name: "detail-button-default",
+          title: "Default..."
+        });
         return this;
       };
 
