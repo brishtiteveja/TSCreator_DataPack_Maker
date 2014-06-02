@@ -16,6 +16,8 @@
 
       Detail.prototype.tagName = "div";
 
+      Detail.prototype.className = "detail-panel";
+
       Detail.prototype.initialize = function() {
         this.model.on("change:isActivated", this.togglePanel);
         return this;
@@ -32,6 +34,7 @@
 
       Detail.prototype.render = function() {
         this.$el.html("<div>temporary! " + (this.model.get("name")) + "</div>");
+        this.togglePanel();
         return this;
       };
 

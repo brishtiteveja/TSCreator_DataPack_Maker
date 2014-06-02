@@ -18,7 +18,7 @@ define ["../models/tool"], (ToolModel) ->
       @
     render: () =>
       @$link = $("<span/>",
-        class: "maker-tools icon"
+        class: "maker-tool icon"
         title: @model.get("title")
       ).addClass(@model.get("name"))
       @$el.html(@$link)

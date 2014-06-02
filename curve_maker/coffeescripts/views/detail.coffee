@@ -1,6 +1,7 @@
 define ["../models/detail"], (DetailModel) ->
   class Detail extends Backbone.View
     tagName: "div"
+    className: "detail-panel"
     initialize: () ->
       @model.on("change:isActivated", @togglePanel)
       @
@@ -12,5 +13,6 @@ define ["../models/detail"], (DetailModel) ->
       @
     render: () =>
       @$el.html("<div>temporary! #{@model.get("name")}</div>")
+      @togglePanel()
       @
 

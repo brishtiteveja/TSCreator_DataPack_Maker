@@ -2,6 +2,8 @@
 
 body {
   @include prevent_drag_and_drop;
+  min-width: 800px;
+  font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
 
   #canvas {
     width: 100%;
@@ -9,14 +11,99 @@ body {
   }
 }
 
+a {
+  color: #008cba;
+  text-decoration: none;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans","Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  color: #222222;
+  text-rendering: optimizeLegibility;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+
+@import "utils/liquid_three_columns";
+
+
+/* misc generic styles */
+.disable-user-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: moz-none;
+  -ms-user-select: none;
+  user-select: none;
+}
 span.icon {
   display: inline-block;
   cursor: pointer;
 }
-
-.toolbar {
+.drag-box {
+  overflow: hidden;
+  -moz-border-radius: 5px 5px;
+  -webkit-border-radius: 5px 5px;
+  -khtml-border-radius: 5px 5px;
+  -o-border-radius: 5px 5px;
+  border-radius: 5px 5px;
+  border: 5px #aaa dashed;
+  text-align: center;
+}
+.drag-box:hover {
   background: #F1F1F1;
-  width: 52px;
+}
+
+
+/* Main Panel */
+main {
+  background: #333333;
+  cursor: crosshair;
+}
+
+.introduction {
+  margin: 100px 60px;
+  background: #FFFFFF;
+  .tool-name-column {
+    float: left;
+    width: 280px;
+    padding: 25px 20px;
+    text-align: center;
+  }
+  .tool-option-column {
+    width: auto;
+    min-width: 330px;
+    overflow: hidden;
+    padding: 25px 20px;
+  }
+  .subheader {
+    color: #6F6F6F;
+  }
+  .row {
+    padding: 10px 0px;
+  }
+  .drag-box {
+    color: #6F6F6F;
+    padding: 20px 0px;
+    font-size: 1.3em;
+    font-weight: 100;
+  }
+  .continue {
+    float: right;
+    padding: 0px 20px;
+  }
+}
+
+
+/* Toolbar Panel */
+.toolbar {
+  @include sidebar_style;
   overflow: auto;
   > div {
     border-bottom: 1px solid #000;
@@ -30,7 +117,7 @@ span.icon {
   }
 }
 
-.maker-tools {
+.maker-tool {
   background: url('/images/cc/black/png/icons_32-sb581baf3ca.png');
   background-repeat: no-repeat;
   height: 32px;
@@ -53,4 +140,47 @@ span.icon {
 .tool-reload-data { background-position: 0px -6464px; }
 .tool-export-data { background-position: 0px -3712px; }
 .tool-file-system { background-position: 0px -768px; }
+
+
+/* Details Panel */
+.details {
+  @include sidebar_style;
+  overflow: auto;
+  .selected {
+    background: #333333;
+    color: #FFFFFF;
+  }
+}
+.detail-button {
+  height: 36px;
+  padding: 0px 5px;
+  border-bottom: 1px solid #000;
+  cursor: pointer;
+  .detail-button-settings-icon {
+    background: url('/images/cc/black/png/icons_32-sb581baf3ca.png');
+    background-position: 0px -864px;
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 2px 0px 0px 0px;
+  }
+  .detail-button-text {
+    display: inline-block;
+    position: relative;
+    top: -10px;
+    left: 6px;
+  }
+}
+.detail-panels {
+  position: absolute;
+  top: 0px;
+  right: 100%;
+  .detail-panel {
+    height: 1000px;
+    width: 400px;
+    background: #333333;
+    color: #FFFFFF;
+    opacity: 80%;
+  }
+}
 

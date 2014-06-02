@@ -43,7 +43,7 @@
 
       Tool.prototype.render = function() {
         this.$link = $("<span/>", {
-          "class": "maker-tools icon",
+          "class": "maker-tool icon",
           title: this.model.get("title")
         }).addClass(this.model.get("name"));
         this.$el.html(this.$link);

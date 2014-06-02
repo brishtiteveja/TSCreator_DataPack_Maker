@@ -24,12 +24,12 @@
       };
 
       Details.prototype.addOne = function(m) {
-        var newDetailView;
-        newDetailView = new DetailView({
+        var newDetailPanelView;
+        newDetailPanelView = new DetailView({
           model: m
         }).render();
-        m.detailView = newDetailView;
-        this.$el.append(newDetailView.el);
+        m.detailPanelView = newDetailPanelView;
+        this.$el.append(newDetailPanelView.el);
         return this;
       };
 
@@ -40,26 +40,32 @@
       Details.prototype.render = function() {
         this.detailList.add({
           name: "detail-button-time-lines",
+          text: "Time Lines",
           title: "Show time line details"
         });
         this.detailList.add({
           name: "detail-button-zones",
+          text: "Zones",
           title: "Show zone details"
         });
         this.detailList.add({
           name: "detail-button-range-lines",
+          text: "Ranges",
           title: "Show range line details"
         });
         this.detailList.add({
           name: "detail-button-background-image",
+          text: "Image",
           title: "Set up background image"
         });
         this.detailList.add({
           name: "detail-button-reference-columns",
+          text: "References",
           title: "Set reference columns"
         });
         this.detailList.add({
           name: "detail-button-default",
+          text: "Default",
           title: "Default..."
         });
         return this;
