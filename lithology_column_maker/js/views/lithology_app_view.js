@@ -200,38 +200,6 @@ define([
 	}
 
 
-	LithologyAppView.prototype.dataDragover = function(evt) {
-		var evt = evt.originalEvent;
-		evt.stopPropagation();
-		evt.preventDefault();
-	}
-
-
-	LithologyAppView.prototype.dataDrop = function(evt) {
-		var self = this;
-		var evt = evt.originalEvent;
-		evt.stopPropagation();
-		evt.preventDefault();
-		var file = evt.dataTransfer.files[0];
-
-		if (file.type === "application/json") {
-			var reader = new FileReader();
-			reader.onloadend = function(e) {
-				self.showPaper();
-				self.app.loader.loadData(this.result);
-			};
-			reader.readAsText(file);
-		} else {
-			// var reader = new FileReader();
-			// reader.onloadend = function(e) {
-			// 	self.showPaper();
-			// 	self.app.loader.loadTextData(this.result);
-			// };
-			// reader.readAsText(file);
-		}
-	}
-
-
 	LithologyAppView.prototype.toggleLithologys = function(evt) {
 		if ($("a[href='#add-lithology']").parent().hasClass('active')) {
 			$("a[href='#add-lithology']").parent().removeClass('active');

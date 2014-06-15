@@ -1,9 +1,7 @@
 define(["baseView"], function(BaseView) {
 	var DefaultView = BaseView.extend({
 		el: "#defaults-list",
-		events: {
-			'change input[name="age"]': 'updateAge',
-		}
+		events: {}
 	});
 
 	DefaultView.prototype.template = new EJS({
@@ -19,15 +17,30 @@ define(["baseView"], function(BaseView) {
 	DefaultView.prototype.render = function() {
 		this.$el.html(this.template.render(this.app.lithology2dView.app.animation.toJSON()));
 		this.$age = this.$('input[name="age"]');
+		this.addSlider();
 	}
 
-	DefaultView.prototype.updateAge = function() {
+	DefaultView.prototype.updateAge = function(e, data) {
 		this.app.lithology2dView.app.animation.set({
-			age: parseFloat(this.$age.val())
+			age: parseFloat(data.values.max)
 		})
 	}
 
 	DefaultView.prototype.ageChange = function() {}
+
+	DefaultView.prototype.addSlider = function() {
+		this.$(".slider").rangeSlider({
+			defaultValues: {
+				min: 0,
+				max: 10
+			},
+			bounds: {
+				min: 0,
+				max: 100
+			}
+		});
+		this.$(".slider").bind("valuesChanged", this.updateAge.bind(this));
+	}
 
 	return DefaultView;
 });

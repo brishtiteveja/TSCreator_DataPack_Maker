@@ -1,24 +1,21 @@
-/*===============================================================================================================
-=            This is the model for lithology. LithologyGroup is a datapoint in the lithology column.            =
-===============================================================================================================*/
-
 define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(BaseModel, Settings, Lithologys, LithologyMarkers) {
-	
+
 	var LithologyGroup = BaseModel.extend({
 		classname: "LithologyGroup",
-		constructor: function (attributes, options) {
-			var attrs  = [{
-				edit             : false,
-				hover            : false,
-				id               : _.uniqueId("lithology-group-id-"),
- 	  			name             : attributes.name || _.uniqueId("Group "),
-				description      : attributes.description,
-				settings         : new Settings(),
-				top              : attributes.top || null,
-				base             : attributes.base || null,
-				lithologyColumn  : attributes.lithologyColumn || null,
-				lithologyMarkers : new LithologyMarkers(),
-				lithologys       : new Lithologys()
+		constructor: function(attributes, options) {
+			var attrs = [{
+				edit: false,
+				hover: false,
+				id: _.uniqueId("lithology-group-id-"),
+				name: attributes.name || _.uniqueId("Group "),
+				description: attributes.description,
+				settings: new Settings(),
+				top: attributes.top || null,
+				base: attributes.base || null,
+				lithologyColumn: attributes.lithologyColumn || null,
+				lithologyMarkers: new LithologyMarkers(),
+				lithologys: new Lithologys(),
+				type: attributes.type || "PRIMARY",
 			}];
 
 			BaseModel.apply(this, attrs);
@@ -39,5 +36,3 @@ define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(Bas
 
 	return LithologyGroup;
 });
-/*-----  End of LithologyGroup  ------*/
-

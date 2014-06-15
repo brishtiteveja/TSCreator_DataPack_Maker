@@ -1,10 +1,9 @@
-
 /*===============================================================================================================
 =            LithologyView is the view that handles changes to the lithology column it is instantiated with.            =
 ===============================================================================================================*/
 
 define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
-	
+
 	var LithologyView = BaseView.extend({
 		tagName: 'li',
 		classname: "LithologyView",
@@ -24,7 +23,9 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		}
 	});
 
-	LithologyView.prototype.template = new EJS({url: '/lithology_column_maker/ejs/lithology.ejs'});
+	LithologyView.prototype.template = new EJS({
+		url: '/lithology_column_maker/ejs/lithology.ejs'
+	});
 
 	LithologyView.prototype.initialize = function(app, lithology) {
 		this.app = app;
@@ -44,17 +45,18 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		this.listenTo(this.lithology, 'change:name', this.renderLithology.bind(this));
 		this.listenTo(this.lithology, 'change:description', this.renderLithology.bind(this));
 		this.listenTo(this.lithology, 'change:pattern', this.renderLithology.bind(this));
-		
+
 		this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithology.bind(this));
 		this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:width', this.renderLithology.bind(this));
-		
+		this.listenTo(this.lithology.get('lithologyGroup').get('lithologyMarkers'), 'add', this.checkAndDelete.bind(this));
+
 		this.listenTo(this.top, 'change:y', this.renderLithology.bind(this));
 		this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));
 		this.listenTo(this.top, 'change:relativeY', this.renderTooltip.bind(this));
 		this.listenTo(this.base, 'change:y', this.renderLithology.bind(this));
 		this.listenTo(this.base, 'change:age', this.renderTooltip.bind(this));
 		this.listenTo(this.base, 'change:relativeY', this.renderTooltip.bind(this));
-		
+
 		this.listenTo(this.lithology.get('settings'), 'change', this.renderLithology.bind(this));
 		this.listenTo(this.lithology, 'destroy', this.delete.bind(this));
 
@@ -96,14 +98,14 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 	LithologyView.prototype.setLithologyFill = function() {
 		if (this.lithBox === undefined) return;
 		var pattern = this.lithology.get("pattern");
-		var fill =  pattern  ? "url('/pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" : "#EEEEEE";
-		var percent = pattern  ? parseFloat(this.app.patternsData[pattern].width)/100 : 1;
-		var width = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')*percent/2)
+		var fill = pattern ? "url('/pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" : "#EEEEEE";
+		var percent = pattern ? parseFloat(this.app.patternsData[pattern].width) / 100 : 1;
+		var width = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') * percent / 2)
 		this.lithBox.attr({
 			'fill': fill,
 			'width': width
 		});
-		var url =  fill + " repeat-x" ;
+		var url = fill + " repeat-x";
 		this.$lithologyImage.css("background", url);
 	}
 
@@ -115,7 +117,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 			this.lithBox = this.app.Paper.rect();
 			this.lithologyText = this.app.Paper.text();
 			this.bBox = this.app.Paper.rect();
-			
+
 			this.lithologySet.push(this.lithBox);
 			this.lithologySet.push(this.lithologyText);
 			this.lithologySet.push(this.bBox);
@@ -132,53 +134,58 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 
 
 		this.bgBox.attr({
-			"stroke-width" : 0,
-			"fill"         : "#FFFFFF",
-			"x"            : this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
-			"y"            : this.top.get('y'),
-			"width"        : this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
-			"height"       : this.base.get('y') - this.top.get('y'),
-			"opacity"      : 0.5,
+			"stroke-width": 0,
+			"fill": "#FFFFFF",
+			"x": this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2,
+			"y": this.top.get('y'),
+			"width": this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2,
+			"height": this.base.get('y') - this.top.get('y'),
+			"opacity": 0.5,
 		});
 
 		this.lithBox.attr({
-			"stroke-width" : 0,
-			"fill"         : this.lithology.get('settings').get('backgroundColor'),
-			"x"            : this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
-			"y"            : this.top.get('y'),
-			"width"        : this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
-			"height"       : this.base.get('y') - this.top.get('y'),
-			"opacity"      : 0.5,
+			"stroke-width": 0,
+			"fill": this.lithology.get('settings').get('backgroundColor'),
+			"x": this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2,
+			"y": this.top.get('y'),
+			"width": this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2,
+			"height": this.base.get('y') - this.top.get('y'),
+			"opacity": 0.5,
 		});
 
-		var textX = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2 + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/4);
-		var textY = Math.round((this.top.get('y') + this.base.get('y'))/2)
+		var textX = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2 + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 4);
+		var textY = Math.round((this.top.get('y') + this.base.get('y')) / 2)
 		var textSize = Math.min(Math.round(this.base.get('y') - this.top.get('y')), 16);
 
 		this.lithologyText.attr({
-			"x" : textX,
-			"y" : textY,
+			"x": textX,
+			"y": textY,
 			"text": this.lithology.get('name'),
 			"font-size": textSize,
 		});
 
 		this.bBox.attr({
-			"stroke-width" : 2,
-			"opacity"      : 0,
-			"fill"         : "#FFF",
-			"x"            : this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
-			"y"            : this.top.get('y'),
-			"width"        : this.lithology.get('lithologyGroup').get('lithologyColumn').get('width')/2,
-			"height"       : this.base.get('y') - this.top.get('y'),
+			"stroke-width": 2,
+			"opacity": 0,
+			"fill": "#FFF",
+			"x": this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2,
+			"y": this.top.get('y'),
+			"width": this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2,
+			"height": this.base.get('y') - this.top.get('y'),
 		});
 
 		this.setLithologyFill();
 		this.renderTooltip();
 	}
 
-	LithologyView.prototype.createLithologyMarker = function (evt) {
+	LithologyView.prototype.createLithologyMarker = function(evt) {
 		if (!this.app.enLithologys) return;
-		var lithologyMarker = this.lithology.get('lithologyGroup').get('lithologyColumn').get('lithologyMarkers').findWhere({y: evt.offsetY}) || new LithologyMarker({y: evt.offsetY, lithologyGroup: this.lithology.get('lithologyGroup')}, this.app);
+		var lithologyMarker = this.lithology.get('lithologyGroup').get('lithologyColumn').get('lithologyMarkers').findWhere({
+			y: evt.offsetY
+		}) || new LithologyMarker({
+			y: evt.offsetY,
+			lithologyGroup: this.lithology.get('lithologyGroup')
+		}, this.app);
 		this.lithology.get('lithologyGroup').get('lithologyMarkers').add(lithologyMarker);
 		this.lithology.get('lithologyGroup').get('lithologyColumn').get('lithologyMarkers').add(lithologyMarker);
 		this.lithology.destroy();
@@ -214,7 +221,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 	LithologyView.prototype.setHoverStatus = function() {
 		if (this.lithology.get('hover')) {
 			this.$el.addClass('hover');
-			this.glow  = this.bgBox.glow();
+			this.glow = this.bgBox.glow();
 		} else {
 			if (this.glow) this.glow.remove();
 			this.$el.removeClass('hover');
@@ -267,7 +274,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		var description = this.$lithologyDescription.value;
 		var style = this.$("select.lithology-line-style option:selected").val();
 
-		var y = this.base.get('zone').getAbsoluteY((1 - parseFloat(this.$lithologyBaseRelativeY.value)/100.0));
+		var y = this.base.get('zone').getAbsoluteY((1 - parseFloat(this.$lithologyBaseRelativeY.value) / 100.0));
 
 		this.base.set({
 			y: y
@@ -286,7 +293,13 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 			style: style
 		});
 	}
-	
+
+	LithologyView.prototype.checkAndDelete = function(lithologyMarker) {
+		if (lithologyMarker.get('y') > this.top.get('y') && lithologyMarker.get('y') < this.base.get('y')) {
+			this.destroy();
+		}
+	}
+
 	return LithologyView;
 });
 

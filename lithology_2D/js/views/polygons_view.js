@@ -1,9 +1,12 @@
-define(["baseView",
+define([
+	"baseView",
 	"polygonView",
 	"polygon"
-], function(BaseView,
+], function(
+	BaseView,
 	PolygonView,
-	Polygon) {
+	Polygon
+) {
 
 	var PolygonsView = BaseView.extend({
 		el: "#polygons-list"

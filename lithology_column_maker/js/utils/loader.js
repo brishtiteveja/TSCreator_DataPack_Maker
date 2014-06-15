@@ -1,4 +1,16 @@
-define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyMarker"], function(Zone, Marker, LithologyColumn, LithologyGroupMarker, LithologyMarker) {
+define([
+	"zone",
+	"marker",
+	"lithologyColumn",
+	"lithologyGroupMarker",
+	"lithologyMarker"
+], function(
+	Zone,
+	Marker,
+	LithologyColumn,
+	LithologyGroupMarker,
+	LithologyMarker
+) {
 	var Loader = function(app) {
 		this.app = app;
 		this.zones = this.app.ZonesCollection;
@@ -19,34 +31,184 @@ define(["zone", "marker", "lithologyColumn", "lithologyGroupMarker", "lithologyM
 	Loader.prototype.loadTextData = function(data) {
 		this.reset();
 		this.textData = data;
-		this.parseTextData(data);
+		this.parseMinAndMaxAgesAndAddMarkers(data);
+		this.parseColumnData(data);
 	}
 
-	Loader.prototype.parseTextData = function(data) {
+	Loader.prototype.parseMinAndMaxAgesAndAddMarkers = function(data) {
 		var self = this;
-		var lines = data.split('\n');
+		this.minAge = Infinity;
+		this.maxAge = 0;
+		var lines = data.split(/\r|\n/);
 		var lithologyColumn = null;
+		var lithologyColumnTextData = [];
 		for (var i in lines) {
 			var line = lines[i].split("\t");
-			for (var j in line) {
-				if ((line.length > 2) && (line[j].toLowerCase() === "lithology")) {
-					var x = lithologyColumn ? lithologyColumn.get('x') + lithologyColumn.get('width') : 0;
-					lithologyColumn = new LithologyColumn({
-						name: line[0],
-						x: x,
-						width: parseInt(line[2])
-					});
-					self.lithologyColumns.add(lithologyColumn);
+			if (line.length > 1) {
+				if (line[1].toLowerCase() === "facies") {
+					lithologyColumn = true;
 				} else {
-					if (lithologyColumn !== null && line.length > 2) {
-						self.parseLithologyTextData(lithologyColumn, line);
+					if (lithologyColumn) {
+						if (line.length > 2 && line[3].length > 0) {
+							this.minAge = parseFloat(line[3]) < this.minAge ? parseFloat(line[3]) : this.minAge;
+							this.maxAge = parseFloat(line[3]) > this.maxAge ? parseFloat(line[3]) : this.maxAge;
+						}
 					}
+				}
+			} else {
+				lithologyColumn = false
+			}
+		}
+
+		this.topAge = parseInt(this.minAge);
+		var topMarker = new Marker({
+			y: 50,
+			age: this.topAge
+		});
+
+		this.markers.add(topMarker);
+
+		this.baseAge = parseInt(this.maxAge) + 1;
+
+		var baseMarker = new Marker({
+			y: this.getYFromAge(this.baseAge),
+			age: this.baseAge
+		});
+
+		this.markers.add(baseMarker);
+	}
+
+	Loader.prototype.getYFromAge = function(age) {
+		return 50 + Math.round((age - this.topAge) * 30); // 30 pixes per million years
+	}
+
+	Loader.prototype.parseColumnData = function(data) {
+		var self = this;
+		var lines = data.split(/\r|\n/);
+		var lithologyColumn = null;
+		var lithologyColumnTextData = [];
+		for (var i in lines) {
+			var line = lines[i].split("\t");
+			if (line.length > 1) {
+				if (line[1].toLowerCase() === "facies") {
+					lithologyColumn = this.createLithologyColumn(line);
+				} else {
+					if (lithologyColumn) {
+						lithologyColumnTextData.push(line);
+					}
+				}
+			} else {
+				if (lithologyColumn && lithologyColumnTextData.length > 1) {
+					self.parseColumnTextData(lithologyColumn, lithologyColumnTextData);
+				}
+				lithologyColumnTextData = [];
+				lithologyColumn = null
+			}
+		}
+	}
+
+
+	Loader.prototype.createLithologyColumn = function(columnData) {
+		var x = 0;
+		if (this.lithologyColumns.length > 0) {
+			x = this.lithologyColumns.last().get('x') + this.lithologyColumns.last().get('width');
+		}
+		var name = columnData[0];
+		var lithologyColumn = new LithologyColumn({
+			x: x,
+			name: name,
+			width: parseInt(columnData[2])
+		});
+		this.lithologyColumns.add(lithologyColumn);
+		return lithologyColumn;
+	}
+
+	Loader.prototype.parseColumnTextData = function(column, data) {
+		this.createGroups(column, data);
+		this.createLithologys(column, data);
+		// debugger;
+	}
+
+	Loader.prototype.createGroups = function(column, data) {
+		for (var i = 0; i < data.length; i++) {
+			if (data[i][0].length > 0) {
+				this.createLithologyGroupMarker(column, data[i], data[i + 1][3]);
+			}
+		}
+		for (var i = 0; i < data.length; i++) {
+			if (data[i][0].length > 0) {
+				this.updateGroupInfo(column, data[i], data[i + 1][3]);
+			}
+		}
+	}
+
+	Loader.prototype.createLithologyGroupMarker = function(column, data, age) {
+		var lithologyGroupMarker = new LithologyGroupMarker({
+				name: data[0] + " Top",
+				y: this.getYFromAge(age),
+				lithologyColumn: column
+			},
+			this.app);
+
+		column.get('lithologyGroupMarkers').add(lithologyGroupMarker);
+	}
+
+	Loader.prototype.updateGroupInfo = function(column, data, age) {
+		var group = this.findGroup(column, data, age);
+
+		if (group) {
+			group.set({
+				name: data[0],
+				type: data[1],
+				description: data[4]
+			});
+
+			group.update();
+		}
+	}
+
+	Loader.prototype.findGroup = function(column, data, age) {
+		var topMarker = column.get('lithologyGroupMarkers').findWhere({
+			y: this.getYFromAge(age)
+		});
+
+		if (topMarker) {
+			var group = column.get('lithologyGroups').findWhere({
+				top: topMarker
+			});
+			return group;
+		}
+		return null;
+	}
+
+	Loader.prototype.createLithologys = function(column, data) {
+		var group = null;
+		for (var i = 0; i < data.length; i++) {
+			if (data[i][0].length > 0) {
+				group = this.findGroup(column, data[i], data[i + 1][3]);
+			} else {
+				if (group) {
+					this.createLithologyMarker(group, data[i]);
 				}
 			}
 		}
 	}
 
+	Loader.prototype.createLithologyMarker = function(group, data) {
+		var lithologyMarker = group.get('lithologyColumn').get('lithologyMarkers').findWhere({
+			y: this.getYFromAge(data[3])
+		}) || new LithologyMarker({
+			y: this.getYFromAge(data[3]),
+			name: data[2],
+			lithologyGroup: group
+		}, this.app);
+		group.get('lithologyMarkers').add(lithologyMarker);
+		group.get('lithologyColumn').get('lithologyMarkers').add(lithologyMarker);
+	}
+
+
 	Loader.prototype.parseLithologyTextData = function(column, lithologyData) {
+
 		var prevLithology = column.get('lithologys').last();
 		var topY = prevLithology ? prevLithology.get("base").get('y') : 0;
 		var baseY = topY + 10;

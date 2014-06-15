@@ -235,6 +235,9 @@ define(["baseView"], function(BaseView) {
 	MarkerView.prototype.resizePaper = function() {
 		var height = Math.max(this.app.Paper.height, this.marker.get('y') + 100)
 		this.app.Paper.setSize(this.app.Paper.width, height);
+		if (this.app.ruler) {
+			this.app.ruler.resize();
+		}
 	}
 
 	return MarkerView;

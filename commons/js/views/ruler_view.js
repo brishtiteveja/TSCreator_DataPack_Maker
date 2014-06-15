@@ -16,23 +16,27 @@ define(["baseView", "ruler"], function(BaseView, Ruler) {
 
 
 		this.render();
-		this.listenTo(this.ruler, 'resize', this.resize.bind(this));
+		this.listenTo(this.ruler, 'resize', this.render.bind(this));
 		this.listenToActionEvents();
 	}
 
-
-	RulerView.prototype.resize = function() {}
-
 	RulerView.prototype.render = function() {
+		if (this.app.rulerCol.Paper && this.app.Paper.height <= this.app.rulerCol.Paper.height) {
+			return;
+		}
 		this.app.rulerCol.$paper = this.$paper;
 		this.Paper = Raphael(this.$paper[0], 50, this.app.Paper.height);
 		this.app.rulerCol.Paper = this.Paper;
 		this.renderRuler();
+
+
 	}
 
 	RulerView.prototype.renderRuler = function() {
-		if (!this.element) {
-			this.element = this.Paper.rect(0, 0, 50, this.app.Paper.height);
+
+
+		if (this.element) {
+			this.element.remove();
 		}
 
 		if (!this.marksSet) {
@@ -40,6 +44,9 @@ define(["baseView", "ruler"], function(BaseView, Ruler) {
 		} else {
 			this.marksSet.remove();
 		}
+
+		this.element = this.Paper.rect(0, 0, 50, this.app.Paper.height);
+
 
 		this.element.attr({
 			width: this.$paper.width(),
@@ -54,15 +61,17 @@ define(["baseView", "ruler"], function(BaseView, Ruler) {
 	}
 
 	RulerView.prototype.drawMark = function(age) {
-		var y = this.ruler.getY(age);
+		var y = this.ruler.getY(age) + 60;
 
 		if (age % 5) {
 			var path = this.Paper.path("M0," + y + 'H' + this.ruler.get("width") / 2);
-			this.Paper.text(this.ruler.get("width"), y, age);
 			this.marksSet.push(path);
+			// var label = this.Paper.text(this.ruler.get("width"), y, age);
+			// this.marksSet.push(label);
 		} else {
-			var label = this.Paper.path("M0," + y + 'H' + this.ruler.get("width"));
-			this.Paper.text(this.ruler.get("width") * 2, y, age);
+			var path = this.Paper.path("M0," + y + 'H' + this.ruler.get("width"));
+			this.marksSet.push(path);
+			var label = this.Paper.text(this.ruler.get("width") * 1.5, y, age);
 			this.marksSet.push(label);
 		}
 	}
@@ -72,7 +81,7 @@ define(["baseView", "ruler"], function(BaseView, Ruler) {
 		this.$enRulerPanel = $('a[href="#show-ruler"]');
 		this.$enRulerPanel.click(function() {
 			self.$paper.toggleClass("hidden");
-		})
+		});
 	}
 
 	return RulerView;
