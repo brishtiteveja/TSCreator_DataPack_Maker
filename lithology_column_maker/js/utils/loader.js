@@ -126,20 +126,20 @@ define([
 	Loader.prototype.parseColumnTextData = function(column, data) {
 		this.createGroups(column, data);
 		this.createLithologys(column, data);
-		// debugger;
 	}
 
 	Loader.prototype.createGroups = function(column, data) {
 		for (var i = 0; i < data.length; i++) {
 			if (data[i][0].length > 0) {
-				this.createLithologyGroupMarker(column, data[i], data[i + 1][3]);
+				this.createLithologyGroupMarker(column, data[i], data[(i > 0 ? i - 1 : i + 1)][3]);
 			}
 		}
 		for (var i = 0; i < data.length; i++) {
 			if (data[i][0].length > 0) {
-				this.updateGroupInfo(column, data[i], data[i + 1][3]);
+				this.updateGroupInfo(column, data[i], data[(i > 0 ? i - 1 : i + 1)][3]);
 			}
 		}
+		this.createLithologyGroupMarker(column, data[data.length - 1], data[data.length - 1][3]);
 	}
 
 	Loader.prototype.createLithologyGroupMarker = function(column, data, age) {
@@ -154,7 +154,7 @@ define([
 	}
 
 	Loader.prototype.updateGroupInfo = function(column, data, age) {
-		var group = this.findGroup(column, data, age);
+		var group = this.findGroup(column, age);
 
 		if (group) {
 			group.set({
@@ -167,7 +167,7 @@ define([
 		}
 	}
 
-	Loader.prototype.findGroup = function(column, data, age) {
+	Loader.prototype.findGroup = function(column, age) {
 		var topMarker = column.get('lithologyGroupMarkers').findWhere({
 			y: this.getYFromAge(age)
 		});
@@ -185,12 +185,57 @@ define([
 		var group = null;
 		for (var i = 0; i < data.length; i++) {
 			if (data[i][0].length > 0) {
-				group = this.findGroup(column, data[i], data[i + 1][3]);
+				group = this.findGroup(column, data[(i > 0 ? i - 1 : i + 1)][3]);
 			} else {
 				if (group) {
 					this.createLithologyMarker(group, data[i]);
 				}
 			}
+		}
+		group = null;
+		for (var i = 0; i < data.length; i++) {
+			if (data[i][0].length > 0) {
+				group = this.findGroup(column, data[(i > 0 ? i - 1 : i + 1)][3]);
+			} else {
+				if (group) {
+					this.updateLithologyInfo(group, data[i]);
+				}
+			}
+		}
+	}
+
+	Loader.prototype.findLithology = function(group, age) {
+		var baseMarker = group.get('lithologyMarkers').findWhere({
+			y: this.getYFromAge(age)
+		});
+
+		if (baseMarker) {
+			var lithology = group.get('lithologys').findWhere({
+				base: baseMarker
+			});
+			return lithology;
+		}
+		return null;
+	}
+
+	Loader.prototype.updateLithologyInfo = function(group, data) {
+		var lithology = this.findLithology(group, data[3]);
+		if (lithology) {
+			lithology.set({
+				name: data[2],
+				description: data[4],
+				pattern: this.getPatternKey(data[1])
+			});
+			lithology.update();
+		}
+	}
+
+	Loader.prototype.getPatternKey = function(name) {
+		var key = name.toLowerCase().split(/_| |-/).join('');
+		if (key in this.app.patternsData) {
+			return key;
+		} else {
+			return null;
 		}
 	}
 
@@ -199,31 +244,11 @@ define([
 			y: this.getYFromAge(data[3])
 		}) || new LithologyMarker({
 			y: this.getYFromAge(data[3]),
-			name: data[2],
+			name: data[2] + " base",
 			lithologyGroup: group
 		}, this.app);
 		group.get('lithologyMarkers').add(lithologyMarker);
 		group.get('lithologyColumn').get('lithologyMarkers').add(lithologyMarker);
-	}
-
-
-	Loader.prototype.parseLithologyTextData = function(column, lithologyData) {
-
-		var prevLithology = column.get('lithologys').last();
-		var topY = prevLithology ? prevLithology.get("base").get('y') : 0;
-		var baseY = topY + 10;
-		var top = new LithologyGroupMarker({
-			y: topY
-		});
-		var base = new LithologyGroupMarker({
-			y: baseY
-		});
-		var lithology = new Lithology({
-			name: lithologyData[1],
-			top: top,
-			base: base
-		});
-		column.get('lithologys').add(lithology);
 	}
 
 	Loader.prototype.reset = function() {

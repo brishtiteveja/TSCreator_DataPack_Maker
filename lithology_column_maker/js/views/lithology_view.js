@@ -42,8 +42,7 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		/* listen to the events */
 		this.listenTo(this.lithology, 'change:edit', this.editLithology.bind(this));
 		this.listenTo(this.lithology, 'change:hover', this.setHoverStatus.bind(this));
-		this.listenTo(this.lithology, 'change:name', this.renderLithology.bind(this));
-		this.listenTo(this.lithology, 'change:description', this.renderLithology.bind(this));
+		this.listenTo(this.lithology, 'update', this.renderLithology.bind(this));
 		this.listenTo(this.lithology, 'change:pattern', this.renderLithology.bind(this));
 
 		this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithology.bind(this));
@@ -292,6 +291,8 @@ define(["baseView", "lithologyMarker"], function(BaseView, LithologyMarker) {
 		this.base.set({
 			style: style
 		});
+
+		this.lithology.update();
 	}
 
 	LithologyView.prototype.checkAndDelete = function(lithologyMarker) {
