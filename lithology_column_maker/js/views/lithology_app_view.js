@@ -191,7 +191,7 @@ define([
 
 	LithologyAppView.prototype.saveToLocalStorage = function() {
 		this.app.exporter.export();
-		localStorage.app = this.app.exporter.getJSON();
+		localStorage.lithologyApp = this.app.exporter.getJSON();
 	}
 
 	LithologyAppView.prototype.loadFromLocalStorage = function() {

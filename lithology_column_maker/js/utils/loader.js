@@ -310,7 +310,6 @@ define([
 
 			self.addLithologyGroupMarkers(lithologyColumnData, column);
 			self.updateLithologyGroups(lithologyColumnData, column);
-			self.deleteUnnecessaryLithologyGroups(lithologyColumnData, column);
 		});
 	}
 
@@ -367,7 +366,6 @@ define([
 				// Add Markers and Lithologys
 				self.updateLithologyGroupWithLithologys(lithologyGroupData, lithologyGroup);
 				self.updateLithologys(lithologyGroupData, lithologyGroup);
-				self.deleteUnnecessaryLithologys(lithologyGroupData, lithologyGroup);
 			}
 		});
 	}
@@ -459,24 +457,6 @@ define([
 
 		}
 		return exists;
-	}
-
-	Loader.prototype.deleteUnnecessaryLithologyGroups = function(lithologyColumnData, column) {
-		var self = this;
-		column.get('lithologyGroups').each(function(lithologyGroup) {
-			if (!self.groupExists(lithologyGroup.id, lithologyColumnData)) {
-				lithologyGroup.destroy();
-			}
-		});
-	}
-
-	Loader.prototype.deleteUnnecessaryLithologys = function(lithologyGroupData, lithologyGroup) {
-		var self = this;
-		lithologyGroup.get('lithologys').each(function(lithology) {
-			if (!self.lithologyExists(lithology.id, lithologyGroupData)) {
-				lithology.destroy();
-			}
-		});
 	}
 
 	return Loader;
