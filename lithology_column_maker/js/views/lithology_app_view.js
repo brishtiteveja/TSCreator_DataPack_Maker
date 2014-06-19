@@ -75,20 +75,6 @@ define([
 		this.$canvas = this.app.$canvas;
 		this.$displayPanels = this.$('.display-panel');
 
-		//
-		this.app.loader = new Loader(this.app);
-		this.app.exporter = new Exporter(this.app);
-
-		// Initialize the models
-		this.app.ImageOb = new ImageOb({});
-		this.app.Paper = new Raphael(this.$canvas[0], 2000, 2000);
-		// 
-		this.app.MarkersSet = this.app.Paper.set();
-		this.app.LithologyMarkersSet = this.app.Paper.set();
-		this.app.LithologyGroupMarkersSet = this.app.Paper.set();
-		this.app.LithologysSet = this.app.Paper.set();
-		this.app.LithologyGroupsSet = this.app.Paper.set();
-
 		this.loadPatternsDataAndRender();
 
 
@@ -131,9 +117,24 @@ define([
 
 	LithologyAppView.prototype.render = function() {
 
+		// Initialize the models
+		this.app.ImageOb = new ImageOb({});
+		this.app.Paper = new Raphael(this.$canvas[0], 2000, 2000);
+		// 
+		this.app.MarkersSet = this.app.Paper.set();
+		this.app.LithologyMarkersSet = this.app.Paper.set();
+		this.app.LithologyGroupMarkersSet = this.app.Paper.set();
+		this.app.LithologysSet = this.app.Paper.set();
+		this.app.LithologyGroupsSet = this.app.Paper.set();
+
+
 		this.lithology2dView = new Lithology2dView(this.app);
 
 		this.app.lithology2dView = this.lithology2dView;
+
+		//
+		this.app.loader = new Loader(this.app);
+		this.app.exporter = new Exporter(this.app);
 
 		this.rulerView = new RulerView(this.app);
 
@@ -153,6 +154,7 @@ define([
 		this.lithologyColumnsView = new LithologyColumnsView(this.app);
 
 		this.referenceColumnSideView = new ReferenceColumnSideView(this.app, "#reference-column-settings");
+
 	};
 
 

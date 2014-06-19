@@ -22,9 +22,13 @@ define([
 		}
 	});
 
-	Lithology2dView.prototype.initialize = function() {
+	Lithology2dView.prototype.initialize = function(lithologyApp) {
 		this.app = {
 			type: "lithology2D"
+		}
+
+		if (lithologyApp) {
+			lithologyApp.lithology2dApp = this.app;
 		}
 
 		this.app.Paper = new Raphael("map", this.$("#display").width(), this.$("#display").height());

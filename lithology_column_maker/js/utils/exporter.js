@@ -1,7 +1,3 @@
-/*================================================================
-=            Exporter - Data Exporter for lithology maker            =
-================================================================*/
-
 define([], function() {
 
 	var Exporter = function(app) {
@@ -95,11 +91,14 @@ define([], function() {
 		json["zones"] = this.zones.toJSON();
 		json["lithologyColumns"] = this.lithologyColumns.toJSON();
 		json["referenceColumn"] = this.app.referenceColumn.toJSON();
+		if (this.app.lithology2dApp) {
+			json["lithology2dApp"] = {
+				"polygons": this.app.lithology2dApp.PolygonsCollection.toJSON()
+			}
+		}
 
 		return JSON.stringify(json);
 	}
 
 	return Exporter;
 });
-
-/*-----  End of Exporter - Data Exporter for lithology maker  ------*/

@@ -3,19 +3,22 @@ define([
 	"marker",
 	"lithologyColumn",
 	"lithologyGroupMarker",
-	"lithologyMarker"
+	"lithologyMarker",
+	"point"
 ], function(
 	Zone,
 	Marker,
 	LithologyColumn,
 	LithologyGroupMarker,
-	LithologyMarker
+	LithologyMarker,
+	Point
 ) {
 	var Loader = function(app) {
 		this.app = app;
 		this.zones = this.app.ZonesCollection;
 		this.markers = this.app.MarkersCollection;
 		this.lithologyColumns = this.app.LithologyColumnsCollection;
+		this.polygons = this.app.lithology2dApp.PolygonsCollection;
 	}
 
 	Loader.prototype.loadFromLocalStorage = function() {
@@ -255,12 +258,17 @@ define([
 		_.invoke(this.markers.toArray(), 'destroy');
 		_.invoke(this.zones.toArray(), 'destroy');
 		_.invoke(this.lithologyColumns.toArray(), 'destroy');
+		_.invoke(this.polygons.toArray(), 'destroy')
 	}
 
 	Loader.prototype.load = function() {
 		this.loadImage();
 		this.loadMarkersAndZones();
 		this.loadLithologyColumns();
+	}
+
+	Loader.prototype.loadPolygons = function() {
+
 	}
 
 	Loader.prototype.loadImage = function() {
@@ -310,6 +318,22 @@ define([
 
 			self.addLithologyGroupMarkers(lithologyColumnData, column);
 			self.updateLithologyGroups(lithologyColumnData, column);
+
+			if (lithologyColumnData.polygon) {
+				self.createPolygon(column, lithologyColumnData.polygon);
+			}
+		});
+	}
+
+	Loader.prototype.createPolygon = function(column, polygonData) {
+		this.app.lithology2dView.polygonsView.createOverlay(column);
+		polygonData.points.forEach(function(point) {
+			if (column.get('polygon')) {
+				column.get('polygon').get('points').add(new Point({
+					x: point.x,
+					y: point.y
+				}));
+			}
 		});
 	}
 
