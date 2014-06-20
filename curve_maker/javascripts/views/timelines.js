@@ -10,6 +10,8 @@
 
       function Timelines() {
         this.render = __bind(this.render, this);
+        this.timelineToBack = __bind(this.timelineToBack, this);
+        this.timelineToFront = __bind(this.timelineToFront, this);
         this.addingNewTimeline = __bind(this.addingNewTimeline, this);
         this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
@@ -41,12 +43,14 @@
 
       Timelines.prototype.start = function() {
         this.overlay.toFront();
+        _.each(this.timelines, this.timelineToFront);
         this.overlay.dblclick(this.addingNewTimeline);
         console.log(this.overlay);
         return this;
       };
 
       Timelines.prototype.stop = function() {
+        _.each(this.timelines, this.timelineToBack);
         this.overlay.toBack();
         this.overlay.undblclick(this.addingNewTimeline);
         console.log(this.overlay);
@@ -57,6 +61,16 @@
         var position;
         position = this.mainCanvasView.getCurrentPositionFromOffset(evt.offsetX, evt.offsetY);
         this.timelines.addOneWithY(position.y);
+        return this;
+      };
+
+      Timelines.prototype.timelineToFront = function(timeline) {
+        timeline.trigger("toFront");
+        return this;
+      };
+
+      Timelines.prototype.timelineToBack = function(timeline) {
+        timeline.trigger("toBack");
         return this;
       };
 

@@ -1,13 +1,9 @@
 svg {
-  .timeline {
-    pointer-events: all;
-    stroke: #900000;
+  path.timeline {
     stroke-width: 2.0;
-    fill: #900000 !important;
+    stroke: #AA0000;
     &:hover {
-      pointer-events: all;
       stroke-width: 4.0;
-      fill: #900000;
     }
   }
 }

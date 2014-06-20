@@ -63,7 +63,11 @@ define [], () ->
     createPath: () =>
       @rPaper.path.apply(@rPaper, arguments)
     createInfiniteHorizontalPathWithY: (y) =>
-      @rPaper.path("M#{-INF},#{y}L#{INF},#{y}")
+      newPath = @rPaper.path("M#{-INF},#{y}L#{INF},#{y}")
+      newPath.attr
+        "fill": "#FFFFFF"
+        "fill-opacity": 0
+      newPath
     createImage: () =>
       @rPaper.image.apply(@rPaper, arguments)
     getCurrentPositionFromOffset: (dx, dy) =>

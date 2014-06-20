@@ -30,10 +30,12 @@ define ["./detail", "../models/timelines", "./timeline"], (Detail, TimelineColle
 
     start: () =>
       @overlay.toFront()
+      _.each(@timelines, @timelineToFront)
       @overlay.dblclick(@addingNewTimeline)
       console.log @overlay
       @
     stop: () =>
+      _.each(@timelines, @timelineToBack)
       @overlay.toBack()
       @overlay.undblclick(@addingNewTimeline)
       console.log @overlay
@@ -43,6 +45,12 @@ define ["./detail", "../models/timelines", "./timeline"], (Detail, TimelineColle
       @timelines.addOneWithY(position.y)
       @
 
+    timelineToFront: (timeline) =>
+      timeline.trigger("toFront")
+      @
+    timelineToBack: (timeline) =>
+      timeline.trigger("toBack")
+      @
     render: () =>
       _.each(@timelines, @addOne)
       @

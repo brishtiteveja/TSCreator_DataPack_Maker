@@ -20,6 +20,9 @@ define [], () ->
       @mainCanvasView = options.mainCanvasView
       @rLine = @mainCanvasView.createInfiniteHorizontalPathWithY(@model.get("y"))
       @rLine.node.setAttribute("class", "timeline")
+
+      @listenTo(@model, "toFront", @toFront)
+      @listenTo(@model, "toBack", @toBack)
       @
     destroy: () =>
       @undelegateEvents()
@@ -54,7 +57,12 @@ define [], () ->
       @render()
       @
 
-
+    toFront: () =>
+      @rLine.toFront()
+      @
+    toBack: () =>
+      @rLine.toBack()
+      @
     render: () =>
       @$el.html(@template(@model.toJSON()))
       @

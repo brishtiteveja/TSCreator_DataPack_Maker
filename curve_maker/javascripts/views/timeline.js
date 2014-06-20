@@ -10,6 +10,8 @@
 
       function Timeline() {
         this.render = __bind(this.render, this);
+        this.toBack = __bind(this.toBack, this);
+        this.toFront = __bind(this.toFront, this);
         this.cancelAction = __bind(this.cancelAction, this);
         this.deleteAction = __bind(this.deleteAction, this);
         this.editAction = __bind(this.editAction, this);
@@ -51,6 +53,8 @@
         this.mainCanvasView = options.mainCanvasView;
         this.rLine = this.mainCanvasView.createInfiniteHorizontalPathWithY(this.model.get("y"));
         this.rLine.node.setAttribute("class", "timeline");
+        this.listenTo(this.model, "toFront", this.toFront);
+        this.listenTo(this.model, "toBack", this.toBack);
         return this;
       };
 
@@ -90,6 +94,16 @@
         $evt.stopImmediatePropagation();
         this.isEditing = false;
         this.render();
+        return this;
+      };
+
+      Timeline.prototype.toFront = function() {
+        this.rLine.toFront();
+        return this;
+      };
+
+      Timeline.prototype.toBack = function() {
+        this.rLine.toBack();
         return this;
       };
 

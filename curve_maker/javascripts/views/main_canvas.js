@@ -113,7 +113,13 @@
       };
 
       MainCanvas.prototype.createInfiniteHorizontalPathWithY = function(y) {
-        return this.rPaper.path("M" + (-INF) + "," + y + "L" + INF + "," + y);
+        var newPath;
+        newPath = this.rPaper.path("M" + (-INF) + "," + y + "L" + INF + "," + y);
+        newPath.attr({
+          "fill": "#FFFFFF",
+          "fill-opacity": 0
+        });
+        return newPath;
       };
 
       MainCanvas.prototype.createImage = function() {
