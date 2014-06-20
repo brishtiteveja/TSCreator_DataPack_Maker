@@ -52,7 +52,7 @@ define ["../models/detail", "../models/details", "./detail", "./timelines", "./i
         name: "imagesDetail"
         text: "Image"
         title: "Set up background image"
-        template: new EJS(url: "templates/images_detail")
+        template: new EJS(url: "templates/image/show")
         clazz: ImageDetailView
       )
       @collection.add(

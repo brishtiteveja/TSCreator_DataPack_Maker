@@ -11,6 +11,13 @@
         return Timeline.__super__.constructor.apply(this, arguments);
       }
 
+      Timeline.prototype.defaults = function() {
+        return {
+          name: "New Timeline " + (_.uniqueId()),
+          age: null
+        };
+      };
+
       return Timeline;
 
     })(Backbone.Model);

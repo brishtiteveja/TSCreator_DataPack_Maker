@@ -3,3 +3,7 @@ define ["./timeline"], (Timeline) ->
     model: Timeline
     initialize: () ->
       @
+    addOneWithY: (y) =>
+      @add
+        y: Math.round(y)
+      @

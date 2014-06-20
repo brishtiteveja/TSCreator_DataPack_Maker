@@ -10,6 +10,12 @@
 
       function Timeline() {
         this.render = __bind(this.render, this);
+        this.cancelAction = __bind(this.cancelAction, this);
+        this.deleteAction = __bind(this.deleteAction, this);
+        this.editAction = __bind(this.editAction, this);
+        this.update = __bind(this.update, this);
+        this.destroy = __bind(this.destroy, this);
+        this.template = __bind(this.template, this);
         return Timeline.__super__.constructor.apply(this, arguments);
       }
 
@@ -17,21 +23,78 @@
 
       Timeline.prototype.className = "data-list";
 
-      Timeline.prototype.template = new EJS({
-        url: "templates/timeline"
+      Timeline.prototype.showTemplate = new EJS({
+        url: "templates/timelines/show"
       });
 
       Timeline.prototype.editTemplate = new EJS({
-        url: "templates/timeline_edit"
+        url: "templates/timelines/edit"
       });
+
+      Timeline.prototype.template = function() {
+        var temp;
+        temp = this.isEditing ? this.editTemplate : this.showTemplate;
+        return temp.render.apply(temp, arguments);
+      };
+
+      Timeline.prototype.isEditing = false;
+
+      Timeline.prototype.events = {
+        "click .edit-btn": "editAction",
+        "click .timeline-detail": "editAction",
+        "click .delete-btn": "deleteAction",
+        "click .cancel-btn": "cancelAction",
+        "change input[type='text']": "update"
+      };
 
       Timeline.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
+        this.rLine = this.mainCanvasView.createInfiniteHorizontalPathWithY(this.model.get("y"));
+        this.rLine.node.setAttribute("class", "timeline");
+        return this;
+      };
+
+      Timeline.prototype.destroy = function() {
+        this.undelegateEvents();
+        this.remove();
+        this.model = null;
+        return this;
+      };
+
+      Timeline.prototype.update = function($evt) {
+        var $input, key, value;
+        $input = $($evt.target);
+        key = $input.attr("name");
+        value = $input.val();
+        this.model.set(key, value);
+        return this;
+      };
+
+      Timeline.prototype.editAction = function($evt) {
+        $evt.stopImmediatePropagation();
+        this.isEditing = true;
+        this.render();
+        return this;
+      };
+
+      Timeline.prototype.deleteAction = function($evt) {
+        $evt.stopImmediatePropagation();
+        this.model.destroy({
+          wait: true
+        });
+        this.destroy();
+        return this;
+      };
+
+      Timeline.prototype.cancelAction = function($evt) {
+        $evt.stopImmediatePropagation();
+        this.isEditing = false;
+        this.render();
         return this;
       };
 
       Timeline.prototype.render = function() {
-        this.$el.append(this.template.render(this.model.toJSON()));
+        this.$el.html(this.template(this.model.toJSON()));
         return this;
       };
 

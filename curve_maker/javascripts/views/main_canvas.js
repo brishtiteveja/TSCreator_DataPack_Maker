@@ -18,8 +18,11 @@
         this.onPanningEnd = __bind(this.onPanningEnd, this);
         this.onPanningMove = __bind(this.onPanningMove, this);
         this.onPanningStart = __bind(this.onPanningStart, this);
+        this.getCurrentPositionFromOffset = __bind(this.getCurrentPositionFromOffset, this);
         this.createImage = __bind(this.createImage, this);
+        this.createInfiniteHorizontalPathWithY = __bind(this.createInfiniteHorizontalPathWithY, this);
         this.createPath = __bind(this.createPath, this);
+        this.createInfiniteOverlay = __bind(this.createInfiniteOverlay, this);
         this.createRect = __bind(this.createRect, this);
         this.render = __bind(this.render, this);
         this.resize = __bind(this.resize, this);
@@ -32,7 +35,7 @@
       MainCanvas.prototype.tagName = "main";
 
       MainCanvas.prototype.introTemplate = new EJS({
-        url: "templates/intro.ejs"
+        url: "templates/intro"
       });
 
       MainCanvas.prototype.events = {
@@ -94,21 +97,38 @@
         return this.rPaper.rect.apply(this.rPaper, arguments);
       };
 
+      MainCanvas.prototype.createInfiniteOverlay = function() {
+        var newOverlay;
+        newOverlay = this.rPaper.rect(-INF, -INF, 2 * INF, 2 * INF);
+        newOverlay.attr({
+          "fill": "#FFFFFF",
+          "fill-opacity": 0,
+          "stroke-width": 0
+        });
+        return newOverlay;
+      };
+
       MainCanvas.prototype.createPath = function() {
         return this.rPaper.path.apply(this.rPaper, arguments);
+      };
+
+      MainCanvas.prototype.createInfiniteHorizontalPathWithY = function(y) {
+        return this.rPaper.path("M" + (-INF) + "," + y + "L" + INF + "," + y);
       };
 
       MainCanvas.prototype.createImage = function() {
         return this.rPaper.image.apply(this.rPaper, arguments);
       };
 
+      MainCanvas.prototype.getCurrentPositionFromOffset = function(dx, dy) {
+        return {
+          x: this.curViewBox.x + (dx * this.zoomMultiplier),
+          y: this.curViewBox.y + (dy * this.zoomMultiplier)
+        };
+      };
+
       MainCanvas.prototype.initPan = function() {
-        this.panOverlay = this.rPaper.rect(-INF, -INF, 2 * INF, 2 * INF);
-        this.panOverlay.attr({
-          "fill": "#FFFFFF",
-          "fill-opacity": 0,
-          "stroke-width": 0
-        });
+        this.panOverlay = this.createInfiniteOverlay();
         this.stopPanning();
         this.listenTo(this, "start:panning", this.startPanning);
         this.listenTo(this, "stop:panning", this.stopPanning);

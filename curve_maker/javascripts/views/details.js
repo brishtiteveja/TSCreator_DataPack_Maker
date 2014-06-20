@@ -75,7 +75,7 @@
           text: "Image",
           title: "Set up background image",
           template: new EJS({
-            url: "templates/images_detail"
+            url: "templates/image/show"
           }),
           clazz: ImageDetailView
         });

@@ -2,7 +2,7 @@ define [], () ->
   INF = 500000
   class MainCanvas extends Backbone.View
     tagName: "main"
-    introTemplate: new EJS(url: "templates/intro.ejs")
+    introTemplate: new EJS(url: "templates/intro")
     events:
       "drop .data-dropbox": "startAndLoadDatafile"
       "click .continue": "showPaper"
@@ -50,24 +50,37 @@ define [], () ->
       @$el.append(@$intro)
       @
 
-    # Creating new Raphael elments
+    # Proxy functions to create new Raphael elements
     createRect: () =>
       @rPaper.rect.apply(@rPaper, arguments)
+    createInfiniteOverlay: () =>
+      newOverlay = @rPaper.rect(-INF, -INF, 2*INF, 2*INF)
+      newOverlay.attr
+        "fill": "#FFFFFF"
+        "fill-opacity": 0
+        "stroke-width": 0
+      newOverlay
     createPath: () =>
       @rPaper.path.apply(@rPaper, arguments)
+    createInfiniteHorizontalPathWithY: (y) =>
+      @rPaper.path("M#{-INF},#{y}L#{INF},#{y}")
     createImage: () =>
       @rPaper.image.apply(@rPaper, arguments)
+    getCurrentPositionFromOffset: (dx, dy) =>
+      # Returns top left (x, y) position of current ViewBox
+      {
+        x: @curViewBox.x + (dx * @zoomMultiplier)
+        y: @curViewBox.y + (dy * @zoomMultiplier)
+      }
+      
+
 
 
     # Panning
     initPan: () ->
       # set up psuedo-infinite overlay
       #@panOverlay = @rPaper.rect(@curViewBox.x, @curViewBox.y, "100%", "100%")
-      @panOverlay = @rPaper.rect(-INF, -INF, 2*INF, 2*INF)
-      @panOverlay.attr
-        "fill": "#FFFFFF"
-        "fill-opacity": 0
-        "stroke-width": 0
+      @panOverlay = @createInfiniteOverlay()
       @stopPanning()
 
       # register panning events

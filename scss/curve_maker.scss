@@ -52,9 +52,10 @@ input[type="url"], textarea {
   -ms-user-select: none;
   user-select: none;
 }
-span.icon {
+span.icon, .icon-btn span {
   display: inline-block;
   cursor: pointer;
+  text-indent: -999999px;
 }
 .file-dropbox {
   overflow: hidden;
@@ -120,6 +121,7 @@ main {
   }
 }
 
+@import "main_canvas/svg";
 
 
 /* Toolbar Panel */
@@ -185,9 +187,7 @@ main {
   overflow: hidden;
   height: inherit;
   white-space: nowrap;
-  &:hover {
-    overflow-y: auto;
-  }
+  &:hover { overflow-y: auto; }
   .detail-button {
     height: 36px;
     padding: 0px 5px;
@@ -240,24 +240,51 @@ main {
       width: 120px;
       margin-right: 5px;
       float: left;
-      > * {
-        width: 100px;
-      }
-      input {
-        margin-top: 10px;
-      }
+      > * { width: 100px; }
+      input { margin-top: 10px; }
     }
     .image-dropbox {
       padding: 100px 0px;
       font-size: 20px;
       font-weight: 100;
-      &:active, &:focus, &:hover {
-        background: #434343;
-      }
+      &:active, &:focus, &:hover { background: #434343; }
     }
     .data-list {
-      margin: 8px 0px;
+      height: 25px;
+      padding: 8px 0px;
       border-bottom: 1px solid #F1F1F1;
+      overflow: auto;
+      
+      > * { float: left; margin-top: 4px; }
+      .timeline-detail {
+        > * { display: inline-block; vertical-align: top; }
+        .timeline-name { width: 150px; margin-right: 20px; }
+        .timeline-age { width: 60px; margin-left: 29px; }
+      }
+      .timeline-detail-editing {
+        margin-top: 0px;
+        > * { display: inline-block; }
+        input { height: 18px; padding: 3px 8px; }
+        .timeline-name { width: 141px; margin-right: 20px; }
+        .timeline-age { width: 51px; margin-left: 20px; }
+      }
+
+    }
+    .icon-btn { width: 16px; height: 16px; }
+    .edit-btn {
+      margin-right: 20px;
+      background: url("/images/cc/white/png/icons_16/playback_play_icon_16.png");
+    }
+    .cancel-btn {
+      margin-right: 11px;
+      background: url("/images/cc/white/png/icons_16/playback_play_icon_16.png");
+      transform:rotate(90deg);      
+      -ms-transform:rotate(90deg); /* IE 9 */
+      -webkit-transform:rotate(90deg);
+    }
+    .delete-btn {
+      float:right;
+      background: url("/images/cc/white/png/icons_16/trash_icon_16.png");
     }
   }
 }

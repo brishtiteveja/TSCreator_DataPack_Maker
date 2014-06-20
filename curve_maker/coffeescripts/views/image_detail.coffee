@@ -69,6 +69,10 @@ define ["./detail"], (Detail) ->
       @rBackgroundImage.toBack()
       @
     changeBackgroundImageAttributes: (m, value, options) =>
+      # Note: when bulk loading image attributes, dataURL better be on top
+      # If curWidth or Height comes before dataURL,
+      # resizing can be ignore due to the order of events.
+      # Or we may keep reuse @rBackgroundImage...
       if @rBackgroundImage?
         @rBackgroundImage.attr
           width: m.get("curWidth")

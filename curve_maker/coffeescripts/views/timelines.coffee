@@ -9,10 +9,14 @@ define ["./detail", "../models/timelines", "./timeline"], (Detail, TimelineColle
 
       @listenTo(@timelines, "add", @addOne)
 
+      @overlay = @mainCanvasView.createInfiniteOverlay()
+      @listenTo(@mainCanvasView, "start:addingTimeline", @start)
+      @listenTo(@mainCanvasView, "stop:addingTimeline", @stop)
+
       # TODO: debugging
-      @listenTo(@timelines,
-        "change": @logger
-      )
+      #@listenTo(@timelines,
+      #  "change": @logger
+      #)
 
       @
     addOne: (m) =>
@@ -23,9 +27,29 @@ define ["./detail", "../models/timelines", "./timeline"], (Detail, TimelineColle
       m.view = newTimelineView
       @$el.append(newTimelineView.el)
       @
-    logger: (m, value) ->
-      console.log value
+
+    start: () =>
+      @overlay.toFront()
+      @overlay.dblclick(@addingNewTimeline)
+      console.log @overlay
       @
+    stop: () =>
+      @overlay.toBack()
+      @overlay.undblclick(@addingNewTimeline)
+      console.log @overlay
+      @
+    addingNewTimeline: (evt, clientX, clientY) =>
+      position = @mainCanvasView.getCurrentPositionFromOffset(evt.offsetX, evt.offsetY)
+      @timelines.addOneWithY(position.y)
+      @
+
     render: () =>
       _.each(@timelines, @addOne)
       @
+
+
+    # TODO: debugging
+    logger: (m, options) ->
+      console.log m
+      @
+    
