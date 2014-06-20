@@ -3,76 +3,62 @@
 @import "polygons";
 @import "image_settings";
 @import "default_settings";
+@import "default_panel";
 
 #settings {
-	@include sidebar_style;
-	@include disable_double_click_select;
-	
-	height: 100%;
-	padding: 0px;
-	margin: 0px;
-
-	.canvas-status {
-
-		margin: 0px;
-		padding: 0px;
-
-		> ul {
-
-			> h3 {
-				color: #fff;
-			}
-
-			@include display_background;
-			@include rounded_borders(#000, 2px);
-			@include settings_font;
-
-			margin: 3px;
-			> li {
-				padding: 5px;
-				font-size: 14px;
-				list-style-type: none;
-				border-top: 1px solid #fff;
-			}
-		}
-	}
-
-	> .settings-nav {
-
-		height: 100%;
-		overflow: auto;
-		ul.custom-sidenav-class {
-			padding: 0px;
-			
-			li {
-				border-bottom: 1px solid #000;
-				margin: 0px;
-
-				&:hover {
-					@include hover;
-				}
-
-				&:active {
-					@include click;
-				}
-
-				a {
-					@include app_font;
-					padding: 5px;
-					padding-left: 35px;
-					font-size: 16px;
-					height: 35px;
-					width: 100%;
-					&.active {
-						@include selected;
-					}
-				}
-				
-				&.active {
-					@include selected;
-				}
-
-			}
-		}
-	}
+    @include sidebar_style;
+    @include disable_double_click_select;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    .canvas-status {
+        margin: 0px;
+        padding: 0px;
+        > ul {
+            > h3 {
+                color: #fff;
+            }
+            @include display_background;
+            @include rounded_borders(black, 2px);
+            @include settings_font;
+            margin: 3px;
+            > li {
+                padding: 5px;
+                font-size: 14px;
+                list-style-type: none;
+                border-top: 1px solid #fff;
+            }
+        }
+    }
+    > .settings-nav {
+        height: 100%;
+        overflow: auto;
+        ul.custom-sidenav-class {
+            padding: 0px;
+            li {
+                border-bottom: 1px solid #000;
+                margin: 0px;
+                &:hover {
+                    @include hover;
+                }
+                &:active {
+                    @include click;
+                }
+                a {
+                    @include app_font;
+                    padding: 5px;
+                    padding-left: 35px;
+                    font-size: 16px;
+                    height: 35px;
+                    width: 100%;
+                    &.active {
+                        @include selected;
+                    }
+                }
+                &.active {
+                    @include selected;
+                }
+            }
+        }
+    }
 }

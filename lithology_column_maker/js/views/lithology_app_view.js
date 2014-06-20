@@ -77,6 +77,24 @@ define([
 
 		this.loadPatternsDataAndRender();
 
+		// Initialize the models
+		this.app.ImageOb = new ImageOb({});
+		this.app.Paper = new Raphael(this.$canvas[0], 2000, 2000);
+		// 
+		this.app.MarkersSet = this.app.Paper.set();
+		this.app.LithologyMarkersSet = this.app.Paper.set();
+		this.app.LithologyGroupMarkersSet = this.app.Paper.set();
+		this.app.LithologysSet = this.app.Paper.set();
+		this.app.LithologyGroupsSet = this.app.Paper.set();
+
+
+		this.lithology2dView = new Lithology2dView(this.app);
+
+		this.app.lithology2dView = this.lithology2dView;
+
+		// This should come after lithology2dview as the app also inludes it.
+		this.app.loader = new Loader(this.app);
+		this.app.exporter = new Exporter(this.app);
 
 
 		$('.linked').scroll(function() {
@@ -116,25 +134,6 @@ define([
 	}
 
 	LithologyAppView.prototype.render = function() {
-
-		// Initialize the models
-		this.app.ImageOb = new ImageOb({});
-		this.app.Paper = new Raphael(this.$canvas[0], 2000, 2000);
-		// 
-		this.app.MarkersSet = this.app.Paper.set();
-		this.app.LithologyMarkersSet = this.app.Paper.set();
-		this.app.LithologyGroupMarkersSet = this.app.Paper.set();
-		this.app.LithologysSet = this.app.Paper.set();
-		this.app.LithologyGroupsSet = this.app.Paper.set();
-
-
-		this.lithology2dView = new Lithology2dView(this.app);
-
-		this.app.lithology2dView = this.lithology2dView;
-
-		//
-		this.app.loader = new Loader(this.app);
-		this.app.exporter = new Exporter(this.app);
 
 		this.rulerView = new RulerView(this.app);
 

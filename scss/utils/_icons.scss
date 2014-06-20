@@ -5,6 +5,13 @@
 	height: 32px;
 }
 
+@mixin icon_48 {
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 48px;
+	height: 48px;
+}
+
 @mixin icon_16 {
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
@@ -140,4 +147,34 @@
 .icons_32-globe_2_icon_32 {
 	background: url('/images/cc/black/png/icons_32/globe_2_icon_32.png');
 	@include icon_32;
+}
+
+.icons_48-playback_play_icon_48 {
+	background: url('/images/cc/white/png/icons_48/playback_play_icon_48.png');
+	@include icon_48;
+}
+
+.icons_48-playback_ff_icon_48 {
+	background: url('/images/cc/white/png/icons_48/playback_ff_icon_48.png');
+	@include icon_48;
+}
+
+.icons_48-playback_pause_icon_48 {
+	background: url('/images/cc/white/png/icons_48/playback_pause_icon_48.png');
+	@include icon_48;
+}
+
+.icons_48-playback_rew_icon_48 {
+	background: url('/images/cc/white/png/icons_48/playback_rew_icon_48.png');
+	@include icon_48;
+}
+
+.icons_48-playback_reload_icon_48 {
+	background: url('/images/cc/white/png/icons_48/playback_reload_icon_48.png');
+	@include icon_48;
+}
+
+.icons_48-playback_stop_icon_48 {
+	background: url('/images/cc/white/png/icons_48/playback_stop_icon_48.png');
+	@include icon_48;
 }
