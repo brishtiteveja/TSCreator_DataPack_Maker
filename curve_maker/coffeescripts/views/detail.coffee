@@ -2,17 +2,21 @@ define ["../models/detail"], (DetailModel) ->
   class Detail extends Backbone.View
     tagName: "div"
     className: "detail-panel"
-    initialize: () ->
-      @model.on("change:isActivated", @togglePanel)
+    initialize: (options) ->
+      # Main Canvas is available for all detailViews
+      @mainCanvasView = options.mainCanvasView
+
+      @listenTo(@model, "change:isActivated", @togglePanel)
+      @template = @model.get("template") or new EJS(text: "<div>Coming soon... (<%= text %>)</div>")
+      @togglePanel()   # initially hide panel 
       @
     togglePanel: () =>
       if @model.get("isActivated")
-        @$el.show()
+        @$el.css("display", "inline-block")
       else
         @$el.hide()
       @
     render: () =>
-      @$el.html("<div>temporary! #{@model.get("name")}</div>")
-      @togglePanel()
+      @$el.html(@template.render(@model.toJSON()))
       @
 

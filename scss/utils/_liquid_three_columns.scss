@@ -4,14 +4,14 @@ $right-column-width: 130px;
 $right-column-padding: 0px;
 $main-column-width: $min-page-width - $left-column-width - $right-column-width;
 
-div.colmask {
+.colmask {
   position:relative;		/* This fixes the IE7 overflow hidden bug and stops the layout jumping out of place */
   clear:both;
   float:left;
   width:100%;			/* width of whole page */
   overflow:hidden;		/* This chops off any overhanging divs */
 }
-div.colmid {
+.colmid {
   float:left;
   width:200%;
   margin-left:-$right-column-width; 	/* Width of right column */
@@ -19,7 +19,7 @@ div.colmid {
   right:100%;
   background:#fff;    	/* Centre column background colour */
 }
-div.colleft {
+.colleft {
   float:left;
   width:100%;
   margin-left:-50%;
@@ -27,14 +27,14 @@ div.colleft {
   left:$left-column-width + $right-column-width;         	/* Left column width + right column width */
   background:#FFD8B7;   /* Left column background colour */
 }
-div.col1wrap {
+.col1wrap {
   float:left;
   width:50%;
   position:relative;
   right:$left-column-width;        	/* Width of left column */
   //padding-bottom:1em; 	/* Centre column bottom padding. Leave it out if it's zero */
 }
-main.col1 {
+.col1 {
   margin:0px $right-column-width 0px $left-column-width;
                             /* Centre column side padding:
                              Left padding = left column width + centre column left padding width
@@ -43,14 +43,14 @@ main.col1 {
   left:200%;
   overflow:hidden;
 }
-div.col2 {
+.col2 {
   float:left;
   float:right;	        /* This overrides the float:left above */
   width:$left-column-width;   /* Width of left column content (left column width minus left and right padding) */
   position:relative;
   //right:15px;         	/* Width of the left-hand side padding on the left column */
 }
-div.col3 {
+.col3 {
   float:left;
   float:right;	      	/* This overrides the float:left above */
   width:$right-column-width;

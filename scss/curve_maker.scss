@@ -1,9 +1,11 @@
 @import "utils/styles";
+@import "utils/top_notifications";
+@import "utils/cursor_types";
 
 body {
-  @include prevent_drag_and_drop;
   min-width: 800px;
   font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+  overflow: hidden;
 
   #canvas {
     width: 100%;
@@ -22,13 +24,21 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans","Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
   font-weight: 300;
   font-style: normal;
-  color: #222222;
   text-rendering: optimizeLegibility;
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;
   line-height: 1.4;
 }
 
+input[type="text"], input[type="password"], input[type="date"],
+input[type="datetime"], input[type="datetime-local"], input[type="month"],
+input[type="week"], input[type="email"], input[type="number"],
+input[type="search"], input[type="tel"], input[type="time"],
+input[type="url"], textarea {
+  border: 1px solid #CCCCCC;
+  color: rgba(0,0,0,0.75);
+  padding: 8px 8px;
+}
 
 @import "utils/liquid_three_columns";
 
@@ -46,7 +56,7 @@ span.icon {
   display: inline-block;
   cursor: pointer;
 }
-.drag-box {
+.file-dropbox {
   overflow: hidden;
   -moz-border-radius: 5px 5px;
   -webkit-border-radius: 5px 5px;
@@ -56,8 +66,8 @@ span.icon {
   border: 5px #aaa dashed;
   text-align: center;
 }
-.drag-box:hover {
-  background: #F1F1F1;
+.file-dropbox:active, .file-dropbox:focus, .file-dropbox:hover {
+  cursor: copy;
 }
 
 
@@ -65,11 +75,17 @@ span.icon {
 main {
   background: #333333;
   cursor: crosshair;
+  svg {
+    background: #FFFFFF;
+  }
 }
 
 .introduction {
   margin: 100px 60px;
   background: #FFFFFF;
+  h1 {
+    color: #222222;
+  }
   .tool-name-column {
     float: left;
     width: 280px;
@@ -88,11 +104,15 @@ main {
   .row {
     padding: 10px 0px;
   }
-  .drag-box {
+  .data-dropbox {
     color: #6F6F6F;
     padding: 20px 0px;
-    font-size: 1.3em;
+    //font-size: 1.3em;
+    font-size: 21px;
     font-weight: 100;
+    &:active, &:focus, &:hover {
+      background: #F1F1F1;
+    }
   }
   .continue {
     float: right;
@@ -101,61 +121,79 @@ main {
 }
 
 
+
 /* Toolbar Panel */
 .toolbar {
   @include sidebar_style;
-  overflow: auto;
-  > div {
+  overflow: hidden;
+  &:hover {
+    overflow-y: auto;
+  }
+  .tool {
     border-bottom: 1px solid #000;
     height: 40px;
     margin: 0px;
     padding: 8px 0px 0px 11px;
     cursor: pointer;
+    &:active {
+      background: #333333;
+    }
   }
   .selected {
     background: #777777;
   }
 }
 
-.maker-tool {
-  background: url('/images/cc/black/png/icons_32-sb581baf3ca.png');
-  background-repeat: no-repeat;
-  height: 32px;
-  width: 32px;
+.tool {
+  .icon {
+    background: url('/images/cc/black/png/icons_32-sb581baf3ca.png');
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+  }
 }
-.tool-pointer { background-position: 0px -1920px; }
-.tool-lock-cursor-h { background-position: 0px -5792px; }
-.tool-lock-cursor-v { background-position: 0px -5792px; }
-.tool-zoom-in { background-position: 0px -2688px; }
-.tool-zoom-out { background-position: 0px -2688px; }
-.tool-pan { background-position: 0px -1088px; }
-.tool-add-marker { background-position: 0px -7584px; }
-.tool-add-well { background-position: 0px -7712px; }
-.tool-add-range-lines { background-position: 0px -288px; }
-.tool-add-polygon { background: url('/images/icons/polygon4.png'); background-position: 0px 0px;}
-.tool-new-polygon { background-position: 0px -8800px; }
-.tool-add-transect-text { background-position: 0px -8736px; }
-.tool-show-ref-panel { background-position: 0px -7968px; }
-.tool-save-to-local-storage { background-position: 0px -8704px; }
-.tool-reload-data { background-position: 0px -6464px; }
-.tool-export-data { background-position: 0px -3712px; }
-.tool-file-system { background-position: 0px -768px; }
+.icon.pointer { background-position: 0px -1920px; }
+.icon.lock-cursor-h { background-position: 0px -5792px; }
+.icon.lock-cursor-v { background-position: 0px -5792px; }
+.icon.zoom-in { background-position: 0px -2688px; }
+.icon.zoom-out { background-position: 0px -2688px; }
+.icon.pan { background-position: 0px -1088px; }
+.icon.add-timeline { background-position: 0px -7584px; }
+.icon.add-well { background-position: 0px -7712px; }
+.icon.add-range-lines { background-position: 0px -288px; }
+.icon.add-new-curve { background: url('/images/icons/add-curve-tool-32.png'); background-position: 0px 0px; }
+.icon.add-new-event { background: url('/images/icons/add-event-tool-32.png'); background-position: 0px 0px; }
+.icon.add-polygon { background: url('/images/icons/polygon4.png'); background-position: 0px 0px; }
+.icon.new-polygon { background-position: 0px -8800px; }
+.icon.add-transect-text { background-position: 0px -8736px; }
+.icon.show-ref-panel { background-position: 0px -7968px; }
+.icon.save-to-local-storage { background-position: 0px -8704px; }
+.icon.reload-data { background-position: 0px -6464px; }
+.icon.export-data { background-position: 0px -3712px; }
+.icon.file-system { background-position: 0px -768px; }
 
 
 /* Details Panel */
 .details {
   @include sidebar_style;
-  overflow: auto;
   .selected {
     background: #333333;
     color: #FFFFFF;
   }
 }
-.detail-button {
-  height: 36px;
-  padding: 0px 5px;
-  border-bottom: 1px solid #000;
-  cursor: pointer;
+.detail-buttons {
+  overflow: hidden;
+  height: inherit;
+  white-space: nowrap;
+  &:hover {
+    overflow-y: auto;
+  }
+  .detail-button {
+    height: 36px;
+    padding: 0px 5px;
+    border-bottom: 1px solid #000;
+    cursor: pointer;
+  }
   .detail-button-settings-icon {
     background: url('/images/cc/black/png/icons_32-sb581baf3ca.png');
     background-position: 0px -864px;
@@ -175,12 +213,52 @@ main {
   position: absolute;
   top: 0px;
   right: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: inherit;
   .detail-panel {
-    height: 1000px;
+    min-height: 100%;
     width: 400px;
+    padding: 0px 20px;
     background: #333333;
     color: #FFFFFF;
-    opacity: 80%;
+    opacity: 0.85;
+    h3 {
+      //font-size: 1.6rem;
+      font-size: 24px;
+    }
+    label {
+      //font-size: 0.8rem;
+      font-size: 14px;
+      margin-left: 5px;
+    }
+    .row {
+      padding: 5px 2px 5px 2px;
+      overflow: auto;
+    }
+    .multiline-input {
+      width: 120px;
+      margin-right: 5px;
+      float: left;
+      > * {
+        width: 100px;
+      }
+      input {
+        margin-top: 10px;
+      }
+    }
+    .image-dropbox {
+      padding: 100px 0px;
+      font-size: 20px;
+      font-weight: 100;
+      &:active, &:focus, &:hover {
+        background: #434343;
+      }
+    }
+    .data-list {
+      margin: 8px 0px;
+      border-bottom: 1px solid #F1F1F1;
+    }
   }
 }
 

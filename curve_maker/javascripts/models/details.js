@@ -18,7 +18,7 @@
       Details.prototype.activatedDetailModel = null;
 
       Details.prototype.initialize = function() {
-        this.on("toggleDetail", this.toggleDetail);
+        this.listenTo(this, "toggleDetail", this.toggleDetail);
         return this;
       };
 

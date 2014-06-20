@@ -5,7 +5,7 @@ define ["../models/detail"], (DetailModel) ->
     events:
       "click": "toggleDetail"
     initialize: () ->
-      @model.on("change:isActivated", @changeClassName)
+      @listenTo(@model, "change:isActivated", @changeClassName)
       @
     toggleDetail: ($evt) =>
       $evt.preventDefault()

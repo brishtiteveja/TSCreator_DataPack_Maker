@@ -1,0 +1,19 @@
+.cursor-timeline {
+  cursor: row-resize;
+}
+.cursor-workspace {
+  cursor: col-resize;  
+}
+.cursor-panning {
+  cursor: move;
+}
+.cursor-zoom-in {
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in;
+}
+.cursor-zoom-in {
+  cursor: -webkit-zoom-out;
+  cursor: -moz-zoom-out;
+  cursor: zoom-out;
+}

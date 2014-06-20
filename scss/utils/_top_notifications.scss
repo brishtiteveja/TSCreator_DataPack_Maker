@@ -1,0 +1,15 @@
+.notifications {
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  z-index: 99999;
+  text-align: center;
+  .notification {
+    padding: 2px 20px;
+    display: table;
+    margin: auto;
+  }
+  .info {
+    background: #BBBB55;
+  }
+}

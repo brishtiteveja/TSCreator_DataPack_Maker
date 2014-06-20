@@ -18,14 +18,19 @@
 
       Detail.prototype.className = "detail-panel";
 
-      Detail.prototype.initialize = function() {
-        this.model.on("change:isActivated", this.togglePanel);
+      Detail.prototype.initialize = function(options) {
+        this.mainCanvasView = options.mainCanvasView;
+        this.listenTo(this.model, "change:isActivated", this.togglePanel);
+        this.template = this.model.get("template") || new EJS({
+          text: "<div>Coming soon... (<%= text %>)</div>"
+        });
+        this.togglePanel();
         return this;
       };
 
       Detail.prototype.togglePanel = function() {
         if (this.model.get("isActivated")) {
-          this.$el.show();
+          this.$el.css("display", "inline-block");
         } else {
           this.$el.hide();
         }
@@ -33,8 +38,7 @@
       };
 
       Detail.prototype.render = function() {
-        this.$el.html("<div>temporary! " + (this.model.get("name")) + "</div>");
-        this.togglePanel();
+        this.$el.html(this.template.render(this.model.toJSON()));
         return this;
       };
 

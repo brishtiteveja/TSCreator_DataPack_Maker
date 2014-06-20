@@ -24,7 +24,7 @@
       };
 
       DetailButton.prototype.initialize = function() {
-        this.model.on("change:isActivated", this.changeClassName);
+        this.listenTo(this.model, "change:isActivated", this.changeClassName);
         return this;
       };
 

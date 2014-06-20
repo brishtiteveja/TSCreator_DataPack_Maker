@@ -1,0 +1,196 @@
+(function() {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define([], function() {
+    var INF, MainCanvas;
+    INF = 500000;
+    return MainCanvas = (function(_super) {
+      __extends(MainCanvas, _super);
+
+      function MainCanvas() {
+        this.zoomUpdate = __bind(this.zoomUpdate, this);
+        this.zoomOut = __bind(this.zoomOut, this);
+        this.zoomIn = __bind(this.zoomIn, this);
+        this.stopPanning = __bind(this.stopPanning, this);
+        this.startPanning = __bind(this.startPanning, this);
+        this.onPanningEnd = __bind(this.onPanningEnd, this);
+        this.onPanningMove = __bind(this.onPanningMove, this);
+        this.onPanningStart = __bind(this.onPanningStart, this);
+        this.createImage = __bind(this.createImage, this);
+        this.createPath = __bind(this.createPath, this);
+        this.createRect = __bind(this.createRect, this);
+        this.render = __bind(this.render, this);
+        this.resize = __bind(this.resize, this);
+        this.startAndLoadDatafile = __bind(this.startAndLoadDatafile, this);
+        this.loadDatafile = __bind(this.loadDatafile, this);
+        this.showPaper = __bind(this.showPaper, this);
+        return MainCanvas.__super__.constructor.apply(this, arguments);
+      }
+
+      MainCanvas.prototype.tagName = "main";
+
+      MainCanvas.prototype.introTemplate = new EJS({
+        url: "templates/intro.ejs"
+      });
+
+      MainCanvas.prototype.events = {
+        "drop .data-dropbox": "startAndLoadDatafile",
+        "click .continue": "showPaper"
+      };
+
+      MainCanvas.prototype.initialize = function(options) {
+        this.masterView = options.masterView;
+        this.$intro = $(this.introTemplate.render());
+        this.curDimension = null;
+        this.curViewBox = {
+          x: 0,
+          y: 0
+        };
+        this.rPaper = Raphael(this.el, "100%", "100%");
+        this.initPan();
+        this.initZoom();
+        window.x = this.rPaper;
+        return this;
+      };
+
+      MainCanvas.prototype.showPaper = function() {
+        this.$intro.hide();
+        $(this.rPaper.canvas).show();
+        return this;
+      };
+
+      MainCanvas.prototype.loadDatafile = function($evt) {
+        $evt.preventDefault();
+        $evt.stopPropagation();
+        $evt.originalEvent.dataTransfer.files.length !== 1;
+        console.log($evt.originalEvent.dataTransfer.files[0]);
+        return this;
+      };
+
+      MainCanvas.prototype.startAndLoadDatafile = function($evt) {
+        this.showPaper();
+        this.loadDatafile($evt);
+        return this;
+      };
+
+      MainCanvas.prototype.resize = function(dimension) {
+        this.curDimension = dimension;
+        this.$el.css({
+          height: this.curDimension.height
+        });
+        this.rPaper.setViewBox(this.curViewBox.x, this.curViewBox.y, this.curDimension.width * this.zoomMultiplier, this.curDimension.height * this.zoomMultiplier);
+        return this;
+      };
+
+      MainCanvas.prototype.render = function() {
+        $(this.rPaper.canvas).hide();
+        this.$el.append(this.$intro);
+        return this;
+      };
+
+      MainCanvas.prototype.createRect = function() {
+        return this.rPaper.rect.apply(this.rPaper, arguments);
+      };
+
+      MainCanvas.prototype.createPath = function() {
+        return this.rPaper.path.apply(this.rPaper, arguments);
+      };
+
+      MainCanvas.prototype.createImage = function() {
+        return this.rPaper.image.apply(this.rPaper, arguments);
+      };
+
+      MainCanvas.prototype.initPan = function() {
+        this.panOverlay = this.rPaper.rect(-INF, -INF, 2 * INF, 2 * INF);
+        this.panOverlay.attr({
+          "fill": "#FFFFFF",
+          "fill-opacity": 0,
+          "stroke-width": 0
+        });
+        this.stopPanning();
+        this.listenTo(this, "start:panning", this.startPanning);
+        this.listenTo(this, "stop:panning", this.stopPanning);
+        return this;
+      };
+
+      MainCanvas.prototype.onPanningStart = function(x, y, evt) {
+        return this;
+      };
+
+      MainCanvas.prototype.onPanningMove = function(dx, dy, x, y, evt) {
+        var newX, newY;
+        newX = this.curViewBox.x - (dx * this.zoomMultiplier);
+        newY = this.curViewBox.y - (dy * this.zoomMultiplier);
+        this.rPaper.setViewBox(newX, newY, this.curDimension.width * this.zoomMultiplier, this.curDimension.height * this.zoomMultiplier);
+        return this;
+      };
+
+      MainCanvas.prototype.onPanningEnd = function(evt) {
+        var viewBox;
+        viewBox = this.rPaper.canvas.viewBox.baseVal;
+        this.curViewBox = {
+          x: viewBox.x,
+          y: viewBox.y
+        };
+        return this;
+      };
+
+      MainCanvas.prototype.startPanning = function() {
+        this.panOverlay.drag(this.onPanningMove, this.onPanningStart, this.onPanningEnd);
+        this.panOverlay.toFront();
+        this.$el.addClass("cursor-panning");
+        return this;
+      };
+
+      MainCanvas.prototype.stopPanning = function() {
+        this.panOverlay.toBack();
+        this.panOverlay.undrag();
+        this.$el.removeClass("cursor-panning");
+        return this;
+      };
+
+      MainCanvas.prototype.initZoom = function() {
+        this.defaultZoom = 5;
+        this.zoom = this.defaultZoom;
+        this.zoomMultiplier = this.defaultZoom / this.zoom;
+        this.listenTo(this, "zoomIn", this.zoomIn);
+        this.listenTo(this, "zoomOut", this.zoomOut);
+        return this;
+      };
+
+      MainCanvas.prototype.zoomIn = function() {
+        if (this.zoom < 20) {
+          this.zoom += 1;
+          this.zoomMultiplier = this.defaultZoom / this.zoom;
+          this.zoomUpdate();
+        } else {
+          this.masterView.trigger("showInfo", "You cannot zoom-in anymore.", 50);
+        }
+        return this;
+      };
+
+      MainCanvas.prototype.zoomOut = function() {
+        if (this.zoom > 1) {
+          this.zoom -= 1;
+          this.zoomMultiplier = this.defaultZoom / this.zoom;
+          this.zoomUpdate();
+        } else {
+          this.masterView.trigger("showInfo", "You cannot zoom-out anymore.", 50);
+        }
+        return this;
+      };
+
+      MainCanvas.prototype.zoomUpdate = function() {
+        this.rPaper.setViewBox(this.curViewBox.x, this.curViewBox.y, this.curDimension.width * this.zoomMultiplier, this.curDimension.height * this.zoomMultiplier);
+        this.masterView.trigger("showInfo", "Zoom: " + (Math.round((1 / this.zoomMultiplier) * 100)) + "%", 50);
+        return this;
+      };
+
+      return MainCanvas;
+
+    })(Backbone.View);
+  });
+
+}).call(this);

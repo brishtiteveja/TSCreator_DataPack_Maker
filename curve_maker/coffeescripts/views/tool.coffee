@@ -1,14 +1,15 @@
 define ["../models/tool"], (ToolModel) ->
   class Tool extends Backbone.View
     tagName: "div"
+    className: "tool"
     events:
-      "click": "toggleTool"
+      "click": "selectTool"
     initialize: () ->
-      @model.on("change:isActivated", @changeClassName)
+      @listenTo(@model, "change:isActivated", @changeClassName)
       @
-    toggleTool: ($evt) =>
+    selectTool: ($evt) =>
       $evt.preventDefault()
-      @model.collection.trigger("toggleTool", @model)
+      @model.collection.trigger("selectTool", @model)
       @
     changeClassName: () =>
       if @model.get("isActivated") and not @$el.hasClass("selected")
@@ -18,7 +19,7 @@ define ["../models/tool"], (ToolModel) ->
       @
     render: () =>
       @$link = $("<span/>",
-        class: "maker-tool icon"
+        class: "icon"
         title: @model.get("title")
       ).addClass(@model.get("name"))
       @$el.html(@$link)

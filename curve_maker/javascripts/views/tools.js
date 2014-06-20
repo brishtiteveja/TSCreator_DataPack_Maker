@@ -9,17 +9,28 @@
       __extends(Tools, _super);
 
       function Tools() {
+        this.deactivateTogglableTool = __bind(this.deactivateTogglableTool, this);
+        this.activateTogglableTool = __bind(this.activateTogglableTool, this);
+        this.deactivateAllTogglableTools = __bind(this.deactivateAllTogglableTools, this);
+        this.selectTool = __bind(this.selectTool, this);
         this.render = __bind(this.render, this);
-        this.activateTool = __bind(this.activateTool, this);
+        this.resize = __bind(this.resize, this);
+        this.forceToRedraw = __bind(this.forceToRedraw, this);
         this.addOne = __bind(this.addOne, this);
         return Tools.__super__.constructor.apply(this, arguments);
       }
 
       Tools.prototype.tagName = "div";
 
+      Tools.prototype.events = {
+        "mouseleave": "forceToRedraw"
+      };
+
       Tools.prototype.initialize = function(options) {
-        this.toolList = new ToolCollection();
-        this.toolList.on("add", this.addOne);
+        this.collection = new ToolCollection();
+        this.listenTo(this.collection, "add", this.addOne);
+        this.listenTo(this.collection, "selectTool", this.selectTool);
+        this.listenTo(this, "deactivateAll", this.deactivateAllTogglableTools);
         return this;
       };
 
@@ -33,63 +44,198 @@
         return this;
       };
 
-      Tools.prototype.activateTool = function() {
+      Tools.prototype.forceToRedraw = function($evt) {
+        this.$el.hide().show(0);
+        return this;
+      };
+
+      Tools.prototype.resize = function(dimension) {
+        this.$el.css(dimension);
         return this;
       };
 
       Tools.prototype.render = function() {
-        this.toolList.add({
-          name: "tool-pointer",
+        this.collection.add({
+          name: "pointer",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "noop",
+            stopEvent: "noop"
+          },
           title: "mouse pointer"
         });
-        this.toolList.add({
-          name: "tool-lock-cursor-h",
+        this.collection.add({
+          name: "lock-cursor-h",
+          action: {
+            type: "toggle",
+            groupId: 2,
+            startEvent: "noop",
+            stopEvent: "noop"
+          },
           title: "lock cursor in X."
         });
-        this.toolList.add({
-          name: "tool-lock-cursor-v",
+        this.collection.add({
+          name: "lock-cursor-v",
+          action: {
+            type: "toggle",
+            groupId: 2,
+            startEvent: "noop",
+            stopEvent: "noop"
+          },
           title: "lock cursor in V."
         });
-        this.toolList.add({
-          name: "tool-zoom-in",
+        this.collection.add({
+          name: "zoom-in",
+          action: {
+            type: "click",
+            event: "zoomIn"
+          },
           title: "zoom in"
         });
-        this.toolList.add({
-          name: "tool-zoom-out",
+        this.collection.add({
+          name: "zoom-out",
+          action: {
+            type: "click",
+            event: "zoomOut"
+          },
           title: "zoom out"
         });
-        this.toolList.add({
-          name: "tool-pan",
+        this.collection.add({
+          name: "pan",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:panning",
+            stopEvent: "stop:panning"
+          },
           title: "move"
         });
-        this.toolList.add({
-          name: "tool-add-marker",
+        this.collection.add({
+          name: "add-timeline",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:addingTimeline",
+            stopEvent: "stop:addingTimeline"
+          },
           title: "create a new timeline"
         });
-        this.toolList.add({
-          name: "tool-add-range-lines",
+        this.collection.add({
+          name: "add-range-lines",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:addingRange",
+            stopEvent: "stop:addingRange"
+          },
           title: "Set up range reference lines"
         });
-        this.toolList.add({
-          name: "tool-show-ref-panel",
+        this.collection.add({
+          name: "add-new-curve",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:addingCurve",
+            stopEvent: "stop:addingCurve"
+          },
+          title: "Add a new curve"
+        });
+        this.collection.add({
+          name: "show-ref-panel",
+          action: {
+            type: "toggle",
+            groupId: 3,
+            startEvent: "showRefTimelines",
+            stopEvent: "hideRefTimelines"
+          },
           title: "show reference panel"
         });
-        this.toolList.add({
-          name: "tool-save-to-local-storage",
+        this.collection.add({
+          name: "save-to-local-storage",
+          action: {
+            type: "click",
+            event: "localSave"
+          },
           title: "save to local storage"
         });
-        this.toolList.add({
-          name: "tool-reload-data",
+        this.collection.add({
+          name: "reload-data",
+          action: {
+            type: "click",
+            event: "quickReload"
+          },
           title: "reload data from local storage"
         });
-        this.toolList.add({
-          name: "tool-export-data",
+        this.collection.add({
+          name: "export-data",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "showExportPreview",
+            stopEvent: "hideExportPreview"
+          },
           title: "export data"
         });
-        this.toolList.add({
-          name: "tool-file-system",
+        this.collection.add({
+          name: "file-system",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "showSandbox",
+            stopEvent: "hideSandbox"
+          },
           title: "sandbox"
         });
+        return this;
+      };
+
+      Tools.prototype.selectTool = function(m) {
+        var action;
+        action = m.get("action");
+        if (action.type === "click") {
+          this.trigger(action.event);
+        } else if (action.type === "toggle") {
+          this.collection.chain().select(function(tool) {
+            var a;
+            a = tool.get("action");
+            return tool.isActivated() && tool !== m && a.type === action.type && a.groupId === action.groupId;
+          }).each(this.deactivateTogglableTool);
+          if (m.isActivated()) {
+            this.deactivateTogglableTool(m);
+          } else {
+            this.activateTogglableTool(m);
+          }
+        }
+        return this;
+      };
+
+      Tools.prototype.deactivateAllTogglableTools = function() {
+        this.collection.chain().select(function(tool) {
+          var a;
+          a = tool.get("action");
+          return tool.isActivated() && a.type === "toggle";
+        }).each(this.deactivateTogglableTool);
+        return this;
+      };
+
+      Tools.prototype.activateTogglableTool = function(m) {
+        var a;
+        a = m.get("action");
+        if (a.type === "toggle") {
+          m.activate();
+          this.trigger(a.startEvent);
+        }
+        return this;
+      };
+
+      Tools.prototype.deactivateTogglableTool = function(m) {
+        var a;
+        a = m.get("action");
+        if (a.type === "toggle") {
+          m.deactivate();
+          this.trigger(a.stopEvent);
+        }
         return this;
       };
 

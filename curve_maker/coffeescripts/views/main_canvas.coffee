@@ -1,0 +1,138 @@
+define [], () ->
+  INF = 500000
+  class MainCanvas extends Backbone.View
+    tagName: "main"
+    introTemplate: new EJS(url: "templates/intro.ejs")
+    events:
+      "drop .data-dropbox": "startAndLoadDatafile"
+      "click .continue": "showPaper"
+    initialize: (options) ->
+      @masterView = options.masterView
+      # Introduction
+      @$intro = $(@introTemplate.render())
+
+      @curDimension = null
+      @curViewBox = { x: 0, y: 0 }
+
+      # Main canvas
+      @rPaper = Raphael(@el, "100%", "100%")
+      @initPan()
+      @initZoom()
+
+      # TODO: debugging
+      window.x = @rPaper
+      #window.y = @panOverlay
+      #window.t = @
+      @
+    showPaper: () =>
+      @$intro.hide()
+      $(@rPaper.canvas).show()
+      @
+    loadDatafile: ($evt) =>
+      $evt.preventDefault()
+      $evt.stopPropagation()
+      
+      $evt.originalEvent.dataTransfer.files.length isnt 1
+      console.log $evt.originalEvent.dataTransfer.files[0]
+      @
+    startAndLoadDatafile: ($evt) =>
+      @showPaper()
+      @loadDatafile($evt)
+      @
+    resize: (dimension) =>
+      @curDimension = dimension
+      @$el.css(height: @curDimension.height)
+      @rPaper.setViewBox(@curViewBox.x, @curViewBox.y,
+                         @curDimension.width * @zoomMultiplier, @curDimension.height * @zoomMultiplier)
+      @
+    render: () =>
+      $(@rPaper.canvas).hide()
+      @$el.append(@$intro)
+      @
+
+    # Creating new Raphael elments
+    createRect: () =>
+      @rPaper.rect.apply(@rPaper, arguments)
+    createPath: () =>
+      @rPaper.path.apply(@rPaper, arguments)
+    createImage: () =>
+      @rPaper.image.apply(@rPaper, arguments)
+
+
+    # Panning
+    initPan: () ->
+      # set up psuedo-infinite overlay
+      #@panOverlay = @rPaper.rect(@curViewBox.x, @curViewBox.y, "100%", "100%")
+      @panOverlay = @rPaper.rect(-INF, -INF, 2*INF, 2*INF)
+      @panOverlay.attr
+        "fill": "#FFFFFF"
+        "fill-opacity": 0
+        "stroke-width": 0
+      @stopPanning()
+
+      # register panning events
+      @listenTo(@, "start:panning", @startPanning)
+      @listenTo(@, "stop:panning", @stopPanning)
+
+      @
+    onPanningStart: (x, y, evt) =>
+      @
+    onPanningMove: (dx, dy, x, y, evt) =>
+      newX = @curViewBox.x - (dx * @zoomMultiplier)
+      newY = @curViewBox.y - (dy * @zoomMultiplier)
+      # used to adjust background image here...
+      @rPaper.setViewBox(newX, newY,
+                         @curDimension.width * @zoomMultiplier, @curDimension.height * @zoomMultiplier)
+      @
+    onPanningEnd: (evt) =>
+      viewBox = @rPaper.canvas.viewBox.baseVal
+      @curViewBox =
+        x: viewBox.x
+        y: viewBox.y
+      # No need to adjust pseudo-infinite overlay
+      #@panOverlay.attr(@curViewBox)
+      @
+    startPanning: () =>
+      @panOverlay.drag(@onPanningMove, @onPanningStart, @onPanningEnd)
+      @panOverlay.toFront()
+      @$el.addClass("cursor-panning")
+      @
+    stopPanning: () =>
+      @panOverlay.toBack()
+      @panOverlay.undrag()
+      @$el.removeClass("cursor-panning")
+      @
+
+    # Zooming
+    initZoom: () ->
+      @defaultZoom = 5
+      @zoom = @defaultZoom
+      @zoomMultiplier = @defaultZoom / @zoom
+
+      # register zooming events
+      @listenTo(@, "zoomIn", @zoomIn)
+      @listenTo(@, "zoomOut", @zoomOut)
+
+      @
+    zoomIn: () =>
+      if @zoom < 20
+        @zoom += 1
+        @zoomMultiplier = @defaultZoom / @zoom
+        @zoomUpdate()
+      else
+        @masterView.trigger("showInfo", "You cannot zoom-in anymore.", 50)
+      @
+    zoomOut: () =>
+      if @zoom > 1
+        @zoom -= 1
+        @zoomMultiplier = @defaultZoom / @zoom
+        @zoomUpdate()
+      else
+        @masterView.trigger("showInfo", "You cannot zoom-out anymore.", 50)
+      @
+    zoomUpdate: () =>
+      @rPaper.setViewBox(@curViewBox.x, @curViewBox.y,
+                         @curDimension.width * @zoomMultiplier, @curDimension.height * @zoomMultiplier)
+      @masterView.trigger("showInfo", "Zoom: #{Math.round((1/@zoomMultiplier)*100)}%", 50)
+      @
+

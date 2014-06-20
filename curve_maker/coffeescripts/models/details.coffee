@@ -3,7 +3,7 @@ define ["./detail"], (Detail) ->
     model: Detail
     activatedDetailModel: null
     initialize: () ->
-      @on("toggleDetail", @toggleDetail)
+      @listenTo(@, "toggleDetail", @toggleDetail)
       @
     toggleDetail: (m) =>
       if @activatedDetailModel? and @activatedDetailModel is m

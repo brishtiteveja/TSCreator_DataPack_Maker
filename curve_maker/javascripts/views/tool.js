@@ -11,24 +11,26 @@
       function Tool() {
         this.render = __bind(this.render, this);
         this.changeClassName = __bind(this.changeClassName, this);
-        this.toggleTool = __bind(this.toggleTool, this);
+        this.selectTool = __bind(this.selectTool, this);
         return Tool.__super__.constructor.apply(this, arguments);
       }
 
       Tool.prototype.tagName = "div";
 
+      Tool.prototype.className = "tool";
+
       Tool.prototype.events = {
-        "click": "toggleTool"
+        "click": "selectTool"
       };
 
       Tool.prototype.initialize = function() {
-        this.model.on("change:isActivated", this.changeClassName);
+        this.listenTo(this.model, "change:isActivated", this.changeClassName);
         return this;
       };
 
-      Tool.prototype.toggleTool = function($evt) {
+      Tool.prototype.selectTool = function($evt) {
         $evt.preventDefault();
-        this.model.collection.trigger("toggleTool", this.model);
+        this.model.collection.trigger("selectTool", this.model);
         return this;
       };
 
@@ -43,7 +45,7 @@
 
       Tool.prototype.render = function() {
         this.$link = $("<span/>", {
-          "class": "maker-tool icon",
+          "class": "icon",
           title: this.model.get("title")
         }).addClass(this.model.get("name"));
         this.$el.html(this.$link);
