@@ -1,9 +1,9 @@
 <div class="row">
-	<h3>Choose Image Dimensions</h3>
+	<h3>Default Settings</h3>
 </div>
 <div class="row">
 	<div class="columns small-24">
-	    <label>Choose Marking Scheme</label>
+		<label>Choose Marking Scheme</label>
 		<select>
 			<option value="timeline">Timelines</option>
 			<option value="ruler">Ruler</option>
@@ -12,12 +12,12 @@
 </div>
 <div class="row">
 	<div class="columns small-12">
-	    <label>Top</label>
-	    <input name="top" type="number" step="10" min="0" max="10000" value="0">
+		<label>Top</label>
+		<input name="top" type="number" step="10" min="0" max="10000" value="0">
 	</div>
 	<div class="columns small-12">
-	    <label>Base</label>
-	    <input name="base" type="number"  step="10" min="0" max="10000" value="10">
+		<label>Base</label>
+		<input name="base" type="number"  step="10" min="0" max="10000" value="10">
 	</div>
 </div>
 <div class="row">
@@ -27,24 +27,43 @@
 	</div>
 	<div class="columns small-8">
 		<label>Pixels/Unit</label>
-		<input type="number" name="pixels" step="0.1" min="0" max="10" value="10"> 
+		<input type="number" name="pixels" step="0.1" min="0" max="10" value="10">
 	</div>
 	<div class="columns small-8">
 		<label>Vertical Scale</label>
-		<input type="number" name="vertical_scale" step="0.1" min="0" max="10" value="1"> 
+		<input type="number" name="vertical_scale" step="0.1" min="0" max="10" value="1">
 	</div>
 </div>
 <div class="row">
 	<input type="checkbox" name="ruler" checked><label>Show Ruler</label>
 </div>
+<hr/>
+<div class="row">
+	<h3>Animation Settings</h3>
+</div>
 <div class="row">
 	<div class="columns small-24">
-	<label>Animation Age</label>
-	<div class="columns small-6"><input type="number" name="current_age" step="0.1" min="0" max="100"></div>
-	<div class="columns small-18 animation-tools">
-		<a class="icons_48-playback_play_icon_48 icon" href="#"></a>
-		<a class="icons_48-playback_stop_icon_48 icon" href="#"></a>
-		<a class="icons_48-playback_rew_icon_48 icon" href="#"></a>
-		<a class="icons_48-playback_ff_icon_48 icon" href="#"></a>
+		<div class="columns small-6">
+			<label for="top-age">Top Age</label>
+			<input type="number" name="top-age" step="0.1" min="0" max="100">
+		</div>
+		<div class="columns small-6">
+			<label for="top-age">Base Age</label>
+			<input type="number" name="top-age" step="0.1" min="0" max="100">
+		</div>
+		<div class="columns small-6">
+			<label for="top-age">Step Size</label>
+			<input type="number" name="top-age" step="0.1" min="0" max="100">
+		</div>
+		<div class="columns small-6">
+			<label for="top-age">Current Age</label>
+			<input type="number" name="top-age" step="0.1" min="0" max="100">
+		</div>
 	</div>
+</div>
+<div class="row button-group radius animation-tools">
+		<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">►</a>
+		<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">◼︎</a>
+		<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">❮❮</a>
+		<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">❯❯</a>
 </div>
