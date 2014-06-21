@@ -37,6 +37,7 @@ requirejs.config({
 
 		// Animation
 		animation: "../../commons/js/models/animation",
+		animationView: "../../commons/js/views/animation_view",
 
 
 		// Image

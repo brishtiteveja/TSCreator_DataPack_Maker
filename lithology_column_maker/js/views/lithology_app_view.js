@@ -17,8 +17,7 @@ define([
 	"imageOb",
 	"defaultView",
 	"rulerView",
-	"lithology2dView",
-	"animation"
+	"lithology2dView"
 ], function(
 	Raphael,
 	BaseView,
@@ -38,8 +37,8 @@ define([
 	ImageOb,
 	DefaultView,
 	RulerView,
-	Lithology2dView,
-	Animation) {
+	Lithology2dView
+) {
 
 	var LithologyAppView = BaseView.extend({
 		el: ".container",

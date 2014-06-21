@@ -4,14 +4,16 @@ define([
 	"mapView",
 	"polygonsView",
 	"polygons",
-	"animation"
+	"animation",
+	"animationView"
 ], function(
 	Raphael,
 	BaseView,
 	MapView,
 	PolygonsView,
 	Polygons,
-	Animation
+	Animation,
+	AnimationView
 ) {
 
 	var Lithology2dView = BaseView.extend({
@@ -27,15 +29,16 @@ define([
 			type: "lithology2D"
 		}
 
+		this.app.animation = new Animation();
+
 		if (lithologyApp) {
 			lithologyApp.lithology2dApp = this.app;
+			lithologyApp.animation = this.app.animation;
 		}
 
 		this.app.Paper = new Raphael("map", this.$("#display").width(), this.$("#display").height());
 		this.app.PolygonsCollection = new Polygons();
-		// 
-		this.app.animation = new Animation();
-		//
+
 		this.app.PolygonSet = this.app.Paper.set();
 		this.app.PointSet = this.app.Paper.set();
 		this.app.LinesSet = this.app.Paper.set();
@@ -64,6 +67,7 @@ define([
 	Lithology2dView.prototype.render = function() {
 		this.mapView = new MapView(this.app);
 		this.polygonsView = new PolygonsView(this.app);
+		this.animationView = new AnimationView(this.app);
 	}
 
 	Lithology2dView.prototype.resize = function() {
