@@ -9,6 +9,8 @@ requirejs.config({
 		ruler: "/commons/js/models/ruler",
 		rulerView: "/commons/js/views/ruler_view",
 
+		// Default
+		defaultOb: "../../commons/js/models/default_ob",
 		defaultView: "/commons/js/views/default_view",
 
 		// App

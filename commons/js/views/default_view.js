@@ -10,15 +10,16 @@ define(["baseView"], function(BaseView) {
 
 	DefaultView.prototype.initialize = function(app) {
 		this.app = app;
-		this.defaultOb = defaultOb;
-		this.listenTo(this.app.lithology2dView.app.animation, 'change:age', this.ageChange.bind(this));
+		this.defaultOb = app.defaultOb;
+		this.listenTo(this.defaultOb, 'change:age', this.ageChange.bind(this));
 		this.render();
 	}
 
 	DefaultView.prototype.render = function() {
-		this.$el.html(this.template.render(this.app.lithology2dView.app.animation.toJSON()));
+		this.$el.html(this.template.render(this.defaultOb.toJSON()));
 		this.$age = this.$('input[name="age"]');
-		this.addSlider();
+		this.$topAge = this.$('input[name="top-age"]');
+		this.$baseAge = this.$('input[name="base-age"]');
 	}
 
 	DefaultView.prototype.updateAge = function(e, data) {
@@ -26,6 +27,8 @@ define(["baseView"], function(BaseView) {
 			age: parseFloat(data.values.max)
 		})
 	}
+
+	DefaultView.prototype.ageChange = function() {}
 
 	return DefaultView;
 });

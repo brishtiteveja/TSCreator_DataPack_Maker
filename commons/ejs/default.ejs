@@ -13,57 +13,28 @@
 <div class="row">
 	<div class="columns small-12">
 		<label>Top</label>
-		<input name="top" type="number" step="10" min="0" max="10000" value="0">
+		<input name="top" type="number" step="10" min="0" max="10000" value="<%= top %>">
 	</div>
 	<div class="columns small-12">
 		<label>Base</label>
-		<input name="base" type="number"  step="10" min="0" max="10000" value="10">
+		<input name="base" type="number"  step="10" min="0" max="10000" value="<%= base %>">
 	</div>
 </div>
 <div class="row">
 	<div class="columns small-8">
 		<label>Units</label>
-		<input type="text" name="units" value="myr">
+		<input type="text" name="units" value="<%= units %>">
 	</div>
 	<div class="columns small-8">
 		<label>Pixels/Unit</label>
-		<input type="number" name="pixels" step="0.1" min="0" max="10" value="10">
+		<input type="number" name="pixels" step="0.1" min="0" max="10" value="<%= pixPerUnit %>">
 	</div>
 	<div class="columns small-8">
 		<label>Vertical Scale</label>
-		<input type="number" name="vertical_scale" step="0.1" min="0" max="10" value="1">
+		<input type="number" name="vertical_scale" step="0.1" min="0" max="10" value="<% verticalScale %>">
 	</div>
 </div>
 <div class="row">
 	<input type="checkbox" name="ruler" checked><label>Show Ruler</label>
 </div>
 <hr/>
-<div class="row">
-	<h3>Animation Settings</h3>
-</div>
-<div class="row">
-	<div class="columns small-24">
-		<div class="columns small-6">
-			<label for="top-age">Top Age</label>
-			<input type="number" name="top-age" step="0.1" min="0" max="100">
-		</div>
-		<div class="columns small-6">
-			<label for="top-age">Base Age</label>
-			<input type="number" name="top-age" step="0.1" min="0" max="100">
-		</div>
-		<div class="columns small-6">
-			<label for="top-age">Step Size</label>
-			<input type="number" name="top-age" step="0.1" min="0" max="100">
-		</div>
-		<div class="columns small-6">
-			<label for="top-age">Current Age</label>
-			<input type="number" name="top-age" step="0.1" min="0" max="100">
-		</div>
-	</div>
-</div>
-<div class="row button-group radius animation-tools">
-		<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">►</a>
-		<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">◼︎</a>
-		<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">❮❮</a>
-		<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">❯❯</a>
-</div>

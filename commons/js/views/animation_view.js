@@ -1,30 +1,31 @@
 define(["baseView"], function(BaseView) {
 	var AnimationView = BaseView.extend({
-		el: "#defaults-list",
-		events: {}
+		el: "#animation-list",
+		events: {
+			'keyup :input': 'updateAnimation',
+		}
 	});
 
-	// AnimationView.prototype.template = new EJS({
-	// 	url: '/commons/ejs/default.ejs'
-	// });
+	AnimationView.prototype.template = new EJS({
+		url: '/commons/ejs/animation.ejs'
+	});
 
 	AnimationView.prototype.initialize = function(app) {
 		this.app = app;
-		this.listenTo(this.app.lithology2dView.app.animation, 'change:age', this.ageChange.bind(this));
+		this.animation = this.app.animation;
+		this.listenTo(this.animation, 'change:age', this.ageChange.bind(this));
 		this.render();
 	}
 
 	AnimationView.prototype.render = function() {
-		this.$el.html(this.template.render(this.app.lithology2dView.app.animation.toJSON()));
+		this.$el.html(this.template.render(this.animation.toJSON()));
 		this.$age = this.$('input[name="age"]');
-		this.addSlider();
+		this.$topAge = this.$('input[name="top-age"]');
+		this.$baseAge = this.$('input[name="base-age"]');
+		this.$stepSize = this.$('input[name="step-size"]');
 	}
 
-	AnimationView.prototype.updateAge = function(e, data) {
-		this.app.lithology2dView.app.animation.set({
-			age: parseFloat(data.values.max)
-		})
-	}
+	AnimationView.prototype.updateAnimation = function(evt) {}
 
 	AnimationView.prototype.ageChange = function() {}
 

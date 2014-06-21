@@ -15,6 +15,7 @@ define([
 	"referenceColumnSideView",
 	"imageView",
 	"imageOb",
+	"defaultOb",
 	"defaultView",
 	"rulerView",
 	"lithology2dView"
@@ -35,6 +36,7 @@ define([
 	ReferenceColumnSideView,
 	ImageView,
 	ImageOb,
+	DefaultOb,
 	DefaultView,
 	RulerView,
 	Lithology2dView
@@ -78,6 +80,7 @@ define([
 
 		// Initialize the models
 		this.app.ImageOb = new ImageOb({});
+		this.app.defaultOb = new DefaultOb({});
 		this.app.Paper = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
 		this.app.MarkersSet = this.app.Paper.set();

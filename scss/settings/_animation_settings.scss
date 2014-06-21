@@ -1,4 +1,4 @@
-#defaults-list {
+#animation-list {
 	padding: 10px;
 
 	.row {
@@ -23,5 +23,10 @@
 		> .columns {
 		}
 	}	
-}
 
+	.animation-tools {
+		> .animation-tool {
+			height: 20px;
+		}	
+	}	
+}
