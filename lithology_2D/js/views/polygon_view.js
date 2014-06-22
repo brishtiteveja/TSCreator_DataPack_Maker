@@ -36,6 +36,7 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
         this.$el.html(this.template.render(this.polygon.toJSON()));
 
         // get the appropriate dom elements from the newly added view
+        this.$points = this.$(".points");
         this.$togglePolygon = this.$(".toggle-polygon");
         this.$polygonForm = this.$(".polygon-form");
         this.$polygonData = this.$(".polygon-data");
@@ -68,6 +69,7 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
 
     PolygonView.prototype.addPoint = function (point) {
         var pointView = new PointView(this.app, point);
+        this.$points.append(pointView.el);
         this.pointSet.push(pointView.element);
         this.renderPolygonElement();
     }

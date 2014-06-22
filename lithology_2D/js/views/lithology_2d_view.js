@@ -34,6 +34,7 @@ define([
         if (lithologyApp) {
             lithologyApp.lithology2dApp = this.app;
             lithologyApp.animation = this.app.animation;
+            this.app.StatusBox = lithologyApp.StatusBox;
         }
 
         this.app.Paper = new Raphael("map", this.$("#display").width(), this.$("#display").height());
