@@ -27,14 +27,13 @@
 	</div>
 	<div class="columns small-8">
 		<label>Pixels/Unit</label>
-		<input type="number" name="pixels" step="0.1" min="0" max="10" value="<%= pixPerUnit %>">
+		<input type="number" name="pixels" step="0.1" min="1" max="100" value="<%= pixPerUnit %>">
 	</div>
 	<div class="columns small-8">
 		<label>Vertical Scale</label>
-		<input type="number" name="vertical_scale" step="0.1" min="0" max="10" value="<% verticalScale %>">
+		<input type="number" name="vertical-scale" step="0.1" min="0" max="10" value="<%= verticalScale %>">
 	</div>
 </div>
 <div class="row">
 	<input type="checkbox" name="ruler" checked><label>Show Ruler</label>
 </div>
-<hr/>

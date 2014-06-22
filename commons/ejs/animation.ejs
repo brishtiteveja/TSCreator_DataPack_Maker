@@ -5,25 +5,25 @@
 	<div class="columns small-24">
 		<div class="columns small-6">
 			<label for="top-age">Top Age</label>
-			<input type="number" name="top" step="0.1" min="0" max="100">
+			<input type="number" name="top" step="0.1" min="0" max="100" value="<%= top %>">
 		</div>
 		<div class="columns small-6">
 			<label for="top-age">Base Age</label>
-			<input type="number" name="base" step="0.1" min="0" max="100">
+			<input type="number" name="base" step="0.1" min="0" max="100" value="<%= base %>">
 		</div>
 		<div class="columns small-6">
 			<label for="top-age">Step Size</label>
-			<input type="number" name="top-step-size" step="0.1" min="0" max="100">
+			<input type="number" name="top-step-size" step="0.1" min="0" max="100" value="<%= step %>">
 		</div>
 		<div class="columns small-6">
 			<label for="top-age">Current Age</label>
-			<input type="number" name="age" step="0.1" min="0" max="100">
+			<input type="number" name="age" step="<%= step %>" min="<%= top %>" max="<%= base %>" value="<%= age %>">
 		</div>
 	</div>
 </div>
 <div class="row button-group radius animation-tools">
-	<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">►</a>
-	<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">◼︎</a>
-	<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">❮❮</a>
-	<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#">❯❯</a>
+	<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#play">►</a>
+	<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#stop">◼︎</a>
+	<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#rewind">❮❮</a>
+	<a class="button secondary animation-tool data-equalizer-watch columns small-6" href="#forward">❯❯</a>
 </div>
