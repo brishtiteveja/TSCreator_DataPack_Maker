@@ -37,7 +37,6 @@ define(["baseView"], function (BaseView) {
         });
 
         if (this.app.animation) {
-            debugger;
             this.app.animation.set({
                 top: this.app.LithologyMarkersCollection.first().get('age'),
                 base: this.app.LithologyMarkersCollection.last().get('age'),

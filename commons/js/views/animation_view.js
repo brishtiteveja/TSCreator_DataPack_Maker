@@ -27,19 +27,49 @@ define(["baseView"], function (BaseView) {
         this.$topAge = this.$('input[name="top-age"]');
         this.$baseAge = this.$('input[name="base-age"]');
         this.$stepSize = this.$('input[name="step-size"]');
+        this.$play = this.$('a[href="#play"]');
+        this.$stop = this.$('a[href="#stop"]');
+        this.$rewind = this.$('a[href="#rewind"]');
+        this.$forward = this.$('a[href="#forward"]');
+        this.$animationTool = this.$(".animation-tool");
     }
 
-    AnimationView.prototype.updateAnimation = function (evt) {}
+    AnimationView.prototype.play = function () {
+        this.$animationTool.removeClass('alert');
+        this.playing = setInterval(this.updateAge.bind(this), 1000);
+    };
 
-    AnimationView.prototype.ageChange = function () {}
+    AnimationView.prototype.updateAge = function () {
+        this.$play.addClass('alert');
+        var newAge = Math.round((this.animation.get('age') + this.animation.get('step')) * 100) / 100;
+        if (this.animation.get('age') < this.animation.get('base')) {
+            this.animation.set({
+                'age': newAge
+            });
+        } else {
+            if (this.playing) {
+                clearInterval(this.playing);
+            }
+        }
+    };
 
-    AnimationView.prototype.play = function () {};
+    AnimationView.prototype.stop = function () {
+        this.$animationTool.removeClass('alert');
+        this.$stop.addClass('alert');
+        if (this.playing) {
+            clearInterval(this.playing);
+        }
+    };
 
-    AnimationView.prototype.stop = function () {};
+    AnimationView.prototype.rewind = function () {
+        this.$animationTool.removeClass('alert');
+        this.$rewind.addClass('alert');
+    };
 
-    AnimationView.prototype.rewind = function () {};
-
-    AnimationView.prototype.forward = function () {};
+    AnimationView.prototype.forward = function () {
+        this.$animationTool.removeClass('alert');
+        this.$forward.addClass('alert');
+    };
 
     return AnimationView;
 });
