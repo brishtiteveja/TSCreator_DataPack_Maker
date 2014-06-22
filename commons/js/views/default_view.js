@@ -42,6 +42,7 @@ define(["baseView"], function (BaseView) {
                 base: this.app.LithologyMarkersCollection.last().get('age'),
                 age: this.app.LithologyMarkersCollection.first().get('age')
             });
+            this.app.animation.update();
         }
 
         this.defaultOb.update();

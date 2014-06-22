@@ -17,7 +17,7 @@ define(["baseView"], function (BaseView) {
     AnimationView.prototype.initialize = function (app) {
         this.app = app;
         this.animation = this.app.animation;
-        this.listenTo(this.animation, 'change', this.render.bind(this));
+        this.listenTo(this.animation, 'update', this.render.bind(this));
         this.render();
     }
 
@@ -36,21 +36,27 @@ define(["baseView"], function (BaseView) {
 
     AnimationView.prototype.play = function () {
         this.$animationTool.removeClass('alert');
-        this.playing = setInterval(this.updateAge.bind(this), 1000);
+        this.$play.addClass('alert');
+        if (this.playing) {
+            clearInterval(this.playing);
+        }
+        this.playing = setInterval(this.updateAge.bind(this), 100);
     };
 
     AnimationView.prototype.updateAge = function () {
-        this.$play.addClass('alert');
         var newAge = Math.round((this.animation.get('age') + this.animation.get('step')) * 100) / 100;
         if (this.animation.get('age') < this.animation.get('base')) {
             this.animation.set({
                 'age': newAge
             });
+            this.animation.update();
         } else {
             if (this.playing) {
+                this.$play.removeClass('alert');
                 clearInterval(this.playing);
             }
         }
+        this.$play.addClass('alert');
     };
 
     AnimationView.prototype.stop = function () {
@@ -64,11 +70,28 @@ define(["baseView"], function (BaseView) {
     AnimationView.prototype.rewind = function () {
         this.$animationTool.removeClass('alert');
         this.$rewind.addClass('alert');
+        if (this.playing) {
+            clearInterval(this.playing);
+        }
+        this.playing = setInterval(this.updateAge.bind(this), 100);
     };
 
     AnimationView.prototype.forward = function () {
         this.$animationTool.removeClass('alert');
         this.$forward.addClass('alert');
+    };
+
+    AnimationView.prototype.updateAnimation = function (evt) {
+
+        this.animation.set({
+            age: parseFloat(this.$age.val()) || this.animation.get('age'),
+            top: parseFloat(this.$topAge.val()) || this.animation.get('top'),
+            base: parseFloat(this.$baseAge.val()) || this.animation.get('base'),
+            step: parseFloat(this.$stepSize.val()) || this.animation.get('step')
+        });
+        if (evt.keyCode == TimescaleApp.ENTER) {
+            this.animation.update();
+        }
     };
 
     return AnimationView;

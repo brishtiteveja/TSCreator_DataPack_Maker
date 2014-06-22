@@ -1,7 +1,6 @@
 define(["baseModel"], function (BaseModel) {
-    window.tscApp = window.tscApp || {};
-
-    window.tscApp.Scheme = {
+    window.TimescaleApp = window.TimescaleApp || {};
+    window.TimescaleApp.Scheme = {
         TIMELINES: 1,
         RULER: 2
     }
@@ -11,7 +10,7 @@ define(["baseModel"], function (BaseModel) {
             var attrs = [{
                 top: params.top || 0,
                 base: params.base || 0,
-                scheme: params.scheme || tscApp.Scheme.TIMELINES,
+                scheme: params.scheme || TimescaleApp.Scheme.TIMELINES,
                 units: params.units || "myr",
                 pixPerUnit: params.pixPerUnit || 10,
                 verticalScale: params.verticalScale || 1,
