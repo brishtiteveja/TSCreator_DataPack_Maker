@@ -3,6 +3,6 @@
 	<li><%= name %></li>
 	<li>x ➜ <%= x %></li>
 	<li>y ➜ <%= y %> px</li>
-	<li>lat ➜ <%= lat || 0 %></li>
-	<li>lon ➜ <%= lon || 0 %></li>
+	<li>lat ➜ <%= parseInt(lat*10000)/10000 || 0 %></li>
+	<li>lon ➜ <%= parseInt(lon*10000)/10000 || 0 %></li>
 </ul>
