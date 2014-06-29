@@ -32,6 +32,7 @@ define(["baseView"], function (BaseView) {
         this.$rewind = this.$('a[href="#rewind"]');
         this.$forward = this.$('a[href="#forward"]');
         this.$animationTool = this.$(".animation-tool");
+        this.$('select[name="map-layer"]').change(this.updateMap.bind(this));
     }
 
     AnimationView.prototype.play = function () {
@@ -92,6 +93,13 @@ define(["baseView"], function (BaseView) {
         if (evt.keyCode == TimescaleApp.ENTER) {
             this.animation.update();
         }
+    };
+
+    AnimationView.prototype.updateMap = function () {
+        var mapLayer = this.$('select[name="map-layer"]').val();
+        this.app.mapOb.set({
+            layer: mapLayer
+        });
     };
 
     return AnimationView;
