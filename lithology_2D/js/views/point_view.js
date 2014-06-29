@@ -1,9 +1,7 @@
 define(["baseView"], function (BaseView) {
     var PointView = BaseView.extend({
         tagName: 'li',
-        events: {
-
-        }
+        events: {}
     });
 
     PointView.prototype.template = new EJS({
@@ -20,8 +18,13 @@ define(["baseView"], function (BaseView) {
         this.render();
 
         this.app.map.on("move", this.updatePoint.bind(this));
-        this.listenTo(this.point, 'change', this.renderPoint.bind(this));
+        this.listenTo(this.point, 'change:x', this.renderPoint.bind(this));
+        this.listenTo(this.point, 'change:y', this.renderPoint.bind(this));
+        this.listenTo(this.point, 'change:lat', this.updatePoint.bind(this));
+        this.listenTo(this.point, 'change:lon', this.updatePoint.bind(this));
         this.listenTo(this.point, 'destroy', this.delete.bind(this));
+
+        debugger;
     }
 
     PointView.prototype.render = function () {
@@ -46,7 +49,14 @@ define(["baseView"], function (BaseView) {
 
         this.updateElement();
         this.updateStatusBox();
+        this.updatePoint();
     }
+
+    PointView.prototype.makePointRed = function () {
+        this.element.attr({
+            'fill': "#FF0000"
+        });
+    };
 
     PointView.prototype.updateElement = function () {
 
@@ -80,7 +90,7 @@ define(["baseView"], function (BaseView) {
         this.point.set({
             x: cdts.x || this.point.get('x'),
             y: cdts.y || this.point.get('y')
-        })
+        });
     }
 
     PointView.prototype.onDragStart = function (x, y, evt) {
@@ -94,6 +104,7 @@ define(["baseView"], function (BaseView) {
             y: evt.offsetY
         });
     }
+
     PointView.prototype.onDragEnd = function (evt) {
         this.app.map.add(this.app.drag);
     }

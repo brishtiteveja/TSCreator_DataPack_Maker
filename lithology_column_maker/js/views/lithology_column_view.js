@@ -4,14 +4,18 @@ define([
     "lithologyGroupMarkerView",
     "lithologyGroup",
     "lithologyGroupMarker",
-    "polygonView"
+    "polygonView",
+    "point",
+    "pointView"
 ], function (
     BaseView,
     LithologyGroupView,
     LithologyGroupMarkerView,
     LithologyGroup,
     LithologyGroupMarker,
-    PolygonView
+    PolygonView,
+    Point,
+    PointView
 ) {
 
     var LithologyColumnView = BaseView.extend({
@@ -50,7 +54,7 @@ define([
 
         this.listenTo(this.lithologyColumn, 'change:edit', this.editLithologyColumn.bind(this));
         this.listenTo(this.lithologyColumn, 'update', this.renderLithologyColumn.bind(this));
-        this.listenTo(this.lithologyColumn, 'change', this.renderLithologyColumn.bind(this));
+        // this.listenTo(this.lithologyColumn, 'change', this.renderLithologyColumn.bind(this));
         this.listenTo(this.lithologyColumn.get('settings'), 'change', this.renderLithologyColumn.bind(this));
         this.listenTo(this.lithologyColumn.get('lithologyGroupMarkers'), 'add', this.addLithologyGroupMarker.bind(
             this));
@@ -78,6 +82,9 @@ define([
         this.$lithologyColumnWidth = this.$('input[name="lithology-column-width"]')[0];
         this.$lithologyColumnBgColor = this.$('input[name="lithology-column-bg-color"]')[0];
         this.$lithologyColumnDescription = this.$('textarea[name="lithology-column-description"]')[0];
+
+        this.$lithologyColumnLat = this.$('input[name="lithology-column-lat"]')[0];
+        this.$lithologyColumnLon = this.$('input[name="lithology-column-lon"]')[0];
 
         this.$addOverlay = this.$('a[href="#add-overlay"]');
         this.$editOverlay = this.$('a[href="#edit-overlay"]');
@@ -136,6 +143,29 @@ define([
             this.$(".overlay").html(this.polygonView.el);
         }
 
+        if (this.lithologyColumn.get('lat') && this.lithologyColumn.get('lat') && !this.lithologyColumn.get('point')) {
+            this.lithologyColumn.set({
+                point: new Point({})
+            })
+        }
+
+        if (this.lithologyColumn.get('point')) {
+            this.lithologyColumn.get('point').set({
+                lat: this.lithologyColumn.get('lat'),
+                lon: this.lithologyColumn.get('lon')
+            });
+
+            if (!this.pointView) {
+                this.pointView = new PointView(this.app.lithology2dApp, this.lithologyColumn.get('point'));
+                this.pointView.makePointRed();
+            }
+
+            this.app.lithology2dApp.map.center({
+                lat: this.lithologyColumn.get('lat'),
+                lon: this.lithologyColumn.get('lon')
+            })
+        }
+
         this.updateLithologyColumns();
     }
 
@@ -180,17 +210,22 @@ define([
 
         if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
             this.toggleLithologyColumnForm();
+            this.lithologyColumn.update();
         }
 
         var name = this.$lithologyColumnName.value;
         var description = this.$lithologyColumnDescription.value;
         var width = this.$lithologyColumnWidth.value;
         var bgColor = this.$lithologyColumnBgColor.value;
+        var lat = this.$lithologyColumnLat.value;
+        var lon = this.$lithologyColumnLon.value;
 
         this.lithologyColumn.set({
             name: name,
             description: description,
             width: parseInt(width) || 0,
+            lat: lat,
+            lon: lon
         });
 
         this.lithologyColumn.get('settings').set({

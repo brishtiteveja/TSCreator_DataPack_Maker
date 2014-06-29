@@ -44,7 +44,6 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
         this.$polygonDescription = this.$('textarea[name="polygon-description"]')[0];
 
         this.renderPoints();
-
     }
 
     PolygonView.prototype.renderPoints = function () {
