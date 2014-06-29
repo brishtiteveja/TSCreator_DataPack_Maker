@@ -40,7 +40,7 @@ define(["baseView"], function (BaseView) {
         if (this.playing) {
             clearInterval(this.playing);
         }
-        this.playing = setInterval(this.updateAge.bind(this), 100);
+        this.playing = setInterval(this.updateAge.bind(this), 1000);
     };
 
     AnimationView.prototype.updateAge = function () {
@@ -73,7 +73,7 @@ define(["baseView"], function (BaseView) {
         if (this.playing) {
             clearInterval(this.playing);
         }
-        this.playing = setInterval(this.updateAge.bind(this), 100);
+        this.playing = setInterval(this.updateAge.bind(this), 1000);
     };
 
     AnimationView.prototype.forward = function () {
