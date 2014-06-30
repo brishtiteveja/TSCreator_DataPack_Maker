@@ -170,6 +170,10 @@ define(["baseView"], function (BaseView) {
     PointView.prototype.updatePoint = function (evt) {
         if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
             this.togglePointForm();
+            this.app.map.center({
+                lat: this.point.get('lat'),
+                lon: this.point.get('lon')
+            })
         }
 
         this.point.set({
