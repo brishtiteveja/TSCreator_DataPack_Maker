@@ -7,6 +7,7 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
             'click .polygon-data': 'togglePolygonForm',
             'click a.polygon-list-tool': 'showList',
             'click a[href="#polygon-destroy"]': 'destroy',
+            'click a[href="#new-point"]': 'addNewPoint',
             'click .to-front': 'toFront',
             'keypress :input.polygon': 'updatePolygon',
             'keyup :input.polygon': 'updatePolygon',
@@ -117,6 +118,14 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
 
         this.polygon.get('points').add(point);
     }
+
+    PolygonView.prototype.addNewPoint = function () {
+        var point = new Point({});
+        this.polygon.get('points').add(point);
+        point.set({
+            edit: true
+        });
+    };
 
 
     PolygonView.prototype.getPath = function () {

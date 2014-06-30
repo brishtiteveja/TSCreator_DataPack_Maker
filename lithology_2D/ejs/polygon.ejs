@@ -1,12 +1,13 @@
 <div class="row">
 	<div class="toggle-polygon hide-data small-2 columns"></div>
-	<lable class="polygon-data small-20 columns"><%= name %></lable>
-	<div class="small-20 columns polygon-form hide">
+	<lable class="polygon-data small-14 columns"><%= name %></lable>
+	<div class="small-14 columns polygon-form hide">
 		<label for="polygon-name" class="data-labels">Name</label>
 		<input class="polygon" type="text" value="<%= name %>" name="polygon-name">
 		<label for="polygon-description" class="data-labels">Description</label>
 		<textarea name="polygon-description" placeholder="No description yet!"><%= description %></textarea>
 	</div>
+	<div class="small-6 columns"><a href="#new-point" class="button tiny" title="add new point">add point</a></div>
 	<div class="small-2 columns"><a href="#polygon-destroy" class="destroy"></a></div>
 </div>
 <ul class="points"></ul>

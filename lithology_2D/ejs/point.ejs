@@ -1,4 +1,12 @@
 <div class="row">
 	<div class="small-3 columns arrow">↳</div>
 	<label class="point-data small-21 columns"><%= name %> - (<%= Math.round(lat*10000)/10000 || "na" %> <%= Math.round(lon*10000)/10000 || "na" %>) </label>
+	<div class="small-11 columns point-form hide">
+		<label for="lat" class="left inline">Latitude</label>
+		<input type="number" name="lat" step="0.1" value="<%= Math.round(lat*10000)/10000 %>">
+	</div>
+	<div class="small-10 columns point-form hide">
+		<label for="lat" class="left inline">Longitude</label>
+		<input type="number" name="lon" step="0.1" value="<%= Math.round(lon*10000)/10000 %>">
+	</div>
 </div>
