@@ -5,6 +5,13 @@
 	height: 32px;
 }
 
+@mixin icon_16 {
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 16px;
+	height: 16px;
+}
+
 @mixin icon_48 {
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
@@ -177,4 +184,10 @@
 .icons_48-playback_stop_icon_48 {
 	background: url('/images/cc/white/png/icons_48/playback_stop_icon_48.png');
 	@include icon_48;
+}
+
+
+.icons_16-sq_plus_icon_16 {
+	background: url('/images/cc/white/png/icons_16/sq_plus_icon_16.png');
+	@include icon_16;
 }

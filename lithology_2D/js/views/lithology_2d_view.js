@@ -5,7 +5,8 @@ define([
     "polygonsView",
     "polygons",
     "animation",
-    "animationView"
+    "animationView",
+    "map"
 ], function (
     Raphael,
     BaseView,
@@ -13,7 +14,8 @@ define([
     PolygonsView,
     Polygons,
     Animation,
-    AnimationView
+    AnimationView,
+    Map
 ) {
 
     var Lithology2dView = BaseView.extend({
@@ -30,10 +32,13 @@ define([
         }
 
         this.app.animation = new Animation({});
+        this.app.mapOb = new Map();
 
         if (lithologyApp) {
             lithologyApp.lithology2dApp = this.app;
             lithologyApp.animation = this.app.animation;
+            lithologyApp.mapOb = this.app.mapOb;
+            this.app.StatusBox = lithologyApp.StatusBox;
         }
 
         this.app.Paper = new Raphael("map", this.$("#display").width(), this.$("#display").height());
