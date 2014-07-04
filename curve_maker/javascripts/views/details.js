@@ -3,13 +3,12 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["../models/detail", "../models/details", "./detail", "./timelines", "./image_detail"], function(DetailModel, DetailCollection, DetailView, TimelinesView, ImageDetailView) {
+  define(["../models/detail", "../models/details", "./detail"], function(DetailModel, DetailCollection, DetailView) {
     var Details;
     return Details = (function(_super) {
       __extends(Details, _super);
 
       function Details() {
-        this.render = __bind(this.render, this);
         this.resize = __bind(this.resize, this);
         this.activateDetail = __bind(this.activateDetail, this);
         this.addOne = __bind(this.addOne, this);
@@ -22,19 +21,22 @@
         this.collection = new DetailCollection();
         this.listenTo(this.collection, "add", this.addOne);
         this.mainCanvasView = options.mainCanvasView;
+        this.columnManager = options.columnManager;
+        this.collection.add(this.columnManager.getCurrentModulesForDetails());
         return this;
       };
 
       Details.prototype.addOne = function(m) {
         var clazz, newDetailPanelView;
-        newDetailPanelView = m.get("clazz") != null ? (clazz = m.get("clazz"), new clazz({
+        newDetailPanelView = m.get("viewClazz") != null ? (clazz = m.get("viewClazz"), new clazz({
           model: m,
-          mainCanvasView: this.mainCanvasView
+          mainCanvasView: this.mainCanvasView,
+          columnManager: this.columnManager
         }).render()) : new DetailView({
           model: m,
-          mainCanvasView: this.mainCanvasView
+          mainCanvasView: this.mainCanvasView,
+          columnManager: this.columnManager
         }).render();
-        m.detailPanelView = newDetailPanelView;
         this.$el.append(newDetailPanelView.el);
         return this;
       };
@@ -45,50 +47,6 @@
 
       Details.prototype.resize = function(dimension) {
         this.$el.css(dimension);
-        return this;
-      };
-
-      Details.prototype.render = function() {
-        this.collection.add({
-          name: "timeLinesDetail",
-          text: "Time Lines",
-          title: "Show time line details",
-          clazz: TimelinesView
-        });
-        this.collection.add({
-          name: "zonesDetail",
-          text: "Zones",
-          title: "Show zone details"
-        });
-        this.collection.add({
-          name: "rangeDetail",
-          text: "Range",
-          title: "Show range limit details"
-        });
-        this.collection.add({
-          name: "curvesDetail",
-          text: "Curves",
-          title: "Show curve details"
-        });
-        this.collection.add({
-          name: "imagesDetail",
-          text: "Image",
-          title: "Set up background image",
-          template: new EJS({
-            url: "templates/image/show"
-          }),
-          clazz: ImageDetailView
-        });
-        this.collection.add({
-          name: "referenceColumnsDetail",
-          text: "References",
-          title: "Set reference columns"
-        });
-        this.collection.add({
-          name: "defaultsDetail",
-          text: "Defaults",
-          title: "Defaults..."
-        });
         return this;
       };
 

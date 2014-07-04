@@ -4,8 +4,9 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define([], function() {
-    var INF, MainCanvas;
+    var INF, MainCanvas, SMALLINF;
     INF = 500000;
+    SMALLINF = 10000;
     return MainCanvas = (function(_super) {
       __extends(MainCanvas, _super);
 
@@ -18,12 +19,18 @@
         this.onPanningEnd = __bind(this.onPanningEnd, this);
         this.onPanningMove = __bind(this.onPanningMove, this);
         this.onPanningStart = __bind(this.onPanningStart, this);
+        this.getCurrentPositionFromEvt = __bind(this.getCurrentPositionFromEvt, this);
         this.getCurrentPositionFromOffset = __bind(this.getCurrentPositionFromOffset, this);
         this.createImage = __bind(this.createImage, this);
-        this.createInfiniteHorizontalPathWithY = __bind(this.createInfiniteHorizontalPathWithY, this);
+        this.createText = __bind(this.createText, this);
+        this.createCircle = __bind(this.createCircle, this);
+        this.createInfiniteVerticalPath = __bind(this.createInfiniteVerticalPath, this);
+        this.createInfiniteHorizontalPath = __bind(this.createInfiniteHorizontalPath, this);
+        this.createStraightLine = __bind(this.createStraightLine, this);
         this.createPath = __bind(this.createPath, this);
         this.createInfiniteOverlay = __bind(this.createInfiniteOverlay, this);
         this.createRect = __bind(this.createRect, this);
+        this.createSet = __bind(this.createSet, this);
         this.render = __bind(this.render, this);
         this.resize = __bind(this.resize, this);
         this.startAndLoadDatafile = __bind(this.startAndLoadDatafile, this);
@@ -93,6 +100,10 @@
         return this;
       };
 
+      MainCanvas.prototype.createSet = function() {
+        return this.rPaper.set.apply(this.rPaper, arguments);
+      };
+
       MainCanvas.prototype.createRect = function() {
         return this.rPaper.rect.apply(this.rPaper, arguments);
       };
@@ -112,14 +123,40 @@
         return this.rPaper.path.apply(this.rPaper, arguments);
       };
 
-      MainCanvas.prototype.createInfiniteHorizontalPathWithY = function(y) {
+      MainCanvas.prototype.createStraightLine = function() {
+        if (arguments.length === 4) {
+          return this.createPath("M" + arguments[0] + "," + arguments[1] + "L" + arguments[2] + "," + arguments[3]);
+        } else if (arguments.length === 2) {
+          return this.createPath("M" + arguments[0].x + "," + arguments[0].y + "L" + arguments[1].x + "," + arguments[1].y);
+        }
+      };
+
+      MainCanvas.prototype.createInfiniteHorizontalPath = function(y) {
         var newPath;
-        newPath = this.rPaper.path("M" + (-INF) + "," + y + "L" + INF + "," + y);
+        newPath = this.createPath("M" + (-SMALLINF) + "," + y + "H" + SMALLINF);
         newPath.attr({
           "fill": "#FFFFFF",
           "fill-opacity": 0
         });
         return newPath;
+      };
+
+      MainCanvas.prototype.createInfiniteVerticalPath = function(x) {
+        var newPath;
+        newPath = this.rPaper.path("M" + x + "," + (-SMALLINF) + "V" + SMALLINF);
+        newPath.attr({
+          "fill": "#FFFFFF",
+          "fill-opacity": 0
+        });
+        return newPath;
+      };
+
+      MainCanvas.prototype.createCircle = function() {
+        return this.rPaper.circle.apply(this.rPaper, arguments);
+      };
+
+      MainCanvas.prototype.createText = function() {
+        return this.rPaper.text.apply(this.rPaper, arguments);
       };
 
       MainCanvas.prototype.createImage = function() {
@@ -131,6 +168,18 @@
           x: this.curViewBox.x + (dx * this.zoomMultiplier),
           y: this.curViewBox.y + (dy * this.zoomMultiplier)
         };
+      };
+
+      MainCanvas.prototype.getCurrentPositionFromEvt = function(evt) {
+        var dx, dy;
+        if ((evt.offsetX != null) && evt.offsetY) {
+          dx = evt.offsetX;
+          dy = evt.offsetY;
+        } else {
+          dx = evt.layerX;
+          dy = evt.layerY;
+        }
+        return this.getCurrentPositionFromOffset(dx, dy);
       };
 
       MainCanvas.prototype.initPan = function() {

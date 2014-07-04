@@ -10,9 +10,7 @@ define ["./detail"], (Detail) ->
     initialize: (options) ->
       super(options)
 
-      # Maintain separate image model
-      @image = new Backbone.Model()
-      @model.set("image", @image)
+      @image = @columnManager.retrieveCurrentDataModule("backgroundImage")
 
       @listenTo(@image,
         "change:dataURL": @changeBackgroundImage
@@ -25,10 +23,6 @@ define ["./detail"], (Detail) ->
         "change:isPreserveAspectRatio": @updateIsPreserveAspectRatioInput
       )
 
-      # Set isPreserveAspectRatio to TRUE by default
-      @image.set
-        isVisible: true
-        isPreserveAspectRatio: true
       @
     loadBackgroundImage: ($evt) =>
       $evt.preventDefault()

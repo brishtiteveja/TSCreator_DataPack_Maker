@@ -3,84 +3,82 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./detail", "../models/timelines", "./timeline"], function(Detail, TimelineCollection, TimelineView) {
+  define(["./detail", "./timeline"], function(Detail, TimelineView) {
     var Timelines;
     return Timelines = (function(_super) {
       __extends(Timelines, _super);
 
       function Timelines() {
         this.render = __bind(this.render, this);
-        this.timelineToBack = __bind(this.timelineToBack, this);
-        this.timelineToFront = __bind(this.timelineToFront, this);
-        this.addingNewTimeline = __bind(this.addingNewTimeline, this);
+        this.addingChild = __bind(this.addingChild, this);
         this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
+        this.removeOne = __bind(this.removeOne, this);
         this.addOne = __bind(this.addOne, this);
         return Timelines.__super__.constructor.apply(this, arguments);
       }
 
+      Timelines.prototype.className = "detail-panel inline-edit";
+
       Timelines.prototype.initialize = function(options) {
         Timelines.__super__.initialize.call(this, options);
-        this.timelines = new TimelineCollection();
-        this.model.set("timelines", this.timelines);
+        this.timelines = this.columnManager.retrieveCurrentDataModule("timelines");
         this.listenTo(this.timelines, "add", this.addOne);
+        this.listenTo(this.timelines, "remove", this.removeOne);
         this.overlay = this.mainCanvasView.createInfiniteOverlay();
-        this.listenTo(this.mainCanvasView, "start:addingTimeline", this.start);
-        this.listenTo(this.mainCanvasView, "stop:addingTimeline", this.stop);
+        this.listenTo(this.mainCanvasView, {
+          "start:addingTimeline": this.start,
+          "stop:addingTimeline": this.stop
+        });
         return this;
       };
 
-      Timelines.prototype.addOne = function(m) {
-        var newTimelineView;
-        newTimelineView = new TimelineView({
+      Timelines.prototype.addOne = function(m, c, options) {
+        var i, newChildView;
+        newChildView = new TimelineView({
           model: m,
           mainCanvasView: this.mainCanvasView
         }).render();
-        m.view = newTimelineView;
-        this.$el.append(newTimelineView.el);
+        i = this.timelines.indexOf(m);
+        if (i === 0) {
+          this.$el.prepend(newChildView.el);
+        } else {
+          this.timelines.at(i - 1).trigger("_insertAfterMe", newChildView);
+        }
+        this.zones.trigger("addingZone", this.timelines.at(i - 1), this.timelines.at(i), this.timelines.at(i + 1));
+        return this;
+      };
+
+      Timelines.prototype.removeOne = function(m, c, options) {
+        var prevI;
+        prevI = options.index;
+        this.zones.trigger("removingZone", this.timelines.at(prevI - 1), m, this.timelines.at(prevI));
         return this;
       };
 
       Timelines.prototype.start = function() {
         this.overlay.toFront();
-        _.each(this.timelines, this.timelineToFront);
-        this.overlay.dblclick(this.addingNewTimeline);
-        console.log(this.overlay);
+        this.overlay.dblclick(this.addingChild);
         return this;
       };
 
       Timelines.prototype.stop = function() {
-        _.each(this.timelines, this.timelineToBack);
         this.overlay.toBack();
-        this.overlay.undblclick(this.addingNewTimeline);
-        console.log(this.overlay);
+        this.overlay.undblclick(this.addingChild);
         return this;
       };
 
-      Timelines.prototype.addingNewTimeline = function(evt, clientX, clientY) {
+      Timelines.prototype.addingChild = function(evt, clientX, clientY) {
         var position;
-        position = this.mainCanvasView.getCurrentPositionFromOffset(evt.offsetX, evt.offsetY);
-        this.timelines.addOneWithY(position.y);
-        return this;
-      };
-
-      Timelines.prototype.timelineToFront = function(timeline) {
-        timeline.trigger("toFront");
-        return this;
-      };
-
-      Timelines.prototype.timelineToBack = function(timeline) {
-        timeline.trigger("toBack");
+        position = this.mainCanvasView.getCurrentPositionFromEvt(evt);
+        this.timelines.add({
+          y: position.y
+        });
         return this;
       };
 
       Timelines.prototype.render = function() {
         _.each(this.timelines, this.addOne);
-        return this;
-      };
-
-      Timelines.prototype.logger = function(m, options) {
-        console.log(m);
         return this;
       };
 

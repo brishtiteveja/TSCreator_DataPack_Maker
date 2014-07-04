@@ -9,13 +9,24 @@
       __extends(Timeline, _super);
 
       function Timeline() {
-        this.render = __bind(this.render, this);
+        this.stop = __bind(this.stop, this);
+        this.start = __bind(this.start, this);
+        this.updateRElPositionY = __bind(this.updateRElPositionY, this);
         this.toBack = __bind(this.toBack, this);
         this.toFront = __bind(this.toFront, this);
+        this.onDragEnd = __bind(this.onDragEnd, this);
+        this.onDragMove = __bind(this.onDragMove, this);
+        this.onDragStart = __bind(this.onDragStart, this);
+        this.onMouseOut = __bind(this.onMouseOut, this);
+        this.onMouseOver = __bind(this.onMouseOver, this);
+        this.unhighlight = __bind(this.unhighlight, this);
+        this.highlight = __bind(this.highlight, this);
+        this.render = __bind(this.render, this);
+        this._insertAfterMe = __bind(this._insertAfterMe, this);
         this.cancelAction = __bind(this.cancelAction, this);
         this.deleteAction = __bind(this.deleteAction, this);
         this.editAction = __bind(this.editAction, this);
-        this.update = __bind(this.update, this);
+        this.inputUpdate = __bind(this.inputUpdate, this);
         this.destroy = __bind(this.destroy, this);
         this.template = __bind(this.template, this);
         return Timeline.__super__.constructor.apply(this, arguments);
@@ -41,31 +52,47 @@
 
       Timeline.prototype.isEditing = false;
 
+      Timeline.prototype.normalStrokeWidth = 2;
+
+      Timeline.prototype.hoverStrokeWidth = 5;
+
       Timeline.prototype.events = {
         "click .edit-btn": "editAction",
-        "click .timeline-detail": "editAction",
+        "click .timeline-detail.showing": "editAction",
         "click .delete-btn": "deleteAction",
         "click .cancel-btn": "cancelAction",
-        "change input[type='text']": "update"
+        "change input[type=text]": "inputUpdate",
+        "mouseover": "onMouseOver",
+        "mouseout": "onMouseOut"
       };
 
       Timeline.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
-        this.rLine = this.mainCanvasView.createInfiniteHorizontalPathWithY(this.model.get("y"));
-        this.rLine.node.setAttribute("class", "timeline");
-        this.listenTo(this.model, "toFront", this.toFront);
-        this.listenTo(this.model, "toBack", this.toBack);
+        this.initCanvasEl();
+        this.listenTo(this.model, {
+          "highlight": this.highlight,
+          "unhighlight": this.unhighlight,
+          "change:y": this.updateRElPositionY
+        });
+        this.listenTo(this.model, {
+          "_insertAfterMe": this._insertAfterMe,
+          "destroy": this.destroy
+        });
+        this.listenTo(this.mainCanvasView, {
+          "start:addingTimeline": this.start,
+          "stop:addingTimeline": this.stop
+        });
         return this;
       };
 
       Timeline.prototype.destroy = function() {
         this.undelegateEvents();
+        this.rEl.remove();
         this.remove();
-        this.model = null;
         return this;
       };
 
-      Timeline.prototype.update = function($evt) {
+      Timeline.prototype.inputUpdate = function($evt) {
         var $input, key, value;
         $input = $($evt.target);
         key = $input.attr("name");
@@ -83,10 +110,7 @@
 
       Timeline.prototype.deleteAction = function($evt) {
         $evt.stopImmediatePropagation();
-        this.model.destroy({
-          wait: true
-        });
-        this.destroy();
+        this.model.destroy();
         return this;
       };
 
@@ -97,18 +121,110 @@
         return this;
       };
 
-      Timeline.prototype.toFront = function() {
-        this.rLine.toFront();
-        return this;
-      };
-
-      Timeline.prototype.toBack = function() {
-        this.rLine.toBack();
+      Timeline.prototype._insertAfterMe = function(newView) {
+        this.$el.after(newView.el);
         return this;
       };
 
       Timeline.prototype.render = function() {
         this.$el.html(this.template(this.model.toJSON()));
+        return this;
+      };
+
+      Timeline.prototype.initCanvasEl = function() {
+        this.rEl = this.mainCanvasView.createInfiniteHorizontalPath(this.model.get("y"));
+        this.rEl.attr({
+          "stroke": "#900000",
+          "stroke-width": this.normalStrokeWidth
+        });
+        this.rEl.hover(this.onMouseOver, this.onMouseOut);
+        this.start();
+        return this;
+      };
+
+      Timeline.prototype.highlight = function() {
+        this.rEl.attr({
+          "stroke-width": this.hoverStrokeWidth
+        });
+        return this;
+      };
+
+      Timeline.prototype.unhighlight = function() {
+        this.rEl.attr({
+          "stroke-width": this.normalStrokeWidth
+        });
+        return this;
+      };
+
+      Timeline.prototype.onMouseOver = function() {
+        this.$el.addClass('hover');
+        this.highlight();
+        return this;
+      };
+
+      Timeline.prototype.onMouseOut = function() {
+        this.$el.removeClass('hover');
+        this.unhighlight();
+        return this;
+      };
+
+      Timeline.prototype.onDragStart = function(x, y, evt) {
+        this._aboveTimeline = this.model.getAboveTimeline();
+        this._belowTimeline = this.model.getBelowTimeline();
+        return this;
+      };
+
+      Timeline.prototype.onDragMove = function(dx, dy, x, y, evt) {
+        var locationY, slack;
+        slack = 2;
+        locationY = this.mainCanvasView.getCurrentPositionFromEvt(evt).y;
+        if ((this._aboveTimeline != null) && (this._belowTimeline != null) && (this._aboveTimeline.get('y') + slack > locationY || locationY > this._belowTimeline.get('y') - slack)) {
+          return;
+        }
+        if ((this._aboveTimeline == null) && (this._belowTimeline != null) && locationY > this._belowTimeline.get('y') - slack) {
+          return;
+        }
+        if ((this._aboveTimeline != null) && (this._belowTimeline == null) && this._aboveTimeline.get('y') + slack > locationY) {
+          return;
+        }
+        this.model.set({
+          y: locationY
+        });
+        return this;
+      };
+
+      Timeline.prototype.onDragEnd = function(evt) {
+        delete this._aboveTimeline;
+        delete this._belowTimeline;
+        return this;
+      };
+
+      Timeline.prototype.toFront = function() {
+        this.rEl.toFront();
+        return this;
+      };
+
+      Timeline.prototype.toBack = function() {
+        this.rEl.toBack();
+        return this;
+      };
+
+      Timeline.prototype.updateRElPositionY = function(m, value) {
+        this.rEl.attr("path")[0][2] = value;
+        this.rEl.attr({
+          path: this.rEl.attr("path").toString()
+        });
+        return this;
+      };
+
+      Timeline.prototype.start = function() {
+        this.rEl.drag(this.onDragMove, this.onDragStart, this.onDragEnd);
+        this.toFront();
+        return this;
+      };
+
+      Timeline.prototype.stop = function() {
+        this.rEl.undrag();
         return this;
       };
 

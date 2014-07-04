@@ -1,5 +1,6 @@
 define [], () ->
   INF = 500000
+  SMALLINF = 10000
   class MainCanvas extends Backbone.View
     tagName: "main"
     introTemplate: new EJS(url: "templates/intro")
@@ -51,6 +52,8 @@ define [], () ->
       @
 
     # Proxy functions to create new Raphael elements
+    createSet: () =>
+      @rPaper.set.apply(@rPaper, arguments)
     createRect: () =>
       @rPaper.rect.apply(@rPaper, arguments)
     createInfiniteOverlay: () =>
@@ -62,12 +65,27 @@ define [], () ->
       newOverlay
     createPath: () =>
       @rPaper.path.apply(@rPaper, arguments)
-    createInfiniteHorizontalPathWithY: (y) =>
-      newPath = @rPaper.path("M#{-INF},#{y}L#{INF},#{y}")
+    createStraightLine: () =>
+      if arguments.length is 4
+        @createPath("M#{arguments[0]},#{arguments[1]}L#{arguments[2]},#{arguments[3]}")
+      else if arguments.length is 2
+        @createPath("M#{arguments[0].x},#{arguments[0].y}L#{arguments[1].x},#{arguments[1].y}")
+    createInfiniteHorizontalPath: (y) =>
+      newPath = @createPath("M#{-SMALLINF},#{y}H#{SMALLINF}")  # Chrome has some issues with INF..
       newPath.attr
         "fill": "#FFFFFF"
         "fill-opacity": 0
       newPath
+    createInfiniteVerticalPath: (x) =>
+      newPath = @rPaper.path("M#{x},#{-SMALLINF}V#{SMALLINF}")  # Chrome has some issues with INF..
+      newPath.attr
+        "fill": "#FFFFFF"
+        "fill-opacity": 0
+      newPath
+    createCircle: () =>
+      @rPaper.circle.apply(@rPaper, arguments)
+    createText: () =>
+      @rPaper.text.apply(@rPaper, arguments)
     createImage: () =>
       @rPaper.image.apply(@rPaper, arguments)
     getCurrentPositionFromOffset: (dx, dy) =>
@@ -76,7 +94,14 @@ define [], () ->
         x: @curViewBox.x + (dx * @zoomMultiplier)
         y: @curViewBox.y + (dy * @zoomMultiplier)
       }
-      
+    getCurrentPositionFromEvt: (evt) =>
+      if evt.offsetX? and evt.offsetY
+        dx = evt.offsetX
+        dy = evt.offsetY
+      else
+        dx = evt.layerX
+        dy = evt.layerY
+      @getCurrentPositionFromOffset(dx, dy)
 
 
 

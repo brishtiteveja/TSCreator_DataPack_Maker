@@ -32,7 +32,6 @@
         newDetailButtonView = new DetailButtonView({
           model: m
         }).render();
-        m.detailButtonView = newDetailButtonView;
         this.$el.append(newDetailButtonView.el);
         return this;
       };

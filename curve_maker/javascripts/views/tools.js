@@ -39,7 +39,6 @@
         newToolView = new ToolView({
           model: m
         }).render();
-        m.view = newToolView;
         this.$el.append(newToolView.el);
         return this;
       };
@@ -129,7 +128,7 @@
             startEvent: "start:addingRange",
             stopEvent: "stop:addingRange"
           },
-          title: "Set up range reference lines"
+          title: "Set up range limits"
         });
         this.collection.add({
           name: "add-new-curve",

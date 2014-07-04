@@ -3,7 +3,8 @@ define ["./timeline"], (Timeline) ->
     model: Timeline
     initialize: () ->
       @
-    addOneWithY: (y) =>
-      @add
-        y: Math.round(y)
+    comparator: "y"
+    addWithRounding: (obj) =>
+      obj.y = Math.round(obj.y) if obj.y?
+      @add(obj)
       @

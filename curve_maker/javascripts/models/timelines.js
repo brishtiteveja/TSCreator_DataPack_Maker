@@ -9,7 +9,7 @@
       __extends(Timelines, _super);
 
       function Timelines() {
-        this.addOneWithY = __bind(this.addOneWithY, this);
+        this.addWithRounding = __bind(this.addWithRounding, this);
         return Timelines.__super__.constructor.apply(this, arguments);
       }
 
@@ -19,10 +19,13 @@
         return this;
       };
 
-      Timelines.prototype.addOneWithY = function(y) {
-        this.add({
-          y: Math.round(y)
-        });
+      Timelines.prototype.comparator = "y";
+
+      Timelines.prototype.addWithRounding = function(obj) {
+        if (obj.y != null) {
+          obj.y = Math.round(obj.y);
+        }
+        this.add(obj);
         return this;
       };
 

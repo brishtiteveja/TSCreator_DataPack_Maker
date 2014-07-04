@@ -37,8 +37,7 @@
 
       BackgroundImageDetail.prototype.initialize = function(options) {
         BackgroundImageDetail.__super__.initialize.call(this, options);
-        this.image = new Backbone.Model();
-        this.model.set("image", this.image);
+        this.image = this.columnManager.retrieveCurrentDataModule("backgroundImage");
         this.listenTo(this.image, {
           "change:dataURL": this.changeBackgroundImage,
           "change:curWidth change:curHeight": this.changeBackgroundImageAttributes,
@@ -48,10 +47,6 @@
           "change:rotation": this.updateRotationInput,
           "change:isVisible": this.updateIsVisibleInput,
           "change:isPreserveAspectRatio": this.updateIsPreserveAspectRatioInput
-        });
-        this.image.set({
-          isVisible: true,
-          isPreserveAspectRatio: true
         });
         return this;
       };

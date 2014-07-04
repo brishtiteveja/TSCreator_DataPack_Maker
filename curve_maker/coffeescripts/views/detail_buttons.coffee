@@ -8,7 +8,6 @@ define ["../models/detail", "../models/details", "./detail_button"], (DetailMode
       @
     addOne: (m) =>
       newDetailButtonView = new DetailButtonView(model: m).render()
-      m.detailButtonView = newDetailButtonView
       @$el.append(newDetailButtonView.el)
       @
     forceToRedraw: ($evt) =>

@@ -13,9 +13,17 @@
 
       Timeline.prototype.defaults = function() {
         return {
-          name: "New Timeline " + (_.uniqueId()),
+          name: "Timeline " + (_.uniqueId()),
           age: null
         };
+      };
+
+      Timeline.prototype.getAboveTimeline = function() {
+        return this.collection.at(this.collection.indexOf(this) - 1);
+      };
+
+      Timeline.prototype.getBelowTimeline = function() {
+        return this.collection.at(this.collection.indexOf(this) + 1);
       };
 
       return Timeline;

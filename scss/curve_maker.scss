@@ -39,11 +39,12 @@ input[type="url"], textarea {
   color: rgba(0,0,0,0.75);
   padding: 8px 8px;
 }
+input[type="number"] { text-align: right; }
 
 @import "utils/liquid_three_columns";
 
 
-/* misc generic styles */
+/* Misc generic styles */
 .disable-user-select {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -52,11 +53,15 @@ input[type="url"], textarea {
   -ms-user-select: none;
   user-select: none;
 }
+
+// Generic icon button
 span.icon, .icon-btn span {
   display: inline-block;
   cursor: pointer;
   text-indent: -999999px;
 }
+
+// File dropbox
 .file-dropbox {
   overflow: hidden;
   -moz-border-radius: 5px 5px;
@@ -70,6 +75,29 @@ span.icon, .icon-btn span {
 .file-dropbox:active, .file-dropbox:focus, .file-dropbox:hover {
   cursor: copy;
 }
+
+// Toggle button
+span.toggler {
+  background: green;
+  cursor: pointer;
+  border: 2px solid #111111;
+  border-right-width: 35px;
+  padding: 2px 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  color: #E5E4D7;
+  &::before { content: "On"; }
+}
+span.toggler.off {
+  background: red;
+  border-right-width: 2px;
+  border-left-width: 35px;
+  &::before { content: "Off"; }
+}
+
+// color picker
+input[type="color"] { padding: 0px; margin-left: 20px; width: 60px; }
 
 
 /* Main Panel */
@@ -120,8 +148,6 @@ main {
     padding: 0px 20px;
   }
 }
-
-@import "main_canvas/svg";
 
 
 /* Toolbar Panel */
@@ -216,20 +242,19 @@ main {
   overflow-x: hidden;
   overflow-y: auto;
   height: inherit;
+  font-size: 14px;
+
   .detail-panel {
     min-height: 100%;
-    width: 400px;
+    width: 320px;
     padding: 0px 20px;
     background: #333333;
     color: #FFFFFF;
     opacity: 0.85;
     h3 {
-      //font-size: 1.6rem;
       font-size: 24px;
     }
     label {
-      //font-size: 0.8rem;
-      font-size: 14px;
       margin-left: 5px;
     }
     .row {
@@ -237,10 +262,10 @@ main {
       overflow: auto;
     }
     .multiline-input {
-      width: 120px;
+      width: 100px;
       margin-right: 5px;
       float: left;
-      > * { width: 100px; }
+      > * { width: 80px; }
       input { margin-top: 10px; }
     }
     .image-dropbox {
@@ -249,32 +274,36 @@ main {
       font-weight: 100;
       &:active, &:focus, &:hover { background: #434343; }
     }
+
     .data-list {
-      height: 25px;
       padding: 8px 0px;
       border-bottom: 1px solid #F1F1F1;
-      overflow: auto;
-      
+      overflow: hidden;
       > * { float: left; margin-top: 4px; }
-      .timeline-detail {
-        > * { display: inline-block; vertical-align: top; }
-        .timeline-name { width: 150px; margin-right: 20px; }
-        .timeline-age { width: 60px; margin-left: 29px; }
-      }
-      .timeline-detail-editing {
-        margin-top: 0px;
-        > * { display: inline-block; }
-        input { height: 18px; padding: 3px 8px; }
-        .timeline-name { width: 141px; margin-right: 20px; }
-        .timeline-age { width: 41px; margin: 0px 10px 0px 20px; }
-      }
-
+      &.hover { color: #FDCC59; }
+      &.selected { color: #FA3030; }
+      cursor: pointer;
     }
+    .range-list {
+      padding-bottom: 20px;
+      border-bottom: 1px solid #F1F1F1;
+      > * { float: left; }
+      .cancel-btn { margin-top: 10px; }
+      input.range-value {
+        margin-left: 27px;
+        font-size: 20px;
+        width: 120px;
+        text-align: right;
+      }
+    }
+    .display-options {
+      .display-options-detail { padding: 5px 0px; color: #FFFFFF; }
+      label { display: inline-block; width: 90px; }
+      input[type="color"] { position: absolute; height: 25px; margin-top: -5px; }
+    }
+    
     .icon-btn { width: 16px; height: 16px; }
-    .edit-btn {
-      margin-right: 20px;
-      background: url("/images/cc/white/png/icons_16/playback_play_icon_16.png");
-    }
+    .edit-btn { margin-right: 20px; background: url("/images/cc/white/png/icons_16/playback_play_icon_16.png"); }
     .cancel-btn {
       margin-right: 11px;
       background: url("/images/cc/white/png/icons_16/playback_play_icon_16.png");
@@ -282,10 +311,53 @@ main {
       -ms-transform:rotate(90deg); /* IE 9 */
       -webkit-transform:rotate(90deg);
     }
-    .delete-btn {
-      float:right;
-      background: url("/images/cc/white/png/icons_16/trash_icon_16.png");
+    .delete-btn { float: right; background: url("/images/cc/white/png/icons_16/trash_icon_16.png"); } 
+    .sublist-edit-btn { margin-right: 10px; background: url("/images/cc/white/png/icons_16/arrow_right_icon_16.png"); }
+    .sublist-cancel-btn {
+      margin-right: 10px;
+      background: url("/images/cc/white/png/icons_16/arrow_right_icon_16.png");
+      transform:rotate(90deg);      
+      -ms-transform:rotate(90deg); /* IE 9 */
+      -webkit-transform:rotate(90deg);
     }
   }
+
+  .inline-edit > .data-list { height: 25px; }
+  .expandable-edit > .data-list { }
+      
+  .timeline-detail.showing {
+    > * { display: inline-block; vertical-align: top; }
+    .timeline-name { width: 145px; margin-right: 10px; }
+    .timeline-age { width: 45px; margin-left: 19px; }
+  }
+  .timeline-detail.editing {
+    margin-top: 0px;
+    > * { display: inline-block; }
+    input { height: 16px; padding: 3px 8px; }
+    .timeline-name { width: 136px; margin-right: 10px; }
+    .timeline-age { width: 33px; margin: 0px 3px 0px 10px; }
+  }
+  .zone-detail.showing { 
+    width: 280px;
+    .zone-description { margin-top: 4px; }
+  }
+  .zone-detail.editing {
+    width: 280px;
+    > * { width: 280px; }
+    .zone-description { margin-top: 4px; }
+  }
+
+  .sublist-header {
+    padding: 8px 0px;
+    margin-left: -15px;
+    overflow: auto;
+    > * { float: left; }
+  }
+  .point-list, .line-list, .display-options {
+    margin-left: 27px;
+    width: 270px;
+  }
 }
+
+
 

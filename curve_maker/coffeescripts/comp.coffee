@@ -4,9 +4,11 @@ define [
   "./views/tools"
   "./views/detail_buttons"
   "./views/details"
-], (NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView) ->
+], (NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView, TimelineCollection, ZoneCollection) ->
   class CurveMaker extends Backbone.View
     initialize: (options) ->
+      @columnManager = options.columnManager
+      
       window.maker = @
       # Notifications
       @notificationsView = new NotificationsView(
@@ -38,6 +40,7 @@ define [
       @detailsView = new DetailsView(
         className: "detail-panels"
         mainCanvasView: @mainCanvasView
+        columnManager: @columnManager
       ).render()
       @detailButtonsView = new DetailButtonsView(
         className: "detail-buttons"

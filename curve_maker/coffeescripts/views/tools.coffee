@@ -11,7 +11,6 @@ define ["../models/tool","../models/tools", "./tool"], (ToolModel, ToolCollectio
       @
     addOne: (m) =>
       newToolView = new ToolView(model: m).render()
-      m.view = newToolView
       @$el.append(newToolView.el)
       #@$noScrollbarWrapper.append(newToolView.el)
       @
@@ -55,7 +54,7 @@ define ["../models/tool","../models/tools", "./tool"], (ToolModel, ToolCollectio
       @collection.add
         name: "add-range-lines"
         action: { type: "toggle", groupId: 1, startEvent: "start:addingRange", stopEvent: "stop:addingRange" }
-        title: "Set up range reference lines"
+        title: "Set up range limits"
       @collection.add
         name: "add-new-curve"
         action: { type: "toggle", groupId: 1, startEvent: "start:addingCurve", stopEvent: "stop:addingCurve" }

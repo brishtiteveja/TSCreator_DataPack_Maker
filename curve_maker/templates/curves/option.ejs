@@ -1,0 +1,16 @@
+<div class="sublist-header">
+  <div class="icon-btn sublist-edit-btn"><span>Edit</span></div>
+  <div>Display Options</div>
+</div>
+<div class="display-options-detail">
+  <label>Smoothed</label> <span class="smoothed-btn toggler <% if(!isSmoothed){ %>off<% } %>"></span>
+</div>
+<div class="display-options-detail">
+  <label>Show Points</label> <span class="show-points-btn toggler <% if(!isShowPoints){ %>off<% } %>"></span>
+</div>
+<div class="display-options-detail">
+  <label>Show Lines</label> <span class="show-lines-btn toggler <% if(!isShowLines){ %>off<% } %>"></span>
+</div>
+<div class="display-options-detail">
+  <label>Fill Curve</label> <span class="fill-curve-btn toggler <% if(!isFillCurve){ %>off<% } %>"></span> <input type="color" value="<%= fillColor %>" name="fillColor">
+</div>

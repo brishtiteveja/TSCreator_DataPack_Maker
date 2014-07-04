@@ -3,8 +3,11 @@ define ["../models/detail"], (DetailModel) ->
     tagName: "div"
     className: "detail-panel"
     initialize: (options) ->
-      # Main Canvas is available for all detailViews
+      # Main Canvas, Timelines, and Zones are available for all detailViews
       @mainCanvasView = options.mainCanvasView
+      @columnManager = options.columnManager
+      @timelines = @columnManager.retrieveCurrentDataModule("timelines")
+      @zones = @columnManager.retrieveCurrentDataModule("zones")
 
       @listenTo(@model, "change:isActivated", @togglePanel)
       @template = @model.get("template") or new EJS(text: "<div>Coming soon... (<%= text %>)</div>")

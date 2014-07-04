@@ -3,7 +3,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./views/notifications", "./views/main_canvas", "./views/tools", "./views/detail_buttons", "./views/details"], function(NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView) {
+  define(["./views/notifications", "./views/main_canvas", "./views/tools", "./views/detail_buttons", "./views/details"], function(NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView, TimelineCollection, ZoneCollection) {
     var CurveMaker;
     return CurveMaker = (function(_super) {
       __extends(CurveMaker, _super);
@@ -18,6 +18,7 @@
 
       CurveMaker.prototype.initialize = function(options) {
         var debouncedResize;
+        this.columnManager = options.columnManager;
         window.maker = this;
         this.notificationsView = new NotificationsView({
           className: "notifications"
@@ -38,7 +39,8 @@
         });
         this.detailsView = new DetailsView({
           className: "detail-panels",
-          mainCanvasView: this.mainCanvasView
+          mainCanvasView: this.mainCanvasView,
+          columnManager: this.columnManager
         }).render();
         this.detailButtonsView = new DetailButtonsView({
           className: "detail-buttons",
