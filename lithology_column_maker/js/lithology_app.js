@@ -10,7 +10,7 @@ requirejs.config({
         rulerView: "/commons/js/views/ruler_view",
 
         // Default
-        defaultOb: "../../commons/js/models/default_ob",
+        defaultOb: "/commons/js/models/default_ob",
         defaultView: "/commons/js/views/default_view",
 
         // App
@@ -38,8 +38,8 @@ requirejs.config({
 
 
         // Animation
-        animation: "../../commons/js/models/animation",
-        animationView: "../../commons/js/views/animation_view",
+        animation: "/commons/js/models/animation",
+        animationView: "/commons/js/views/animation_view",
 
 
         // Image
@@ -79,8 +79,8 @@ requirejs.config({
         lithologyColumnsView: "/lithology_column_maker/js/views/lithology_columns_view",
 
         // Libraries
-        polyK: "../../commons/js/lib/polyK",
-        raphael: "../../commons/js/lib/raphael",
+        polyK: "/commons/js/lib/polyK",
+        raphael: "/commons/js/lib/raphael",
 
         // File System
         file: "/file_system/js/models/file",
@@ -94,21 +94,21 @@ requirejs.config({
         lithologyAppView: "/lithology_column_maker/js/views/lithology_app_view",
 
         // Points
-        pointView: "../../lithology_2D/js/views/point_view",
-        point: "../../lithology_2D/js/models/point",
-        points: "../../lithology_2D/js/collections/points",
+        pointView: "/lithology_2D/js/views/point_view",
+        point: "/lithology_2D/js/models/point",
+        points: "/lithology_2D/js/collections/points",
 
         // Polygon
-        polygonView: "../../lithology_2D/js/views/polygon_view",
-        polygonsView: "../../lithology_2D/js/views/polygons_view",
-        polygon: "../../lithology_2D/js/models/polygon",
-        polygons: "../../lithology_2D/js/collections/polygons",
+        polygonView: "/lithology_2D/js/views/polygon_view",
+        polygonsView: "/lithology_2D/js/views/polygons_view",
+        polygon: "/lithology_2D/js/models/polygon",
+        polygons: "/lithology_2D/js/collections/polygons",
 
         // Map View
-        map: "../../lithology_2D/js/models/map",
-        mapView: "../../lithology_2D/js/views/map_view",
+        map: "/lithology_2D/js/models/map",
+        mapView: "/lithology_2D/js/views/map_view",
 
-        lithology2dView: "../../lithology_2D/js/views/lithology_2d_view",
+        lithology2dView: "/lithology_2D/js/views/lithology_2d_view",
 
         // Reference Column Data Loader
         referenceColumnLoader: "/reference_column_maker/js/utils/loader",

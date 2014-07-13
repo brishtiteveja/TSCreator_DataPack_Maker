@@ -6,9 +6,12 @@
 		<link rel="stylesheet" href="/stylesheets/app.css">
 		<link rel="stylesheet" href="/stylesheets/main.css">
 		<link rel="stylesheet" href="/stylesheets/qtip.css">
+		<link rel="stylesheet" href="/stylesheets/jqSlider/iThing.css">
 
 		<!-- Libraries -->
 		<script type="text/javascript" src="/commons/js/lib/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/jQAllRangeSliders-withRuler-min.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/raphael-min.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/underscore-min.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/backbone-min.js"></script>
@@ -16,19 +19,23 @@
 		<script type="text/javascript" src="/commons/js/lib/ejs_production.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/qtip.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/numeric-1.2.6.min.js"></script>
+		<script type="text/javascript" src="/commons/js/lib/polymaps/polymaps.min.js"></script>
 		<script type="text/javascript" src="/commons/js/lib/foundation/js/foundation.min.js"></script>
 
 		<!-- Utilities -->
 		<script type="text/javascript" src="/commons/js/utils/color_utils.js"></script>
 		<script type="text/javascript" src="/commons/js/utils/keys.js"></script>
 
+		<!-- Maps -->
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKHjGMYR_m5f2YerKEJbkYtmbIEwcKrqc&sensor=TRUE"></script>
+
+		<script type="text/javascript" src="/commons/js/lib/gmaps.js"></script>
+
 		<!-- Patterns -->
 		<script type="text/javascript" src="/pattern_manager/js/patterns_list.js"></script>
-		
-
 		<!-- RequireJS -->
 		<script src="/commons/js/lib/require-min.js"></script>
-		<script src="/lithology_column_maker/js/lithology-column-maker-built.0.2.37.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="/lithology_column_maker/js/lithology-column-maker-built.0.2.38.js" type="text/javascript" charset="utf-8" async defer></script>
 	</head>
 	<body class="main">
 		<div class="container row">
@@ -84,7 +91,7 @@
 								</div>
 								<div class="body"></div>
 								<div class="footer"></div>
-							</div>							
+							</div>
 						</div>
 					</div>
 				</div>
@@ -116,11 +123,11 @@
 						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#markers">Time Lines</a></li>
 						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#zones">Zones</a></li>
 						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#columns">Columns</a></li>
-						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#polygons">Polygons</a></li>
+						<li class="settings-links hide"><a class="lithology-settings icons_32-cogs_icon_32" href="#polygons">Polygons</a></li>
 						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#bg-image-settings">Image</a></li>
 						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#ref-col-set">Reference</a></li>
 						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#defaults">Default</a></li>
-						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#animation">Animation</a></li>
+						<li class="settings-links"><a class="lithology-settings icons_32-cogs_icon_32" href="#animation">Geo</a></li>
 					</ul>
 					<div data-alert class="alert-box secondary canvas-status status-box"></div>
 				</div>

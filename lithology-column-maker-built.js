@@ -1,5 +1,6 @@
 ({
     paths: {
+
         // Base components
         baseView: "commons/js/views/base_view",
         baseModel: "commons/js/models/base_model",
@@ -104,6 +105,7 @@
         polygons: "lithology_2D/js/collections/polygons",
 
         // Map View
+        map: "lithology_2D/js/models/map",
         mapView: "lithology_2D/js/views/map_view",
 
         lithology2dView: "lithology_2D/js/views/lithology_2d_view",
