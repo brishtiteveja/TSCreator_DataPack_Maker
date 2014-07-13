@@ -65,6 +65,7 @@ define(["baseView"], function (BaseView) {
         }
 
         this.updateElement();
+        this.renderTooltip();
     };
 
     PointView.prototype.renderTooltip = function () {
@@ -79,7 +80,11 @@ define(["baseView"], function (BaseView) {
             },
             position: {
                 my: 'bottom left', // Position my top left...
-                target: 'mouse', // my target 
+                target: 'mouse', // my target
+                adjust: {
+                    x: 10,
+                    y: -10
+                }
             }
         });
     }
@@ -161,9 +166,6 @@ define(["baseView"], function (BaseView) {
             x: locationX,
             y: locationY
         });
-
-        this.point.updateTransectAndZone();
-        this.zone = this.point.get('zone');
     }
 
     PointView.prototype.onDragEnd = function (evt) {
