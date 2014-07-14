@@ -19,6 +19,7 @@
       CurveMaker.prototype.initialize = function(options) {
         var debouncedResize;
         this.columnManager = options.columnManager;
+        window.maker = this;
         this.notificationsView = new NotificationsView({
           className: "notifications"
         }).render();

@@ -22,7 +22,6 @@
         this.onMouseOver = __bind(this.onMouseOver, this);
         this.render = __bind(this.render, this);
         this._insertAfterMe = __bind(this._insertAfterMe, this);
-        this.smoothedAction = __bind(this.smoothedAction, this);
         this.cancelAction = __bind(this.cancelAction, this);
         this.deleteAction = __bind(this.deleteAction, this);
         this.editAction = __bind(this.editAction, this);
@@ -180,11 +179,6 @@
         $evt.stopImmediatePropagation();
         this.isEditing = false;
         this.render();
-        return this;
-      };
-
-      Curve.prototype.smoothedAction = function($evt) {
-        console.log($evt.target);
         return this;
       };
 

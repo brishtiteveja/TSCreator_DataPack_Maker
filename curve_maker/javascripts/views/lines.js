@@ -64,7 +64,8 @@
         var i, newChildView;
         newChildView = new LineView({
           model: m,
-          mainCanvasView: this.mainCanvasView
+          mainCanvasView: this.mainCanvasView,
+          points: this.points
         }).render();
         i = this.collection.indexOf(m);
         if (i === 0) {

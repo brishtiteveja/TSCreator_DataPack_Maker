@@ -106,7 +106,6 @@
           "start:addingCurve": this.start,
           "stop:addingCurve": this.stop
         });
-        new CurveSmoothingUtils();
         return this;
       };
 
