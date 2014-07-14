@@ -131,11 +131,6 @@ define([
         });
 
         $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-            $("#loading").removeClass('hide');
-            debugger;
-        });
-        $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
-            $("#loading").addClass('hide');
             switch (this.id) {
             case "load-saved-data":
                 self.loadFromLocalStorage();
@@ -147,6 +142,7 @@ define([
                 break;
             }
         });
+        $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {});
     }
 
     LithologyAppView.prototype.showPaper = function () {

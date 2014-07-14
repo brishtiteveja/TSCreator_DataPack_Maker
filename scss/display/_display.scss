@@ -7,7 +7,7 @@
 	padding: 0px;
 	overflow: auto;
 	cursor: crosshair;
-	
+
 	@include display_background;
 
 	> #canvas {
@@ -39,8 +39,8 @@
 			z-index: -100;
 		}
 
-		&::-webkit-scrollbar { 
-			display: none; 
+		&::-webkit-scrollbar {
+			display: none;
 		}
 
 		@include display_background;
@@ -68,15 +68,8 @@
 		// @include display_background;
 	}
 
-
-	> #loading {
-		> img {
-			position: absolute;
-			top: 40%;
-			left: 45%;
-			height: 100px;
-			width: 100px;
-		}
+	> #map {
+		overflow: hidden;
 	}
 
 	> #intro-screen { 

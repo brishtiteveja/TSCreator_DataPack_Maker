@@ -140,16 +140,28 @@ define([
 
         $('a[href=#continue-load-from-local-storage]').click(function (evt) {
             $(evt.target).parent().foundation('reveal', 'close');
-            self.loadFromLocalStorage();
         });
 
         $('a[href=#continue-save-to-local-storage]').click(function (evt) {
             $(evt.target).parent().foundation('reveal', 'close');
-            self.saveToLocalStorage();
         });
 
         $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-            $(this).find("a.continue").addClass('disabled');
+            $("#loading").removeClass('hide');
+        });
+        $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+            debugger;
+            switch (this.id) {
+            case "load-saved-data":
+                self.loadFromLocalStorage();
+                break;
+            case "save-to-local-storage":
+                self.saveToLocalStorage();
+                break;
+            default:
+                break;
+            }
+            $("#loading").addClass('hide');
         });
     }
 

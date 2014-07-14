@@ -8,37 +8,53 @@
 @import "file_system/file_system_panel";
 @import "reference_column/ref_col";
 @import "polymaps/maps";
-
 body {
-	> .row{
+	> .row {
 		@include prevent_drag_and_drop;
 		max-width: 100%;
 		height: 100%;
 	}
-
 	#canvas {
 		width: 100%;
 		height: 100%;
 	}
-
 	#loading {
 		position: fixed;
-		height: 100%;
+		top: 100px;
+		left: 100px;
 		width: 100%;
-		color: #FFF;
 		text-align: center;
+		> h1 {
+			color: #FFF;
+		}
+		> .ajax-spinner-bars {
+			position: absolute;
+			width: 35px;
+			height: 35px;
+			left: 50%;
+			top: 50%;
+		}
+		> .ajax-spinner-bars > div {
+			position: absolute;
+			width: 2px;
+			height: 8px;
+			background-color: #25363F;
+			opacity: 0.05;
+			animation: fadeit 0.8s linear infinite;
+		}
+		> .ajax-spinner-bars > .bar-1 {
+			transform: rotate(0deg) translate(0, -12px);
+			animation-delay: 0.05s;
+		}
 	}
 }
-
 .toggle {
 	cursor: hand;
 }
-
 .slider {
 	width: 200px;
 }
-
 compass .back {
-  fill: #eee;
-  fill-opacity: .8;
+	fill: #eee;
+	fill-opacity: .8;
 }
