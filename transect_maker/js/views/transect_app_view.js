@@ -147,10 +147,6 @@ define([
         });
 
         $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-            $("#loading").removeClass('hide');
-        });
-        $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
-            debugger;
             switch (this.id) {
             case "load-saved-data":
                 self.loadFromLocalStorage();
@@ -161,8 +157,8 @@ define([
             default:
                 break;
             }
-            $("#loading").addClass('hide');
         });
+        $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {});
     }
 
     TransectAppView.prototype.showPaper = function () {
