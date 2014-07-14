@@ -2,3 +2,4 @@
 .sass-cache
 references
 .*.swp
+*.coffee
