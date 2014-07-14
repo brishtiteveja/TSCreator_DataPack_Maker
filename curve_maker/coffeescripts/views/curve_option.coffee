@@ -11,6 +11,7 @@ define [], () ->
     initialize: (options) ->
       @points = options.points
       @lines = options.lines
+      @listenTo(@model, "destroy", @destroy)
       @
     detachEl: () =>
       @$el.detach()
@@ -63,6 +64,10 @@ define [], () ->
       # trigger something
       @
 
+    destroy: () =>
+      @undelegateEvents()
+      @remove()
+      @
 
     render: () =>
       @$el.html(@template.render(@model.toJSON()))

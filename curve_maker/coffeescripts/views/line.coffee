@@ -66,8 +66,8 @@ define ["../utils/curve_smoothing"], (CurveSmoothingUtils) ->
       @stopListening(p, "change:y", @updateRElPosition)
       @
     destroy: () =>
-      @undelegateEvents()
       @stop()
+      @undelegateEvents()
       @rEl.remove()
       @remove()   # calls stopListening()
       @

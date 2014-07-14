@@ -21,7 +21,7 @@ define [], () ->
       @initZoom()
 
       # TODO: debugging
-      window.x = @rPaper
+      #window.x = @rPaper
       #window.y = @panOverlay
       #window.t = @
       @

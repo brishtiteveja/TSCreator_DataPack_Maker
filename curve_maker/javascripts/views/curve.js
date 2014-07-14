@@ -28,6 +28,9 @@
         this.editAction = __bind(this.editAction, this);
         this.inputUpdate = __bind(this.inputUpdate, this);
         this.destroy = __bind(this.destroy, this);
+        this._cleanupOptionView = __bind(this._cleanupOptionView, this);
+        this._cleanupLinesView = __bind(this._cleanupLinesView, this);
+        this._cleanupPointsView = __bind(this._cleanupPointsView, this);
         this.template = __bind(this.template, this);
         return Curve.__super__.constructor.apply(this, arguments);
       }
@@ -102,6 +105,13 @@
         return this;
       };
 
+      Curve.prototype._cleanupPointsView = function() {
+        this.model.get("points").trigger("destroyAll");
+        this.pointsView.detachEl();
+        this.pointsView.trigger("destroy");
+        return this;
+      };
+
       Curve.prototype._setupLinesView = function() {
         this.linesView = new LinesView({
           collection: this.model.get("lines"),
@@ -109,6 +119,12 @@
           columnManager: this.columnManager,
           mainCanvasView: this.mainCanvasView
         }).render();
+        return this;
+      };
+
+      Curve.prototype._cleanupLinesView = function() {
+        this.linesView.detachEl();
+        this.linesView.trigger("destroy");
         return this;
       };
 
@@ -122,8 +138,17 @@
         return this;
       };
 
+      Curve.prototype._cleanupOptionView = function() {
+        this.optionView.detachEl();
+        this.model.get("option").destroy();
+        return this;
+      };
+
       Curve.prototype.destroy = function() {
-        this.model.get("points").trigger("destroyAll");
+        this._cleanupPointsView();
+        this._cleanupLinesView();
+        this._cleanupOptionView();
+        this.stop();
         this.undelegateEvents();
         this.remove();
         return this;

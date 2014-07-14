@@ -70,8 +70,10 @@
       };
 
       Range.prototype.destroy = function() {
+        this.stop();
         this.undelegateEvents();
         this.rEl.remove();
+        this.rText.remove();
         this.remove();
         return this;
       };

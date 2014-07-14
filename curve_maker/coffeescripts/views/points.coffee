@@ -10,6 +10,7 @@ define ["./point"], (PointView) ->
       @mainCanvasView = options.mainCanvasView
       @start()
 
+      @listenTo(@, "destroy", @destroy)
       @listenTo(@collection,
         "add": @addOne
         "remove": @removeOne
@@ -20,8 +21,14 @@ define ["./point"], (PointView) ->
         "stop:addingCurve": @stop
       )
 
+      @_setupHeader()
+      @
+    _setupHeader: () ->
       @$header = $(@template.render())
       @$header.click(@toggleWrapper)
+      @
+    _cleanupHeader: () ->
+      @$header.unbind("click")
       @
     addOne: (m, c, options) =>
       newChildView = new PointView(
@@ -48,6 +55,12 @@ define ["./point"], (PointView) ->
     destroyAll: () =>
       while @collection.at(0)?
         @collection.at(0).destroy()
+      @
+    destroy: () =>
+      @stop()
+      @undelegateEvents()
+      @_cleanupHeader()
+      @remove()
       @
     detachEl: () =>
       @$el.detach()

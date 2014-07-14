@@ -10,6 +10,7 @@ define ["./line"], (LineView) ->
       @mainCanvasView = options.mainCanvasView
       @start()
 
+      @listenTo(@, "destroy", @destroy)
       @listenTo(@collection,
         "add": @addOne
         "remove": @removeOne
@@ -19,8 +20,14 @@ define ["./line"], (LineView) ->
         "stop:addingCurve": @stop
       )
       
+      @_setupHeader()
+      @
+    _setupHeader: () ->
       @$header = $(@template.render())
       @$header.click(@toggleWrapper)
+      @
+    _cleanupHeader: () ->
+      @$header.unbind("click")
       @
     addOne: (m) =>
       newChildView = new LineView(
@@ -40,6 +47,12 @@ define ["./line"], (LineView) ->
     removeOne: (m, c, options) =>
       # Update something
 
+      @
+    destroy: () =>
+      @stop()
+      @undelegateEvents()
+      @_cleanupHeader()
+      @remove()
       @
     detachEl: () =>
       @$el.detach()

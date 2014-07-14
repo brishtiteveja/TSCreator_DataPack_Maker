@@ -10,6 +10,7 @@
 
       function CurveOption() {
         this.render = __bind(this.render, this);
+        this.destroy = __bind(this.destroy, this);
         this.fillColorAction = __bind(this.fillColorAction, this);
         this.fillCurveAction = __bind(this.fillCurveAction, this);
         this.showLinesAction = __bind(this.showLinesAction, this);
@@ -36,6 +37,7 @@
       CurveOption.prototype.initialize = function(options) {
         this.points = options.points;
         this.lines = options.lines;
+        this.listenTo(this.model, "destroy", this.destroy);
         return this;
       };
 
@@ -100,6 +102,12 @@
 
       CurveOption.prototype.fillColorAction = function($evt) {
         this.model.set("fillColor", $($evt.target).val());
+        return this;
+      };
+
+      CurveOption.prototype.destroy = function() {
+        this.undelegateEvents();
+        this.remove();
         return this;
       };
 

@@ -38,8 +38,10 @@ define [], () ->
       )
       @
     destroy: () =>
+      @stop()
       @undelegateEvents()
       @rEl.remove()
+      @rText.remove()   # also remove rText
       @remove()   # calls stopListening()
       @
     inputUpdate: ($evt) =>

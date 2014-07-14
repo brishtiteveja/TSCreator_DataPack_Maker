@@ -109,8 +109,9 @@
       };
 
       Point.prototype.destroy = function() {
-        this.undelegateEvents();
         this.stop();
+        this.unselected();
+        this.undelegateEvents();
         this.rEl.remove();
         this.remove();
         return this;
@@ -163,7 +164,6 @@
           fill: this.normalColor,
           "fill-opacity": 1
         });
-        this.rEl.hover(this.onMouseOver, this.onMouseOut);
         return this;
       };
 
@@ -281,12 +281,14 @@
       };
 
       Point.prototype.start = function() {
+        this.rEl.hover(this.onMouseOver, this.onMouseOut);
         this.rEl.dblclick(this.onSelect);
         return this;
       };
 
       Point.prototype.stop = function() {
         this.rEl.undblclick();
+        this.rEl.unhover();
         return this;
       };
 

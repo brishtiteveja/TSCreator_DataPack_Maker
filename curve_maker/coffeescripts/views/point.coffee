@@ -54,8 +54,9 @@ define [], () ->
       )
       @
     destroy: () =>
-      @undelegateEvents()
       @stop()
+      @unselected()   # make sure to remove drag event
+      @undelegateEvents()
       @rEl.remove()
       @remove()   # calls stopListening()
       @
@@ -101,7 +102,6 @@ define [], () ->
         fill: @normalColor
         "fill-opacity": 1
       )
-      @rEl.hover(@onMouseOver, @onMouseOut)
       
       # Setup tooltip
       #$(@rEl.node).tooltip(
@@ -182,10 +182,12 @@ define [], () ->
     start: () =>
       # Dragging is moved to "selected" and "unselected" events
       #@rEl.drag(@onDragMove, @onDragStart, @onDragEnd)
+      @rEl.hover(@onMouseOver, @onMouseOut)
       @rEl.dblclick(@onSelect)
       @
     stop: () =>
       @rEl.undblclick()
+      @rEl.unhover()
       #@rEl.undrag()
       @
 

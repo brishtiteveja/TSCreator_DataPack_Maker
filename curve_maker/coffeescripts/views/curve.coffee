@@ -52,6 +52,12 @@ define ["./points", "./lines", "../models/curve_option", "./curve_option"], (Poi
         mainCanvasView: @mainCanvasView
       ).render()
       @
+    _cleanupPointsView: () =>
+      # trigger destroy on child models
+      @model.get("points").trigger("destroyAll")
+      @pointsView.detachEl()
+      @pointsView.trigger("destroy")
+      @
     _setupLinesView: () ->
       @linesView = new LinesView(
         collection: @model.get("lines")
@@ -60,21 +66,29 @@ define ["./points", "./lines", "../models/curve_option", "./curve_option"], (Poi
         mainCanvasView: @mainCanvasView
       ).render()
       @
+    _cleanupLinesView: () =>
+      @linesView.detachEl()
+      @linesView.trigger("destroy")
+      @
     _setupOptionView: () ->
       @model.set("option", new CurveOptionModel)
       @optionView = new CurveOptionView(
         model: @model.get("option")
         points: @model.get("points")
         lines: @model.get("lines")
-        #columnManager: @columnManager
-        #mainCanvasView: @mainCanvasView
       ).render()
       @
+    _cleanupOptionView: () =>
+      @optionView.detachEl()
+      @model.get("option").destroy()
+      @
     destroy: () =>
-      # trigger destroy on child models
-      # destroying all points should subsequently clean up all lines
-      @model.get("points").trigger("destroyAll")
+      # cleaning all points should subsequently clean up all lines
+      @_cleanupPointsView()
+      @_cleanupLinesView()
+      @_cleanupOptionView()
 
+      @stop()
       @undelegateEvents()
       @remove()   # calls stopListening()
       @

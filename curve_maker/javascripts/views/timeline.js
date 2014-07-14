@@ -86,6 +86,7 @@
       };
 
       Timeline.prototype.destroy = function() {
+        this.stop();
         this.undelegateEvents();
         this.rEl.remove();
         this.remove();

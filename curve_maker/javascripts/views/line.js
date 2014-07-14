@@ -123,8 +123,8 @@
       };
 
       Line.prototype.destroy = function() {
-        this.undelegateEvents();
         this.stop();
+        this.undelegateEvents();
         this.rEl.remove();
         this.remove();
         return this;

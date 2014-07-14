@@ -9,7 +9,9 @@ define [
     initialize: (options) ->
       @columnManager = options.columnManager
       
-      window.maker = @
+      # TODO: debugging
+      #window.maker = @
+      
       # Notifications
       @notificationsView = new NotificationsView(
         className: "notifications"

@@ -40,6 +40,7 @@ define [], () ->
       )
       @
     destroy: () =>
+      @stop()
       @undelegateEvents()
       @rEl.remove()
       @remove()   # calls stopListening()

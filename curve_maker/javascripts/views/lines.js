@@ -15,6 +15,7 @@
         this.updateWrapper = __bind(this.updateWrapper, this);
         this.toggleWrapper = __bind(this.toggleWrapper, this);
         this.detachEl = __bind(this.detachEl, this);
+        this.destroy = __bind(this.destroy, this);
         this.removeOne = __bind(this.removeOne, this);
         this.addOne = __bind(this.addOne, this);
         return Lines.__super__.constructor.apply(this, arguments);
@@ -35,6 +36,7 @@
         this.columnManager = options.columnManager;
         this.mainCanvasView = options.mainCanvasView;
         this.start();
+        this.listenTo(this, "destroy", this.destroy);
         this.listenTo(this.collection, {
           "add": this.addOne,
           "remove": this.removeOne
@@ -43,8 +45,18 @@
           "start:addingCurve": this.start,
           "stop:addingCurve": this.stop
         });
+        this._setupHeader();
+        return this;
+      };
+
+      Lines.prototype._setupHeader = function() {
         this.$header = $(this.template.render());
         this.$header.click(this.toggleWrapper);
+        return this;
+      };
+
+      Lines.prototype._cleanupHeader = function() {
+        this.$header.unbind("click");
         return this;
       };
 
@@ -65,6 +77,14 @@
       };
 
       Lines.prototype.removeOne = function(m, c, options) {
+        return this;
+      };
+
+      Lines.prototype.destroy = function() {
+        this.stop();
+        this.undelegateEvents();
+        this._cleanupHeader();
+        this.remove();
         return this;
       };
 
