@@ -92,7 +92,29 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
         });
 
         this.app.orderElements();
+        this.renderLabel();
     }
+
+    PolygonView.prototype.renderLabel = function () {
+        if (this.polygon.get('points').size() < 2) {
+            return;
+        }
+
+        var cdts = this.polygon.centroid();
+
+        if (this.label == undefined) {
+            this.label = this.app.Paper.text();
+            this.app.PolygonLabelsSet.push(this.label);
+        }
+        this.label.attr({
+            'x': cdts.x,
+            'y': cdts.y,
+            'text': this.polygon.get('name'),
+            'font-size': 12,
+            'stroke': "#000"
+        });
+        this.label.toFront();
+    };
 
     PolygonView.prototype.createPoint = function (evt) {
         if (!this.polygon.get('draw')) {

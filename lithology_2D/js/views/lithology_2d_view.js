@@ -45,11 +45,15 @@ define([
         this.app.PolygonsCollection = new Polygons();
 
         this.app.PolygonSet = this.app.Paper.set();
+        this.app.PolygonLabelsSet = this.app.Paper.set();
         this.app.PointSet = this.app.Paper.set();
         this.app.LinesSet = this.app.Paper.set();
+
         this.PolygonSet = this.app.PolygonSet;
         this.PointSet = this.app.PointSet;
+        this.PolygonLabelsSet = this.app.PolygonLabelsSet;
         this.LinesSet = this.app.LinesSet;
+
         this.app.orderElements = this.orderElements;
         this.loadPatternsDataAndRender();
     }
@@ -67,6 +71,7 @@ define([
         this.PolygonSet.toFront();
         this.PointSet.toFront();
         this.LinesSet.toFront();
+        this.PolygonLabelsSet.toFront();
     }
 
     Lithology2dView.prototype.render = function () {

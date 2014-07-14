@@ -429,8 +429,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
         });
     };
 
-    PolygonView.prototype.onMouseOver = function () {
-        if (!this.element) return;
+    PolygonView.prototype.hover = function () {
 
         if (this.glow !== undefined) {
             this.glow.remove();
@@ -441,11 +440,9 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
             opacity: 1,
         });
         this.glow.show();
-        this.$el.addClass('hover');
-    }
+    };
 
-    PolygonView.prototype.onMouseOut = function () {
-        if (!this.element) return;
+    PolygonView.prototype.unhover = function () {
 
         if (this.polygon.isSimple()) {
             this.setPolygonFill();
@@ -455,6 +452,17 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
         if (this.glow !== undefined) {
             this.glow.hide();
         }
+    };
+
+    PolygonView.prototype.onMouseOver = function () {
+        if (!this.element) return;
+        this.hover();
+        this.$el.addClass('hover');
+    }
+
+    PolygonView.prototype.onMouseOut = function () {
+        if (!this.element) return;
+        this.unhover();
         this.$el.removeClass('hover');
     }
 

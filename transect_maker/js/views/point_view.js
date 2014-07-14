@@ -119,6 +119,18 @@ define(["baseView"], function (BaseView) {
         this.$el.addClass('hover');
     }
 
+    PointView.prototype.hover = function () {
+        this.element.attr({
+            "r": 10
+        });
+    };
+
+    PointView.prototype.unhover = function () {
+        this.element.attr({
+            "r": 5
+        });
+    };
+
     PointView.prototype.onMouseOver = function () {
         this.app.supressDoubleClick = true;
         this.updateStatusBox();

@@ -151,24 +151,29 @@ define(["baseView"], function (BaseView) {
     MarkerView.prototype.onMouseOver = function () {
         this.markersView.undelegateEvents();
         this.$el.addClass('hover');
-        this.marker.set({
-            hover: true,
-        });
+        this.hover();
     };
 
     MarkerView.prototype.onMouseOut = function () {
         this.markersView.delegateEvents();
         this.$el.removeClass('hover');
-        this.marker.set({
-            hover: false,
+        this.unhover();
+    };
+
+    MarkerView.prototype.hover = function () {
+        this.element.attr({
+            "stroke-width": 5
+        });
+    };
+
+    MarkerView.prototype.unhover = function () {
+        this.element.attr({
+            "stroke-width": 2
         });
     };
 
     MarkerView.prototype.setHoverStatus = function () {
         if (this.marker.get('hover')) {
-            this.element.attr({
-                "stroke-width": 5
-            });
 
             this.$el.addClass('hover');
         } else {

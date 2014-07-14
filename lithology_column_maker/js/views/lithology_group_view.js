@@ -238,9 +238,9 @@ define([
                 var topMarker = lithologyMarkers.at(index);
                 var baseMarker = lithologyMarkers.at(index + 1);
                 var lithology = lithologys.findWhere({
-                    top: topMarker,
-                    base: baseMarker
-                }) ||
+                        top: topMarker,
+                        base: baseMarker
+                    }) ||
                     new Lithology({
                         top: topMarker,
                         base: baseMarker,
@@ -260,9 +260,9 @@ define([
                 var topMarker = lithologyMarkers.at(index - 1);
                 var baseMarker = lithologyMarkers.at(index);
                 var lithology = lithologys.findWhere({
-                    top: topMarker,
-                    base: baseMarker
-                }) ||
+                        top: topMarker,
+                        base: baseMarker
+                    }) ||
                     new Lithology({
                         top: topMarker,
                         base: baseMarker,
@@ -300,16 +300,12 @@ define([
 
     LithologyGroupView.prototype.onMouseOver = function () {
         this.$el.addClass('hover');
-        this.lithologyGroup.set({
-            hover: true,
-        });
+        this.hover();
     };
 
     LithologyGroupView.prototype.onMouseOut = function () {
         this.$el.removeClass('hover');
-        this.lithologyGroup.set({
-            hover: false,
-        });
+        this.unhover();
     };
 
 
@@ -322,6 +318,14 @@ define([
             this.$el.removeClass('hover');
         }
     }
+
+    LithologyGroupView.prototype.hover = function () {
+        this.glow = this.bBox.glow();
+    };
+
+    LithologyGroupView.prototype.unhover = function () {
+        if (this.glow) this.glow.remove();
+    };
 
     LithologyGroupView.prototype.toggleLithologyGroupForm = function () {
         this.render();

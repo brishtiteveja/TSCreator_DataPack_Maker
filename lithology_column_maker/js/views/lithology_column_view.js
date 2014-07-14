@@ -143,6 +143,13 @@ define([
             this.$(".overlay").html(this.polygonView.el);
         }
 
+        if (this.lithologyColumn.get('polygon')) {
+            this.lithologyColumn.get('polygon').set({
+                'name': this.lithologyColumn.get('name')
+            });
+            this.lithologyColumn.get('polygon').update();
+        }
+
         if (this.lithologyColumn.get('lat') && this.lithologyColumn.get('lat') && !this.lithologyColumn.get('point')) {
             this.lithologyColumn.set({
                 point: new Point({})
@@ -268,9 +275,9 @@ define([
                 var baseMarker = lithologyGroupMarkers.at(index + 1);
 
                 var lithologyGroup = lithologyGroups.findWhere({
-                    top: topMarker,
-                    base: baseMarker
-                }) ||
+                        top: topMarker,
+                        base: baseMarker
+                    }) ||
                     new LithologyGroup({
                         top: topMarker,
                         base: baseMarker,
@@ -292,9 +299,9 @@ define([
                 var baseMarker = lithologyGroupMarkers.at(index);
 
                 var lithologyGroup = lithologyGroups.findWhere({
-                    top: topMarker,
-                    base: baseMarker
-                }) ||
+                        top: topMarker,
+                        base: baseMarker
+                    }) ||
                     new LithologyGroup({
                         top: topMarker,
                         base: baseMarker,

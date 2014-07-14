@@ -122,16 +122,24 @@ define(["baseView"], function (BaseView) {
         this.app.map.add(this.app.drag);
     }
 
-    PointView.prototype.onMouseOver = function (evt) {
+    PointView.prototype.hover = function () {
         this.element.attr({
             "r": 10
         });
-    }
+    };
 
-    PointView.prototype.onMouseOut = function (evt) {
+    PointView.prototype.unhover = function () {
         this.element.attr({
             "r": 5
         });
+    };
+
+    PointView.prototype.onMouseOver = function (evt) {
+        this.hover();
+    }
+
+    PointView.prototype.onMouseOut = function (evt) {
+        this.unhover();
     }
 
     PointView.prototype.delete = function () {

@@ -1,7 +1,3 @@
-/*===============================================================================================================
-=            LithologyMarkerView is the view that handles changes to the lithology column it is instantiated with.            =
-===============================================================================================================*/
-
 define(["baseView"], function (BaseView) {
 
     var LithologyMarkerView = BaseView.extend({
@@ -135,31 +131,39 @@ define(["baseView"], function (BaseView) {
 
     LithologyMarkerView.prototype.onMouseOver = function () {
         this.$el.addClass('hover');
-        this.lithologyMarker.set({
-            hover: true,
+        // this.lithologyMarker.set({
+        //     hover: true,
+        // });
+        this.element.attr({
+            "stroke-width": 5
         });
     };
 
     LithologyMarkerView.prototype.onMouseOut = function () {
         this.$el.removeClass('hover');
-        this.lithologyMarker.set({
-            hover: false,
+        this.hover();
+    };
+
+    LithologyMarkerView.prototype.hover = function () {
+        this.element.attr({
+            "stroke-width": 5
+        });
+        this.unhover();
+    };
+
+    LithologyMarkerView.prototype.unhover = function () {
+        this.element.attr({
+            "stroke-width": 2
         });
     };
 
 
     LithologyMarkerView.prototype.setHoverStatus = function () {
         if (this.lithologyMarker.get('hover')) {
-            this.element.attr({
-                "stroke-width": 5
-            });
-
+            this.hover();
             this.$el.addClass('hover');
         } else {
-            this.element.attr({
-                "stroke-width": 2
-            });
-
+            this.unhover();
             this.$el.removeClass('hover');
         }
     }
@@ -194,5 +198,3 @@ define(["baseView"], function (BaseView) {
 
     return LithologyMarkerView;
 });
-
-/*-----  End of LithologyMarkerView  ------*/
