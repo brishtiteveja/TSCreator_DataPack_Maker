@@ -13,17 +13,10 @@ define(["./vector_2D"], function(Vector2D) {
     // Note: here lineTo is a single boolean value instead of array of booleans (in Java implementation)
     var derivative;
     var ret = [];
-
-    if (i == 0 || lineTo) { // first point, dir assumed to be 1
-      var v = this.getControlPoint(points, lineTo, i, dir, false, true);
-
-      ret[0] = v.x;
-      ret[1] = v.y;
-
-      return ret;
-    }
-
-    if (i >= (points.length - 1) || lineTo) { // last point, dir assumed to be -1
+    
+    // first point, dir assumed to be 1
+    // last point, dir assumed to be -1
+    if (i == 0 || i >= (points.length - 1) || lineTo) {
       var v = this.getControlPoint(points, lineTo, i, dir, false, true);
 
       ret[0] = v.x;
@@ -92,14 +85,15 @@ define(["./vector_2D"], function(Vector2D) {
     // Note: small modification to directly pass in sharp instead of sharpA as a parameter
     //boolean sharp = sharpA[i];
 
-    if (i == 0 && !closed) {
-      dir = 1;
-      sharp = true;
-    }
-    if (i == points.length - 1 && !closed) {
-      dir = -1;
-      sharp = true;
-    }
+    // TODO: Why do we need this safe guard???
+    //if (i == 0 && !closed) {
+    //  dir = 1;
+    //  sharp = true;
+    //}
+    //if (i == points.length - 1 && !closed) {
+    //  dir = -1;
+    //  sharp = true;
+    //}
 
     var previ = (i - 1 + points.length) % points.length;
     var nexti = (i + 1) % points.length;
