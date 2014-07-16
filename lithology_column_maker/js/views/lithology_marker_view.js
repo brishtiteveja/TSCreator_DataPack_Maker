@@ -18,7 +18,6 @@ define(["baseView"], function (BaseView) {
             .bind(this));
 
         /* listen to the events */
-        this.listenTo(this.lithologyMarker, 'change:hover', this.setHoverStatus.bind(this));
         this.listenTo(this.lithologyMarker, 'change', this.renderLithologyMarker.bind(this));
         this.listenTo(this.lithologyMarker, 'destroy', this.delete.bind(this));
         this.listenTo(this.lithologyMarker.get('lithologys'), 'remove', this.checkAndDelete.bind(this));
@@ -128,27 +127,22 @@ define(["baseView"], function (BaseView) {
 
     };
 
+    LithologyMarkerView.prototype.dragEnd = function (evt) {};
 
     LithologyMarkerView.prototype.onMouseOver = function () {
         this.$el.addClass('hover');
-        // this.lithologyMarker.set({
-        //     hover: true,
-        // });
-        this.element.attr({
-            "stroke-width": 5
-        });
+        this.hover();
     };
 
     LithologyMarkerView.prototype.onMouseOut = function () {
         this.$el.removeClass('hover');
-        this.hover();
+        this.unhover();
     };
 
     LithologyMarkerView.prototype.hover = function () {
         this.element.attr({
             "stroke-width": 5
         });
-        this.unhover();
     };
 
     LithologyMarkerView.prototype.unhover = function () {
@@ -167,9 +161,6 @@ define(["baseView"], function (BaseView) {
             this.$el.removeClass('hover');
         }
     }
-
-
-    LithologyMarkerView.prototype.dragEnd = function (evt) {};
 
     LithologyMarkerView.prototype.delete = function () {
         if (this.element !== undefined) this.element.remove();

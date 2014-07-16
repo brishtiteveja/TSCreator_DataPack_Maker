@@ -48,10 +48,10 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.listenTo(this.lithology.get('lithologyGroup').get('lithologyMarkers'), 'add', this.checkAndDelete.bind(
             this));
 
-        this.listenTo(this.top, 'update', this.renderLithology.bind(this));
+        this.listenTo(this.top, 'change:y', this.renderLithology.bind(this));
         // this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));
         // this.listenTo(this.top, 'change:relativeY', this.renderTooltip.bind(this));
-        this.listenTo(this.base, 'update', this.renderLithology.bind(this));
+        this.listenTo(this.base, 'change:y', this.renderLithology.bind(this));
         // this.listenTo(this.base, 'change:age', this.renderTooltip.bind(this));
         // this.listenTo(this.base, 'change:relativeY', this.renderTooltip.bind(this));
 
