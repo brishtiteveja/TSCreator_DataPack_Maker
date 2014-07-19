@@ -75,6 +75,9 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
     }
 
     PolygonView.prototype.renderPolygonElement = function () {
+        if (this.polygon.get('points').size() < 2) {
+            return;
+        }
 
         if (!this.element) {
             this.element = this.app.Paper.path();

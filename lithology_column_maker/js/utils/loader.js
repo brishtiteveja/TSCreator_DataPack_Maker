@@ -326,13 +326,20 @@ define([
     }
 
     Loader.prototype.createPolygon = function (column, polygonData) {
+        var self = this;
         this.app.lithology2dView.polygonsView.createOverlay(column);
         polygonData.points.forEach(function (point) {
             if (column.get('polygon')) {
-                column.get('polygon').get('points').add(new Point({
-                    x: point.x,
-                    y: point.y
-                }));
+                self.app.lithology2dApp.map.center({
+                    lat: point.lat,
+                    lon: point.lon
+                });
+                var pt = new Point({});
+                column.get('polygon').get('points').add(pt);
+                pt.set({
+                    lat: point.lat,
+                    lon: point.lon
+                })
             }
         });
     }
