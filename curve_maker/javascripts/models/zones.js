@@ -9,8 +9,6 @@
       __extends(Zones, _super);
 
       function Zones() {
-        this.printAll = __bind(this.printAll, this);
-        this.removingZone = __bind(this.removingZone, this);
         this.addingZone = __bind(this.addingZone, this);
         return Zones.__super__.constructor.apply(this, arguments);
       }
@@ -27,6 +25,11 @@
 
       Zones.prototype.comparator = function(m) {
         return m.get("base").get("y");
+      };
+
+      Zones.prototype.destroy = function(options) {
+        this.stopListening();
+        return Zones.__super__.destroy.call(this, options);
       };
 
       Zones.prototype.addingZone = function(above, timeline, below) {
@@ -46,16 +49,19 @@
             top: above,
             base: timeline
           });
+          this.trigger("updated", above.get("y"), below.get("y"));
         } else if ((above == null) && (below != null)) {
           this.add({
             top: timeline,
             base: below
           });
+          this.trigger("updated", timeline.get("y"), below.get("y"));
         } else if ((above != null) && (below == null)) {
           this.add({
             top: above,
             base: timeline
           });
+          this.trigger("updated", above.get("y"), timeline.get("y"));
         }
         return this;
       };
@@ -78,20 +84,41 @@
           z2.set({
             top: above
           });
+          this.trigger("updated", above.get("y"), below.get("y"));
         } else if ((above == null) && (below != null)) {
           z = this.findWhere({
             top: timeline,
             base: below
           });
           z.destroy();
+          this.trigger("updated", timeline.get("y"), below.get("y"));
         } else if ((above != null) && (below == null)) {
           z = this.findWhere({
             top: above,
             base: timeline
           });
           z.destroy();
+          this.trigger("updated", above.get("y"), timeline.get("y"));
         }
         return this;
+      };
+
+      Zones.prototype.isYValid = function(y) {
+        var _ref, _ref1;
+        return ((_ref = this.first()) != null ? _ref.get("top").get("y") : void 0) <= y && ((_ref1 = this.last()) != null ? _ref1.get("base").get("y") : void 0) >= y;
+      };
+
+      Zones.prototype.getZoneAndRelativeYAndAgeForY = function(y) {
+        var age, relativeY, zone, _ref;
+        zone = this.find(function(z) {
+          return z.isYValid(y);
+        });
+        if (zone != null) {
+          _ref = zone.getRelativeYAndAgeForY(y), relativeY = _ref[0], age = _ref[1];
+          return [zone, relativeY, age];
+        } else {
+          return [null, null, null];
+        }
       };
 
       Zones.prototype.printAll = function() {

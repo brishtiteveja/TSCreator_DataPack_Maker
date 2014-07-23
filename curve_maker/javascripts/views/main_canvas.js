@@ -259,6 +259,7 @@
       MainCanvas.prototype.zoomUpdate = function() {
         this.rPaper.setViewBox(this.curViewBox.x, this.curViewBox.y, this.curDimension.width * this.zoomMultiplier, this.curDimension.height * this.zoomMultiplier);
         this.masterView.trigger("showInfo", "Zoom: " + (Math.round((1 / this.zoomMultiplier) * 100)) + "%", 50);
+        this.trigger("zoomMultiplierChanged", this.zoomMultiplier);
         return this;
       };
 

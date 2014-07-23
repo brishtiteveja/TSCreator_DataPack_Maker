@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./curve", "./points", "./lines"], function(Curve, Points, Lines) {
+  define(["./curve", "./points", "./lines", "./curve_option"], function(Curve, Points, Lines, CurveOption) {
     var Curves;
     return Curves = (function(_super) {
       __extends(Curves, _super);
@@ -14,14 +14,17 @@
       Curves.prototype.model = Curve;
 
       Curves.prototype.addWithFirstPoint = function(p) {
-        var newLines, newPoints;
-        newPoints = new Points();
-        newPoints.add(p);
-        newLines = new Lines();
-        return this.add({
-          points: newPoints,
-          lines: newLines
+        var newCurve;
+        newCurve = new Curve({
+          points: new Points(),
+          lines: new Lines(),
+          option: new CurveOption()
         });
+        this.add(newCurve);
+        newCurve.get("points").addWithRounding(p, {
+          withLine: true
+        });
+        return newCurve;
       };
 
       return Curves;

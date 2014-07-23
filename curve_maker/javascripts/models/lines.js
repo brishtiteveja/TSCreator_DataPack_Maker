@@ -26,6 +26,11 @@
         return m.get("below").get("y");
       };
 
+      Lines.prototype.destroy = function(options) {
+        this.stopListening();
+        return Lines.__super__.destroy.call(this, options);
+      };
+
       Lines.prototype.dispatchEvent = function(eventName) {
         this.each(function(m) {
           return m.trigger(eventName);
@@ -33,8 +38,8 @@
         return this;
       };
 
-      Lines.prototype.addingLine = function(above, point, below) {
-        var l;
+      Lines.prototype.addingLine = function(beyondAbove, above, point, below, beyondBelow) {
+        var aboveL, belowL, l;
         if (point == null) {
           return;
         }
@@ -46,26 +51,53 @@
           l.set({
             above: point
           });
+          l.set({
+            beyondAbove: above
+          });
           this.add({
+            beyondAbove: beyondAbove,
             above: above,
-            below: point
+            below: point,
+            beyondBelow: below
           });
         } else if ((above == null) && (below != null)) {
           this.add({
+            beyondAbove: above,
             above: point,
-            below: below
+            below: below,
+            beyondBelow: beyondBelow
           });
         } else if ((above != null) && (below == null)) {
           this.add({
+            beyondAbove: beyondAbove,
             above: above,
-            below: point
+            below: point,
+            beyondBelow: below
+          });
+        }
+        aboveL = this.findWhere({
+          above: beyondAbove,
+          below: above
+        });
+        if (aboveL != null) {
+          aboveL.set({
+            beyondBelow: point
+          });
+        }
+        belowL = this.findWhere({
+          above: below,
+          below: beyondBelow
+        });
+        if (belowL != null) {
+          belowL.set({
+            beyondAbove: point
           });
         }
         return this;
       };
 
-      Lines.prototype.removingLine = function(above, point, below) {
-        var l, l1, l2;
+      Lines.prototype.removingLine = function(beyondAbove, above, point, below, beyondBelow) {
+        var aboveL, belowL, l, l1, l2;
         if (point == null) {
           return;
         }
@@ -79,6 +111,9 @@
             below: below
           });
           l1.destroy();
+          l2.set({
+            beyondAbove: beyondAbove
+          });
           l2.set({
             above: above
           });
@@ -94,6 +129,24 @@
             below: point
           });
           l.destroy();
+        }
+        aboveL = this.findWhere({
+          above: beyondAbove,
+          below: above
+        });
+        if (aboveL != null) {
+          aboveL.set({
+            beyondBelow: below
+          });
+        }
+        belowL = this.findWhere({
+          above: below,
+          below: beyondBelow
+        });
+        if (belowL != null) {
+          belowL.set({
+            beyondAbove: above
+          });
         }
         return this;
       };

@@ -1,29 +1,24 @@
-(function() {
-  define([], function() {
-    var TemplateHelpers;
-    return TemplateHelpers = (function() {
-      function TemplateHelpers() {}
+define([], function() {
+  function TemplateHelpers(options) {
+      options || (options = {});
+    _.defaults(options, {
+      TRUNCATION_LIMIT: 20,
+      TRUNCATION_SUFFIX:"..."
+    });
+    _.extend(this, options);
+  }
 
-      TemplateHelpers.prototype.truncateIfLong = function(str, limit, suffix) {
-        if (limit == null) {
-          limit = 20;
-        }
-        if (suffix == null) {
-          suffix = "...";
-        }
-        if (str.length == null) {
-          str = new String(str);
-        }
-        if (str.length > limit) {
-          return str.slice(0, limit - suffix.length) + suffix;
-        } else {
-          return str;
-        }
-      };
+  TemplateHelpers.prototype.truncateIfLong = function(str, limit, suffix) {
+    if (str == null) { return str; }
+    if (limit == null) { limit = this.TRUNCATION_LIMIT; }
+    if (suffix == null) { suffix = this.TRUNCATION_SUFFIX; }
+    if (str.length == null) { str = new String(str); }
+    if (str.length > limit) {
+      return str.slice(0, limit - suffix.length) + suffix;
+    } else {
+      return str;
+    }
+  };
 
-      return TemplateHelpers;
-
-    })();
-  });
-
-}).call(this);
+  return TemplateHelpers;
+});

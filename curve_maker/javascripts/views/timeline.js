@@ -87,7 +87,6 @@
 
       Timeline.prototype.destroy = function() {
         this.stop();
-        this.undelegateEvents();
         this.rEl.remove();
         this.remove();
         return this;
@@ -98,7 +97,16 @@
         $input = $($evt.target);
         key = $input.attr("name");
         value = $input.val();
-        this.model.set(key, value);
+        if (key === "age") {
+          value = parseFloat(value);
+          if (!isNaN(value) && isFinite(value)) {
+            this.model.set(key, value);
+          } else {
+            this.model.unset(key);
+          }
+        } else {
+          this.model.set(key, value);
+        }
         return this;
       };
 
@@ -178,7 +186,7 @@
       Timeline.prototype.onDragMove = function(dx, dy, x, y, evt) {
         var locationY, slack;
         slack = 2;
-        locationY = this.mainCanvasView.getCurrentPositionFromEvt(evt).y;
+        locationY = TSCreator.utils.math.roundD4(this.mainCanvasView.getCurrentPositionFromEvt(evt).y);
         if ((this._aboveTimeline != null) && (this._belowTimeline != null) && (this._aboveTimeline.get('y') + slack > locationY || locationY > this._belowTimeline.get('y') - slack)) {
           return;
         }

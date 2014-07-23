@@ -9,6 +9,11 @@
       __extends(Point, _super);
 
       function Point() {
+        this.rangeUpdated = __bind(this.rangeUpdated, this);
+        this._unregisterZone = __bind(this._unregisterZone, this);
+        this._registerZone = __bind(this._registerZone, this);
+        this.zoneChanged = __bind(this.zoneChanged, this);
+        this.zoneUpdated = __bind(this.zoneUpdated, this);
         this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
         this.updateRElPosition = __bind(this.updateRElPosition, this);
@@ -21,6 +26,9 @@
         this.unselected = __bind(this.unselected, this);
         this.selected = __bind(this.selected, this);
         this.onSelect = __bind(this.onSelect, this);
+        this.updateFromXY = __bind(this.updateFromXY, this);
+        this.updateFromModel = __bind(this.updateFromModel, this);
+        this.isValid = __bind(this.isValid, this);
         this.onDragEnd = __bind(this.onDragEnd, this);
         this.onDragMove = __bind(this.onDragMove, this);
         this.onDragStart = __bind(this.onDragStart, this);
@@ -57,15 +65,15 @@
 
       Point.prototype.isEditing = false;
 
-      Point.prototype.normalRadius = 2.5;
-
-      Point.prototype.hoverRadius = 5;
-
       Point.prototype.isSelected = false;
 
       Point.prototype.normalColor = "#000000";
 
+      Point.prototype.normalRadius = 2.5;
+
       Point.prototype.selectedColor = "#FA3030";
+
+      Point.prototype.hoverRadius = 5;
 
       Point.prototype.events = {
         "click .sublist-edit-btn": "editAction",
@@ -79,6 +87,9 @@
 
       Point.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
+        this.columnManager = options.columnManager;
+        this.zones = this.columnManager.retrieveCurrentDataModule("zones");
+        this.ranges = this.columnManager.retrieveCurrentDataModule("ranges");
         this.initCanvasEl();
         this.start();
         this.listenTo(this.model, {
@@ -99,8 +110,16 @@
         });
         this.listenTo(this.model, {
           "change:x": this.render,
-          "change:y": this.render
+          "change:y": this.render,
+          "change:relX": this.render,
+          "change:relY": this.render,
+          "change:value": this.render,
+          "change:age": this.render,
+          "change:zone": this.zoneChanged
         });
+        this._registerZone(this.model.get("zone"));
+        this.listenTo(this.zones, "updated", this.zoneUpdated);
+        this.listenTo(this.ranges, "updated", this.rangeUpdated);
         this.listenTo(this.mainCanvasView, {
           "start:addingCurve": this.start,
           "stop:addingCurve": this.stop
@@ -111,7 +130,6 @@
       Point.prototype.destroy = function() {
         this.stop();
         this.unselected();
-        this.undelegateEvents();
         this.rEl.remove();
         this.remove();
         return this;
@@ -121,7 +139,7 @@
         var $input, key, value;
         $input = $($evt.target);
         key = $input.attr("name");
-        value = $input.val();
+        value = parseFloat($input.val());
         this.model.set(key, value);
         return this;
       };
@@ -186,30 +204,62 @@
       };
 
       Point.prototype.onDragMove = function(dx, dy, x, y, evt) {
-        var locationX, locationY, position, slack;
-        slack = 1;
+        var locationX, locationY, position;
         position = this.mainCanvasView.getCurrentPositionFromEvt(evt);
-        locationX = position.x;
-        locationY = position.y;
-        if ((this._abovePoint != null) && (this._belowPoint != null) && (this._abovePoint.get('y') + slack > locationY || locationY > this._belowPoint.get('y') - slack)) {
+        locationX = TSCreator.utils.math.roundD4(position.x);
+        locationY = TSCreator.utils.math.roundD4(position.y);
+        if (!this.isValid(locationX, locationY)) {
           return;
         }
-        if ((this._abovePoint == null) && (this._belowPoint != null) && locationY > this._belowPoint.get('y') - slack) {
-          return;
-        }
-        if ((this._abovePoint != null) && (this._belowPoint == null) && this._abovePoint.get('y') + slack > locationY) {
-          return;
-        }
-        this.model.set({
-          x: locationX,
-          y: locationY
-        });
+        this.updateFromXY(locationX, locationY);
         return this;
       };
 
       Point.prototype.onDragEnd = function(evt) {
         delete this._abovePoint;
         delete this._belowPoint;
+        return this;
+      };
+
+      Point.prototype.isValid = function(x, y) {
+        var slack;
+        slack = 1;
+        if ((this._abovePoint != null) && (this._belowPoint != null) && (this._abovePoint.get('y') + slack > y || y > this._belowPoint.get('y') - slack)) {
+          return false;
+        }
+        if ((this._abovePoint == null) && (this._belowPoint != null) && y > this._belowPoint.get('y') - slack) {
+          return false;
+        }
+        if ((this._abovePoint != null) && (this._belowPoint == null) && this._abovePoint.get('y') + slack > y) {
+          return false;
+        }
+        if (!this.ranges.isXValid(x)) {
+          return false;
+        }
+        if (!this.zones.isYValid(y)) {
+          return false;
+        }
+        return true;
+      };
+
+      Point.prototype.updateFromModel = function() {
+        this.updateFromXY(this.model.get("x"), this.model.get("y"));
+        return this;
+      };
+
+      Point.prototype.updateFromXY = function(x, y) {
+        var age, relativeX, relativeY, value, zone, _ref, _ref1;
+        _ref = this.ranges.getRelativeXAndValueForX(x), relativeX = _ref[0], value = _ref[1];
+        _ref1 = this.zones.getZoneAndRelativeYAndAgeForY(y), zone = _ref1[0], relativeY = _ref1[1], age = _ref1[2];
+        this.model.set({
+          x: x,
+          y: y,
+          relX: relativeX,
+          value: value,
+          relY: relativeY,
+          zone: zone,
+          age: age
+        });
         return this;
       };
 
@@ -220,21 +270,25 @@
       };
 
       Point.prototype.selected = function() {
-        this.isSelected = true;
-        this.rEl.attr({
-          fill: this.selectedColor
-        });
-        this.rEl.drag(this.onDragMove, this.onDragStart, this.onDragEnd);
+        if (!this.isSeleted) {
+          this.isSelected = true;
+          this.rEl.attr({
+            fill: this.selectedColor
+          });
+          this.rEl.drag(this.onDragMove, this.onDragStart, this.onDragEnd);
+        }
         this.toFront();
         return this;
       };
 
       Point.prototype.unselected = function() {
-        this.isSelected = false;
-        this.rEl.undrag();
-        this.rEl.attr({
-          fill: this.normalColor
-        });
+        if (this.isSelected) {
+          this.isSelected = false;
+          this.rEl.undrag();
+          this.rEl.attr({
+            fill: this.normalColor
+          });
+        }
         return this;
       };
 
@@ -289,6 +343,41 @@
       Point.prototype.stop = function() {
         this.rEl.undblclick();
         this.rEl.unhover();
+        return this;
+      };
+
+      Point.prototype.zoneUpdated = function(topY, baseY) {
+        if (topY <= this.model.get("y") && baseY >= this.model.get("y")) {
+          this.updateFromModel();
+        }
+        return this;
+      };
+
+      Point.prototype.zoneChanged = function(m, newZone, options) {
+        this._unregisterZone(m.previous("zone"));
+        this._registerZone(newZone);
+        this.updateFromModel();
+        return this;
+      };
+
+      Point.prototype._registerZone = function(zone) {
+        if (zone != null) {
+          this.listenTo(zone.get("top"), "change:y", this.updateFromModel);
+          this.listenTo(zone.get("base"), "change:y", this.updateFromModel);
+        }
+        return this;
+      };
+
+      Point.prototype._unregisterZone = function(zone) {
+        if (zone != null) {
+          this.stopListening(zone.get("top"), "change:y", this.updateFromModel);
+          this.stopListening(zone.get("base"), "change:y", this.updateFromModel);
+        }
+        return this;
+      };
+
+      Point.prototype.rangeUpdated = function() {
+        this.updateFromModel();
         return this;
       };
 

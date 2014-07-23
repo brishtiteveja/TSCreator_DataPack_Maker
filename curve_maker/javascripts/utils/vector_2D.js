@@ -1,3 +1,5 @@
+/* This code is ported from Java-version TSCreator */
+
 define([], function() {
   function Vector2D(_x, _y) {
     var o;
@@ -20,7 +22,6 @@ define([], function() {
     l = this.length();
     this.x /= l;
     this.y /= l;
-    return this;
   };
 
   Vector2D.prototype.setLength = function(l) {
@@ -28,13 +29,11 @@ define([], function() {
     mul = l / this.length();
     this.x *= mul;
     this.y *= mul;
-    return this;
   };
 
   Vector2D.prototype.mul = function(factor) {
     this.x *= factor;
     this.y *= factor;
-    return this;
   };
 
   Vector2D.prototype.addR = function(o) {
@@ -42,16 +41,14 @@ define([], function() {
   };
 
   Vector2D.prototype.add = function(_x, _y) {
-    var o;
     if (arguments.length > 1) {
       this.x += _x;
       this.y += _y;
     } else {
-      o = _x;
+      var o = _x;
       this.x += o.x;
       this.y += o.y;
     }
-    return this;
   };
 
   Vector2D.prototype.dotProduct = function(o) {
@@ -65,7 +62,6 @@ define([], function() {
     this.y = temp;
     this.x *= 1;
     this.y *= -1;
-    return this;
   };
 
   return Vector2D;

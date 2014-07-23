@@ -23,10 +23,9 @@
 
       Timelines.prototype.addWithRounding = function(obj) {
         if (obj.y != null) {
-          obj.y = Math.round(obj.y);
+          obj.y = TSCreator.utils.math.roundD4(obj.y);
         }
-        this.add(obj);
-        return this;
+        return this.add(obj);
       };
 
       return Timelines;

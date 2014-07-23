@@ -9,9 +9,9 @@
       __extends(Curves, _super);
 
       function Curves() {
+        this.addingChild = __bind(this.addingChild, this);
         this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
-        this.addingChild = __bind(this.addingChild, this);
         this.deselectCurrentIfExists = __bind(this.deselectCurrentIfExists, this);
         this.selectThis = __bind(this.selectThis, this);
         this.render = __bind(this.render, this);
@@ -24,6 +24,9 @@
 
       Curves.prototype.initialize = function(options) {
         Curves.__super__.initialize.call(this, options);
+        this.zones = this.columnManager.retrieveCurrentDataModule("zones");
+        this.ranges = this.columnManager.retrieveCurrentDataModule("ranges");
+        this.notifier = this.columnManager.getNotifier();
         this.curves = this.columnManager.retrieveCurrentDataModule("curves");
         this.listenTo(this.curves, {
           "add": this.addOne,
@@ -85,25 +88,6 @@
         return this;
       };
 
-      Curves.prototype.addingChild = function(evt, clientX, clientY) {
-        var newCurve, position;
-        position = this.mainCanvasView.getCurrentPositionFromEvt(evt);
-        if (this.currentCurve != null) {
-          this.currentCurve.get("points").add({
-            x: position.x,
-            y: position.y
-          });
-          this.currentCurve.trigger("selected");
-        } else {
-          newCurve = this.curves.addWithFirstPoint({
-            x: position.x,
-            y: position.y
-          });
-          this.selectThis(newCurve);
-        }
-        return this;
-      };
-
       Curves.prototype.start = function() {
         this.overlay.toFront();
         this.overlay.dblclick(this.addingChild);
@@ -117,6 +101,36 @@
         this.overlay.toBack();
         this.overlay.undblclick(this.addingChild);
         this.deselectCurrentIfExists();
+        return this;
+      };
+
+      Curves.prototype.addingChild = function(evt, clientX, clientY) {
+        var age, newCurve, p, position, relativeX, relativeY, value, zone, _ref, _ref1;
+        position = this.mainCanvasView.getCurrentPositionFromEvt(evt);
+        if (this.ranges.isXValid(position.x) && this.zones.isYValid(position.y)) {
+          _ref = this.ranges.getRelativeXAndValueForX(position.x), relativeX = _ref[0], value = _ref[1];
+          _ref1 = this.zones.getZoneAndRelativeYAndAgeForY(position.y), zone = _ref1[0], relativeY = _ref1[1], age = _ref1[2];
+          p = {
+            x: position.x,
+            y: position.y,
+            relX: relativeX,
+            value: value,
+            relY: relativeY,
+            zone: zone,
+            age: age
+          };
+          if (this.currentCurve != null) {
+            this.currentCurve.get("points").addWithRounding(p, {
+              withLine: true
+            });
+            this.currentCurve.trigger("selected");
+          } else {
+            newCurve = this.curves.addWithFirstPoint(p);
+            this.selectThis(newCurve);
+          }
+        } else {
+          this.notifier.trigger("showInfo", "The point is invalid.", 500);
+        }
         return this;
       };
 

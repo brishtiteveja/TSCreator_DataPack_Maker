@@ -11,9 +11,11 @@
       function Line() {
         this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
-        this.updateRElPosition = __bind(this.updateRElPosition, this);
+        this.updateREl = __bind(this.updateREl, this);
+        this.beyondBelowPointChanged = __bind(this.beyondBelowPointChanged, this);
         this.belowPointChanged = __bind(this.belowPointChanged, this);
         this.abovePointChanged = __bind(this.abovePointChanged, this);
+        this.beyondAbovePointChanged = __bind(this.beyondAbovePointChanged, this);
         this.toBack = __bind(this.toBack, this);
         this.toFront = __bind(this.toFront, this);
         this.hide = __bind(this.hide, this);
@@ -32,6 +34,8 @@
         this.editAction = __bind(this.editAction, this);
         this.inputUpdate = __bind(this.inputUpdate, this);
         this.destroy = __bind(this.destroy, this);
+        this.nosmoothing = __bind(this.nosmoothing, this);
+        this.smoothing = __bind(this.smoothing, this);
         this.unregisterPointToUpdate = __bind(this.unregisterPointToUpdate, this);
         this.registerPointToUpdate = __bind(this.registerPointToUpdate, this);
         this.template = __bind(this.template, this);
@@ -80,6 +84,8 @@
 
       Line.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
+        this.points = options.points;
+        this.isSmoothed = options.curveOption.get("isSmoothed");
         this.initCanvasEl();
         this.start();
         this.listenTo(this.model, {
@@ -94,14 +100,24 @@
           "show": this.show,
           "hide": this.hide,
           "toFront": this.toFront,
-          "toBack": this.toBack
+          "toBack": this.toBack,
+          "smoothing": this.smoothing,
+          "nosmoothing": this.nosmoothing
         });
         this.listenTo(this.model, {
+          "change:beyondAbove": this.beyondAbovePointChanged,
           "change:above": this.abovePointChanged,
-          "change:below": this.belowPointChanged
+          "change:below": this.belowPointChanged,
+          "change:beyondBelow": this.beyondBelowPointChanged
         });
+        if (this.model.get("beyondAbove") != null) {
+          this.registerPointToUpdate(this.model.get("beyondAbove"));
+        }
         this.registerPointToUpdate(this.model.get("above"));
         this.registerPointToUpdate(this.model.get("below"));
+        if (this.model.get("beyondBelow") != null) {
+          this.registerPointToUpdate(this.model.get("beyondBelow"));
+        }
         this.listenTo(this.mainCanvasView, {
           "start:addingCurve": this.start,
           "stop:addingCurve": this.stop
@@ -110,20 +126,31 @@
       };
 
       Line.prototype.registerPointToUpdate = function(p) {
-        this.listenTo(p, "change:x", this.updateRElPosition);
-        this.listenTo(p, "change:y", this.updateRElPosition);
+        this.listenTo(p, "change:x", this.updateREl);
+        this.listenTo(p, "change:y", this.updateREl);
         return this;
       };
 
       Line.prototype.unregisterPointToUpdate = function(p) {
-        this.stopListening(p, "change:x", this.updateRElPosition);
-        this.stopListening(p, "change:y", this.updateRElPosition);
+        this.stopListening(p, "change:x", this.updateREl);
+        this.stopListening(p, "change:y", this.updateREl);
+        return this;
+      };
+
+      Line.prototype.smoothing = function() {
+        this.isSmoothed = true;
+        this.updateREl();
+        return this;
+      };
+
+      Line.prototype.nosmoothing = function() {
+        this.isSmoothed = false;
+        this.updateREl();
         return this;
       };
 
       Line.prototype.destroy = function() {
         this.stop();
-        this.undelegateEvents();
         this.rEl.remove();
         this.remove();
         return this;
@@ -175,6 +202,7 @@
           "stroke-width": this.normalStrokeWidth
         });
         this.rEl.hover(this.onMouseOver, this.onMouseOut);
+        this.updateREl();
         return this;
       };
 
@@ -197,20 +225,23 @@
       };
 
       Line.prototype.selected = function() {
-        this.isSelected = true;
-        this.rEl.attr({
-          stroke: this.selectedColor
-        });
+        if (!this.isSelected) {
+          this.isSelected = true;
+          this.rEl.attr({
+            stroke: this.selectedColor
+          });
+        }
         this.toFront();
         return this;
       };
 
       Line.prototype.unselected = function() {
-        this.isSelected = false;
-        this.rEl.undrag();
-        this.rEl.attr({
-          stroke: this.normalColor
-        });
+        if (this.isSelected) {
+          this.isSelected = false;
+          this.rEl.attr({
+            stroke: this.normalColor
+          });
+        }
         return this;
       };
 
@@ -248,27 +279,51 @@
         return this;
       };
 
+      Line.prototype.beyondAbovePointChanged = function(m, newP, options) {
+        if (m.previous("beyondAbove") != null) {
+          this.unregisterPointToUpdate(m.previous("beyondAbove"));
+        }
+        if (newP != null) {
+          this.registerPointToUpdate(newP);
+        }
+        this.updateREl();
+        return this;
+      };
+
       Line.prototype.abovePointChanged = function(m, newP, options) {
         this.unregisterPointToUpdate(m.previous("above"));
         this.registerPointToUpdate(newP);
-        this.updateRElPosition();
+        this.updateREl();
         return this;
       };
 
       Line.prototype.belowPointChanged = function(m, newP, options) {
         this.unregisterPointToUpdate(m.previous("below"));
         this.registerPointToUpdate(newP);
-        this.updateRElPosition();
+        this.updateREl();
         return this;
       };
 
-      Line.prototype.updateRElPosition = function(p, value, options) {
-        this.rEl.attr("path")[0][1] = this.model.get("above").get("x");
-        this.rEl.attr("path")[0][2] = this.model.get("above").get("y");
-        this.rEl.attr("path")[1][1] = this.model.get("below").get("x");
-        this.rEl.attr("path")[1][2] = this.model.get("below").get("y");
+      Line.prototype.beyondBelowPointChanged = function(m, newP, options) {
+        if (m.previous("beyondBelow") != null) {
+          this.unregisterPointToUpdate(m.previous("beyondBelow"));
+        }
+        if (newP != null) {
+          this.registerPointToUpdate(newP);
+        }
+        this.updateREl();
+        return this;
+      };
+
+      Line.prototype.updateREl = function(p, value, options) {
+        var controlPoint1, controlPoint2, i, lineTo1, lineTo2, pathStr, x1, x2, y1, y2;
+        x1 = this.model.get("above").get("x");
+        y1 = this.model.get("above").get("y");
+        x2 = this.model.get("below").get("x");
+        y2 = this.model.get("below").get("y");
+        pathStr = this.isSmoothed ? (i = this.points.indexOf(this.model.get("below")), lineTo1 = i - 1 === 0, lineTo2 = i === (this.points.length - 1), controlPoint1 = TSCreator.utils.curvesmoothing.getControlPointForVerticalCurves(this.points, lineTo1, i - 1, 1), controlPoint2 = TSCreator.utils.curvesmoothing.getControlPointForVerticalCurves(this.points, lineTo2, i, -1), "M" + x1 + "," + y1 + " C" + controlPoint1[0] + "," + controlPoint1[1] + " " + controlPoint2[0] + "," + controlPoint2[1] + " " + x2 + "," + y2) : "M" + x1 + "," + y1 + "L" + x2 + "," + y2;
         this.rEl.attr({
-          path: this.rEl.attr("path").toString()
+          path: pathStr
         });
         return this;
       };

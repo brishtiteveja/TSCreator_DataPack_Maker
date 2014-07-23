@@ -3,7 +3,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./points", "./lines", "../models/curve_option", "./curve_option"], function(PointsView, LinesView, CurveOptionModel, CurveOptionView) {
+  define(["./points", "./lines", "./curve_option"], function(PointsView, LinesView, CurveOptionView) {
     var Curve;
     return Curve = (function(_super) {
       __extends(Curve, _super);
@@ -71,6 +71,7 @@
 
       Curve.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
+        this.columnManager = options.columnManager;
         this.start();
         this.listenTo(this.model, {
           "_insertAfterMe": this._insertAfterMe,
@@ -98,6 +99,7 @@
         this.pointsView = new PointsView({
           collection: this.model.get("points"),
           lines: this.model.get("lines"),
+          curveOption: this.model.get("option"),
           columnManager: this.columnManager,
           mainCanvasView: this.mainCanvasView
         }).render();
@@ -115,6 +117,7 @@
         this.linesView = new LinesView({
           collection: this.model.get("lines"),
           points: this.model.get("points"),
+          curveOption: this.model.get("option"),
           columnManager: this.columnManager,
           mainCanvasView: this.mainCanvasView
         }).render();
@@ -128,7 +131,6 @@
       };
 
       Curve.prototype._setupOptionView = function() {
-        this.model.set("option", new CurveOptionModel);
         this.optionView = new CurveOptionView({
           model: this.model.get("option"),
           points: this.model.get("points"),
@@ -148,7 +150,6 @@
         this._cleanupLinesView();
         this._cleanupOptionView();
         this.stop();
-        this.undelegateEvents();
         this.remove();
         return this;
       };

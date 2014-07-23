@@ -24,6 +24,7 @@
           className: "notifications"
         }).render();
         this.proxyListenTo(this, "showInfo", this.notificationsView);
+        this.columnManager.registerNotifier(this.notificationsView);
         this.mainCanvasView = new MainCanvasView({
           className: "col1 disable-user-select",
           masterView: this
@@ -32,11 +33,6 @@
           className: "col2 toolbar"
         }).render();
         this.setUpProxyEventsFromTools();
-        this.listenTo(this.toolsView, "all", function(event) {
-          if (event !== "selectTool" && event !== "change" && event !== "change:isActivated") {
-            return console.log(event);
-          }
-        });
         this.detailsView = new DetailsView({
           className: "detail-panels",
           mainCanvasView: this.mainCanvasView,

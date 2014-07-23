@@ -14,6 +14,7 @@
         this.render = __bind(this.render, this);
         this.updateWrapper = __bind(this.updateWrapper, this);
         this.toggleWrapper = __bind(this.toggleWrapper, this);
+        this.isShowPointsChanged = __bind(this.isShowPointsChanged, this);
         this.detachEl = __bind(this.detachEl, this);
         this.destroy = __bind(this.destroy, this);
         this.destroyAll = __bind(this.destroyAll, this);
@@ -34,10 +35,14 @@
 
       Points.prototype.initialize = function(options) {
         this.lines = options.lines;
+        this.curveOption = options.curveOption;
         this.columnManager = options.columnManager;
         this.mainCanvasView = options.mainCanvasView;
         this.start();
         this.listenTo(this, "destroy", this.destroy);
+        this.listenTo(this.curveOption, {
+          "change:isShowPoints": this.isShowPointsChanged
+        });
         this.listenTo(this.collection, {
           "add": this.addOne,
           "remove": this.removeOne,
@@ -58,7 +63,7 @@
       };
 
       Points.prototype._cleanupHeader = function() {
-        this.$header.unbind("click");
+        this.$header.unbind().remove();
         return this;
       };
 
@@ -66,7 +71,8 @@
         var i, newChildView;
         newChildView = new PointView({
           model: m,
-          mainCanvasView: this.mainCanvasView
+          mainCanvasView: this.mainCanvasView,
+          columnManager: this.columnManager
         }).render();
         i = this.collection.indexOf(m);
         if (i === 0) {
@@ -75,14 +81,16 @@
           this.collection.at(i - 1).trigger("_insertAfterMe", newChildView);
         }
         this.updateWrapper();
-        this.lines.trigger("addingLine", this.collection.at(i - 1), this.collection.at(i), this.collection.at(i + 1));
+        if (options.withLine) {
+          this.lines.trigger("addingLine", this.collection.at(i - 2), this.collection.at(i - 1), this.collection.at(i), this.collection.at(i + 1), this.collection.at(i + 2));
+        }
         return this;
       };
 
       Points.prototype.removeOne = function(m, c, options) {
         var prevI;
         prevI = options.index;
-        this.lines.trigger("removingLine", this.collection.at(prevI - 1), m, this.collection.at(prevI));
+        this.lines.trigger("removingLine", this.collection.at(prevI - 2), this.collection.at(prevI - 1), m, this.collection.at(prevI), this.collection.at(prevI + 1));
         return this;
       };
 
@@ -95,7 +103,6 @@
 
       Points.prototype.destroy = function() {
         this.stop();
-        this.undelegateEvents();
         this._cleanupHeader();
         this.remove();
         return this;
@@ -103,6 +110,15 @@
 
       Points.prototype.detachEl = function() {
         this.$el.detach();
+        return this;
+      };
+
+      Points.prototype.isShowPointsChanged = function(m, value, options) {
+        if (value) {
+          this.collection.dispatchEvent("show");
+        } else {
+          this.collection.dispatchEvent("hide");
+        }
         return this;
       };
 

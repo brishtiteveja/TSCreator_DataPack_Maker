@@ -71,7 +71,6 @@
 
       Range.prototype.destroy = function() {
         this.stop();
-        this.undelegateEvents();
         this.rEl.remove();
         this.rText.remove();
         this.remove();
@@ -82,8 +81,12 @@
         var $input, key, value;
         $input = $($evt.target);
         key = $input.attr("name");
-        value = $input.val();
-        this.model.set(key, value);
+        value = parseFloat($input.val());
+        if (!isNaN(value) && isFinite(value)) {
+          this.model.set(key, value);
+        } else {
+          this.model.unset(key);
+        }
         return this;
       };
 
@@ -155,7 +158,7 @@
       Range.prototype.onDragMove = function(dx, dy, x, y, evt) {
         var locationX, slack;
         slack = 5;
-        locationX = this.mainCanvasView.getCurrentPositionFromEvt(evt).x;
+        locationX = TSCreator.utils.math.roundD4(this.mainCanvasView.getCurrentPositionFromEvt(evt).x);
         if ((this._leftRange != null) && this._leftRange.get('x') + slack > locationX) {
           return;
         }

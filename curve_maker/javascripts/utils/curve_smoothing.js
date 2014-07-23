@@ -1,3 +1,5 @@
+/* This code is ported from Java-version TSCreator */
+
 define(["./vector_2D"], function(Vector2D) {
   function CurveSmoothing(options) {
     options || (options = {});
@@ -40,7 +42,7 @@ define(["./vector_2D"], function(Vector2D) {
     var nextdiff = nextx - currx;
 
     if (prevdiff * nextdiff > 0) {
-      derivative = Number.MAX_VALUE; // this point is either a maximum or a minimum
+      derivative = Number.POSITIVE_INFINITY; // this point is either a maximum or a minimum
     } else {
       derivative = (nextx - prevx) / (nexty - prevy);
 

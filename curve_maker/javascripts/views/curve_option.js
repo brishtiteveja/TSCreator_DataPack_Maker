@@ -51,10 +51,8 @@
         value = !this.model.get("isSmoothed");
         if (value) {
           $($evt.target).removeClass("off");
-          this.lines.dispatchEvent("smoothing");
         } else {
           $($evt.target).addClass("off");
-          this.lines.dispatchEvent("nosmoothing");
         }
         this.model.set("isSmoothed", value);
         return this;
@@ -65,10 +63,8 @@
         value = !this.model.get("isShowPoints");
         if (value) {
           $($evt.target).removeClass("off");
-          this.points.dispatchEvent("show");
         } else {
           $($evt.target).addClass("off");
-          this.points.dispatchEvent("hide");
         }
         this.model.set("isShowPoints", value);
         return this;
@@ -79,10 +75,8 @@
         value = !this.model.get("isShowLines");
         if (value) {
           $($evt.target).removeClass("off");
-          this.lines.dispatchEvent("show");
         } else {
           $($evt.target).addClass("off");
-          this.lines.dispatchEvent("hide");
         }
         this.model.set("isShowLines", value);
         return this;
@@ -106,7 +100,6 @@
       };
 
       CurveOption.prototype.destroy = function() {
-        this.undelegateEvents();
         this.remove();
         return this;
       };

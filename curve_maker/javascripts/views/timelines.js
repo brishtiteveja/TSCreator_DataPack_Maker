@@ -71,7 +71,7 @@
       Timelines.prototype.addingChild = function(evt, clientX, clientY) {
         var position;
         position = this.mainCanvasView.getCurrentPositionFromEvt(evt);
-        this.timelines.add({
+        this.timelines.addWithRounding({
           y: position.y
         });
         return this;

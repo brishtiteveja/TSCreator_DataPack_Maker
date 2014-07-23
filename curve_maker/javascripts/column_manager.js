@@ -9,6 +9,8 @@
       __extends(ColumnManager, _super);
 
       function ColumnManager() {
+        this.getNotifier = __bind(this.getNotifier, this);
+        this.registerNotifier = __bind(this.registerNotifier, this);
         this.retrieveCurrentDataModule = __bind(this.retrieveCurrentDataModule, this);
         this.getCurrentModulesForDetails = __bind(this.getCurrentModulesForDetails, this);
         this.initCurrentDataModules = __bind(this.initCurrentDataModules, this);
@@ -60,6 +62,14 @@
         var currentColumn;
         currentColumn = this.columns.at(this.currentColumnIdx);
         return currentColumn.get(name);
+      };
+
+      ColumnManager.prototype.registerNotifier = function(notifier) {
+        this.notifier = notifier;
+      };
+
+      ColumnManager.prototype.getNotifier = function() {
+        return this.notifier;
       };
 
       ColumnManager.prototype.configs = {

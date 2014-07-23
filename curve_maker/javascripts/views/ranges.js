@@ -61,14 +61,16 @@
       };
 
       Ranges.prototype.addingRange = function(evt, clientX, clientY) {
-        var position;
+        var position, _ref;
         if (this.ranges.canAddMore()) {
           position = this.mainCanvasView.getCurrentPositionFromEvt(evt);
           this.ranges.add({
             x: position.x
           });
         } else {
-          console.log("Cannot add more range limits");
+          if ((_ref = this.columnManager.getNotifier()) != null) {
+            _ref.trigger("showInfo", "You cannot add more range limits", 1000);
+          }
         }
         return this;
       };

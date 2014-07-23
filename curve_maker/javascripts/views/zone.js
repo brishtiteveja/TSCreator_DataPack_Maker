@@ -62,7 +62,6 @@
       };
 
       Zone.prototype.destroy = function() {
-        this.undelegateEvents();
         this.remove();
         return this;
       };

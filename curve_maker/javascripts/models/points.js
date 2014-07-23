@@ -20,6 +20,11 @@
 
       Points.prototype.comparator = "y";
 
+      Points.prototype.destroy = function(options) {
+        this.stopListening();
+        return Points.__super__.destroy.call(this, options);
+      };
+
       Points.prototype.dispatchEvent = function(eventName) {
         this.each(function(m) {
           return m.trigger(eventName);
@@ -27,15 +32,16 @@
         return this;
       };
 
-      Points.prototype.addWithRounding = function(obj) {
+      Points.prototype.addWithRounding = function(obj, options) {
+        var myMath;
+        myMath = TSCreator.utils.math;
         if (obj.x != null) {
-          obj.x = Math.round(obj.x);
+          obj.x = myMath.roundD4(obj.x);
         }
         if (obj.y != null) {
-          obj.y = Math.round(obj.y);
+          obj.y = myMath.roundD4(obj.y);
         }
-        this.add(obj);
-        return this;
+        return this.add(obj, options);
       };
 
       return Points;

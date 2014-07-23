@@ -13,8 +13,7 @@
 
       Timeline.prototype.defaults = function() {
         return {
-          name: "Timeline " + (_.uniqueId()),
-          age: null
+          name: "Timeline " + (_.uniqueId())
         };
       };
 

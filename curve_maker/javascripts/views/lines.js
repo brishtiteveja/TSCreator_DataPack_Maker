@@ -12,8 +12,10 @@
         this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
         this.render = __bind(this.render, this);
-        this.updateWrapper = __bind(this.updateWrapper, this);
+        this._updateWrapper = __bind(this._updateWrapper, this);
         this.toggleWrapper = __bind(this.toggleWrapper, this);
+        this.isShowLinesChanged = __bind(this.isShowLinesChanged, this);
+        this.isSmoothedChanged = __bind(this.isSmoothedChanged, this);
         this.detachEl = __bind(this.detachEl, this);
         this.destroy = __bind(this.destroy, this);
         this.removeOne = __bind(this.removeOne, this);
@@ -33,10 +35,15 @@
 
       Lines.prototype.initialize = function(options) {
         this.points = options.points;
+        this.curveOption = options.curveOption;
         this.columnManager = options.columnManager;
         this.mainCanvasView = options.mainCanvasView;
         this.start();
         this.listenTo(this, "destroy", this.destroy);
+        this.listenTo(this.curveOption, {
+          "change:isSmoothed": this.isSmoothedChanged,
+          "change:isShowLines": this.isShowLinesChanged
+        });
         this.listenTo(this.collection, {
           "add": this.addOne,
           "remove": this.removeOne
@@ -56,7 +63,7 @@
       };
 
       Lines.prototype._cleanupHeader = function() {
-        this.$header.unbind("click");
+        this.$header.unbind().remove();
         return this;
       };
 
@@ -65,7 +72,8 @@
         newChildView = new LineView({
           model: m,
           mainCanvasView: this.mainCanvasView,
-          points: this.points
+          points: this.points,
+          curveOption: this.curveOption
         }).render();
         i = this.collection.indexOf(m);
         if (i === 0) {
@@ -73,7 +81,7 @@
         } else {
           this.collection.at(i - 1).trigger("_insertAfterMe", newChildView);
         }
-        this.updateWrapper();
+        this._updateWrapper();
         return this;
       };
 
@@ -83,7 +91,6 @@
 
       Lines.prototype.destroy = function() {
         this.stop();
-        this.undelegateEvents();
         this._cleanupHeader();
         this.remove();
         return this;
@@ -94,13 +101,31 @@
         return this;
       };
 
-      Lines.prototype.toggleWrapper = function() {
-        this.isExpanded = !this.isExpanded;
-        this.updateWrapper();
+      Lines.prototype.isSmoothedChanged = function(m, value, options) {
+        if (value) {
+          this.collection.dispatchEvent("smoothing");
+        } else {
+          this.collection.dispatchEvent("nosmoothing");
+        }
         return this;
       };
 
-      Lines.prototype.updateWrapper = function(evt) {
+      Lines.prototype.isShowLinesChanged = function(m, value, options) {
+        if (value) {
+          this.collection.dispatchEvent("show");
+        } else {
+          this.collection.dispatchEvent("hide");
+        }
+        return this;
+      };
+
+      Lines.prototype.toggleWrapper = function() {
+        this.isExpanded = !this.isExpanded;
+        this._updateWrapper();
+        return this;
+      };
+
+      Lines.prototype._updateWrapper = function(evt) {
         if (this.isExpanded) {
           this.$el.children().not(this.$header).show();
         } else {
@@ -112,7 +137,6 @@
       Lines.prototype.render = function() {
         this.$el.html(this.$header);
         this.collection.each(this.addOne);
-        this.updateWrapper();
         return this;
       };
 
