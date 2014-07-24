@@ -20,11 +20,6 @@
 
       Points.prototype.comparator = "y";
 
-      Points.prototype.destroy = function(options) {
-        this.stopListening();
-        return Points.__super__.destroy.call(this, options);
-      };
-
       Points.prototype.dispatchEvent = function(eventName) {
         this.each(function(m) {
           return m.trigger(eventName);

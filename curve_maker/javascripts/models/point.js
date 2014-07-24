@@ -17,6 +17,11 @@
         };
       };
 
+      Point.prototype.destroy = function(options) {
+        this.stopListening();
+        return Point.__super__.destroy.call(this, options);
+      };
+
       Point.prototype.getAbovePoint = function() {
         return this.collection.at(this.collection.indexOf(this) - 1);
       };

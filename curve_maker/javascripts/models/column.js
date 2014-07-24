@@ -15,6 +15,11 @@
         isInitialized: false
       };
 
+      Column.prototype.destroy = function(options) {
+        this.stopListening();
+        return Column.__super__.destroy.call(this, options);
+      };
+
       return Column;
 
     })(Backbone.Model);

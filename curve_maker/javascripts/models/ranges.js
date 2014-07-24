@@ -15,11 +15,6 @@
 
       Ranges.prototype.maxLength = 2;
 
-      Ranges.prototype.destroy = function(options) {
-        this.stopListening();
-        return Ranges.__super__.destroy.call(this, options);
-      };
-
       Ranges.prototype.initialize = function() {
         this.listenTo(this, "add", this.updateName);
         this.listenTo(this, "add", this._registerRange);
@@ -37,6 +32,13 @@
       Ranges.prototype.triggerUpdated = function() {
         this.trigger("updated");
         return this;
+      };
+
+      Ranges.prototype.addFromJSON = function(r) {
+        var newRange;
+        newRange = new this.model(r);
+        this.add(newRange);
+        return newRange;
       };
 
       Ranges.prototype.getLeftRange = function() {

@@ -17,6 +17,11 @@
         };
       };
 
+      Range.prototype.destroy = function(options) {
+        this.stopListening();
+        return Range.__super__.destroy.call(this, options);
+      };
+
       Range.prototype.isLeft = function() {
         return this.collection.indexOf(this) === 0;
       };

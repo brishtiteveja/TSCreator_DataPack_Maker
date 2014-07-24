@@ -17,11 +17,6 @@
 
       Details.prototype.activatedDetailModel = null;
 
-      Details.prototype.destroy = function(options) {
-        this.stopListening();
-        return Details.__super__.destroy.call(this, options);
-      };
-
       Details.prototype.initialize = function() {
         this.listenTo(this, "toggleDetail", this.toggleDetail);
         return this;

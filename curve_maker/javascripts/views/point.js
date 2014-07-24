@@ -361,7 +361,7 @@
       };
 
       Point.prototype._registerZone = function(zone) {
-        if (zone != null) {
+        if ((zone != null) && zone.get) {
           this.listenTo(zone.get("top"), "change:y", this.updateFromModel);
           this.listenTo(zone.get("base"), "change:y", this.updateFromModel);
         }
@@ -369,7 +369,7 @@
       };
 
       Point.prototype._unregisterZone = function(zone) {
-        if (zone != null) {
+        if ((zone != null) && zone.get) {
           this.stopListening(zone.get("top"), "change:y", this.updateFromModel);
           this.stopListening(zone.get("base"), "change:y", this.updateFromModel);
         }

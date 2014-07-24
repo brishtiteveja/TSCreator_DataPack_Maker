@@ -17,6 +17,49 @@
         };
       };
 
+      Curve.prototype.addPointWithLine = function(p) {
+        this.get("points").addWithRounding(p, {
+          withLine: true
+        });
+        return this;
+      };
+
+      Curve.prototype.addPointFromJSON = function(p) {
+        this.get("points").addWithRounding(p, {
+          withLine: false
+        });
+        return this;
+      };
+
+      Curve.prototype.addLineFromJSON = function(line) {
+        if (line.beyondAbove != null) {
+          line.beyondAbove = this.get("points").findWhere({
+            x: line.beyondAbove.x,
+            y: line.beyondAbove.y
+          });
+        }
+        if (line.above != null) {
+          line.above = this.get("points").findWhere({
+            x: line.above.x,
+            y: line.above.y
+          });
+        }
+        if (line.below != null) {
+          line.below = this.get("points").findWhere({
+            x: line.below.x,
+            y: line.below.y
+          });
+        }
+        if (line.beyondBelow != null) {
+          line.beyondBelow = this.get("points").findWhere({
+            x: line.beyondBelow.x,
+            y: line.beyondBelow.y
+          });
+        }
+        this.get("lines").add(line);
+        return this;
+      };
+
       return Curve;
 
     })(Backbone.Model);

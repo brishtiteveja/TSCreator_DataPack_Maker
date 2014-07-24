@@ -20,6 +20,11 @@
         isActivated: false
       };
 
+      Detail.prototype.destroy = function(options) {
+        this.stopListening();
+        return Detail.__super__.destroy.call(this, options);
+      };
+
       Detail.prototype.isActivated = function() {
         return this.get("isActivated");
       };

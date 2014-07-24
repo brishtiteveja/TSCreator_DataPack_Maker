@@ -13,7 +13,7 @@
 
       Curves.prototype.model = Curve;
 
-      Curves.prototype.addWithFirstPoint = function(p) {
+      Curves.prototype.addNew = function() {
         var newCurve;
         newCurve = new Curve({
           points: new Points(),
@@ -21,9 +21,13 @@
           option: new CurveOption()
         });
         this.add(newCurve);
-        newCurve.get("points").addWithRounding(p, {
-          withLine: true
-        });
+        return newCurve;
+      };
+
+      Curves.prototype.addWithFirstPoint = function(p) {
+        var newCurve;
+        newCurve = this.addNew();
+        newCurve.addPointWithLine(p);
         return newCurve;
       };
 

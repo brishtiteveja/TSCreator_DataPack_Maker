@@ -27,11 +27,6 @@
         return m.get("base").get("y");
       };
 
-      Zones.prototype.destroy = function(options) {
-        this.stopListening();
-        return Zones.__super__.destroy.call(this, options);
-      };
-
       Zones.prototype.addingZone = function(above, timeline, below) {
         var z;
         if (timeline == null) {
@@ -101,6 +96,16 @@
           this.trigger("updated", above.get("y"), timeline.get("y"));
         }
         return this;
+      };
+
+      Zones.prototype.addFromJSON = function(timelines, zone) {
+        zone.top = timelines.findWhere({
+          y: zone.top.y
+        });
+        zone.base = timelines.findWhere({
+          y: zone.base.y
+        });
+        return this.add(zone);
       };
 
       Zones.prototype.isYValid = function(y) {

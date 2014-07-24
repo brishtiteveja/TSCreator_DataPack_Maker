@@ -17,6 +17,11 @@
         };
       };
 
+      Line.prototype.destroy = function(options) {
+        this.stopListening();
+        return Line.__super__.destroy.call(this, options);
+      };
+
       return Line;
 
     })(Backbone.Model);

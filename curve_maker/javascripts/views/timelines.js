@@ -45,7 +45,9 @@
         } else {
           this.timelines.at(i - 1).trigger("_insertAfterMe", newChildView);
         }
-        this.zones.trigger("addingZone", this.timelines.at(i - 1), this.timelines.at(i), this.timelines.at(i + 1));
+        if (options.withZone) {
+          this.zones.trigger("addingZone", this.timelines.at(i - 1), this.timelines.at(i), this.timelines.at(i + 1));
+        }
         return this;
       };
 
@@ -71,7 +73,7 @@
       Timelines.prototype.addingChild = function(evt, clientX, clientY) {
         var position;
         position = this.mainCanvasView.getCurrentPositionFromEvt(evt);
-        this.timelines.addWithRounding({
+        this.timelines.addWithZone({
           y: position.y
         });
         return this;

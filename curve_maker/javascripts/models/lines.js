@@ -26,11 +26,6 @@
         return m.get("below").get("y");
       };
 
-      Lines.prototype.destroy = function(options) {
-        this.stopListening();
-        return Lines.__super__.destroy.call(this, options);
-      };
-
       Lines.prototype.dispatchEvent = function(eventName) {
         this.each(function(m) {
           return m.trigger(eventName);

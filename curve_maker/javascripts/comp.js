@@ -33,6 +33,14 @@
           className: "col2 toolbar"
         }).render();
         this.setUpProxyEventsFromTools();
+        this.listenTo(this.toolsView, "localSave", function() {
+          return this.columnManager.exportToFile();
+        });
+        this.listenTo(this.toolsView, "all", function(event) {
+          if (event !== "selectTool" && event !== "change" && event !== "change:isActivated") {
+            return console.log(event);
+          }
+        });
         this.detailsView = new DetailsView({
           className: "detail-panels",
           mainCanvasView: this.mainCanvasView,
