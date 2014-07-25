@@ -101,7 +101,7 @@
       };
 
       ColumnManager.prototype.exportAll = function() {
-        var commonExporter, output, outputStr;
+        var commonExporter, output;
         commonExporter = new this.configs.common.exporterClazz({
           columnManager: this
         });
@@ -120,14 +120,14 @@
             }
           };
         })(this));
-        return outputStr = JSON.stringify(output);
+        return JSON.stringify(output);
       };
 
-      ColumnManager.prototype.exportToFile = function() {
-        var $link, blob, data, filename, jsonUrl, url;
+      ColumnManager.prototype.exportToFile = function(filename) {
+        var $link, blob, data, jsonUrl, url;
         data = this.exportAll();
         url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
-        filename = "TSCreator_datapack.json";
+        filename = filename != null ? filename : "TSCreator_curve_" + (new Date().toLocaleDateString("en-US")) + "_" + (+(new Date)) + ".json";
         blob = new Blob([data], {
           type: 'application/json'
         });
@@ -136,7 +136,9 @@
           'download': filename,
           'href': jsonUrl
         });
-        return $link[0].click();
+        $link[0].click();
+        $link.remove();
+        return this;
       };
 
       ColumnManager.prototype.importAll = function(json) {

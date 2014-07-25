@@ -71,7 +71,7 @@
 
       Point.prototype.normalRadius = 2.5;
 
-      Point.prototype.selectedColor = "#FA3030";
+      Point.prototype.selectedColor = "#F155A8";
 
       Point.prototype.hoverRadius = 5;
 
@@ -88,6 +88,7 @@
       Point.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
+        this.isShow = options.curveOption.get("isShowPoints");
         this.zones = this.columnManager.retrieveCurrentDataModule("zones");
         this.ranges = this.columnManager.retrieveCurrentDataModule("ranges");
         this.initCanvasEl();
@@ -182,6 +183,11 @@
           fill: this.normalColor,
           "fill-opacity": 1
         });
+        if (this.isShow) {
+          this.show();
+        } else {
+          this.hide();
+        }
         return this;
       };
 
@@ -307,11 +313,13 @@
       };
 
       Point.prototype.show = function() {
+        this.isShow = true;
         this.rEl.show();
         return this;
       };
 
       Point.prototype.hide = function() {
+        this.isShow = false;
         this.rEl.hide();
         return this;
       };

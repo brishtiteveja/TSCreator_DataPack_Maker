@@ -14,6 +14,8 @@
         this.render = __bind(this.render, this);
         this._updateWrapper = __bind(this._updateWrapper, this);
         this.toggleWrapper = __bind(this.toggleWrapper, this);
+        this.fillColorChanged = __bind(this.fillColorChanged, this);
+        this.isFillCurveChanged = __bind(this.isFillCurveChanged, this);
         this.isShowLinesChanged = __bind(this.isShowLinesChanged, this);
         this.isSmoothedChanged = __bind(this.isSmoothedChanged, this);
         this.detachEl = __bind(this.detachEl, this);
@@ -42,7 +44,9 @@
         this.listenTo(this, "destroy", this.destroy);
         this.listenTo(this.curveOption, {
           "change:isSmoothed": this.isSmoothedChanged,
-          "change:isShowLines": this.isShowLinesChanged
+          "change:isShowLines": this.isShowLinesChanged,
+          "change:isFillCurve": this.isFillCurveChanged,
+          "change:fillColor": this.fillColorChanged
         });
         this.listenTo(this.collection, {
           "add": this.addOne,
@@ -71,6 +75,7 @@
         var i, newChildView;
         newChildView = new LineView({
           model: m,
+          columnManager: this.columnManager,
           mainCanvasView: this.mainCanvasView,
           points: this.points,
           curveOption: this.curveOption
@@ -116,6 +121,20 @@
         } else {
           this.collection.dispatchEvent("hide");
         }
+        return this;
+      };
+
+      Lines.prototype.isFillCurveChanged = function(m, value, options) {
+        if (value) {
+          this.collection.dispatchEvent("show:fill");
+        } else {
+          this.collection.dispatchEvent("hide:fill");
+        }
+        return this;
+      };
+
+      Lines.prototype.fillColorChanged = function(m, value, options) {
+        this.collection.dispatchEvent("changeFillColor", value);
         return this;
       };
 

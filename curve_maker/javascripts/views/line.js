@@ -11,14 +11,22 @@
       function Line() {
         this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
+        this.getFillPathFromLinePath = __bind(this.getFillPathFromLinePath, this);
         this.updateREl = __bind(this.updateREl, this);
+        this._unregisterRangeToUpdate = __bind(this._unregisterRangeToUpdate, this);
+        this._registerRangeToUpdate = __bind(this._registerRangeToUpdate, this);
         this.beyondBelowPointChanged = __bind(this.beyondBelowPointChanged, this);
         this.belowPointChanged = __bind(this.belowPointChanged, this);
         this.abovePointChanged = __bind(this.abovePointChanged, this);
         this.beyondAbovePointChanged = __bind(this.beyondAbovePointChanged, this);
+        this._unregisterPointToUpdate = __bind(this._unregisterPointToUpdate, this);
+        this._registerPointToUpdate = __bind(this._registerPointToUpdate, this);
+        this.changeFillColor = __bind(this.changeFillColor, this);
         this.toBack = __bind(this.toBack, this);
         this.toFront = __bind(this.toFront, this);
+        this.hideFill = __bind(this.hideFill, this);
         this.hide = __bind(this.hide, this);
+        this.showFill = __bind(this.showFill, this);
         this.show = __bind(this.show, this);
         this.unhighlight = __bind(this.unhighlight, this);
         this.highlight = __bind(this.highlight, this);
@@ -36,8 +44,6 @@
         this.destroy = __bind(this.destroy, this);
         this.nosmoothing = __bind(this.nosmoothing, this);
         this.smoothing = __bind(this.smoothing, this);
-        this.unregisterPointToUpdate = __bind(this.unregisterPointToUpdate, this);
-        this.registerPointToUpdate = __bind(this.registerPointToUpdate, this);
         this.template = __bind(this.template, this);
         return Line.__super__.constructor.apply(this, arguments);
       }
@@ -68,7 +74,7 @@
 
       Line.prototype.normalStrokeWidth = 2;
 
-      Line.prototype.selectedColor = "#FA3030";
+      Line.prototype.selectedColor = "#55EA17";
 
       Line.prototype.hoverStrokeWidth = 4;
 
@@ -83,9 +89,14 @@
       };
 
       Line.prototype.initialize = function(options) {
+        this.columnManager = options.columnManager;
         this.mainCanvasView = options.mainCanvasView;
         this.points = options.points;
         this.isSmoothed = options.curveOption.get("isSmoothed");
+        this.isShow = options.curveOption.get("isShowLines");
+        this.isFillCurve = options.curveOption.get("isFillCurve");
+        this.fillColor = options.curveOption.get("fillColor");
+        this.ranges = this.columnManager.retrieveCurrentDataModule("ranges");
         this.initCanvasEl();
         this.start();
         this.listenTo(this.model, {
@@ -102,7 +113,10 @@
           "toFront": this.toFront,
           "toBack": this.toBack,
           "smoothing": this.smoothing,
-          "nosmoothing": this.nosmoothing
+          "nosmoothing": this.nosmoothing,
+          "show:fill": this.showFill,
+          "hide:fill": this.hideFill,
+          "changeFillColor": this.changeFillColor
         });
         this.listenTo(this.model, {
           "change:beyondAbove": this.beyondAbovePointChanged,
@@ -110,30 +124,24 @@
           "change:below": this.belowPointChanged,
           "change:beyondBelow": this.beyondBelowPointChanged
         });
+        this.listenTo(this.ranges, {
+          "add": this._registerRangeToUpdate,
+          "remove": this._unregisterRangeToUpdate
+        });
         if (this.model.get("beyondAbove") != null) {
-          this.registerPointToUpdate(this.model.get("beyondAbove"));
+          this._registerPointToUpdate(this.model.get("beyondAbove"));
         }
-        this.registerPointToUpdate(this.model.get("above"));
-        this.registerPointToUpdate(this.model.get("below"));
+        this._registerPointToUpdate(this.model.get("above"));
+        this._registerPointToUpdate(this.model.get("below"));
         if (this.model.get("beyondBelow") != null) {
-          this.registerPointToUpdate(this.model.get("beyondBelow"));
+          this._registerPointToUpdate(this.model.get("beyondBelow"));
         }
+        this._registerRangeToUpdate(this.ranges.getLeftRange());
+        this._registerRangeToUpdate(this.ranges.getRightRange());
         this.listenTo(this.mainCanvasView, {
           "start:addingCurve": this.start,
           "stop:addingCurve": this.stop
         });
-        return this;
-      };
-
-      Line.prototype.registerPointToUpdate = function(p) {
-        this.listenTo(p, "change:x", this.updateREl);
-        this.listenTo(p, "change:y", this.updateREl);
-        return this;
-      };
-
-      Line.prototype.unregisterPointToUpdate = function(p) {
-        this.stopListening(p, "change:x", this.updateREl);
-        this.stopListening(p, "change:y", this.updateREl);
         return this;
       };
 
@@ -152,6 +160,7 @@
       Line.prototype.destroy = function() {
         this.stop();
         this.rEl.remove();
+        this.rFill.remove();
         this.remove();
         return this;
       };
@@ -196,13 +205,29 @@
       };
 
       Line.prototype.initCanvasEl = function() {
-        this.rEl = this.mainCanvasView.createStraightLine(this.model.get("above").attributes, this.model.get("below").attributes);
+        this.rFill = this.mainCanvasView.createPath();
+        this.rFill.attr({
+          "stroke-width": 0,
+          fill: this.fillColor,
+          "fill-opacity": 0.8
+        });
+        this.rEl = this.mainCanvasView.createPath();
         this.rEl.attr({
           stroke: this.normalColor,
           "stroke-width": this.normalStrokeWidth
         });
         this.rEl.hover(this.onMouseOver, this.onMouseOut);
         this.updateREl();
+        if (this.isShow) {
+          this.show();
+        } else {
+          this.hide();
+        }
+        if (this.isFillCurve) {
+          this.showFill();
+        } else {
+          this.hideFill();
+        }
         return this;
       };
 
@@ -260,58 +285,107 @@
       };
 
       Line.prototype.show = function() {
+        this.isShow = true;
         this.rEl.show();
         return this;
       };
 
+      Line.prototype.showFill = function() {
+        this.isFill = true;
+        this.rFill.show();
+        return this;
+      };
+
       Line.prototype.hide = function() {
+        this.isShow = false;
         this.rEl.hide();
         return this;
       };
 
+      Line.prototype.hideFill = function() {
+        this.isFill = false;
+        this.rFill.hide();
+        return this;
+      };
+
       Line.prototype.toFront = function() {
+        this.rFill.toFront();
         this.rEl.toFront();
         return this;
       };
 
       Line.prototype.toBack = function() {
         this.rEl.toBack();
+        this.rFill.toBack();
+        return this;
+      };
+
+      Line.prototype.changeFillColor = function(fillColor) {
+        this.fillColor = fillColor;
+        this.rFill.attr({
+          fill: this.fillColor
+        });
+        return this;
+      };
+
+      Line.prototype._registerPointToUpdate = function(p) {
+        this.listenTo(p, "change:x", this.updateREl);
+        this.listenTo(p, "change:y", this.updateREl);
+        return this;
+      };
+
+      Line.prototype._unregisterPointToUpdate = function(p) {
+        this.stopListening(p, "change:x", this.updateREl);
+        this.stopListening(p, "change:y", this.updateREl);
         return this;
       };
 
       Line.prototype.beyondAbovePointChanged = function(m, newP, options) {
         if (m.previous("beyondAbove") != null) {
-          this.unregisterPointToUpdate(m.previous("beyondAbove"));
+          this._unregisterPointToUpdate(m.previous("beyondAbove"));
         }
         if (newP != null) {
-          this.registerPointToUpdate(newP);
+          this._registerPointToUpdate(newP);
         }
         this.updateREl();
         return this;
       };
 
       Line.prototype.abovePointChanged = function(m, newP, options) {
-        this.unregisterPointToUpdate(m.previous("above"));
-        this.registerPointToUpdate(newP);
+        this._unregisterPointToUpdate(m.previous("above"));
+        this._registerPointToUpdate(newP);
         this.updateREl();
         return this;
       };
 
       Line.prototype.belowPointChanged = function(m, newP, options) {
-        this.unregisterPointToUpdate(m.previous("below"));
-        this.registerPointToUpdate(newP);
+        this._unregisterPointToUpdate(m.previous("below"));
+        this._registerPointToUpdate(newP);
         this.updateREl();
         return this;
       };
 
       Line.prototype.beyondBelowPointChanged = function(m, newP, options) {
         if (m.previous("beyondBelow") != null) {
-          this.unregisterPointToUpdate(m.previous("beyondBelow"));
+          this._unregisterPointToUpdate(m.previous("beyondBelow"));
         }
         if (newP != null) {
-          this.registerPointToUpdate(newP);
+          this._registerPointToUpdate(newP);
         }
         this.updateREl();
+        return this;
+      };
+
+      Line.prototype._registerRangeToUpdate = function(r) {
+        this.listenTo(r, "change:x", this.updateREl);
+        this.listenTo(r, "change:value", this.updateREl);
+        this.updateREl();
+        return this;
+      };
+
+      Line.prototype._unregisterRangeToUpdate = function(r) {
+        this.stopListening(r, "change:x", this.updateREl);
+        this.stopListening(r, "change:value", this.updateREl);
         return this;
       };
 
@@ -325,7 +399,21 @@
         this.rEl.attr({
           path: pathStr
         });
+        this.rFill.attr({
+          path: this.getFillPathFromLinePath(pathStr, y1, y2)
+        });
         return this;
+      };
+
+      Line.prototype.getFillPathFromLinePath = function(path, y1, y2) {
+        var minRange, rangeX;
+        minRange = this.ranges.getMinRange();
+        if (minRange != null) {
+          rangeX = minRange.get("x");
+          return "M" + rangeX + "," + y1 + "L" + (path.slice(1)) + "L" + rangeX + "," + y2;
+        } else {
+          return "";
+        }
       };
 
       Line.prototype.start = function() {

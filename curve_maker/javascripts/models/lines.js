@@ -26,10 +26,16 @@
         return m.get("below").get("y");
       };
 
-      Lines.prototype.dispatchEvent = function(eventName) {
-        this.each(function(m) {
-          return m.trigger(eventName);
-        });
+      Lines.prototype.dispatchEvent = function(eventName, arg1) {
+        if (arguments.length > 1) {
+          this.each(function(m) {
+            return m.trigger(eventName, arg1);
+          });
+        } else {
+          this.each(function(m) {
+            return m.trigger(eventName);
+          });
+        }
         return this;
       };
 

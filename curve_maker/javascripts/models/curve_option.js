@@ -12,7 +12,7 @@
       }
 
       CurveOption.prototype.defaults = {
-        isSmoothed: false,
+        isSmoothed: true,
         isShowPoints: true,
         isShowLines: true,
         isFillCurve: true,

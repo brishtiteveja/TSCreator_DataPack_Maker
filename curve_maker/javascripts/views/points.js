@@ -72,7 +72,8 @@
         newChildView = new PointView({
           model: m,
           mainCanvasView: this.mainCanvasView,
-          columnManager: this.columnManager
+          columnManager: this.columnManager,
+          curveOption: this.curveOption
         }).render();
         i = this.collection.indexOf(m);
         if (i === 0) {

@@ -8,13 +8,13 @@ define([], function() {
 
   CurveImporter.prototype.reset = function(columnIdx) {
     if(columnIdx == null) { columnIdx = this.columnIdx; }
-    var ranges = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "ranges");
-    while(ranges.at(0)) {
-      ranges.at(0).destroy();
-    }
     var curves = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "curves");
     while(curves.at(0)) {
       curves.at(0).destroy();
+    }
+    var ranges = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "ranges");
+    while(ranges.at(0)) {
+      ranges.at(0).destroy();
     }
   };
 
@@ -33,7 +33,14 @@ define([], function() {
       _.each(curve.lines, function(l) {
         newCurve.addLineFromJSON(l);
       });
+      newCurve.get("option").set(curve.option);
     });
+
+    this.cleanUp();
+  };
+
+  CurveImporter.prototype.cleanUp = function () {
+    this.columnManager.trigger("triggerEventsToMasterView", ["stop:addingRange", "stop:addingCurve"])
   };
 
   return CurveImporter;

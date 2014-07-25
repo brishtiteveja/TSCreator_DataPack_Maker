@@ -33,14 +33,19 @@
           className: "col2 toolbar"
         }).render();
         this.setUpProxyEventsFromTools();
-        this.listenTo(this.toolsView, "localSave", function() {
+        this.listenTo(this.toolsView, "saveToLocalJSON", function() {
           return this.columnManager.exportToFile();
         });
-        this.listenTo(this.toolsView, "all", function(event) {
-          if (event !== "selectTool" && event !== "change" && event !== "change:isActivated") {
-            return console.log(event);
-          }
+        this.listenTo(this, "loadFromLocalJSON", function(json) {
+          return this.columnManager.importAll(json);
         });
+        this.listenTo(this.columnManager, "triggerEventsToMasterView", (function(_this) {
+          return function(events) {
+            return _.each(events, function(event) {
+              return _this.toolsView.trigger(event);
+            });
+          };
+        })(this));
         this.detailsView = new DetailsView({
           className: "detail-panels",
           mainCanvasView: this.mainCanvasView,

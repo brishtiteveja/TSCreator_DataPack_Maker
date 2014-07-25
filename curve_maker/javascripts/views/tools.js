@@ -154,7 +154,7 @@
           name: "save-to-local-storage",
           action: {
             type: "click",
-            event: "localSave"
+            event: "saveToLocalJSON"
           },
           title: "save to local storage"
         });

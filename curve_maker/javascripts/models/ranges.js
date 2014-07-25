@@ -54,6 +54,8 @@
           return this.min(function(m) {
             return m.get("value");
           });
+        } else {
+          return this.getLeftRange();
         }
       };
 
@@ -62,6 +64,8 @@
           return this.max(function(m) {
             return m.get("value");
           });
+        } else {
+          return this.getLeftRange();
         }
       };
 

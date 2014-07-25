@@ -48,8 +48,8 @@
 
       Range.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
-        this.initCanvasEl();
         this.template = options.template;
+        this.initCanvasEl();
         this.listenTo(this.model, {
           "highlight": this.highlight,
           "unhighlight": this.unhighlight,
@@ -73,6 +73,7 @@
         this.stop();
         this.rEl.remove();
         this.rText.remove();
+        this.rTextBackground.remove();
         this.remove();
         return this;
       };

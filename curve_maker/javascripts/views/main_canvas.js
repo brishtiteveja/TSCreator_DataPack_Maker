@@ -34,6 +34,7 @@
         this.render = __bind(this.render, this);
         this.resize = __bind(this.resize, this);
         this.startAndLoadDatafile = __bind(this.startAndLoadDatafile, this);
+        this.readJSONFile = __bind(this.readJSONFile, this);
         this.loadDatafile = __bind(this.loadDatafile, this);
         this.showPaper = __bind(this.showPaper, this);
         return MainCanvas.__super__.constructor.apply(this, arguments);
@@ -71,10 +72,21 @@
       };
 
       MainCanvas.prototype.loadDatafile = function($evt) {
+        var jsonFile, reader;
         $evt.preventDefault();
         $evt.stopPropagation();
         $evt.originalEvent.dataTransfer.files.length !== 1;
-        console.log($evt.originalEvent.dataTransfer.files[0]);
+        jsonFile = $evt.originalEvent.dataTransfer.files[0];
+        reader = new FileReader();
+        reader.onload = this.readJSONFile;
+        reader.readAsText(jsonFile);
+        return this;
+      };
+
+      MainCanvas.prototype.readJSONFile = function(evt) {
+        var jsonStr;
+        jsonStr = evt.target.result;
+        this.masterView.trigger("loadFromLocalJSON", JSON.parse(jsonStr));
         return this;
       };
 

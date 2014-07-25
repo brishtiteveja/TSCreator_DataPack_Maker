@@ -16,6 +16,11 @@
         this.showLinesAction = __bind(this.showLinesAction, this);
         this.showPointsAction = __bind(this.showPointsAction, this);
         this.smoothedAction = __bind(this.smoothedAction, this);
+        this.changeFillColor = __bind(this.changeFillColor, this);
+        this.changeIsFillCurve = __bind(this.changeIsFillCurve, this);
+        this.changeIsShowLines = __bind(this.changeIsShowLines, this);
+        this.changeIsShowPoints = __bind(this.changeIsShowPoints, this);
+        this.changeIsSmoothed = __bind(this.changeIsSmoothed, this);
         this.detachEl = __bind(this.detachEl, this);
         return CurveOption.__super__.constructor.apply(this, arguments);
       }
@@ -38,6 +43,13 @@
         this.points = options.points;
         this.lines = options.lines;
         this.listenTo(this.model, "destroy", this.destroy);
+        this.listenTo(this.model, {
+          "change:isSmoothed": this.changeIsSmoothed,
+          "change:isShowPoints": this.changeIsShowPoints,
+          "change:isShowLines": this.changeIsShowLines,
+          "change:isFillCurve": this.changeIsFillCurve,
+          "change:fillColor": this.changeFillColor
+        });
         return this;
       };
 
@@ -46,50 +58,81 @@
         return this;
       };
 
+      CurveOption.prototype.changeIsSmoothed = function(m, value, options) {
+        var $button;
+        $button = this.$el.find(".smoothed-btn");
+        if (value) {
+          $button.removeClass("off");
+        } else {
+          $button.addClass("off");
+        }
+        return this;
+      };
+
+      CurveOption.prototype.changeIsShowPoints = function(m, value, options) {
+        var $button;
+        $button = this.$el.find(".show-points-btn");
+        if (value) {
+          $button.removeClass("off");
+        } else {
+          $button.addClass("off");
+        }
+        return this;
+      };
+
+      CurveOption.prototype.changeIsShowLines = function(m, value, options) {
+        var $button;
+        $button = this.$el.find(".show-lines-btn");
+        if (value) {
+          $button.removeClass("off");
+        } else {
+          $button.addClass("off");
+        }
+        return this;
+      };
+
+      CurveOption.prototype.changeIsFillCurve = function(m, value, options) {
+        var $button;
+        $button = this.$el.find(".fill-curve-btn");
+        if (value) {
+          $button.removeClass("off");
+        } else {
+          $button.addClass("off");
+        }
+        return this;
+      };
+
+      CurveOption.prototype.changeFillColor = function(m, value, options) {
+        var $input;
+        $input = this.$el.find("input[name=fillColor]");
+        $input.val(value);
+        return this;
+      };
+
       CurveOption.prototype.smoothedAction = function($evt) {
         var value;
-        value = !this.model.get("isSmoothed");
-        if (value) {
-          $($evt.target).removeClass("off");
-        } else {
-          $($evt.target).addClass("off");
-        }
+        value = $($evt.target).hasClass("off");
         this.model.set("isSmoothed", value);
         return this;
       };
 
       CurveOption.prototype.showPointsAction = function($evt) {
         var value;
-        value = !this.model.get("isShowPoints");
-        if (value) {
-          $($evt.target).removeClass("off");
-        } else {
-          $($evt.target).addClass("off");
-        }
+        value = $($evt.target).hasClass("off");
         this.model.set("isShowPoints", value);
         return this;
       };
 
       CurveOption.prototype.showLinesAction = function($evt) {
         var value;
-        value = !this.model.get("isShowLines");
-        if (value) {
-          $($evt.target).removeClass("off");
-        } else {
-          $($evt.target).addClass("off");
-        }
+        value = $($evt.target).hasClass("off");
         this.model.set("isShowLines", value);
         return this;
       };
 
       CurveOption.prototype.fillCurveAction = function($evt) {
         var value;
-        value = !this.model.get("isFillCurve");
-        if (value) {
-          $($evt.target).removeClass("off");
-        } else {
-          $($evt.target).addClass("off");
-        }
+        value = $($evt.target).hasClass("off");
         this.model.set("isFillCurve", value);
         return this;
       };

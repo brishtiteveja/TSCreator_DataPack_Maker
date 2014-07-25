@@ -25,6 +25,12 @@ define([], function() {
     _.each(json.zones, function(z) {
       zones.addFromJSON(timelines, z);
     });
+
+    this.cleanUp();
+  };
+
+  CommonImporter.prototype.cleanUp = function () {
+    this.columnManager.trigger("triggerEventsToMasterView", ["stop:addingTimeline"])
   };
 
   return CommonImporter;
