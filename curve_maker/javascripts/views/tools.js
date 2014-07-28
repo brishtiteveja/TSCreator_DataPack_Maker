@@ -171,8 +171,8 @@
           action: {
             type: "toggle",
             groupId: 1,
-            startEvent: "showExportPreview",
-            stopEvent: "hideExportPreview"
+            startEvent: "start:columnExportPreview",
+            stopEvent: "stop:columnExportPreview"
           },
           title: "export data"
         });
@@ -181,8 +181,8 @@
           action: {
             type: "toggle",
             groupId: 1,
-            startEvent: "showSandbox",
-            stopEvent: "hideSandbox"
+            startEvent: "start:dataSandbox",
+            stopEvent: "stop:dataSandbox"
           },
           title: "sandbox"
         });

@@ -3,7 +3,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./views/notifications", "./views/main_canvas", "./views/tools", "./views/detail_buttons", "./views/details"], function(NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView, TimelineCollection, ZoneCollection) {
+  define(["./views/notifications", "./views/main_canvas", "./views/tools", "./views/detail_buttons", "./views/details"], function(NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView) {
     var CurveMaker;
     return CurveMaker = (function(_super) {
       __extends(CurveMaker, _super);
@@ -32,13 +32,6 @@
         this.toolsView = new ToolsView({
           className: "col2 toolbar"
         }).render();
-        this.setUpProxyEventsFromTools();
-        this.listenTo(this.toolsView, "saveToLocalJSON", function() {
-          return this.columnManager.exportToFile();
-        });
-        this.listenTo(this, "loadFromLocalJSON", function(json) {
-          return this.columnManager.importAll(json);
-        });
         this.listenTo(this.columnManager, "triggerEventsToMasterView", (function(_this) {
           return function(events) {
             return _.each(events, function(event) {
@@ -46,6 +39,9 @@
             });
           };
         })(this));
+        this.columnExportView = new (this.columnManager.getCurrentExportViewClazz())({
+          model: this.columnManager.getCurrentColumn()
+        }).render();
         this.detailsView = new DetailsView({
           className: "detail-panels",
           mainCanvasView: this.mainCanvasView,
@@ -55,6 +51,7 @@
           className: "detail-buttons",
           collection: this.detailsView.collection
         }).render();
+        this.setUpProxyEvents();
         debouncedResize = _.debounce(this.resize, 150);
         $(window).resize(debouncedResize);
         this.disableDefaultFileDrop();
@@ -106,7 +103,7 @@
         return this;
       };
 
-      CurveMaker.prototype.setUpProxyEventsFromTools = function() {
+      CurveMaker.prototype.setUpProxyEvents = function() {
         this.proxyListenTo(this.toolsView, "zoomIn", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "zoomOut", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "start:panning", this.mainCanvasView);
@@ -117,6 +114,10 @@
         this.proxyListenTo(this.toolsView, "stop:addingRange", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "start:addingCurve", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "stop:addingCurve", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "saveToLocalJSON", this.columnManager);
+        this.proxyListenTo(this, "loadFromLocalJSON", this.columnManager);
+        this.proxyListenTo(this.toolsView, "start:columnExportPreview", this.columnExportView);
+        this.proxyListenTo(this.toolsView, "stop:columnExportPreview", this.columnExportView);
         return this;
       };
 

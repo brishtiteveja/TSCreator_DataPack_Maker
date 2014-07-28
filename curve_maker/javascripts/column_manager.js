@@ -3,7 +3,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./models/columns", "./views/timelines", "./models/timelines", "./views/zones", "./models/zones", "./views/ranges", "./models/ranges", "./views/curves", "./models/curves", "./models/points", "./views/image_detail", "./models/background_image", "./utils/common_importer", "./utils/common_exporter", "./utils/curve_importer", "./utils/curve_exporter"], function(ColumnCollection, TimelinesView, TimelineCollection, ZonesView, ZoneCollection, RangesView, RangeCollection, CurvesView, CurveCollection, PointCollection, ImageDetailView, BackgroundImageModel, CommonImporter, CommonExporter, CurveImporter, CurveExporter) {
+  define(["./models/columns", "./views/timelines", "./models/timelines", "./views/zones", "./models/zones", "./views/ranges", "./models/ranges", "./views/curves", "./models/curves", "./models/points", "./views/image_detail", "./models/background_image", "./utils/common_importer", "./utils/common_exporter", "./utils/curve_importer", "./utils/curve_exporter", "./views/curve_export"], function(ColumnCollection, TimelinesView, TimelineCollection, ZonesView, ZoneCollection, RangesView, RangeCollection, CurvesView, CurveCollection, PointCollection, ImageDetailView, BackgroundImageModel, CommonImporter, CommonExporter, CurveImporter, CurveExporter, CurveExportView) {
     var ColumnManager;
     return ColumnManager = (function(_super) {
       __extends(ColumnManager, _super);
@@ -23,6 +23,7 @@
           }
         ]);
         this.initCurrentDataModules();
+        this.initImportAndExportEvents();
         return this;
       };
 
@@ -48,7 +49,7 @@
 
       ColumnManager.prototype.initCurrentDataModules = function() {
         var currentColumn, currentConfig, updates;
-        currentColumn = this.columns.at(this.currentColumnIdx);
+        currentColumn = this.getCurrentColumn();
         currentConfig = this.configs[currentColumn.get("_type")];
         updates = {};
         _.each(currentConfig.requires, (function(_this) {
@@ -65,9 +66,20 @@
         return this;
       };
 
+      ColumnManager.prototype.getCurrentColumn = function() {
+        return this.columns.at(this.currentColumnIdx);
+      };
+
+      ColumnManager.prototype.getCurrentExportViewClazz = function() {
+        var currentColumn, currentConfig;
+        currentColumn = this.getCurrentColumn();
+        currentConfig = this.configs[currentColumn.get("_type")];
+        return currentConfig.exportViewClazz;
+      };
+
       ColumnManager.prototype.getCurrentModulesForDetails = function() {
         var currentColumn, currentConfig;
-        currentColumn = this.columns.at(this.currentColumnIdx);
+        currentColumn = this.getCurrentColumn();
         currentConfig = this.configs[currentColumn.get("_type")];
         return _.map(_.union(this.configs.common.requires, currentConfig.requires), (function(_this) {
           return function(r) {
@@ -78,7 +90,7 @@
 
       ColumnManager.prototype.retrieveCurrentDataModule = function(name) {
         var currentColumn, _ref;
-        currentColumn = this.columns.at(this.currentColumnIdx);
+        currentColumn = this.getCurrentColumn();
         return (_ref = currentColumn.get(name)) != null ? _ref : this.commonDataModules[name];
       };
 
@@ -98,6 +110,12 @@
 
       ColumnManager.prototype.getNotifier = function() {
         return this.notifier;
+      };
+
+      ColumnManager.prototype.initImportAndExportEvents = function() {
+        this.listenTo(this, "saveToLocalJSON", this.exportToFile);
+        this.listenTo(this, "loadFromLocalJSON", this.importAll);
+        return this;
       };
 
       ColumnManager.prototype.exportAll = function() {
@@ -172,7 +190,8 @@
         curve: {
           requires: ["ranges", "curves", "defaults", "chartSettings"],
           importerClazz: CurveImporter,
-          exporterClazz: CurveExporter
+          exporterClazz: CurveExporter,
+          exportViewClazz: CurveExportView
         }
       };
 
