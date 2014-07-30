@@ -1,0 +1,4 @@
+<%= this.name %>	point	<%= this.width ? this.width : 200 %>	<%= TSCreator.utils.color.cssToTscColor(this.backgroundColor ? this.backgroundColor : "#FFFFFF") %>
+<%= option.get("isShowPoints") ? "circle" : "nopoints" %>	<%= option.get("isShowLines") ? "line" : "noline" %>	<%= option.get("isFillCurve") ? TSCreator.utils.color.cssToTscColor(option.get("fillColor")) : "nofill" %>	<%= this.rangeMin %>	<%= this.rangeMax %>	<%= option.get("isSmoothed") ? "smoothed" : "notsmoothed" %>
+<% points.each(function(p) { %>	<%= p.get("age") %>	<%= p.get("value") %>
+<% }) %>

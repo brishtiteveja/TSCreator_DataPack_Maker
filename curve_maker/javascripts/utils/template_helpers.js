@@ -1,6 +1,6 @@
 define([], function() {
   function TemplateHelpers(options) {
-      options || (options = {});
+    options || (options = {});
     _.defaults(options, {
       TRUNCATION_LIMIT: 20,
       TRUNCATION_SUFFIX:"..."

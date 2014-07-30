@@ -1,6 +1,6 @@
 define([], function() {
   function MathHelpers(options) {
-      options || (options = {});
+    options || (options = {});
     _.defaults(options, {
     });
     _.extend(this, options);

@@ -1,4 +1,6 @@
 /* This code is ported from Java-version TSCreator */
+// Note: we moved only the codes, currently being used...
+//       let's move the rest of the code once they start being used (test them thoroughly...)
 
 define([], function() {
   function Vector2D(_x, _y) {
