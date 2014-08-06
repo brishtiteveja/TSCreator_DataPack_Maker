@@ -22,7 +22,7 @@
         this.listenTo(this.collection, "add", this.addOne);
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
-        this.collection.add(this.columnManager.getCurrentModulesForDetails());
+        this.collection.add(this.columnManager.getAllModulesForCurrentColumn());
         return this;
       };
 

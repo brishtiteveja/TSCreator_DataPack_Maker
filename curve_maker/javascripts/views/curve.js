@@ -65,8 +65,8 @@
         "click .delete-btn": "deleteAction",
         "click .cancel-btn": "cancelAction",
         "change input[type=text]": "inputUpdate",
-        "mouseover": "onMouseOver",
-        "mouseout": "onMouseOut"
+        "mouseover .curve-detail": "onMouseOver",
+        "mouseout .curve-detail": "onMouseOut"
       };
 
       Curve.prototype.initialize = function(options) {

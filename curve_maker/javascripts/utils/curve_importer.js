@@ -8,11 +8,11 @@ define([], function() {
 
   CurveImporter.prototype.reset = function(columnIdx) {
     if(columnIdx == null) { columnIdx = this.columnIdx; }
-    var curves = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "curves");
+    var curves = this.columnManager.retrieveDataWithColumnIndex(columnIdx, "curves");
     while(curves.at(0)) {
       curves.at(0).destroy();
     }
-    var ranges = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "ranges");
+    var ranges = this.columnManager.retrieveDataWithColumnIndex(columnIdx, "ranges");
     while(ranges.at(0)) {
       ranges.at(0).destroy();
     }
@@ -20,11 +20,11 @@ define([], function() {
 
   CurveImporter.prototype.loadFromJSON = function (json, columnIdx) {
     if(columnIdx == null) { columnIdx = this.columnIdx; }
-    var ranges = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "ranges");
+    var ranges = this.columnManager.retrieveDataWithColumnIndex(columnIdx, "ranges");
     _.each(json.ranges, function(r) {
       ranges.addFromJSON(r);
     });
-    var curves = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "curves");
+    var curves = this.columnManager.retrieveDataWithColumnIndex(columnIdx, "curves");
     _.each(json.curves, function(curve) {
       var newCurve = curves.addNew();
       _.each(curve.points, function(p) {

@@ -21,8 +21,8 @@
       Detail.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
-        this.timelines = this.columnManager.retrieveCurrentDataModule("timelines");
-        this.zones = this.columnManager.retrieveCurrentDataModule("zones");
+        this.timelines = this.columnManager.retrieveDataForCurrentColumn("timelines");
+        this.zones = this.columnManager.retrieveDataForCurrentColumn("zones");
         this.listenTo(this.model, "change:isActivated", this.togglePanel);
         this.template = this.model.get("template") || new EJS({
           text: "<div>Coming soon... (<%= text %>)</div>"

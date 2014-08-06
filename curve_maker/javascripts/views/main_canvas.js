@@ -33,6 +33,8 @@
         this.createSet = __bind(this.createSet, this);
         this.render = __bind(this.render, this);
         this.resize = __bind(this.resize, this);
+        this.unregisterFullScreenSubView = __bind(this.unregisterFullScreenSubView, this);
+        this.registerFullScreenSubView = __bind(this.registerFullScreenSubView, this);
         this.startAndLoadDatafile = __bind(this.startAndLoadDatafile, this);
         this.readJSONFile = __bind(this.readJSONFile, this);
         this.loadDatafile = __bind(this.loadDatafile, this);
@@ -53,12 +55,15 @@
 
       MainCanvas.prototype.initialize = function(options) {
         this.masterView = options.masterView;
-        this.$intro = $(this.introTemplate.render());
         this.curDimension = null;
         this.curViewBox = {
           x: 0,
           y: 0
         };
+        this._fullScreenSubViews = [];
+        this.$intro = $(this.introTemplate.render());
+        this.listenTo(this, "registerSubView:fullScreen", this.registerFullScreenSubView);
+        this.listenTo(this, "unregisterSubView:fullScreen", this.unregisterFullScreenSubView);
         this.rPaper = Raphael(this.el, "100%", "100%");
         this.initPan();
         this.initZoom();
@@ -93,6 +98,30 @@
       MainCanvas.prototype.startAndLoadDatafile = function($evt) {
         this.showPaper();
         this.loadDatafile($evt);
+        return this;
+      };
+
+      MainCanvas.prototype.registerFullScreenSubView = function(subView, showEvent, hideEvent) {
+        this._fullScreenSubViews.push(subView);
+        this.$el.append(subView.el);
+        this.listenTo(this, showEvent, (function(_this) {
+          return function() {
+            $(_this.rPaper.canvas).hide();
+            return subView.$el.show();
+          };
+        })(this));
+        this.listenTo(this, hideEvent, (function(_this) {
+          return function() {
+            $(_this.rPaper.canvas).show();
+            return subView.$el.hide();
+          };
+        })(this));
+        return this;
+      };
+
+      MainCanvas.prototype.unregisterFullScreenSubView = function(subView, showEvent, hideEvent) {
+        this.stopListening(this, showEvent);
+        this.stopListening(this, hideEvent);
         return this;
       };
 
@@ -247,7 +276,7 @@
       };
 
       MainCanvas.prototype.zoomIn = function() {
-        if (this.zoom < 20) {
+        if (this.zoom < 25) {
           this.zoom += 1;
           this.zoomMultiplier = this.defaultZoom / this.zoom;
           this.zoomUpdate();

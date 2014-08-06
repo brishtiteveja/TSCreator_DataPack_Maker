@@ -9,8 +9,8 @@ define([], function() {
   CurveExporter.prototype.getJSON = function (columnIdx) {
     if(columnIdx == null) { columnIdx = this.columnIdx; }
     var output = {};
-    output.ranges = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "ranges");
-    output.curves = this.columnManager.retrieveDataModuleWithIndex(columnIdx, "curves");
+    output.ranges = this.columnManager.retrieveDataWithColumnIndex(columnIdx, "ranges");
+    output.curves = this.columnManager.retrieveDataWithColumnIndex(columnIdx, "curves");
     output._type = "curve";
     return output;
   };

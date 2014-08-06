@@ -96,7 +96,7 @@
         this.isShow = options.curveOption.get("isShowLines");
         this.isFillCurve = options.curveOption.get("isFillCurve");
         this.fillColor = options.curveOption.get("fillColor");
-        this.ranges = this.columnManager.retrieveCurrentDataModule("ranges");
+        this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
         this.initCanvasEl();
         this.start();
         this.listenTo(this.model, {

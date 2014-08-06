@@ -18,7 +18,7 @@
 
       Zones.prototype.initialize = function(options) {
         Zones.__super__.initialize.call(this, options);
-        this.zones = this.columnManager.retrieveCurrentDataModule("zones");
+        this.zones = this.columnManager.retrieveDataForCurrentColumn("zones");
         this.listenTo(this.zones, "add", this.addOne);
         return this;
       };

@@ -22,7 +22,7 @@
 
       Timelines.prototype.initialize = function(options) {
         Timelines.__super__.initialize.call(this, options);
-        this.timelines = this.columnManager.retrieveCurrentDataModule("timelines");
+        this.timelines = this.columnManager.retrieveDataForCurrentColumn("timelines");
         this.listenTo(this.timelines, "add", this.addOne);
         this.listenTo(this.timelines, "remove", this.removeOne);
         this.overlay = this.mainCanvasView.createInfiniteOverlay();

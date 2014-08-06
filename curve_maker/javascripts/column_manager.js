@@ -1,29 +1,23 @@
 (function() {
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-    __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
   define(["./models/columns", "./views/timelines", "./models/timelines", "./views/zones", "./models/zones", "./views/ranges", "./models/ranges", "./views/curves", "./models/curves", "./models/points", "./views/image_detail", "./models/background_image", "./utils/common_importer", "./utils/common_exporter", "./utils/curve_importer", "./utils/curve_exporter", "./views/curve_export"], function(ColumnCollection, TimelinesView, TimelineCollection, ZonesView, ZoneCollection, RangesView, RangeCollection, CurvesView, CurveCollection, PointCollection, ImageDetailView, BackgroundImageModel, CommonImporter, CommonExporter, CurveImporter, CurveExporter, CurveExportView) {
     var ColumnManager;
-    return ColumnManager = (function(_super) {
-      __extends(ColumnManager, _super);
-
-      function ColumnManager() {
-        this.isCurrentColumnInitialized = __bind(this.isCurrentColumnInitialized, this);
-        return ColumnManager.__super__.constructor.apply(this, arguments);
+    return ColumnManager = (function() {
+      function ColumnManager(options) {
+        _.extend(this, Backbone.Events);
+        this.currentColumnIdx = null;
+        this.initCommonDataModules();
+        this.columns = new ColumnCollection;
+        this.listenTo(this.columns, "add", this.addOne);
       }
 
-      ColumnManager.prototype.currentColumnIdx = 0;
-
-      ColumnManager.prototype.initialize = function(options) {
-        this.initCommonDataModules();
-        this.columns = new ColumnCollection([
-          {
-            _type: "curve"
-          }
-        ]);
+      ColumnManager.prototype.addOne = function(m, c, options) {
+        this.currentColumnIdx = c.indexOf(m);
         this.initCurrentDataModules();
         this.initImportAndExportEvents();
+        return this;
+      };
+
+      ColumnManager.prototype.removeOne = function(m, c, options) {
         return this;
       };
 
@@ -35,7 +29,7 @@
 
       ColumnManager.prototype.initCommonDataModules = function() {
         this.commonDataModules = {};
-        _.each(this.configs.common.requires, (function(_this) {
+        _.each(this.configs.common.requiresModules, (function(_this) {
           return function(r) {
             var module;
             module = _this.modules[r];
@@ -52,7 +46,7 @@
         currentColumn = this.getCurrentColumn();
         currentConfig = this.configs[currentColumn.get("_type")];
         updates = {};
-        _.each(currentConfig.requires, (function(_this) {
+        _.each(currentConfig.requiresModules, (function(_this) {
           return function(r) {
             var module;
             module = _this.modules[r];
@@ -70,38 +64,82 @@
         return this.columns.at(this.currentColumnIdx);
       };
 
-      ColumnManager.prototype.getCurrentExportViewClazz = function() {
+      ColumnManager.prototype.getColumnWithColumnIndex = function(idx) {
+        return this.columns.at(idx);
+      };
+
+      ColumnManager.prototype.getExportViewClazzForCurrentColumn = function() {
         var currentColumn, currentConfig;
         currentColumn = this.getCurrentColumn();
         currentConfig = this.configs[currentColumn.get("_type")];
         return currentConfig.exportViewClazz;
       };
 
-      ColumnManager.prototype.getCurrentModulesForDetails = function() {
+      ColumnManager.prototype.getExportViewClazzWithColumnIndex = function(idx) {
+        var thisColumn, thisConfig;
+        thisColumn = this.columns.at(idx);
+        thisConfig = this.configs[thisColumn.get("_type")];
+        return thisConfig.exportViewClazz;
+      };
+
+      ColumnManager.prototype.getAllToolsForCurrentColumn = function() {
         var currentColumn, currentConfig;
         currentColumn = this.getCurrentColumn();
         currentConfig = this.configs[currentColumn.get("_type")];
-        return _.map(_.union(this.configs.common.requires, currentConfig.requires), (function(_this) {
+        return _.map(_.union(this.configs.common.requiresTools, currentConfig.requiresTools), (function(_this) {
+          return function(r) {
+            return _this.tools[r];
+          };
+        })(this));
+      };
+
+      ColumnManager.prototype.getAllToolsWithColumnIndex = function(idx) {
+        var thisColumn, thisConfig;
+        thisColumn = this.columns.at(idx);
+        thisConfig = this.configs[thisColumn.get("_type")];
+        return _.map(_.union(this.configs.common.requiresTools, thisConfig.requiresTools), (function(_this) {
+          return function(r) {
+            return _this.tools[r];
+          };
+        })(this));
+      };
+
+      ColumnManager.prototype.getAllModulesForCurrentColumn = function() {
+        var currentColumn, currentConfig;
+        currentColumn = this.getCurrentColumn();
+        currentConfig = this.configs[currentColumn.get("_type")];
+        return _.map(_.union(this.configs.common.requiresModules, currentConfig.requiresModules), (function(_this) {
           return function(r) {
             return _this.modules[r];
           };
         })(this));
       };
 
-      ColumnManager.prototype.retrieveCurrentDataModule = function(name) {
+      ColumnManager.prototype.getAllModulesWithColumnIndex = function(idx) {
+        var thisColumn, thisConfig;
+        thisColumn = this.columns.at(idx);
+        thisConfig = this.configs[thisColumn.get("_type")];
+        return _.map(_.union(this.configs.common.requiresModules, thisConfig.requiresModules), (function(_this) {
+          return function(r) {
+            return _this.modules[r];
+          };
+        })(this));
+      };
+
+      ColumnManager.prototype.retrieveCommonData = function(name) {
+        return this.commonDataModules[name];
+      };
+
+      ColumnManager.prototype.retrieveDataForCurrentColumn = function(name) {
         var currentColumn, _ref;
         currentColumn = this.getCurrentColumn();
         return (_ref = currentColumn.get(name)) != null ? _ref : this.commonDataModules[name];
       };
 
-      ColumnManager.prototype.retrieveDataModuleWithIndex = function(idx, name) {
+      ColumnManager.prototype.retrieveDataWithColumnIndex = function(idx, name) {
         var thisColumn, _ref;
         thisColumn = this.columns.at(idx);
         return (_ref = thisColumn.get(name)) != null ? _ref : this.commonDataModules[name];
-      };
-
-      ColumnManager.prototype.retrieveCommonDataModule = function(name) {
-        return this.commonDataModules[name];
       };
 
       ColumnManager.prototype.registerNotifier = function(notifier) {
@@ -183,15 +221,152 @@
 
       ColumnManager.prototype.configs = {
         common: {
-          requires: ["timelines", "zones", "backgroundImage", "referenceColumns"],
+          requiresTools: ["pointer", "lockCursorH", "lockCursorV", "zoomIn", "zoomOut", "pan", "addTimeline"],
+          requiresModules: ["timelines", "zones", "backgroundImage", "referenceColumns"],
           importerClazz: CommonImporter,
           exporterClazz: CommonExporter
         },
         curve: {
-          requires: ["ranges", "curves", "defaults", "chartSettings"],
+          requiresTools: ["addRanges", "addCurve", "showReferencePanel", "saveToLocalStorage", "reloadData", "exportData", "dataSandbox"],
+          requiresModules: ["ranges", "curves", "defaults", "chartSettings"],
           importerClazz: CurveImporter,
           exporterClazz: CurveExporter,
           exportViewClazz: CurveExportView
+        }
+      };
+
+      ColumnManager.prototype.tools = {
+        pointer: {
+          name: "pointer",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "noop",
+            stopEvent: "noop"
+          },
+          title: "mouse pointer"
+        },
+        lockCursorH: {
+          name: "lock-cursor-h",
+          action: {
+            type: "toggle",
+            groupId: 2,
+            startEvent: "noop",
+            stopEvent: "noop"
+          },
+          title: "lock cursor in X."
+        },
+        lockCursorV: {
+          name: "lock-cursor-v",
+          action: {
+            type: "toggle",
+            groupId: 2,
+            startEvent: "noop",
+            stopEvent: "noop"
+          },
+          title: "lock cursor in V."
+        },
+        zoomIn: {
+          name: "zoom-in",
+          action: {
+            type: "click",
+            event: "zoomIn"
+          },
+          title: "zoom in"
+        },
+        zoomOut: {
+          name: "zoom-out",
+          action: {
+            type: "click",
+            event: "zoomOut"
+          },
+          title: "zoom out"
+        },
+        pan: {
+          name: "pan",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:panning",
+            stopEvent: "stop:panning"
+          },
+          title: "move"
+        },
+        addTimeline: {
+          name: "add-timeline",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:addingTimeline",
+            stopEvent: "stop:addingTimeline"
+          },
+          title: "create a new timeline"
+        },
+        addRanges: {
+          name: "add-range-lines",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:addingRange",
+            stopEvent: "stop:addingRange"
+          },
+          title: "Set up range limits"
+        },
+        addCurve: {
+          name: "add-new-curve",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:addingCurve",
+            stopEvent: "stop:addingCurve"
+          },
+          title: "Add a new curve"
+        },
+        showReferencePanel: {
+          name: "show-ref-panel",
+          action: {
+            type: "toggle",
+            groupId: 3,
+            startEvent: "showRefTimelines",
+            stopEvent: "hideRefTimelines"
+          },
+          title: "show reference panel"
+        },
+        saveToLocalStorage: {
+          name: "save-to-local-storage",
+          action: {
+            type: "click",
+            event: "saveToLocalJSON"
+          },
+          title: "save to local storage"
+        },
+        reloadData: {
+          name: "reload-data",
+          action: {
+            type: "click",
+            event: "quickReload"
+          },
+          title: "reload data from local storage"
+        },
+        exportData: {
+          name: "export-data",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "show:columnExportPreview",
+            stopEvent: "hide:columnExportPreview"
+          },
+          title: "export data"
+        },
+        dataSandbox: {
+          name: "file-system",
+          action: {
+            type: "toggle",
+            groupId: 1,
+            startEvent: "start:dataSandbox",
+            stopEvent: "stop:dataSandbox"
+          },
+          title: "sandbox"
         }
       };
 
@@ -248,7 +423,7 @@
 
       return ColumnManager;
 
-    })(Backbone.Model);
+    })();
   });
 
 }).call(this);

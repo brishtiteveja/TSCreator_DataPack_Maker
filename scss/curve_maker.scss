@@ -280,10 +280,8 @@ main {
       border-bottom: 1px solid #F1F1F1;
       overflow: hidden;
       > * { float: left; margin-top: 4px; }
-      &.hover { color: #FDCC59; }
-      &.selected { color: #FA3030; }
       cursor: pointer;
-    }
+    }    
     .range-list {
       padding-bottom: 20px;
       border-bottom: 1px solid #F1F1F1;
@@ -301,6 +299,13 @@ main {
       label { display: inline-block; width: 90px; }
       input[type="color"] { position: absolute; height: 25px; margin-top: -5px; }
     }
+    .selected {
+      > .curve-detail, .point-detail, .line-detail { color: #A0EC88; }
+    }
+    .hover {
+      > .curve-detail, .point-detail, .line-detail { color: #FDCC59; }
+    }
+
     
     .icon-btn { width: 16px; height: 16px; }
     .edit-btn { margin-right: 20px; background: url("/images/cc/white/png/icons_16/playback_play_icon_16.png"); }
@@ -359,3 +364,17 @@ main {
   }
 }
 
+
+/* Data Export Panel */
+.data-export-panel {
+  background: #FFFFFF;
+  min-height: 100%;
+
+  .data-section {
+    padding: 20px 10px;
+  }
+  textarea {
+    width: 80%;
+    height: 300px;
+  }
+}

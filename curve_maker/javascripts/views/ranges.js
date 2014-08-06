@@ -22,7 +22,7 @@
 
       Ranges.prototype.initialize = function(options) {
         Ranges.__super__.initialize.call(this, options);
-        this.ranges = this.columnManager.retrieveCurrentDataModule("ranges");
+        this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
         this.listenTo(this.ranges, "add", this.addOne);
         this.listenTo(this.ranges, "remove", this.removeOne);
         this.overlay = this.mainCanvasView.createInfiniteOverlay();

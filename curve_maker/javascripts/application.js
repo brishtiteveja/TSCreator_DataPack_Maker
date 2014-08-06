@@ -9,7 +9,7 @@
     waitSeconds: 8
   });
 
-  require(["./comp", "./column_manager", "./utils/template_helpers", "./utils/math_helpers", "./utils/color_helpers", "./utils/curve_smoothing"], function(CurveMaker, ColumnManager, TemplateHelpers, MathHelpers, ColorHelpers, CurveSmoothing) {
+  require(["./comp", "./column_manager", "./utils/template_helpers", "./utils/math_helpers", "./utils/color_helpers", "./utils/curve_smoothing"], function(Maker, ColumnManager, TemplateHelpers, MathHelpers, ColorHelpers, CurveSmoothing) {
     var app, _base, _base1, _base2, _base3, _base4;
     if (window.TSCreator == null) {
       window.TSCreator = {};
@@ -29,7 +29,7 @@
     if ((_base4 = window.TSCreator.utils).curvesmoothing == null) {
       _base4.curvesmoothing = new CurveSmoothing;
     }
-    return app = new CurveMaker({
+    return app = new Maker({
       el: $("body")[0],
       columnManager: new ColumnManager()
     }).render();

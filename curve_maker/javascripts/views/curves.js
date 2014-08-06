@@ -24,10 +24,10 @@
 
       Curves.prototype.initialize = function(options) {
         Curves.__super__.initialize.call(this, options);
-        this.zones = this.columnManager.retrieveCurrentDataModule("zones");
-        this.ranges = this.columnManager.retrieveCurrentDataModule("ranges");
+        this.zones = this.columnManager.retrieveDataForCurrentColumn("zones");
+        this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
         this.notifier = this.columnManager.getNotifier();
-        this.curves = this.columnManager.retrieveCurrentDataModule("curves");
+        this.curves = this.columnManager.retrieveDataForCurrentColumn("curves");
         this.listenTo(this.curves, {
           "add": this.addOne,
           "remove": this.removeOne,

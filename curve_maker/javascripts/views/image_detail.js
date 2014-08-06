@@ -37,7 +37,7 @@
 
       BackgroundImageDetail.prototype.initialize = function(options) {
         BackgroundImageDetail.__super__.initialize.call(this, options);
-        this.image = this.columnManager.retrieveCurrentDataModule("backgroundImage");
+        this.image = this.columnManager.retrieveDataForCurrentColumn("backgroundImage");
         this.listenTo(this.image, {
           "change:dataURL": this.changeBackgroundImage,
           "change:curWidth change:curHeight": this.changeBackgroundImageAttributes,

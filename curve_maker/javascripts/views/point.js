@@ -89,8 +89,8 @@
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
         this.isShow = options.curveOption.get("isShowPoints");
-        this.zones = this.columnManager.retrieveCurrentDataModule("zones");
-        this.ranges = this.columnManager.retrieveCurrentDataModule("ranges");
+        this.zones = this.columnManager.retrieveDataForCurrentColumn("zones");
+        this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
         this.initCanvasEl();
         this.start();
         this.listenTo(this.model, {

@@ -4,22 +4,22 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(["./views/notifications", "./views/main_canvas", "./views/tools", "./views/detail_buttons", "./views/details"], function(NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView) {
-    var CurveMaker;
-    return CurveMaker = (function(_super) {
-      __extends(CurveMaker, _super);
+    var Maker;
+    return Maker = (function(_super) {
+      __extends(Maker, _super);
 
-      function CurveMaker() {
+      function Maker() {
+        this.addNewExportView = __bind(this.addNewExportView, this);
         this.proxyListenTo = __bind(this.proxyListenTo, this);
         this.render = __bind(this.render, this);
         this.disableDefaultFileDrop = __bind(this.disableDefaultFileDrop, this);
         this.resize = __bind(this.resize, this);
-        return CurveMaker.__super__.constructor.apply(this, arguments);
+        return Maker.__super__.constructor.apply(this, arguments);
       }
 
-      CurveMaker.prototype.initialize = function(options) {
+      Maker.prototype.initialize = function(options) {
         var debouncedResize;
         this.columnManager = options.columnManager;
-        window.maker = this;
         this.notificationsView = new NotificationsView({
           className: "notifications"
         }).render();
@@ -29,8 +29,13 @@
           className: "col1 disable-user-select",
           masterView: this
         }).render();
+        this.listenTo(this.columnManager.columns, "add", this.addNewExportView);
+        this.columnManager.columns.add({
+          _type: "curve"
+        });
         this.toolsView = new ToolsView({
-          className: "col2 toolbar"
+          className: "col2 toolbar",
+          columnManager: this.columnManager
         }).render();
         this.listenTo(this.columnManager, "triggerEventsToMasterView", (function(_this) {
           return function(events) {
@@ -39,9 +44,6 @@
             });
           };
         })(this));
-        this.columnExportView = new (this.columnManager.getCurrentExportViewClazz())({
-          model: this.columnManager.getCurrentColumn()
-        }).render();
         this.detailsView = new DetailsView({
           className: "detail-panels",
           mainCanvasView: this.mainCanvasView,
@@ -55,10 +57,16 @@
         debouncedResize = _.debounce(this.resize, 150);
         $(window).resize(debouncedResize);
         this.disableDefaultFileDrop();
+        window.maker = this;
+        this.listenTo(this.toolsView, "all", function(event) {
+          if (event !== "selectTool" && event !== "change" && event !== "change:isActivated") {
+            return console.log(event);
+          }
+        });
         return this;
       };
 
-      CurveMaker.prototype.resize = function() {
+      Maker.prototype.resize = function() {
         var heightOnlyDimension, mainCanvasDimension;
         heightOnlyDimension = {
           height: $(window).height()
@@ -74,7 +82,7 @@
         return this;
       };
 
-      CurveMaker.prototype.disableDefaultFileDrop = function() {
+      Maker.prototype.disableDefaultFileDrop = function() {
         $(window).on("dragover", function($evt) {
           return $evt.preventDefault();
         });
@@ -87,7 +95,7 @@
         return this;
       };
 
-      CurveMaker.prototype.render = function() {
+      Maker.prototype.render = function() {
         var $col1wrap, $colleft;
         this.$el.append(this.notificationsView.el);
         this.$colwrappers = $("<div class='colmask'><div class='colmid'><div class='colleft'></div></div></div>").appendTo(this.$el);
@@ -103,7 +111,7 @@
         return this;
       };
 
-      CurveMaker.prototype.setUpProxyEvents = function() {
+      Maker.prototype.setUpProxyEvents = function() {
         this.proxyListenTo(this.toolsView, "zoomIn", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "zoomOut", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "start:panning", this.mainCanvasView);
@@ -114,14 +122,14 @@
         this.proxyListenTo(this.toolsView, "stop:addingRange", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "start:addingCurve", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "stop:addingCurve", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "show:columnExportPreview", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "hide:columnExportPreview", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "saveToLocalJSON", this.columnManager);
         this.proxyListenTo(this, "loadFromLocalJSON", this.columnManager);
-        this.proxyListenTo(this.toolsView, "start:columnExportPreview", this.columnExportView);
-        this.proxyListenTo(this.toolsView, "stop:columnExportPreview", this.columnExportView);
         return this;
       };
 
-      CurveMaker.prototype.proxyListenTo = function(fromObj, event, toObj) {
+      Maker.prototype.proxyListenTo = function(fromObj, event, toObj) {
         this.listenTo(fromObj, event, function() {
           Array.prototype.unshift.call(arguments, event);
           return toObj.trigger.apply(toObj, arguments);
@@ -129,7 +137,18 @@
         return this;
       };
 
-      return CurveMaker;
+      Maker.prototype.addNewExportView = function(column, columns, options) {
+        var newColumnIdx, newExportView;
+        newColumnIdx = columns.indexOf(column);
+        newExportView = new (this.columnManager.getExportViewClazzWithColumnIndex(newColumnIdx))({
+          model: this.columnManager.getColumnWithColumnIndex(newColumnIdx),
+          mainCanvasView: this.mainCanvasView
+        }).render();
+        this.mainCanvasView.trigger("registerSubView:fullScreen", newExportView, "show:columnExportPreview", "hide:columnExportPreview");
+        return this;
+      };
+
+      return Maker;
 
     })(Backbone.View);
   });

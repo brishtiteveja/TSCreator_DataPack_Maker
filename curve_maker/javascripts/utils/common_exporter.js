@@ -8,9 +8,9 @@ define([], function() {
 
   CommonExporter.prototype.getJSON = function () {
     var output = {};
-    output.backgroundImage = this.columnManager.retrieveCommonDataModule("backgroundImage");
-    output.timelines = this.columnManager.retrieveCommonDataModule("timelines");
-    output.zones = this.columnManager.retrieveCommonDataModule("zones");
+    output.backgroundImage = this.columnManager.retrieveCommonData("backgroundImage");
+    output.timelines = this.columnManager.retrieveCommonData("timelines");
+    output.zones = this.columnManager.retrieveCommonData("zones");
     return output;
   };
 

@@ -7,7 +7,7 @@ define([], function() {
   }
 
   CommonImporter.prototype.reset = function () {
-    var timelines = this.columnManager.retrieveCommonDataModule("timelines");
+    var timelines = this.columnManager.retrieveCommonData("timelines");
     while(timelines.at(0)) {
       timelines.at(0).destroy();
     }
@@ -15,13 +15,13 @@ define([], function() {
   };
 
   CommonImporter.prototype.loadFromJSON = function (json) {
-    var backgroundImage = this.columnManager.retrieveCommonDataModule("backgroundImage");
+    var backgroundImage = this.columnManager.retrieveCommonData("backgroundImage");
     backgroundImage.set(json.backgroundImage);
-    var timelines = this.columnManager.retrieveCommonDataModule("timelines");
+    var timelines = this.columnManager.retrieveCommonData("timelines");
     _.each(json.timelines, function(t) {
       timelines.addFromJSON(t);
     });
-    var zones = this.columnManager.retrieveCommonDataModule("zones");
+    var zones = this.columnManager.retrieveCommonData("zones");
     _.each(json.zones, function(z) {
       zones.addFromJSON(timelines, z);
     });

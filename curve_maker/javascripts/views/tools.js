@@ -13,7 +13,6 @@
         this.activateTogglableTool = __bind(this.activateTogglableTool, this);
         this.deactivateAllTogglableTools = __bind(this.deactivateAllTogglableTools, this);
         this.selectTool = __bind(this.selectTool, this);
-        this.render = __bind(this.render, this);
         this.resize = __bind(this.resize, this);
         this.forceToRedraw = __bind(this.forceToRedraw, this);
         this.addOne = __bind(this.addOne, this);
@@ -31,6 +30,8 @@
         this.listenTo(this.collection, "add", this.addOne);
         this.listenTo(this.collection, "selectTool", this.selectTool);
         this.listenTo(this, "deactivateAll", this.deactivateAllTogglableTools);
+        this.columnManager = options.columnManager;
+        this.collection.add(this.columnManager.getAllToolsForCurrentColumn());
         return this;
       };
 
@@ -50,142 +51,6 @@
 
       Tools.prototype.resize = function(dimension) {
         this.$el.css(dimension);
-        return this;
-      };
-
-      Tools.prototype.render = function() {
-        this.collection.add({
-          name: "pointer",
-          action: {
-            type: "toggle",
-            groupId: 1,
-            startEvent: "noop",
-            stopEvent: "noop"
-          },
-          title: "mouse pointer"
-        });
-        this.collection.add({
-          name: "lock-cursor-h",
-          action: {
-            type: "toggle",
-            groupId: 2,
-            startEvent: "noop",
-            stopEvent: "noop"
-          },
-          title: "lock cursor in X."
-        });
-        this.collection.add({
-          name: "lock-cursor-v",
-          action: {
-            type: "toggle",
-            groupId: 2,
-            startEvent: "noop",
-            stopEvent: "noop"
-          },
-          title: "lock cursor in V."
-        });
-        this.collection.add({
-          name: "zoom-in",
-          action: {
-            type: "click",
-            event: "zoomIn"
-          },
-          title: "zoom in"
-        });
-        this.collection.add({
-          name: "zoom-out",
-          action: {
-            type: "click",
-            event: "zoomOut"
-          },
-          title: "zoom out"
-        });
-        this.collection.add({
-          name: "pan",
-          action: {
-            type: "toggle",
-            groupId: 1,
-            startEvent: "start:panning",
-            stopEvent: "stop:panning"
-          },
-          title: "move"
-        });
-        this.collection.add({
-          name: "add-timeline",
-          action: {
-            type: "toggle",
-            groupId: 1,
-            startEvent: "start:addingTimeline",
-            stopEvent: "stop:addingTimeline"
-          },
-          title: "create a new timeline"
-        });
-        this.collection.add({
-          name: "add-range-lines",
-          action: {
-            type: "toggle",
-            groupId: 1,
-            startEvent: "start:addingRange",
-            stopEvent: "stop:addingRange"
-          },
-          title: "Set up range limits"
-        });
-        this.collection.add({
-          name: "add-new-curve",
-          action: {
-            type: "toggle",
-            groupId: 1,
-            startEvent: "start:addingCurve",
-            stopEvent: "stop:addingCurve"
-          },
-          title: "Add a new curve"
-        });
-        this.collection.add({
-          name: "show-ref-panel",
-          action: {
-            type: "toggle",
-            groupId: 3,
-            startEvent: "showRefTimelines",
-            stopEvent: "hideRefTimelines"
-          },
-          title: "show reference panel"
-        });
-        this.collection.add({
-          name: "save-to-local-storage",
-          action: {
-            type: "click",
-            event: "saveToLocalJSON"
-          },
-          title: "save to local storage"
-        });
-        this.collection.add({
-          name: "reload-data",
-          action: {
-            type: "click",
-            event: "quickReload"
-          },
-          title: "reload data from local storage"
-        });
-        this.collection.add({
-          name: "export-data",
-          action: {
-            type: "toggle",
-            groupId: 1,
-            startEvent: "start:columnExportPreview",
-            stopEvent: "stop:columnExportPreview"
-          },
-          title: "export data"
-        });
-        this.collection.add({
-          name: "file-system",
-          action: {
-            type: "toggle",
-            groupId: 1,
-            startEvent: "start:dataSandbox",
-            stopEvent: "stop:dataSandbox"
-          },
-          title: "sandbox"
-        });
         return this;
       };
 
