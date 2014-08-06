@@ -116,6 +116,7 @@
             return subView.$el.hide();
           };
         })(this));
+        subView.$el.hide();
         return this;
       };
 
