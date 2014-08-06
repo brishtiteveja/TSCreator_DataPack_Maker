@@ -6,7 +6,7 @@
       "views": "views",
       "models": "models"
     },
-    waitSeconds: 8
+    waitSeconds: 15
   });
 
   require(["./comp", "./column_manager", "./utils/template_helpers", "./utils/math_helpers", "./utils/color_helpers", "./utils/curve_smoothing"], function(Maker, ColumnManager, TemplateHelpers, MathHelpers, ColorHelpers, CurveSmoothing) {
