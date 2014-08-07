@@ -181,8 +181,8 @@ main {
   }
 }
 .icon.pointer { background-position: 0px -1920px; }
-.icon.lock-cursor-h { background-position: 0px -5792px; }
-.icon.lock-cursor-v { background-position: 0px -5792px; }
+.icon.lock-cursor-h { background: url('/images/cc/black/png/icons_32/padlock_horizontal_icon_32.png'); background-position: 0px 0px; }
+.icon.lock-cursor-v { background: url('/images/cc/black/png/icons_32/padlock_vertical_icon_32.png'); background-position: 0px 0px; }
 .icon.zoom-in { background: url('/images/cc/black/png/icons_32/zoom_in_icon_32.png'); background-position: 0px 0px; }
 .icon.zoom-out { background: url('/images/cc/black/png/icons_32/zoom_out_icon_32.png'); background-position: 0px 0px; }
 .icon.pan { background-position: 0px -1088px; }
