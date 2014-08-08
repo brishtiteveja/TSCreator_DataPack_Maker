@@ -33,8 +33,7 @@
         this.createSet = __bind(this.createSet, this);
         this.render = __bind(this.render, this);
         this.resize = __bind(this.resize, this);
-        this.unregisterFullScreenSubView = __bind(this.unregisterFullScreenSubView, this);
-        this.registerFullScreenSubView = __bind(this.registerFullScreenSubView, this);
+        this.registerSubView = __bind(this.registerSubView, this);
         this.startAndLoadDatafile = __bind(this.startAndLoadDatafile, this);
         this.readJSONFile = __bind(this.readJSONFile, this);
         this.loadDatafile = __bind(this.loadDatafile, this);
@@ -60,10 +59,8 @@
           x: 0,
           y: 0
         };
-        this._fullScreenSubViews = [];
         this.$intro = $(this.introTemplate.render());
-        this.listenTo(this, "registerSubView:fullScreen", this.registerFullScreenSubView);
-        this.listenTo(this, "unregisterSubView:fullScreen", this.unregisterFullScreenSubView);
+        this.listenTo(this, "register:view", this.registerSubView);
         this.rPaper = Raphael(this.el, "100%", "100%");
         this.initPan();
         this.initZoom();
@@ -101,28 +98,8 @@
         return this;
       };
 
-      MainCanvas.prototype.registerFullScreenSubView = function(subView, showEvent, hideEvent) {
-        this._fullScreenSubViews.push(subView);
+      MainCanvas.prototype.registerSubView = function(subView) {
         this.$el.append(subView.el);
-        this.listenTo(this, showEvent, (function(_this) {
-          return function() {
-            $(_this.rPaper.canvas).hide();
-            return subView.$el.show();
-          };
-        })(this));
-        this.listenTo(this, hideEvent, (function(_this) {
-          return function() {
-            $(_this.rPaper.canvas).show();
-            return subView.$el.hide();
-          };
-        })(this));
-        subView.$el.hide();
-        return this;
-      };
-
-      MainCanvas.prototype.unregisterFullScreenSubView = function(subView, showEvent, hideEvent) {
-        this.stopListening(this, showEvent);
-        this.stopListening(this, hideEvent);
         return this;
       };
 

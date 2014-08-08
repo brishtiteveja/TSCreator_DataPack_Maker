@@ -9,7 +9,7 @@
       __extends(Maker, _super);
 
       function Maker() {
-        this.addNewExportView = __bind(this.addNewExportView, this);
+        this.addExportView = __bind(this.addExportView, this);
         this.proxyListenTo = __bind(this.proxyListenTo, this);
         this.render = __bind(this.render, this);
         this.disableDefaultFileDrop = __bind(this.disableDefaultFileDrop, this);
@@ -29,7 +29,7 @@
           className: "col1 disable-user-select",
           masterView: this
         }).render();
-        this.listenTo(this.columnManager.columns, "add", this.addNewExportView);
+        this.listenTo(this.columnManager.columns, "add", this.addExportView);
         this.columnManager.columns.add({
           _type: "curve"
         });
@@ -137,14 +137,14 @@
         return this;
       };
 
-      Maker.prototype.addNewExportView = function(column, columns, options) {
+      Maker.prototype.addExportView = function(column, columns, options) {
         var newColumnIdx, newExportView;
         newColumnIdx = columns.indexOf(column);
         newExportView = new (this.columnManager.getExportViewClazzWithColumnIndex(newColumnIdx))({
           model: this.columnManager.getColumnWithColumnIndex(newColumnIdx),
           mainCanvasView: this.mainCanvasView
         }).render();
-        this.mainCanvasView.trigger("registerSubView:fullScreen", newExportView, "show:columnExportPreview", "hide:columnExportPreview");
+        this.mainCanvasView.trigger("register:view", newExportView);
         return this;
       };
 
