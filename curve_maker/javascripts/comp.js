@@ -58,11 +58,6 @@
         $(window).resize(debouncedResize);
         this.disableDefaultFileDrop();
         window.maker = this;
-        this.listenTo(this.toolsView, "all", function(event) {
-          if (event !== "selectTool" && event !== "change" && event !== "change:isActivated") {
-            return console.log(event);
-          }
-        });
         return this;
       };
 

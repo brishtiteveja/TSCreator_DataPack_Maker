@@ -45,12 +45,15 @@ define([], function() {
   CurveExport.prototype.showHtmlVersion = function($evt) {
     this.$showHtmlButton.addClass("selected");
     this.$htmlPanel.show();
+    
     this.$showTextButton.removeClass("selected");
     this.$textPanel.hide();
   };
   CurveExport.prototype.showTextVersion = function($evt) {
     this.$showTextButton.addClass("selected");
     this.$textPanel.show();
+    this._fixTextareaSize(); // fix it...
+
     this.$showHtmlButton.removeClass("selected");
     this.$htmlPanel.hide();
   };
@@ -66,6 +69,9 @@ define([], function() {
     this.$htmlPanel.html(htmlVersion);
     this.$textarea.val(textVersion);
     return this;
+  };
+  CurveExport.prototype._fixTextareaSize = function() {
+    this.$textarea.css("height", this.$textarea.get(0).scrollHeight);
   };
 
   CurveExport.prototype._renderHtmlVersion = function() {
