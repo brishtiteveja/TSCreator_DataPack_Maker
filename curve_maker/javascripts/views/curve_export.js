@@ -88,7 +88,7 @@ define([], function() {
       }).join("\n");
 
     } catch(err) {
-      output = "Curve column is not ready to be exported!";
+      output = "This column is not ready to be exported!";
     }
     return output;
   };
@@ -107,7 +107,7 @@ define([], function() {
       }).join("\n");
 
     } catch(err) {
-      output = "Curve column is not ready to be exported!";
+      output = "This column is not ready to be exported!";
     }
     return output;
   };
