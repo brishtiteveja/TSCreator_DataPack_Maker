@@ -25,10 +25,12 @@ define([], function() {
       ranges.addFromJSON(r);
     });
     var curves = this.columnManager.retrieveDataWithColumnIndex(columnIdx, "curves");
+    var timelines = this.columnManager.retrieveCommonData("timelines");
+    var zones = this.columnManager.retrieveCommonData("zones");
     _.each(json.curves, function(curve) {
       var newCurve = curves.addNew();
       _.each(curve.points, function(p) {
-        newCurve.addPointFromJSON(p);
+        newCurve.addPointFromJSON(timelines, zones, p);
       });
       _.each(curve.lines, function(l) {
         newCurve.addLineFromJSON(l);

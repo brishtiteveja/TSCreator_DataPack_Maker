@@ -9,6 +9,7 @@ define([], function() {
   // Simple rounding solution for common JS rounding issue...
   // http://www.jacklmoore.com/notes/rounding-in-javascript/
   MathHelpers.prototype.round = function(value, decimals) {
+    if(decimals == null) { decimals = 0; }
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
   };
   // round up to second decimal point

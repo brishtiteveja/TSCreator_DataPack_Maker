@@ -1,5 +1,5 @@
 <div class="icon-btn sublist-edit-btn"><span>Edit</span></div>
 <div class="point-detail showing">
-  <span class="point-name"><%= name %></span> <span class="point-coordinate">(<%= this.value %>, <%= this.relY != null ? +(relY +'e2') + "%" : null %>, <%= this.age %>)</span>
+  <span class="point-name"><%= name %></span> <span class="point-coordinate">(<%= this.value != null ? this.value.toFixed(1) : null %>, <%= this.relY != null ? (+(relY +'e2')).toFixed(1) + "%" : null %>, <%= this.zone != null ? TSCreator.utils.templatehelpers.truncateIfLong(this.zone.get("name"), 5, ".") : null %>, <%= this.age != null ? this.age.toFixed(1) : null %>)</span>
 </div>
 <div class="icon-btn delete-btn"><span>Delete</span></div>

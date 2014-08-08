@@ -24,7 +24,20 @@
         return this;
       };
 
-      Curve.prototype.addPointFromJSON = function(p) {
+      Curve.prototype.addPointFromJSON = function(timelines, zones, p) {
+        var base, top;
+        if (p.zone != null) {
+          top = timelines.findWhere({
+            y: p.zone.top.y
+          });
+          base = timelines.findWhere({
+            y: p.zone.base.y
+          });
+          p.zone = zones.findWhere({
+            top: top,
+            base: base
+          });
+        }
         this.get("points").addWithRounding(p, {
           withLine: false
         });

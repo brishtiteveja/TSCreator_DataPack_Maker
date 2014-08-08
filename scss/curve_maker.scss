@@ -2,6 +2,18 @@
 @import "utils/top_notifications";
 @import "utils/cursor_types";
 
+/* misc styles */
+@mixin word_wrap {
+  /* wrap long text and urls */
+  white-space: pre; /* CSS 2.0 */
+  white-space: pre-wrap; /* CSS 2.1 */
+  white-space: pre-line; /* CSS 3.0 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: -moz-pre-wrap; /* Mozilla */
+  word-wrap: break-word; /* IE 5+ */
+}
+
 body {
   min-width: 800px;
   font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
@@ -281,6 +293,7 @@ main {
       overflow: hidden;
       > * { float: left; margin-top: 4px; }
       cursor: pointer;
+      .point-coordinate { font-size: 12px; padding-left: 2px; }
     }    
     .range-list {
       padding-bottom: 20px;
@@ -300,10 +313,10 @@ main {
       input[type="color"] { position: absolute; height: 25px; margin-top: -5px; }
     }
     .selected {
-      > .curve-detail, .point-detail, .line-detail { color: #A0EC88; }
+      > .timeline-detail, .zone-detail, .curve-detail, .point-detail, .line-detail { color: #A0EC88; }
     }
     .hover {
-      > .curve-detail, .point-detail, .line-detail { color: #FDCC59; }
+      > .timeline-detail, .zone-detail, .curve-detail, .point-detail, .line-detail { color: #FDCC59; }
     }
 
     

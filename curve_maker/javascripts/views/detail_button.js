@@ -44,13 +44,15 @@
       };
 
       DetailButton.prototype.render = function() {
-        this.$link = $("<span/>", {
-          "class": "detail-button-settings-icon icon",
+        this.$el.attr({
           title: this.model.get("title")
+        });
+        this.$link = $("<span/>", {
+          "class": "detail-button-settings-icon icon"
         }).addClass(this.model.get("name"));
         this.$text = $("<span/>", {
           "class": "detail-button-text"
-        }).text(this.model.get("text"));
+        }).text(TSCreator.utils.templatehelpers.truncateIfLong(this.model.get("text"), 12));
         this.$el.append(this.$link).append(this.$text);
         return this;
       };
