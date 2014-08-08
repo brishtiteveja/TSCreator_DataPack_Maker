@@ -108,6 +108,16 @@
         return this.add(zone);
       };
 
+      Zones.prototype.addFromJSONWithAge = function(timelines, zone) {
+        zone.top = timelines.findWhere({
+          age: zone.top.age
+        });
+        zone.base = timelines.findWhere({
+          age: zone.base.age
+        });
+        return this.add(zone);
+      };
+
       Zones.prototype.isYValid = function(y) {
         var _ref, _ref1;
         return ((_ref = this.first()) != null ? _ref.get("top").get("y") : void 0) <= y && ((_ref1 = this.last()) != null ? _ref1.get("base").get("y") : void 0) >= y;

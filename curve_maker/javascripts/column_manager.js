@@ -1,5 +1,5 @@
 (function() {
-  define(["./models/columns", "./views/timelines", "./models/timelines", "./views/zones", "./models/zones", "./views/ranges", "./models/ranges", "./views/curves", "./models/curves", "./models/points", "./views/image_detail", "./models/background_image", "./utils/common_importer", "./utils/common_exporter", "./utils/curve_importer", "./utils/curve_exporter", "./views/curve_export"], function(ColumnCollection, TimelinesView, TimelineCollection, ZonesView, ZoneCollection, RangesView, RangeCollection, CurvesView, CurveCollection, PointCollection, ImageDetailView, BackgroundImageModel, CommonImporter, CommonExporter, CurveImporter, CurveExporter, CurveExportView) {
+  define(["./models/columns", "./views/timelines", "./models/timelines", "./views/zones", "./models/zones", "./views/ranges", "./models/ranges", "./views/curves", "./models/curves", "./models/points", "./views/image_detail", "./models/background_image", "./views/references_detail", "./models/references_detail", "./utils/common_importer", "./utils/common_exporter", "./utils/curve_importer", "./utils/curve_exporter", "./views/curve_export"], function(ColumnCollection, TimelinesView, TimelineCollection, ZonesView, ZoneCollection, RangesView, RangeCollection, CurvesView, CurveCollection, PointCollection, ImageDetailView, BackgroundImageModel, ReferencesDetailView, ReferencesDetailModel, CommonImporter, CommonExporter, CurveImporter, CurveExporter, CurveExportView) {
     var ColumnManager;
     return ColumnManager = (function() {
       function ColumnManager(options) {
@@ -8,6 +8,7 @@
         this.initCommonDataModules();
         this.columns = new ColumnCollection;
         this.listenTo(this.columns, "add", this.addOne);
+        this.initReferenceTimelinesAndZones();
       }
 
       ColumnManager.prototype.addOne = function(m, c, options) {
@@ -219,6 +220,23 @@
         return this;
       };
 
+      ColumnManager.prototype.initReferenceTimelinesAndZones = function() {
+        $.ajax({
+          dataType: "json",
+          url: "javascripts/utils/reference_timelines_and_zones.min.json",
+          success: (function(_this) {
+            return function(data) {
+              return _this.referenceTimelinesAndZones = data;
+            };
+          })(this)
+        });
+        return this;
+      };
+
+      ColumnManager.prototype.getReferenceTimelinesAndZones = function() {
+        return this.referenceTimelinesAndZones;
+      };
+
       ColumnManager.prototype.configs = {
         common: {
           requiresTools: ["pointer", "lockCursorH", "lockCursorV", "zoomIn", "zoomOut", "pan", "addTimeline"],
@@ -409,14 +427,19 @@
         },
         referenceColumns: {
           text: "References",
-          title: "Set reference columns"
+          title: "Set reference columns",
+          template: new EJS({
+            url: "templates/references/show"
+          }),
+          viewClazz: ReferencesDetailView,
+          dataClazz: ReferencesDetailModel
         },
         defaults: {
           text: "Defaults",
           title: "Defaults..."
         },
         chartSettings: {
-          text: "Chart Setting",
+          text: "Chart Settings",
           title: "Set chart settings"
         }
       };

@@ -70,5 +70,13 @@ references_data.delete_if do |ref| ref["name"] == "Sub-Period" end.each do |ref|
   end
   
 end
-puts JSON.pretty_generate(references_data)
-puts JSON.generate(references_data)
+
+new_reference_data = references_data.reduce({}) do |memo, ref|
+  name = ref["name"]
+  ref.delete("name")
+  memo[name] = ref
+  memo
+end
+
+puts JSON.pretty_generate(new_reference_data)
+puts JSON.generate(new_reference_data)
