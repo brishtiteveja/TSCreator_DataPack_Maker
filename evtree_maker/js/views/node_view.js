@@ -20,12 +20,23 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     };
 
     NodeView.prototype.listenToModelEvents = function () {
+        if (this.node.get('parent')) {
+            this.listenTo(this.node.get('parent'), 'change:x', this.updateX.bind(this));
+        }
+        this.listenTo(this.node, 'change:x', this.render.bind(this));
         this.listenTo(this.node, 'update', this.render.bind(this));
         this.listenTo(this.node, 'front', this.toFront.bind(this));
         this.listenTo(this.node, 'back', this.toBack.bind(this));
         this.listenTo(this.node, 'selected', this.nodeSelected.bind(this));
         this.listenTo(this.node, 'unselected', this.nodeUnselected.bind(this));
         this.listenTo(this.node.get('children'), 'add', this.addChild.bind(this));
+    };
+
+    NodeView.prototype.updateX = function () {
+        var dx = this.node.get('parent').get('x') - this.node.get('parent').previous('x');
+        this.node.set({
+            x: this.node.get('x') + dx
+        })
     };
 
     NodeView.prototype.render = function () {
@@ -47,7 +58,8 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
             var node = new Node({
                 x: this.node.get('x'),
                 y: this.node.get('y') - 50,
-                type: "TOP"
+                type: "TOP",
+                parent: this.node
             });
 
             this.node.addChild(node);

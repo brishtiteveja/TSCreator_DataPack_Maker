@@ -22,7 +22,7 @@ requirejs.config({
 		markerView                : "/commons/js/views/marker_view",
 		marker                    : "/commons/js/models/marker",
 		markers                   : "/commons/js/collections/markers",
-		
+
 		// Zones
 		zoneView                  : "/commons/js/views/zone_view",
 		zonesView                 : "/commons/js/views/zones_view",
@@ -31,12 +31,12 @@ requirejs.config({
 
 		// Data Loader
 		loader                    : "/block_column_maker/js/utils/loader",
-		
+
 		// Data Exporter
 		exporter                  : "/block_column_maker/js/utils/exporter",
 		dataExportView            : "/block_column_maker/js/views/data_export_view",
 
-		// 
+		//
 		block                     : "/block_column_maker/js/models/block",
 		blocks                    : "/block_column_maker/js/collections/blocks",
 		blockMarker               : "/block_column_maker/js/models/block_marker",

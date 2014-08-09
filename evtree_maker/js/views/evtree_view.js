@@ -42,13 +42,15 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
     EvTreeView.prototype.createRootNode = function (evt) {
         if (this.app.CurrentNode) {
             if (this.app.CurrentNode.get('type') === "TOP") {
-                this.app.CurrentNode.addChild(new Node({
+                var node = new Node({
                     name: _.unique("Root "),
                     x: evt.offsetX,
                     y: evt.offsetY,
                     parent: this.app.CurrentNode,
                     type: "BASE"
-                }));
+                });
+                this.app.CurrentNode.addChild(node);
+                this.app.CurrentNode.root().rearrange();
             }
         } else {
             this.evTree.get('roots').add(new Node({
