@@ -78,7 +78,7 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         while (parent && index == 0) {
             node = parent
             parent = parent.parent();
-            index = parent.indexOf(node);
+            index = parent.children().indexOf(node);
         }
         return parent.children().at(index - 1).last();
     };
@@ -91,7 +91,8 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         while (parent && index == size - 1) {
             node = parent
             parent = parent.parent();
-            index = parent.indexOf(node);
+            index = parent.children().indexOf(node);
+            size = parent.children().size();
         }
         return parent.children().at(index + 1).first();
     };
