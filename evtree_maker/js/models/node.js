@@ -98,6 +98,8 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
     Node.prototype.rearrange = function () {
 
+        this.children().sort();
+
         var parent = this.get('parent');
         var children = this.get('children');
         var size = children.size();

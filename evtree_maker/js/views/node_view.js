@@ -1,8 +1,6 @@
 define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView) {
-    var RADIUS = 6;
     var SELECTED_RADIUS = 12;
     var SELECTED_FILL_COLOR = "#A80000";
-    var FILL_COLOR = "#FFFF00";
 
     var NodeView = BaseView.extend({
         classname: "NodeView",
@@ -14,6 +12,15 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     NodeView.prototype.initialize = function (node, app) {
         this.node = node;
         this.app = app;
+
+        if (this.node.get('type') === "BASE") {
+            this.radius = 4;
+            this.fillColor = "#CC9966";
+        } else {
+            this.radius = 6;
+            this.fillColor = "#FFFF00";
+        }
+
         this.render();
         this.listenToModelEvents();
         this.ifBaseCreateTop();
@@ -36,7 +43,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         var dx = this.node.get('parent').get('x') - this.node.get('parent').previous('x');
         this.node.set({
             x: this.node.get('x') + dx
-        })
+        });
     };
 
     NodeView.prototype.render = function () {
@@ -78,8 +85,8 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         this.element.attr({
             cx: this.node.get('x'),
             cy: this.node.get('y'),
-            r: RADIUS,
-            fill: FILL_COLOR
+            r: this.radius,
+            fill: this.fillColor
         });
     };
 
@@ -97,7 +104,9 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         this.node.update();
     };
 
-    NodeView.prototype.onDragEnd = function () {};
+    NodeView.prototype.onDragEnd = function () {
+        this.node.root().rearrange();
+    };
 
     NodeView.prototype.onMouseClick = function () {
         if (this.app.CurrentNode) {
@@ -116,8 +125,8 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
 
     NodeView.prototype.nodeUnselected = function () {
         this.element.attr({
-            r: RADIUS,
-            fill: FILL_COLOR
+            r: this.radius,
+            fill: this.fillColor
         })
     };
 
