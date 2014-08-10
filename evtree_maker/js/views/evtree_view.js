@@ -17,7 +17,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
     };
 
     EvTreeView.prototype.listenToActionEvent = function () {
-        $("#canvas").bind('dblclick', this.createRootNode.bind(this));
+        this.app.BgRect.dblclick(this.createRootNode.bind(this));
 
         this.listenTo(this.evTree.get('roots'), 'add', this.addRoot.bind(this));
     };
@@ -40,12 +40,15 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
     EvTreeView.prototype.delete = function () {}
 
     EvTreeView.prototype.createRootNode = function (evt) {
+        var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
+        var locationX = cdts.x;
+        var locationY = cdts.y;
         if (this.app.CurrentNode) {
             if (this.app.CurrentNode.get('type') === "TOP") {
                 var node = new Node({
                     name: _.unique("Root "),
-                    x: evt.offsetX,
-                    y: evt.offsetY,
+                    x: locationX,
+                    y: locationY,
                     parent: this.app.CurrentNode,
                     type: "BASE"
                 });
@@ -55,8 +58,8 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
         } else {
             this.evTree.get('roots').add(new Node({
                 name: _.unique("Root "),
-                x: evt.offsetX,
-                y: evt.offsetY,
+                x: locationX,
+                y: locationY,
                 type: "BASE"
             }));
         }

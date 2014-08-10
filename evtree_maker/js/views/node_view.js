@@ -97,8 +97,11 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     NodeView.prototype.onDragStart = function () {};
 
     NodeView.prototype.onDragMove = function (dx, dy, x, y, evt) {
+        var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
+        var locationX = cdts.x;
+        var locationY = cdts.y;
         this.node.set({
-            y: evt.offsetY,
+            y: locationY,
         });
 
         this.node.update();
