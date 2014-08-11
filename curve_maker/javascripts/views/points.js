@@ -129,10 +129,12 @@
         return this;
       };
 
-      Points.prototype.updateWrapper = function(evt) {
+      Points.prototype.updateWrapper = function() {
         if (this.isExpanded) {
+          this.$header.find(".icon-btn").removeClass("sublist-edit-btn").addClass("sublist-cancel-btn");
           this.$el.children().not(this.$header).show();
         } else {
+          this.$header.find(".icon-btn").removeClass("sublist-cancel-btn").addClass("sublist-edit-btn");
           this.$el.children().not(this.$header).hide();
         }
         return this;

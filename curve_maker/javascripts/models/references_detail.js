@@ -14,7 +14,7 @@
       ReferencesDetail.prototype.defaults = {
         topAge: 0,
         baseAge: 15,
-        gapSize: 20,
+        gapSize: 50,
         offsetY: 0
       };
 

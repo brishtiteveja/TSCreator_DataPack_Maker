@@ -384,6 +384,22 @@ main {
 }
 
 
+
+/* Reference Timelines Panel */
+.reference-timelines {
+  position: absolute;
+  top: 0px;
+  height: 100%;
+  overflow: hidden;
+  min-height: 100%;
+  width: 150px;
+  svg {
+    background: #DDDDDD;
+  }
+  cursor: default;
+  .button { cursor: pointer; }
+}
+
 /* Data Export Panel */
 .data-export-panel {
   position: absolute;

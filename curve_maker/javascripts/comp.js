@@ -3,13 +3,14 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./views/notifications", "./views/main_canvas", "./views/tools", "./views/detail_buttons", "./views/details"], function(NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView) {
+  define(["./views/notifications", "./views/main_canvas", "./views/tools", "./views/detail_buttons", "./views/details", "./views/reference_timelines"], function(NotificationsView, MainCanvasView, ToolsView, DetailButtonsView, DetailsView, ReferenceTimelinesView) {
     var Maker;
     return Maker = (function(_super) {
       __extends(Maker, _super);
 
       function Maker() {
         this.addExportView = __bind(this.addExportView, this);
+        this.initReferenceView = __bind(this.initReferenceView, this);
         this.proxyListenTo = __bind(this.proxyListenTo, this);
         this.render = __bind(this.render, this);
         this.disableDefaultFileDrop = __bind(this.disableDefaultFileDrop, this);
@@ -29,6 +30,7 @@
           className: "col1 disable-user-select",
           masterView: this
         }).render();
+        this.initReferenceView();
         this.listenTo(this.columnManager.columns, "add", this.addExportView);
         this.columnManager.columns.add({
           _type: "curve"
@@ -117,6 +119,8 @@
         this.proxyListenTo(this.toolsView, "stop:addingRange", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "start:addingCurve", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "stop:addingCurve", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "show:refTimelines", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "hide:refTimelines", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "show:columnExportPreview", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "hide:columnExportPreview", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "saveToLocalJSON", this.columnManager);
@@ -129,6 +133,16 @@
           Array.prototype.unshift.call(arguments, event);
           return toObj.trigger.apply(toObj, arguments);
         });
+        return this;
+      };
+
+      Maker.prototype.initReferenceView = function() {
+        var referenceView;
+        referenceView = new ReferenceTimelinesView({
+          mainCanvasView: this.mainCanvasView,
+          columnManager: this.columnManager
+        }).render();
+        this.mainCanvasView.trigger("register:view", referenceView);
         return this;
       };
 

@@ -14,7 +14,8 @@
       Zone.prototype.defaults = function() {
         return {
           name: "Zone " + (_.uniqueId()),
-          description: null
+          description: null,
+          backgroundColor: "#FFFFFF"
         };
       };
 

@@ -10,6 +10,8 @@
 
       function CurveOption() {
         this.render = __bind(this.render, this);
+        this.updateWrapper = __bind(this.updateWrapper, this);
+        this.toggleWrapper = __bind(this.toggleWrapper, this);
         this.destroy = __bind(this.destroy, this);
         this.fillColorAction = __bind(this.fillColorAction, this);
         this.fillCurveAction = __bind(this.fillCurveAction, this);
@@ -31,7 +33,10 @@
         url: "templates/curves/option"
       });
 
+      CurveOption.prototype.isExpanded = true;
+
       CurveOption.prototype.events = {
+        "click .sublist-header": "toggleWrapper",
         "click .smoothed-btn": "smoothedAction",
         "click .show-points-btn": "showPointsAction",
         "click .show-lines-btn": "showLinesAction",
@@ -144,6 +149,23 @@
 
       CurveOption.prototype.destroy = function() {
         this.remove();
+        return this;
+      };
+
+      CurveOption.prototype.toggleWrapper = function() {
+        this.isExpanded = !this.isExpanded;
+        this.updateWrapper();
+        return this;
+      };
+
+      CurveOption.prototype.updateWrapper = function() {
+        if (this.isExpanded) {
+          this.$el.find(".sublist-header .icon-btn").removeClass("sublist-edit-btn").addClass("sublist-cancel-btn");
+          this.$el.children().not(".sublist-header").show();
+        } else {
+          this.$el.find(".sublist-header .icon-btn").removeClass("sublist-cancel-btn").addClass("sublist-edit-btn");
+          this.$el.children().not(".sublist-header").hide();
+        }
         return this;
       };
 
