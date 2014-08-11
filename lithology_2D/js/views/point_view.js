@@ -107,11 +107,11 @@ define(["baseView"], function (BaseView) {
     }
 
     PointView.prototype.onDragStart = function (x, y, evt) {
-        this.element.toFront();
         this.app.map.remove(this.app.drag);
     }
 
     PointView.prototype.onDragMove = function (x, y, dx, dy, evt) {
+        this.element.toFront();
         this.point.set({
             x: evt.offsetX,
             y: evt.offsetY
