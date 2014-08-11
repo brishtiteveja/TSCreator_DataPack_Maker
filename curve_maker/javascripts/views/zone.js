@@ -109,6 +109,7 @@
         this.$el.addClass('hover');
         this.model.get("top").trigger("highlight");
         this.model.get("base").trigger("highlight");
+        this.model.trigger("highlight");
         return this;
       };
 
@@ -116,6 +117,7 @@
         this.$el.removeClass('hover');
         this.model.get("top").trigger("unhighlight");
         this.model.get("base").trigger("unhighlight");
+        this.model.trigger("unhighlight");
         return this;
       };
 

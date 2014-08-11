@@ -124,6 +124,7 @@
               return _this.zones.addFromJSONWithAge(_this.timelines, newZ);
             };
           })(this));
+          this.columnManager.trigger("triggerEventsToMasterView", ["stop:addingTimeline"]);
         }
         return this;
       };

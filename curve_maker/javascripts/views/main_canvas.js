@@ -203,6 +203,7 @@
       MainCanvas.prototype.initPan = function() {
         this.panOverlay = this.createInfiniteOverlay();
         this.stopPanning();
+        this.trigger("viewBoxChanged", this.curViewBox);
         this.listenTo(this, "start:panning", this.startPanning);
         this.listenTo(this, "stop:panning", this.stopPanning);
         return this;
@@ -217,6 +218,10 @@
         newX = this.curViewBox.x - (dx * this.zoomMultiplier);
         newY = this.curViewBox.y - (dy * this.zoomMultiplier);
         this.rPaper.setViewBox(newX, newY, this.curDimension.width * this.zoomMultiplier, this.curDimension.height * this.zoomMultiplier);
+        this.trigger("viewBoxChanged", {
+          x: newX,
+          y: newY
+        });
         return this;
       };
 
@@ -227,6 +232,7 @@
           x: viewBox.x,
           y: viewBox.y
         };
+        this.trigger("viewBoxChanged", this.curViewBox);
         return this;
       };
 
@@ -248,6 +254,7 @@
         this.defaultZoom = 5;
         this.zoom = this.defaultZoom;
         this.zoomMultiplier = this.defaultZoom / this.zoom;
+        this.trigger("zoomMultiplierChanged", this.zoomMultiplier);
         this.listenTo(this, "zoomIn", this.zoomIn);
         this.listenTo(this, "zoomOut", this.zoomOut);
         return this;

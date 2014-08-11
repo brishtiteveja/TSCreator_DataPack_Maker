@@ -345,8 +345,8 @@
           action: {
             type: "toggle",
             groupId: 3,
-            startEvent: "show:refTimelines",
-            stopEvent: "hide:refTimelines"
+            startEvent: "show:refZones",
+            stopEvent: "hide:refZones"
           },
           title: "show reference panel"
         },
