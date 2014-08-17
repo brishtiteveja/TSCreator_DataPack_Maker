@@ -22,9 +22,8 @@ define([
         tagName: "li",
         classname: "LithologyColumnView",
         events: {
-            'click .toggle': 'toggleLithologyColumnForm',
-            'click .lithology-column-data': 'toggleLithologyColumnForm',
-            'click .data-labels': 'toggleLithologyColumnForm',
+            'click .lithology-column-data': 'toggleForm',
+            'click .lithology-column-form>.data-labels': 'toggleForm',
             'click a[href="#lithology-column-destroy"]': 'destroy',
             'click a[href="#add-overlay"]': 'addOverlay',
             'click a[href="#edit-overlay"]': 'editOverlay',
@@ -49,19 +48,19 @@ define([
     LithologyColumnView.prototype.initialize = function (app, lithologyColumn) {
         this.app = app;
         this.lithologyColumn = lithologyColumn;
-
+        this.listenToEvents();
         this.render();
+    };
 
-        this.listenTo(this.lithologyColumn, 'change:edit', this.editLithologyColumn.bind(this));
-        this.listenTo(this.lithologyColumn, 'update', this.renderLithologyColumn.bind(this));
-        // this.listenTo(this.lithologyColumn, 'change', this.renderLithologyColumn.bind(this));
+    LithologyColumnView.prototype.listenToEvents = function () {
+        this.listenTo(this.lithologyColumn, 'update', this.renderColumnInfo.bind(this));
+        this.listenTo(this.lithologyColumn, 'change', this.renderLithologyColumn.bind(this));
         this.listenTo(this.lithologyColumn.get('settings'), 'change', this.renderLithologyColumn.bind(this));
         this.listenTo(this.lithologyColumn.get('lithologyGroupMarkers'), 'add', this.addLithologyGroupMarker.bind(
             this));
         this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'remove', this.removeLithology.bind(this));
         this.listenTo(this.lithologyColumn.get('lithologyGroups'), 'add', this.addLithologyGroup.bind(this));
         this.listenTo(this.lithologyColumn, 'destroy', this.delete.bind(this));
-
     };
 
     LithologyColumnView.prototype.render = function () {
@@ -185,25 +184,11 @@ define([
         this.lithologyColumn.get('lithologyGroups').each(this.addLithologyGroupMarker.bind(this));
     }
 
-    LithologyColumnView.prototype.toggleLithologyColumnForm = function () {
-        this.renderColumnInfo();
-        this.lithologyColumn.set({
-            'edit': !this.lithologyColumn.get('edit')
-        });
-    }
-
-    LithologyColumnView.prototype.editLithologyColumn = function () {
-        if (this.lithologyColumn.get('edit')) {
-            this.$lithologyColumnForm.removeClass('hide');
-            this.$lithologyColumnData.addClass('hide');
-            this.$toggle.removeClass('hide-data');
-            this.$toggle.addClass('show-data');
-        } else {
-            this.$lithologyColumnForm.addClass('hide');
-            this.$lithologyColumnData.removeClass('hide');
-            this.$toggle.removeClass('show-data');
-            this.$toggle.addClass('hide-data');
-        }
+    LithologyColumnView.prototype.toggleForm = function () {
+        this.$lithologyColumnForm.toggleClass('hide');
+        this.$lithologyColumnData.toggleClass('hide');
+        this.$toggle.toggleClass('hide-data');
+        this.$toggle.toggleClass('show-data');
     };
 
     LithologyColumnView.prototype.delete = function () {
@@ -216,7 +201,6 @@ define([
     LithologyColumnView.prototype.updateLithologyColumn = function (evt) {
 
         if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
-            this.toggleLithologyColumnForm();
             this.lithologyColumn.update();
         }
 

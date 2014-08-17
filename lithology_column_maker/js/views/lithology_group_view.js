@@ -16,9 +16,8 @@ define([
         tagName: 'li',
         classname: "LithologyGroupView",
         events: {
-            'click .toggle': 'toggleLithologyGroupForm',
-            'click .lithology-group-data': 'toggleLithologyGroupForm',
-            'click .data-labels': 'toggleLithologyGroupForm',
+            'click .lithology-group-data': 'toggleForm',
+            'click .lithology-group-form .data-labels': 'toggleForm',
             'click .destroy': 'destroy',
             'click label.lithology-group-lithologys-data': 'showLithologysList',
             'keypress :input': 'updateLithologyGroup',
@@ -46,7 +45,7 @@ define([
         }
 
         /* listen to the events */
-        this.listenTo(this.lithologyGroup, 'change:edit', this.render.bind(this));
+        this.listenTo(this.lithologyGroup, 'update', this.render.bind(this));
         this.listenTo(this.lithologyGroup, 'change:hover', this.setHoverStatus.bind(this));
         this.listenTo(this.lithologyGroup, 'change:name', this.renderLithologyGroup.bind(this));
         this.listenTo(this.lithologyGroup, 'change:description', this.renderLithologyGroup.bind(this));
@@ -87,9 +86,6 @@ define([
         this.$lithologyGroupColor = this.$('input[name="lithology-group-color"]')[0];
         this.$lithologyGroupDescription = this.$('textarea[name="lithology-group-description"]')[0];
         this.$lithologysList = this.$('.lithologys-list');
-
-        /* check edit state */
-        this.editLithologyGroup();
 
         this.renderLithologyGroup();
         this.lithologyGroup.get('lithologys').each(this.addLithology.bind(this));
@@ -293,7 +289,7 @@ define([
             },
             position: {
                 my: 'bottom left', // Position my top left...
-                target: 'mouse', // my target 
+                target: 'mouse', // my target
             }
         });
     };
@@ -327,25 +323,11 @@ define([
         if (this.glow) this.glow.remove();
     };
 
-    LithologyGroupView.prototype.toggleLithologyGroupForm = function () {
-        this.render();
-        this.lithologyGroup.set({
-            'edit': !this.lithologyGroup.get('edit')
-        });
-    };
-
-    LithologyGroupView.prototype.editLithologyGroup = function () {
-        if (this.lithologyGroup.get('edit')) {
-            this.$lithologyGroupForm.removeClass('hide');
-            this.$lithologyGroupData.addClass('hide');
-            this.$toggle.removeClass('hide-data');
-            this.$toggle.addClass('show-data');
-        } else {
-            this.$lithologyGroupForm.addClass('hide');
-            this.$lithologyGroupData.removeClass('hide');
-            this.$toggle.removeClass('show-data');
-            this.$toggle.addClass('hide-data');
-        }
+    LithologyGroupView.prototype.toggleForm = function () {
+        this.$lithologyGroupForm.toggleClass('hide');
+        this.$lithologyGroupData.toggleClass('hide');
+        this.$toggle.toggleClass('hide-data');
+        this.$toggle.toggleClass('show-data');
     };
 
     LithologyGroupView.prototype.delete = function () {
@@ -379,7 +361,7 @@ define([
 
     LithologyGroupView.prototype.updateLithologyGroup = function (evt) {
         if (evt.keyCode === TimescaleApp.ENTER || evt.keyCode === TimescaleApp.ESC) {
-            this.toggleLithologyGroupForm();
+            this.lithologyGroup.update();
         }
 
         var name = this.$lithologyGroupName.value;

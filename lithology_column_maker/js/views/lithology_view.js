@@ -4,9 +4,8 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         tagName: 'li',
         classname: "LithologyView",
         events: {
-            'click .toggle': 'toggleLithologyForm',
-            'click .lithology-data': 'toggleLithologyForm',
-            'click .data-labels': 'toggleLithologyForm',
+            'click .lithology-data': 'toggleForm',
+            'click .lithology-form .data-labels': 'toggleForm',
             'click .destroy': 'destroy',
             'keypress :input': 'updateLithology',
             'keyup :input': 'updateLithology',
@@ -33,12 +32,14 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
             this.lithologySet = this.app.Paper.set();
             this.app.LithologysSet.push(this.lithologySet);
         }
+        this.listenToEvents();
+        this.render();
 
+    };
 
-        /* listen to the events */
-        this.listenTo(this.lithology, 'change:edit', this.editLithology.bind(this));
-        // this.listenTo(this.lithology, 'change:hover', this.setHoverStatus.bind(this));
-        this.listenTo(this.lithology, 'update', this.renderLithology.bind(this));
+    LithologyView.prototype.listenToEvents = function () {
+
+        this.listenTo(this.lithology, 'update', this.render.bind(this));
         this.listenTo(this.lithology, 'change:pattern', this.renderLithology.bind(this));
 
         this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithology
@@ -49,17 +50,10 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
             this));
 
         this.listenTo(this.top, 'change:y', this.renderLithology.bind(this));
-        // this.listenTo(this.top, 'change:age', this.renderTooltip.bind(this));
-        // this.listenTo(this.top, 'change:relativeY', this.renderTooltip.bind(this));
         this.listenTo(this.base, 'change:y', this.renderLithology.bind(this));
-        // this.listenTo(this.base, 'change:age', this.renderTooltip.bind(this));
-        // this.listenTo(this.base, 'change:relativeY', this.renderTooltip.bind(this));
 
         this.listenTo(this.lithology.get('settings'), 'change', this.renderLithology.bind(this));
         this.listenTo(this.lithology, 'destroy', this.delete.bind(this));
-
-        this.render();
-
     };
 
     LithologyView.prototype.render = function () {
@@ -78,9 +72,6 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.$lithologyBaseRelativeY = this.$('input[name="lithology-base-relativeY"]')[0];
 
         this.$lithologyPattern.change(this.updateLithologyPattern.bind(this));
-
-        /* check edit state */
-        this.editLithology();
 
         this.renderLithology();
     };
@@ -204,7 +195,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
             },
             position: {
                 my: 'bottom left', // Position my top left...
-                target: 'mouse', // my target 
+                target: 'mouse', // my target
             }
         });
     };
@@ -237,25 +228,18 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         if (this.glow) this.glow.remove();
     };
 
-    LithologyView.prototype.toggleLithologyForm = function () {
+    LithologyView.prototype.toggleForm = function () {
         this.render();
         this.lithology.set({
             'edit': !this.lithology.get('edit')
         });
     };
 
-    LithologyView.prototype.editLithology = function () {
-        if (this.lithology.get('edit')) {
-            this.$lithologyForm.removeClass('hide');
-            this.$lithologyData.addClass('hide');
-            this.$toggle.removeClass('hide-data');
-            this.$toggle.addClass('show-data');
-        } else {
-            this.$lithologyForm.addClass('hide');
-            this.$lithologyData.removeClass('hide');
-            this.$toggle.removeClass('show-data');
-            this.$toggle.addClass('hide-data');
-        }
+    LithologyView.prototype.toggleForm = function () {
+        this.$lithologyForm.toggleClass('hide');
+        this.$lithologyData.toggleClass('hide');
+        this.$toggle.toggleClass('hide-data');
+        this.$toggle.toggleClass('show-data');
     };
 
     LithologyView.prototype.delete = function () {
@@ -277,7 +261,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
 
     LithologyView.prototype.updateLithology = function (evt) {
         if (evt.keyCode === TimescaleApp.ENTER || evt.keyCode === TimescaleApp.ESC) {
-            this.toggleLithologyForm();
+            this.lithology.update();
         }
         var name = this.$lithologyName.value;
         var description = this.$lithologyDescription.value;
