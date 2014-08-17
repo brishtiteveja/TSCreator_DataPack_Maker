@@ -2,12 +2,9 @@ define(["baseView"], function (BaseView) {
     var PointView = BaseView.extend({
         tagName: 'li',
         events: {
-            'click .point-data': 'togglePointForm',
-            'click .arrow': 'togglePointForm',
-            'keyup input[name="lat"]': 'updatePoint',
-            'keyup input[name="lon"]': 'updatePoint',
-            'change input[name="lat"]': 'updatePoint',
-            'change input[name="lon"]': 'updatePoint'
+            'click .point-data': 'toggleForm',
+            'click .arrow': 'toggleForm',
+            'keyup input': 'updatePoint'
         }
     });
 
@@ -29,7 +26,6 @@ define(["baseView"], function (BaseView) {
         this.listenTo(this.point, 'change:y', this.renderPoint.bind(this));
         this.listenTo(this.point, 'change:lat', this.updateLatLon.bind(this));
         this.listenTo(this.point, 'change:lon', this.updateLatLon.bind(this));
-        this.listenTo(this.point, 'change:edit', this.toggleEditStatus.bind(this));
         this.listenTo(this.point, 'destroy', this.delete.bind(this));
     }
 
@@ -153,31 +149,9 @@ define(["baseView"], function (BaseView) {
         this.app.StatusBox.html(this.statusBoxTemplate.render(this.point.toJSON()));
     }
 
-    PointView.prototype.togglePointForm = function () {
-        this.render();
-        this.point.set({
-            'edit': !this.point.get('edit')
-        });
-    }
-
-    PointView.prototype.toggleEditStatus = function () {
-        if (this.point.get('edit')) {
-            this.$pointForm.removeClass('hide');
-            this.$pointData.addClass('hide');
-            this.$toggle.removeClass('hide-data');
-            this.$toggle.addClass('show-data');
-        } else {
-            this.$pointForm.addClass('hide');
-            this.$toggle.removeClass('show-data');
-            this.$pointData.removeClass('hide');
-            this.$toggle.addClass('hide-data');
-        }
-    }
-
-
     PointView.prototype.updatePoint = function (evt) {
         if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
-            this.togglePointForm();
+            this.toggleForm();
             this.app.map.center({
                 lat: this.point.get('lat'),
                 lon: this.point.get('lon')
