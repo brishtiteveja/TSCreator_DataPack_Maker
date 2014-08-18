@@ -11,5 +11,9 @@ define(["baseModel"], function (BaseModel) {
         }
     });
 
+    Animation.prototype.toggleLabels = function () {
+        this.trigger('toggle-labels');
+    };
+
     return Animation;
 });

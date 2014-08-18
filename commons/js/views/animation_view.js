@@ -7,6 +7,7 @@ define(["baseView"], function (BaseView) {
             'click a[href="#stop"]': 'stop',
             'click a[href="#rewind"]': 'rewind',
             'click a[href="#forward"]': 'forward',
+            'click a.toggle-labels': 'toggleLabels',
         }
     });
 
@@ -100,6 +101,12 @@ define(["baseView"], function (BaseView) {
         this.app.mapOb.set({
             layer: mapLayer
         });
+    };
+
+    AnimationView.prototype.toggleLabels = function () {
+        this.$('a[href="#show-labels"]').parent().toggleClass('hide');
+        this.$('a[href="#hide-labels"]').parent().toggleClass('hide');
+        this.animation.toggleLabels();
     };
 
     return AnimationView;

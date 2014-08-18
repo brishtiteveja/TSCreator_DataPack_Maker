@@ -26,10 +26,16 @@ define(["baseView"], function (BaseView) {
         this.listenTo(this.point, 'change:y', this.renderPoint.bind(this));
         this.listenTo(this.point, 'change:lat', this.updateLatLon.bind(this));
         this.listenTo(this.point, 'change:lon', this.updateLatLon.bind(this));
+        this.listenTo(this.point, 'update', this.renderHtml.bind(this));
         this.listenTo(this.point, 'destroy', this.delete.bind(this));
     }
 
     PointView.prototype.render = function () {
+        this.renderHtml();
+        this.renderPoint();
+    }
+
+    PointView.prototype.renderHtml = function () {
         this.$el.html(this.template.render(this.point.toJSON()));
 
         this.$toggle = this.$(".toggle"),
@@ -37,9 +43,7 @@ define(["baseView"], function (BaseView) {
         this.$pointData = this.$(".point-data");
         this.$pointLat = this.$('input[name="lat"]');
         this.$pointLon = this.$('input[name="lon"]');
-
-        this.renderPoint();
-    }
+    };
 
     PointView.prototype.renderPoint = function () {
         if (this.element === undefined) {
@@ -58,7 +62,6 @@ define(["baseView"], function (BaseView) {
 
         this.updateElement();
         this.updateStatusBox();
-        this.updateLatLon();
     }
 
     PointView.prototype.makePointRed = function () {
@@ -151,11 +154,12 @@ define(["baseView"], function (BaseView) {
 
     PointView.prototype.updatePoint = function (evt) {
         if (evt.keyCode == TimescaleApp.ENTER || evt.keyCode == TimescaleApp.ESC) {
-            this.toggleForm();
             this.app.map.center({
                 lat: this.point.get('lat'),
                 lon: this.point.get('lon')
-            })
+            });
+
+            this.point.update();
         }
 
         this.point.set({

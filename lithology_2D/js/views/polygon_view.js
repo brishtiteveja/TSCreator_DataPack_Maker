@@ -34,12 +34,12 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
         this.listenTo(this.polygon.get('points'), 'add', this.addPoint.bind(this));
         this.listenTo(this.polygon.get('points'), 'change', this.renderPolygonElement.bind(this));
         this.listenTo(this.app.animation, 'change:age', this.setPolygonFill.bind(this));
-        this.app.map.on("move", this.renderLabel.bind(this));
+        this.listenTo(this.app.animation, 'toggle-labels', this.toggleLabels.bind(this));
 
         /* destroy the view  if the model is  removed from the collection.*/
         this.listenTo(this.polygon, 'destroy', this.delete.bind(this));
 
-        $("#map").bind('dblclick', this.createPoint.bind(this));
+        $("#map").dblclick(this.createPoint.bind(this));
 
     }
 
@@ -260,6 +260,16 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
         this.$el.remove();
         this.remove();
     }
+
+    PolygonView.prototype.toggleLabels = function () {
+        if (!this.show) {
+            this.show = true;
+            this.label.hide();
+        } else {
+            this.show = false;
+            this.label.show();
+        }
+    };
 
     return PolygonView;
 });
