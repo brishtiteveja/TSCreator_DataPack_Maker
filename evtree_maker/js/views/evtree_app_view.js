@@ -9,6 +9,8 @@ define([
     "markersView",
     "raphael",
     "referenceColumnSideView",
+    "timeline",
+    "timelineView",
     "zones",
     "zonesView"
 ], function (
@@ -22,6 +24,8 @@ define([
     MarkersView,
     Raphael,
     ReferenceColumnSideView,
+    Timeline,
+    TimelineView,
     Zones,
     ZonesView
 ) {
@@ -71,6 +75,7 @@ define([
         this.evTreeApp.ImageOb = new ImageOb({});
         this.evTreeApp.Paper = new Raphael(this.$canvas[0], this.evTreeApp.width, this.evTreeApp.height);
         this.evTreeApp.Paper.setViewBox(0, 0, this.evTreeApp.width, this.evTreeApp.height);
+        this.evTreeApp.timeline = new Timeline();
         this.initPan();
 
         this.listenToActionEvents();
@@ -129,7 +134,8 @@ define([
         this.imageObView = new ImageView(this.evTreeApp);
         this.markersView = new MarkersView(this.evTreeApp);
         this.zonesView = new ZonesView(this.evTreeApp);
-        this.EvTreeView = new EvTreeView(this.evTreeApp);
+        this.evTreeView = new EvTreeView(this.evTreeApp);
+        this.timelineView = new TimelineView(this.evTreeApp.timeline, this.evTreeApp)
 
         this.referenceColumnSideView = new ReferenceColumnSideView(this.evTreeApp, "#reference-column-settings");
 

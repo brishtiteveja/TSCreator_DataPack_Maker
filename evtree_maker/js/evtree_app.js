@@ -8,6 +8,10 @@ requirejs.config({
         baseModel: "/commons/js/models/base_model",
         baseCollection: "/commons/js/collections/base_collection",
 
+        // Timeline
+        timeline: "/commons/js/models/timeline",
+        timelineView: "/commons/js/views/timeline_view",
+
         // Markers
         markersView: "/commons/js/views/markers_view",
         markerView: "/commons/js/views/marker_view",
