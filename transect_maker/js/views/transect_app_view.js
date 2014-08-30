@@ -68,7 +68,8 @@ define([
     TransectAppView.prototype.initialize = function () {
 
         this.transectApp = {
-            type: "transect"
+            type: "transect",
+            span: true
         };
 
         this.transectApp.TransectsCollection = new Transects();

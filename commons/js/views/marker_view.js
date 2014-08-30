@@ -73,7 +73,7 @@ define(["baseView"], function (BaseView) {
         this.element.attr({
             'path': this.getPath()
         });
-        if (this.app.type === "transect") {} else {
+        if (this.app.span) {} else {
             this.resizePaper();
         }
 
@@ -89,7 +89,7 @@ define(["baseView"], function (BaseView) {
             },
             position: {
                 my: 'bottom left', // Position my top left...
-                target: 'mouse', // my target 
+                target: 'mouse', // my target
                 adjust: {
                     x: 10,
                     y: -10
@@ -119,7 +119,7 @@ define(["baseView"], function (BaseView) {
         var locationX = evt.offsetX;
         var locationY = evt.offsetY;
 
-        if (this.app.type === "transect") {
+        if (this.app.span) {
             var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
             locationX = cdts.x;
             locationY = cdts.y;

@@ -17,7 +17,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
     };
 
     EvTreeView.prototype.listenToActionEvent = function () {
-        $("#canvas").bind("dblclick", this.createRootNode.bind(this));
+        // $("#canvas").bind("dblclick", this.createRootNode.bind(this));
 
         this.listenTo(this.evTree.get('roots'), 'add', this.addRoot.bind(this));
     };

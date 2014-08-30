@@ -47,7 +47,8 @@ define([
     EvTreeAppView.prototype.initialize = function () {
 
         this.evTreeApp = {
-            type: "evTree"
+            type: "evTree",
+            span: true
         };
 
 
@@ -77,6 +78,8 @@ define([
         this.evTreeApp.Paper.setViewBox(0, 0, this.evTreeApp.width, this.evTreeApp.height);
         this.evTreeApp.timeline = new Timeline();
         this.initPan();
+
+        this.evTreeApp.MarkersSet = this.evTreeApp.Paper.set();
 
         this.listenToActionEvents();
 
