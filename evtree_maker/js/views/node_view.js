@@ -127,16 +127,19 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         });
     };
 
-    NodeView.prototype.onMouseOver = function () {};
-
-    NodeView.prototype.onMouseOut = function () {};
-
     NodeView.prototype.onDragStart = function () {};
 
     NodeView.prototype.onDragMove = function (dx, dy, x, y, evt) {
         var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
         var locationX = cdts.x;
         var locationY = cdts.y;
+        var zone = this.app.ZonesCollection.getZoneForY(locationY);
+        if (!zone) {
+            return;
+        }
+        if (this.node.get('parent') && locationY >= this.node.get('parent').get('y')) {
+            return;
+        }
         this.node.set({
             y: locationY,
         });
@@ -148,6 +151,24 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         this.node.root().rearrange();
     };
 
+    NodeView.prototype.onMouseOver = function () {
+        this.element.attr({
+            r: SELECTED_RADIUS
+        });
+    };
+
+    NodeView.prototype.onMouseOut = function () {
+        if (this.selected) {
+            this.element.attr({
+                r: SELECTED_RADIUS
+            });
+        } else {
+            this.element.attr({
+                r: this.radius
+            });
+        }
+    };
+
     NodeView.prototype.onMouseClick = function () {
         if (this.app.CurrentNode) {
             this.app.CurrentNode.triggerUnselected();
@@ -157,17 +178,19 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     };
 
     NodeView.prototype.nodeSelected = function () {
+        this.selected = true;
         this.element.attr({
             r: SELECTED_RADIUS,
             fill: SELECTED_FILL_COLOR
-        })
+        });
     };
 
     NodeView.prototype.nodeUnselected = function () {
+        this.selected = false;
         this.element.attr({
             r: this.radius,
             fill: this.fillColor
-        })
+        });
     };
 
     NodeView.prototype.addChild = function (child) {
@@ -185,4 +208,4 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
 
     return NodeView;
 
-})
+});

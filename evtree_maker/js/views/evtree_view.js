@@ -47,8 +47,18 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
         var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
         var locationX = cdts.x;
         var locationY = cdts.y;
+        var zone = this.app.ZonesCollection.getZoneForY(locationY);
+
+        if (!zone) {
+            return;
+        }
+
         if (this.app.CurrentNode) {
             if (this.app.CurrentNode.get('type') === "TOP") {
+                if (locationY >= this.app.CurrentNode.get('y')) {
+                    return;
+                }
+
                 var node = new Node({
                     name: _.unique("Root "),
                     x: locationX,
