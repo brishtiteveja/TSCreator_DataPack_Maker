@@ -1,6 +1,7 @@
 define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView) {
     var SELECTED_RADIUS = 12;
     var SELECTED_FILL_COLOR = "#A80000";
+    var DRAGOVER_RADIUS = 30;
 
     var NodeView = BaseView.extend({
         classname: "NodeView",
@@ -30,7 +31,9 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         if (this.node.get('parent')) {
             this.listenTo(this.node.get('parent'), 'change:x', this.updateX.bind(this));
         }
+        this.listenTo(this.app.fileSystem, 'write-completed', this.imageLoaded.bind(this));
         this.listenTo(this.node, 'change:x', this.render.bind(this));
+        this.listenTo(this.node, 'change:image', this.render.bind(this));
         this.listenTo(this.node, 'update', this.render.bind(this));
         this.listenTo(this.node, 'front', this.toFront.bind(this));
         this.listenTo(this.node, 'back', this.toBack.bind(this));
@@ -58,14 +61,20 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         if (!this.element) {
             this.element = this.drawElement();
         }
+        this.element.attr({
+            fill: this.node.get('image') || this.fillColor
+        });
         this.updateZone();
         this.updateElement();
     };
 
-    NodeView.prototype.renderToottip = function() {
+    NodeView.prototype.renderToottip = function () {
         var content = this.node.get('name') + "<br/>";
         if (this.node.get('zone')) {
             content += this.node.get('zone').get('name') + "(" + this.node.get('age') + ")" + "<br/>";
+            if (this.node.get('image')) {
+                content += '<img src="' + this.node.get('image') + '" alt="Smiley face" height="42" width="42">'
+            }
         }
         $(this.element.node).qtip({
             content: {
@@ -82,7 +91,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         });
     };
 
-    NodeView.prototype.updateZone = function() {
+    NodeView.prototype.updateZone = function () {
         var zone = this.app.ZonesCollection.getZoneForY(this.node.get('y'));
         if (zone) {
             var relativeY = zone.getRelativeY(this.node.get('y'));
@@ -114,6 +123,9 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         var node = this.app.Paper.circle();
         node.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
         node.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(this));
+        node.node.id = _.uniqueId("node-");
+        $("#" + node.node.id).on('dragover', this.onDragOver.bind(this));
+        $("#" + node.node.id).on('drop', this.onDrop.bind(this));
         node.click(this.onMouseClick.bind(this));
         return node;
     };
@@ -204,6 +216,28 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
 
     NodeView.prototype.toBack = function () {
         this.element.toBack();
+    };
+
+    NodeView.prototype.onDragOver = function (evt) {
+        var evt = evt.originalEvent;
+        evt.stopPropagation();
+        evt.preventDefault();
+        this.element.attr({
+            r: DRAGOVER_RADIUS
+        });
+    };
+
+    NodeView.prototype.onDrop = function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        this.app.fileSystemView.saveFile(evt.originalEvent.dataTransfer.files[0]);
+    };
+
+    NodeView.prototype.imageLoaded = function (path) {
+        var url = "filesystem:http://localhost:3333/persistent" + path;
+        this.node.set({
+            image: url
+        });
     };
 
     return NodeView;

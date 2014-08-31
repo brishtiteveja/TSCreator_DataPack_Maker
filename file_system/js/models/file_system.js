@@ -15,6 +15,16 @@ define(["baseModel"], function(BaseModel) {
 			BaseModel.apply(this, attrs);
 		}
 	});
+
+    FileSystem.prototype.writeCompleted = function(path) {
+        this.trigger('write-completed', path);
+    };
+
+
+    FileSystem.prototype.writeErrored = function(path) {
+        this.trigger('write-errored', path);
+    };
+
 	return FileSystem;
 });
 

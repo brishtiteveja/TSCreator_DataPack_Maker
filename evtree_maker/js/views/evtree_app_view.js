@@ -133,6 +133,7 @@ define([
 
     EvTreeAppView.prototype.render = function () {
         this.fileSystemView = new FileSystemView(this.evTreeApp);
+        this.evTreeApp.fileSystemView = this.fileSystemView;
         this.cursorView = new CursorView(this.evTreeApp);
         this.imageObView = new ImageView(this.evTreeApp);
         this.markersView = new MarkersView(this.evTreeApp);
