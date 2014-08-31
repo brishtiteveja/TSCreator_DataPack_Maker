@@ -55,7 +55,6 @@ define([
         this.fileSystem = new FileSystem({
             fs: fs
         });
-        this.app.fileSystem = this.fileSystem;
 
         this.renderDirs();
         this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
@@ -142,8 +141,8 @@ define([
         console.log('Error: ' + e.name + " " + e.message);
     }
 
-    FileSystemView.prototype.saveFile = function(file) {
-        this.filesView.saveFile(file);
+    FileSystemView.prototype.saveFile = function(obj, file) {
+        this.filesView.saveFile(obj, file);
     };
 
     return FileSystemView;

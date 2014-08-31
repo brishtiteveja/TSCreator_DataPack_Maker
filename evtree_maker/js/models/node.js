@@ -144,5 +144,13 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         return this.get('parent').root();
     };
 
+    Node.prototype.getImageURL = function() {
+        if (this.get('image')) {
+            return "url('" + this.get('image') + "')";
+        } else {
+            return null;
+        }
+    };
+
     return Node;
 });

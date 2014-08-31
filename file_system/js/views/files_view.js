@@ -204,34 +204,34 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
         });
     };
 
-    FilesView.prototype.saveFile = function (file) {
+    FilesView.prototype.saveFile = function (obj, file) {
         if (file.type === "image/png" || file.type === "image/jpg" || file.type === "image/jpeg" || file.type ===
             "image/gif") {
             var reader = new FileReader();
-            reader.onload = this.readImage.bind(this, file);
+            reader.onload = this.readImage.bind(this, obj, file);
             reader.readAsDataURL(file);
         }
     };
 
-    FilesView.prototype.readImage = function (file, evt) {
+    FilesView.prototype.readImage = function (obj, file, evt) {
         var self = this;
         var img = new Image();
         $(img).load(function () {
-            self.saveToFileTypeDirectory(file, self.base64ToBinary(evt.target.result));
+            self.saveToFileTypeDirectory(obj, file, self.base64ToBinary(evt.target.result));
         });
         img.src = evt.target.result;
     };
 
-    FilesView.prototype.saveToFileTypeDirectory = function (file, data) {
+    FilesView.prototype.saveToFileTypeDirectory = function (obj, file, data) {
         var self = this;
         var dirName = this.app.type;
         var timeStamp = self.getTimeStamp();
         self.fileSystem.get('fs').root.getDirectory("/" + dirName, {}, function (dirEntry) {
-            self.checkAndWrite(dirEntry, file, data);
+            self.checkAndWrite(obj, dirEntry, file, data);
         }, function () {
             self.fileSystem.get('fs').root.getDirectory("/", {}, function (dirEntry) {
                 self.newDir(dirEntry, dirName, function (dirEntry) {
-                    self.checkAndWrite(dirEntry, file, data);
+                    self.checkAndWrite(obj, dirEntry, file, data);
                 });
             });
         });
@@ -241,20 +241,20 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
         });
     };
 
-    FilesView.prototype.checkAndWrite = function (dirEntry, file, data) {
+    FilesView.prototype.checkAndWrite = function (obj, dirEntry, file, data) {
         var self = this;
         var fullPath = dirEntry.fullPath + "/" + file.name;
         self.fileSystem.get("fs").root.getFile(fullPath, {}, function (
             fileEntry) {
-            self.writToFile(fileEntry, file, data);
+            self.writeToFile(obj, fileEntry, file, data);
         }, function () {
             self.newFile(dirEntry, file.name, function (fileEntry) {
-                self.writToFile(fileEntry, file, data);
+                self.writeToFile(obj, fileEntry, file, data);
             });
         });
     };
 
-    FilesView.prototype.writToFile = function (fileEntry, file, content) {
+    FilesView.prototype.writeToFile = function (obj, fileEntry, file, content) {
 
         var content = content;
         if (fileEntry.isDirectory) return;
@@ -268,12 +268,13 @@ define(["baseView", "fileView", "file"], function (BaseView, FileView, File) {
             fileEntry.createWriter(function (fileWriter) {
 
                 fileWriter.onwriteend = function (e) {
-                    self.fileSystem.writeCompleted(filePath);
+                    console.log('Write Completed: ' + e.toString());
+                    obj.trigger('write-completed', filePath);
                 };
 
                 fileWriter.onerror = function (e) {
                     console.log('Write failed: ' + e.toString());
-                    self.fileSystem.writeErrored();
+                    obj.trigger('write-errored');
                 };
 
                 // Create a new Blob and write it to the file.

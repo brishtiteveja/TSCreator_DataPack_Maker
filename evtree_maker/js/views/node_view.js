@@ -31,7 +31,6 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         if (this.node.get('parent')) {
             this.listenTo(this.node.get('parent'), 'change:x', this.updateX.bind(this));
         }
-        this.listenTo(this.app.fileSystem, 'write-completed', this.imageLoaded.bind(this));
         this.listenTo(this.node, 'change:x', this.render.bind(this));
         this.listenTo(this.node, 'change:image', this.render.bind(this));
         this.listenTo(this.node, 'update', this.render.bind(this));
@@ -39,6 +38,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         this.listenTo(this.node, 'back', this.toBack.bind(this));
         this.listenTo(this.node, 'selected', this.nodeSelected.bind(this));
         this.listenTo(this.node, 'unselected', this.nodeUnselected.bind(this));
+        this.listenTo(this.node, 'write-completed', this.imageLoaded.bind(this));
         this.listenTo(this.node.get('children'), 'add', this.addChild.bind(this));
     };
 
@@ -61,9 +61,6 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         if (!this.element) {
             this.element = this.drawElement();
         }
-        this.element.attr({
-            fill: this.node.get('image') || this.fillColor
-        });
         this.updateZone();
         this.updateElement();
     };
@@ -73,7 +70,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         if (this.node.get('zone')) {
             content += this.node.get('zone').get('name') + "(" + this.node.get('age') + ")" + "<br/>";
             if (this.node.get('image')) {
-                content += '<img src="' + this.node.get('image') + '" alt="Smiley face" height="42" width="42">'
+                content += '<img src="' + this.node.get('image') + '" height="42" width="42">'
             }
         }
         $(this.element.node).qtip({
@@ -131,11 +128,25 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     };
 
     NodeView.prototype.updateElement = function () {
+        var fill = this.fillColor;
+        var image = this.node.get('image');
+        if (image) {
+            if (!this.image) {
+                this.image = this.app.Paper.image(image, this.node.get('x'), this.node.get('y') + 10, 42, 42);
+            } else {
+                this.image.attr({
+                    x: this.node.get('x'),
+                    y: this.node.get('y') + 10
+                });
+            }
+            this.image.toBack();
+        }
+
         this.element.attr({
             cx: this.node.get('x'),
             cy: this.node.get('y'),
             r: this.radius,
-            fill: this.fillColor
+            fill: fill,
         });
     };
 
@@ -230,7 +241,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     NodeView.prototype.onDrop = function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        this.app.fileSystemView.saveFile(evt.originalEvent.dataTransfer.files[0]);
+        this.app.fileSystemView.saveFile(this.node, evt.originalEvent.dataTransfer.files[0]);
     };
 
     NodeView.prototype.imageLoaded = function (path) {
