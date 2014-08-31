@@ -124,6 +124,9 @@ define([
             }
         });
         $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {});
+
+        $("#canvas").on('dragover', this.onDragOver.bind(this));
+        $("#canvas").on('drop', this.onDrop.bind(this));
     }
 
     EvTreeAppView.prototype.showPaper = function () {
@@ -345,6 +348,16 @@ define([
     }
 
     EvTreeAppView.prototype.onDragEnd = function (evt) {}
+
+    EvTreeAppView.prototype.onDragOver = function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+    };
+
+    EvTreeAppView.prototype.onDrop = function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+    };
 
     return EvTreeAppView;
 });
