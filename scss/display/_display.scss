@@ -8,9 +8,9 @@
 	overflow: auto;
 	cursor: crosshair;
 
-	@include display_background;
-
 	> #canvas {
+        width: 100%;
+        height: 100%;
 		&.hidden {
 			height: 1px;
 			width: 1px;
@@ -19,6 +19,12 @@
 			z-index: -100;
 		}
 	}
+
+    .evtree {
+        background: #ffffff;
+    }
+
+    @include display_background;
 
 	// hidden is for hiding div that contains canvas with text elements.
 	// text elements seems to mis align when the div is hidden.
@@ -61,8 +67,8 @@
 			z-index: -100;
 		}
 
-		&::-webkit-scrollbar { 
-			display: none; 
+		&::-webkit-scrollbar {
+			display: none;
 		}
 
 		// @include display_background;
@@ -72,7 +78,7 @@
 		overflow: hidden;
 	}
 
-	> #intro-screen { 
+	> #intro-screen {
 
 		&.row {
 			margin: 100px auto auto auto;

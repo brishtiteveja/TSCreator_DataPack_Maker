@@ -321,7 +321,7 @@ define([
         this.pan = false;
         this.evTreeApp.BgRect.attr({
             "fill": "#ffffff",
-            "fill-opacity": 1,
+            "fill-opacity": 0,
         });
         this.evTreeApp.BgRect.toBack();
         $("a[href='#pan']").parent().removeClass('active');

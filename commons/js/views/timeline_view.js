@@ -26,7 +26,8 @@ define(["baseView", "timeline"], function (BaseView, Timeline) {
             this.element = this.app.Paper.path();
             this.element.attr({
                 "stroke-width": 2,
-                "stroke": "#6666FF"
+                "stroke": "#6666FF",
+                "stroke-dasharray": ["-"]
             });
         }
         this.element.attr({
@@ -41,7 +42,7 @@ define(["baseView", "timeline"], function (BaseView, Timeline) {
             this.bgBox = this.app.Paper.rect();
         }
 
-        var locationX = ViewboxToPaper(this.app, 100, 0).x;
+        var locationX = ViewboxToPaper(this.app, this.app.Paper.width - 300, 0).x;
 
         this.label.attr({
             "text": this.timeline.getLabel(),
@@ -60,11 +61,12 @@ define(["baseView", "timeline"], function (BaseView, Timeline) {
             "height": this.label.getBBox().height,
             "x": this.label.getBBox().x,
             "y": this.label.getBBox().y,
+            "stroke": "#6666FF"
         });
 
-        this.bgBox.toFront();
-        this.label.toFront();
-
+        this.label.toBack();
+        this.bgBox.toBack();
+        this.element.toBack();
     };
 
     TimelineView.prototype.updateTimeline = function (evt) {
