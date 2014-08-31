@@ -16,7 +16,9 @@ define(["baseView", "timeline"], function (BaseView, Timeline) {
     };
 
     TimelineView.prototype.getPath = function () {
-        return "M0," + this.timeline.get('y') + 'H' + (this.app.width || this.app.Paper.width);
+        var locationX1 = ViewboxToPaper(this.app, 0, 0).x;
+        var locationX2 = ViewboxToPaper(this.app, this.app.Paper.width, 0).x;
+        return "M" + locationX1 + "," + this.timeline.get('y') + 'H' + locationX2;
     };
 
     TimelineView.prototype.renderTimeline = function () {
@@ -24,7 +26,7 @@ define(["baseView", "timeline"], function (BaseView, Timeline) {
             this.element = this.app.Paper.path();
             this.element.attr({
                 "stroke-width": 2,
-                "stroke": "#900000"
+                "stroke": "#6666FF"
             });
         }
         this.element.attr({
@@ -39,11 +41,13 @@ define(["baseView", "timeline"], function (BaseView, Timeline) {
             this.bgBox = this.app.Paper.rect();
         }
 
+        var locationX = ViewboxToPaper(this.app, 100, 0).x;
+
         this.label.attr({
-            "text": this.timeline.get('y'),
-            "x": 100,
+            "text": this.timeline.getLabel(),
+            "x": locationX,
             "y": this.timeline.get('y'),
-            "fill": "#900000",
+            "fill": "#6666FF",
             "fill-opacity": 1,
             "font-size": 18
         });

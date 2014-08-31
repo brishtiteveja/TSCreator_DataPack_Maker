@@ -49,6 +49,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     NodeView.prototype.render = function () {
         this.renderHtml();
         this.renderNode();
+        this.renderToottip();
     };
 
     NodeView.prototype.renderHtml = function () {};
@@ -57,7 +58,43 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         if (!this.element) {
             this.element = this.drawElement();
         }
+        this.updateZone();
         this.updateElement();
+    };
+
+    NodeView.prototype.renderToottip = function() {
+        var content = this.node.get('name') + "<br/>";
+        if (this.node.get('zone')) {
+            content += this.node.get('zone').get('name') + "(" + this.node.get('age') + ")" + "<br/>";
+        }
+        $(this.element.node).qtip({
+            content: {
+                text: content
+            },
+            position: {
+                my: 'bottom left', // Position my top left...
+                target: 'mouse', // my target
+                adjust: {
+                    x: 10,
+                    y: -10
+                }
+            }
+        });
+    };
+
+    NodeView.prototype.updateZone = function() {
+        var zone = this.app.ZonesCollection.getZoneForY(this.node.get('y'));
+        if (zone) {
+            var relativeY = zone.getRelativeY(this.node.get('y'));
+            var age = zone.getAbsoluteAge(this.node.get('y'));
+            this.node.set({
+                zone: zone,
+                relativeY: relativeY,
+                age: age
+            }, {
+                silent: true
+            });
+        }
     };
 
     NodeView.prototype.ifBaseCreateTop = function () {

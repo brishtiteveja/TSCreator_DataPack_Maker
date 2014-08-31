@@ -76,7 +76,7 @@ define([
         this.evTreeApp.ImageOb = new ImageOb({});
         this.evTreeApp.Paper = new Raphael(this.$canvas[0], this.evTreeApp.width, this.evTreeApp.height);
         this.evTreeApp.Paper.setViewBox(0, 0, this.evTreeApp.width, this.evTreeApp.height);
-        this.evTreeApp.timeline = new Timeline();
+        this.evTreeApp.timeline = new Timeline({}, this.evTreeApp);
         this.initPan();
 
         this.evTreeApp.MarkersSet = this.evTreeApp.Paper.set();
@@ -239,6 +239,14 @@ define([
 
         this.disPan();
 
+        this.evTreeView.disable();
+
+        if (this.evTreeApp.CurrentNode) {
+            this.evTreeApp.CurrentNode.triggerUnselected();
+        }
+        this.evTreeApp.CurrentNode = null;
+
+
 
         switch (source) {
         case "#add-marker":
@@ -265,11 +273,8 @@ define([
         case "#pan":
             this.enPan();
             break;
-        case "#add-node":
-            if (this.evTreeApp.CurrentNode) {
-                this.evTreeApp.CurrentNode.triggerUnselected();
-            }
-            this.evTreeApp.CurrentNode = null;
+        case "#tree-mode":
+            this.evTreeView.enable();
             break;
         default:
             break;

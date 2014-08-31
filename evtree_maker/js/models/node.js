@@ -12,7 +12,8 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
                 type: params.type || "BASE",
                 depth: 1,
                 width: 0,
-                height: 0
+                height: 0,
+                zone: null,
             }];
             BaseModel.apply(this, attrs);
         }

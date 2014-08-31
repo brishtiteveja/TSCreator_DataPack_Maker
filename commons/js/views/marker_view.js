@@ -100,7 +100,16 @@ define(["baseView"], function (BaseView) {
 
     /*==========  get path string for the marker  ==========*/
     MarkerView.prototype.getPath = function () {
-        return "M0," + this.marker.get('y') + 'H' + (this.app.width || this.app.Paper.width);
+        var locationX1 = 0;
+        var locationX2 = this.app.width || this.app.Paper.width;
+        var locationY = this.marker.get('y');
+        if (this.app.span) {
+            var cdts = ViewboxToPaper(this.app, locationX1, locationY);
+            locationX1 = cdts.x;
+            locationY = cdts.y;
+            locationX2 = ViewboxToPaper(this.app, locationX2, 0).x;
+        }
+        return "M" + locationX1 + "," + this.marker.get('y') + 'H' + locationX2;
     };
 
     /*==========  start dragging  ==========*/
