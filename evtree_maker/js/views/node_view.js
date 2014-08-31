@@ -70,7 +70,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         if (this.node.get('zone')) {
             content += this.node.get('zone').get('name') + "(" + this.node.get('age') + ")" + "<br/>";
             if (this.node.get('image')) {
-                content += '<img src="' + this.node.get('image') + '" height="42" width="42">'
+                content += '<img src="' + this.node.get('image') + '">'
             }
         }
         $(this.element.node).qtip({

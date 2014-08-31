@@ -1,4 +1,5 @@
 define(["baseModel", "nodes"], function (BaseModel, Nodes) {
+    var NODE_SEPARATION = 50
     var Node = BaseModel.extend({
         classname: "Node",
         constructor: function (params) {
@@ -123,7 +124,7 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
             } else {
                 var x = child.before().get('x');
                 child.set({
-                    x: x + 30
+                    x: x + NODE_SEPARATION
                 })
             }
         }
