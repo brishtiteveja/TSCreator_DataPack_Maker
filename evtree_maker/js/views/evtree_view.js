@@ -60,7 +60,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
                 }
 
                 var node = new Node({
-                    name: _.unique("Root "),
+                    name: _.uniqueId("Child "),
                     x: locationX,
                     y: locationY,
                     parent: this.app.CurrentNode,
@@ -71,7 +71,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
             }
         } else {
             this.evTree.get('roots').add(new Node({
-                name: _.unique("Root "),
+                name: _.uniqueId("Root "),
                 x: locationX,
                 y: locationY,
                 type: "BASE"
