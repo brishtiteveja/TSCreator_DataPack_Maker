@@ -145,12 +145,18 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         return this.get('parent').root();
     };
 
-    Node.prototype.getImageURL = function() {
+    Node.prototype.getImageURL = function () {
         if (this.get('image')) {
             return "url('" + this.get('image') + "')";
         } else {
             return null;
         }
+    };
+
+    Node.prototype.getMaxYChild = function () {
+        return this.children().max(function (child) {
+            return child.get('y')
+        });
     };
 
     return Node;

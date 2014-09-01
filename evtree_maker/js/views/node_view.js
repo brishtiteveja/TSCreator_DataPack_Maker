@@ -160,6 +160,10 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         if (!zone) {
             return;
         }
+
+        if (this.node.children().length > 0 && locationY <= this.node.getMaxYChild().get('y')) {
+            return;
+        }
         if (this.node.get('parent') && locationY >= this.node.get('parent').get('y')) {
             return;
         }
