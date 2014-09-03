@@ -3,8 +3,10 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
     var Node = BaseModel.extend({
         classname: "Node",
         constructor: function (params) {
+            var id = _.uniqueId("n");
             var attrs = [{
-                name: params.name || _.uniqueId("Node "),
+                id: id,
+                name: (params.name || "Node") + " " + id,
                 age: params.age || null,
                 x: params.x || null,
                 y: params.y || null,
@@ -14,11 +16,15 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
                 depth: 1,
                 width: 0,
                 height: 0,
-                zone: null,
+                zone: null
             }];
             BaseModel.apply(this, attrs);
         }
     });
+
+    Node.prototype.isRoot = function () {
+        return (this.root() === this);
+    };
 
     Node.prototype.children = function () {
         return this.get('children');

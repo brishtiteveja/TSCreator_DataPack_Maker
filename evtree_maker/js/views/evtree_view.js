@@ -1,10 +1,13 @@
 define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvTree, NodeView) {
     var EvTreeView = BaseView.extend({
+        el: "#evtrees-list",
         classname: 'EvTreeView',
         events: {}
     });
 
-    EvTreeView.prototype.template = new EJS({});
+    EvTreeView.prototype.template = new EJS({
+        url: '/commons/ejs/data_tbl.ejs'
+    });
 
     EvTreeView.prototype.initialize = function (app) {
         this.app = app;
@@ -14,6 +17,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
         });
 
         this.listenToActionEvent();
+        this.renderHtml();
     };
 
     EvTreeView.prototype.listenToActionEvent = function () {
@@ -22,7 +26,11 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
         this.listenTo(this.evTree.get('roots'), 'add', this.addRoot.bind(this));
     };
 
-    EvTreeView.prototype.renderHtml = function () {};
+    EvTreeView.prototype.renderHtml = function () {
+        this.$el.html(this.template.render({
+            name: "Evolution Trees"
+        }))
+    };
 
     EvTreeView.prototype.toggleEvTreeForm = function () {}
 
@@ -60,7 +68,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
                 }
 
                 var node = new Node({
-                    name: _.uniqueId("Child "),
+                    name: "Base",
                     x: locationX,
                     y: locationY,
                     parent: this.app.CurrentNode,
@@ -81,6 +89,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
 
     EvTreeView.prototype.addRoot = function (node) {
         var nodeView = new NodeView(node, this.app);
+        this.$(".data-list").append(nodeView.el);
     };
 
     EvTreeView.prototype.enable = function () {

@@ -4,11 +4,14 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     var DRAGOVER_RADIUS = 30;
 
     var NodeView = BaseView.extend({
+        tagName: "li",
         classname: "NodeView",
         events: {}
     });
 
-    NodeView.prototype.template = new EJS({});
+    NodeView.prototype.template = new EJS({
+        url: "/evtree_maker/ejs/node.ejs"
+    });
 
     NodeView.prototype.initialize = function (node, app) {
         this.node = node;
@@ -22,6 +25,9 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
             this.fillColor = "#FFFF00";
         }
 
+        this.id = this.node.get('id');
+
+        this.$el.append('<div class="row"></div>');
         this.render();
         this.listenToModelEvents();
         this.ifBaseCreateTop();
@@ -55,7 +61,9 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         this.renderToottip();
     };
 
-    NodeView.prototype.renderHtml = function () {};
+    NodeView.prototype.renderHtml = function () {
+        this.$("> div.row").html(this.template.render(this.node.toJSON()));
+    };
 
     NodeView.prototype.renderNode = function () {
         if (!this.element) {
@@ -222,6 +230,8 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
 
     NodeView.prototype.addChild = function (child) {
         var childNodeView = new NodeView(child, this.app);
+        var rootId = this.node.root().get('id');
+        $("#" + rootId).append(childNodeView.el);
         var branchView = new BranchView(this.node, child, this.app);
     };
 
