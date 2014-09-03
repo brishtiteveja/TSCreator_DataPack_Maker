@@ -114,6 +114,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     NodeView.prototype.ifBaseCreateTop = function () {
         if (this.node.get('type') === "BASE") {
             var node = new Node({
+                name: "Top",
                 x: this.node.get('x'),
                 y: this.node.get('y') - 50,
                 type: "TOP",
@@ -231,7 +232,11 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     NodeView.prototype.addChild = function (child) {
         var childNodeView = new NodeView(child, this.app);
         var rootId = this.node.root().get('id');
-        $("#" + rootId).append(childNodeView.el);
+        if (this.node.isRoot()) {
+            this.$el.append(childNodeView.el);
+        } else {
+            $("#" + rootId).append(childNodeView.el);
+        }
         var branchView = new BranchView(this.node, child, this.app);
     };
 
