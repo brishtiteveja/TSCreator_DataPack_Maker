@@ -79,7 +79,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
             }
         } else {
             this.evTree.get('roots').add(new Node({
-                name: "Root",
+                name: "Root Base",
                 x: locationX,
                 y: locationY,
                 type: "BASE"

@@ -113,8 +113,9 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
 
     NodeView.prototype.ifBaseCreateTop = function () {
         if (this.node.get('type') === "BASE") {
+            var name = this.node.isRoot() ? "Root Top" : "Top";
             var node = new Node({
-                name: "Top",
+                name: name,
                 x: this.node.get('x'),
                 y: this.node.get('y') - 50,
                 type: "TOP",
