@@ -81,6 +81,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
                 content += '<img src="' + this.node.get('image') + '">'
             }
         }
+        $(".qtip").remove();
         $(this.element.node).qtip({
             content: {
                 text: content
