@@ -81,7 +81,12 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
                 content += '<img src="' + this.node.get('image') + '">'
             }
         }
-        $(".qtip").remove();
+        var self = this;
+
+        if (self.qTip) {
+            self.qTip.remove();
+        }
+
         $(this.element.node).qtip({
             content: {
                 text: content
@@ -92,6 +97,11 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
                 adjust: {
                     x: 10,
                     y: -10
+                }
+            },
+            events: {
+                render: function () {
+                    self.qTip = this;
                 }
             }
         });
@@ -267,7 +277,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     };
 
     NodeView.prototype.imageLoaded = function (path) {
-        var url = "filesystem:http://localhost:3333/persistent" + path;
+        var url = "filesystem:http://" + window.location.host + "/persistent" + path;
         this.node.set({
             image: url
         });
