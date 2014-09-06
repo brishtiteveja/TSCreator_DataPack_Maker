@@ -145,6 +145,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
                 this.image = this.app.Paper.image(image, this.node.get('x'), this.node.get('y') + 10, 42, 42);
             } else {
                 this.image.attr({
+                    src: image,
                     x: this.node.get('x'),
                     y: this.node.get('y') + 10
                 });
