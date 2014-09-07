@@ -1,7 +1,9 @@
 define([
     "baseView",
     "cursorView",
+    "dataExportView",
     "evTreeView",
+    "exporter",
     "fileSystemView",
     "imageOb",
     "imageView",
@@ -16,7 +18,9 @@ define([
 ], function (
     BaseView,
     CursorView,
+    DataExportView,
     EvTreeView,
+    Exporter,
     FileSystemView,
     ImageOb,
     ImageView,
@@ -135,6 +139,7 @@ define([
     }
 
     EvTreeAppView.prototype.render = function () {
+        this.dataExportView = new DataExportView(this.app);
         this.fileSystemView = new FileSystemView(this.evTreeApp);
         this.evTreeApp.fileSystemView = this.fileSystemView;
         this.cursorView = new CursorView(this.evTreeApp);
@@ -257,7 +262,7 @@ define([
             this.markersView.toggleMarkers();
             break;
         case "#export-data":
-            // this.dataExportView.toggleExportView();
+            this.dataExportView.toggleExportView();
             break;
         case "#file-system":
             this.fileSystemView.toggleView();
@@ -349,12 +354,12 @@ define([
 
     EvTreeAppView.prototype.onDragEnd = function (evt) {}
 
-    EvTreeAppView.prototype.onDragOver = function(evt) {
+    EvTreeAppView.prototype.onDragOver = function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
     };
 
-    EvTreeAppView.prototype.onDrop = function(evt) {
+    EvTreeAppView.prototype.onDrop = function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
     };

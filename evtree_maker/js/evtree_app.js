@@ -64,6 +64,13 @@ requirejs.config({
         referenceBlockColumnsView: "/reference_column_maker/js/views/reference_block_columns_view",
         referenceColumnSideView: "/reference_column_maker/js/views/reference_column_side_view",
 
+        // Data Loader
+        loader: "/evtree_maker/js/utils/loader",
+
+        // Data Exporter
+        exporter: "/evtree_maker/js/utils/exporter",
+        dataExportView: "/evtree_maker/js/views/data_export_view",
+
         //EvTree
         evTreeAppView: "/evtree_maker/js/views/evtree_app_view",
         evTreeView: "/evtree_maker/js/views/evtree_view",
