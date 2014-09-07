@@ -74,6 +74,7 @@ define([
         var lines = data.split(/\r|\n/);
         var node = null;
         var isRangeColumn = false;
+        var tree = {};
         for (var i in lines) {
             var line = lines[i].split("\t");
             if (line.length > 1) {
@@ -95,15 +96,62 @@ define([
                             }
                         }
                         if (img) {
+                            // TODO - Add image support.
                             // console.log($(img[0]).attr('src'));
                         }
-                        console.log(name + " " + branch + " " + age);
+                        if (branch) {
+                            tree[name].branches.push({
+                                age: age,
+                                name: branch
+                            });
+                        } else {
+                            if (!tree[name]) {
+                                tree[name] = {
+                                    base: parseFloat(age),
+                                    top: null,
+                                    branches: []
+                                };
+                            } else {
+                                tree[name].top = age;
+                                if (tree[name].top > tree[name].base) {
+                                    tree[name].top = tree[name].base;
+                                    tree[name].base = age;
+                                }
+                            }
+                        }
 
                     }
                 }
             } else {
                 isRangeColumn = false;
             }
+        }
+
+        this.condenseTreeObj(tree);
+        this.generateTree(tree);
+    };
+
+    Loader.prototype.condenseTreeObj = function (tree) {
+        for (var name in tree) {
+            this.condense(name, tree);
+        }
+        console.log(JSON.stringify(tree));
+    };
+
+    Loader.prototype.condense = function (name, tree) {
+        var node = tree[name];
+        if (node.branches.length > 0) {
+            for (var i = 0; i < node.branches.length; i++) {
+                this.mergeJSON(node.branches[i], this.condense(node.branches[i].name, tree));
+                delete tree[node.branches[i].name];
+            }
+        }
+        return node;
+    };
+
+    Loader.prototype.mergeJSON = function (j1, j2) {
+        for (var key in j2) {
+            j1[key] = j2[key];
         }
     };
 
