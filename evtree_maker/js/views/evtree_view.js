@@ -12,9 +12,12 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
     EvTreeView.prototype.initialize = function (app) {
         this.app = app;
         this.app.CurrentNode = null;
-        this.evTree = new EvTree({
+
+        this.app.evTree = new EvTree({
             name: "Evolution Tree"
         });
+
+        this.evTree = this.app.evTree;
 
         this.listenToActionEvent();
         this.renderHtml();

@@ -4,10 +4,14 @@ define([], function () {
     }
 
     Exporter.prototype.export = function () {
-
+        initialize();
     };
 
-    Exporter.prototype.initialize = function () {};
+    Exporter.prototype.initialize = function () {
+        this.markers = this.app.markersCollection;
+        this.zones = this.app.ZonesCollection;
+        this.evTree = this.app.app.evTree;
+    };
 
     return Exporter;
 })

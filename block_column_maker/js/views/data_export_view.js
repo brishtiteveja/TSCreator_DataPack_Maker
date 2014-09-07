@@ -4,7 +4,7 @@
 ======================================*/
 
 define(["baseView"], function(BaseView) {
-	
+
 	var DataExportView = BaseView.extend({
 		el: "#export-panel",
 		classname: "DataExportView",
@@ -28,7 +28,7 @@ define(["baseView"], function(BaseView) {
 
 	DataExportView.prototype.render = function() {
 		try {
-			this.exporter.export();	
+			this.exporter.export();
 		} catch (e) {
 			alert("Please verify your transect! Errors are preventing the maker from generating valid outputs.");
 		}
@@ -61,7 +61,7 @@ define(["baseView"], function(BaseView) {
 
 	DataExportView.prototype.toggleExportView = function(evt) {
 		$("#loading").removeClass("hide");
-		
+
 		if ($("a[href='#export-data']").parent().hasClass('active')) {
 			$("a[href='#export-data']").parent().removeClass('active');
 			$(".display-panel").addClass('hide');

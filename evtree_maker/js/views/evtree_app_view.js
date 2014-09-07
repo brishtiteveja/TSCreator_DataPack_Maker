@@ -7,6 +7,7 @@ define([
     "fileSystemView",
     "imageOb",
     "imageView",
+    "loader",
     "markers",
     "markersView",
     "raphael",
@@ -14,7 +15,7 @@ define([
     "timeline",
     "timelineView",
     "zones",
-    "zonesView"
+    "zonesView",
 ], function (
     BaseView,
     CursorView,
@@ -24,6 +25,7 @@ define([
     FileSystemView,
     ImageOb,
     ImageView,
+    Loader,
     Markers,
     MarkersView,
     Raphael,
@@ -50,40 +52,45 @@ define([
 
     EvTreeAppView.prototype.initialize = function () {
 
-        this.evTreeApp = {
+        this.app = {
             type: "evTree",
             span: true
         };
 
 
-        this.evTreeApp.MarkersCollection = new Markers();
-        this.evTreeApp.ZonesCollection = new Zones();
+        this.app.MarkersCollection = new Markers();
+        this.app.ZonesCollection = new Zones();
 
 
-        this.evTreeApp.StatusBox = $(".status-box");
+        this.app.StatusBox = $(".status-box");
 
         // refer to the important DOM elements.
 
         this.$introScreen = this.$("#intro-screen");
-        this.evTreeApp.$canvas = this.$("#canvas");
-        this.evTreeApp.$display = this.$("#display");
-        this.$canvas = this.evTreeApp.$canvas;
+        this.app.$canvas = this.$("#canvas");
+        this.app.$display = this.$("#display");
+        this.$canvas = this.app.$canvas;
         this.$displayPanels = this.$('.display-panel');
 
-        this.evTreeApp.x = 0;
-        this.evTreeApp.y = 0;
-        this.evTreeApp.width = this.evTreeApp.$display.width();
-        this.evTreeApp.height = this.evTreeApp.$display.height();
+        this.app.x = 0;
+        this.app.y = 0;
+        this.app.width = this.app.$display.width();
+        this.app.height = this.app.$display.height();
 
         // Initialize the models
 
-        this.evTreeApp.ImageOb = new ImageOb({});
-        this.evTreeApp.Paper = new Raphael(this.$canvas[0], this.evTreeApp.width, this.evTreeApp.height);
-        this.evTreeApp.Paper.setViewBox(0, 0, this.evTreeApp.width, this.evTreeApp.height);
-        this.evTreeApp.timeline = new Timeline({}, this.evTreeApp);
+        this.app.ImageOb = new ImageOb({});
+        this.app.Paper = new Raphael(this.$canvas[0], this.app.width, this.app.height);
+        this.app.Paper.setViewBox(0, 0, this.app.width, this.app.height);
+        this.app.timeline = new Timeline({}, this.app);
         this.initPan();
 
-        this.evTreeApp.MarkersSet = this.evTreeApp.Paper.set();
+        this.app.MarkersSet = this.app.Paper.set();
+
+        this.evTreeView = new EvTreeView(this.app);
+        this.app.loader = new Loader(this.app);
+        this.app.exporter = new Exporter(this.app);
+
 
         this.listenToActionEvents();
 
@@ -91,12 +98,12 @@ define([
     };
 
     EvTreeAppView.prototype.initPan = function () {
-        this.evTreeApp.BgRect = this.evTreeApp.Paper.rect(0, 0, this.evTreeApp.width, this.evTreeApp.height);
-        this.evTreeApp.BgRect.attr({
+        this.app.BgRect = this.app.Paper.rect(0, 0, this.app.width, this.app.height);
+        this.app.BgRect.attr({
             "fill": "#ffffff",
             "fill-opacity": 1,
         });
-        this.evTreeApp.BgRect.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(
+        this.app.BgRect.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(
             this));
         this.disPan();
     }
@@ -140,16 +147,15 @@ define([
 
     EvTreeAppView.prototype.render = function () {
         this.dataExportView = new DataExportView(this.app);
-        this.fileSystemView = new FileSystemView(this.evTreeApp);
-        this.evTreeApp.fileSystemView = this.fileSystemView;
-        this.cursorView = new CursorView(this.evTreeApp);
-        this.imageObView = new ImageView(this.evTreeApp);
-        this.markersView = new MarkersView(this.evTreeApp);
-        this.zonesView = new ZonesView(this.evTreeApp);
-        this.evTreeView = new EvTreeView(this.evTreeApp);
-        this.timelineView = new TimelineView(this.evTreeApp.timeline, this.evTreeApp)
+        this.fileSystemView = new FileSystemView(this.app);
+        this.app.fileSystemView = this.fileSystemView;
+        this.cursorView = new CursorView(this.app);
+        this.imageObView = new ImageView(this.app);
+        this.markersView = new MarkersView(this.app);
+        this.zonesView = new ZonesView(this.app);
+        this.timelineView = new TimelineView(this.app.timeline, this.app)
 
-        this.referenceColumnSideView = new ReferenceColumnSideView(this.evTreeApp, "#reference-column-settings");
+        this.referenceColumnSideView = new ReferenceColumnSideView(this.app, "#reference-column-settings");
 
         $('.linked').scroll(function () {
             $('.linked').scrollTop($(this).scrollTop());
@@ -190,13 +196,13 @@ define([
     EvTreeAppView.prototype.exportPaperAsImage = function () {}
 
     EvTreeAppView.prototype.saveToLocalStorage = function () {
-        // this.evTreeApp.exporter.export();
-        // localStorage.evTreeApp = this.evTreeApp.exporter.getJSON();
+        // this.app.exporter.export();
+        // localStorage.app = this.app.exporter.getJSON();
     }
 
     EvTreeAppView.prototype.loadFromLocalStorage = function () {
         // this.showPaper();
-        // this.evTreeApp.loader.loadFromLocalStorage();
+        // this.app.loader.loadFromLocalStorage();
     }
 
 
@@ -218,7 +224,10 @@ define([
         reader.onloadend = function (e) {
             self.showPaper();
             if (ext === "json") {
-                // self.evTreeApp.loader.loadData(this.result);
+                self.app.loader.loadData(this.result);
+            }
+            if (ext === "txt") {
+                self.app.loader.loadTextData(this.result);
             }
         };
         reader.readAsText(file);
@@ -238,11 +247,11 @@ define([
             this.markersView.toggleMarkers();
         }
 
-        if (this.evTreeApp.Cursor.get('lockH')) {
+        if (this.app.Cursor.get('lockH')) {
             this.cursorView.toggleHlock();
         }
 
-        if (this.evTreeApp.Cursor.get('lockV')) {
+        if (this.app.Cursor.get('lockV')) {
             this.cursorView.toggleVlock();
         }
 
@@ -250,10 +259,10 @@ define([
 
         this.evTreeView.disable();
 
-        if (this.evTreeApp.CurrentNode) {
-            this.evTreeApp.CurrentNode.triggerUnselected();
+        if (this.app.CurrentNode) {
+            this.app.CurrentNode.triggerUnselected();
         }
-        this.evTreeApp.CurrentNode = null;
+        this.app.CurrentNode = null;
 
 
 
@@ -291,65 +300,65 @@ define([
     };
 
     EvTreeAppView.prototype.zoomIn = function () {
-        var vBox = this.evTreeApp.Paper.canvas.viewBox.baseVal;
-        this.evTreeApp.BgRect.attr({
+        var vBox = this.app.Paper.canvas.viewBox.baseVal;
+        this.app.BgRect.attr({
             width: vBox.width * 0.8,
             height: vBox.height * 0.8
         });
 
-        this.evTreeApp.width = Math.max(vBox.width * 0.8, this.evTreeApp.width);
-        this.evTreeApp.height = Math.max(vBox.height * 0.8, this.evTreeApp.height);
-        this.evTreeApp.Paper.setViewBox(vBox.x, vBox.y, vBox.width * 0.8, vBox.height * 0.8);
+        this.app.width = Math.max(vBox.width * 0.8, this.app.width);
+        this.app.height = Math.max(vBox.height * 0.8, this.app.height);
+        this.app.Paper.setViewBox(vBox.x, vBox.y, vBox.width * 0.8, vBox.height * 0.8);
     }
 
     EvTreeAppView.prototype.zoomOut = function () {
-        var vBox = this.evTreeApp.Paper.canvas.viewBox.baseVal;
-        this.evTreeApp.BgRect.attr({
+        var vBox = this.app.Paper.canvas.viewBox.baseVal;
+        this.app.BgRect.attr({
             width: vBox.width * 1.2,
             height: vBox.height * 1.2
         });
 
-        this.evTreeApp.width = Math.max(vBox.width * 1.2, this.evTreeApp.width);
-        this.evTreeApp.height = Math.max(vBox.height * 1.2, this.evTreeApp.height);
-        this.evTreeApp.Paper.setViewBox(vBox.x, vBox.y, vBox.width * 1.2, vBox.height * 1.2);
+        this.app.width = Math.max(vBox.width * 1.2, this.app.width);
+        this.app.height = Math.max(vBox.height * 1.2, this.app.height);
+        this.app.Paper.setViewBox(vBox.x, vBox.y, vBox.width * 1.2, vBox.height * 1.2);
 
     }
 
     EvTreeAppView.prototype.enPan = function () {
         this.pan = true;
-        this.evTreeApp.BgRect.attr({
+        this.app.BgRect.attr({
             "fill": "#FFCC66",
             "fill-opacity": 0.5,
         });
-        this.evTreeApp.BgRect.toFront();
+        this.app.BgRect.toFront();
         $("a[href='#pan']").parent().addClass('active');
     }
 
 
     EvTreeAppView.prototype.disPan = function () {
         this.pan = false;
-        this.evTreeApp.BgRect.attr({
+        this.app.BgRect.attr({
             "fill": "#ffffff",
             "fill-opacity": 0,
         });
-        this.evTreeApp.BgRect.toBack();
+        this.app.BgRect.toBack();
         $("a[href='#pan']").parent().removeClass('active');
     }
 
     EvTreeAppView.prototype.onDragStart = function (x, y, evt) {
-        var vBox = this.evTreeApp.Paper.canvas.viewBox.baseVal;
+        var vBox = this.app.Paper.canvas.viewBox.baseVal;
         this.initX = vBox.x;
         this.initY = vBox.y;
     }
 
     EvTreeAppView.prototype.onDragMove = function (dx, dy, x, y, evt) {
         if (!this.pan) return;
-        var vBox = this.evTreeApp.Paper.canvas.viewBox.baseVal;
-        this.evTreeApp.BgRect.attr({
+        var vBox = this.app.Paper.canvas.viewBox.baseVal;
+        this.app.BgRect.attr({
             x: this.initX - dx,
             y: this.initY - dy,
         });
-        this.evTreeApp.Paper.setViewBox(this.initX - dx, this.initY - dy, vBox.width, vBox.height);
+        this.app.Paper.setViewBox(this.initX - dx, this.initY - dy, vBox.width, vBox.height);
     }
 
     EvTreeAppView.prototype.onDragEnd = function (evt) {}
