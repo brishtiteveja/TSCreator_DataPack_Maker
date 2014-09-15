@@ -1,4 +1,5 @@
 ({
+    baseUrl: "/Users/cnv/Sites/makers/",
     paths: {
 
         // Base components
@@ -53,7 +54,7 @@
         exporter: "lithology_column_maker/js/utils/exporter",
         dataExportView: "lithology_column_maker/js/views/data_export_view",
 
-        // Lithology column models 
+        // Lithology column models
         lithology: "lithology_column_maker/js/models/lithology",
         lithologys: "lithology_column_maker/js/collections/lithologys",
 
@@ -90,7 +91,7 @@
         fileSystem: "file_system/js/models/file_system",
         fileSystemView: "file_system/js/views/file_system_view",
 
-        // 
+        //
         lithologyAppView: "lithology_column_maker/js/views/lithology_app_view",
 
         // Points
