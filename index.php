@@ -45,7 +45,7 @@
   <h1>Datapack Makers</h1>
   <ul>
     <li>Transect Maker (Dev) - <a href="/transect_maker/html/transect_min.html" target="_blank">link</a></li>
-    <li>Curve Maker (Dev) - <a href="http://icds26.cs.purdue.edu:8080/curve_maker" target="_blank">link</a></li>
+    <li>Curve Maker (Dev) - <a href="/curve_maker" target="_blank">link</a></li>
     <li>Lithology (Facies-map) Maker (Dev) - <a href="/lithology_column_maker/html/lithology_column_maker_min.html" target="_blank">link</a></li>
     <li>Block Maker (Dev) - <a href="/block_column_maker/html/block_column_maker_min.html" target="_blank">link</a></li>
     <li>Reference Column Maker (Dev) - <a href="/reference_column_maker/html/reference_column_maker_min.html" target="_blank">link</a></li>
