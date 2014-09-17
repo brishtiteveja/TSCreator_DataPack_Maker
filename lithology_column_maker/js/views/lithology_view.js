@@ -40,6 +40,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
     LithologyView.prototype.listenToEvents = function () {
 
         this.listenTo(this.lithology, 'update', this.render.bind(this));
+        this.listenTo(this.lithology, 'change', this.renderLithology.bind(this));
         this.listenTo(this.lithology, 'change:pattern', this.renderLithology.bind(this));
 
         this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithology
@@ -285,8 +286,6 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.base.set({
             style: style
         });
-
-        this.lithology.update();
     }
 
     LithologyView.prototype.checkAndDelete = function (lithologyMarker) {
