@@ -459,6 +459,11 @@ define([
 
                     // We are setting and resetting the edit so that the div element of the view is
                     // re-rendered to show updated info.
+
+                    lithology.set({
+                        edit: false
+                    });
+
                     lithology.update();
                 }
             }
