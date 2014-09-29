@@ -148,15 +148,9 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
             } else {
                 var node_before = child.before_max();
                 var x = node_before.get('x');
-                if (node_before === parent || node_before === parent.parent()) {
-                    child.set({
-                        x: x
-                    });
-                } else {
-                    child.set({
-                        x: x + NODE_SEPARATION
-                    });
-                }
+                child.set({
+                    x: x + NODE_SEPARATION
+                });
             }
         }
     };

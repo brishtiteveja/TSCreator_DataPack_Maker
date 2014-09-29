@@ -1,7 +1,8 @@
 define([
     "zone",
     "marker",
-], function (Zone, Marker) {
+    "node"
+], function (Zone, Marker, Node) {
 
     var Loader = function (app) {
         this.app = app;
@@ -66,7 +67,7 @@ define([
     }
 
     Loader.prototype.getYFromAge = function (age) {
-        return 50 + Math.round((age - this.topAge) * 30); // 30 pixes per million years
+        return 50 + Math.round((age - this.topAge) * 5); // 30 pixes per million years
     }
 
     Loader.prototype.parseColumnData = function (data) {
@@ -87,7 +88,7 @@ define([
                     if (isRangeColumn && line.length > 1) {
                         var img = line[1].match(/<img .*>/g);
                         var name = line[1].replace(/<img .*>/g, "").trim();
-                        var age = line[2];
+                        var age = parseFloat(line[2]);
                         var branch = null;
                         if (line.length > 3) {
                             var type = line[3].trim().toLowerCase();
@@ -109,6 +110,7 @@ define([
                                 tree[name] = {
                                     base: parseFloat(age),
                                     top: null,
+                                    name: name,
                                     branches: []
                                 };
                             } else {
@@ -127,8 +129,17 @@ define([
             }
         }
 
+
         this.condenseTreeObj(tree);
-        this.generateTree(tree);
+
+        var root = null;
+        var startX = 50;
+        for (var subtree in tree) {
+            if (root) {
+                startX = root.last().get('x') + startX
+            }
+            root = this.generateTree(tree[subtree], null, startX);
+        }
     };
 
     Loader.prototype.condenseTreeObj = function (tree) {
@@ -140,13 +151,65 @@ define([
 
     Loader.prototype.condense = function (name, tree) {
         var node = tree[name];
-        if (node.branches.length > 0) {
+        console.log(name);
+        if (node && node.branches.length > 0) {
             for (var i = 0; i < node.branches.length; i++) {
                 this.mergeJSON(node.branches[i], this.condense(node.branches[i].name, tree));
                 delete tree[node.branches[i].name];
             }
         }
         return node;
+    };
+
+    Loader.prototype.generateTree = function (subtree, parent, startX) {
+        if (!subtree["branches"]) {
+            return;
+        }
+        var locationY = 0;
+
+        if (subtree["age"] && parent) {
+            locationY = this.getYFromAge(subtree["age"]);
+            var node = new Node({
+                name: subtree["name"] + "-branch",
+                x: startX,
+                y: locationY,
+                type: "TOP",
+                parent: parent
+            });
+            parent.get('children').add(node);
+            parent = node;
+        }
+
+        locationY = this.getYFromAge(subtree["base"]);
+        var base = new Node({
+            name: subtree["name"] + "-base",
+            x: startX,
+            y: locationY,
+            type: "BASE",
+            parent: parent
+        });
+
+        if (parent) {
+            parent.get('children').add(base);
+        } else {
+            this.evTree.get('roots').add(base);
+        }
+
+        locationY = this.getYFromAge(subtree["top"])
+        var top = new Node({
+            name: subtree["name"] + "-top",
+            x: startX,
+            y: locationY,
+            type: "TOP",
+            parent: base
+        });
+        base.get('children').add(top);
+        var length = subtree["branches"].length;
+        for (var index = 0; index < length; index++) {
+            this.generateTree(subtree["branches"][index], base, startX)
+        }
+        base.root().rearrange()
+        return base.root();
     };
 
     Loader.prototype.mergeJSON = function (j1, j2) {

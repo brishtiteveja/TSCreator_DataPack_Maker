@@ -30,7 +30,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         this.$el.append('<div class="row"></div>');
         this.render();
         this.listenToModelEvents();
-        this.ifBaseCreateTop();
+        // this.ifBaseCreateTop();
     };
 
     NodeView.prototype.listenToModelEvents = function () {
