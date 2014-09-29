@@ -85,10 +85,32 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         var index = parent.children().indexOf(node)
         while (parent && index == 0) {
             node = parent
-            parent = parent.parent();
-            index = parent.children().indexOf(node);
+            var temp = node.parent()
+            if (temp) {
+                parent = temp
+                index = parent.children().indexOf(node);
+            } else {
+                break;
+            }
         }
-        return parent.children().at(index - 1).last();
+
+        if (index > 0) {
+            return parent.children().at(index - 1).last();
+        } else {
+            return null;
+        }
+    };
+
+    Node.prototype.before_max = function () {
+        var node = this.before()
+        var node_max = this.parent()
+        while (node) {
+            if (node.get('x') > node_max.get('x')) {
+                node_max = node;
+            }
+            node = node.before()
+        }
+        return node_max;
     };
 
     Node.prototype.after = function () {
@@ -117,21 +139,24 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
             child.rearrange();
         });
 
-        if (!parent) {
-            return;
-        }
-
         for (var i = 0; i < size; i++) {
             var child = children.at(i)
-            if (i == 0) {
+            if (child.get('type') === "TOP") {
                 child.set({
                     x: this.get('x')
                 })
             } else {
-                var x = child.before().get('x');
-                child.set({
-                    x: x + NODE_SEPARATION
-                })
+                var node_before = child.before_max();
+                var x = node_before.get('x');
+                if (node_before === parent || node_before === parent.parent()) {
+                    child.set({
+                        x: x
+                    });
+                } else {
+                    child.set({
+                        x: x + NODE_SEPARATION
+                    });
+                }
             }
         }
     };
