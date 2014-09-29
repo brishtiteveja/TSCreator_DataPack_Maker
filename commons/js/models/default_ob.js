@@ -19,5 +19,9 @@ define(["baseModel"], function (BaseModel) {
         }
     });
 
+    DefaultOb.prototype.verticalScale = function () {
+        return this.get('verticalScale') * this.get('pixPerUnit');
+    };
+
     return DefaultOb;
 });

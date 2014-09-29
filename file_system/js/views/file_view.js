@@ -29,7 +29,7 @@ define(["baseView"], function (BaseView) {
     }
 
     FileView.prototype.listenToActionEvents = function () {
-        $('a[href="#compress-file"]').click(this.compress.bind(this));
+        // $('a[href="#compress-file"]').click(this.compress.bind(this));
         $('a[href="#delete-file"]').click(this.deleteFile.bind(this));
         $('a[href="#load-data"]').click(this.loadData.bind(this));
     }
@@ -172,9 +172,7 @@ define(["baseView"], function (BaseView) {
         this.remove();
     }
 
-    FileView.prototype.compress = function () {
-        debugger;
-    };
+    FileView.prototype.compress = function () {};
 
     return FileView;
 });

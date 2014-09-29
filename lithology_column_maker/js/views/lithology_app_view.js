@@ -85,7 +85,7 @@ define([
         this.app.ImageOb = new ImageOb({});
         this.app.defaultOb = new DefaultOb({});
         this.app.Paper = new Raphael(this.$canvas[0], 2000, 2000);
-        // 
+        //
         this.app.MarkersSet = this.app.Paper.set();
         this.app.LithologyMarkersSet = this.app.Paper.set();
         this.app.LithologyGroupMarkersSet = this.app.Paper.set();
