@@ -130,6 +130,9 @@ define([
             case "save-to-local-storage":
                 self.saveToLocalStorage();
                 break;
+            case "quick-save-data":
+                self.saveToLocalStorage();
+                break;
             default:
                 break;
             }
@@ -196,8 +199,9 @@ define([
     EvTreeAppView.prototype.exportPaperAsImage = function () {}
 
     EvTreeAppView.prototype.saveToLocalStorage = function () {
-        // this.app.exporter.export();
-        // localStorage.app = this.app.exporter.getJSON();
+        debugger;
+        this.app.exporter.export();
+        localStorage.app = this.app.exporter.getJSON();
     }
 
     EvTreeAppView.prototype.loadFromLocalStorage = function () {

@@ -22,6 +22,12 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         }
     });
 
+    Node.prototype.toJSON = function () {
+        var json = _.clone(this.attributes);
+        delete json["parent"];
+        return json;
+    };
+
     Node.prototype.isRoot = function () {
         return (this.root() === this);
     };

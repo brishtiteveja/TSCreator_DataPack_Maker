@@ -67,7 +67,7 @@ define([
     }
 
     Loader.prototype.getYFromAge = function (age) {
-        return 50 + Math.round((age - this.topAge) * this.app.defaultOb.verticalScale()); // 30 pixes per million years
+        return 50 + Math.round((age - this.topAge) * 10); // 30 pixes per million years
     }
 
     Loader.prototype.parseColumnData = function (data) {
@@ -146,7 +146,6 @@ define([
         for (var name in tree) {
             this.condense(name, tree);
         }
-        console.log(JSON.stringify(tree));
     };
 
     Loader.prototype.condense = function (name, tree) {

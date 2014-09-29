@@ -138,6 +138,9 @@ define([
             case "save-to-local-storage":
                 self.saveToLocalStorage();
                 break;
+            case "quick-save-data":
+                self.saveToLocalStorage();
+                break;
             default:
                 break;
             }
