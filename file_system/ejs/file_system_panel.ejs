@@ -13,6 +13,7 @@
 			<li><a href="#save-project">save ⬇︎</a></li>
 			<li><a href="#load-data">load ⬆</a></li>
 			<li><a href="#delete-file">✖︎ delete</a></li>
+            <li><a href="#compress-file">compress</a></li>
 		</ul>
 	</section>
 </nav>
@@ -20,7 +21,7 @@
 	<% var path = path.split("/") %>
 	<li><a href="#" path="<%= currPath %>" class="path-breadcrumb">ROOT</a></li>
 	<% for (var i=1; i<path.length; i++) { %>
-		<% var currPath = path.slice(0,i+1).join("/") %> 
+		<% var currPath = path.slice(0,i+1).join("/") %>
 		<li><a href="#" path="<%= currPath %>" class="path-breadcrumb"><%= path[i] %></a></li>
 	<% } %>
 
