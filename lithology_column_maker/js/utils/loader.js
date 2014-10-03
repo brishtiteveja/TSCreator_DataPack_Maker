@@ -434,11 +434,15 @@ define([
                 id: lithologyData.top.id
             }) || column.get('lithologyMarkers').findWhere({
                 id: lithologyData.top.id
+            }) || column.get('lithologyMarkers').findWhere({
+                y: lithologyData.top.y
             });
             var base = lithologyGroup.get('lithologyMarkers').findWhere({
                 id: lithologyData.base.id
             }) || column.get('lithologyMarkers').findWhere({
                 id: lithologyData.base.id
+            }) || column.get('lithologyMarkers').findWhere({
+                y: lithologyData.base.y
             });
             if (top !== null && base !== null) {
                 var lithology = lithologyGroup.get('lithologys').findWhere({
