@@ -77,6 +77,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         var content = this.node.get('name') + "<br/>";
         if (this.node.get('zone')) {
             content += this.node.get('zone').get('name') + "(" + this.node.get('age') + ")" + "<br/>";
+            content += this.node.get('description') + "<br/>";
             if (this.node.get('image')) {
                 content += '<img src="' + this.node.get('image') + '">'
             }

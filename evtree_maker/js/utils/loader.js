@@ -67,7 +67,7 @@ define([
     }
 
     Loader.prototype.getYFromAge = function (age) {
-        return 50 + Math.round((age - this.topAge) * 10); // 30 pixes per million years
+        return 50 + Math.round((age - this.topAge) * 5); // 30 pixes per million years
     }
 
     Loader.prototype.parseColumnData = function (data) {
@@ -90,10 +90,25 @@ define([
                         var name = line[1].replace(/<img .*>/g, "").trim();
                         var age = parseFloat(line[2]);
                         var branch = null;
+                        var style = null;
+                        var description = null;
+                        var color = null;
                         if (line.length > 3) {
                             var type = line[3].trim().toLowerCase();
                             if (type === "branch") {
                                 branch = line[4];
+                            }
+
+                            if (line[7]) {
+                                style = line[7]
+                            }
+
+                            if (line[8]) {
+                                description = line[8]
+                            }
+
+                            if (line[9]) {
+                                color = TscToCssColor(line[9]);
                             }
                         }
                         if (img) {
@@ -103,7 +118,10 @@ define([
                         if (branch) {
                             tree[name].branches.push({
                                 age: age,
-                                name: branch
+                                name: branch,
+                                style: style,
+                                description: description,
+                                color: color
                             });
                         } else {
                             if (!tree[name]) {
@@ -185,7 +203,9 @@ define([
             x: startX,
             y: locationY,
             type: "BASE",
-            parent: parent
+            parent: parent,
+            style: subtree["style"],
+            color: subtree["color"]
         });
 
         if (parent) {

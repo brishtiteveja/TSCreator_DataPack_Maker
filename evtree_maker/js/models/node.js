@@ -16,7 +16,10 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
                 depth: 1,
                 width: 0,
                 height: 0,
-                zone: null
+                zone: null,
+                style: params.style || null,
+                description: params.description || null,
+                color: params.color || null,
             }];
             BaseModel.apply(this, attrs);
         }

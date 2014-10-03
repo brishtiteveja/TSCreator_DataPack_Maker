@@ -31,7 +31,9 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
 
         this.element.attr({
             'path': this.getCurvePath(),
-            'stroke-width': STROKE_WIDTH
+            'stroke-width': STROKE_WIDTH,
+            'stroke-dasharray': this.getStrokeStyle(),
+            'stroke': this.childNode.get('color') || this.parentNode.get('color') || "#000000"
         });
     };
 
@@ -53,6 +55,17 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             "," + point2X + "," + point2Y +
             "," + this.childNode.get('x') + "," + this.childNode.get('y');
         return pathStr;
+    };
+
+    BranchView.prototype.getStrokeStyle = function () {
+        var style = this.childNode.get('style');
+        if (style === "dashed") {
+            return ["- "];
+        } else if (style === "dotted") {
+            return [". "];
+        } else {
+            return [""];
+        }
     };
 
     return BranchView;
