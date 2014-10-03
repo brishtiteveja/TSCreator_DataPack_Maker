@@ -284,6 +284,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         });
     };
 
+
     return NodeView;
 
 });

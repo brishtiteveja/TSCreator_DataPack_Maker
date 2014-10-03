@@ -1,12 +1,12 @@
 define(["baseModel", "nodes"], function (BaseModel, Nodes) {
-    var NODE_SEPARATION = 50
+    var NODE_SEPARATION = 100
     var Node = BaseModel.extend({
         classname: "Node",
         constructor: function (params) {
             var id = _.uniqueId("n");
             var attrs = [{
                 id: id,
-                name: (params.name || "Node") + " " + id,
+                name: params.name || "Node " + id,
                 age: params.age || null,
                 x: params.x || null,
                 y: params.y || null,

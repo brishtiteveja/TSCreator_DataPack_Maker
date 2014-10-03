@@ -35,6 +35,7 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             'stroke-dasharray': this.getStrokeStyle(),
             'stroke': this.childNode.get('color') || this.parentNode.get('color') || "#000000"
         });
+        this.renderLabel();
     };
 
     BranchView.prototype.getCurvePath = function () {
@@ -65,6 +66,26 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             return [". "];
         } else {
             return [""];
+        }
+    };
+
+    BranchView.prototype.renderLabel = function () {
+        if (this.parentNode.get('type') === "BASE") {
+            var text = this.wrapString(this.parentNode.get('name'), 50, "\n", true);
+            if (this.label) {
+                this.label.remove();
+            }
+            var x = this.parentNode.get('x') - 10;
+            var y = this.parentNode.get('y') + 10;
+
+            this.label = this.app.Paper.text();
+            this.label.attr({
+                "text-anchor": "start",
+                "x": x,
+                "y": y,
+                "text": text
+            });
+            this.label.rotate(-90, x, y);
         }
     };
 
