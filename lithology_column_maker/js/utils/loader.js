@@ -392,9 +392,7 @@ define([
                     // We are setting and resetting the edit so that the div element of the view is
                     // re-rendered to show updated info.
 
-                    lithologyGroup.set({
-                        edit: false
-                    });
+                    lithologyGroup.update();
 
                     // Add Markers and Lithologys
                     self.updateLithologyGroupWithLithologys(lithologyGroupData, lithologyGroup);
@@ -406,23 +404,34 @@ define([
 
     Loader.prototype.updateLithologyGroupWithLithologys = function (lithologyGroupData, lithologyGroup) {
         var self = this;
-        lithologyGroupData.lithologyMarkers.forEach(function (lithologyMarkerData) {
-            self.addLithologyMarkerToGroup(lithologyMarkerData, lithologyGroup);
+        lithologyGroup.get('lithologyMarkers').first().set({
+            id: lithologyGroupData.lithologyMarkers[0].id
         });
+        lithologyGroup.get('lithologyMarkers').last().set({
+            id: lithologyGroupData.lithologyMarkers[lithologyGroupData.lithologyMarkers.length - 1].id
+        });
+        for (var i = 1; i < lithologyGroupData.lithologyMarkers.length - 1; i++) {
+            var lithologyMarkerData = lithologyGroupData.lithologyMarkers[i];
+            self.addLithologyMarkerToGroup(lithologyMarkerData, lithologyGroup);
+        }
     }
 
     Loader.prototype.addLithologyMarkerToGroup = function (lithologyMarkerData, lithologyGroup) {
         var self = this;
         var column = lithologyGroup.get('lithologyColumn');
         var lithologyMarker = column.get('lithologyMarkers').findWhere({
-                y: lithologyMarkerData.y
-            }) ||
-            new LithologyMarker({
-                id: lithologyMarkerData.id,
-                name: lithologyMarkerData.name,
-                y: lithologyMarkerData.y,
-                lithologyGroup: lithologyGroup
-            }, this.app);
+            id: lithologyMarkerData.id
+        }) || column.get('lithologyMarkers').findWhere({
+            y: lithologyMarkerData.y
+        }) || new LithologyMarker({
+            y: lithologyMarkerData.y,
+            lithologyGroup: lithologyGroup
+        }, this.app);
+
+        lithologyMarker.set({
+            id: lithologyMarkerData.id,
+            name: lithologyMarkerData.name,
+        });
         lithologyGroup.get('lithologyMarkers').add(lithologyMarker);
     }
 
@@ -432,17 +441,9 @@ define([
         lithologyGroupData.lithologys.forEach(function (lithologyData) {
             var top = lithologyGroup.get('lithologyMarkers').findWhere({
                 id: lithologyData.top.id
-            }) || column.get('lithologyMarkers').findWhere({
-                id: lithologyData.top.id
-            }) || column.get('lithologyMarkers').findWhere({
-                y: lithologyData.top.y
             });
             var base = lithologyGroup.get('lithologyMarkers').findWhere({
                 id: lithologyData.base.id
-            }) || column.get('lithologyMarkers').findWhere({
-                id: lithologyData.base.id
-            }) || column.get('lithologyMarkers').findWhere({
-                y: lithologyData.base.y
             });
             if (top !== null && base !== null) {
                 var lithology = lithologyGroup.get('lithologys').findWhere({
