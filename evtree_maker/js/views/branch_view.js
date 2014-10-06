@@ -1,5 +1,6 @@
 define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
-    STROKE_WIDTH = 2;
+    var STROKE_WIDTH = 2;
+    var HOVER_STROKE_WIDTH = 5;
 
     var BranchView = BaseView.extend({
         classname: "BaseView",
@@ -27,6 +28,8 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             this.element = this.app.Paper.path();
             this.parentNode.toFront();
             this.childNode.toFront();
+            this.element.mouseover(this.onMouseOver.bind(this));
+            this.element.mouseout(this.onMouseOut.bind(this));
         }
 
         this.element.attr({
@@ -87,6 +90,18 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             });
             this.label.rotate(-90, x, y);
         }
+    };
+
+    BranchView.prototype.onMouseOver = function () {
+        this.element.attr({
+            "stroke-width": HOVER_STROKE_WIDTH
+        });
+    };
+
+    BranchView.prototype.onMouseOut = function () {
+        this.element.attr({
+            "stroke-width": STROKE_WIDTH
+        });
     };
 
     return BranchView;

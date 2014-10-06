@@ -1,11 +1,11 @@
 define(["baseModel", "nodes"], function (BaseModel, Nodes) {
-    var NODE_SEPARATION = 100
+    var NODE_SEPARATION = 100;
     var Node = BaseModel.extend({
         classname: "Node",
         constructor: function (params) {
             var id = _.uniqueId("n");
             var attrs = [{
-                id: id,
+                id: params.id || id,
                 name: params.name || "Node " + id,
                 age: params.age || null,
                 x: params.x || null,
@@ -18,7 +18,7 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
                 height: 0,
                 zone: null,
                 style: params.style || null,
-                description: params.description || null,
+                description: params.description || "",
                 color: params.color || null,
             }];
             BaseModel.apply(this, attrs);
@@ -27,7 +27,7 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
     Node.prototype.toJSON = function () {
         var json = _.clone(this.attributes);
-        delete json["parent"];
+        delete json.parent;
         return json;
     };
 
@@ -36,32 +36,32 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
     };
 
     Node.prototype.children = function () {
-        return this.get('children');
+        return this.get("children");
     };
 
     Node.prototype.triggerSelected = function () {
-        this.trigger('selected');
+        this.trigger("selected");
     };
 
     Node.prototype.triggerUnselected = function () {
-        this.trigger('unselected');
+        this.trigger("unselected");
     };
 
     Node.prototype.toFront = function () {
-        this.trigger('front');
+        this.trigger("front");
     };
 
     Node.prototype.toBack = function () {
-        this.trigger('back');
+        this.trigger("back");
     };
 
     Node.prototype.addChild = function (node) {
-        this.get('children').add(node);
+        this.get("children").add(node);
     };
 
     Node.prototype.depth = function () {
         var depth = 0;
-        this.get('children').each(function (child) {
+        this.get("children").each(function (child) {
             depth = Math.max(depth, child.depth());
         });
 
@@ -85,18 +85,18 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
     };
 
     Node.prototype.parent = function () {
-        return this.get('parent');
+        return this.get("parent");
     };
 
     Node.prototype.before = function () {
         var parent = this.parent();
         var node = this;
-        var index = parent.children().indexOf(node)
-        while (parent && index == 0) {
-            node = parent
-            var temp = node.parent()
+        var index = parent.children().indexOf(node);
+        while (parent && index === 0) {
+            node = parent;
+            var temp = node.parent();
             if (temp) {
-                parent = temp
+                parent = temp;
                 index = parent.children().indexOf(node);
             } else {
                 break;
@@ -111,13 +111,13 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
     };
 
     Node.prototype.before_max = function () {
-        var node = this.before()
-        var node_max = this.parent()
+        var node = this.before();
+        var node_max = this.parent();
         while (node) {
-            if (node.get('x') > node_max.get('x')) {
+            if (node.get("x") > node_max.get("x")) {
                 node_max = node;
             }
-            node = node.before()
+            node = node.before();
         }
         return node_max;
     };
@@ -128,7 +128,7 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         var index = parent.children().indexOf(node);
         var size = parent.children().size();
         while (parent && index == size - 1) {
-            node = parent
+            node = parent;
             parent = parent.parent();
             index = parent.children().indexOf(node);
             size = parent.children().size();
@@ -140,23 +140,22 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
         this.children().sort();
 
-        var parent = this.get('parent');
-        var children = this.get('children');
+        var children = this.get("children");
         var size = children.size();
 
-        this.get('children').each(function (child) {
+        this.get("children").each(function (child) {
             child.rearrange();
         });
 
         for (var i = 0; i < size; i++) {
-            var child = children.at(i)
-            if (child.get('type') === "TOP") {
+            var child = children.at(i);
+            if (child.get("type") === "TOP") {
                 child.set({
-                    x: this.get('x')
-                })
+                    x: this.get("x")
+                });
             } else {
                 var node_before = child.before_max();
-                var x = node_before.get('x');
+                var x = node_before.get("x");
                 child.set({
                     x: x + NODE_SEPARATION
                 });
@@ -169,18 +168,18 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         this.set({
             depth: this.depth()
         });
-        this.get('parent').reDepthify();
+        this.get("parent").reDepthify();
     };
 
     Node.prototype.root = function () {
-        if (!this.get('parent')) {
+        if (!this.get("parent")) {
             return this;
         }
-        return this.get('parent').root();
+        return this.get("parent").root();
     };
 
     Node.prototype.getImageURL = function () {
-        if (this.get('image')) {
+        if (this.get("image")) {
             return "url('" + this.get('image') + "')";
         } else {
             return null;
@@ -189,7 +188,7 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
     Node.prototype.getMaxYChild = function () {
         return this.children().max(function (child) {
-            return child.get('y')
+            return child.get("y");
         });
     };
 
