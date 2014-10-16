@@ -39,6 +39,14 @@ requirejs.config({
 
         // Libraries
         polyK: "commons/js/lib/polyK",
+        jquery: "commons/js/lib/jquery-2.0.3.min",
+        underscore: "commons/js/lib/underscore-min",
+        backbone: "commons/js/lib/backbone-min",
+        ejs: "commons/js/lib/ejs",
+        // "../../commons/js/lib/qtip.js"
+        // "../../commons/js/lib/numeric-1.2.6.min.js"
+        // "../../commons/js/lib/foundation/js/foundation.min.js"
+        jszip: "commons/js/lib/jszip.min",
 
         // File System
         file: "file_system/js/models/file",

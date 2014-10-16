@@ -1,4 +1,4 @@
-define(["baseView"], function (BaseView) {
+define(["jquery", "ejs", "jszip", "baseView"], function ($, EJS, JSZip, BaseView) {
 
     var FileView = BaseView.extend({
         tagName: 'div',
@@ -26,20 +26,20 @@ define(["baseView"], function (BaseView) {
         this.listenToActionEvents();
 
         this.render();
-    }
+    };
 
     FileView.prototype.listenToActionEvents = function () {
         // $('a[href="#compress-file"]').click(this.compress.bind(this));
         $('a[href="#delete-file"]').click(this.deleteFile.bind(this));
         $('a[href="#load-data"]').click(this.loadData.bind(this));
-    }
+    };
 
     FileView.prototype.render = function () {
         var json = this.file.toJSON();
         this.$el.html(this.template.render(json));
         this.$file = this.$(".file");
         this.$fileName = this.$(".file-name")[0];
-    }
+    };
 
     FileView.prototype.deleteFile = function () {
         var self = this;
@@ -47,19 +47,19 @@ define(["baseView"], function (BaseView) {
         if (self.file.get("isFile")) {
             self.fileSystem.get('fs').root.getFile(self.file.get("fullPath"), {}, function (fileEntry) {
                 fileEntry.remove(function () {
-                    console.log('File removed.');
+                    window.console.log('File removed.');
                     self.file.destroy();
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
         } else {
             self.fileSystem.get('fs').root.getDirectory(self.file.get('fullPath'), {}, function (dirEntry) {
                 dirEntry.removeRecursively(function () {
-                    console.log('Directory removed.');
+                    window.console.log('Directory removed.');
                     self.file.destroy();
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
         }
-    }
+    };
 
     FileView.prototype.select = function () {
         var self = this;
@@ -74,7 +74,7 @@ define(["baseView"], function (BaseView) {
                 });
             }
         });
-    }
+    };
 
     FileView.prototype.setSelected = function () {
         if (this.file.get('selected')) {
@@ -82,14 +82,14 @@ define(["baseView"], function (BaseView) {
         } else {
             this.$file.removeClass("active");
         }
-    }
+    };
 
 
     FileView.prototype.blur = function () {
         this.file.set({
             name: this.$fileName.textContent
         });
-    }
+    };
 
     FileView.prototype.rename = function () {
         var self = this;
@@ -122,7 +122,7 @@ define(["baseView"], function (BaseView) {
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
         }
-    }
+    };
 
     FileView.prototype.open = function () {
         var self = this;
@@ -133,11 +133,11 @@ define(["baseView"], function (BaseView) {
                 path: this.file.get('fullPath')
             });
         }
-    }
+    };
 
     FileView.prototype.errorHandler = function (e) {
-        console.log('Error: ' + e.name + " " + e.message);
-    }
+        window.console.log('Error: ' + e.name + " " + e.message);
+    };
 
     FileView.prototype.loadData = function () {
         var self = this;
@@ -150,8 +150,8 @@ define(["baseView"], function (BaseView) {
             fileEntry.file(function (file) {
                 var reader = new FileReader();
 
-                reader.onloadend = function (e) {
-                    self.showCanvas()
+                reader.onloadend = function () {
+                    self.showCanvas();
                     self.app.loader.loadData(this.result);
                 };
 
@@ -159,20 +159,24 @@ define(["baseView"], function (BaseView) {
             }, self.errorHandler.bind(self));
 
         }, self.errorHandler.bind(self));
-    }
+    };
 
     FileView.prototype.showCanvas = function () {
         $("#canvas").removeClass('hide');
         $("#file-system-panel").addClass('hide');
         $("a[href='#file-system']").parent().removeClass('active');
-    }
+    };
 
     FileView.prototype.delete = function () {
         this.$el.remove();
         this.remove();
-    }
+    };
 
-    FileView.prototype.compress = function () {};
+    FileView.prototype.compress = function () {
+        var self = this;
+        var zip = new JSZip();
+        return;
+    };
 
     return FileView;
 });
