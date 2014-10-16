@@ -172,11 +172,5 @@ define(["jquery", "ejs", "jszip", "baseView"], function ($, EJS, JSZip, BaseView
         this.remove();
     };
 
-    FileView.prototype.compress = function () {
-        var self = this;
-        var zip = new JSZip();
-        return;
-    };
-
     return FileView;
 });

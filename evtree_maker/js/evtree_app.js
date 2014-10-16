@@ -47,6 +47,7 @@ requirejs.config({
         // "../../commons/js/lib/numeric-1.2.6.min.js"
         // "../../commons/js/lib/foundation/js/foundation.min.js"
         jszip: "commons/js/lib/jszip.min",
+        filesaver: "commons/js/lib/FileSaver",
 
         // File System
         file: "file_system/js/models/file",

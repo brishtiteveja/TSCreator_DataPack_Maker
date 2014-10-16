@@ -1,22 +1,30 @@
 define([
+    "jquery",
+    "ejs",
+    "jszip",
+    "filesaver",
     "baseView",
     "file",
     "files",
     "filesView",
     "fileSystem"
 ], function (
+    $,
+    EJS,
+    JSZip,
+    FileSaver,
     BaseView,
     File,
     Files,
     FilesView,
     FileSystem
 ) {
-
     var FileSystemView = BaseView.extend({
         classname: "FileSystemView",
         el: "#file-system-panel",
         events: {
             "click a[href='#parent-dir']": "parentDir",
+            "click a[href='#compress-file']": "compress",
             "click a.path-breadcrumb": "setDir",
         }
     });
@@ -35,21 +43,21 @@ define([
             navigator.webkitPersistentStorage.requestQuota(oneGB, this.requestFileSystem.bind(this), this.errorHandler
                 .bind(this));
         }
-    }
+    };
 
     FileSystemView.prototype.requestFileSystem = function (size) {
-        window.webkitRequestFileSystem(webkitStorageInfo.PERSISTENT, size, this.render.bind(this), this.errorHandler
+        window.webkitRequestFileSystem(window.webkitStorageInfo.PERSISTENT, size, this.render.bind(this), this.errorHandler
             .bind(this));
-    }
+    };
 
     FileSystemView.prototype.updateQuota = function () {
         var self = this;
-        window.webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.PERSISTENT, //the type can be either TEMPORARY or PERSISTENT
+        window.webkitStorageInfo.queryUsageAndQuota(window.webkitStorageInfo.PERSISTENT, //the type can be either TEMPORARY or PERSISTENT
             function (used, remaining) {
                 self.$quota.html("Used " + parseInt(used / 100000) / 10 + " mb of " + parseInt(remaining / 100000) /
                     10 + " mb.");
             }, self.errorHandler.bind(self));
-    }
+    };
 
     FileSystemView.prototype.render = function (fs) {
         this.fileSystem = new FileSystem({
@@ -60,7 +68,7 @@ define([
         this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
         this.listenTo(this.fileSystem, "change:update", this.renderDirs.bind(this));
 
-    }
+    };
 
     FileSystemView.prototype.renderDirs = function () {
         this.$el.html(this.template.render(this.fileSystem.toJSON()));
@@ -76,9 +84,67 @@ define([
             }
         }, self.errorHandler);
 
-        this.readDir();
         this.updateQuota();
-    }
+    };
+
+    FileSystemView.prototype.compress = function () {
+        var self = this;
+        var path = this.fileSystem.get('path');
+        var zip = new JSZip();
+        self.fileSystem.get('fs').root.getDirectory(path, {}, function (dirEntry) {
+            if (dirEntry.isDirectory) {
+                var dirReader = dirEntry.createReader();
+                dirReader.readEntries(self.compressDir.bind(self, dirEntry, zip));
+            }
+        }, self.errorHandler);
+    };
+
+    FileSystemView.prototype.compressDir = function (dirEntry, zip, results) {
+        var self = this;
+        var zipName = dirEntry.name;
+        if ((results === undefined) || (!results.length)) return;
+        var count = results.length;
+        results.forEach(function (fileEntry) {
+            if (fileEntry.isFile) {
+                fileEntry.file(function (f) {
+                    // Get file and read it into zip
+                    var reader = new FileReader();
+
+                    reader.onload = (function (fileToRead) {
+                        return function (e) {
+
+                            if (fileToRead.type.match('image*')) {
+                                zip.file(fileToRead.name, self.base64ToBinary(e.target.result));
+                            } else if (fileToRead.type.match('text*') || fileToRead.name.match(
+                                '.*json$')) {
+                                zip.file(fileToRead.name, e.target.result);
+                            }
+                        };
+                    })(f);
+
+                    reader.onloadend = function () {
+                        count--;
+                        if (count === 0) {
+                            self.compressionComplete(zipName, zip);
+                        }
+                    };
+
+                    if (f.type.match('image*')) {
+                        reader.readAsDataURL(f);
+                    } else if (f.type.match('text*') || f.name.match(".*json$")) {
+                        reader.readAsText(f);
+                    }
+                });
+            }
+        });
+    };
+
+    FileSystemView.prototype.compressionComplete = function (zipName, zip) {
+        var content = zip.generate({
+            type: "blob"
+        });
+        window.saveAs(content, zipName + ".zip");
+    };
 
     FileSystemView.prototype.readDir = function (results) {
         var self = this;
@@ -97,7 +163,7 @@ define([
                 self.files.add(file);
             });
         });
-    }
+    };
 
     FileSystemView.prototype.parentDir = function () {
         var path = this.fileSystem.get('path');
@@ -106,24 +172,24 @@ define([
         } else {
             path = path.split("/");
             path.pop();
-            path = path.join("/")
+            path = path.join("/");
             this.fileSystem.set({
                 path: path
             });
         }
-    }
+    };
 
     FileSystemView.prototype.setDir = function (evt) {
         var path = $(evt.target).attr("path");
         if (path === "") {
-            path = "/"
+            path = "/";
         }
         this.fileSystem.set({
             path: path
         });
-    }
+    };
 
-    FileSystemView.prototype.toggleView = function (evt) {
+    FileSystemView.prototype.toggleView = function () {
         if ($("a[href='#file-system']").parent().hasClass('active')) {
             $("a[href='#file-system']").parent().removeClass('active');
             $(".display-panel").addClass('hide');
@@ -138,10 +204,10 @@ define([
     };
 
     FileSystemView.prototype.errorHandler = function (e) {
-        console.log('Error: ' + e.name + " " + e.message);
-    }
+        window.console.log('Error: ' + e.name + " " + e.message);
+    };
 
-    FileSystemView.prototype.saveFile = function(obj, file) {
+    FileSystemView.prototype.saveFile = function (obj, file) {
         this.filesView.saveFile(obj, file);
     };
 
