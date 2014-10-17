@@ -1,6 +1,4 @@
 define([
-    "jquery",
-    "ejs",
     "jszip",
     "filesaver",
     "baseView",
@@ -9,8 +7,6 @@ define([
     "filesView",
     "fileSystem"
 ], function (
-    $,
-    EJS,
     JSZip,
     FileSaver,
     BaseView,

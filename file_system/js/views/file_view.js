@@ -1,4 +1,4 @@
-define(["jquery", "ejs", "jszip", "baseView"], function ($, EJS, JSZip, BaseView) {
+define(["baseView"], function (BaseView) {
 
     var FileView = BaseView.extend({
         tagName: 'div',
