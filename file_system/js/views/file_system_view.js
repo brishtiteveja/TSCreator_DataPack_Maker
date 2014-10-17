@@ -63,6 +63,7 @@ define([
         this.renderDirs();
         this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
         this.listenTo(this.fileSystem, "change:update", this.renderDirs.bind(this));
+        this.listenTo(this.fileSystem, 'Compress', this.compressDirEntry);
 
     };
 
@@ -86,13 +87,17 @@ define([
     FileSystemView.prototype.compress = function () {
         var self = this;
         var path = this.fileSystem.get('path');
-        var zip = new JSZip();
         self.fileSystem.get('fs').root.getDirectory(path, {}, function (dirEntry) {
             if (dirEntry.isDirectory) {
-                var dirReader = dirEntry.createReader();
-                dirReader.readEntries(self.compressDir.bind(self, dirEntry, zip));
+                self.compressDirEntry(dirEntry);
             }
         }, self.errorHandler);
+    };
+
+    FileSystemView.prototype.compressDirEntry = function (dirEntry) {
+        var zip = new JSZip();
+        var dirReader = dirEntry.createReader();
+        dirReader.readEntries(this.compressDir.bind(this, dirEntry, zip));
     };
 
     FileSystemView.prototype.compressDir = function (dirEntry, zip, results) {
