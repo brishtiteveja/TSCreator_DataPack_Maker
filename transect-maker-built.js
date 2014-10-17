@@ -1,8 +1,11 @@
 ({
     baseUrl: "/Users/cnv/Sites/makers/",
     paths: {
-
+        // Libraries
+        polyK: "commons/js/lib/polyK",
         raphael: "commons/js/lib/raphael",
+        jszip: "commons/js/lib/jszip.min",
+        filesaver: "commons/js/lib/FileSaver",
 
         // Base components
         baseView: "commons/js/views/base_view",
@@ -79,9 +82,6 @@
 
         // Settings
         settings: "commons/js/models/settings",
-
-        // Libraries
-        polyK: "commons/js/lib/polyK",
 
         // File System
         file: "file_system/js/models/file",

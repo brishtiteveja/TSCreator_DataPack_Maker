@@ -2,6 +2,12 @@ requirejs.config({
     baseUrl: "../../",
     paths: {
 
+        // Libraries
+        polyK: "commons/js/lib/polyK",
+        raphael: "commons/js/lib/raphael",
+        jszip: "commons/js/lib/jszip.min",
+        filesaver: "commons/js/lib/FileSaver",
+
         // Base components
         baseView: "commons/js/views/base_view",
         baseModel: "commons/js/models/base_model",
@@ -78,12 +84,6 @@ requirejs.config({
 
         lithologyColumnView: "lithology_column_maker/js/views/lithology_column_view",
         lithologyColumnsView: "lithology_column_maker/js/views/lithology_columns_view",
-
-        // Libraries
-        polyK: "commons/js/lib/polyK",
-        raphael: "commons/js/lib/raphael",
-        jszip: "commons/js/lib/jszip.min",
-        filesaver: "commons/js/lib/FileSaver",
 
         // File System
         file: "file_system/js/models/file",

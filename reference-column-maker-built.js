@@ -2,6 +2,12 @@
     baseUrl: "/Users/cnv/Sites/makers/",
     paths: {
 
+        // Libraries
+        polyK: "commons/js/lib/polyK",
+        raphael: "commons/js/lib/raphael",
+        jszip: "commons/js/lib/jszip.min",
+        filesaver: "commons/js/lib/FileSaver",
+
         // Base components
         baseView: "commons/js/views/base_view",
         baseModel: "commons/js/models/base_model",
@@ -35,9 +41,6 @@
         referenceBlockMarkerView: "reference_column_maker/js/views/reference_block_marker_view",
         referenceBlockColumnView: "reference_column_maker/js/views/reference_block_column_view",
         referenceBlockColumnsView: "reference_column_maker/js/views/reference_block_columns_view",
-
-        // Libraries
-        polyK: "commons/js/lib/polyK",
 
         // File System
         file: "file_system/js/models/file",
