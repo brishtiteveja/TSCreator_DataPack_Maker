@@ -9,13 +9,13 @@ define([
         this.zones = this.app.ZonesCollection;
         this.markers = this.app.MarkersCollection;
         this.evTree = this.app.evTree;
-    }
+    };
 
     Loader.prototype.reset = function () {
         this.markers.reset();
         this.zones.reset();
         this.evTree.get('roots').reset();
-    }
+    };
 
     Loader.prototype.loadTextData = function (data) {
         this.reset();
@@ -24,12 +24,10 @@ define([
     };
 
     Loader.prototype.parseMinAndMaxAgesAndAddMarkers = function (data) {
-        var self = this;
         this.minAge = Infinity;
         this.maxAge = 0;
         var lines = data.split(/\r|\n/);
         var rangeColumn = null;
-        var rangeColumnTextData = [];
         for (var i in lines) {
             var line = lines[i].split("\t");
             if (line.length > 1) {
@@ -44,7 +42,7 @@ define([
                     }
                 }
             } else {
-                rangeColumn = false
+                rangeColumn = false;
             }
         }
 
@@ -64,16 +62,15 @@ define([
         });
 
         this.markers.add(baseMarker);
-    }
+    };
 
     Loader.prototype.getYFromAge = function (age) {
         return 50 + Math.round((age - this.topAge) * 5); // 30 pixes per million years
-    }
+    };
 
     Loader.prototype.parseColumnData = function (data) {
         var self = this;
         var lines = data.split(/\r|\n/);
-        var node = null;
         var isRangeColumn = false;
         var tree = {};
         for (var i in lines) {
@@ -100,15 +97,15 @@ define([
                             }
 
                             if (line[7]) {
-                                style = line[7]
+                                style = line[7];
                             }
 
                             if (line[8]) {
-                                description = line[8]
+                                description = line[8];
                             }
 
                             if (line[9]) {
-                                color = TscToCssColor(line[9]);
+                                color = window.TscToCssColor(line[9]);
                             }
                         }
                         if (img) {
@@ -154,7 +151,7 @@ define([
         var startX = 50;
         for (var subtree in tree) {
             if (root) {
-                startX = root.last().get('x') + startX
+                startX = root.last().get('x') + startX;
             }
             root = this.generateTree(tree[subtree], null, startX);
         }
@@ -168,7 +165,6 @@ define([
 
     Loader.prototype.condense = function (name, tree) {
         var node = tree[name];
-        console.log(name);
         if (node && node.branches.length > 0) {
             for (var i = 0; i < node.branches.length; i++) {
                 this.mergeJSON(node.branches[i], this.condense(node.branches[i].name, tree));
@@ -179,33 +175,35 @@ define([
     };
 
     Loader.prototype.generateTree = function (subtree, parent, startX) {
-        if (!subtree["branches"]) {
+        if (!subtree.branches) {
             return;
         }
         var locationY = 0;
 
-        if (subtree["age"] && parent) {
-            locationY = this.getYFromAge(subtree["age"]);
+        if (subtree.age && parent) {
+            locationY = this.getYFromAge(subtree.age);
             var node = new Node({
-                name: subtree["name"] + "-branch",
+                name: subtree.name + "-branch",
                 x: startX,
                 y: locationY,
                 type: "TOP",
-                parent: parent
+                parent: parent,
+                description: subtree.description
             });
             parent.get('children').add(node);
             parent = node;
         }
 
-        locationY = this.getYFromAge(subtree["base"]);
+        locationY = this.getYFromAge(subtree.base);
         var base = new Node({
-            name: subtree["name"] + "-base",
+            name: subtree.name + "-base",
             x: startX,
             y: locationY,
             type: "BASE",
             parent: parent,
-            style: subtree["style"],
-            color: subtree["color"]
+            style: subtree.style,
+            color: subtree.color,
+            description: subtree.description
         });
 
         if (parent) {
@@ -214,20 +212,20 @@ define([
             this.evTree.get('roots').add(base);
         }
 
-        locationY = this.getYFromAge(subtree["top"])
+        locationY = this.getYFromAge(subtree.top);
         var top = new Node({
-            name: subtree["name"] + "-top",
+            name: subtree.name + "-top",
             x: startX,
             y: locationY,
             type: "TOP",
             parent: base
         });
         base.get('children').add(top);
-        var length = subtree["branches"].length;
+        var length = subtree.branches.length;
         for (var index = 0; index < length; index++) {
-            this.generateTree(subtree["branches"][index], base, startX)
+            this.generateTree(subtree.branches[index], base, startX);
         }
-        base.root().rearrange()
+        base.root().rearrange();
         return base.root();
     };
 

@@ -82,6 +82,8 @@ requirejs.config({
         // Libraries
         polyK: "commons/js/lib/polyK",
         raphael: "commons/js/lib/raphael",
+        jszip: "commons/js/lib/jszip.min",
+        filesaver: "commons/js/lib/FileSaver",
 
         // File System
         file: "file_system/js/models/file",
