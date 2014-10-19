@@ -176,6 +176,16 @@ define([
                             type = line[3].trim().toLowerCase();
                             if (type === "branch") {
                                 branch = line[4];
+                            } else {
+                                description = line[4];
+                            }
+
+                            if (line[5]) {
+
+                            }
+
+                            if (line[6]) {
+                                category = line[6];
                             }
 
                             if (type === "branch") {
