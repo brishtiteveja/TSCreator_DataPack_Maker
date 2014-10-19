@@ -129,7 +129,6 @@ define([], function () {
         node.children().each(function (child) {
             outputText += self.getNodeText(child);
         });
-
         return outputText;
     };
 
