@@ -20,6 +20,8 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
                 style: params.style || null,
                 description: params.description || "",
                 color: params.color || null,
+                frequency: params.frequency || null,
+                rangeType: params.rangeType || null
             }];
             BaseModel.apply(this, attrs);
         }

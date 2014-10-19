@@ -90,10 +90,22 @@ define([
                         var style = null;
                         var description = null;
                         var color = null;
+                        var category = null;
+                        var type = null;
                         if (line.length > 3) {
-                            var type = line[3].trim().toLowerCase();
+                            type = line[3].trim().toLowerCase();
                             if (type === "branch") {
                                 branch = line[4];
+                            } else {
+                                description = line[4];
+                            }
+
+                            if (line[5]) {
+
+                            }
+
+                            if (line[6]) {
+                                category = line[6];
                             }
 
                             if (line[7]) {
@@ -118,7 +130,9 @@ define([
                                 name: branch,
                                 style: style,
                                 description: description,
-                                color: color
+                                color: color,
+                                rangeType: type,
+                                category: category
                             });
                         } else {
                             if (!tree[name]) {
@@ -126,7 +140,9 @@ define([
                                     base: parseFloat(age),
                                     top: null,
                                     name: name,
-                                    branches: []
+                                    branches: [],
+                                    rangeType: type,
+                                    description: description
                                 };
                             } else {
                                 tree[name].top = age;
@@ -183,12 +199,14 @@ define([
         if (subtree.age && parent) {
             locationY = this.getYFromAge(subtree.age);
             var node = new Node({
-                name: subtree.name + "-branch",
+                name: subtree.name,
                 x: startX,
                 y: locationY,
                 type: "TOP",
                 parent: parent,
-                description: subtree.description
+                description: subtree.description,
+                category: subtree.category,
+                rangeType: subtree.rangeType
             });
             parent.get('children').add(node);
             parent = node;
@@ -196,14 +214,16 @@ define([
 
         locationY = this.getYFromAge(subtree.base);
         var base = new Node({
-            name: subtree.name + "-base",
+            name: subtree.name,
             x: startX,
             y: locationY,
             type: "BASE",
             parent: parent,
             style: subtree.style,
             color: subtree.color,
-            description: subtree.description
+            description: subtree.description,
+            category: subtree.category,
+            rangeType: subtree.rangeType
         });
 
         if (parent) {
@@ -214,11 +234,15 @@ define([
 
         locationY = this.getYFromAge(subtree.top);
         var top = new Node({
-            name: subtree.name + "-top",
+            name: subtree.name,
             x: startX,
             y: locationY,
             type: "TOP",
-            parent: base
+            parent: base,
+            color: subtree.color,
+            description: subtree.description,
+            category: subtree.category,
+            rangeType: subtree.rangeType
         });
         base.get('children').add(top);
         var length = subtree.branches.length;
@@ -234,7 +258,6 @@ define([
             j1[key] = j2[key];
         }
     };
-
 
     return Loader;
 });

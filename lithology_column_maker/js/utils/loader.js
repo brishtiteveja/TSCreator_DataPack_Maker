@@ -19,32 +19,30 @@ define([
         this.markers = this.app.MarkersCollection;
         this.lithologyColumns = this.app.LithologyColumnsCollection;
         this.polygons = this.app.lithology2dApp.PolygonsCollection;
-    }
+    };
 
     Loader.prototype.loadFromLocalStorage = function () {
         this.loadData(localStorage.lithologyApp);
-    }
+    };
 
     Loader.prototype.loadData = function (data) {
         this.savedData = JSON.parse(data);
         this.reset();
         this.load();
-    }
+    };
 
     Loader.prototype.loadTextData = function (data) {
         this.reset();
         this.textData = data;
         this.parseMinAndMaxAgesAndAddMarkers(data);
         this.parseColumnData(data);
-    }
+    };
 
     Loader.prototype.parseMinAndMaxAgesAndAddMarkers = function (data) {
-        var self = this;
         this.minAge = Infinity;
         this.maxAge = 0;
         var lines = data.split(/\r|\n/);
         var lithologyColumn = null;
-        var lithologyColumnTextData = [];
         for (var i in lines) {
             var line = lines[i].split("\t");
             if (line.length > 1) {
@@ -59,7 +57,7 @@ define([
                     }
                 }
             } else {
-                lithologyColumn = false
+                lithologyColumn = false;
             }
         }
 
@@ -79,11 +77,11 @@ define([
         });
 
         this.markers.add(baseMarker);
-    }
+    };
 
     Loader.prototype.getYFromAge = function (age) {
         return 50 + Math.round((age - this.topAge) * 30); // 30 pixes per million years
-    }
+    };
 
     Loader.prototype.parseColumnData = function (data) {
         var self = this;
@@ -105,10 +103,10 @@ define([
                     self.parseColumnTextData(lithologyColumn, lithologyColumnTextData);
                 }
                 lithologyColumnTextData = [];
-                lithologyColumn = null
+                lithologyColumn = null;
             }
         }
-    }
+    };
 
 
     Loader.prototype.createLithologyColumn = function (columnData) {
@@ -124,12 +122,12 @@ define([
         });
         this.lithologyColumns.add(lithologyColumn);
         return lithologyColumn;
-    }
+    };
 
     Loader.prototype.parseColumnTextData = function (column, data) {
         this.createGroups(column, data);
         this.createLithologys(column, data);
-    }
+    };
 
     Loader.prototype.createGroups = function (column, data) {
         for (var i = 0; i < data.length; i++) {
@@ -137,13 +135,13 @@ define([
                 this.createLithologyGroupMarker(column, data[i], data[(i > 0 ? i - 1 : i + 1)][3]);
             }
         }
-        for (var i = 0; i < data.length; i++) {
+        for (i = 0; i < data.length; i++) {
             if (data[i][0].length > 0) {
                 this.updateGroupInfo(column, data[i], data[(i > 0 ? i - 1 : i + 1)][3]);
             }
         }
         this.createLithologyGroupMarker(column, data[data.length - 1], data[data.length - 1][3]);
-    }
+    };
 
     Loader.prototype.createLithologyGroupMarker = function (column, data, age) {
         var lithologyGroupMarker = new LithologyGroupMarker({
@@ -154,7 +152,7 @@ define([
             this.app);
 
         column.get('lithologyGroupMarkers').add(lithologyGroupMarker);
-    }
+    };
 
     Loader.prototype.updateGroupInfo = function (column, data, age) {
         var group = this.findGroup(column, age);
@@ -168,7 +166,7 @@ define([
 
             group.update();
         }
-    }
+    };
 
     Loader.prototype.findGroup = function (column, age) {
         var topMarker = column.get('lithologyGroupMarkers').findWhere({
@@ -182,7 +180,7 @@ define([
             return group;
         }
         return null;
-    }
+    };
 
     Loader.prototype.createLithologys = function (column, data) {
         var group = null;
@@ -196,7 +194,7 @@ define([
             }
         }
         group = null;
-        for (var i = 0; i < data.length; i++) {
+        for (i = 0; i < data.length; i++) {
             if (data[i][0].length > 0) {
                 group = this.findGroup(column, data[(i > 0 ? i - 1 : i + 1)][3]);
             } else {
@@ -205,7 +203,7 @@ define([
                 }
             }
         }
-    }
+    };
 
     Loader.prototype.findLithology = function (group, age) {
         var baseMarker = group.get('lithologyMarkers').findWhere({
@@ -219,7 +217,7 @@ define([
             return lithology;
         }
         return null;
-    }
+    };
 
     Loader.prototype.updateLithologyInfo = function (group, data) {
         var lithology = this.findLithology(group, data[3]);
@@ -231,7 +229,7 @@ define([
             });
             lithology.update();
         }
-    }
+    };
 
     Loader.prototype.getPatternKey = function (name) {
         var key = name.toLowerCase().split(/_| |-/).join('');
@@ -240,7 +238,7 @@ define([
         } else {
             return null;
         }
-    }
+    };
 
     Loader.prototype.createLithologyMarker = function (group, data) {
         var lithologyMarker = group.get('lithologyColumn').get('lithologyMarkers').findWhere({
@@ -252,32 +250,32 @@ define([
         }, this.app);
         group.get('lithologyMarkers').add(lithologyMarker);
         group.get('lithologyColumn').get('lithologyMarkers').add(lithologyMarker);
-    }
+    };
 
     Loader.prototype.reset = function () {
         _.invoke(this.markers.toArray(), 'destroy');
         _.invoke(this.zones.toArray(), 'destroy');
         _.invoke(this.lithologyColumns.toArray(), 'destroy');
-        _.invoke(this.polygons.toArray(), 'destroy')
-    }
+        _.invoke(this.polygons.toArray(), 'destroy');
+    };
 
     Loader.prototype.load = function () {
         this.loadImage();
         this.loadMarkersAndZones();
         this.loadLithologyColumns();
-    }
+    };
 
     Loader.prototype.loadPolygons = function () {
 
-    }
+    };
 
     Loader.prototype.loadImage = function () {
         this.app.ImageOb.set(this.savedData.image);
-    }
+    };
 
     Loader.prototype.loadMarkersAndZones = function () {
         var self = this;
-        self.savedData.zones.forEach(function (zone, index) {
+        self.savedData.zones.forEach(function (zone) {
             var topMarker = self.markers.findWhere({
                 y: zone.topMarker.y
             }) || new Marker(zone.topMarker);
@@ -289,7 +287,7 @@ define([
 
         });
 
-        self.savedData.zones.forEach(function (zone, index) {
+        self.savedData.zones.forEach(function (zone) {
             var topMarker = self.markers.findWhere({
                 y: zone.topMarker.y
             });
@@ -305,10 +303,10 @@ define([
                     name: zone.name,
                     description: zone.description,
                 });
-                newZone.update()
+                newZone.update();
             }
         });
-    }
+    };
 
     Loader.prototype.loadLithologyColumns = function () {
         var self = this;
@@ -323,7 +321,7 @@ define([
                 self.createPolygon(column, lithologyColumnData.polygon);
             }
         });
-    }
+    };
 
     Loader.prototype.createPolygon = function (column, polygonData) {
         var self = this;
@@ -339,20 +337,19 @@ define([
                 pt.set({
                     lat: point.lat,
                     lon: point.lon
-                })
+                });
             }
         });
-    }
+    };
 
     Loader.prototype.addLithologyGroupMarkers = function (lithologyColumnData, column) {
         var self = this;
         lithologyColumnData.lithologyGroupMarkers.forEach(function (lithologyGroupMarkerData) {
             self.addLithologyGroupMarkerToColumn(lithologyGroupMarkerData, column);
         });
-    }
+    };
 
     Loader.prototype.addLithologyGroupMarkerToColumn = function (lithologyGroupMarkerData, column) {
-        var self = this;
         var lithologyGroupMarker = column.get('lithologyGroupMarkers').findWhere({
                 y: lithologyGroupMarkerData.y
             }) ||
@@ -363,7 +360,7 @@ define([
                 lithologyColumn: column
             }, this.app);
         column.get('lithologyGroupMarkers').add(lithologyGroupMarker);
-    }
+    };
 
     Loader.prototype.updateLithologyGroups = function (lithologyColumnData, column) {
         var self = this;
@@ -400,7 +397,7 @@ define([
                 }
             }
         });
-    }
+    };
 
     Loader.prototype.updateLithologyGroupWithLithologys = function (lithologyGroupData, lithologyGroup) {
         var self = this;
@@ -414,10 +411,9 @@ define([
             var lithologyMarkerData = lithologyGroupData.lithologyMarkers[i];
             self.addLithologyMarkerToGroup(lithologyMarkerData, lithologyGroup);
         }
-    }
+    };
 
     Loader.prototype.addLithologyMarkerToGroup = function (lithologyMarkerData, lithologyGroup) {
-        var self = this;
         var column = lithologyGroup.get('lithologyColumn');
         var lithologyMarker = column.get('lithologyMarkers').findWhere({
             id: lithologyMarkerData.id
@@ -433,10 +429,9 @@ define([
             name: lithologyMarkerData.name,
         });
         lithologyGroup.get('lithologyMarkers').add(lithologyMarker);
-    }
+    };
 
     Loader.prototype.updateLithologys = function (lithologyGroupData, lithologyGroup) {
-        var self = this;
         var column = lithologyGroup.get('lithologyColumn');
         lithologyGroupData.lithologys.forEach(function (lithologyData) {
             var top = lithologyGroup.get('lithologyMarkers').findWhere({
@@ -468,7 +463,7 @@ define([
                 }
             }
         });
-    }
+    };
 
     // This function checks the given groupId with the ids in the saved list and return true
     // if the id exists or not.
@@ -484,7 +479,7 @@ define([
 
         }
         return exists;
-    }
+    };
 
     Loader.prototype.lithologyExists = function (lithologyId, lithologyGroupData) {
         var exists = false;
@@ -497,7 +492,7 @@ define([
 
         }
         return exists;
-    }
+    };
 
     return Loader;
 });

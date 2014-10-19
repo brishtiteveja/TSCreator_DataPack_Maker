@@ -106,7 +106,7 @@ define([
         this.app.BgRect.drag(this.onDragMove.bind(this), this.onDragStart.bind(this), this.onDragEnd.bind(
             this));
         this.disPan();
-    }
+    };
 
     EvTreeAppView.prototype.listenToActionEvents = function () {
         var self = this;
@@ -141,12 +141,12 @@ define([
 
         $("#canvas").on('dragover', this.onDragOver.bind(this));
         $("#canvas").on('drop', this.onDrop.bind(this));
-    }
+    };
 
     EvTreeAppView.prototype.showPaper = function () {
         this.$canvas.removeClass('hide');
         this.$introScreen.addClass('hide');
-    }
+    };
 
     EvTreeAppView.prototype.render = function () {
         this.dataExportView = new DataExportView(this.app);
@@ -156,7 +156,7 @@ define([
         this.imageObView = new ImageView(this.app);
         this.markersView = new MarkersView(this.app);
         this.zonesView = new ZonesView(this.app);
-        this.timelineView = new TimelineView(this.app.timeline, this.app)
+        this.timelineView = new TimelineView(this.app.timeline, this.app);
 
         this.referenceColumnSideView = new ReferenceColumnSideView(this.app, "#reference-column-settings");
 
@@ -190,42 +190,41 @@ define([
         }
     };
 
-    EvTreeAppView.prototype.showExportDataPanel = function (evt) {
+    EvTreeAppView.prototype.showExportDataPanel = function () {
         if (this.$exportPanel.hasClass('active')) {} else {
             this.dataExportView.render();
         }
-    }
+    };
 
-    EvTreeAppView.prototype.exportPaperAsImage = function () {}
+    EvTreeAppView.prototype.exportPaperAsImage = function () {};
 
     EvTreeAppView.prototype.saveToLocalStorage = function () {
-        debugger;
         this.app.exporter.export();
         localStorage.app = this.app.exporter.getJSON();
-    }
+    };
 
     EvTreeAppView.prototype.loadFromLocalStorage = function () {
         // this.showPaper();
         // this.app.loader.loadFromLocalStorage();
-    }
+    };
 
 
     EvTreeAppView.prototype.dataDragover = function (evt) {
-        var evt = evt.originalEvent;
+        evt = evt.originalEvent;
         evt.stopPropagation();
         evt.preventDefault();
-    }
+    };
 
 
     EvTreeAppView.prototype.dataDrop = function (evt) {
         var self = this;
-        var evt = evt.originalEvent;
+        evt = evt.originalEvent;
         evt.stopPropagation();
         evt.preventDefault();
         var file = evt.dataTransfer.files[0];
         var ext = file.name.split(".").pop();
         var reader = new FileReader();
-        reader.onloadend = function (e) {
+        reader.onloadend = function () {
             self.showPaper();
             if (ext === "json") {
                 self.app.loader.loadData(this.result);
@@ -235,7 +234,7 @@ define([
             }
         };
         reader.readAsText(file);
-    }
+    };
 
     EvTreeAppView.prototype.enableTool = function (evt) {
         var source = evt.target.getAttribute('href');
@@ -313,7 +312,7 @@ define([
         this.app.width = Math.max(vBox.width * 0.8, this.app.width);
         this.app.height = Math.max(vBox.height * 0.8, this.app.height);
         this.app.Paper.setViewBox(vBox.x, vBox.y, vBox.width * 0.8, vBox.height * 0.8);
-    }
+    };
 
     EvTreeAppView.prototype.zoomOut = function () {
         var vBox = this.app.Paper.canvas.viewBox.baseVal;
@@ -326,7 +325,7 @@ define([
         this.app.height = Math.max(vBox.height * 1.2, this.app.height);
         this.app.Paper.setViewBox(vBox.x, vBox.y, vBox.width * 1.2, vBox.height * 1.2);
 
-    }
+    };
 
     EvTreeAppView.prototype.enPan = function () {
         this.pan = true;
@@ -336,7 +335,7 @@ define([
         });
         this.app.BgRect.toFront();
         $("a[href='#pan']").parent().addClass('active');
-    }
+    };
 
 
     EvTreeAppView.prototype.disPan = function () {
@@ -347,15 +346,15 @@ define([
         });
         this.app.BgRect.toBack();
         $("a[href='#pan']").parent().removeClass('active');
-    }
+    };
 
-    EvTreeAppView.prototype.onDragStart = function (x, y, evt) {
+    EvTreeAppView.prototype.onDragStart = function () {
         var vBox = this.app.Paper.canvas.viewBox.baseVal;
         this.initX = vBox.x;
         this.initY = vBox.y;
-    }
+    };
 
-    EvTreeAppView.prototype.onDragMove = function (dx, dy, x, y, evt) {
+    EvTreeAppView.prototype.onDragMove = function (dx, dy) {
         if (!this.pan) return;
         var vBox = this.app.Paper.canvas.viewBox.baseVal;
         this.app.BgRect.attr({
@@ -363,9 +362,9 @@ define([
             y: this.initY - dy,
         });
         this.app.Paper.setViewBox(this.initX - dx, this.initY - dy, vBox.width, vBox.height);
-    }
+    };
 
-    EvTreeAppView.prototype.onDragEnd = function (evt) {}
+    EvTreeAppView.prototype.onDragEnd = function () {};
 
     EvTreeAppView.prototype.onDragOver = function (evt) {
         evt.stopPropagation();

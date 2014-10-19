@@ -107,6 +107,7 @@ define([
         FilesView.prototype.downloadProject = function () {
             // create project directory
             var self = this;
+            self.app.exporter.export();
             var timeStamp = self.getTimeStamp();
             var dirName = this.app.type + "-" + timeStamp;
             self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function (dirEntry) {

@@ -54,7 +54,7 @@ define(["baseModel"], function (BaseModel) {
             'age') != null && this.get('baseMarker').get('age') != null) {
             var num = ((y - this.get('topMarker').get('y')) / (this.get('baseMarker').get('y') - this.get(
                 'topMarker').get('y')))
-            age = num * (this.get('baseMarker').get('age') - this.get('topMarker').get('age')) + this.get(
+            var age = num * (this.get('baseMarker').get('age') - this.get('topMarker').get('age')) + this.get(
                 'topMarker').get('age');
             return Math.round(age * 100) / 100;
         }
