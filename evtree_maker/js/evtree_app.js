@@ -68,6 +68,7 @@ requirejs.config({
         evTreeAppView: "evtree_maker/js/views/evtree_app_view",
         evTreeView: "evtree_maker/js/views/evtree_view",
         nodeView: "evtree_maker/js/views/node_view",
+        nodeEditorView: "evtree_maker/js/views/node_editor_view",
         branchView: "evtree_maker/js/views/branch_view",
         childNodeView: "evtree_maker/js/views/child_node_view",
         //

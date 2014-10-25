@@ -1,0 +1,43 @@
+<div class="header">
+    <a class="close-reveal-modal">&#215;</a>
+</div>
+<div class="body">
+    <fieldset>
+        <legend>Edit Node</legend>
+
+        <label>
+            Name
+            <input class="name" type="text" placeholder="Enter the name of the node..." value="<%= name %>"></label>
+        <label>
+            Description
+            <textarea class="description" rows="10"><%= description %></textarea></label>
+        <div class="row">
+            <label class="small-8 columns">
+                Branch Style
+                <select class="branch-style">
+                    <option value="default">default</option>
+                    <option value="dotted">dotted</option>
+                    <option value="dashed">dashed</option>
+                </select>
+            </label>
+            <label class="small-8 columns">
+                Range Type
+                <select class="range-type">
+                    <option value="frequent">frequent</option>
+                    <option value="rare">rare</option>
+                </select>
+            </label>
+            <label class="small-8 columns">
+                Branch Color <br/>
+                <input type="color" class="branch-color" value="<%= color%>" style='width:100%; height:38px;'>
+            </label>
+        </div>
+        <% if (typeof image !== 'undefined') { %>
+        <label>Preview</label>
+        <img src="<%= image %>">
+        <% } %>
+    </fieldset>
+</div>
+<div class="footer">
+    <a href="#" class="button delete-node right">Delete Node</a>
+</div>

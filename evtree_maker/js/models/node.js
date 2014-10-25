@@ -17,11 +17,11 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
                 width: 0,
                 height: 0,
                 zone: null,
-                style: params.style || null,
+                style: params.style || "default",
                 description: params.description || "",
                 color: params.color || null,
                 frequency: params.frequency || null,
-                rangeType: params.rangeType || null
+                rangeType: params.rangeType || "frequent"
             }];
             BaseModel.apply(this, attrs);
         }

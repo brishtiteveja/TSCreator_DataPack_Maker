@@ -1,4 +1,13 @@
-define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView) {
+window.define([
+    "baseView",
+    "node",
+    "branchView",
+    "nodeEditorView"
+], function (
+    BaseView,
+    Node,
+    BranchView,
+    NodeEditorView) {
     var SELECTED_RADIUS = 12;
     var SELECTED_FILL_COLOR = "#A80000";
     var DRAGOVER_RADIUS = 30;
@@ -68,6 +77,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     NodeView.prototype.renderNode = function () {
         if (!this.element) {
             this.element = this.drawElement();
+            this.element.dblclick(this.showEditor.bind(this));
         }
         this.updateZone();
         this.updateElement();
@@ -252,7 +262,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         } else {
             $("#" + rootId).append(childNodeView.el);
         }
-        var branchView = new BranchView(this.node, child, this.app);
+        new BranchView(this.node, child, this.app);
     };
 
     NodeView.prototype.toFront = function () {
@@ -264,7 +274,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
     };
 
     NodeView.prototype.onDragOver = function (evt) {
-        var evt = evt.originalEvent;
+        evt = evt.originalEvent;
         evt.stopPropagation();
         evt.preventDefault();
         this.element.attr({
@@ -283,6 +293,14 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
         this.node.set({
             image: url
         });
+    };
+
+    NodeView.prototype.showEditor = function () {
+        if (!this.nodeEditorView) {
+            this.nodeEditorView = new NodeEditorView(this.node);
+        } else {
+            this.nodeEditorView.render();
+        }
     };
 
 
