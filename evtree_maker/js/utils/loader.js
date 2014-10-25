@@ -206,6 +206,7 @@ define([
                 type: "TOP",
                 parent: parent,
                 description: subtree.description,
+                color: subtree.color,
                 style: subtree.style,
                 category: subtree.category,
                 rangeType: subtree.rangeType

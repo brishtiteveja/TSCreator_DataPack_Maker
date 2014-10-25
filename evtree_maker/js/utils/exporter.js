@@ -33,6 +33,7 @@ define([], function () {
     Exporter.prototype.getNodeText = function (node) {
         var self = this;
         var outputText = "";
+        var color = window.CssToTscColor(node.get('color') || "#000000");
 
         if (node.get('type') === "BASE" || node.children().size() === 0) {
             outputText = "\t" + node.get('name') + "\t" + node.get('age') + "\t" + node.get('rangeType') + "\t" +
@@ -43,7 +44,8 @@ define([], function () {
             if (child.children().size() && child.get('type') === "TOP") {
                 outputText += "\t" + node.get('name') + "\t" + child.get('age') + "\t" + "branch" +
                     "\t" + child.get('name') +
-                    "\t\t\t" + (child.get('style') || "") + "\t" + child.get('description') + "\n";
+                    "\t\t\t" + (child.get('style') || "") + "\t" + child.get('description') + "\t" +
+                    CssToTscColor(child.get('color') || "#000000") + "\n";
             }
         });
         node.children().each(function (child) {
