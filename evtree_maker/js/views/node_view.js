@@ -75,6 +75,7 @@ define(["baseView", "node", "branchView"], function (BaseView, Node, BranchView)
 
     NodeView.prototype.renderToottip = function () {
         var content = this.node.get('name') + "<br/>";
+        content += "Style: " + this.node.get('style') + "<br/>";
         if (this.node.get('zone')) {
             content += this.node.get('zone').get('name') + "(" + this.node.get('age') + ")" + "<br/>";
             content += this.node.get('description') + "<br/>";

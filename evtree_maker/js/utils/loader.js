@@ -242,7 +242,6 @@ define([
             type: "TOP",
             parent: base,
             color: subtree.color,
-            style: subtree.style,
             description: subtree.top_description,
             category: subtree.category,
             rangeType: subtree.rangeType

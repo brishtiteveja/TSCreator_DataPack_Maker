@@ -63,7 +63,8 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
 
     BranchView.prototype.getStrokeStyle = function () {
         var style = this.childNode.get('style');
-        if (style === "dashed") {
+        var rangeType = this.parentNode.get('rangeType');
+        if (style === "dashed" || rangeType === "rare") {
             return ["- "];
         } else if (style === "dotted") {
             return [". "];
