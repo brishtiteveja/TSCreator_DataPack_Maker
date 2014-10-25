@@ -32,11 +32,19 @@ define([], function () {
 
     Exporter.prototype.getNodeText = function (node) {
         var self = this;
-        var outputText = "\t" + node.get('name') + "\t" + node.get('age') + "\t" + node.get('rangeType') + "\n";
+        var outputText = "";
+
+        if (node.get('type') === "BASE" || node.children().size() === 0) {
+            outputText = "\t" + node.get('name') + "\t" + node.get('age') + "\t" + node.get('rangeType') + "\t" +
+                node.get('description') + "\n";
+        }
+
         node.children().each(function (child) {
-            outputText += "\t" + node.get('name') + "\t" + child.get('age') + "\t" + node.get('rangeType') +
-                "\t" + child.get('name') +
-                "\t\t\t" + child.get('style') + "\n";
+            if (child.children().size() && child.get('type') === "TOP") {
+                outputText += "\t" + node.get('name') + "\t" + child.get('age') + "\t" + "branch" +
+                    "\t" + child.get('name') +
+                    "\t\t\t" + (child.get('style') || "") + "\t" + child.get('description') + "\n";
+            }
         });
         node.children().each(function (child) {
             outputText += self.getNodeText(child);

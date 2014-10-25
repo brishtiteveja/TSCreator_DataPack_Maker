@@ -41,6 +41,19 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         return this.get("children");
     };
 
+    Node.prototype.getBase = function () {
+        var base = null;
+        if (this.get('type') === "TOP") {
+            return null;
+        }
+        this.get("children").each(function (node) {
+            if (node.get('TOP')) {
+                base = base && base.get('y') > node.get('y') ? base : node;
+            }
+        });
+        return base;
+    };
+
     Node.prototype.triggerSelected = function () {
         this.trigger("selected");
     };

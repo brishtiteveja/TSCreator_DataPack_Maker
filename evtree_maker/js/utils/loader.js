@@ -96,6 +96,10 @@ define([
                             type = line[3].trim().toLowerCase();
                             if (type === "branch") {
                                 branch = line[4];
+                            }
+
+                            if (type === "branch") {
+                                description = line[8];
                             } else {
                                 description = line[4];
                             }
@@ -110,10 +114,6 @@ define([
 
                             if (line[7]) {
                                 style = line[7];
-                            }
-
-                            if (line[8]) {
-                                description = line[8];
                             }
 
                             if (line[9]) {
@@ -142,6 +142,7 @@ define([
                                     name: name,
                                     branches: [],
                                     rangeType: type,
+                                    style: style,
                                     description: description
                                 };
                             } else {
@@ -149,6 +150,8 @@ define([
                                 if (tree[name].top > tree[name].base) {
                                     tree[name].top = tree[name].base;
                                     tree[name].base = age;
+                                } else {
+                                    tree[name].top_description = description;
                                 }
                             }
                         }
@@ -240,7 +243,7 @@ define([
             type: "TOP",
             parent: base,
             color: subtree.color,
-            description: subtree.description,
+            description: subtree.top_description,
             category: subtree.category,
             rangeType: subtree.rangeType
         });
