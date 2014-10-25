@@ -101,8 +101,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
     };
 
     EvTreeView.prototype.addRoot = function (node) {
-        var nodeView = new NodeView(node, this.app);
-        this.$(".data-list").append(nodeView.el);
+        new NodeView(node, this.app);
     };
 
     EvTreeView.prototype.enable = function () {

@@ -17,6 +17,74 @@ define([
         this.evTree.get('roots').reset();
     };
 
+    Loader.prototype.loadData = function (data) {
+        this.savedData = JSON.parse(data);
+        this.reset();
+        this.load();
+    };
+
+    Loader.prototype.load = function () {
+        this.loadMarkersAndZones();
+        this.loadEvTree();
+    };
+
+    Loader.prototype.loadEvTree = function () {
+        var self = this;
+        this.evTree.set({
+            name: self.savedData.evTree.name
+        });
+        var roots = this.savedData.evTree.roots;
+        for (var i = 0; i < roots.length; i++) {
+            this.loadNode(this.evTree.get('roots'), roots[i]);
+        }
+    };
+
+    Loader.prototype.loadNode = function (collection, nodeData) {
+        var node = new Node(nodeData, {
+            silent: true
+        });
+        collection.add(node);
+        var children = nodeData.children;
+        for (var i = 0; i < children.length; i++) {
+            this.loadNode(node.get('children'), children[i]);
+        }
+    };
+
+    Loader.prototype.loadMarkersAndZones = function () {
+        var self = this;
+        self.savedData.zones.forEach(function (zone) {
+            var topMarker = self.markers.findWhere({
+                y: zone.topMarker.y
+            }) || new Marker(zone.topMarker);
+            var baseMarker = self.markers.findWhere({
+                y: zone.baseMarker.y
+            }) || new Marker(zone.baseMarker);
+            self.markers.add(topMarker);
+            self.markers.add(baseMarker);
+
+        });
+
+        self.savedData.zones.forEach(function (zone) {
+            var topMarker = self.markers.findWhere({
+                y: zone.topMarker.y
+            });
+            var baseMarker = self.markers.findWhere({
+                y: zone.baseMarker.y
+            });
+            var newZone = self.zones.findWhere({
+                'topMarker': topMarker,
+                'baseMarker': baseMarker
+            });
+            if (newZone !== undefined) {
+                newZone.set({
+                    name: zone.name,
+                    description: zone.description,
+                });
+                newZone.update();
+            }
+        });
+    };
+
     Loader.prototype.loadTextData = function (data) {
         this.reset();
         this.parseMinAndMaxAgesAndAddMarkers(data);

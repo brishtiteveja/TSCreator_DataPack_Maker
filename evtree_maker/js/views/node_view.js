@@ -71,7 +71,8 @@ window.define([
     };
 
     NodeView.prototype.renderHtml = function () {
-        this.$("> div.row").html(this.template.render(this.node.toJSON()));
+        this.$el.html(this.template.render(this.node.toJSON()));
+        $("#evtrees-list>.data-list").append();
     };
 
     NodeView.prototype.renderNode = function () {
