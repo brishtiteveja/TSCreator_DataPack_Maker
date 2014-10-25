@@ -142,7 +142,6 @@ define([
                                     name: name,
                                     branches: [],
                                     rangeType: type,
-                                    style: style,
                                     description: description
                                 };
                             } else {
@@ -150,9 +149,8 @@ define([
                                 if (tree[name].top > tree[name].base) {
                                     tree[name].top = tree[name].base;
                                     tree[name].base = age;
-                                } else {
-                                    tree[name].top_description = description;
                                 }
+                                tree[name].top_description = description;
                             }
                         }
 
@@ -208,6 +206,7 @@ define([
                 type: "TOP",
                 parent: parent,
                 description: subtree.description,
+                style: subtree.style,
                 category: subtree.category,
                 rangeType: subtree.rangeType
             });
@@ -243,6 +242,7 @@ define([
             type: "TOP",
             parent: base,
             color: subtree.color,
+            style: subtree.style,
             description: subtree.top_description,
             category: subtree.category,
             rangeType: subtree.rangeType
