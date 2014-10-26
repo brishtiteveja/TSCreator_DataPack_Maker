@@ -16,6 +16,7 @@ define([
     "timelineView",
     "zones",
     "zonesView",
+    "jszip"
 ], function (
     BaseView,
     CursorView,
@@ -33,7 +34,8 @@ define([
     Timeline,
     TimelineView,
     Zones,
-    ZonesView
+    ZonesView,
+    JSZip
 ) {
 
     var EvTreeAppView = BaseView.extend({
@@ -223,7 +225,9 @@ define([
         evt.preventDefault();
         var file = evt.dataTransfer.files[0];
         var ext = file.name.split(".").pop();
+        var type = file.type;
         var reader = new FileReader();
+        var zipReader = new FileReader();
         reader.onloadend = function () {
             self.showPaper();
             if (ext === "json") {
@@ -233,7 +237,19 @@ define([
                 self.app.loader.loadTextData(this.result);
             }
         };
-        reader.readAsText(file);
+
+        zipReader.onloadend = function () {
+            self.showPaper();
+            var zip = new JSZip(this.result);
+            self.app.loader.loadZip(zip);
+        };
+
+        if (type === "application/json" || type === "text/plain") {
+            reader.readAsText(file);
+        } else if (type === "application/zip") {
+            zipReader.readAsBinaryString(file);
+
+        }
     };
 
     EvTreeAppView.prototype.enableTool = function (evt) {

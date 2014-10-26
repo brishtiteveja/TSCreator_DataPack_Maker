@@ -1,8 +1,9 @@
 define([
     "zone",
     "marker",
-    "node"
-], function (Zone, Marker, Node) {
+    "node",
+    "jszip"
+], function (Zone, Marker, Node, JSZip) {
 
     var Loader = function (app) {
         this.app = app;
@@ -192,7 +193,7 @@ define([
                             // TODO - Add image support.
                             // console.log($(img[0]).attr('src'));
                         }
-                        if (branch) {
+                        if (tree[name] && branch) {
                             tree[name].branches.push({
                                 age: age,
                                 name: branch,
@@ -329,6 +330,26 @@ define([
             j1[key] = j2[key];
         }
     };
+
+    Loader.prototype.loadZip = function (zip) {
+        this.zip = zip;
+        for (var name in zip.files) {
+            var ext = name.split(".").pop();
+            var file = zip.file(name);
+            file.name = file.name.split("/").pop(-1);
+            if (!name.match(/^__MAC*/gi) || name.match(/^__MAC*/g).length === 0) {
+                if (ext === "txt") {
+                    file.type = "text/plain";
+                    this.loadTextData(file.asText());
+                } else if (ext === "png" || ext === "jpg" || ext === "jpeg" || ext === "svg") {
+                    file.type = "image/" + ext;
+                    this.loadImageAsBinary(file);
+                }
+            }
+        }
+    };
+
+    Loader.prototype.loadImageAsBinary = function () {};
 
     return Loader;
 });

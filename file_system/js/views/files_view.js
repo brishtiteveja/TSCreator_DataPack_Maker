@@ -254,7 +254,6 @@ define([
         FilesView.prototype.saveToFileTypeDirectory = function (obj, file, data) {
             var self = this;
             var dirName = this.app.type;
-            var timeStamp = self.getTimeStamp();
             self.fileSystem.get('fs').root.getDirectory("/" + dirName, {}, function (dirEntry) {
                 self.checkAndWrite(obj, dirEntry, file, data);
             }, function () {
@@ -273,8 +272,7 @@ define([
         FilesView.prototype.checkAndWrite = function (obj, dirEntry, file, data) {
             var self = this;
             var fullPath = dirEntry.fullPath + "/" + file.name;
-            self.fileSystem.get("fs").root.getFile(fullPath, {}, function (
-                fileEntry) {
+            self.fileSystem.get("fs").root.getFile(fullPath, {}, function (fileEntry) {
                 self.writeToFile(obj, fileEntry, file, data);
             }, function () {
                 self.newFile(dirEntry, file.name, function (fileEntry) {
@@ -296,12 +294,16 @@ define([
 
                     fileWriter.onwriteend = function (e) {
                         window.console.log('Write Completed: ' + e.toString());
-                        obj.trigger('write-completed', filePath);
+                        if (obj) {
+                            obj.trigger('write-completed', filePath);
+                        }
                     };
 
                     fileWriter.onerror = function (e) {
                         window.console.log('Write failed: ' + e.toString());
-                        obj.trigger('write-errored');
+                        if (obj) {
+                            obj.trigger('write-errored');
+                        }
                     };
 
                     // Create a new Blob and write it to the file.
