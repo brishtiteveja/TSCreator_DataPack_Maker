@@ -116,17 +116,40 @@ define([
                     var textFile = self.app.type + "-data-" + timeStamp + ".txt";
                     var json = self.app.exporter.getJSON();
                     var text = self.app.exporter.getText();
+                    if (self.app.exporter.saveAllImages) {
+                        self.app.exporter.saveAllImages(function (node, image) {
+                            self.readImageFromFileEntry(dirEntry, image);
+                        }, function () {
+                            self.newFile(dirEntry, jsonFile, function (fileEntry) {
+                                self.writeJSONToAFile(fileEntry, json);
+                                self.newFile(dirEntry, textFile, function (fileEntry) {
 
-                    self.newFile(dirEntry, jsonFile, function (fileEntry) {
-                        self.writeJSONToAFile(fileEntry, json);
-                        self.newFile(dirEntry, textFile, function (fileEntry) {
-                            self.writeTextToAFile(fileEntry, text);
-                            self.fileSystem.set({
-                                update: !self.fileSystem.get('update')
+                                    self.fileSystem.set({
+                                        update: !self.fileSystem.get('update')
+                                    });
+                                    self.writeTextToAFile(fileEntry, text);
+                                    self.fileSystem.update();
+                                    self.fileSystem.trigger('Compress', dirEntry);
+                                });
                             });
-                            self.fileSystem.trigger('Compress', dirEntry);
                         });
-                    });
+                    } else {
+
+
+                        self.newFile(dirEntry, jsonFile, function (fileEntry) {
+                            self.writeJSONToAFile(fileEntry, json);
+                            self.newFile(dirEntry, textFile, function (fileEntry) {
+                                self.writeTextToAFile(fileEntry, text);
+
+                                self.fileSystem.set({
+                                    update: !self.fileSystem.get('update')
+                                });
+                                self.fileSystem.update();
+                                self.fileSystem.trigger('Compress', dirEntry);
+                            });
+                        });
+                    }
+
                 });
             }, self.errorHandler.bind(self));
         };
@@ -143,16 +166,62 @@ define([
                     var json = self.app.exporter.getJSON();
                     var text = self.app.exporter.getText();
 
-                    self.newFile(dirEntry, jsonFile, function (fileEntry) {
-                        self.writeJSONToAFile(fileEntry, json);
-                        self.newFile(dirEntry, textFile, function (fileEntry) {
-                            self.writeTextToAFile(fileEntry, text);
-                            this.fileSystem.set({
-                                update: !this.fileSystem.get('update')
+                    if (self.app.exporter.saveAllImages) {
+                        self.app.exporter.saveAllImages(function (node, image) {
+                            self.readImageFromFileEntry(dirEntry, image);
+                        }, function () {
+                            self.newFile(dirEntry, jsonFile, function (fileEntry) {
+                                self.writeJSONToAFile(fileEntry, json);
+                                self.newFile(dirEntry, textFile, function (fileEntry) {
+
+                                    self.fileSystem.set({
+                                        update: !self.fileSystem.get('update')
+                                    });
+                                    self.writeTextToAFile(fileEntry, text);
+                                    self.fileSystem.update();
+                                    self.fileSystem.trigger('Compress', dirEntry);
+                                });
                             });
                         });
-                    });
+                    } else {
+
+
+                        self.newFile(dirEntry, jsonFile, function (fileEntry) {
+                            self.writeJSONToAFile(fileEntry, json);
+                            self.newFile(dirEntry, textFile, function (fileEntry) {
+                                self.writeTextToAFile(fileEntry, text);
+
+                                self.fileSystem.set({
+                                    update: !self.fileSystem.get('update')
+                                });
+                                self.fileSystem.update();
+                                self.fileSystem.trigger('Compress', dirEntry);
+                            });
+                        });
+                    }
                 });
+            }, self.errorHandler.bind(self));
+        };
+
+        FilesView.prototype.readImageFromFileEntry = function (dirEntry, fileEntry) {
+            var self = this;
+            fileEntry.file(function (file) {
+                var reader = new FileReader();
+                var ext = fileEntry.name.split('.').pop(-1);
+
+                reader.onload = function (evt) {
+                    var file = {
+                        name: fileEntry.name,
+                        type: ext
+                    }
+                    var img = new Image();
+                    $(img).load(function () {
+                        self.checkAndWrite(null, dirEntry, file, self.base64ToBinary(evt.target.result));
+                    });
+                    img.src = evt.target.result;
+                };
+
+                reader.readAsDataURL(file);
             }, self.errorHandler.bind(self));
         };
 

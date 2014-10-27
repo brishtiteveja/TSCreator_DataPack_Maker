@@ -211,7 +211,7 @@ define([
                                 for (var j = 0; j < images.length; j++) {
                                     var $image = $(images[j]);
                                     var src = $image.attr('src');
-                                    this.saveAndLoadImage(this.evTree, src);
+                                    this.saveAndLoadImage(null, src);
                                     $image.attr('src', "filesystem:http://" + window.location.host +
                                         "/persistent/" +
                                         this.app.type +

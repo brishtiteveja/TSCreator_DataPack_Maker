@@ -21,6 +21,46 @@ define([], function () {
         return JSON.stringify(json);
     };
 
+    Exporter.prototype.getAllImages = function () {
+        var self = this;
+        var imagesList = [];
+        this.evTree.get('roots').each(function (root) {
+            self.getNodeImages(imagesList, root);
+        });
+        return imagesList;
+    };
+
+    Exporter.prototype.getNodeImages = function (imagesList, node) {
+        var self = this;
+        var image = node.get('image');
+        if (image) {
+            imagesList.push(image);
+        }
+        node.children().each(function (child) {
+            self.getNodeImages(imagesList, child);
+        });
+    };
+
+
+    Exporter.prototype.saveAllImages = function (saveFunc, callback) {
+        var self = this;
+        this.evTree.get('roots').each(function (root) {
+            self.saveNodeImages(root, saveFunc);
+        });
+        callback();
+    };
+
+    Exporter.prototype.saveNodeImages = function (node, saveFunc) {
+        var self = this;
+        var image = node.get('image');
+        if (image) {
+            saveFunc(node, image);
+        }
+        node.children().each(function (child) {
+            self.saveNodeImages(child, saveFunc);
+        });
+    };
+
     Exporter.prototype.getText = function () {
         var self = this;
         var outputText = "\n\n";

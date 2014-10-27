@@ -61,6 +61,7 @@ define([
         });
 
         this.renderDirs();
+        this.listenTo(this.fileSystem, "update", this.renderDirs.bind(this));
         this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
         this.listenTo(this.fileSystem, "change:update", this.renderDirs.bind(this));
         this.listenTo(this.fileSystem, 'Compress', this.compressDirEntry);

@@ -21,7 +21,8 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
                 description: params.description || "",
                 color: params.color || null,
                 frequency: params.frequency || null,
-                rangeType: params.rangeType || "frequent"
+                rangeType: params.rangeType || "frequent",
+                image: null
             }];
             BaseModel.apply(this, attrs);
         }
@@ -30,6 +31,9 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
     Node.prototype.toJSON = function () {
         var json = _.clone(this.attributes);
         delete json.parent;
+        if (json.image) {
+            json.image = json.image.name;
+        }
         return json;
     };
 
