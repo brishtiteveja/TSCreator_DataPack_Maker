@@ -381,7 +381,7 @@ define([
     };
 
     Loader.prototype.saveAndLoadImage = function (obj, imgName) {
-        if (!imgName || typeof imgName !== "string") {
+        if (!this.zip || !imgName || typeof imgName !== "string") {
             return;
         }
 

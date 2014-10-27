@@ -63,28 +63,60 @@ define([], function () {
 
     Exporter.prototype.getText = function () {
         var self = this;
-        var outputText = "\n\n";
+        var date = new Date();
+        var outputText = "format version:\t1.4\n\n";
+        outputText += this.evTree.get('name') + "\trange\n";
         this.evTree.get('roots').each(function (root) {
             outputText += self.getNodeText(root);
         });
         return outputText;
     };
 
+    Exporter.prototype.formatDescription = function (description) {
+        var images = description.match(/<img [^>]*>/g);
+
+        if (images) {
+            for (var j = 0; j < images.length; j++) {
+                var $image = $(images[j]);
+                var src = $image.attr('src');
+                $image.attr('src', src.split("/").pop(-1));
+                description = description.replace(images[j], $image.get(0).outerHTML);
+            }
+        }
+
+        return description;
+    };
+
     Exporter.prototype.getNodeText = function (node) {
         var self = this;
         var outputText = "";
         var color = window.CssToTscColor(node.get('color') || "#000000");
+        var description = node.get('description');
 
+        if (description) {
+            description = self.formatDescription(description);
+        }
+        var name = node.get('name');
+
+        var image = node.get('image');
+
+        // if (image) {
+        //     name += ' <img src="' + image.name + '">';
+        // }
         if (node.get('type') === "BASE" || node.children().size() === 0) {
-            outputText = "\t" + node.get('name') + "\t" + node.get('age') + "\t" + node.get('rangeType') + "\t" +
-                node.get('description') + "\n";
+            outputText = "\t" + name + "\t" + node.get('age') + "\t" + node.get('rangeType') + "\t" +
+                description + "\n";
         }
 
         node.children().each(function (child) {
+            description = child.get('description');
+            if (description) {
+                description = self.formatDescription(description);
+            }
             if (child.children().size() && child.get('type') === "TOP") {
                 outputText += "\t" + node.get('name') + "\t" + child.get('age') + "\t" + "branch" +
                     "\t" + child.get('name') +
-                    "\t\t\t" + (child.get('style') || "") + "\t" + child.get('description') + "\t" +
+                    "\t\t\t" + (child.get('style') || "") + "\t" + description + "\t" +
                     CssToTscColor(child.get('color') || "#000000") + "\n";
             }
         });
