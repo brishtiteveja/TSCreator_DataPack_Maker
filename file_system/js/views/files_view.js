@@ -246,13 +246,14 @@ define([
             var self = this;
             var img = new Image();
             $(img).load(function () {
-                self.saveToFileTypeDirectory(obj, file, self.base64ToBinary(evt.target.result));
+                self.saveToFileTypeDirectory(obj, file, evt.target.result);
             });
             img.src = evt.target.result;
         };
 
         FilesView.prototype.saveToFileTypeDirectory = function (obj, file, data) {
             var self = this;
+            data = self.base64ToBinary(data);
             var dirName = this.app.type;
             self.fileSystem.get('fs').root.getDirectory("/" + dirName, {}, function (dirEntry) {
                 self.checkAndWrite(obj, dirEntry, file, data);

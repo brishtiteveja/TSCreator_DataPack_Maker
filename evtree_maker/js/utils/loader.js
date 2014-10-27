@@ -137,6 +137,16 @@ define([
         return 50 + Math.round((age - this.topAge) * 5); // 30 pixes per million years
     };
 
+    Loader.prototype.getImagesFromLine = function (line) {
+        var imageMatches = line.match(/<img.*>/g)
+        if (imageMatches) {
+            for (var i = 0; i < imageMatches.length; i++) {
+                var $img = $(imageMatches[i]);
+                var imgSrc = $img.attr('src');
+            }
+        }
+    };
+
     Loader.prototype.parseColumnData = function (data) {
         var self = this;
         var lines = data.split(/\r|\n/);
@@ -188,11 +198,29 @@ define([
                             if (line[9]) {
                                 color = window.TscToCssColor(line[9]);
                             }
+
                         }
                         if (img) {
-                            // TODO - Add image support.
-                            // console.log($(img[0]).attr('src'));
+                            img = $(img[0]).attr('src');
                         }
+
+                        if (description) {
+                            var images = description.match(/<img [^>]*>/g);
+
+                            if (images) {
+                                for (var j = 0; j < images.length; j++) {
+                                    var $image = $(images[j]);
+                                    var src = $image.attr('src');
+                                    this.saveAndLoadImage(this.evTree, src);
+                                    $image.attr('src', "filesystem:http://" + window.location.host +
+                                        "/persistent/" +
+                                        this.app.type +
+                                        "/" + src);
+                                    description = description.replace(images[j], $image.get(0).outerHTML);
+                                }
+                            }
+                        }
+
                         if (tree[name] && branch) {
                             tree[name].branches.push({
                                 age: age,
@@ -201,7 +229,8 @@ define([
                                 description: description,
                                 color: color,
                                 rangeType: type,
-                                category: category
+                                category: category,
+                                image: img
                             });
                         } else {
                             if (!tree[name]) {
@@ -211,7 +240,8 @@ define([
                                     name: name,
                                     branches: [],
                                     rangeType: type,
-                                    description: description
+                                    description: description,
+                                    image: img
                                 };
                             } else {
                                 tree[name].top = age;
@@ -280,6 +310,8 @@ define([
                 category: subtree.category,
                 rangeType: subtree.rangeType
             });
+            this.saveAndLoadImage(node, subtree.image);
+
             parent.get('children').add(node);
             parent = node;
         }
@@ -297,6 +329,7 @@ define([
             category: subtree.category,
             rangeType: subtree.rangeType
         });
+        // this.saveAndLoadImage(base, subtree.image);
 
         if (parent) {
             parent.get('children').add(base);
@@ -316,6 +349,7 @@ define([
             category: subtree.category,
             rangeType: subtree.rangeType
         });
+        this.saveAndLoadImage(top, subtree.image);
         base.get('children').add(top);
         var length = subtree.branches.length;
         for (var index = 0; index < length; index++) {
@@ -341,11 +375,27 @@ define([
                 if (ext === "txt") {
                     file.type = "text/plain";
                     this.loadTextData(file.asText());
-                } else if (ext === "png" || ext === "jpg" || ext === "jpeg" || ext === "svg") {
-                    file.type = "image/" + ext;
-                    this.loadImageAsBinary(file);
                 }
             }
+        }
+    };
+
+    Loader.prototype.saveAndLoadImage = function (obj, imgName) {
+        if (!imgName || typeof imgName !== "string") {
+            return;
+        }
+
+        var ext = imgName.split(".").pop();
+        var regex = new RegExp('\/' + imgName, 'gi');
+        var file = null;
+        if (regex) {
+            file = this.zip.file(regex)[0];
+        }
+        if (file) {
+            file.name = imgName;
+            file.type = "image/" + ext;
+            var base64 = "data:image/" + ext + ";base64," + btoa(file.asBinary());
+            this.app.fileSystemView.filesView.saveToFileTypeDirectory(obj, file, base64);
         }
     };
 
