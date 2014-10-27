@@ -399,7 +399,5 @@ define([
         }
     };
 
-    Loader.prototype.loadImageAsBinary = function () {};
-
     return Loader;
 });

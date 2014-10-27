@@ -296,7 +296,7 @@ define([
                     fileWriter.onwriteend = function (e) {
                         window.console.log('Write Completed: ' + e.toString());
                         if (obj) {
-                            obj.trigger('write-completed', filePath);
+                            obj.trigger('write-completed', fileEntry);
                         }
                     };
 

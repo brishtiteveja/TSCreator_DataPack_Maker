@@ -91,7 +91,7 @@ window.define([
             content += this.node.get('zone').get('name') + "(" + this.node.get('age') + ")" + "<br/>";
             content += this.node.get('description') + "<br/>";
             if (this.node.get('image')) {
-                content += '<img src="' + this.node.get('image') + '">';
+                content += '<img src="' + this.node.getImageURL() + '">';
             }
         }
         var self = this;
@@ -163,7 +163,7 @@ window.define([
 
     NodeView.prototype.updateElement = function () {
         var fill = this.fillColor;
-        var image = this.node.get('image');
+        var image = this.node.getImageURL();
         if (image) {
             if (!this.image) {
                 this.image = this.app.Paper.image(image, this.node.get('x'), this.node.get('y') + 10, 42, 42);
@@ -289,10 +289,9 @@ window.define([
         this.app.fileSystemView.saveFile(this.node, evt.originalEvent.dataTransfer.files[0]);
     };
 
-    NodeView.prototype.imageLoaded = function (path) {
-        var url = "filesystem:http://" + window.location.host + "/persistent" + path;
+    NodeView.prototype.imageLoaded = function (fileEntry) {
         this.node.set({
-            image: url
+            image: fileEntry
         });
     };
 

@@ -195,7 +195,7 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
     Node.prototype.getImageURL = function () {
         if (this.get("image")) {
-            return "url('" + this.get('image') + "')";
+            return "filesystem:http://" + window.location.host + "/persistent" + this.get('image').fullPath;
         } else {
             return null;
         }
