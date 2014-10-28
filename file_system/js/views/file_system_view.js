@@ -63,6 +63,7 @@ define([
         this.renderDirs();
         this.listenTo(this.fileSystem, "update", this.renderDirs.bind(this));
         this.listenTo(this.fileSystem, 'Compress', this.compressDirEntry);
+        this.listenTo(this.fileSystem, 'error', this.compressDirEntry);
 
     };
 
@@ -204,6 +205,10 @@ define([
 
     FileSystemView.prototype.saveFile = function (obj, file) {
         this.filesView.saveFile(obj, file);
+    };
+
+    FileSystem.prototype.saveError = function(message) {
+        window.alert(message);
     };
 
     return FileSystemView;

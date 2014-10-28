@@ -279,6 +279,7 @@ define([
 
         FilesView.prototype.errorHandler = function (e) {
             window.console.log('Error: ' + e.name + " " + e.message);
+            this.fileSystem.trigger('error', 'Something went wrong while saving the project.');
         };
 
         FilesView.prototype.delFile = function () {
