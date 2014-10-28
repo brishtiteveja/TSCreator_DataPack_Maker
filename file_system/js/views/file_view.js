@@ -49,6 +49,7 @@ define(["baseView"], function (BaseView) {
                 fileEntry.remove(function () {
                     window.console.log('File removed.');
                     self.file.destroy();
+                    self.fileSystem.update();
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
         } else {
@@ -56,6 +57,7 @@ define(["baseView"], function (BaseView) {
                 dirEntry.removeRecursively(function () {
                     window.console.log('Directory removed.');
                     self.file.destroy();
+                    self.fileSystem.update();
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
         }
@@ -103,8 +105,8 @@ define(["baseView"], function (BaseView) {
                 }
                 self.fileSystem.get('fs').root.getDirectory(path, {}, function (dirEntry) {
                     fileEntry.moveTo(dirEntry, self.file.get("name"));
-
                     self.file.destroy();
+                    self.fileSystem.update();
 
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
@@ -119,6 +121,7 @@ define(["baseView"], function (BaseView) {
                 self.fileSystem.get('fs').root.getDirectory(path, {}, function (dirEntry) {
                     fileEntry.moveTo(dirEntry, self.file.get("name"));
                     self.file.destroy();
+                    self.fileSystem.update();
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
         }
@@ -132,6 +135,7 @@ define(["baseView"], function (BaseView) {
             this.fileSystem.set({
                 path: this.file.get('fullPath')
             });
+            self.fileSystem.update();
         }
     };
 

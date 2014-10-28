@@ -61,8 +61,7 @@ define([
         });
 
         this.renderDirs();
-        this.listenTo(this.fileSystem, "change:path", this.renderDirs.bind(this));
-        this.listenTo(this.fileSystem, "change:update", this.renderDirs.bind(this));
+        this.listenTo(this.fileSystem, "update", this.renderDirs.bind(this));
         this.listenTo(this.fileSystem, 'Compress', this.compressDirEntry);
 
     };
@@ -149,14 +148,8 @@ define([
 
     FileSystemView.prototype.readDir = function (results) {
         var self = this;
+        self.files.reset();
         if ((results === undefined) || (!results.length)) return;
-        if (self.fileSystem.get('update')) {
-            self.fileSystem.set({
-                'update': false
-            });
-            return;
-        }
-
         results.forEach(function (fileEntry) {
             var file = new File(fileEntry);
             fileEntry.getMetadata(function (metadata) {
@@ -188,6 +181,7 @@ define([
         this.fileSystem.set({
             path: path
         });
+        this.fileSystem.update();
     };
 
     FileSystemView.prototype.toggleView = function () {

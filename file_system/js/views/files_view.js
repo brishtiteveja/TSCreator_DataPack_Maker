@@ -79,6 +79,7 @@ define([
             if (path === fileEntry.fullPath) {
                 var file = new File(fileEntry);
                 this.files.add(file);
+                this.fileSystem.update();
             }
 
             if (callback !== undefined) {
@@ -123,10 +124,6 @@ define([
                             self.newFile(dirEntry, jsonFile, function (fileEntry) {
                                 self.writeJSONToAFile(fileEntry, json);
                                 self.newFile(dirEntry, textFile, function (fileEntry) {
-
-                                    self.fileSystem.set({
-                                        update: !self.fileSystem.get('update')
-                                    });
                                     self.writeTextToAFile(fileEntry, text);
                                     self.fileSystem.update();
                                     self.fileSystem.trigger('Compress', dirEntry);
@@ -140,10 +137,6 @@ define([
                             self.writeJSONToAFile(fileEntry, json);
                             self.newFile(dirEntry, textFile, function (fileEntry) {
                                 self.writeTextToAFile(fileEntry, text);
-
-                                self.fileSystem.set({
-                                    update: !self.fileSystem.get('update')
-                                });
                                 self.fileSystem.update();
                                 self.fileSystem.trigger('Compress', dirEntry);
                             });
@@ -173,10 +166,6 @@ define([
                             self.newFile(dirEntry, jsonFile, function (fileEntry) {
                                 self.writeJSONToAFile(fileEntry, json);
                                 self.newFile(dirEntry, textFile, function (fileEntry) {
-
-                                    self.fileSystem.set({
-                                        update: !self.fileSystem.get('update')
-                                    });
                                     self.writeTextToAFile(fileEntry, text);
                                     self.fileSystem.update();
                                     self.fileSystem.trigger('Compress', dirEntry);
@@ -190,10 +179,6 @@ define([
                             self.writeJSONToAFile(fileEntry, json);
                             self.newFile(dirEntry, textFile, function (fileEntry) {
                                 self.writeTextToAFile(fileEntry, text);
-
-                                self.fileSystem.set({
-                                    update: !self.fileSystem.get('update')
-                                });
                                 self.fileSystem.update();
                                 self.fileSystem.trigger('Compress', dirEntry);
                             });
