@@ -1,4 +1,5 @@
 ({
+    baseUrl: "./",
     paths: {
 
         // Libraries

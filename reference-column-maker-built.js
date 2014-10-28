@@ -1,5 +1,5 @@
 ({
-    baseUrl: "/Users/cnv/Sites/makers/",
+    baseUrl: "./",
     paths: {
 
         // Libraries
