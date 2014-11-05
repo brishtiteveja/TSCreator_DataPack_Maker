@@ -44,17 +44,19 @@ window.define([
 
     NodeView.prototype.listenToModelEvents = function () {
         if (this.node.get('parent')) {
-            this.listenTo(this.node.get('parent'), 'change:x', this.updateX.bind(this));
+            this.listenTo(this.node.get('parent'), 'change:x', this.updateX);
         }
-        this.listenTo(this.node, 'change:x', this.render.bind(this));
-        this.listenTo(this.node, 'change:image', this.render.bind(this));
-        this.listenTo(this.node, 'update', this.render.bind(this));
-        this.listenTo(this.node, 'front', this.toFront.bind(this));
-        this.listenTo(this.node, 'back', this.toBack.bind(this));
-        this.listenTo(this.node, 'selected', this.nodeSelected.bind(this));
-        this.listenTo(this.node, 'unselected', this.nodeUnselected.bind(this));
-        this.listenTo(this.node, 'write-completed', this.imageLoaded.bind(this));
-        this.listenTo(this.node.get('children'), 'add', this.addChild.bind(this));
+        this.listenTo(this.node, 'change:x', this.render);
+        this.listenTo(this.node, 'change:image', this.render);
+        this.listenTo(this.node, 'update', this.render);
+        this.listenTo(this.node, 'front', this.toFront);
+        this.listenTo(this.node, 'back', this.toBack);
+        this.listenTo(this.node, 'selected', this.nodeSelected);
+        this.listenTo(this.node, 'unselected', this.nodeUnselected);
+        this.listenTo(this.node, 'write-completed', this.imageLoaded);
+        this.listenTo(this.node.get('children'), 'add', this.addChild);
+        this.listenTo(this.node, 'delete', this.delete);
+        this.listenTo(this.node, 'destroy', this.removeElements);
     };
 
     NodeView.prototype.updateX = function () {
@@ -71,8 +73,11 @@ window.define([
     };
 
     NodeView.prototype.renderHtml = function () {
-        this.$el.html(this.template.render(this.node.toJSON()));
-        $("#evtrees-list>.data-list").append();
+        if (!this.element) {
+            $("#evtrees-list>.data-list").append(this.template.render(this.node.toJSON()));
+        } else {
+            $("#" + this.node.id).replaceWith(this.template.render(this.node.toJSON()));
+        }
     };
 
     NodeView.prototype.renderNode = function () {
@@ -303,6 +308,20 @@ window.define([
         }
     };
 
+    NodeView.prototype.delete = function() {
+        var childNodes = this.node.getChildNodes();
+        for (var i=0; i<childNodes.length; i++) {
+            childNodes[i].destroy();
+        }
+        this.node.destroy();
+    };
+
+    NodeView.prototype.removeElements = function() {
+        $("#" + this.node.id).remove();
+        if (this.element) this.element.remove();
+        if (this.image) this.image.remove();
+        if (this.label) this.label.remove();
+    };
 
     return NodeView;
 

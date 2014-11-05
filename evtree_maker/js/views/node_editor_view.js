@@ -24,7 +24,12 @@ window.define(["baseView"], function (BaseView) {
         closeModal: function () {
             this.$el.foundation('reveal', 'close');
         },
-        deleteNode: function () {},
+        deleteNode: function () {
+            var root = this.node.root();
+            this.node.delete();
+            root.rearrange();
+            this.closeModal();
+        },
         updateNode: function () {
             this.node.set({
                 name: this.$("input.name").val(),

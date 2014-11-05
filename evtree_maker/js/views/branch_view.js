@@ -17,10 +17,12 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
     };
 
     BranchView.prototype.listenToEvents = function () {
-        this.listenTo(this.parentNode, "change:x", this.renderBranch.bind(this));
-        this.listenTo(this.childNode, "change:x", this.renderBranch.bind(this));
-        this.listenTo(this.parentNode, "update", this.renderBranch.bind(this));
-        this.listenTo(this.childNode, "update", this.renderBranch.bind(this));
+        this.listenTo(this.parentNode, "change:x", this.renderBranch);
+        this.listenTo(this.childNode, "change:x", this.renderBranch);
+        this.listenTo(this.parentNode, "update", this.renderBranch);
+        this.listenTo(this.childNode, "update", this.renderBranch);
+        this.listenTo(this.childNode, "destroy", this.delete);
+        this.listenTo(this.parentNode, "destroy", this.delete);
     };
 
     BranchView.prototype.renderBranch = function () {
@@ -103,6 +105,12 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
         this.element.attr({
             "stroke-width": STROKE_WIDTH
         });
+    };
+
+    BranchView.prototype.delete = function() {
+        this.element.remove();
+        if (this.image) this.image.remove();
+        if (this.label) this.label.remove();
     };
 
     return BranchView;

@@ -72,7 +72,6 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
 
             if (this.app.CurrentNode.get('type') === "TOP") {
                 node = new Node({
-                    name: "Base",
                     x: locationX,
                     y: locationY,
                     parent: this.app.CurrentNode,
@@ -80,7 +79,6 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
                 });
             } else {
                 node = new Node({
-                    name: "Top",
                     x: locationX,
                     y: locationY,
                     parent: this.app.CurrentNode,

@@ -14,9 +14,13 @@ define([], function() {
 		this.trigger('update');
 	}
 
-	BaseModel.prototype.toggle = function() {
-		this.trigger('toggle');
-	}
+    BaseModel.prototype.toggle = function() {
+        this.trigger('toggle');
+    }
+
+    BaseModel.prototype.delete = function() {
+        this.trigger('delete');
+    }
 
 	return BaseModel;
 })

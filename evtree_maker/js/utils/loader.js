@@ -158,7 +158,8 @@ define([
                 if (line[1].toLowerCase() === "range") {
                     isRangeColumn = true;
                     self.evTree.set({
-                        name: line[0]
+                        name: line[0],
+                        color: window.TscToCssColor(line[3] || "255/255/255")
                     });
                 } else {
                     if (isRangeColumn && line.length > 1) {
@@ -302,7 +303,7 @@ define([
                 name: subtree.name,
                 x: startX,
                 y: locationY,
-                type: "TOP",
+                type: parent.get('type').toLowerCase() === "base" ? "TOP" : "BASE",
                 parent: parent,
                 description: subtree.description,
                 color: subtree.color,

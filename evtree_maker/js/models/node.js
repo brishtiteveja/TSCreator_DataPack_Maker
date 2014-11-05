@@ -211,5 +211,16 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
         });
     };
 
+    Node.prototype.getChildNodes = function(array) {
+        var self = this;
+        array = array || [];
+        self.children().each(function (child) {
+            array.push(child);
+            child.getChildNodes(array);
+        });
+        return array;
+    };
+
+
     return Node;
 });
