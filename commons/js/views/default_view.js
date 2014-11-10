@@ -28,6 +28,7 @@ define(["baseView"], function (BaseView) {
         this.$topAge = this.$('input[name="top-age"]');
         this.$baseAge = this.$('input[name="base-age"]');
         this.$verticalScale = this.$('input[name="vertical-scale"]');
+        this.$pixels = this.$('input[name="pixels"]');
     }
 
     DefaultView.prototype.updateAge = function (e, data) {
@@ -56,7 +57,8 @@ define(["baseView"], function (BaseView) {
 
     DefaultView.prototype.updateDefaults = function() {
         this.defaultOb.set({
-            verticalScale: this.$verticalScale.val()
+            verticalScale: this.$verticalScale.val(),
+            pixPerUnit: this.$pixels.val()
         });
     };
 
