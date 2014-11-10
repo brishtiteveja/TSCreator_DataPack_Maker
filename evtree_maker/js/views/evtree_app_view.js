@@ -6,6 +6,8 @@ define([
     "exporter",
     "fileSystemView",
     "imageOb",
+    "defaultOb",
+    "defaultView",
     "imageView",
     "loader",
     "markers",
@@ -25,6 +27,8 @@ define([
     Exporter,
     FileSystemView,
     ImageOb,
+    DefaultOb,
+    DefaultView,
     ImageView,
     Loader,
     Markers,
@@ -82,6 +86,7 @@ define([
         // Initialize the models
 
         this.app.ImageOb = new ImageOb({});
+        this.app.defaultOb = new DefaultOb({});
         this.app.Paper = new Raphael(this.$canvas[0], this.app.width, this.app.height);
         this.app.Paper.setViewBox(0, 0, this.app.width, this.app.height);
         this.app.timeline = new Timeline({}, this.app);
@@ -151,6 +156,7 @@ define([
     };
 
     EvTreeAppView.prototype.render = function () {
+        this.defaultView = new DefaultView(this.app);
         this.dataExportView = new DataExportView(this.app);
         this.fileSystemView = new FileSystemView(this.app);
         this.app.fileSystemView = this.fileSystemView;

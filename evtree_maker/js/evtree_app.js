@@ -16,6 +16,10 @@ requirejs.config({
         timeline: "commons/js/models/timeline",
         timelineView: "commons/js/views/timeline_view",
 
+        // Default
+        defaultOb: "commons/js/models/default_ob",
+        defaultView: "commons/js/views/default_view",
+
         // Markers
         markersView: "commons/js/views/markers_view",
         markerView: "commons/js/views/marker_view",

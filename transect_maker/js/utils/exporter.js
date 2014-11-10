@@ -47,7 +47,7 @@ define([
 		// this.texts.updateTransectTexts();
 
 		// initialize the objects to store the processed data.
-		// 
+		//
 		self.transectsData = {};
 		this.app.TransectsCollection.each(function(transect) {
 			self.transectsData[transect.get('id')] = {
@@ -75,11 +75,11 @@ define([
 		self.lines = new Lines();
 	}
 
-	/* In order to generate data in timescale creator format 
+	/* In order to generate data in timescale creator format
 	required items are:
 
 	1. Wells Data:
-	Format: 
+	Format:
 	<well name> \t <facies> \t <width> \t <background color>
 			  \t <primary>
 			  \t <pattern name> \t <polygon name> \t Age
@@ -91,7 +91,7 @@ define([
 				  \t <age>      \t <poinX>
 
 	POLGYON \t pattern: <pattern name> \t <polygon name>
-			\t point 
+			\t point
 			\t 		\t <line style>
 
 	TEXT blah blah
@@ -99,8 +99,8 @@ define([
 
 
 	/* Take the list of polygons and group them with respect to
-	their transect. In case a polygon is shared over multiple 
-	transects split the polygon at the reference wells that divide 
+	their transect. In case a polygon is shared over multiple
+	transects split the polygon at the reference wells that divide
 	the polygon */
 
 	Exporter.prototype.export = function() {
@@ -225,15 +225,15 @@ define([
 
 	/* A polygon can span over multiple transects. We split the
 	polygon over each transect and generate new polygons specific
-	to a transect. 
+	to a transect.
 
-	getUnderlyingTransects generates the list of underlying 
+	getUnderlyingTransects generates the list of underlying
 	transects for the polygon.
 	*/
 
 	Exporter.prototype.getUnderlyingTransects = function(polygon) {
 		// Get the list of transects base on the point of the polygon.
-		// 
+		//
 		var self = this;
 
 		// Initialize array for storing transect indexes.
@@ -250,9 +250,9 @@ define([
 			transectIndexes = _.union(transectIndexes, index);
 		});
 
-		// first and last are used for storing the indexes of the 
+		// first and last are used for storing the indexes of the
 		// first and last transect over which the polygon spans
-		// if last - first == 1 then the polygon spans over 
+		// if last - first == 1 then the polygon spans over
 		// consecutive polygons. But sometimes polygons may span over
 		// multiple transect as a result point may not lie in all the transects
 		// so we check first and last to give the range of transects over
@@ -362,7 +362,7 @@ define([
 	}
 
 	Exporter.prototype.getTransectForPolygon = function(polygon, transects) {
-		// this function returns the transect to which the polygon belongs to by 
+		// this function returns the transect to which the polygon belongs to by
 		for (var i = 0; i < transects.length; i++) {
 			var transect = transects.at(i);
 			var poly = transect.getPolyKPointsArray();
@@ -475,7 +475,7 @@ define([
 		var pointPolygons = new Polygons();
 		polygons.each(function(polygon) {
 			var polygonPoints = polygon.getPolyKPointsArray();
-			// We check the if the patter persists for a certain range above the current 
+			// We check the if the patter persists for a certain range above the current
 			// to determine if the point can be considered as a pattern point.
 			if ((PolyK.ContainsPoint(polygonPoints, point.get('x') + 1, point.get('y') - 1) && PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1)) ||
 				(PolyK.ContainsPoint(polygonPoints, point.get('x') - 1, point.get('y') - 1) && PolyK.ContainsPoint(polygonPoints, point.get('x'), point.get('y') - 1))) {
@@ -508,8 +508,8 @@ define([
 
 	Exporter.prototype.updatePolygonLines = function(polygon, origPolygon) {
 		var self = this;
-		// generate new lines for the sliced polygon 
-		// check if the line is part of original lines of polygon 
+		// generate new lines for the sliced polygon
+		// check if the line is part of original lines of polygon
 		// get the line's pattern
 		var polygonPoints = polygon.get('points');
 		var lines = new Lines();
@@ -532,7 +532,7 @@ define([
 			}
 		});
 
-		// last line connects the last point and the first point thus closing the 
+		// last line connects the last point and the first point thus closing the
 		// polygon.
 
 		var point1 = polygonPoints.last();
@@ -723,7 +723,7 @@ define([
 		var well = self.wellsData[wellId];
 		var outputText = "\n\n"; // give some space before starting new well
 
-		// well column header 
+		// well column header
 		outputText += well.data.get('name') + "\t"; // name
 		outputText += "facies\t"; // column type
 		outputText += well.data.get('width') + "\t";
@@ -759,7 +759,7 @@ define([
 	Exporter.prototype.getMapData = function() {
 		var self = this;
 		var outputText = self.getMapDataColData();
-		outputText += self.getMapInfoPtData();
+		// outputText += self.getMapInfoPtData();
 		outputText += self.getMapTransectData();
 
 		return outputText;

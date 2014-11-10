@@ -1,7 +1,9 @@
 define(["baseView"], function (BaseView) {
     var DefaultView = BaseView.extend({
         el: "#defaults-list",
-        events: {}
+        events: {
+            'change input': 'updateDefaults'
+        }
     });
 
     DefaultView.prototype.template = new EJS({
@@ -11,7 +13,11 @@ define(["baseView"], function (BaseView) {
     DefaultView.prototype.initialize = function (app) {
         this.app = app;
         this.defaultOb = app.defaultOb;
-        this.listenTo(this.app.LithologyMarkersCollection, 'change', this.updateDefaultValues.bind(this));
+        if (this.app.LithologyMarkersCollection) {
+            this.listenTo(this.app.LithologyMarkersCollection, 'change', this.updateDefaultValues.bind(this));
+        } else {
+            this.listenTo(this.app.MarkersCollection, 'change', this.updateDefaultValues.bind(this));
+        }
         this.listenTo(this.defaultOb, 'update', this.render.bind(this));
         this.render();
     }
@@ -46,6 +52,12 @@ define(["baseView"], function (BaseView) {
         }
 
         this.defaultOb.update();
+    };
+
+    DefaultView.prototype.updateDefaults = function() {
+        this.defaultOb.set({
+            verticalScale: this.$verticalScale.val()
+        });
     };
 
     return DefaultView;
