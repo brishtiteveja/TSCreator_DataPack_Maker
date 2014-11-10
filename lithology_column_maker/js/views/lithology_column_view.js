@@ -112,7 +112,7 @@ define([
             width: this.lithologyColumn.get('width'),
             fill: this.lithologyColumn.get('settings').get('backgroundColor'),
             height: this.app.Paper.height,
-            opacity: 0.5,
+            opacity: 0.3,
         });
 
         this.headingBox.attr({
@@ -121,7 +121,7 @@ define([
             width: this.lithologyColumn.get('width'),
             fill: "#FFFFFF",
             height: 50,
-            opacity: 0.5,
+            opacity: 0.3,
         });
 
         var textX = Math.round(this.lithologyColumn.get('x') + this.lithologyColumn.get('width') / 2);

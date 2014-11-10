@@ -127,7 +127,7 @@ define([
             "y": this.top.get('y'),
             "width": width,
             "height": this.base.get('y') - this.top.get('y'),
-            "opacity": 0.5,
+            "opacity": 0.3,
         });
 
         this.bgLithBox.attr({
@@ -138,7 +138,7 @@ define([
             "y": this.top.get('y'),
             "width": width,
             "height": this.base.get('y') - this.top.get('y'),
-            "opacity": 0.5,
+            "opacity": 0.3,
         });
 
         var textX = Math.round(this.lithologyGroup.get('lithologyColumn').get('x') + width / 2);
