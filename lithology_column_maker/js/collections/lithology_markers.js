@@ -13,6 +13,12 @@ define(["baseCollection", "lithologyMarker"], function(BaseCollection, Lithology
 		return lithologyMarker.get('y');
 	};
 
+    LithologyMarkers.prototype.updateZones = function() {
+        this.each(function (marker) {
+            marker.updateZone();
+        });
+    };
+
 	return LithologyMarkers;
 });
 

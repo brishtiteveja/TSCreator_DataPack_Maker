@@ -9,6 +9,12 @@ define(["baseCollection", "lithologyColumn"], function(BaseCollection, Lithology
 		model: LithologyColumn,
 	});
 
+    LithologyColumns.prototype.updateZones = function() {
+        this.each(function (column) {
+            column.updateZones();
+        });
+    };
+
 	return LithologyColumns;
 });
 

@@ -13,6 +13,12 @@ define(["baseCollection", "lithology"], function(BaseCollection, Lithology) {
 		return lithology.get('top').get('y');
 	};
 
+    Lithologys.prototype.updateZones = function() {
+        this.each(function (lithology) {
+            lithology.updateZone();
+        });
+    };
+
 
 	return Lithologys;
 });

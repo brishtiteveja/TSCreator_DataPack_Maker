@@ -13,6 +13,7 @@ define([], function() {
 
 	Exporter.prototype.export = function() {
 		this.initialize();
+        this.lithologyColumns.updateZones();
 	}
 
 	Exporter.prototype.getText = function() {

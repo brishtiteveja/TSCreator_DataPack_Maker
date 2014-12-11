@@ -168,7 +168,7 @@ define([
                                 self.newFile(dirEntry, textFile, function (fileEntry) {
                                     self.writeTextToAFile(fileEntry, text);
                                     self.fileSystem.update();
-                                    self.fileSystem.trigger('Compress', dirEntry);
+                                    // self.fileSystem.trigger('Compress', dirEntry);
                                 });
                             });
                         });
@@ -180,7 +180,7 @@ define([
                             self.newFile(dirEntry, textFile, function (fileEntry) {
                                 self.writeTextToAFile(fileEntry, text);
                                 self.fileSystem.update();
-                                self.fileSystem.trigger('Compress', dirEntry);
+                                // self.fileSystem.trigger('Compress', dirEntry);
                             });
                         });
                     }

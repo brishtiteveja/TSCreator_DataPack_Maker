@@ -4,7 +4,7 @@
 ============================================================================================================*/
 
 define(["baseModel", "settings"], function(BaseModel, Settings) {
-	
+
 	var Lithology = BaseModel.extend({
 		classname: "Lithology",
 		constructor: function (attributes, app) {
@@ -46,6 +46,11 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 		}
 		return null;
 	}
+
+    Lithology.prototype.updateZone = function() {
+        this.get('top').updateZone();
+        this.get('base').updateZone();
+    };
 
 	return Lithology;
 });

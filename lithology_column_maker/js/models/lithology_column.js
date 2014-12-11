@@ -47,6 +47,10 @@ define(["baseModel", "lithologyMarkers", "lithologys", "lithologyGroups", "litho
         return lith;
     }
 
+    LithologyColumn.prototype.updateZones = function() {
+        this.get('lithologyMarkers').updateZones();
+    };
+
     return LithologyColumn;
 
 });
