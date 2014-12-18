@@ -25,8 +25,10 @@ define([
 
             this.listenTo(this.files, "add", this.render);
             this.listenTo(this.files, "remove", this.delFile);
+            this.listenTo(this.files, "saving-event", this.savingEventTriggered);
 
             this.listenToActionEvents();
+            this.savingEventsList = [];
             this.render();
         };
 
@@ -124,9 +126,8 @@ define([
                             self.newFile(dirEntry, jsonFile, function (fileEntry) {
                                 self.writeJSONToAFile(fileEntry, json);
                                 self.newFile(dirEntry, textFile, function (fileEntry) {
-                                    self.writeTextToAFile(fileEntry, text);
+                                    self.writeTextToAFile(fileEntry, text, dirEntry);
                                     self.fileSystem.update();
-                                    self.fileSystem.trigger('Compress', dirEntry);
                                 });
                             });
                         });
@@ -134,11 +135,10 @@ define([
 
 
                         self.newFile(dirEntry, jsonFile, function (fileEntry) {
-                            self.writeJSONToAFile(fileEntry, json);
+                            self.writeJSONToAFile(fileEntry, json, dirEntry);
                             self.newFile(dirEntry, textFile, function (fileEntry) {
                                 self.writeTextToAFile(fileEntry, text);
                                 self.fileSystem.update();
-                                self.fileSystem.trigger('Compress', dirEntry);
                             });
                         });
                     }
@@ -210,7 +210,7 @@ define([
             }, self.errorHandler.bind(self));
         };
 
-        FilesView.prototype.writeJSONToAFile = function (fileEntry, content) {
+        FilesView.prototype.writeJSONToAFile = function (fileEntry, content, dirEntry) {
 
             if (fileEntry.isDirectory) return;
             var self = this;
@@ -223,6 +223,7 @@ define([
 
                     fileWriter.onwriteend = function () {
                         window.console.log('Write completed.');
+                        self.files.trigger('saving-event', 'json-file-generated', dirEntry);
                     };
 
                     fileWriter.onerror = function (e) {
@@ -240,7 +241,7 @@ define([
             }, self.errorHandler.bind(this));
         };
 
-        FilesView.prototype.writeTextToAFile = function (fileEntry, content) {
+        FilesView.prototype.writeTextToAFile = function (fileEntry, content, dirEntry) {
             if (fileEntry.isDirectory) return;
             var self = this;
 
@@ -252,6 +253,7 @@ define([
 
                     fileWriter.onwriteend = function () {
                         window.console.log('Write completed.');
+                        self.files.trigger('saving-event', 'text-file-generated', dirEntry);
                     };
 
                     fileWriter.onerror = function (e) {
@@ -371,6 +373,16 @@ define([
 
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
+        };
+
+        FilesView.prototype.savingEventTriggered = function(eventType, dirEntry) {
+            if (_.indexOf(this.savingEventsList, eventType) === -1) {
+                this.savingEventsList.push(eventType)
+            }
+            if (_.difference(this.savingEventsList, ["json-file-generated", "text-file-generated"]).length === 0) {
+                this.savingEventsList = [];
+                this.fileSystem.trigger('Compress', dirEntry);
+            }
         };
 
         return FilesView;
