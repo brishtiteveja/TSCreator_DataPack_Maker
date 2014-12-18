@@ -13,7 +13,7 @@ define(["baseView"], function (BaseView) {
     DefaultView.prototype.initialize = function (app) {
         this.app = app;
         this.defaultOb = app.defaultOb;
-        if (this.app.LithologyMarkersCollection) {
+        if (this.app.type === "lithology") {
             this.listenTo(this.app.LithologyMarkersCollection, 'change', this.updateDefaultValues.bind(this));
         } else {
             this.listenTo(this.app.MarkersCollection, 'change', this.updateDefaultValues.bind(this));
@@ -38,18 +38,20 @@ define(["baseView"], function (BaseView) {
     }
 
     DefaultView.prototype.updateDefaultValues = function () {
-        this.defaultOb.set({
-            top: this.app.LithologyMarkersCollection.first().get('age'),
-            base: this.app.LithologyMarkersCollection.last().get('age')
-        });
-
-        if (this.app.animation) {
-            this.app.animation.set({
+        if (this.app.type === "lithology") {
+            this.defaultOb.set({
                 top: this.app.LithologyMarkersCollection.first().get('age'),
-                base: this.app.LithologyMarkersCollection.last().get('age'),
-                age: this.app.LithologyMarkersCollection.first().get('age')
+                base: this.app.LithologyMarkersCollection.last().get('age')
             });
-            this.app.animation.update();
+
+            if (this.app.animation) {
+                this.app.animation.set({
+                    top: this.app.LithologyMarkersCollection.first().get('age'),
+                    base: this.app.LithologyMarkersCollection.last().get('age'),
+                    age: this.app.LithologyMarkersCollection.first().get('age')
+                });
+                this.app.animation.update();
+            }
         }
 
         this.defaultOb.update();

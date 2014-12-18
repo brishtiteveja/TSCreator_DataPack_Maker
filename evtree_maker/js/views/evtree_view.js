@@ -55,12 +55,19 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
             return;
         };
 
+
         var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
         var locationX = cdts.x;
         var locationY = cdts.y;
         var zone = this.app.ZonesCollection.getZoneForY(locationY);
 
         if (!zone) {
+            window.alert("You need to draw at least two timelines before proceeding.");
+            return;
+        }
+
+        if (this.app.MarkersCollection.hasUndefinedAges()) {
+            window.alert("Please define ages for all the timelines before proceeding.");
             return;
         }
 

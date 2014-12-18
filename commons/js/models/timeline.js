@@ -14,8 +14,9 @@ define(["baseModel"], function (BaseModel) {
     TimeLine.prototype.getLabel = function() {
         var zone = this.app.ZonesCollection.getZoneForY(this.get('y'));
         if (zone) {
-            var relativeY = zone.getRelativeY(this.get('y'));
-            return zone.get('name') + "(" + relativeY + ")"
+            var percent = Math.round((1 - zone.getRelativeY(this.get('y')))*1000)/10;
+            var age = zone.getAbsoluteAge(this.get('y'));
+            return age + " myr, " + percent + "% up " + zone.get('name')
         }
         return this.get('y');
     };

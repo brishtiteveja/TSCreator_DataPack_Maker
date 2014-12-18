@@ -11,6 +11,12 @@ define(["baseCollection", "marker"], function(BaseCollection, Marker) {
 	Markers.prototype.comparator = function(marker) {
 		return marker.get('y');
 	};
+
+    Markers.prototype.hasUndefinedAges = function() {
+        return this.any(function (marker) {
+            return !marker.get('age')
+        });
+    };
 	return Markers;
 });
 
