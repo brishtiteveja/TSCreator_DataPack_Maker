@@ -301,11 +301,12 @@ window.define([
     };
 
     NodeView.prototype.showEditor = function () {
-        if (!this.nodeEditorView) {
-            this.nodeEditorView = new NodeEditorView(this.node);
+        if (!window.nodeEditorView) {
+            window.nodeEditorView = new NodeEditorView(this.node);
         } else {
-            this.nodeEditorView.render();
+            window.nodeEditorView.initialize(this.node);
         }
+        window.nodeEditorView.render();
     };
 
     NodeView.prototype.delete = function() {
