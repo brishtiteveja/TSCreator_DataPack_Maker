@@ -167,7 +167,6 @@ define([
     }
 
     LithologyGroupView.prototype.createLithologyMarker = function (evt) {
-        debugger;
         if (!this.app.enLithologys) return;
         var lithologyMarker = this.lithologyGroup.get('lithologyColumn').get('lithologyMarkers').findWhere({
             y: evt.offsetY
