@@ -14,7 +14,9 @@ define(["baseCollection", "marker"], function(BaseCollection, Marker) {
 
     Markers.prototype.hasUndefinedAges = function() {
         return this.any(function (marker) {
-            return !marker.get('age')
+	    if (marker.get('age') == 0)
+		return 0;
+            return (!marker.get('age'))
         });
     };
 	return Markers;
