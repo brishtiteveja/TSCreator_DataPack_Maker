@@ -92,8 +92,9 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
                     type: "TOP"
                 });
             }
-
-            this.app.CurrentNode.addChild(node);
+            if (locationY > this.app.CurrentNode.get('y') + 6 || locationY < this.app.CurrentNode.get('y') - 6) { // won't add a child node if within max radius = 6 units
+            	this.app.CurrentNode.addChild(node);
+            }
             this.app.CurrentNode.root().rearrange();
         } else {
             this.evTree.get('roots').add(new Node({
