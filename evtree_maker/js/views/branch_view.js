@@ -78,21 +78,37 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
     BranchView.prototype.renderLabel = function () {
         if (this.parentNode.get('type') === "BASE") {
             var text = this.wrapString(this.parentNode.get('name'), 50, "\n", true);
-            if (this.label) {
-                this.label.remove();
+            if (this.parentLabel) {
+                this.parentLabel.remove();
             }
-            var x = this.parentNode.get('x') - 10;
+            var x = this.parentNode.get('x') - 16;
             var y = this.parentNode.get('y') + 10;
 
-            this.label = this.app.Paper.text();
-            this.label.attr({
+            this.parentLabel = this.app.Paper.text();
+            this.parentLabel.attr({
                 "text-anchor": "start",
                 "x": x,
                 "y": y,
                 "text": text
             });
-            this.label.rotate(-90, x, y);
+            this.parentLabel.rotate(-90, x, y);
+        } 
+        
+        text = this.wrapString(this.childNode.get('name'), 50, "\n", true);
+        if (this.childLabel) {
+        	this.childLabel.remove();
         }
+        x = this.childNode.get('x') - 16;
+        y = this.childNode.get('y') + 10;
+
+        this.childLabel = this.app.Paper.text();
+        this.childLabel.attr({
+            "text-anchor": "start",
+            "x": x,
+            "y": y,
+            "text": text
+        });
+        this.childLabel.rotate(-90, x, y);
     };
 
     BranchView.prototype.onMouseOver = function () {
@@ -110,7 +126,8 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
     BranchView.prototype.delete = function() {
         this.element.remove();
         if (this.image) this.image.remove();
-        if (this.label) this.label.remove();
+        if (this.parentLabel) this.parentLabel.remove();
+        if (this.childLabel) this.childLabel.remove();
     };
 
     return BranchView;
