@@ -76,6 +76,9 @@ define(["baseView", "timeline"], function (BaseView, Timeline) {
         this.timeline.set({
             y: cdts.y
         });
+        if (this.app.imageElement != undefined) {
+            this.app.imageElement.toBack();
+        }
     };
 
     return TimelineView;
