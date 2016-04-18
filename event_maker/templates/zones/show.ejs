@@ -1,0 +1,11 @@
+<div class="icon-btn edit-btn"><span>Edit</span></div>
+<div class="zone-detail showing">
+  <div class="zone-name"><%= this.name %></div>
+  <div class="zone-description">
+    <% if(this.description) { %>
+      <%= TSCreator.utils.templatehelpers.truncateIfLong(this.description, 100) %>
+    <% } else { %>
+      You haven't written any description yet.
+    <% } %>
+  </div>
+</div>
