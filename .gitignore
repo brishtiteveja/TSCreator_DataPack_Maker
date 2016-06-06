@@ -1,8 +1,6 @@
 .DS_Store
 .sass-cache
-references
 .*.swp
 *.coffee
-references
 .project
 .pydevproject
