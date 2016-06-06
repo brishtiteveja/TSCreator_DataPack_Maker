@@ -325,8 +325,7 @@ main svg {
 }
 
 .icon.add-new-curve {
- // background: url("/images/icons/add-curve-tool-32.png");
-  background: url("/images/icons/add-event-tool-32.png");
+  background: url("/images/icons/add-curve-tool-32.png");
   background-position: 0px 0px;
 }
 

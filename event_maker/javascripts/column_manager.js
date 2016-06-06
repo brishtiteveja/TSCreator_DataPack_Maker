@@ -245,7 +245,7 @@
           exporterClazz: CommonExporter
         },
         curve: {
-          requiresTools: ["addRanges", "addCurve", "showReferencePanel", "saveToLocalStorage", "reloadData", "exportData", "dataSandbox"],
+          requiresTools: ["addRanges", "addEvent", "showReferencePanel", "saveToLocalStorage", "reloadData", "exportData", "dataSandbox"],
           requiresModules: ["ranges", "curves", "defaults", "chartSettings"],
           importerClazz: CurveImporter,
           exporterClazz: CurveExporter,
@@ -330,8 +330,8 @@
           },
           title: "Set up range limits"
         },
-        addCurve: {
-          name: "add-new-curve",
+        addEvent: {
+          name: "add-new-event",
           action: {
             type: "toggle",
             groupId: 1,

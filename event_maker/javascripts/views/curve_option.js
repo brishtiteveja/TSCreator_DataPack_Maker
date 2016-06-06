@@ -15,14 +15,17 @@
         this.destroy = __bind(this.destroy, this);
         this.fillColorAction = __bind(this.fillColorAction, this);
         this.fillCurveAction = __bind(this.fillCurveAction, this);
+        this.eventTypeAction = __bind(this.eventTypeAction, this);
         this.showLinesAction = __bind(this.showLinesAction, this);
         this.showPointsAction = __bind(this.showPointsAction, this);
         this.smoothedAction = __bind(this.smoothedAction, this);
         this.changeFillColor = __bind(this.changeFillColor, this);
+        this.changeEventType = __bind(this.changeEventType, this);
         this.changeIsFillCurve = __bind(this.changeIsFillCurve, this);
         this.changeIsShowLines = __bind(this.changeIsShowLines, this);
         this.changeIsShowPoints = __bind(this.changeIsShowPoints, this);
         this.changeIsSmoothed = __bind(this.changeIsSmoothed, this);
+
         this.detachEl = __bind(this.detachEl, this);
         return CurveOption.__super__.constructor.apply(this, arguments);
       }
@@ -41,7 +44,8 @@
         "click .show-points-btn": "showPointsAction",
         "click .show-lines-btn": "showLinesAction",
         "click .fill-curve-btn": "fillCurveAction",
-        "change input[name=fillColor]": "fillColorAction"
+        "change input[name=fillColor]": "fillColorAction",
+        "change input[name=event-type]": "eventTypeAction"
       };
 
       CurveOption.prototype.initialize = function(options) {
@@ -53,7 +57,8 @@
           "change:isShowPoints": this.changeIsShowPoints,
           "change:isShowLines": this.changeIsShowLines,
           "change:isFillCurve": this.changeIsFillCurve,
-          "change:fillColor": this.changeFillColor
+          "change:fillColor": this.changeFillColor,
+          "change:event-type": this.changeEventType
         });
         return this;
       };
@@ -113,6 +118,14 @@
         $input.val(value);
         return this;
       };
+      
+      CurveOption.prototype.changeEventType = function(m, value, options) {
+    	 var $input, $eventType;
+    	 $input = this.$el.find("input[name=event-type]");
+    	 $eventType = $input.val(value);
+
+    	 return this;
+      }
 
       CurveOption.prototype.smoothedAction = function($evt) {
         var value;
@@ -144,6 +157,12 @@
 
       CurveOption.prototype.fillColorAction = function($evt) {
         this.model.set("fillColor", $($evt.target).val());
+        return this;
+      };
+
+      CurveOption.prototype.eventTypeAction = function($evt) {
+        this.model.set("event-type", $($evt.target).val());
+    	var input;
         return this;
       };
 
