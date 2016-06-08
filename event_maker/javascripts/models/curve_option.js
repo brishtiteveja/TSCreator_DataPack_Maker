@@ -16,7 +16,8 @@
         isShowPoints: true,
         isShowLines: false,
         isFillCurve: false,
-        fillColor: "#A0EEEE"
+        fillColor: "#A0EEEE",
+        eventType: "LAD" 
       };
 
       return CurveOption;

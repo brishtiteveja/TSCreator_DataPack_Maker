@@ -186,20 +186,19 @@
     	  var line = "L " + newX + ", " + y + " ";
     	  //var rest = "L 175,225 z"
     	  var dr = move + line;
-    	  console.log(dr);
           this.rEl = this.mainCanvasView.createPath(dr);//"M 150,200 L 150,250 L 175,225 z");  
     	  
-        this.rEl.attr({
-          stroke: this.normalColor,
-          "stroke-width": 5,
-          fill: this.normalColor,
-          "fill-opacity": 5,
-        });
-        if (this.isShow) {
-          this.show();
-        } else {
-          this.hide();
-        }
+          this.rEl.attr({
+        	  stroke: this.normalColor,
+        	  "stroke-width": 5,
+        	  fill: this.normalColor,
+        	  "fill-opacity": 5,
+          });
+          if (this.isShow) {
+        	  this.show();
+          } else {
+        	  this.hide();
+          }
         return this;
       };
 

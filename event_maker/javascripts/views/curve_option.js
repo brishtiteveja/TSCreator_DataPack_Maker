@@ -161,7 +161,7 @@
       };
 
       CurveOption.prototype.eventTypeAction = function($evt) {
-        this.model.set("event-type", $($evt.target).val());
+        this.model.set("eventType", $($evt.target).val());
     	var input;
         return this;
       };

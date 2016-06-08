@@ -177,7 +177,7 @@
 
       Point.prototype.initCanvasEl = function() {
         //this.rEl = this.mainCanvasView.createCircle(this.model.get("x"), this.model.get("y"), this.normalRadius);
-        this.rEl = this.mainCanvasView.createArrow(this.model.get("x"), this.model.get("y"), "LAD");
+        //this.rEl = this.mainCanvasView.createArrow(this.model.get("x"), this.model.get("y"), "LAD");
     	//this.rEl = this.mainCanvasView.createImage  Arrow(this.model.get("x"), this.model.get("y"));
    	      var x = this.model.get("x");
     	  var y = this.model.get("y");
@@ -188,16 +188,17 @@
    	      var arrow_point = x - 7.5;
    	      var rest = "L " + arrow_point + "," + newY + " ";
     	  var dr = move + rest + line;
-          var horizontal_line = "L " + 0 + ", " + y + " ";
+          var horizontal_line = move + " " + "L " + 0 + ", " + y + " ";
+          var dr = dr + horizontal_line;
           
-          this.rEl = this.mainCanvasView.createPath(dr);//"M 150,200 L 150,250 L 175,225 z");  
-    	  this.rEl = this.mainCanvasView.createPath(move+horizontal_line);
+          this.rEl = this.mainCanvasView.createPath(dr);  
+    	  //this.rEl = this.mainCanvasView.createPath(move+horizontal_line);
           this.rEl.attr({
-          stroke: this.normalColor,
-          "stroke-width": 1,
-          fill: this.normalColor,
-          "fill-opacity": 5,
-        });
+        	  "stroke": this.normalColor,
+        	  "stroke-width": 1,
+        	  "fill": "#000000",
+        	  "fill-opacity": 5,
+          });
         if (this.isShow) {
           this.show();
         } else {
