@@ -126,7 +126,7 @@
             this.currentCurve.trigger("selected");
           } else {
             newCurve = this.curves.addWithFirstPoint(p);
-            //this.selectThis(newCurve);
+//            this.selectThis(newCurve);
           }
         } else {
           this.notifier.trigger("showInfo", "The point is invalid.", 500);

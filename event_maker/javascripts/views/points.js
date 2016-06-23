@@ -41,7 +41,8 @@
         this.start();
         this.listenTo(this, "destroy", this.destroy);
         this.listenTo(this.curveOption, {
-          "change:isShowPoints": this.isShowPointsChanged
+          "change:isShowPoints": this.isShowPointsChanged,
+          "change:eventType": this.eventTypeChanged
         });
         this.listenTo(this.collection, {
           "add": this.addOne,
@@ -122,6 +123,11 @@
         }
         return this;
       };
+      
+      Points.prototype.eventTypeChanged = function(m, value, options) {
+    	 this.collection.dispatchEvent("changeEventType", value);
+    	 return this;
+      }
 
       Points.prototype.toggleWrapper = function() {
         this.isExpanded = !this.isExpanded;

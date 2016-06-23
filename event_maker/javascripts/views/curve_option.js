@@ -58,7 +58,7 @@
           "change:isShowLines": this.changeIsShowLines,
           "change:isFillCurve": this.changeIsFillCurve,
           "change:fillColor": this.changeFillColor,
-          "change:event-type": this.changeEventType
+          "change:eventType": this.changeEventType
         });
         return this;
       };
@@ -121,8 +121,7 @@
       
       CurveOption.prototype.changeEventType = function(m, value, options) {
     	 var $input, $eventType;
-    	 $input = this.$el.find("input[name=event-type]");
-    	 $eventType = $input.val(value);
+    	 $eventType = value;
 
     	 return this;
       }
@@ -162,7 +161,6 @@
 
       CurveOption.prototype.eventTypeAction = function($evt) {
         this.model.set("eventType", $($evt.target).val());
-    	var input;
         return this;
       };
 

@@ -3,12 +3,13 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define([], function() {
+  define(["./event_image"], function() {
     var Point;
     return Point = (function(_super) {
       __extends(Point, _super);
 
       function Point() {
+    	this.changeEventType = __bind(this.changeEventType, this);
         this.rangeUpdated = __bind(this.rangeUpdated, this);
         this._unregisterZone = __bind(this._unregisterZone, this);
         this._registerZone = __bind(this._registerZone, this);
@@ -86,18 +87,21 @@
       };
 
       Point.prototype.initialize = function(options) {
+    	this.INITIAL_LAD_EVENT_PATH = null;
+    	this.eventType = options.curveOption.get("eventType");
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
         this.isShow = options.curveOption.get("isShowPoints");
         this.zones = this.columnManager.retrieveDataForCurrentColumn("zones");
         this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
-        this.initCanvasEl();
+        this.initCanvasEl(options);
         this.start();
         this.listenTo(this.model, {
           "_insertAfterMe": this._insertAfterMe,
           "destroy": this.destroy
         });
         this.listenTo(this.model, {
+          "changeEventType": this.changeEventType,
           "selected": this.selected,
           "unselected": this.unselected,
           "highlight": this.highlight,
@@ -175,37 +179,98 @@
         return this;
       };
 
-      Point.prototype.initCanvasEl = function() {
+      Point.prototype.drawEvent = function(eventType) {
         //this.rEl = this.mainCanvasView.createCircle(this.model.get("x"), this.model.get("y"), this.normalRadius);
         //this.rEl = this.mainCanvasView.createArrow(this.model.get("x"), this.model.get("y"), "LAD");
     	//this.rEl = this.mainCanvasView.createImage  Arrow(this.model.get("x"), this.model.get("y"));
-   	      var x = this.model.get("x");
-    	  var y = this.model.get("y");
-    	  var move = "M " + x + "," + y + " ";
-  	      var newX = x - 15;
-   	      var line = "L " + newX + ", " + y + " ";
-   	      var newY = y - 10;
-   	      var arrow_point = x - 7.5;
-   	      var rest = "L " + arrow_point + "," + newY + " ";
-    	  var dr = move + rest + line;
-          var horizontal_line = move + " " + "L " + 0 + ", " + y + " ";
-          var dr = dr + horizontal_line;
-          
-          this.rEl = this.mainCanvasView.createPath(dr);  
-    	  //this.rEl = this.mainCanvasView.createPath(move+horizontal_line);
+   		  var x = this.model.get("x");
+   		  var y = this.model.get("y");
+    	  if (eventType == "LAD") {
+    		  var move = "M " + x + "," + y + " ";
+    		  var newX = x - 15;
+    		  var line = "L " + newX + ", " + y + " ";
+    		  var newY = y - 10;
+    		  var arrow_point = x - 7.5;
+    		  var rest = "L " + arrow_point + "," + newY + " ";
+    		  var dr = move + rest + line;
+    		  var horizontal_line = move + " " + "L " + 0 + ", " + y + " ";
+    		  var dr = dr + horizontal_line;
+    	  } else if (eventType == "FAD") {
+    		  var move = "M " + x + "," + y + " ";
+    		  var newX = x - 15;
+    		  var line = "L " + newX + ", " + y + " ";
+    		  var newY = y + 10;
+    		  var arrow_point = x - 7.5;
+    		  var rest = "L " + arrow_point + "," + newY + " ";
+    		  var dr = move + rest + line;
+    		  var horizontal_line = move + " " + "L " + 0 + ", " + y + " ";
+    		  var dr = dr + horizontal_line;
+    	  } else if (eventType == "EVENT") {
+    		  
+    	  } else {
+    		  
+    	  }
+
+   		  this.model.set("eventType", eventType);
+    	  
+   		  this.rEl = this.mainCanvasView.createPath(dr);  
           this.rEl.attr({
         	  "stroke": this.normalColor,
         	  "stroke-width": 1,
         	  "fill": "#000000",
         	  "fill-opacity": 5,
           });
+
+          this.INITIAL_LAD_EVENT_PATH= Object.create(this.rEl.attr("path"));
+          
         if (this.isShow) {
           this.show();
         } else {
           this.hide();
         }
+    	  
+      }
+      
+      Point.prototype.initCanvasEl = function(options) {
+    	var $eventType = options.curveOption.get("eventType"); 
+    	this.model.set("curveOption", options.curveOption);
+    	this.drawEvent($eventType);
         return this;
       };
+      
+      Point.prototype.changeEvent = function(eventType) {
+    	  var pathArray = JSON.parse(JSON.stringify(this.rEl.attr("path")));
+    	  // rewriting the path with initial LAD event path
+    	  for (i=0; i < this.INITIAL_LAD_EVENT_PATH.length; i++) {
+    		  for (j=0; j < this.INITIAL_LAD_EVENT_PATH[i].length; j++) {
+    			  pathArray[i][j] = this.INITIAL_LAD_EVENT_PATH[i][j];
+    		  }
+    	  }
+    	  var lineY = pathArray[0][2];
+    	  var diff = pathArray[1][2] - lineY;
+
+    	  if (eventType == "LAD") {
+    	  } else if (eventType == "FAD") {
+    		  pathArray[1][2] = lineY - diff; 
+    	  } else if (eventType == "EVENT") {
+    		  pathArray[2][1] = pathArray[1][1];
+    		  pathArray[2][2] = lineY-diff;
+    	  } else {
+    		  
+    	  }
+
+          this.rEl.attr({
+        	  path: JSON.parse(JSON.stringify(pathArray)) 
+          });
+          
+          return this;
+      }
+      
+      Point.prototype.changeEventType = function(eventType) {
+    	  this.eventType = eventType;
+    	  this.changeEvent(eventType);
+    	  return this;
+      }
 
       Point.prototype.onMouseOver = function() {
         this.$el.addClass('hover');
@@ -270,19 +335,19 @@
       };
 
       Point.prototype.updateFromXY = function(x, y) {
-        var age, relativeX, relativeY, value, zone, _ref, _ref1;
-        _ref = this.ranges.getRelativeXAndValueForX(x), relativeX = _ref[0], value = _ref[1];
-        _ref1 = this.zones.getZoneAndRelativeYAndAgeForY(y), zone = _ref1[0], relativeY = _ref1[1], age = _ref1[2];
-        this.model.set({
-          x: x,
-          y: y,
-          relX: relativeX,
-          value: value,
-          relY: relativeY,
-          zone: zone,
-          age: age
-        });
-        return this;
+    	  var pathArray = JSON.parse(JSON.stringify(this.rEl.attr("path")));
+
+    	  // rewriting the path with initial LAD event path
+    	  for (i=0; i < this.INITIAL_LAD_EVENT_PATH.length; i++) {
+    		  var diff = y - this.INITIAL_LAD_EVENT_PATH[i][2] ;
+    		  pathArray[i][2] = this.INITIAL_LAD_EVENT_PATH[i][2] + y - 400;
+    	  }
+    	  
+    	  this.rEl.attr({
+        	  path: JSON.parse(JSON.stringify(pathArray)) 
+          });
+    	  
+    	  return this;
       };
 
       Point.prototype.onSelect = function(evt) {
