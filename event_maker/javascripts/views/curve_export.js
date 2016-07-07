@@ -14,6 +14,7 @@ define([], function() {
   });
 
   CurveExport.prototype.initialize = function(options) {
+	this.options = options;
     this.mainCanvasView = options.mainCanvasView;
     this.initElements();
 
@@ -96,15 +97,55 @@ define([], function() {
   CurveExport.prototype._renderTextVersion = function() {
     var self = this;
     var output = self.textHeaderTemplate.render();
+    var tmpOutput = "";
     try {
       var rangeMin = this.model.get("ranges").getMinRange().get("value");
       var rangeMax = this.model.get("ranges").getMaxRange().get("value");
-      output += this.model.get("curves").map(function(c){
+      
+      //LAD
+      tmpOutput += this.model.get("curves").map(function(c){
         json = c.toJSON();
         if(rangeMin != null) { json.rangeMin = rangeMin; }
         if(rangeMax != null) { json.rangeMax = rangeMax; }
-        return self.textBodyTemplate.render(json);
+        var eventType = json.option.get("eventType");
+        if (eventType == "LAD")
+        	return self.textBodyTemplate.render(json) + "\n";
       }).join("");
+
+      if (tmpOutput != "") {
+    	  output += "LAD\n" + tmpOutput;
+      }
+      
+      //FAD
+      tmpOutput = "";
+      tmpOutput += this.model.get("curves").map(function(c){
+        json = c.toJSON();
+        if(rangeMin != null) { json.rangeMin = rangeMin; }
+        if(rangeMax != null) { json.rangeMax = rangeMax; }
+        var eventType = json.option.get("eventType");
+        if (eventType == "FAD")
+        	return self.textBodyTemplate.render(json) + "\n";
+      }).join("");
+
+      if (tmpOutput != "") {
+    	  output += "FAD\n" + tmpOutput;
+      }
+      
+      
+      //EVENT
+      tmpOutput = "";
+      tmpOutput += this.model.get("curves").map(function(c){
+        json = c.toJSON();
+        if(rangeMin != null) { json.rangeMin = rangeMin; }
+        if(rangeMax != null) { json.rangeMax = rangeMax; }
+        var eventType = json.option.get("eventType");
+        if (eventType == "EVENT")
+        	return self.textBodyTemplate.render(json) + "\n";
+      }).join("");
+
+      if (tmpOutput != "") {
+    	  output += "EVENT\n" + tmpOutput;
+      }
 
     } catch(err) {
       output = "This column is not ready to be exported!";
@@ -115,7 +156,7 @@ define([], function() {
   CurveExport.prototype.exportToFile = function () {
     var data = this._renderTextVersion();
     var url = 'data:text/plain;charset=utf8,' + encodeURIComponent(data);
-    var filename = "test_output.txt";
+    var filename = "event_datapack.txt";
     var blob = new Blob([data], { type: 'text/plain' });
     var dataUrl = URL.createObjectURL(blob);
     var $link = $("<a/>").attr({

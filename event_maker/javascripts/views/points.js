@@ -42,7 +42,9 @@
         this.listenTo(this, "destroy", this.destroy);
         this.listenTo(this.curveOption, {
           "change:isShowPoints": this.isShowPointsChanged,
-          "change:eventType": this.eventTypeChanged
+          "change:eventType": this.eventTypeChanged,
+          "change:eventLineType": this.eventLineTypeChanged,
+          "change:imageFileEvent": this.imageFileChanged
         });
         this.listenTo(this.collection, {
           "add": this.addOne,
@@ -126,6 +128,16 @@
       
       Points.prototype.eventTypeChanged = function(m, value, options) {
     	 this.collection.dispatchEvent("changeEventType", value);
+    	 return this;
+      }
+
+      Points.prototype.eventLineTypeChanged = function(m, value, options) {
+    	 this.collection.dispatchEvent("changeEventLineType", value);
+    	 return this;
+      }
+
+      Points.prototype.imageFileChanged = function(m, value, options) {
+    	 this.collection.dispatchEvent("changeImage", value);
     	 return this;
       }
 

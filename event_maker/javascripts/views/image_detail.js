@@ -4,11 +4,11 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(["./detail"], function(Detail) {
-    var EventImageDetail;
-    return EventImageDetail = (function(_super) {
-      __extends(EventImageDetail, _super);
+    var BackgroundImageDetail;
+    return BackgroundImageDetail = (function(_super) {
+      __extends(BackgroundImageDetail, _super);
 
-      function EventImageDetail() {
+      function BackgroundImageDetail() {
         this.onIsPreserveAspectRatioChange = __bind(this.onIsPreserveAspectRatioChange, this);
         this.onIsVisibleChange = __bind(this.onIsVisibleChange, this);
         this.onRotationChange = __bind(this.onRotationChange, this);
@@ -19,15 +19,15 @@
         this.updateRotationInput = __bind(this.updateRotationInput, this);
         this.updateCurHeightInput = __bind(this.updateCurHeightInput, this);
         this.updateCurWidthInput = __bind(this.updateCurWidthInput, this);
-        this.changeEventImageAttributes = __bind(this.changeEventImageAttributes, this);
-        this.changeEventImage = __bind(this.changeEventImage, this);
-        this.readEventImage = __bind(this.readEventImage, this);
-        this.loadEventImage = __bind(this.loadEventImage, this);
-        return EventImageDetail.__super__.constructor.apply(this, arguments);
+        this.changeBackgroundImageAttributes = __bind(this.changeBackgroundImageAttributes, this);
+        this.changeBackgroundImage = __bind(this.changeBackgroundImage, this);
+        this.readBackgroundImage = __bind(this.readBackgroundImage, this);
+        this.loadBackgroundImage = __bind(this.loadBackgroundImage, this);
+        return BackgroundImageDetail.__super__.constructor.apply(this, arguments);
       }
 
-      EventImageDetail.prototype.events = {
-        "drop .image-dropbox": "loadEventImage",
+      BackgroundImageDetail.prototype.events = {
+        "drop .image-dropbox": "loadBackgroundImage",
         "change input[name=curWidth]": "onCurWidthChange",
         "change input[name=curHeight]": "onCurHeightChange",
         "change input[name=rotation]": "onRotationChange",
@@ -35,13 +35,13 @@
         "click input[name=isPreserveAspectRatio]": "onIsPreserveAspectRatioChange"
       };
 
-      EventImageDetail.prototype.initialize = function(options) {
-        EventImageDetail.__super__.initialize.call(this, options);
-        this.image = this.columnManager.retrieveDataForCurrentColumn("EventImage");
+      BackgroundImageDetail.prototype.initialize = function(options) {
+        BackgroundImageDetail.__super__.initialize.call(this, options);
+        this.image = this.columnManager.retrieveDataForCurrentColumn("backgroundImage");
         this.listenTo(this.image, {
-          "change:dataURL": this.changeEventImage,
-          "change:curWidth change:curHeight": this.changeEventImageAttributes,
-          "change:rotation change:isVisible": this.changeEventImageAttributes,
+          "change:dataURL": this.changeBackgroundImage,
+          "change:curWidth change:curHeight": this.changeBackgroundImageAttributes,
+          "change:rotation change:isVisible": this.changeBackgroundImageAttributes,
           "change:curWidth": this.updateCurWidthInput,
           "change:curHeight": this.updateCurHeightInput,
           "change:rotation": this.updateRotationInput,
@@ -51,20 +51,20 @@
         return this;
       };
 
-      EventImageDetail.prototype.loadEventImage = function($evt) {
+      BackgroundImageDetail.prototype.loadBackgroundImage = function($evt) {
         var imageFile, reader;
         $evt.preventDefault();
         $evt.stopPropagation();
         if ($evt.originalEvent.dataTransfer.files.length === 1) {
           imageFile = $evt.originalEvent.dataTransfer.files[0];
           reader = new FileReader();
-          reader.onload = this.readEventImage;
+          reader.onload = this.readBackgroundImage;
           reader.readAsDataURL(imageFile);
         }
         return this;
       };
 
-      EventImageDetail.prototype.readEventImage = function(evt) {
+      BackgroundImageDetail.prototype.readBackgroundImage = function(evt) {
         var imageData;
         imageData = evt.target.result;
         this._asyncGetImageDimension((function(_this) {
@@ -81,7 +81,7 @@
         return this;
       };
 
-      EventImageDetail.prototype._asyncGetImageDimension = function(callback, imageData) {
+      BackgroundImageDetail.prototype._asyncGetImageDimension = function(callback, imageData) {
         var img;
         img = new Image();
         $(img).load(function($loadEvt) {
@@ -94,18 +94,18 @@
         return this;
       };
 
-      EventImageDetail.prototype.changeEventImage = function(m, imageData, options) {
-        if (this.rEventImage != null) {
-          this.rEventImage.remove();
+      BackgroundImageDetail.prototype.changeBackgroundImage = function(m, imageData, options) {
+        if (this.rBackgroundImage != null) {
+          this.rBackgroundImage.remove();
         }
-        this.rEventImage = this.mainCanvasView.createImage(imageData);
-        this.rEventImage.toBack();
+        this.rBackgroundImage = this.mainCanvasView.createImage(imageData);
+        this.rBackgroundImage.toBack();
         return this;
       };
 
-      EventImageDetail.prototype.changeEventImageAttributes = function(m, value, options) {
-        if (this.rEventImage != null) {
-          this.rEventImage.attr({
+      BackgroundImageDetail.prototype.changeBackgroundImageAttributes = function(m, value, options) {
+        if (this.rBackgroundImage != null) {
+          this.rBackgroundImage.attr({
             width: m.get("curWidth"),
             height: m.get("curHeight"),
             transform: "r" + (m.get("rotation")),
@@ -113,15 +113,15 @@
             y: 0
           });
           if (m.get("isVisible")) {
-            this.rEventImage.show();
+            this.rBackgroundImage.show();
           } else {
-            this.rEventImage.hide();
+            this.rBackgroundImage.hide();
           }
         }
         return this;
       };
 
-      EventImageDetail.prototype.updateCurWidthInput = function(m, value) {
+      BackgroundImageDetail.prototype.updateCurWidthInput = function(m, value) {
         var $input;
         $input = this.$el.find("input[name=curWidth]");
         if ($input.val() !== value) {
@@ -130,7 +130,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.updateCurHeightInput = function(m, value) {
+      BackgroundImageDetail.prototype.updateCurHeightInput = function(m, value) {
         var $input;
         $input = this.$el.find("input[name=curHeight]");
         if ($input.val() !== value) {
@@ -139,7 +139,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.updateRotationInput = function(m, value) {
+      BackgroundImageDetail.prototype.updateRotationInput = function(m, value) {
         var $input;
         $input = this.$el.find("input[name=rotation]");
         if ($input.val() !== value) {
@@ -148,7 +148,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.updateIsVisibleInput = function(m, value) {
+      BackgroundImageDetail.prototype.updateIsVisibleInput = function(m, value) {
         var $input;
         $input = this.$el.find("input[name=isVisible]");
         if ($input.prop("checked") !== this.image.get("isVisible")) {
@@ -157,7 +157,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.updateIsPreserveAspectRatioInput = function(m, value) {
+      BackgroundImageDetail.prototype.updateIsPreserveAspectRatioInput = function(m, value) {
         var $input;
         $input = this.$el.find("input[name=isPreserveAspectRatio]");
         if ($input.prop("checked") !== this.image.get("isPreserveAspectRatio")) {
@@ -166,7 +166,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.onCurWidthChange = function($evt) {
+      BackgroundImageDetail.prototype.onCurWidthChange = function($evt) {
         var value;
         value = parseInt($($evt.target).val());
         if (this.image.get("isPreserveAspectRatio")) {
@@ -182,7 +182,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.onCurHeightChange = function($evt) {
+      BackgroundImageDetail.prototype.onCurHeightChange = function($evt) {
         var value;
         value = parseInt($($evt.target).val());
         if (this.image.get("isPreserveAspectRatio")) {
@@ -198,7 +198,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.onRotationChange = function($evt) {
+      BackgroundImageDetail.prototype.onRotationChange = function($evt) {
         var value;
         value = parseFloat($($evt.target).val());
         this.image.set({
@@ -207,7 +207,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.onIsVisibleChange = function($evt) {
+      BackgroundImageDetail.prototype.onIsVisibleChange = function($evt) {
         var value;
         value = $($evt.target).prop("checked");
         this.image.set({
@@ -216,7 +216,7 @@
         return this;
       };
 
-      EventImageDetail.prototype.onIsPreserveAspectRatioChange = function($evt) {
+      BackgroundImageDetail.prototype.onIsPreserveAspectRatioChange = function($evt) {
         var value;
         value = $($evt.target).prop("checked");
         this.image.set({
@@ -225,7 +225,7 @@
         return this;
       };
 
-      return EventImageDetail;
+      return BackgroundImageDetail;
 
     })(Detail);
   });

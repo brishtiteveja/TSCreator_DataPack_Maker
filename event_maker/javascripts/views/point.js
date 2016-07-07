@@ -10,6 +10,7 @@
 
       function Point() {
     	this.changeEventType = __bind(this.changeEventType, this);
+    	this.changeImage = __bind(this.changeImage, this);
         this.rangeUpdated = __bind(this.rangeUpdated, this);
         this._unregisterZone = __bind(this._unregisterZone, this);
         this._registerZone = __bind(this._registerZone, this);
@@ -83,12 +84,15 @@
         "click .sublist-cancel-btn": "cancelAction",
         "change input[type=text]": "inputUpdate",
         "mouseover": "onMouseOver",
-        "mouseout": "onMouseOut"
+        "mouseout": "onMouseOut",
       };
-
+      
       Point.prototype.initialize = function(options) {
+        this.image = options.columnManager.retrieveDataForCurrentColumn("eventImage");
+        this.rImage = null;
     	this.INITIAL_LAD_EVENT_PATH = null;
     	this.eventType = options.curveOption.get("eventType");
+    	this.eventLineType = options.curveOption.get("eventLineType");
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
         this.isShow = options.curveOption.get("isShowPoints");
@@ -102,6 +106,8 @@
         });
         this.listenTo(this.model, {
           "changeEventType": this.changeEventType,
+          "changeImage": this.changeImage,
+          "changeEventLineType": this.changeEventLineType,
           "selected": this.selected,
           "unselected": this.unselected,
           "highlight": this.highlight,
@@ -136,6 +142,7 @@
         this.stop();
         this.unselected();
         this.rEl.remove();
+        this.rImage.remove();
         this.remove();
         return this;
       };
@@ -178,6 +185,67 @@
         this.$el.html(this.template(this.model.toJSON()));
         return this;
       };
+
+      Point.prototype.loadEventImage = function($evt) {
+          var imageFile, reader;
+          $evt.preventDefault();
+          $evt.stopPropagation();
+          if ($evt.originalEvent.dataTransfer.files.length === 1) {
+            imageFile = $evt.originalEvent.dataTransfer.files[0];
+            reader = new FileReader();
+            reader.readAsDataURL(imageFile);
+            reader.onload = this.readEventImage.bind(this);
+          }
+          return this;
+        };
+
+      Point.prototype._asyncGetImageDimension = function(callback, imageData) {
+      	  var img;
+      	  img = new Image();
+      	  $(img).load(function($loadEvt) {
+                return callback({
+                  width: img.width,
+                  height: img.height
+                });
+      	  });
+      	  img.src = imageData;
+          
+      	  var width = img.width / 4;
+      	  var height = img.height / 4;
+      	  var offset = 20;
+      	  var x = this.model.get('x') - width - offset;
+      	  var y = this.model.get('y') - height - offset;
+      	  if (this.rImage != null) {
+      		  this.rImage.remove();
+      	  }
+      	  this.rImage = this.mainCanvasView.rPaper.image(imageData, x, y, width, height);
+            
+      	  return this;
+      };
+
+      Point.prototype.readEventImage = function($evt) { //this evt carries the Point class
+          var imageData;
+          imageData = $evt.target.result;
+          this._asyncGetImageDimension((function(_this) {
+            return function(dimension) {
+              return _this.image.set({
+                dataURL: imageData,
+                origWidth: dimension.width,
+                origHeight: dimension.height,
+                curWidth: dimension.width,
+                curHeight: dimension.height
+              });
+            };
+          })(this), imageData);
+          return this;
+      };
+
+
+      Point.prototype.changeImage = function(evt) {
+    	  this.loadEventImage(evt);
+    	  return this;
+      }
+        
 
       Point.prototype.drawEvent = function(eventType) {
         //this.rEl = this.mainCanvasView.createCircle(this.model.get("x"), this.model.get("y"), this.normalRadius);
@@ -238,7 +306,23 @@
         return this;
       };
       
-      Point.prototype.changeEvent = function(eventType) {
+      Point.prototype.changeEvent = function(eventType, eventLineType) {
+    	  if (eventLineType == "solid") {
+    		  this.rEl.attr({
+    			  "stroke-dasharray" : "" 
+    		  });
+    	  } else if (eventLineType == "dotted") {
+    		  this.rEl.attr({
+    			  "stroke-dasharray" : "." 
+    		  });
+    	  } else if (eventLineType == "dashed") {
+    		  this.rEl.attr({
+    			  "stroke-dasharray" : "--" 
+    		  });
+    	  } else {
+    		  console.log("Event Line Type issue.")
+    	  }
+    	  
     	  var pathArray = JSON.parse(JSON.stringify(this.rEl.attr("path")));
     	  // rewriting the path with initial LAD event path
     	  for (i=0; i < this.INITIAL_LAD_EVENT_PATH.length; i++) {
@@ -268,7 +352,13 @@
       
       Point.prototype.changeEventType = function(eventType) {
     	  this.eventType = eventType;
-    	  this.changeEvent(eventType);
+    	  this.changeEvent(eventType, this.eventLineType);
+    	  return this;
+      }
+
+      Point.prototype.changeEventLineType = function(eventLineType) {
+    	  this.eventLineType = eventLineType;
+    	  this.changeEvent(this.eventType, eventLineType);
     	  return this;
       }
 

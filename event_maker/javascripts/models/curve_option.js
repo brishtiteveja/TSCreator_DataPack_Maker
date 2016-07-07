@@ -17,7 +17,11 @@
         isShowLines: false,
         isFillCurve: false,
         fillColor: "#A0EEEE",
-        eventType: "LAD"
+        eventType: "LAD",
+        eventAge: 0, 
+        eventPopup: "",
+        eventLineType: "solid",
+        imageFileEvent: null 
       };
 
       return CurveOption;

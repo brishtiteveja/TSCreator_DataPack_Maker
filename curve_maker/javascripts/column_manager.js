@@ -1,5 +1,5 @@
 (function() {
-  define(["./models/columns", "./views/timelines", "./models/timelines", "./views/zones", "./models/zones", "./views/ranges", "./models/ranges", "./views/curves", "./models/curves", "./models/points", "./views/image_detail", "./models/background_image", "./views/references_detail", "./models/references_detail", "./utils/common_importer", "./utils/common_exporter", "./utils/curve_importer", "./utils/curve_exporter", "./views/curve_export"], function(ColumnCollection, TimelinesView, TimelineCollection, ZonesView, ZoneCollection, RangesView, RangeCollection, CurvesView, CurveCollection, PointCollection, ImageDetailView, BackgroundImageModel, ReferencesDetailView, ReferencesDetailModel, CommonImporter, CommonExporter, CurveImporter, CurveExporter, CurveExportView) {
+  define(["./models/columns", "./views/timelines", "./models/timelines", "./views/zones", "./models/zones", "./views/ranges", "./models/ranges", "./views/curves", "./models/curves", "./models/points", "./views/image_detail", "./models/background_image", "./models/event_image", "./views/references_detail", "./models/references_detail", "./utils/common_importer", "./utils/common_exporter", "./utils/curve_importer", "./utils/curve_exporter", "./views/curve_export"], function(ColumnCollection, TimelinesView, TimelineCollection, ZonesView, ZoneCollection, RangesView, RangeCollection, CurvesView, CurveCollection, PointCollection, ImageDetailView, BackgroundImageModel, EventImageModel, ReferencesDetailView, ReferencesDetailModel, CommonImporter, CommonExporter, CurveImporter, CurveExporter, CurveExportView) {
     var ColumnManager;
     return ColumnManager = (function() {
       function ColumnManager(options) {
@@ -424,6 +424,15 @@
           }),
           viewClazz: ImageDetailView,
           dataClazz: BackgroundImageModel
+        },
+        eventImage: {
+          text: "Image",
+          title: "Set up event image",
+          template: new EJS({
+            url: "templates/image/show"
+          }),
+          viewClazz: ImageDetailView,
+          dataClazz: EventImageModel
         },
         referenceColumns: {
           text: "References",

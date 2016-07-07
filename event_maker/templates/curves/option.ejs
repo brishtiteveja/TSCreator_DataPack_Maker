@@ -3,9 +3,41 @@
   <div>EVENT Options</div>
 </div>
 
+<div class="display-option-detail">
+    <label>Age</label>
+    <input type="number" name="eventAge" value="">
+</div>
+<br/>
+<div class="display-option-detail">
+    <label>Popup</label>
+    <input type="text" name="eventPopup" value="">
+</div>
+<br/>
+
+<div class="display-options-detail">
+   <div>Line Type</div>
+</div>
+<hr>
+
+<div class="display-options-details">
+ 	<input type="radio" name="event-line-type" value="solid" checked="">
+  	<label>solid</label>
+</div>
+
+<div class="display-options-details">
+  	<input type="radio" name="event-line-type" value="dotted">
+  	<label>dotted</label>
+</div>
+
+<div class="display-options-details">
+  	<input type="radio" name="event-line-type" value="dashed">
+  	<label>dashed</label>
+</div>
+
 <div class="display-options-detail">
    <div>Event Type</div>
 </div>
+<hr>
 
 <div class="display-options-details">
  	<input type="radio" name="event-type" value="LAD" checked="">
@@ -22,12 +54,38 @@
   	<label>EVENT</label>
 </div>
 
+<br/>
+
 <div class="display-options-details">
   <div>Change Image</div>
 </div>
+<hr>
 
 <div class="display-options-details">
   <div class="file-dropbox image-dropbox" >
     <span class="data-status">drag &amp; drop your image here</span>
   </div>
+</div>
+
+<div class="row">
+  <div class="multiline-input">
+    <label>Image Width</label>
+    <input type="number" name="curWidth" step="10" min="0" max="10000" value="">
+  </div>
+  <div class="multiline-input">
+    <label>Image Height</label>
+    <input type="number" name="curHeight" step="10" min="0" max="10000" value="">
+  </div>
+  <div class="multiline-input">
+    <label>Rotate</label>
+    <input type="number" name="rotation" step="0.1" min="-180" max="180" value="0">
+  </div>
+</div>
+
+<div class="row">
+  <input type="checkbox" name="isVisible" checked=""><label>Show Image</label>
+</div>
+
+<div class="row">
+  <input type="checkbox" name="isPreserveAspectRatio" checked=""><label>Preserve Aspect Ratio</label>
 </div>

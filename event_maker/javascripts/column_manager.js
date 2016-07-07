@@ -338,7 +338,7 @@
             startEvent: "start:addingCurve",
             stopEvent: "stop:addingCurve"
           },
-          title: "Add a new event"
+          title: "Add a new curve"
         },
         showReferencePanel: {
           name: "show-ref-panel",

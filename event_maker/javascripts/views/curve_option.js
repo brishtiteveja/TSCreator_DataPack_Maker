@@ -13,9 +13,13 @@
         this.updateWrapper = __bind(this.updateWrapper, this);
         this.toggleWrapper = __bind(this.toggleWrapper, this);
         this.destroy = __bind(this.destroy, this);
+        this.eventAgeAction = __bind(this.eventAgeAction, this);
+        this.eventPopupAction = __bind(this.eventPopupAction, this);
+        this.eventLineTypeAction = __bind(this.eventLineTypeAction, this);
         this.fillColorAction = __bind(this.fillColorAction, this);
         this.fillCurveAction = __bind(this.fillCurveAction, this);
         this.eventTypeAction = __bind(this.eventTypeAction, this);
+        this.dropImageAction = __bind(this.dropImageAction, this);
         this.showLinesAction = __bind(this.showLinesAction, this);
         this.showPointsAction = __bind(this.showPointsAction, this);
         this.smoothedAction = __bind(this.smoothedAction, this);
@@ -25,6 +29,10 @@
         this.changeIsShowLines = __bind(this.changeIsShowLines, this);
         this.changeIsShowPoints = __bind(this.changeIsShowPoints, this);
         this.changeIsSmoothed = __bind(this.changeIsSmoothed, this);
+        this.changeImage = __bind(this.changeImage, this);
+        this.changeEventAge = __bind(this.changeEventAge, this);
+        this.changeEventPopup = __bind(this.changeEventPopup, this);
+        this.changeLineType = __bind(this.changeEventPopup, this);
 
         this.detachEl = __bind(this.detachEl, this);
         return CurveOption.__super__.constructor.apply(this, arguments);
@@ -44,8 +52,12 @@
         "click .show-points-btn": "showPointsAction",
         "click .show-lines-btn": "showLinesAction",
         "click .fill-curve-btn": "fillCurveAction",
+        "change input[name=eventAge]": "eventAgeAction",
+        "change input[name=eventPopup]": "eventPopupAction",
         "change input[name=fillColor]": "fillColorAction",
-        "change input[name=event-type]": "eventTypeAction"
+        "change input[name=event-type]": "eventTypeAction",
+        "change input[name=event-line-type]": "eventLineTypeAction",
+        "drop .image-dropbox": "dropImageAction"
       };
 
       CurveOption.prototype.initialize = function(options) {
@@ -58,7 +70,11 @@
           "change:isShowLines": this.changeIsShowLines,
           "change:isFillCurve": this.changeIsFillCurve,
           "change:fillColor": this.changeFillColor,
-          "change:eventType": this.changeEventType
+          "change:eventType": this.changeEventType,
+          "change:eventAge" : this.changeEventAge,
+          "change:eventPopup" : this.changeEventPopup,
+          "change:eventLineType" : this.changeEventLineType,
+          "change:imageFileEvent": this.changeImage
         });
         return this;
       };
@@ -67,6 +83,20 @@
         this.$el.detach();
         return this;
       };
+      
+      CurveOption.prototype.changeImage = function($evt) {
+          var imageFile, reader;
+          console.log("Curve Option Change Image.");
+//          $evt.preventDefault();
+//          $evt.stopPropagation();
+//          if ($evt.originalEvent.dataTransfer.files.length === 1) {
+//            imageFile = $evt.originalEvent.dataTransfer.files[0];
+//            reader = new FileReader();
+//            reader.onload = this.readEventImage;
+//            reader.readAsDataURL(imageFile);
+//          }
+          return this;
+        };
 
       CurveOption.prototype.changeIsSmoothed = function(m, value, options) {
         var $button;
@@ -126,6 +156,26 @@
     	 return this;
       }
 
+      CurveOption.prototype.changeEventLineType = function(m, value, options) {
+    	 var $input, $eventType;
+    	 $eventType = value;
+
+    	 return this;
+      }
+
+      CurveOption.prototype.changeEventAge = function(m, value, options) {
+    	 var $input, $eventAge;
+    	 $eventAge = value;
+
+    	 return this;
+      }
+      CurveOption.prototype.changeEventPopup = function(m, value, options) {
+    	 var $input, $eventPopup;
+    	 $eventPopup = value;
+
+    	 return this;
+      }
+
       CurveOption.prototype.smoothedAction = function($evt) {
         var value;
         value = $($evt.target).hasClass("off");
@@ -161,6 +211,26 @@
 
       CurveOption.prototype.eventTypeAction = function($evt) {
         this.model.set("eventType", $($evt.target).val());
+        return this;
+      };
+
+      CurveOption.prototype.eventAgeAction = function($evt) {
+        this.model.set("eventAge", $($evt.target).val());
+        return this;
+      };
+
+      CurveOption.prototype.eventPopupAction = function($evt) {
+        this.model.set("eventPopup", $($evt.target).val());
+        return this;
+      };
+
+      CurveOption.prototype.dropImageAction = function($evt) {
+        this.model.set("imageFileEvent", $evt);
+        return this;
+      };
+
+      CurveOption.prototype.eventLineTypeAction = function($evt) {
+        this.model.set("eventLineType", $($evt.target).val());
         return this;
       };
 
