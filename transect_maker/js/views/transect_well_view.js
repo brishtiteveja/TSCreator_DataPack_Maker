@@ -104,9 +104,11 @@ define(["baseView"], function (BaseView) {
             }
         });
     };
-
+    
     TransectWellView.prototype.getPath = function () {
-        return "M" + this.transectWell.get('x') + ",0" + 'V' + this.app.height;
+    	var locationY1 = -SMALLINF;
+    	var locationY2 = SMALLINF;
+        return "M" + this.transectWell.get('x') + "," + locationY1 + 'V' + locationY2;
     };
 
     TransectWellView.prototype.dragStart = function (x, y, evt) {

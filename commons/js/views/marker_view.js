@@ -1,5 +1,6 @@
 define(["baseView"], function (BaseView) {
-
+    INF = 5000000;
+    SMALLINF = 1000000;
     var MarkerView = BaseView.extend({
         tagName: 'li',
         classname: "MarkerView",
@@ -100,8 +101,10 @@ define(["baseView"], function (BaseView) {
 
     /*==========  get path string for the marker  ==========*/
     MarkerView.prototype.getPath = function () {
-        var locationX1 = 0;
-        var locationX2 = this.app.width || this.app.Paper.width;
+    	var locationX1 = 0;
+    	var locationX2 = this.app.width || this.app.Paper.width;
+        var locationX1 = -SMALLINF;
+        var locationX2 = SMALLINF;
         var locationY = this.marker.get('y');
         if (this.app.span) {
             var cdts = ViewboxToPaper(this.app, locationX1, locationY);
@@ -123,8 +126,6 @@ define(["baseView"], function (BaseView) {
 
     /*==========  while dragging  ==========*/
     MarkerView.prototype.dragMove = function (dx, dy, x, y, evt) {
-
-
         var locationX = evt.offsetX;
         var locationY = evt.offsetY;
 
