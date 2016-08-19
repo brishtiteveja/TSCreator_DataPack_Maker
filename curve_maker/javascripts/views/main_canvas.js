@@ -54,14 +54,11 @@
 
       MainCanvas.prototype.initialize = function(options) {
         this.masterView = options.masterView;
-        this.curDimension = null;
-        this.curViewBox = {
-          x: 0,
-          y: 0
-        };
         this.$intro = $(this.introTemplate.render());
         this.listenTo(this, "register:view", this.registerSubView);
         this.rPaper = Raphael(this.el, "100%", "100%");
+        this.curDimension = null;
+        this.curViewBox = this.rPaper.canvas.viewBox.baseVal;
         this.initPan();
         this.initZoom();
         return this;
@@ -181,6 +178,28 @@
         return this.rPaper.image.apply(this.rPaper, arguments);
       };
 
+      MainCanvas.prototype.viewBoxToPaper = function(vBox, x, y) {
+    		var width = this.rPaper.width;
+    		var height = this.rPaper.height;
+
+    		var rectWidth = vBox.width;
+    		var rectHeight = vBox.height;
+    		if (width != rectWidth)
+    			width = rectWidth;
+    		if (height != rectHeight)
+    			height = rectHeight;
+
+    		var relX = x / width;
+    		var relY = y / height;
+
+    		var canvasX = vBox.x + Math.round(relX * vBox.width);
+    		var canvasY = vBox.y + Math.round(relY * vBox.height);
+    		return {
+    			x: canvasX,
+    			y: canvasY
+    		};
+    	}
+      
       MainCanvas.prototype.getCurrentPositionFromOffset = function(dx, dy) {
         return {
           x: this.curViewBox.x + (dx * this.zoomMultiplier),
@@ -197,7 +216,8 @@
           dx = evt.layerX;
           dy = evt.layerY;
         }
-        return this.getCurrentPositionFromOffset(dx, dy);
+        //return this.getCurrentPositionFromOffset(dx, dy);
+        return this.viewBoxToPaper(this.curViewBox, evt.offsetX, evt.offsetY);
       };
 
       MainCanvas.prototype.initPan = function() {
@@ -261,7 +281,7 @@
       };
 
       MainCanvas.prototype.zoomIn = function() {
-        if (this.zoom < 25) {
+        if (this.zoom < 250) {
           this.zoom += 1;
           this.zoomMultiplier = this.defaultZoom / this.zoom;
           this.zoomUpdate();
@@ -272,7 +292,7 @@
       };
 
       MainCanvas.prototype.zoomOut = function() {
-        if (this.zoom > 1) {
+        if (this.zoom > -250) {
           this.zoom -= 1;
           this.zoomMultiplier = this.defaultZoom / this.zoom;
           this.zoomUpdate();
@@ -284,8 +304,10 @@
 
       MainCanvas.prototype.zoomUpdate = function() {
         this.rPaper.setViewBox(this.curViewBox.x, this.curViewBox.y, this.curDimension.width * this.zoomMultiplier, this.curDimension.height * this.zoomMultiplier);
+        this.trigger("viewBoxChanged", this.curViewBox);
         this.masterView.trigger("showInfo", "Zoom: " + (Math.round((1 / this.zoomMultiplier) * 100)) + "%", 50);
         this.trigger("zoomMultiplierChanged", this.zoomMultiplier);
+   
         return this;
       };
 
