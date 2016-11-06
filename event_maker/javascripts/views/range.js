@@ -48,7 +48,9 @@
 
       Range.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
+        this.ranges = options.ranges;
         this.template = options.template;
+        this.options = options;
         this.initCanvasEl();
         this.listenTo(this.model, {
           "highlight": this.highlight,
@@ -169,6 +171,18 @@
         this.model.set({
           x: locationX
         });
+
+        var curves = this.ranges.curves;
+
+        for(var i=0; i < curves.length; i++) {
+            var curve = curves.at(i); 
+            var points = curve.get("points");
+            var point = points.models[0];
+            var eventType = point.get("eventType");
+            var eventPath = point.get("eventPath");
+            this.ranges.curves.at(i).get("points").models[0].get("eventPath")[4][1] = locationX;
+        }
+
         return this;
       };
 

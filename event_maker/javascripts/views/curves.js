@@ -54,6 +54,7 @@
         } else {
           this.curves.at(i - 1).trigger("_insertAfterMe", newChildView);
         }
+        this.ranges.curves = this.curves;
         return this;
       };
 

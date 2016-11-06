@@ -23,6 +23,7 @@
       Ranges.prototype.initialize = function(options) {
         Ranges.__super__.initialize.call(this, options);
         this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
+        this.ranges.curves = null;
         this.listenTo(this.ranges, "add", this.addOne);
         this.listenTo(this.ranges, "remove", this.removeOne);
         this.overlay = this.mainCanvasView.createInfiniteOverlay();
@@ -38,7 +39,8 @@
         newRangeView = new RangeView({
           model: m,
           template: this.template,
-          mainCanvasView: this.mainCanvasView
+          mainCanvasView: this.mainCanvasView,
+          ranges: this.ranges
         }).render();
         this.$el.append(newRangeView.el);
         return this;

@@ -253,7 +253,9 @@
     	//this.rEl = this.mainCanvasView.createImage  Arrow(this.model.get("x"), this.model.get("y"));
    		  var x = this.model.get("x");
    		  var y = this.model.get("y");
-    	  if (eventType == "LAD") {
+          var leftRangeX = this.ranges.getLeftRange().get('x');
+          var rightRangeX = this.ranges.getRightRange().get('x');
+    	  if (eventType == "FAD") {
     		  var move = "M " + x + "," + y + " ";
     		  var newX = x - 15;
     		  var line = "L " + newX + ", " + y + " ";
@@ -261,9 +263,9 @@
     		  var arrow_point = x - 7.5;
     		  var rest = "L " + arrow_point + "," + newY + " ";
     		  var dr = move + rest + line;
-    		  var horizontal_line = move + " " + "L " + 0 + ", " + y + " ";
+    		  var horizontal_line = move + " " + "L " + rightRangeX + ", " + y + " ";
     		  var dr = dr + horizontal_line;
-    	  } else if (eventType == "FAD") {
+    	  } else if (eventType == "LAD") {
     		  var move = "M " + x + "," + y + " ";
     		  var newX = x - 15;
     		  var line = "L " + newX + ", " + y + " ";
@@ -271,7 +273,7 @@
     		  var arrow_point = x - 7.5;
     		  var rest = "L " + arrow_point + "," + newY + " ";
     		  var dr = move + rest + line;
-    		  var horizontal_line = move + " " + "L " + 0 + ", " + y + " ";
+    		  var horizontal_line = move + " " + "L " + leftRangeX + ", " + y + " ";
     		  var dr = dr + horizontal_line;
     	  } else if (eventType == "EVENT") {
     		  
@@ -290,6 +292,8 @@
           });
 
           this.INITIAL_LAD_EVENT_PATH= Object.create(this.rEl.attr("path"));
+
+          this.model.set("eventPath", this.rEl.attr("path"));
           
         if (this.isShow) {
           this.show();
