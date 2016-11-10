@@ -142,7 +142,8 @@
         this.stop();
         this.unselected();
         this.rEl.remove();
-        this.rImage.remove();
+        if (this.rImage != null)
+            this.rImage.remove();
         this.remove();
         return this;
       };

@@ -2,10 +2,10 @@ define([], function() {
   var CurveExport = Backbone.View.extend({
     tagName: "div",
     className: "data-export-panel",
-    template: new EJS({ url: "templates/curves/export.ejs" }),
-    htmlBodyTemplate: new EJS({ url: "templates/curves/export_body.html" }),
-    textHeaderTemplate: new EJS({ url: "templates/curves/export_header.text" }),
-    textBodyTemplate: new EJS({ url: "templates/curves/export_body.text" }),
+    template: new EJS({ url: "templates/events/export.ejs" }),
+    htmlBodyTemplate: new EJS({ url: "templates/events/export_body.html" }),
+    textHeaderTemplate: new EJS({ url: "templates/events/export_header.text" }),
+    textBodyTemplate: new EJS({ url: "templates/events/export_body.text" }),
     events: {
       "click .export-btn": "exportToFile",
       "click .show-html": "showHtmlVersion",
