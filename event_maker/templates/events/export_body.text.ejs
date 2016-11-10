@@ -1,1 +1,16 @@
-	<%= this.name %><% points.each(function(p) { %>	<%= option.get("eventAge") %>	<%= option.get("eventLineType") %>	CALIBRATION = <%= (+(p.get("relY") +'e2')).toFixed(2) + "%" %> up	<%= option.get("eventPopup") %> <% }) %>
+	<%= this.name %> <% 
+        points.each(function(p) { %>	<%= 
+            option.get("eventAge") %>	<%= 
+            option.get("eventLineType") 
+            %><%
+            if(p.get('zone').get('name')) {
+                %>	CALIBRATION = <%=
+                    (+(p.get("relY") +'e2')).toFixed(2) + "%" 
+                    %> up in <%= 
+                    p.get('zone').get('name') %> zone <% 
+            } else{ 
+            %><% } %><%= 
+            option.get("eventPopup") 
+            %><% 
+        }) 
+    %>

@@ -109,7 +109,7 @@ define([], function() {
         if(rangeMax != null) { json.rangeMax = rangeMax; }
         var eventType = json.option.get("eventType");
         if (eventType == "LAD")
-        	return self.textBodyTemplate.render(json) + "\n";
+        	return self.textBodyTemplate.render(json);
       }).join("");
 
       if (tmpOutput != "") {
@@ -124,7 +124,7 @@ define([], function() {
         if(rangeMax != null) { json.rangeMax = rangeMax; }
         var eventType = json.option.get("eventType");
         if (eventType == "FAD")
-        	return self.textBodyTemplate.render(json) + "\n";
+        	return self.textBodyTemplate.render(json);
       }).join("");
 
       if (tmpOutput != "") {
@@ -140,7 +140,7 @@ define([], function() {
         if(rangeMax != null) { json.rangeMax = rangeMax; }
         var eventType = json.option.get("eventType");
         if (eventType == "EVENT")
-        	return self.textBodyTemplate.render(json) + "\n";
+        	return self.textBodyTemplate.render(json);
       }).join("");
 
       if (tmpOutput != "") {
