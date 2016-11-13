@@ -46,11 +46,11 @@
   <ul>
     <li>Transect Maker (Dev) - <a href="./transect_maker/html/transect_min.html" target="_blank">link</a></li>
     <li>Curve Maker (Dev) - <a href="./curve_maker" target="_blank">link</a></li>
-    <li>Lithology (Facies-map) Maker (Dev) - <a href="/lithology_column_maker/html/lithology_column_maker_min.html" target="_blank">link</a></li>
-    <li>Block Maker (Dev) - <a href="/block_column_maker/html/block_column_maker_min.html" target="_blank">link</a></li>
-    <li>Reference Column Maker (Dev) - <a href="/reference_column_maker/html/reference_column_maker_min.html" target="_blank">link</a></li>
-    <li>Evolution Tree Maker (Dev) - <a href="/evtree_maker/html/index.html" target="_blank">link</a></li>
     <li>Event Maker (Dev) - <a href="./event_maker" target="_blank">link</a></li>
+    <li>Evolution Tree Maker (Dev) - <a href="./evtree_maker/html/index.html" target="_blank">link</a></li>
+    <li>Lithology (Facies-map) Maker (Dev) - <a href="./lithology_column_maker/html/lithology_column_maker_min.html" target="_blank">link</a></li>
+    <li>Block Maker (Dev) - <a href="./block_column_maker/html/block_column_maker_min.html" target="_blank">link</a></li>
+    <li>Reference Column Maker (Dev) - <a href="./reference_column_maker/html/reference_column_maker_min.html" target="_blank">link</a></li>
   </ul>
 
   <h1>Online Servers</h1>
