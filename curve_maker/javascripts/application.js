@@ -1,6 +1,6 @@
 (function() {
   require.config({
-    baseUrl: "/curve_maker/javascripts",
+    baseUrl: "../curve_maker/javascripts",
     urlArgs: "nocache=" + (new Date()).getTime(),
     paths: {
       "views": "views",
