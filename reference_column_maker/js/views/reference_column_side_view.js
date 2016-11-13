@@ -88,7 +88,7 @@ define([
 		this.$refPanel.html(this.template.render({}));
 		this.app.refCol.$canvas = $("#ref-canvas");
 		this.$canvas = this.app.refCol.$canvas;
-		this.app.refCol.Paper = new Raphael(this.$canvas[0], 0, 0);
+		this.app.refCol.Paper = new Raphael(this.$canvas, 0, 0);
 
 		// 
 		this.app.refCol.MarkersSet = this.app.refCol.Paper.set();

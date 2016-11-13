@@ -5,7 +5,7 @@ define(["baseView", "zoneView", "zone"], function(BaseView, ZoneView, Zone) {
 	});
 
 	ZonesView.prototype.template = new EJS({
-		url: '../../../commons/ejs/data_tbl.ejs'
+		url: '../../commons/ejs/data_tbl.ejs'
 	});
 
 	ZonesView.prototype.initialize = function(app) {
