@@ -10,6 +10,7 @@
 
       function Point() {
     	this.changeEventType = __bind(this.changeEventType, this);
+    	this.changeEventLineType = __bind(this.changeEventLineType, this);
     	this.changeImage = __bind(this.changeImage, this);
         this.rangeUpdated = __bind(this.rangeUpdated, this);
         this._unregisterZone = __bind(this._unregisterZone, this);
@@ -88,6 +89,7 @@
       };
       
       Point.prototype.initialize = function(options) {
+        this.curveOption = options.curveOption;
         this.image = options.columnManager.retrieveDataForCurrentColumn("eventImage");
         this.rImage = null;
     	this.INITIAL_LAD_EVENT_PATH = null;
@@ -100,14 +102,20 @@
         this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
         this.initCanvasEl(options);
         this.start();
+
+        this.listenTo(this.curveOption,
+        {
+          "change:eventType": this.changeEventType,
+          "change:eventLineType": this.changeEventLineType,
+          "change:imageFileEvent": this.changeImage
+        });
+
         this.listenTo(this.model, {
           "_insertAfterMe": this._insertAfterMe,
           "destroy": this.destroy
         });
+
         this.listenTo(this.model, {
-          "changeEventType": this.changeEventType,
-          "changeImage": this.changeImage,
-          "changeEventLineType": this.changeEventLineType,
           "selected": this.selected,
           "unselected": this.unselected,
           "highlight": this.highlight,
@@ -119,6 +127,7 @@
           "change:x": this.updateRElPosition,
           "change:y": this.updateRElPosition
         });
+
         this.listenTo(this.model, {
           "change:x": this.render,
           "change:y": this.render,
@@ -128,6 +137,7 @@
           "change:age": this.render,
           "change:zone": this.zoneChanged
         });
+
         this._registerZone(this.model.get("zone"));
         this.listenTo(this.zones, "updated", this.zoneUpdated);
         this.listenTo(this.ranges, "updated", this.rangeUpdated);
@@ -135,6 +145,7 @@
           "start:addingCurve": this.start,
           "stop:addingCurve": this.stop
         });
+
         return this;
       };
 
@@ -249,9 +260,6 @@
         
 
       Point.prototype.drawEvent = function(eventType) {
-        //this.rEl = this.mainCanvasView.createCircle(this.model.get("x"), this.model.get("y"), this.normalRadius);
-        //this.rEl = this.mainCanvasView.createArrow(this.model.get("x"), this.model.get("y"), "LAD");
-    	//this.rEl = this.mainCanvasView.createImage  Arrow(this.model.get("x"), this.model.get("y"));
    		  var x = this.model.get("x");
    		  var y = this.model.get("y");
           var leftRangeX = this.ranges.getLeftRange().get('x');
@@ -355,15 +363,15 @@
           return this;
       }
       
-      Point.prototype.changeEventType = function(eventType) {
-    	  this.eventType = eventType;
-    	  this.changeEvent(eventType, this.eventLineType);
+      Point.prototype.changeEventType = function() {
+          this.eventType = this.curveOption.get("eventType");
+    	  this.changeEvent(this.eventType, this.eventType);
     	  return this;
       }
 
-      Point.prototype.changeEventLineType = function(eventLineType) {
-    	  this.eventLineType = eventLineType;
-    	  this.changeEvent(this.eventType, eventLineType);
+      Point.prototype.changeEventLineType = function() {
+          this.eventLineType = this.curveOption.get("eventLineType");
+    	  this.changeEvent(this.eventType, this.eventLineType);
     	  return this;
       }
 

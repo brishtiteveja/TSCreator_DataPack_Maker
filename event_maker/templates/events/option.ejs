@@ -20,18 +20,14 @@
 <hr>
 
 <div class="display-options-details">
- 	<input type="radio" name="event-line-type" value="solid" checked="">
-  	<label>solid</label>
-</div>
-
-<div class="display-options-details">
-  	<input type="radio" name="event-line-type" value="dotted">
-  	<label>dotted</label>
-</div>
-
-<div class="display-options-details">
-  	<input type="radio" name="event-line-type" value="dashed">
-  	<label>dashed</label>
+  <form>
+ 	<input type="radio" id="<%= name %>" name="event-line-type" value="solid" checked="">
+  	<label>solid</label> <br>
+  	<input type="radio" id="<%= name %>"  name="event-line-type" value="dotted">
+  	<label>dotted</label> <br>
+  	<input type="radio" id="<%= name %>" name="event-line-type" value="dashed">
+  	<label>dashed</label> <br>
+ </form>
 </div>
 
 <div class="display-options-detail">
@@ -40,18 +36,14 @@
 <hr>
 
 <div class="display-options-details">
- 	<input type="radio" name="event-type" value="LAD" checked="">
-  	<label>LAD</label>
-</div>
-
-<div class="display-options-details">
-  	<input type="radio" name="event-type" value="FAD">
-  	<label>FAD</label>
-</div>
-
-<div class="display-options-details">
-  	<input type="radio" name="event-type" value="EVENT">
-  	<label>EVENT</label>
+  <form>
+ 	<input type="radio" id="<%= name %>"  name="event-type" value="LAD" checked="">
+  	<label>LAD</label><br>
+  	<input type="radio" id="<%= name %>" name="event-type" value="FAD">
+  	<label>FAD</label><br>
+  	<input type="radio" id="<%= name %>" name="event-type" value="EVENT">
+  	<label>EVENT</label><br>
+ </form>
 </div>
 
 <br/>
@@ -70,22 +62,22 @@
 <div class="row">
   <div class="multiline-input">
     <label>Image Width</label>
-    <input type="number" name="curWidth" step="10" min="0" max="10000" value="">
+    <input type="number" id="<%= name %>" name="curWidth" step="10" min="0" max="10000" value="">
   </div>
   <div class="multiline-input">
     <label>Image Height</label>
-    <input type="number" name="curHeight" step="10" min="0" max="10000" value="">
+    <input type="number" id="<%= name %>" name="curHeight" step="10" min="0" max="10000" value="">
   </div>
   <div class="multiline-input">
     <label>Rotate</label>
-    <input type="number" name="rotation" step="0.1" min="-180" max="180" value="0">
+    <input type="number" id="<%= name %>" name="rotation" step="0.1" min="-180" max="180" value="0">
   </div>
 </div>
 
 <div class="row">
-  <input type="checkbox" name="isVisible" checked=""><label>Show Image</label>
+  <input type="checkbox" id="<%= name %>" name="isVisible" checked=""><label>Show Image</label>
 </div>
 
 <div class="row">
-  <input type="checkbox" name="isPreserveAspectRatio" checked=""><label>Preserve Aspect Ratio</label>
+  <input type="checkbox" id="<%= name %>" name="isPreserveAspectRatio" checked=""><label>Preserve Aspect Ratio</label>
 </div>

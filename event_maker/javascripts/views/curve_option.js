@@ -41,7 +41,7 @@
       CurveOption.prototype.className = "display-options";
 
       CurveOption.prototype.template = new EJS({
-        url: "templates/curves/option"
+        url: "templates/events/option"
       });
 
       CurveOption.prototype.isExpanded = true;
@@ -52,9 +52,9 @@
         "click .show-points-btn": "showPointsAction",
         "click .show-lines-btn": "showLinesAction",
         "click .fill-curve-btn": "fillCurveAction",
+        "change input[name=fillColor]": "fillColorAction",
         "change input[name=eventAge]": "eventAgeAction",
         "change input[name=eventPopup]": "eventPopupAction",
-        "change input[name=fillColor]": "fillColorAction",
         "change input[name=event-type]": "eventTypeAction",
         "change input[name=event-line-type]": "eventLineTypeAction",
         "drop .image-dropbox": "dropImageAction"
