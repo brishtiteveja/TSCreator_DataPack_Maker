@@ -12,6 +12,7 @@
       }
 
       CurveOption.prototype.defaults = {
+        name: "Option " + (_.uniqueId()),
         isSmoothed: true,
         isShowPoints: true,
         isShowLines: false,
