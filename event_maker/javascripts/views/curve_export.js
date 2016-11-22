@@ -95,6 +95,8 @@ define([], function() {
   };
 
   CurveExport.prototype._renderTextVersion = function() {
+    var options = this.model.get("options");
+
     var self = this;
     var output = self.textHeaderTemplate.render();
     var tmpOutput = "";
@@ -163,9 +165,25 @@ define([], function() {
       'download': filename,
       'href': dataUrl
     });
+
     $link[0].click();
+    $link[0].onclick = this.exportImages();
     $link.remove();
   };
+  CurveExport.prototype.exportImages = function() {
+      console.log("hello");
+
+      this.model.get("curves").map(function(c){
+         json = c.toJSON();
+         var imgName = json.option.get('imageFileName');
+         var imgType = json.option.get('imageFileType');
+         var imgData = json.option.get('imageData');
+         var blob = new Blob([imgData], { type: imgType });
+         var dataUrl = URL.createObjectURL(blob);
+      });
+
+      return this;
+  }
 
   CurveExport.prototype.detachEl = function() {
     this.$el.detach();

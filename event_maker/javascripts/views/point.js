@@ -3,7 +3,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./event_image"], function() {
+  define([], function() {
     var Point;
     return Point = (function(_super) {
       __extends(Point, _super);
@@ -90,7 +90,7 @@
       
       Point.prototype.initialize = function(options) {
         this.curveOption = options.curveOption;
-        this.image = options.columnManager.retrieveDataForCurrentColumn("eventImage");
+        this.imageSource = null;
         this.rImage = null;
     	this.INITIAL_LAD_EVENT_PATH = null;
     	this.eventType = options.curveOption.get("eventType");
@@ -200,16 +200,40 @@
 
       Point.prototype.loadEventImage = function($evt) {
           var imageFile, reader;
-          $evt.preventDefault();
-          $evt.stopPropagation();
-          if ($evt.originalEvent.dataTransfer.files.length === 1) {
-            imageFile = $evt.originalEvent.dataTransfer.files[0];
+          var e = $evt.get('imageFileEvent')
+          if (e.originalEvent.dataTransfer.files.length === 1) {
+            imageFile = e.originalEvent.dataTransfer.files[0];
+            this.curveOption.set('imageFileName', imageFile.name);
+            this.curveOption.set('imageFileType', imageFile.type);
             reader = new FileReader();
             reader.readAsDataURL(imageFile);
             reader.onload = this.readEventImage.bind(this);
           }
           return this;
         };
+
+      Point.prototype.drawImage = function() {
+      	  var width = 80;
+      	  var height = 80;
+      	  var offset = 20;
+
+          var leftRangeX = this.ranges.getLeftRange().get('x');
+          var rightRangeX = this.ranges.getRightRange().get('x');
+
+          if (this.eventType == 'FAD' || this.eventType == 'EVENT') {
+      	    var x = this.model.get('x') - width - offset;
+      	    var y = this.model.get('y') - height - offset;
+          } else if (this.eventType == 'LAD'){
+      	    var x = this.model.get('x') + offset;
+      	    var y = this.model.get('y') - height - offset;
+          }
+      	  if (this.rImage != null) {
+      		  this.rImage.remove();
+      	  }
+      	  this.rImage = this.mainCanvasView.rPaper.image(this.imageSource, x, y, width, height);
+      
+          return this;
+      }
 
       Point.prototype._asyncGetImageDimension = function(callback, imageData) {
       	  var img;
@@ -221,16 +245,10 @@
                 });
       	  });
       	  img.src = imageData;
+
+          this.imageSource = img.src;
           
-      	  var width = img.width / 4;
-      	  var height = img.height / 4;
-      	  var offset = 20;
-      	  var x = this.model.get('x') - width - offset;
-      	  var y = this.model.get('y') - height - offset;
-      	  if (this.rImage != null) {
-      		  this.rImage.remove();
-      	  }
-      	  this.rImage = this.mainCanvasView.rPaper.image(imageData, x, y, width, height);
+          this.drawImage();
             
       	  return this;
       };
@@ -238,15 +256,10 @@
       Point.prototype.readEventImage = function($evt) { //this evt carries the Point class
           var imageData;
           imageData = $evt.target.result;
+          this.curveOption.set('imageData', imageData);
           this._asyncGetImageDimension((function(_this) {
             return function(dimension) {
-              return _this.image.set({
-                dataURL: imageData,
-                origWidth: dimension.width,
-                origHeight: dimension.height,
-                curWidth: dimension.width,
-                curHeight: dimension.height
-              });
+                console.log("Image drawing succeeded.");
             };
           })(this), imageData);
           return this;
@@ -342,6 +355,11 @@
           }*/
 
           this.model.set("eventPath", this.rEl.attr("path"));
+
+          if (this.rImage != null)
+              this.rImage.remove();
+
+          this.drawImage();
           
         if (this.isShow) {
           this.show();
