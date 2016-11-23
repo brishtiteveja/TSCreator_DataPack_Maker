@@ -40,17 +40,17 @@
         this.mainCanvasView = options.mainCanvasView;
         this.start();
         this.listenTo(this, "destroy", this.destroy);
+
         this.listenTo(this.curveOption, {
           "change:isShowPoints": this.isShowPointsChanged,
-          "change:eventType": this.eventTypeChanged,
-          "change:eventLineType": this.eventLineTypeChanged,
-          "change:imageFileEvent": this.imageFileChanged
         });
+
         this.listenTo(this.collection, {
           "add": this.addOne,
           "remove": this.removeOne,
           "destroyAll": this.destroyAll
         });
+
         this.listenTo(this.mainCanvasView, {
           "start:addingCurve": this.start,
           "stop:addingCurve": this.stop
@@ -126,21 +126,6 @@
         return this;
       };
       
-      Points.prototype.eventTypeChanged = function(m, value, options) {
-    	 this.collection.dispatchEvent("changeEventType", value);
-    	 return this;
-      }
-
-      Points.prototype.eventLineTypeChanged = function(m, value, options) {
-    	 this.collection.dispatchEvent("changeEventLineType", value);
-    	 return this;
-      }
-
-      Points.prototype.imageFileChanged = function(m, value, options) {
-    	 this.collection.dispatchEvent("changeImage", value);
-    	 return this;
-      }
-
       Points.prototype.toggleWrapper = function() {
         this.isExpanded = !this.isExpanded;
         this.updateWrapper();

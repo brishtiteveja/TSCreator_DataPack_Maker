@@ -95,6 +95,8 @@ define([], function() {
   };
 
   CurveExport.prototype._renderTextVersion = function() {
+    var options = this.model.get("options");
+
     var self = this;
     var output = self.textHeaderTemplate.render();
     var tmpOutput = "";
@@ -158,14 +160,64 @@ define([], function() {
     var url = 'data:text/plain;charset=utf8,' + encodeURIComponent(data);
     var filename = "event_datapack.txt";
     var blob = new Blob([data], { type: 'text/plain' });
-    var dataUrl = URL.createObjectURL(blob);
-    var $link = $("<a/>").attr({
-      'download': filename,
-      'href': dataUrl
-    });
-    $link[0].click();
-    $link.remove();
+
+    var files = [];
+    var fileNames = [];
+    files.push(blob);
+    fileNames.push(filename);
+    this.createAndSaveZipFile(files, fileNames);
+
+    return this;
   };
+
+  CurveExport.prototype.createAndSaveZipFile = function(files, fileNames) {
+      zip.workerScriptsPath = "../commons/js/lib/zip/WebContent/"
+      var writer = new zip.BlobWriter("application/zip");
+
+      this.model.get("curves").map(function(c) {
+          json = c.toJSON();
+          var imgFile = json.option.get('imageData');
+          var imgFileName = json.option.get('imageFileName');
+          fileNames.push(imgFileName);
+
+          var arr = imgFile.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+          while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+          blob = new Blob([u8arr], {type:mime});
+          files.push(blob);
+      });
+
+      zip.createWriter(writer, function(writer) {
+            var f = 0;
+
+            function nextFile(f, files, fileNames) {
+                fblob = files[f];
+                writer.add(fileNames[f], new zip.BlobReader(fblob), function() {
+                    f++;
+                    if (f < files.length) {
+                        nextFile(f, files, fileNames);
+                    } else 
+                        close();
+                });
+            }
+
+            function close() {
+                writer.close(function(blob) {
+                    saveAs(blob, "event_datapack.zip");
+                });
+            }
+
+            nextFile(f, files, fileNames);
+        },
+        function(message) {
+            console.log(message);
+      });
+
+
+      return this;
+  }
 
   CurveExport.prototype.detachEl = function() {
     this.$el.detach();
