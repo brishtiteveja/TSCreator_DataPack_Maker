@@ -69,6 +69,13 @@
           "start:addingRange": this.start,
           "stop:addingRange": this.stop
         });
+
+        if (this.model.isRight()) {
+            this.model.set("value", 100);
+        }
+        if (this.model.isLeft()) {
+            this.model.set("value", 0);
+        }
         return this;
       };
 

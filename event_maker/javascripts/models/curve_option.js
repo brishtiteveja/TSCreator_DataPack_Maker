@@ -22,7 +22,10 @@
         eventAge: 0, 
         eventPopup: "",
         eventLineType: "solid",
-        imageFileEvent: null 
+        imageFile: null,
+        imageFileName: "", 
+        imageFileType: "", 
+        imageData:null
       };
 
       return CurveOption;
