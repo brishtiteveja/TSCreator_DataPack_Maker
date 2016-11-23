@@ -203,6 +203,7 @@
           var e = $evt.get('imageFileEvent')
           if (e.originalEvent.dataTransfer.files.length === 1) {
             imageFile = e.originalEvent.dataTransfer.files[0];
+            this.curveOption.set('imageFile', imageFile);
             this.curveOption.set('imageFileName', imageFile.name);
             this.curveOption.set('imageFileType', imageFile.type);
             reader = new FileReader();
@@ -586,7 +587,7 @@
       };
 
       Point.prototype.rangeUpdated = function() {
-        this.updateFromModel();
+        //this.updateFromModel();
         return this;
       };
 

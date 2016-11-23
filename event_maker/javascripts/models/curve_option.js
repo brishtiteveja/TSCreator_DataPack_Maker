@@ -22,6 +22,7 @@
         eventAge: 0, 
         eventPopup: "",
         eventLineType: "solid",
+        imageFile: null,
         imageFileName: "", 
         imageFileType: "", 
         imageData:null
