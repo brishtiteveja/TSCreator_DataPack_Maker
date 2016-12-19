@@ -67,7 +67,6 @@ h1,h2,h3,h4,h5,h6 {
   margin-bottom: 0.5rem;
   line-height: 1.4;
 }
-
 input[type="text"],input[type="password"],input[type="date"],input[type="datetime"],input[type="datetime-local"],input[type="month"],input[type="week"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="time"],input[type="url"],textarea {
   border: 1px solid #CCCCCC;
   color: rgba(0,0,0,0.75);
@@ -76,6 +75,10 @@ input[type="text"],input[type="password"],input[type="date"],input[type="datetim
 
 input[type="number"] {
   text-align: left;
+}
+
+input#eventPopup {
+    height: 50px;
 }
 
 .colmask {
