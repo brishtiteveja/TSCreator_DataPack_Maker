@@ -166,6 +166,8 @@
       CurveOption.prototype.changeEventAge = function(m, value, options) {
     	 var $input, $eventAge;
     	 $eventAge = value;
+         $input = this.$el.find("input[name=eventAge]");
+         $input.val($eventAge);
 
     	 return this;
       }
