@@ -109,6 +109,7 @@
 
         this.listenTo(this.curveOption,
         {
+          "change:eventName": this.changeEventName,
           "change:eventAge": this.changeEventAge,
           "change:eventType": this.changeEventType,
           "change:eventLineType": this.changeEventLineType,
@@ -158,6 +159,7 @@
         this.stop();
         this.unselected();
         this.rEl.remove();
+        this.rElText.remove();
         if (this.rImage != null)
             this.rImage.remove();
         this.remove();
@@ -349,6 +351,9 @@
         	  "fill-opacity": 5,
           });
 
+          var eventName = this.curveOption.get("eventName");
+          this.rElText = this.mainCanvasView.createText(x, y + 20, eventName);
+
     	  if (eventLineType == "solid") {
     		  this.rEl.attr({
     			  "stroke-dasharray" : "" 
@@ -419,6 +424,14 @@
         return this;
       };
 
+      Point.prototype.changeEventName = function() {
+        this.eventName = this.curveOption.get("eventName"); 
+        this.rElText.attr({"text":this.eventName});
+        console.log("Event Name changed");
+        
+        return this; 
+      }
+
       Point.prototype.changeEventAge = function() {
         this.eventAge = this.curveOption.get("eventAge"); 
         console.log("Event Age changed");
@@ -429,6 +442,7 @@
       Point.prototype.changeEventType = function() {
           this.eventType = this.curveOption.get("eventType");
           this.rEl.remove();
+          this.rElText.remove();
     	  this.drawEvent(this.eventType, this.eventLineType);
     	  return this;
       }
@@ -436,6 +450,7 @@
       Point.prototype.changeEventLineType = function() {
           this.eventLineType = this.curveOption.get("eventLineType");
           this.rEl.remove();
+          this.rElText.remove();
     	  this.drawEvent(this.eventType, this.eventLineType);
     	  return this;
       }
