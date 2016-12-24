@@ -53,6 +53,8 @@
       };
 
       MainCanvas.prototype.initialize = function(options) {
+        this.columnManager = options.columnManager;
+        this.drawRangeAtStart = options.drawRangeAtStart;
         this.masterView = options.masterView;
         this.curDimension = null;
         this.curViewBox = {
@@ -70,6 +72,8 @@
       MainCanvas.prototype.showPaper = function() {
         this.$intro.hide();
         $(this.rPaper.canvas).show();
+        this.columnManager.trigger("triggerEventsToMasterView", ["start:addingRange"])
+
         return this;
       };
 

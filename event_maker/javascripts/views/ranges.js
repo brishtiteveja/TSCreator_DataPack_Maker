@@ -51,8 +51,39 @@
       };
 
       Ranges.prototype.start = function() {
-        this.overlay.toFront();
-        this.overlay.dblclick(this.addingRange);
+        if (this.mainCanvasView.drawRangeAtStart) {
+            console.log("addintRange");
+            this.mainCanvasView.drawRangeAtStart = false; 
+            this.addInitialRangeForEventMaker();
+        } else {
+            this.overlay.toFront();
+            this.overlay.dblclick(this.addingRange);
+        } 
+
+
+        return this;
+      };
+
+      Ranges.prototype.addInitialRangeForEventMaker = function() {
+        var position, _ref;
+        if (this.ranges.canAddMore()) {
+          var canvasDimension = this.mainCanvasView.curDimension;
+          var leftRangeX = canvasDimension.width * 0.10
+          position = {x: leftRangeX, y: 0};
+          this.ranges.add({
+            x: position.x
+          });
+
+          var rightRangeX = canvasDimension.width * 0.90;
+          position = {x: rightRangeX, y: 0};
+          this.ranges.add({
+            x: position.x
+          });
+        } else {
+          if ((_ref = this.columnManager.getNotifier()) != null) {
+            _ref.trigger("showInfo", "You cannot add more range limits", 1000);
+          }
+        }
         return this;
       };
 

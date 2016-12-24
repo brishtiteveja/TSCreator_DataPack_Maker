@@ -28,6 +28,8 @@
         this.columnManager.registerNotifier(this.notificationsView);
         this.mainCanvasView = new MainCanvasView({
           className: "col1 disable-user-select",
+          columnManager: this.columnManager,
+          drawRangeAtStart: true,
           masterView: this
         }).render();
         this.referenceZonesView = this.initReferenceZonesView();
