@@ -13,7 +13,7 @@
 
       Point.prototype.defaults = function() {
         return {
-          name: "Point " + (_.uniqueId()),
+          name: "Event " + (_.uniqueId()),
           eventType: "LAD"
         };
       };

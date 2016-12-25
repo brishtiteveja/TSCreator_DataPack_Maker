@@ -5,28 +5,40 @@
   <thead>
     <tr>
       <th><%= this.name %></th>
-      <th>point</th>
+      <th>event</th>
       <th><%= this.width ? this.width : 200 %></th>
       <th><%= TSCreator.utils.color.cssToTscColor(this.backgroundColor ? this.backgroundColor : "#FFFFFF") %></th>
       <th>&nbsp;</th>
       <th>&nbsp;</th>
     </tr>
     <tr>
-      <th><%= option.get("isShowPoints") ? "circle" : "nopoints" %></th>
-      <th><%= option.get("isShowLines") ? "line" : "noline" %></th>
-      <th><%= option.get("isFillCurve") ? TSCreator.utils.color.cssToTscColor(option.get("fillColor")) : "nofill" %></th>
+	  <th>&nbsp;</th>
+	  <th>&nbsp;</th>
       <th><%= rangeMin %></th>
       <th><%= rangeMax %></th>
-      <th><%= option.get("isSmoothed") ? "smoothed" : "notsmoothed" %></th>
+    </tr>
+  </thead>
+  <thead>
+    <tr>
+	  <th></th>
+	  <th>Age</th>
+      <th>Line Type</th>
+      <th>Event Description</th>
+      <th>Image File</th>
+      <th>CALIBRATION</th>
+      <th>Reference</th>
     </tr>
   </thead>
   <tbody>
     <% points.each(function(p) { %>
       <tr>
         <td>&nbsp;</td>
-        <td><%= p.get("age") %></td>
-        <td><%= p.get("value") %></td>
-        <td colspan="3">CALIBRATION = <%= (+(p.get("relY") +'e2')).toFixed(2) + "%" %> up in <%= p.get("zone").get("name") %></td>
+        <td><%= option.get("eventAge").toFixed(2) %></td>
+        <td><%= option.get("eventLineType") %></td>
+        <td><%= option.get("eventPopup") %></td>
+        <td><%= option.get("imageFileName") %></td>
+        <td colspan="3"><%= (+(p.get("relY") +'e2')).toFixed(2) + "%" %> up in the <%= p.get("zone").get("name") %></td>
+        <td><%= option.get("eventReference") %></td>
       </tr>
     <% }) %>
   </tbody>

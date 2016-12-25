@@ -162,7 +162,8 @@
         key = $input.attr("name");
         value = $input.val();
         this.model.set(key, value);
-        this.curveOption.set("eventName", value);
+		if ($evt.currentTarget.getAttribute("class") === "curve-name")
+			this.curveOption.set("eventName", value);
         return this;
       };
 

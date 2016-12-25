@@ -52,7 +52,6 @@
 
       Ranges.prototype.start = function() {
         if (this.mainCanvasView.drawRangeAtStart) {
-            console.log("addintRange");
             this.mainCanvasView.drawRangeAtStart = false; 
             this.addInitialRangeForEventMaker();
         } else {

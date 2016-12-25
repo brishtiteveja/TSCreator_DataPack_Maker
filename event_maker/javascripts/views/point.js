@@ -267,7 +267,7 @@
           this.curveOption.set('imageData', imageData);
           this._asyncGetImageDimension((function(_this) {
             return function(dimension) {
-                console.log("Image drawing succeeded.");
+                //console.log("Image drawing succeeded.");
             };
           })(this), imageData);
           return this;
@@ -434,7 +434,6 @@
 
       Point.prototype.changeEventAge = function() {
         this.eventAge = this.curveOption.get("eventAge"); 
-        console.log("Event Age changed");
         
         return this; 
       }

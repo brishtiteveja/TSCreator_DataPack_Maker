@@ -22,6 +22,7 @@
         eventType: "LAD",
         eventAge: 0, 
         eventPopup: "",
+        eventReference: "",
         eventLineType: "solid",
         imageFile: null,
         imageFileName: "", 
