@@ -29,10 +29,28 @@
 
       DetailButtons.prototype.addOne = function(m) {
         var newDetailButtonView;
+        console.log(m.get("text"));
         newDetailButtonView = new DetailButtonView({
-          model: m
+          model: m,
         }).render();
         this.$el.append(newDetailButtonView.el);
+
+        var m_name = m.get("text");
+        if (m_name == "Time Lines") {
+            newDetailButtonView.listenTo(this, "start:addingTimeline", newDetailButtonView.proxyToggleDetailByToolSelection);
+            newDetailButtonView.listenTo(this, "stop:addingTimeline", newDetailButtonView.proxyToggleDetailByToolSelection);
+        } else if (m_name == "Zones") {
+            newDetailButtonView.listenTo(this, "show:refZones", newDetailButtonView.proxyToggleDetailByToolSelection);
+            newDetailButtonView.listenTo(this, "hide:refZones", newDetailButtonView.proxyToggleDetailByToolSelection);
+        } else if (m_name == "Range") {
+            newDetailButtonView.listenTo(this, "start:addingRange", newDetailButtonView.proxyToggleDetailByToolSelection);
+            newDetailButtonView.listenTo(this, "stop:addingRange", newDetailButtonView.proxyToggleDetailByToolSelection);
+
+        } else if (m_name == "Events") {
+            newDetailButtonView.listenTo(this, "start:addingCurve", newDetailButtonView.proxyToggleDetailByToolSelection);
+            newDetailButtonView.listenTo(this, "stop:addingCurve", newDetailButtonView.proxyToggleDetailByToolSelection);
+        }
+
         return this;
       };
 
