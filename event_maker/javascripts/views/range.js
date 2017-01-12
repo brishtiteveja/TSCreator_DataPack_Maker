@@ -9,8 +9,8 @@
       __extends(Range, _super);
 
       function Range() {
-        this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
+        this.stop = __bind(this.stop, this);
         this.updateRLabels = __bind(this.updateRLabels, this);
         this.updateRElPositionX = __bind(this.updateRElPositionX, this);
         this.toBack = __bind(this.toBack, this);
