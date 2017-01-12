@@ -417,12 +417,12 @@
       };
 
       Line.prototype.start = function() {
-        this.rEl.dblclick(this.onSelect);
+        this.rEl.click(this.onSelect);
         return this;
       };
 
       Line.prototype.stop = function() {
-        this.rEl.undblclick();
+        this.rEl.unclick();
         return this;
       };
 
