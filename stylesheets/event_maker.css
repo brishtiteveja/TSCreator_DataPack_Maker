@@ -67,7 +67,6 @@ h1,h2,h3,h4,h5,h6 {
   margin-bottom: 0.5rem;
   line-height: 1.4;
 }
-
 input[type="text"],input[type="password"],input[type="date"],input[type="datetime"],input[type="datetime-local"],input[type="month"],input[type="week"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="time"],input[type="url"],textarea {
   border: 1px solid #CCCCCC;
   color: rgba(0,0,0,0.75);
@@ -76,6 +75,10 @@ input[type="text"],input[type="password"],input[type="date"],input[type="datetim
 
 input[type="number"] {
   text-align: left;
+}
+
+input#eventPopup {
+    height: 50px;
 }
 
 .colmask {
@@ -205,50 +208,65 @@ main svg {
 }
 
 .introduction {
-  margin: 100px 60px;
-  background: #FFFFFF;
+    margin: 100px 60px;
+    background: #FFFFFF
 }
-
 .introduction h1 {
-  color: #222222;
+    color: #222222
 }
-
 .introduction .tool-name-column {
-  float: left;
-  width: 280px;
-  padding: 25px 20px;
-  text-align: center;
+    float: top;
+    width: auto;
+    padding: 20px 20px 20px 20px;
+    text-align: center;
 }
-
 .introduction .tool-option-column {
-  width: auto;
-  min-width: 330px;
-  overflow: hidden;
-  padding: 25px 20px;
+    width: auto;
+    min-width: 330px;
+    overflow: hidden;
+    padding: 25px 20px;
 }
-
 .introduction .subheader {
-  color: #6F6F6F;
+    color: #6F6F6F
 }
-
 .introduction .row {
-  padding: 10px 0px;
+    padding: 30px 475px;
 }
-
-.introduction .data-dropbox {
-  color: #6F6F6F;
-  padding: 20px 0px;
-  font-size: 21px;
-  font-weight: 100;
-}
-
-.introduction .data-dropbox:active,.introduction .data-dropbox:focus,.introduction .data-dropbox:hover {
-  background: #F1F1F1;
-}
-
 .introduction .continue {
-  float: right;
-  padding: 0px 20px;
+    white-space: nowrap;
+    float: top;
+    border-style: solid;
+    border-color: #33CCFF;
+    box-sizing: border-box;
+    border-width: 5px;
+    border-radius: 8px;
+    width: auto;
+    font-size: 21px;
+    text-align: center;
+    padding: 45px 153px;
+    overflow: hidden;
+}
+.introduction .continue:hover{
+    background-color: #F2F2F2
+}
+.introduction .data-dropbox {
+  width: 500px;
+    color: #6F6F6F;
+    padding: 30px 50px;
+    font-size: 21px;
+    font-weight: 100
+}
+.introduction .data-dropbox:active,
+.introduction .data-dropbox:focus,
+.introduction .data-dropbox:hover {
+    background: #F1F1F1
+}
+.introduction .link{
+    text-align: right;
+    padding: 30px
+}
+.introduction .picture{
+    position: absolute
 }
 
 .toolbar {
@@ -277,7 +295,7 @@ main svg {
 }
 
 .tool .icon {
-  background: url("/images/cc/black/png/icons_32-sb581baf3ca.png");
+  background: url("../images/cc/black/png/icons_32-sb581baf3ca.png");
   background-repeat: no-repeat;
   height: 32px;
   width: 32px;
@@ -288,22 +306,22 @@ main svg {
 }
 
 .icon.lock-cursor-h {
-  background: url("/images/cc/black/png/icons_32/padlock_horizontal_icon_32.png");
+  background: url("../images/cc/black/png/icons_32/padlock_horizontal_icon_32.png");
   background-position: 0px 0px;
 }
 
 .icon.lock-cursor-v {
-  background: url("/images/cc/black/png/icons_32/padlock_vertical_icon_32.png");
+  background: url("../images/cc/black/png/icons_32/padlock_vertical_icon_32.png");
   background-position: 0px 0px;
 }
 
 .icon.zoom-in {
-  background: url("/images/cc/black/png/icons_32/zoom_in_icon_32.png");
+  background: url("../images/cc/black/png/icons_32/zoom_in_icon_32.png");
   background-position: 0px 0px;
 }
 
 .icon.zoom-out {
-  background: url("/images/cc/black/png/icons_32/zoom_out_icon_32.png");
+  background: url("../images/cc/black/png/icons_32/zoom_out_icon_32.png");
   background-position: 0px 0px;
 }
 
@@ -320,22 +338,22 @@ main svg {
 }
 
 .icon.add-range-lines {
-  background: url("/images/cc/black/png/icons_32/add_range_icon_32.png");
+  background: url("../images/cc/black/png/icons_32/add_range_icon_32.png");
   background-position: 0px 0px;
 }
 
 .icon.add-new-curve {
-  background: url("/images/icons/add-curve-tool-32.png");
+  background: url("../images/icons/add-curve-tool-32.png");
   background-position: 0px 0px;
 }
 
 .icon.add-new-event {
-  background: url("/images/icons/add-event-tool-32.png");
+  background: url("../images/icons/add-event-tool-32.png");
   background-position: 0px 0px;
 }
 
 .icon.add-polygon {
-  background: url("/images/icons/polygon4.png");
+  background: url("../images/icons/polygon4.png");
   background-position: 0px 0px;
 }
 
@@ -352,7 +370,7 @@ main svg {
 }
 
 .icon.save-to-local-storage {
-  background: url("/images/cc/black/png/icons_32/save_to_local_icon_32.png");
+  background: url("../images/cc/black/png/icons_32/save_to_local_icon_32.png");
   background-position: 0px 0px;
 }
 
@@ -395,7 +413,7 @@ main svg {
 }
 
 .detail-buttons .detail-button-settings-icon {
-  background: url("/images/cc/black/png/icons_32-sb581baf3ca.png");
+  background: url("../images/cc/black/png/icons_32-sb581baf3ca.png");
   background-position: 0px -864px;
   background-repeat: no-repeat;
   height: 32px;
@@ -542,12 +560,12 @@ main svg {
 
 .detail-panels .detail-panel .edit-btn {
   margin-right: 20px;
-  background: url("/images/cc/white/png/icons_16/playback_play_icon_16.png");
+  background: url("../images/cc/white/png/icons_16/playback_play_icon_16.png");
 }
 
 .detail-panels .detail-panel .cancel-btn {
   margin-right: 11px;
-  background: url("/images/cc/white/png/icons_16/playback_play_icon_16.png");
+  background: url("../images/cc/white/png/icons_16/playback_play_icon_16.png");
   transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
@@ -555,17 +573,17 @@ main svg {
 
 .detail-panels .detail-panel .delete-btn {
   float: right;
-  background: url("/images/cc/white/png/icons_16/trash_icon_16.png");
+  background: url("../images/cc/white/png/icons_16/trash_icon_16.png");
 }
 
 .detail-panels .detail-panel .sublist-edit-btn {
   margin-right: 10px;
-  background: url("/images/cc/white/png/icons_16/arrow_right_icon_16.png");
+  background: url("../images/cc/white/png/icons_16/arrow_right_icon_16.png");
 }
 
 .detail-panels .detail-panel .sublist-cancel-btn {
   margin-right: 10px;
-  background: url("/images/cc/white/png/icons_16/arrow_right_icon_16.png");
+  background: url("../images/cc/white/png/icons_16/arrow_right_icon_16.png");
   transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
