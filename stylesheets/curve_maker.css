@@ -213,6 +213,8 @@ main svg {
     padding: 25px 20px;
 }
 .introduction .subheader {
+    font-size: 50px;
+    font-weight: bold;
     color: #6F6F6F
 }
 .introduction .row {
@@ -227,9 +229,10 @@ main svg {
     border-width: 5px;
     border-radius: 8px;
     width: auto;
-    font-size: 21px;
+    font-size: 25px;
+    font-weight: bold;
     text-align: center;
-    padding: 45px 153px;
+    padding: 45px 112px;
     overflow: hidden;
 }
 .introduction .continue:hover{
