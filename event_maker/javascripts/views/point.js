@@ -610,12 +610,12 @@
 
       Point.prototype.start = function() {
         this.rEl.hover(this.onMouseOver, this.onMouseOut);
-        this.rEl.dblclick(this.onSelect);
+        this.rEl.click(this.onSelect);
         return this;
       };
 
       Point.prototype.stop = function() {
-        this.rEl.undblclick();
+        this.rEl.unclick();
         this.rEl.unhover();
         return this;
       };
