@@ -8,7 +8,7 @@
       },
       {
         "name": "Quaternary base",
-        "age": 2.58,
+        "age": 2.588,
         "type": "solid"
       },
       {
@@ -28,17 +28,17 @@
       },
       {
         "name": "Jurassic base",
-        "age": 201.36,
+        "age": 201.3,
         "type": "solid"
       },
       {
         "name": "Triassic base",
-        "age": 251.90,
+        "age": 252.16,
         "type": "solid"
       },
       {
         "name": "Permian base",
-        "age": 298.88,
+        "age": 299,
         "type": "solid"
       },
       {
@@ -72,15 +72,15 @@
         "type": "solid"
       },
       {
-        "name": "Cryogenian base",
-        "age": 720,
+        "name": "Tonian base",
+        "age": 700,
         "type": "solid"
       },
       {
-        "name": "Tonian base",
-        "age": 1000,
+        "name": "Cryogenian base",
+        "age": 850,
         "type": "solid"
-      }, 
+      },
       {
         "name": "Stenian base",
         "age": 1200,
@@ -163,7 +163,7 @@
         "description": "Base of Miocene (base of Neogene Period) = base of Chron C6Cn.2n. The GSSP of the Oligocene/Miocene boundary is defined as 35m level of Rigorosa Formation in the Lemme-Carrosio sections of NE Italy, corresponding also to the FAD of Foram Globorotalia kugleri (base of Foram Zone M1) (Berggren et al., 1995; Steininger et al., in press)",
         "top": {
           "name": "Quaternary base",
-          "age": 2.580,
+          "age": 2.588,
           "type": "solid"
         },
         "base": {
@@ -213,7 +213,7 @@
         },
         "base": {
           "name": "Jurassic base",
-          "age": 201.36,
+          "age": 201.3,
           "type": "solid"
         },
         "backgroundColor": "#34b2c9"
@@ -223,12 +223,12 @@
         "description": "Base Triassic is coeval with FAD of H. parvus conodont",
         "top": {
           "name": "Jurassic base",
-          "age": 201.36,
+          "age": 201.3,
           "type": "solid"
         },
         "base": {
           "name": "Triassic base",
-          "age": 251.90,
+          "age": 252.16,
           "type": "solid"
         },
         "backgroundColor": "#812b92"
@@ -238,12 +238,12 @@
         "description": null,
         "top": {
           "name": "Triassic base",
-          "age": 251.90,
+          "age": 252.16,
           "type": "solid"
         },
         "base": {
           "name": "Permian base",
-          "age": 298.88,
+          "age": 299,
           "type": "solid"
         },
         "backgroundColor": "#f04028"
@@ -253,7 +253,7 @@
         "description": null,
         "top": {
           "name": "Permian base",
-          "age": 298.88,
+          "age": 299,
           "type": "solid"
         },
         "base": {
@@ -339,7 +339,7 @@
         "backgroundColor": "#fed96a"
       },
       {
-        "name": "Cryogenian",
+        "name": "Tonian",
         "description": null,
         "top": {
           "name": "Ediacaran base",
@@ -347,23 +347,23 @@
           "type": "solid"
         },
         "base": {
-          "name": "Cryogenian base",
-          "age": 720,
+          "name": "Tonian base",
+          "age": 700,
           "type": "solid"
         },
         "backgroundColor": "#febf4e"
       },
       {
-        "name": "Tonian",
+        "name": "Cryogenian",
         "description": null,
         "top": {
-          "name": "Cryogenian base",
-          "age": 720,
+          "name": "Tonian base",
+          "age": 700,
           "type": "solid"
         },
         "base": {
-          "name": "Tonian base",
-          "age": 1000,
+          "name": "Cryogenian base",
+          "age": 850,
           "type": "solid"
         },
         "backgroundColor": "#fecc5c"
@@ -372,8 +372,8 @@
         "name": "Stenian",
         "description": null,
         "top": {
-          "name": "Tonian base",
-          "age": 1000,
+          "name": "Cryogenian base",
+          "age": 850,
           "type": "solid"
         },
         "base": {
@@ -564,7 +564,7 @@
       },
       {
         "name": "Pleistocene base",
-        "age": 2.580,
+        "age": 2.588,
         "type": "solid"
       },
       {
@@ -579,7 +579,7 @@
       },
       {
         "name": "Oligocene base",
-        "age": 33.90,
+        "age": 33.89,
         "type": "solid"
       },
       {
@@ -604,7 +604,7 @@
       },
       {
         "name": "Late base",
-        "age": 163.1,
+        "age": 163.47,
         "type": "solid"
       },
       {
@@ -614,7 +614,7 @@
       },
       {
         "name": "Early base",
-        "age": 201.36,
+        "age": 201.3,
         "type": "solid"
       },
       {
@@ -624,12 +624,12 @@
       },
       {
         "name": "Middle base",
-        "age": 246.80,
+        "age": 247.06,
         "type": "solid"
       },
       {
         "name": "Early base",
-        "age": 251.90,
+        "age": 252.16,
         "type": "solid"
       },
       {
@@ -649,12 +649,12 @@
       },
       {
         "name": "Late Penn. base",
-        "age": 306.65,
+        "age": 306.99,
         "type": "solid"
       },
       {
         "name": "Middle Penn. base",
-        "age": 314.6,
+        "age": 315.16,
         "type": "dashed"
       },
       {
@@ -744,7 +744,7 @@
       },
       {
         "name": "Epoch/Series 2 base",
-        "age": 520,
+        "age": 521,
         "type": "dashed"
       },
       {
@@ -779,7 +779,7 @@
         },
         "base": {
           "name": "Pleistocene base",
-          "age": 2.580,
+          "age": 2.588,
           "type": "solid"
         },
         "backgroundColor": "#fff2ae"
@@ -789,7 +789,7 @@
         "description": "PLIOCENE --  Base of Pliocene is traditionally placed at base of Trubi Formation (base of Zanclean Stage) representing restoration of marine conditions in the Mediterranean following the late Miocene (Messinian) dessication.  This event occurs 5 precession cycles below the Thvera (C3n.4n) Polarity Subchron, or at 5.32 Ma [Hilgen and Langereis, 1993, \"A critical re-evaluation of the Miocene/Pliocene boundary as defined in the Mediterranean\", Earth Planet. Sci. Lett., 118: 167-179]. ",
         "top": {
           "name": "Pleistocene base",
-          "age": 2.580,
+          "age": 2.588,
           "type": "solid"
         },
         "base": {
@@ -824,7 +824,7 @@
         },
         "base": {
           "name": "Oligocene base",
-          "age": 33.90,
+          "age": 33.89,
           "type": "solid"
         },
         "backgroundColor": "#fdc07a"
@@ -834,7 +834,7 @@
         "description": "Base of Eocene is ca. C24r.36 (decision of Paleogene-chapter group for GTS2012).  Base of Eocene is 0.94 myr (0.98 in another table) above top C25n according to cycle stratigraphy.  This is NOT tied proportionally within Chron C24r; but some indicate it as C24r.36 (e.g., used in Agnini et al'07 for calibrating nannofossil datums near boundary).  Age used here is from U-Pb => 0.05 myr lower.",
         "top": {
           "name": "Oligocene base",
-          "age": 33.90,
+          "age": 33.89,
           "type": "solid"
         },
         "base": {
@@ -899,7 +899,7 @@
         },
         "base": {
           "name": "Late base",
-          "age": 163.1,
+          "age": 163.47,
           "type": "solid"
         },
         "backgroundColor": "#b3e3ee"
@@ -909,7 +909,7 @@
         "description": "Base of L. opalinum ammonite zone at Fuentelsaz (Spain).  ",
         "top": {
           "name": "Late base",
-          "age": 163.1,
+          "age": 163.47,
           "type": "solid"
         },
         "base": {
@@ -929,7 +929,7 @@
         },
         "base": {
           "name": "Early base",
-          "age": 201.36,
+          "age": 201.3,
           "type": "solid"
         },
         "backgroundColor": "#42aed0"
@@ -939,7 +939,7 @@
         "description": null,
         "top": {
           "name": "Early base",
-          "age": 201.36,
+          "age": 201.3,
           "type": "solid"
         },
         "base": {
@@ -959,7 +959,7 @@
         },
         "base": {
           "name": "Middle base",
-          "age": 246.8,
+          "age": 247.06,
           "type": "solid"
         },
         "backgroundColor": "#b168b1"
@@ -969,12 +969,12 @@
         "description": "Base Triassic is coeval with FAD of H. parvus conodont",
         "top": {
           "name": "Middle base",
-          "age": 246.8,
+          "age": 247.06,
           "type": "solid"
         },
         "base": {
           "name": "Early base",
-          "age": 251.90,
+          "age": 252.16,
           "type": "solid"
         },
         "backgroundColor": "#983999"
@@ -984,7 +984,7 @@
         "description": "Late Permian",
         "top": {
           "name": "Early base",
-          "age": 251.90,
+          "age": 252.16,
           "type": "solid"
         },
         "base": {
@@ -1034,7 +1034,7 @@
         },
         "base": {
           "name": "Late Penn. base",
-          "age": 306.65,
+          "age": 306.99,
           "type": "solid"
         },
         "backgroundColor": "#bfd0ba"
@@ -1044,12 +1044,12 @@
         "description": "Middle Pennsylvanian",
         "top": {
           "name": "Late Penn. base",
-          "age": 306.65,
+          "age": 306.99,
           "type": "solid"
         },
         "base": {
           "name": "Middle Penn. base",
-          "age": 314.6,
+          "age": 315.16,
           "type": "dashed"
         },
         "backgroundColor": "#a6c7b7"
@@ -1059,7 +1059,7 @@
         "description": "Early Pennsylvanian",
         "top": {
           "name": "Middle Penn. base",
-          "age": 314.6,
+          "age": 315.16,
           "type": "dashed"
         },
         "base": {
@@ -1319,7 +1319,7 @@
         },
         "base": {
           "name": "Epoch/Series 2 base",
-          "age": 520,
+          "age": 521,
           "type": "dashed"
         },
         "backgroundColor": "#99c078"
@@ -1329,7 +1329,7 @@
         "description": "0",
         "top": {
           "name": "Epoch/Series 2 base",
-          "age": 520,
+          "age": 521,
           "type": "dashed"
         },
         "base": {
@@ -1350,22 +1350,22 @@
       },
       {
         "name": "Tarantian (Lt. Pleist.) base",
-        "age": 0.13,
+        "age": 0.126,
         "type": "solid"
       },
       {
         "name": "Ionian (M. Pleist.) base",
-        "age": 0.773,
+        "age": 0.781,
         "type": "solid"
       },
       {
         "name": "Calabrian base",
-        "age": 1.8,
+        "age": 1.806,
         "type": "solid"
       },
       {
         "name": "Gelasian base",
-        "age": 2.58,
+        "age": 2.588,
         "type": "solid"
       },
       {
@@ -1385,7 +1385,7 @@
       },
       {
         "name": "Tortonian base",
-        "age": 11.625,
+        "age": 11.608,
         "type": "solid"
       },
       {
@@ -1415,17 +1415,17 @@
       },
       {
         "name": "Rupelian base",
-        "age": 33.9,
+        "age": 33.89,
         "type": "solid"
       },
       {
         "name": "Priabonian base",
-        "age": 37.99,
+        "age": 37.75,
         "type": "dashed"
       },
       {
         "name": "Bartonian base",
-        "age": 41.03,
+        "age": 41.28,
         "type": "dashed"
       },
       {
@@ -1460,7 +1460,7 @@
       },
       {
         "name": "Campanian base",
-        "age": 84.19,
+        "age": 83.64,
         "type": "dashed"
       },
       {
@@ -1470,7 +1470,7 @@
       },
       {
         "name": "Coniacian base",
-        "age": 89.75,
+        "age": 89.77,
         "type": "dashed"
       },
       {
@@ -1485,7 +1485,7 @@
       },
       {
         "name": "Albian base",
-        "age": 113.14,
+        "age": 112.95,
         "type": "dashed"
       },
       {
@@ -1500,7 +1500,7 @@
       },
       {
         "name": "Hauterivian base",
-        "age": 134.69,
+        "age": 133.88,
         "type": "solid"
       },
       {
@@ -1525,7 +1525,7 @@
       },
       {
         "name": "Oxfordian base",
-        "age": 163.1,
+        "age": 163.47,
         "type": "solid"
       },
       {
@@ -1550,32 +1550,32 @@
       },
       {
         "name": "Toarcian base",
-        "age": 183.7,
+        "age": 182.7,
         "type": "solid"
       },
       {
         "name": "Pliensbachian base",
-        "age": 191.36,
+        "age": 190.82,
         "type": "solid"
       },
       {
         "name": "Sinemurian base",
-        "age": 199.4,
+        "age": 199.3,
         "type": "solid"
       },
       {
         "name": "Hettangian base",
-        "age": 201.36,
+        "age": 201.3,
         "type": "solid"
       },
       {
         "name": "Rhaetian base",
-        "age": 209.56,
+        "age": 209.46,
         "type": "dashed"
       },
       {
         "name": "Norian base",
-        "age": 228.45,
+        "age": 228.35,
         "type": "dashed"
       },
       {
@@ -1590,17 +1590,17 @@
       },
       {
         "name": "Anisian base",
-        "age": 246.8,
+        "age": 247.06,
         "type": "solid"
       },
       {
         "name": "Olenekian base",
-        "age": 249.81,
+        "age": 250.01,
         "type": "dashed"
       },
       {
         "name": "Induan base",
-        "age": 251.9,
+        "age": 252.16,
         "type": "solid"
       },
       {
@@ -1630,7 +1630,7 @@
       },
       {
         "name": "Kungurian base",
-        "age": 282,
+        "age": 279.33,
         "type": "solid"
       },
       {
@@ -1640,7 +1640,7 @@
       },
       {
         "name": "Sakmarian base",
-        "age": 295.5,
+        "age": 295.53,
         "type": "solid"
       },
       {
@@ -1650,17 +1650,17 @@
       },
       {
         "name": "Gzhelian base",
-        "age": 303.65,
+        "age": 303.67,
         "type": "solid"
       },
       {
         "name": "Kasimovian base",
-        "age": 306.65,
+        "age": 306.99,
         "type": "solid"
       },
       {
         "name": "Moscovian base",
-        "age": 314.6,
+        "age": 315.16,
         "type": "dashed"
       },
       {
@@ -1835,12 +1835,12 @@
       },
       {
         "name": "Age 3 base",
-        "age": 520,
+        "age": 521,
         "type": "dashed"
       },
       {
         "name": "Age 2 base",
-        "age": 530,
+        "age": 529,
         "type": "dashed"
       },
       {
@@ -1860,7 +1860,7 @@
         },
         "base": {
           "name": "Tarantian (Lt. Pleist.) base",
-          "age": 0.13,
+          "age": 0.126,
           "type": "solid"
         },
         "backgroundColor": "#fff2d3"
@@ -1870,12 +1870,12 @@
         "description": "Ionian is the probably name for this \"M. Pleistocene\" interval.  Base = base of Brunhes Chron",
         "top": {
           "name": "Tarantian (Lt. Pleist.) base",
-          "age": 0.13,
+          "age": 0.126,
           "type": "solid"
         },
         "base": {
           "name": "Ionian (M. Pleist.) base",
-          "age": 0.773,
+          "age": 0.781,
           "type": "solid"
         },
         "backgroundColor": "#fff2c7"
@@ -1885,12 +1885,12 @@
         "description": "Calabrian (former base of PLEISTOCENE pre-2009) --  The Calabrian begins with \"base of a claystone unit conformably overlying sapropel marker bed \"e\" in the Vrica section of Calabria in southern Italy.  This is at or near the top of the Olduvai (C2n) Normal polarity chron.",
         "top": {
           "name": "Ionian (M. Pleist.) base",
-          "age": 0.773,
+          "age": 0.781,
           "type": "solid"
         },
         "base": {
           "name": "Calabrian base",
-          "age": 1.8,
+          "age": 1.806,
           "type": "solid"
         },
         "backgroundColor": "#fff2ba"
@@ -1900,7 +1900,7 @@
         "description": "Major expansion of N.Hemis. glaciation begins near Guss/Matuyama boundary [accepted in 2009 for base of \"Quaternary\", hence base of revised \"Pleistocene\"].  Gelasian stage was transferred to Pleistocene series by IUGS/ICS/INQUA (submitted May 2007; but was not ratified by IUGS until summer 2009 after another round of ICS voting and resubmission).  This enabled formalization of the Quaternary as an official system of the international scale.",
         "top": {
           "name": "Calabrian base",
-          "age": 1.8,
+          "age": 1.806,
           "type": "solid"
         },
         "base": {
@@ -1915,7 +1915,7 @@
         "description": "Zanclean/Piacenzian boundary = cycle near base of Gauss Normal; working definition of Langereis and Hilgen, 1991",
         "top": {
           "name": "Gelasian base",
-          "age": 2.58,
+          "age": 2.588,
           "type": "solid"
         },
         "base": {
@@ -1965,7 +1965,7 @@
         },
         "base": {
           "name": "Tortonian base",
-          "age": 11.625,
+          "age": 11.608,
           "type": "solid"
         },
         "backgroundColor": "#ffff66"
@@ -2055,7 +2055,7 @@
         },
         "base": {
           "name": "Rupelian base",
-          "age": 33.9,
+          "age": 33.89,
           "type": "solid"
         },
         "backgroundColor": "#fed99a"
@@ -2065,12 +2065,12 @@
         "description": "Base of Priabonian assigned here as base of Chron C17n.1n.  However; at Alano (candidate GSSP section in Italy), the RARE FAD of C. oamaruensis and proposed GSSP level is 10% up in C17n.2n (about 0.3 myr older)",
         "top": {
           "name": "Rupelian base",
-          "age": 33.9,
+          "age": 33.89,
           "type": "solid"
         },
         "base": {
           "name": "Priabonian base",
-          "age": 37.99,
+          "age": 37.75,
           "type": "dashed"
         },
         "backgroundColor": "#fdcda1"
@@ -2080,12 +2080,12 @@
         "description": "Base of Bartonian (working version) assigned as base of Chron C18r.  The base of Bartonian is typically correlated to a level within Nanno Zone NP16, and closely associated with LAD of Reticulofenestra reticulata (Leg 320-321 cite same chron-age scaling as chron-age scaling as Berggren et al. (1995); = ca. C19r.7.  Berggren et al. (1995) equate to the TOP of polarity chron C19n (base of C18r), implying an age estimate of 41.25 Ma.",
         "top": {
           "name": "Priabonian base",
-          "age": 37.99,
+          "age": 37.75,
           "type": "dashed"
         },
         "base": {
           "name": "Bartonian base",
-          "age": 41.03,
+          "age": 41.28,
           "type": "dashed"
         },
         "backgroundColor": "#fdc091"
@@ -2095,7 +2095,7 @@
         "description": "Base of Lutetian is Chron C21r.6 (decision of Paleogene-chapter group of GTS2012).  Base of Lutetian (GSSP ratified Feb 2011) is base of nannofossil Blackites inflatus at Gorrondatxe section in Spain.  This level is 39 precession cycles (0.78myr if 20 kyr; 0.819 if 21 kyr) above base of Chron C21r at Otsakar section near GSSP one (using 20kyr/cycle for average precession at 50 Ma = computation used here => this is at C21r.77 using GTS2012 spline.  NOTE:  Using Lutetian GSSP proposal's assignment of \"uncertain = R\" at top of C21r (as they indicate with their labeled C21n/C21r level), then this was lower -- 40% up in C21r -- age from spline-fit with cycles.  Therefore, this is about 0.78 myr above the GTS04 working placement as base of C21r (following Berggren et al'95)",
         "top": {
           "name": "Bartonian base",
-          "age": 41.03,
+          "age": 41.28,
           "type": "dashed"
         },
         "base": {
@@ -2190,7 +2190,7 @@
         },
         "base": {
           "name": "Campanian base",
-          "age": 84.19,
+          "age": 83.64,
           "type": "dashed"
         },
         "backgroundColor": "#e6f47f"
@@ -2200,7 +2200,7 @@
         "description": "85.85 retained as 85.8 in GTS04; GSSP not yet decided",
         "top": {
           "name": "Campanian base",
-          "age": 84.19,
+          "age": 83.64,
           "type": "dashed"
         },
         "base": {
@@ -2220,7 +2220,7 @@
         },
         "base": {
           "name": "Coniacian base",
-          "age": 89.75,
+          "age": 89.77,
           "type": "dashed"
         },
         "backgroundColor": "#cce968"
@@ -2230,7 +2230,7 @@
         "description": "The base of the Turonian Stage is at the base of Bed 86 of the Bridge Creek Limestone Member, west of Pueblo, Colorado, USA. The GSSP coincides with the first occurrence of the ammonite Watinoceras devonense, is in the middle of a global positive excursion in carbon 13 isotopes, and is bracketed by widespread bentonites that have yielded age of 93.79 to 93.96 Ma; and cycle-extrapolated as 93.90 ±0.15 myr (Meyers et al., AGU, 2010; and submitted to Geology, 2011).  Cycle-strat duration = 0.35 myr (Meyers et al., EPSL, 2011 in press); contains bentonite dated as 93.79 ±0.26 Ma in upper part of this zone.",
         "top": {
           "name": "Coniacian base",
-          "age": 89.75,
+          "age": 89.77,
           "type": "dashed"
         },
         "base": {
@@ -2265,7 +2265,7 @@
         },
         "base": {
           "name": "Albian base",
-          "age": 113.14,
+          "age": 112.95,
           "type": "dashed"
         },
         "backgroundColor": "#ccea97"
@@ -2275,7 +2275,7 @@
         "description": "Current working definition for Base of Aptian is base of polarity chron M0r",
         "top": {
           "name": "Albian base",
-          "age": 113.14,
+          "age": 112.95,
           "type": "dashed"
         },
         "base": {
@@ -2310,7 +2310,7 @@
         },
         "base": {
           "name": "Hauterivian base",
-          "age": 134.69,
+          "age": 133.88,
           "type": "solid"
         },
         "backgroundColor": "#a6d975"
@@ -2320,7 +2320,7 @@
         "description": "Base of Valanginian (base of Tirnovella pertransiens ammonite zone in Tethyan Realm) is assigned here as Chron M14r(0.3).  T. otopeta, formerly basal Valanginian, is now assigned to Berriasian.  Note that the Berriasian is much shorter in duration in GTS2004, even with this transfer of an ammonite zone.  This reflects the postulated faster spreading model (and dropping of U-Pb date of 137 reported for uppermost Berriasian), hence Pacific anomalies represent shorter time.",
         "top": {
           "name": "Hauterivian base",
-          "age": 134.69,
+          "age": 133.88,
           "type": "solid"
         },
         "base": {
@@ -2385,7 +2385,7 @@
         },
         "base": {
           "name": "Oxfordian base",
-          "age": 163.1,
+          "age": 163.47,
           "type": "solid"
         },
         "backgroundColor": "#bfe7f1"
@@ -2395,7 +2395,7 @@
         "description": "Base of B. bullatus ammonite zone.  GSSP is not yet decided.  In magnetostratigraphy from the Albstadt-Pfeffingen GSSP candidate (Swabia, Germany), this level is the base of a brief normal-polarity zone, which is interpreted to be the base of marine magnetic anomaly M39n.3n in the Deep-Tow extension to M-Sequence (using mid-depth projection)",
         "top": {
           "name": "Oxfordian base",
-          "age": 163.1,
+          "age": 163.47,
           "type": "solid"
         },
         "base": {
@@ -2460,7 +2460,7 @@
         },
         "base": {
           "name": "Toarcian base",
-          "age": 183.7,
+          "age": 182.7,
           "type": "solid"
         },
         "backgroundColor": "#99cee3"
@@ -2470,12 +2470,12 @@
         "description": "Base of U. jamesoni ammonite zone at Robin Hood's Bay (England)  ",
         "top": {
           "name": "Toarcian base",
-          "age": 183.7,
+          "age": 182.7,
           "type": "solid"
         },
         "base": {
           "name": "Pliensbachian base",
-          "age": 191.36,
+          "age": 190.82,
           "type": "solid"
         },
         "backgroundColor": "#80c5dd"
@@ -2485,12 +2485,12 @@
         "description": "Base of A. bucklandi ammonite zone at East Quantoxhead (England).  ",
         "top": {
           "name": "Pliensbachian base",
-          "age": 191.36,
+          "age": 190.82,
           "type": "solid"
         },
         "base": {
           "name": "Sinemurian base",
-          "age": 199.4,
+          "age": 199.3,
           "type": "solid"
         },
         "backgroundColor": "#67bcd8"
@@ -2500,12 +2500,12 @@
         "description": "Lowest occurrence of the ammonite Psiloceras spelae at Kuhjoch (Austria).",
         "top": {
           "name": "Sinemurian base",
-          "age": 199.4,
+          "age": 199.3,
           "type": "solid"
         },
         "base": {
           "name": "Hettangian base",
-          "age": 201.36,
+          "age": 201.3,
           "type": "solid"
         },
         "backgroundColor": "#4eb3d3"
@@ -2515,12 +2515,12 @@
         "description": null,
         "top": {
           "name": "Hettangian base",
-          "age": 201.36,
+          "age": 201.3,
           "type": "solid"
         },
         "base": {
           "name": "Rhaetian base",
-          "age": 209.56,
+          "age": 209.46,
           "type": "dashed"
         },
         "backgroundColor": "#e3b9db"
@@ -2530,12 +2530,12 @@
         "description": null,
         "top": {
           "name": "Rhaetian base",
-          "age": 209.56,
+          "age": 209.46,
           "type": "dashed"
         },
         "base": {
           "name": "Norian base",
-          "age": 228.45,
+          "age": 228.35,
           "type": "dashed"
         },
         "backgroundColor": "#d6aad3"
@@ -2545,7 +2545,7 @@
         "description": "Definition has been lowered to base of D. canadensis ammonite zone, following Triassic subcomm preference.",
         "top": {
           "name": "Norian base",
-          "age": 228.45,
+          "age": 228.35,
           "type": "dashed"
         },
         "base": {
@@ -2580,7 +2580,7 @@
         },
         "base": {
           "name": "Anisian base",
-          "age": 246.8,
+          "age": 247.06,
           "type": "solid"
         },
         "backgroundColor": "#bc75b7"
@@ -2590,12 +2590,12 @@
         "description": "Working group decision (Nov07) is the lowest occurrence of conodont Neospathodus waageni s.l., just above base of Rohillites rohilla ammonite zone.  This is different than in GTS2004 (FAD of Hedenstroemia or Meekoceras gracilitatis ammonites).  Base-Olenekian age derived by cycle-scaling from base-Triassic (fixed from U-Pb ages and spline-fit of ca. 252.16 Ma for that P/Tr level)",
         "top": {
           "name": "Anisian base",
-          "age": 246.8,
+          "age": 247.06,
           "type": "solid"
         },
         "base": {
           "name": "Olenekian base",
-          "age": 249.81,
+          "age": 250.01,
           "type": "dashed"
         },
         "backgroundColor": "#b051a5"
@@ -2605,12 +2605,12 @@
         "description": "Base Triassic is coeval with FAD of H. parvus conodont",
         "top": {
           "name": "Olenekian base",
-          "age": 249.81,
+          "age": 250.01,
           "type": "dashed"
         },
         "base": {
           "name": "Induan base",
-          "age": 251.9,
+          "age": 252.16,
           "type": "solid"
         },
         "backgroundColor": "#a4469f"
@@ -2620,7 +2620,7 @@
         "description": "Base Changhsingian is coeval with FAD of Clarkina wangi conodont",
         "top": {
           "name": "Induan base",
-          "age": 251.9,
+          "age": 252.16,
           "type": "solid"
         },
         "base": {
@@ -2700,7 +2700,7 @@
         },
         "base": {
           "name": "Kungurian base",
-          "age": 282,
+          "age": 279.33,
           "type": "solid"
         },
         "backgroundColor": "#e38776"
@@ -2710,7 +2710,7 @@
         "description": "Base Artinskian is proposed to be coeval with FAD of Sweetognathus whitei conodont",
         "top": {
           "name": "Kungurian base",
-          "age": 282,
+          "age": 279.33,
           "type": "solid"
         },
         "base": {
@@ -2730,7 +2730,7 @@
         },
         "base": {
           "name": "Sakmarian base",
-          "age": 295.5,
+          "age": 295.53,
           "type": "solid"
         },
         "backgroundColor": "#e36f5c"
@@ -2740,7 +2740,7 @@
         "description": "Base PERMIAN is coeval with FAD of Streptognathodus isolatus conodont",
         "top": {
           "name": "Sakmarian base",
-          "age": 295.5,
+          "age": 295.53,
           "type": "solid"
         },
         "base": {
@@ -2760,7 +2760,7 @@
         },
         "base": {
           "name": "Gzhelian base",
-          "age": 303.4,
+          "age": 303.67,
           "type": "solid"
         },
         "backgroundColor": "#ccd4c7"
@@ -2770,12 +2770,12 @@
         "description": "The current preferred definition by working group is the base of the Protriticites pseudomontiparus-Obsoletes obsoletus conodont zone (equals base of Swadelina neoshoensis zone).  GTS04 had used base of Obsoletes obsoletes and Protriticites pseudomontiparus fusulinid zone.  Estimate is based on cycle-strat (Heckel, pers. commun., Dec07) = MFS of Farlington cycle (Lower Suvorova) relative to base-Permian.",
         "top": {
           "name": "Gzhelian base",
-          "age": 303.4,
+          "age": 303.67,
           "type": "solid"
         },
         "base": {
           "name": "Kasimovian base",
-          "age": 306.65,
+          "age": 306.99,
           "type": "solid"
         },
         "backgroundColor": "#bfd0c5"
@@ -2785,12 +2785,12 @@
         "description": null,
         "top": {
           "name": "Kasimovian base",
-          "age": 306.65,
+          "age": 306.99,
           "type": "solid"
         },
         "base": {
           "name": "Moscovian base",
-          "age": 314.6,
+          "age": 315.16,
           "type": "dashed"
         },
         "backgroundColor": "#b3cbb9"
@@ -2800,7 +2800,7 @@
         "description": null,
         "top": {
           "name": "Moscovian base",
-          "age": 314.6,
+          "age": 315.16,
           "type": "dashed"
         },
         "base": {
@@ -3315,7 +3315,7 @@
         },
         "base": {
           "name": "Age 3 base",
-          "age": 520,
+          "age": 521,
           "type": "dashed"
         },
         "backgroundColor": "#a6c583"
@@ -3325,12 +3325,12 @@
         "description": "Dashed between options of FADs of Small Shelly and of Archaeocyaths",
         "top": {
           "name": "Age 3 base",
-          "age": 520,
+          "age": 521,
           "type": "dashed"
         },
         "base": {
           "name": "Age 2 base",
-          "age": 530,
+          "age": 529,
           "type": "dashed"
         },
         "backgroundColor": "#a6ba80"
@@ -3340,7 +3340,7 @@
         "description": "0",
         "top": {
           "name": "Age 2 base",
-          "age": 530,
+          "age": 529,
           "type": "dashed"
         },
         "base": {
