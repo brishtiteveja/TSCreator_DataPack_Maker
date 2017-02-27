@@ -9,8 +9,8 @@
       __extends(Range, _super);
 
       function Range() {
-        this.stop = __bind(this.stop, this);
         this.start = __bind(this.start, this);
+        this.stop = __bind(this.stop, this);
         this.updateRLabels = __bind(this.updateRLabels, this);
         this.updateRElPositionX = __bind(this.updateRElPositionX, this);
         this.toBack = __bind(this.toBack, this);
@@ -41,6 +41,7 @@
       Range.prototype.textColor = "#FF00FF";
 
       Range.prototype.events = {
+        "click .delete-btn": "deleteAction",
         "change input[type=text]": "inputUpdate",
         "mouseover": "onMouseOver",
         "mouseout": "onMouseOut"
@@ -48,7 +49,9 @@
 
       Range.prototype.initialize = function(options) {
         this.mainCanvasView = options.mainCanvasView;
+        this.ranges = options.ranges;
         this.template = options.template;
+        this.options = options;
         this.initCanvasEl();
         this.listenTo(this.model, {
           "highlight": this.highlight,
@@ -66,6 +69,13 @@
           "start:addingRange": this.start,
           "stop:addingRange": this.stop
         });
+
+        if (this.model.isRight()) {
+            this.model.set("value", 100);
+        }
+        if (this.model.isLeft()) {
+            this.model.set("value", 0);
+        }
         return this;
       };
 
@@ -147,16 +157,19 @@
       };
 
       Range.prototype.onDragStart = function(x, y, evt) {
+        /*
         if (this.model.isRight()) {
           this._leftRange = this.model.collection.getLeftRange();
         }
         if (this.model.isLeft()) {
           this._rightRange = this.model.collection.getRightRange();
         }
+        */
         return this;
       };
 
       Range.prototype.onDragMove = function(dx, dy, x, y, evt) {
+        /*
         var locationX, slack;
         slack = 5;
         locationX = TSCreator.utils.math.roundD4(this.mainCanvasView.getCurrentPositionFromEvt(evt).x);
@@ -169,12 +182,26 @@
         this.model.set({
           x: locationX
         });
+
+        var curves = this.ranges.curves;
+
+        for(var i=0; i < curves.length; i++) {
+            var curve = curves.at(i); 
+            var points = curve.get("points");
+            var point = points.models[0];
+            var eventType = point.get("eventType");
+            var eventPath = point.get("eventPath");
+            this.ranges.curves.at(i).get("points").models[0].get("eventPath")[4][1] = locationX;
+        }
+
+        */
         return this;
       };
 
       Range.prototype.onDragEnd = function(evt) {
-        delete this._leftRange;
+        /*delete this._leftRange;
         delete this._rightRange;
+        */
         return this;
       };
 
@@ -235,6 +262,27 @@
 
       Range.prototype.stop = function() {
         this.rEl.undrag();
+        return this;
+      };
+
+      Range.prototype.deleteAction = function($evt) {
+        $evt.stopImmediatePropagation();
+
+        this._leftRange = this.model.collection.getLeftRange();
+        this._rightRange = this.model.collection.getRightRange();
+
+        if (this.ranges.curves) {
+            var curves = this.ranges.curves;
+            for(var i=curves.length-1; i >= 0; i--) {
+                curves.at(i).get("points").models[0].destroy();
+                curves.at(i).get("option").destroy();
+                curves.at(i).destroy();
+            }
+        }
+
+        this._leftRange.destroy();
+        this._rightRange.destroy();
+
         return this;
       };
 

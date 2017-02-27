@@ -22,6 +22,7 @@
         this.listenTo(this.collection, "add", this.addOne);
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
+        this.toolsView = options.toolsView;
         this.collection.add(this.columnManager.getAllModulesForCurrentColumn());
         return this;
       };
@@ -35,7 +36,8 @@
         }).render()) : new DetailView({
           model: m,
           mainCanvasView: this.mainCanvasView,
-          columnManager: this.columnManager
+          columnManager: this.columnManager,
+          toolsView: this.toolsView
         }).render();
         this.$el.append(newDetailPanelView.el);
         return this;

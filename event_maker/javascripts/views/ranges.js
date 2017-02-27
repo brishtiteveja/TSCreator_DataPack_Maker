@@ -23,6 +23,7 @@
       Ranges.prototype.initialize = function(options) {
         Ranges.__super__.initialize.call(this, options);
         this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
+        this.ranges.curves = null;
         this.listenTo(this.ranges, "add", this.addOne);
         this.listenTo(this.ranges, "remove", this.removeOne);
         this.overlay = this.mainCanvasView.createInfiniteOverlay();
@@ -38,7 +39,8 @@
         newRangeView = new RangeView({
           model: m,
           template: this.template,
-          mainCanvasView: this.mainCanvasView
+          mainCanvasView: this.mainCanvasView,
+          ranges: this.ranges
         }).render();
         this.$el.append(newRangeView.el);
         return this;
@@ -49,8 +51,38 @@
       };
 
       Ranges.prototype.start = function() {
-        this.overlay.toFront();
-        this.overlay.dblclick(this.addingRange);
+        if (this.mainCanvasView.drawRangeAtStart) {
+            this.mainCanvasView.drawRangeAtStart = false; 
+            this.addInitialRangeForEventMaker();
+        } else {
+            this.overlay.toFront();
+            this.overlay.dblclick(this.addingRange);
+        } 
+
+
+        return this;
+      };
+
+      Ranges.prototype.addInitialRangeForEventMaker = function() {
+        var position, _ref;
+        if (this.ranges.canAddMore()) {
+          var canvasDimension = this.mainCanvasView.curDimension;
+          var leftRangeX = canvasDimension.width * 0.10;
+          position = {x: leftRangeX, y: 0};
+          this.ranges.add({
+            x: position.x
+          });
+
+          var rightRangeX = canvasDimension.width * 0.65;
+          position = {x: rightRangeX, y: 0};
+          this.ranges.add({
+            x: position.x
+          });
+        } else {
+          if ((_ref = this.columnManager.getNotifier()) != null) {
+            _ref.trigger("showInfo", "You cannot add more range limits", 1000);
+          }
+        }
         return this;
       };
 

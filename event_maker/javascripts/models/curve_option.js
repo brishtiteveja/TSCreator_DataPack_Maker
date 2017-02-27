@@ -12,6 +12,8 @@
       }
 
       CurveOption.prototype.defaults = {
+        name: "Option " + (_.uniqueId()),
+        eventName: "",
         isSmoothed: true,
         isShowPoints: true,
         isShowLines: false,
@@ -20,8 +22,12 @@
         eventType: "LAD",
         eventAge: 0, 
         eventPopup: "",
+        eventReference: "",
         eventLineType: "solid",
-        imageFileEvent: null 
+        imageFile: null,
+        imageFileName: "", 
+        imageFileType: "", 
+        imageData:null
       };
 
       return CurveOption;

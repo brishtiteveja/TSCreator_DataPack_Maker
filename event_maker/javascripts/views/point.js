@@ -3,13 +3,14 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["./event_image"], function() {
+  define([], function() {
     var Point;
     return Point = (function(_super) {
       __extends(Point, _super);
 
       function Point() {
     	this.changeEventType = __bind(this.changeEventType, this);
+    	this.changeEventLineType = __bind(this.changeEventLineType, this);
     	this.changeImage = __bind(this.changeImage, this);
         this.rangeUpdated = __bind(this.rangeUpdated, this);
         this._unregisterZone = __bind(this._unregisterZone, this);
@@ -88,26 +89,39 @@
       };
       
       Point.prototype.initialize = function(options) {
-        this.image = options.columnManager.retrieveDataForCurrentColumn("eventImage");
+        this.curveOption = options.curveOption;
+        this.imageSource = null;
         this.rImage = null;
     	this.INITIAL_LAD_EVENT_PATH = null;
+        this.locationY = 0;
+        this.eventAge = options.curveOption.get("eventAge");
     	this.eventType = options.curveOption.get("eventType");
     	this.eventLineType = options.curveOption.get("eventLineType");
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
+        this.referenceColumns = this.columnManager.retrieveCommonData("referenceColumns");
+        this.timelines = this.columnManager.retrieveCommonData("timelines");
         this.isShow = options.curveOption.get("isShowPoints");
         this.zones = this.columnManager.retrieveDataForCurrentColumn("zones");
         this.ranges = this.columnManager.retrieveDataForCurrentColumn("ranges");
         this.initCanvasEl(options);
         this.start();
+
+        this.listenTo(this.curveOption,
+        {
+          "change:eventName": this.changeEventName,
+          "change:eventAge": this.changeEventAge,
+          "change:eventType": this.changeEventType,
+          "change:eventLineType": this.changeEventLineType,
+          "change:imageFileEvent": this.changeImage
+        });
+
         this.listenTo(this.model, {
           "_insertAfterMe": this._insertAfterMe,
           "destroy": this.destroy
         });
+
         this.listenTo(this.model, {
-          "changeEventType": this.changeEventType,
-          "changeImage": this.changeImage,
-          "changeEventLineType": this.changeEventLineType,
           "selected": this.selected,
           "unselected": this.unselected,
           "highlight": this.highlight,
@@ -119,6 +133,7 @@
           "change:x": this.updateRElPosition,
           "change:y": this.updateRElPosition
         });
+
         this.listenTo(this.model, {
           "change:x": this.render,
           "change:y": this.render,
@@ -128,6 +143,7 @@
           "change:age": this.render,
           "change:zone": this.zoneChanged
         });
+
         this._registerZone(this.model.get("zone"));
         this.listenTo(this.zones, "updated", this.zoneUpdated);
         this.listenTo(this.ranges, "updated", this.rangeUpdated);
@@ -135,6 +151,7 @@
           "start:addingCurve": this.start,
           "stop:addingCurve": this.stop
         });
+
         return this;
       };
 
@@ -142,7 +159,9 @@
         this.stop();
         this.unselected();
         this.rEl.remove();
-        this.rImage.remove();
+        this.rElText.remove();
+        if (this.rImage != null)
+            this.rImage.remove();
         this.remove();
         return this;
       };
@@ -188,16 +207,41 @@
 
       Point.prototype.loadEventImage = function($evt) {
           var imageFile, reader;
-          $evt.preventDefault();
-          $evt.stopPropagation();
-          if ($evt.originalEvent.dataTransfer.files.length === 1) {
-            imageFile = $evt.originalEvent.dataTransfer.files[0];
+          var e = $evt.get('imageFileEvent')
+          if (e.originalEvent.dataTransfer.files.length === 1) {
+            imageFile = e.originalEvent.dataTransfer.files[0];
+            this.curveOption.set('imageFile', imageFile);
+            this.curveOption.set('imageFileName', imageFile.name);
+            this.curveOption.set('imageFileType', imageFile.type);
             reader = new FileReader();
             reader.readAsDataURL(imageFile);
             reader.onload = this.readEventImage.bind(this);
           }
           return this;
         };
+
+      Point.prototype.drawImage = function() {
+      	  var width = 80;
+      	  var height = 80;
+      	  var offset = 20;
+
+          var leftRangeX = this.ranges.getLeftRange().get('x');
+          var rightRangeX = this.ranges.getRightRange().get('x');
+
+          if (this.eventType == 'FAD' || this.eventType == 'EVENT') {
+      	    var x = this.model.get('x') - width - offset;
+      	    var y = this.model.get('y') - height - offset;
+          } else if (this.eventType == 'LAD'){
+      	    var x = this.model.get('x') + offset;
+      	    var y = this.model.get('y') - height - offset;
+          }
+      	  if (this.rImage != null) {
+      		  this.rImage.remove();
+      	  }
+      	  this.rImage = this.mainCanvasView.rPaper.image(this.imageSource, x, y, width, height);
+      
+          return this;
+      }
 
       Point.prototype._asyncGetImageDimension = function(callback, imageData) {
       	  var img;
@@ -209,16 +253,10 @@
                 });
       	  });
       	  img.src = imageData;
+
+          this.imageSource = img.src;
           
-      	  var width = img.width / 4;
-      	  var height = img.height / 4;
-      	  var offset = 20;
-      	  var x = this.model.get('x') - width - offset;
-      	  var y = this.model.get('y') - height - offset;
-      	  if (this.rImage != null) {
-      		  this.rImage.remove();
-      	  }
-      	  this.rImage = this.mainCanvasView.rPaper.image(imageData, x, y, width, height);
+          this.drawImage();
             
       	  return this;
       };
@@ -226,15 +264,10 @@
       Point.prototype.readEventImage = function($evt) { //this evt carries the Point class
           var imageData;
           imageData = $evt.target.result;
+          this.curveOption.set('imageData', imageData);
           this._asyncGetImageDimension((function(_this) {
             return function(dimension) {
-              return _this.image.set({
-                dataURL: imageData,
-                origWidth: dimension.width,
-                origHeight: dimension.height,
-                curWidth: dimension.width,
-                curHeight: dimension.height
-              });
+                //console.log("Image drawing succeeded.");
             };
           })(this), imageData);
           return this;
@@ -245,15 +278,48 @@
     	  this.loadEventImage(evt);
     	  return this;
       }
+
+      Point.prototype.updateEventAge = function(locationY) {
+          this.eventAge = this.calculateAgeForEvent(locationY); 
+          this.curveOption.set("eventAge", this.eventAge);
+
+          return this;
+      }
+
+      Point.prototype.calculateAgeForEvent = function(y) {
+          var aboveTimeLineY, aboveTimeLineAge = 0, belowTimeLineY, belowTimeLineAge = 50;
+
+          for (var i=0; i<this.timelines.size() - 1; i++) {
+              var m = this.timelines.models[i];
+              var m_y = m.get("y");
+              var m_age = m.get("age");
+              
+              if (m_y <= y) {
+                  aboveTimeLineY = m_y; 
+                  if (m_age != null)
+                    aboveTimeLineAge = m_age;
+
+                  var m_2 = this.timelines.models[i+1];
+                  var m_2_y = m_2.get("y");
+                  var m_2_age = m_2.get("age");
+                  belowTimeLineY = m_2_y;
+                  if (m_2_age != null)
+                    belowTimeLineAge = m_2_age;
+              }
+          }
+
+          var age = ((y-aboveTimeLineY)/(belowTimeLineY-aboveTimeLineY)) * (belowTimeLineAge-aboveTimeLineAge) + aboveTimeLineAge;
+
+          return age;
+      }
         
 
-      Point.prototype.drawEvent = function(eventType) {
-        //this.rEl = this.mainCanvasView.createCircle(this.model.get("x"), this.model.get("y"), this.normalRadius);
-        //this.rEl = this.mainCanvasView.createArrow(this.model.get("x"), this.model.get("y"), "LAD");
-    	//this.rEl = this.mainCanvasView.createImage  Arrow(this.model.get("x"), this.model.get("y"));
+      Point.prototype.drawEvent = function(eventType, eventLineType) {
    		  var x = this.model.get("x");
    		  var y = this.model.get("y");
-    	  if (eventType == "LAD") {
+          var leftRangeX = this.ranges.getLeftRange().get('x');
+          var rightRangeX = this.ranges.getRightRange().get('x');
+    	  if (eventType == "FAD" || eventType == "EVENT") {
     		  var move = "M " + x + "," + y + " ";
     		  var newX = x - 15;
     		  var line = "L " + newX + ", " + y + " ";
@@ -261,9 +327,9 @@
     		  var arrow_point = x - 7.5;
     		  var rest = "L " + arrow_point + "," + newY + " ";
     		  var dr = move + rest + line;
-    		  var horizontal_line = move + " " + "L " + 0 + ", " + y + " ";
+    		  var horizontal_line = move + " " + "L " + leftRangeX + ", " + y + " ";
     		  var dr = dr + horizontal_line;
-    	  } else if (eventType == "FAD") {
+    	  } else if (eventType == "LAD" ) {
     		  var move = "M " + x + "," + y + " ";
     		  var newX = x - 15;
     		  var line = "L " + newX + ", " + y + " ";
@@ -271,13 +337,9 @@
     		  var arrow_point = x - 7.5;
     		  var rest = "L " + arrow_point + "," + newY + " ";
     		  var dr = move + rest + line;
-    		  var horizontal_line = move + " " + "L " + 0 + ", " + y + " ";
+              var horizontal_line = move + " " + "L " + (x - 15) + "," + y + " " + "L " + rightRangeX + ", " + y + " ";
     		  var dr = dr + horizontal_line;
-    	  } else if (eventType == "EVENT") {
-    		  
-    	  } else {
-    		  
-    	  }
+    	  } 
 
    		  this.model.set("eventType", eventType);
     	  
@@ -289,24 +351,9 @@
         	  "fill-opacity": 5,
           });
 
-          this.INITIAL_LAD_EVENT_PATH= Object.create(this.rEl.attr("path"));
-          
-        if (this.isShow) {
-          this.show();
-        } else {
-          this.hide();
-        }
-    	  
-      }
-      
-      Point.prototype.initCanvasEl = function(options) {
-    	var $eventType = options.curveOption.get("eventType"); 
-    	this.model.set("curveOption", options.curveOption);
-    	this.drawEvent($eventType);
-        return this;
-      };
-      
-      Point.prototype.changeEvent = function(eventType, eventLineType) {
+          var eventName = this.curveOption.get("eventName");
+          this.rElText = this.mainCanvasView.createText(x, y + 20, eventName);
+
     	  if (eventLineType == "solid") {
     		  this.rEl.attr({
     			  "stroke-dasharray" : "" 
@@ -322,7 +369,9 @@
     	  } else {
     		  console.log("Event Line Type issue.")
     	  }
-    	  
+
+          this.INITIAL_LAD_EVENT_PATH= Object.create(this.rEl.attr("path"));
+
     	  var pathArray = JSON.parse(JSON.stringify(this.rEl.attr("path")));
     	  // rewriting the path with initial LAD event path
     	  for (i=0; i < this.INITIAL_LAD_EVENT_PATH.length; i++) {
@@ -333,32 +382,75 @@
     	  var lineY = pathArray[0][2];
     	  var diff = pathArray[1][2] - lineY;
 
-    	  if (eventType == "LAD") {
-    	  } else if (eventType == "FAD") {
-    		  pathArray[1][2] = lineY - diff; 
-    	  } else if (eventType == "EVENT") {
-    		  pathArray[2][1] = pathArray[1][1];
-    		  pathArray[2][2] = lineY-diff;
-    	  } else {
-    		  
-    	  }
+          /*
+          if (eventType == "LAD") {
+          } else if (eventType == "FAD") {
+              pathArray[1][2] = lineY - diff; 
+          } else */ 
+          if (eventType == "EVENT") {
+              pathArray[2][1] = pathArray[1][1];
+              pathArray[2][2] = lineY-diff;
 
-          this.rEl.attr({
-        	  path: JSON.parse(JSON.stringify(pathArray)) 
-          });
+              this.rEl.attr({
+                 path: JSON.parse(JSON.stringify(pathArray)) 
+              });
+          } 
+          /*
+          else {
+          }*/
+
+          this.model.set("eventPath", this.rEl.attr("path"));
+          this.locationY = y;
+          this.eventAge = this.calculateAgeForEvent(y);
+          this.curveOption.set("eventAge", this.eventAge);
+
+          if (this.rImage != null)
+              this.rImage.remove();
+
+          this.drawImage();
           
-          return this;
+        if (this.isShow) {
+          this.show();
+        } else {
+          this.hide();
+        }
       }
       
-      Point.prototype.changeEventType = function(eventType) {
-    	  this.eventType = eventType;
-    	  this.changeEvent(eventType, this.eventLineType);
+      Point.prototype.initCanvasEl = function(options) {
+    	var eventType = options.curveOption.get("eventType"); 
+        var eventLineType = options.curveOption.get("eventLineType");
+    	this.model.set("curveOption", options.curveOption);
+    	this.drawEvent(eventType, eventLineType);
+        return this;
+      };
+
+      Point.prototype.changeEventName = function() {
+        this.eventName = this.curveOption.get("eventName"); 
+        this.rElText.attr({"text":this.eventName});
+        console.log("Event Name changed");
+        
+        return this; 
+      }
+
+      Point.prototype.changeEventAge = function() {
+        this.eventAge = this.curveOption.get("eventAge"); 
+        
+        return this; 
+      }
+      
+      Point.prototype.changeEventType = function() {
+          this.eventType = this.curveOption.get("eventType");
+          this.rEl.remove();
+          this.rElText.remove();
+    	  this.drawEvent(this.eventType, this.eventLineType);
     	  return this;
       }
 
-      Point.prototype.changeEventLineType = function(eventLineType) {
-    	  this.eventLineType = eventLineType;
-    	  this.changeEvent(this.eventType, eventLineType);
+      Point.prototype.changeEventLineType = function() {
+          this.eventLineType = this.curveOption.get("eventLineType");
+          this.rEl.remove();
+          this.rElText.remove();
+    	  this.drawEvent(this.eventType, this.eventLineType);
     	  return this;
       }
 
@@ -389,6 +481,9 @@
           return;
         }
         this.updateFromXY(locationX, locationY);
+        this.locationY = locationY;
+        this.updateEventAge(this.locationY);
+
         return this;
       };
 
@@ -558,7 +653,7 @@
       };
 
       Point.prototype.rangeUpdated = function() {
-        this.updateFromModel();
+        //this.updateFromModel();
         return this;
       };
 

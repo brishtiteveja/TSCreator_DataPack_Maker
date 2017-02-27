@@ -42,13 +42,13 @@ define([
     };
 
     FileSystemView.prototype.requestFileSystem = function (size) {
-        window.webkitRequestFileSystem(window.webkitStorageInfo.PERSISTENT, size, this.render.bind(this), this.errorHandler
+        window.webkitRequestFileSystem(navigator.webkitPersistentStorage, size, this.render.bind(this), this.errorHandler
             .bind(this));
     };
 
     FileSystemView.prototype.updateQuota = function () {
         var self = this;
-        window.webkitStorageInfo.queryUsageAndQuota(window.webkitStorageInfo.PERSISTENT, //the type can be either TEMPORARY or PERSISTENT
+        navigator.webkitPersistentStorage.requestQuota(navigator.webkitPersistentStorage, //the type can be either TEMPORARY or PERSISTENT
             function (used, remaining) {
                 self.$quota.html("Used " + parseInt(used / 100000) / 10 + " mb of " + parseInt(remaining / 100000) /
                     10 + " mb.");

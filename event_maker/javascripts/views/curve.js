@@ -70,6 +70,8 @@
       };
 
       Curve.prototype.initialize = function(options) {
+        this.curveOption = this.model.get("option");
+        this.curveOption.set("eventName", this.model.get("name"));
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
         this.start();
@@ -160,6 +162,8 @@
         key = $input.attr("name");
         value = $input.val();
         this.model.set(key, value);
+		if ($evt.currentTarget.getAttribute("class") === "curve-name")
+			this.curveOption.set("eventName", value);
         return this;
       };
 

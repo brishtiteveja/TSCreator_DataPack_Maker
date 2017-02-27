@@ -13,7 +13,7 @@ define(["baseView"], function (BaseView) {
     });
 
     TransectView.prototype.template = new EJS({
-        url: '../../../transect_maker/ejs/transect.ejs'
+        url: '../../transect_maker/ejs/transect.ejs'
     });
 
     TransectView.prototype.initialize = function (app, transect) {

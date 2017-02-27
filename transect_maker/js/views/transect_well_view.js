@@ -15,7 +15,7 @@ define(["baseView"], function (BaseView) {
     });
 
     TransectWellView.prototype.template = new EJS({
-        url: '../../../transect_maker/ejs/transect_well.ejs'
+        url: '../../transect_maker/ejs/transect_well.ejs'
     });
 
     TransectWellView.prototype.initialize = function (app, transectWell, transectWellsView) {

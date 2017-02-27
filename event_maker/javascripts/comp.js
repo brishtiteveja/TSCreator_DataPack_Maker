@@ -28,6 +28,8 @@
         this.columnManager.registerNotifier(this.notificationsView);
         this.mainCanvasView = new MainCanvasView({
           className: "col1 disable-user-select",
+          columnManager: this.columnManager,
+          drawRangeAtStart: true,
           masterView: this
         }).render();
         this.referenceZonesView = this.initReferenceZonesView();
@@ -115,13 +117,21 @@
         this.proxyListenTo(this.toolsView, "start:panning", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "stop:panning", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "start:addingTimeline", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "start:addingTimeline", this.detailButtonsView);
         this.proxyListenTo(this.toolsView, "stop:addingTimeline", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "stop:addingTimeline", this.detailButtonsView);
         this.proxyListenTo(this.toolsView, "start:addingRange", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "start:addingRange", this.detailButtonsView);
         this.proxyListenTo(this.toolsView, "stop:addingRange", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "stop:addingRange", this.detailButtonsView);
         this.proxyListenTo(this.toolsView, "start:addingCurve", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "start:addingCurve", this.detailButtonsView);
         this.proxyListenTo(this.toolsView, "stop:addingCurve", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "stop:addingCurve", this.detailButtonsView);
         this.proxyListenTo(this.toolsView, "show:refZones", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "show:refZones", this.detailButtonsView);
         this.proxyListenTo(this.toolsView, "hide:refZones", this.mainCanvasView);
+        this.proxyListenTo(this.toolsView, "hide:refZones", this.detailButtonsView);
         this.proxyListenTo(this.toolsView, "show:columnExportPreview", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "hide:columnExportPreview", this.mainCanvasView);
         this.proxyListenTo(this.toolsView, "saveToLocalJSON", this.columnManager);

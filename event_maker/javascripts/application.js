@@ -1,6 +1,6 @@
 (function() {
   require.config({
-    baseUrl: "/event_maker/javascripts",
+    baseUrl: "../event_maker/javascripts",
     urlArgs: "nocache=" + (new Date()).getTime(),
     paths: {
       "views": "views",

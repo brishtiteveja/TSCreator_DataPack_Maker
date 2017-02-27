@@ -83,15 +83,18 @@ define(["baseView"], function(BaseView) {
 	}
 
 	DataExportView.prototype.renderDataInText = function() {
-		this.$textData.value = this.exporter.getText();
+		if (this.$textData)
+			this.$textData.value = this.exporter.getText();
 	}
 
 	DataExportView.prototype.renderDataInJSON = function() {
-		this.$textJSON.value = this.exporter.getJSON();
+		if (this.$textJSON)
+			this.$textJSON.value = this.exporter.getJSON();
 	}
 
 	DataExportView.prototype.renderMapData = function() {
-		this.$textMap.value = this.exporter.getMapData();
+		if (this.$textMap)
+			this.$textMap.value = this.exporter.getMapData();
 	}
 
 	DataExportView.prototype.toggleExportView = function(evt) {

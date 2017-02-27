@@ -15,24 +15,26 @@
         this.destroy = __bind(this.destroy, this);
         this.eventAgeAction = __bind(this.eventAgeAction, this);
         this.eventPopupAction = __bind(this.eventPopupAction, this);
+        this.eventReferenceAction = __bind(this.eventReferenceAction, this);
         this.eventLineTypeAction = __bind(this.eventLineTypeAction, this);
+        this.eventTypeAction = __bind(this.eventTypeAction, this);
         this.fillColorAction = __bind(this.fillColorAction, this);
         this.fillCurveAction = __bind(this.fillCurveAction, this);
-        this.eventTypeAction = __bind(this.eventTypeAction, this);
         this.dropImageAction = __bind(this.dropImageAction, this);
         this.showLinesAction = __bind(this.showLinesAction, this);
         this.showPointsAction = __bind(this.showPointsAction, this);
         this.smoothedAction = __bind(this.smoothedAction, this);
         this.changeFillColor = __bind(this.changeFillColor, this);
+        this.changeEventAge = __bind(this.changeEventAge, this);
+        this.changeEventPopup = __bind(this.changeEventPopup, this);
+        this.changeEventPopup = __bind(this.changeEventReference, this);
+        this.changeLineType = __bind(this.changeLineType, this);
         this.changeEventType = __bind(this.changeEventType, this);
         this.changeIsFillCurve = __bind(this.changeIsFillCurve, this);
         this.changeIsShowLines = __bind(this.changeIsShowLines, this);
         this.changeIsShowPoints = __bind(this.changeIsShowPoints, this);
         this.changeIsSmoothed = __bind(this.changeIsSmoothed, this);
         this.changeImage = __bind(this.changeImage, this);
-        this.changeEventAge = __bind(this.changeEventAge, this);
-        this.changeEventPopup = __bind(this.changeEventPopup, this);
-        this.changeLineType = __bind(this.changeEventPopup, this);
 
         this.detachEl = __bind(this.detachEl, this);
         return CurveOption.__super__.constructor.apply(this, arguments);
@@ -41,7 +43,7 @@
       CurveOption.prototype.className = "display-options";
 
       CurveOption.prototype.template = new EJS({
-        url: "templates/curves/option"
+        url: "templates/events/option"
       });
 
       CurveOption.prototype.isExpanded = true;
@@ -52,9 +54,10 @@
         "click .show-points-btn": "showPointsAction",
         "click .show-lines-btn": "showLinesAction",
         "click .fill-curve-btn": "fillCurveAction",
+        "change input[name=fillColor]": "fillColorAction",
         "change input[name=eventAge]": "eventAgeAction",
         "change input[name=eventPopup]": "eventPopupAction",
-        "change input[name=fillColor]": "fillColorAction",
+        "change input[name=eventReference]": "eventReferenceAction",
         "change input[name=event-type]": "eventTypeAction",
         "change input[name=event-line-type]": "eventLineTypeAction",
         "drop .image-dropbox": "dropImageAction"
@@ -70,10 +73,11 @@
           "change:isShowLines": this.changeIsShowLines,
           "change:isFillCurve": this.changeIsFillCurve,
           "change:fillColor": this.changeFillColor,
-          "change:eventType": this.changeEventType,
           "change:eventAge" : this.changeEventAge,
           "change:eventPopup" : this.changeEventPopup,
+          "change:eventReference" : this.changeEventReference,
           "change:eventLineType" : this.changeEventLineType,
+          "change:eventType": this.changeEventType,
           "change:imageFileEvent": this.changeImage
         });
         return this;
@@ -86,7 +90,7 @@
       
       CurveOption.prototype.changeImage = function($evt) {
           var imageFile, reader;
-          console.log("Curve Option Change Image.");
+//          console.log("Curve Option Change Image.");
 //          $evt.preventDefault();
 //          $evt.stopPropagation();
 //          if ($evt.originalEvent.dataTransfer.files.length === 1) {
@@ -166,12 +170,14 @@
       CurveOption.prototype.changeEventAge = function(m, value, options) {
     	 var $input, $eventAge;
     	 $eventAge = value;
+         $input = this.$el.find("input[name=eventAge]");
+         $input.val($eventAge);
 
     	 return this;
       }
-      CurveOption.prototype.changeEventPopup = function(m, value, options) {
-    	 var $input, $eventPopup;
-    	 $eventPopup = value;
+      CurveOption.prototype.changeEventReference = function(m, value, options) {
+    	 var $input, $eventReference;
+    	 $eventReference = value;
 
     	 return this;
       }
@@ -209,11 +215,6 @@
         return this;
       };
 
-      CurveOption.prototype.eventTypeAction = function($evt) {
-        this.model.set("eventType", $($evt.target).val());
-        return this;
-      };
-
       CurveOption.prototype.eventAgeAction = function($evt) {
         this.model.set("eventAge", $($evt.target).val());
         return this;
@@ -224,6 +225,11 @@
         return this;
       };
 
+      CurveOption.prototype.eventReferenceAction = function($evt) {
+        this.model.set("eventReference", $($evt.target).val());
+        return this;
+      };
+
       CurveOption.prototype.dropImageAction = function($evt) {
         this.model.set("imageFileEvent", $evt);
         return this;
@@ -231,6 +237,11 @@
 
       CurveOption.prototype.eventLineTypeAction = function($evt) {
         this.model.set("eventLineType", $($evt.target).val());
+        return this;
+      };
+
+      CurveOption.prototype.eventTypeAction = function($evt) {
+        this.model.set("eventType", $($evt.target).val());
         return this;
       };
 

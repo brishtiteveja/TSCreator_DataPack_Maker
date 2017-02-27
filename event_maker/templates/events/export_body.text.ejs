@@ -1,0 +1,43 @@
+	<%= this.name %><% 
+	if (option.get("imageFileName")) {
+	%><img align="middle" width="30" src="<%=
+                    option.get("imageFileName")
+                    %>"><%
+	} else {
+	%><% } %><%
+	points.each(function(p){ %>	<%= 
+            option.get("eventAge").toFixed(2) %>	<%= 
+            option.get("eventLineType") %>	<%=
+			option.get("eventName") 
+			%><br><% 
+			if (option.get("imageFileName")) { 
+			%><img align="middle" src="<%=
+              option.get("imageFileName")
+            %>"><br><%
+			} else { 
+			%><% } %><%
+			if(option.get('eventPopup')) {
+            %><%= 
+            option.get("eventPopup") 
+            %><br><% 
+            } else{ 
+            %><% } %><%
+            if(p.get('zone').get('name')) {
+            %>CALIBRATION = <%=
+                    (+(p.get("relY") +'e2')).toFixed(2) + "%" 
+                    %> up in the <%= 
+                    p.get('zone').get('name') %> zone <br><% 
+            } else{ 
+			%><% } %><%
+			if(option.get('eventReference')) {
+            %>REFERENCE = <%= 
+            option.get("eventReference") 
+            %><br><% 
+            } else{ 
+            %><% } %><%
+            if(points.length > 1) {
+			%>
+			<%
+			}%><%
+        }) 
+    %>

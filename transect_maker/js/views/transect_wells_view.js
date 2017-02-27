@@ -9,7 +9,7 @@ define(["baseView", "transectWellView", "transectWell", "transect"], function(Ba
 	});
 
 	TransectWellsView.prototype.template = new EJS({
-		url: '../../../commons/ejs/data_tbl.ejs'
+		url: '../../commons/ejs/data_tbl.ejs'
 	});
 
 	TransectWellsView.prototype.initialize = function(app) {

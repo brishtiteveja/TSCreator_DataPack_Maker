@@ -3,7 +3,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(["../models/detail"], function(DetailModel) {
+  define(["../models/detail"], function(DetailModel, ToolView) {
     var DetailButton;
     return DetailButton = (function(_super) {
       __extends(DetailButton, _super);
@@ -23,13 +23,18 @@
         "click": "toggleDetail"
       };
 
-      DetailButton.prototype.initialize = function() {
+      DetailButton.prototype.initialize = function(options) {
         this.listenTo(this.model, "change:isActivated", this.changeClassName);
         return this;
       };
 
       DetailButton.prototype.toggleDetail = function($evt) {
         $evt.preventDefault();
+        this.model.collection.trigger("toggleDetail", this.model);
+        return this;
+      };
+
+      DetailButton.prototype.proxyToggleDetailByToolSelection = function() {
         this.model.collection.trigger("toggleDetail", this.model);
         return this;
       };
