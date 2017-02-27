@@ -208,63 +208,68 @@ main svg {
 }
 
 .introduction {
-  margin: 100px 60px;
-  background: #FFFFFF;
+    margin: 100px 60px;
+    background: #FFFFFF
 }
-
 .introduction h1 {
-  color: #222222;
+    color: #222222
 }
-
 .introduction .tool-name-column {
-  float: left;
-  width: 280px;
-  padding: 25px 20px;
-  text-align: center;
+    float: top;
+    width: auto;
+    padding: 20px 20px 20px 20px;
+    text-align: center;
 }
-
 .introduction .tool-option-column {
-  width: auto;
-  min-width: 330px;
-  overflow: hidden;
-  padding: 25px 20px;
+    width: auto;
+    min-width: 330px;
+    overflow: hidden;
+    padding: 25px 20px;
 }
-
-.introduction .intro-name {
-  width: auto;
-  min-width: 330px;
-  padding: 25px 0px;
-  margin-top: 70px;
-  margin-right: 20px;
-}
-
 .introduction .subheader {
-  color: #6F6F6F;
+    font-size: 50px;
+    font-weight: bold;
+    color: #6F6F6F
 }
-
-
+.introduction .row {
+    padding: 30px 475px;
+}
+.introduction .continue {
+    white-space: nowrap;
+    float: top;
+    border-style: solid;
+    border-color: #33CCFF;
+    box-sizing: border-box;
+    border-width: 5px;
+    border-radius: 8px;
+    width: auto;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    padding: 45px 112px;
+    overflow: hidden;
+}
+.introduction .continue:hover{
+    background-color: #F2F2F2
+}
 .introduction .data-dropbox {
-  float: left;
-  padding: 50px 50px;
-  margin: 20px 20px;
-  font-size: 30px;
-  font-weight: 100;
-  color: #147309;
+  width: 500px;
+    color: #6F6F6F;
+    padding: 30px 50px;
+    font-size: 21px;
+    font-weight: 100
 }
-
-.introduction .data-dropbox:active,.introduction .data-dropbox:focus,.introduction .data-dropbox:hover {
-  background: #F1F1F1;
+.introduction .data-dropbox:active,
+.introduction .data-dropbox:focus,
+.introduction .data-dropbox:hover {
+    background: #F1F1F1
 }
-
-.introduction .continue .start{
-    font-size: 40px;
-    color: #147309;
+.introduction .link{
+    text-align: right;
+    padding: 30px
 }
-
-.introduction .row .guide {
-    float: center;
-    padding-top: 200px;
-    color: #147309;
+.introduction .picture{
+    position: absolute
 }
 
 .toolbar {
