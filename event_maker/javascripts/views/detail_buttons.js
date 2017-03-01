@@ -29,7 +29,6 @@
 
       DetailButtons.prototype.addOne = function(m) {
         var newDetailButtonView;
-        console.log(m.get("text"));
         newDetailButtonView = new DetailButtonView({
           model: m,
         }).render();

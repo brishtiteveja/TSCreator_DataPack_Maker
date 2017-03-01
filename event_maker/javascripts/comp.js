@@ -30,6 +30,7 @@
           className: "col1 disable-user-select",
           columnManager: this.columnManager,
           drawRangeAtStart: true,
+          showImagePanelAtStart: true,
           masterView: this
         }).render();
         this.referenceZonesView = this.initReferenceZonesView();
