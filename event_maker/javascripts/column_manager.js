@@ -405,7 +405,7 @@
           text: "Range",
           title: "Show range limit details",
           template: new EJS({
-            url: "templates/ranges/show"
+            url: "./templates/ranges/show"
           }),
           viewClazz: RangesView,
           dataClazz: RangeCollection
@@ -420,7 +420,7 @@
           text: "Image",
           title: "Set up background image",
           template: new EJS({
-            url: "templates/image/show"
+            url: "./templates/image/show"
           }),
           viewClazz: ImageDetailView,
           dataClazz: BackgroundImageModel
@@ -429,7 +429,7 @@
           text: "References",
           title: "Set reference columns",
           template: new EJS({
-            url: "templates/references/show"
+            url: "./templates/references/show"
           }),
           viewClazz: ReferencesDetailView,
           dataClazz: ReferencesDetailModel

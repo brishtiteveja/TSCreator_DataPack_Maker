@@ -23,7 +23,11 @@
         this.mainCanvasView = options.mainCanvasView;
         this.columnManager = options.columnManager;
         this.toolsView = options.toolsView;
+        this.imageDetailPanelView = null;
         this.collection.add(this.columnManager.getAllModulesForCurrentColumn());
+
+        this.listenTo(this.mainCanvasView, "showImagePanel", this.showImagePanel);
+
         return this;
       };
 
@@ -39,6 +43,11 @@
           columnManager: this.columnManager,
           toolsView: this.toolsView
         }).render();
+
+        if (m.get("text") == "Image") {
+            this.imageDetailPanelView = newDetailPanelView;
+        }
+
         this.$el.append(newDetailPanelView.el);
         return this;
       };
@@ -51,6 +60,15 @@
         this.$el.css(dimension);
         return this;
       };
+
+      Details.prototype.showImagePanel = function(dimension) {
+            if (this.imageDetailPanelView != null) {
+                this.imageDetailPanelView.model.activate();
+                this.imageDetailPanelView.togglePanel();
+            }
+
+          return this;
+      }
 
       return Details;
 

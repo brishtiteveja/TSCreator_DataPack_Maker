@@ -54,8 +54,16 @@
 
       MainCanvas.prototype.initialize = function(options) {
         this.columnManager = options.columnManager;
-        this.drawRangeAtStart = options.drawRangeAtStart;
         this.masterView = options.masterView;
+        this.curDimension = null;
+        this.curViewBox = {
+          x: 0,
+          y: 0
+        };
+        // flag for drawing ranges as the initial left right boundary for event drawing 
+        this.drawRangeAtStart = options.drawRangeAtStart;
+        // flag for showing image detail panel at the start
+        this.showImagePanelAtStart = options.showImagePanelAtStart;
         this.$intro = $(this.introTemplate.render());
         this.listenTo(this, "register:view", this.registerSubView);
         this.rPaper = Raphael(this.el, "100%", "100%");
@@ -69,7 +77,11 @@
       MainCanvas.prototype.showPaper = function() {
         this.$intro.hide();
         $(this.rPaper.canvas).show();
-        this.columnManager.trigger("triggerEventsToMasterView", ["start:addingRange"])
+        if (this.drawRangeAtStart)
+            this.trigger("start:addingRange", null);
+
+        if (this.showImagePanelAtStart)
+            this.trigger("showImagePanel", null);
 
         return this;
       };
