@@ -91,7 +91,7 @@
 
       Curves.prototype.start = function() {
         this.overlay.toFront();
-        this.overlay.dblclick(this.addingChild);
+        this.overlay.click(this.addingChild);
         this.curves.each(function(m) {
           return m.trigger("toFront");
         });
@@ -100,7 +100,7 @@
 
       Curves.prototype.stop = function() {
         this.overlay.toBack();
-        this.overlay.undblclick(this.addingChild);
+        this.overlay.unclick(this.addingChild);
         this.deselectCurrentIfExists();
         return this;
       };

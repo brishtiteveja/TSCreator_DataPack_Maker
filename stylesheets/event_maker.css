@@ -230,28 +230,41 @@ main svg {
   padding: 25px 20px;
 }
 
+.introduction .intro-name {
+  width: auto;
+  min-width: 330px;
+  padding: 25px 0px;
+  margin-top: 70px;
+  margin-right: 20px;
+}
+
 .introduction .subheader {
   color: #6F6F6F;
 }
 
-.introduction .row {
-  padding: 10px 0px;
-}
 
 .introduction .data-dropbox {
-  color: #6F6F6F;
-  padding: 20px 0px;
-  font-size: 21px;
+  float: left;
+  padding: 50px 50px;
+  margin: 20px 20px;
+  font-size: 30px;
   font-weight: 100;
+  color: #147309;
 }
 
 .introduction .data-dropbox:active,.introduction .data-dropbox:focus,.introduction .data-dropbox:hover {
   background: #F1F1F1;
 }
 
-.introduction .continue {
-  float: right;
-  padding: 0px 20px;
+.introduction .continue .start{
+    font-size: 40px;
+    color: #147309;
+}
+
+.introduction .row .guide {
+    float: center;
+    padding-top: 200px;
+    color: #147309;
 }
 
 .toolbar {
