@@ -67,6 +67,7 @@ h1,h2,h3,h4,h5,h6 {
   margin-bottom: 0.5rem;
   line-height: 1.4;
 }
+
 input[type="text"],input[type="password"],input[type="date"],input[type="datetime"],input[type="datetime-local"],input[type="month"],input[type="week"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="time"],input[type="url"],textarea {
   border: 1px solid #CCCCCC;
   color: rgba(0,0,0,0.75);
@@ -217,9 +218,9 @@ main svg {
 }
 
 .introduction .tool-name-column {
-  float: left;
-  width: 280px;
-  padding: 25px 20px;
+  float: left; 
+  width: auto;
+  padding: 20px 20px 20px 20px;
   text-align: center;
 }
 
@@ -228,6 +229,37 @@ main svg {
   min-width: 330px;
   overflow: hidden;
   padding: 25px 20px;
+}
+
+.introduction .row {
+  padding: 30px 45px;
+}
+
+.introduction .continue {
+    white-space: nowrap;
+    float: top;
+    border-style: solid;
+    border-color: #33CCFF;
+    box-sizing: border-box;
+    border-width: 5px;
+    border-radius: 8px;
+    width: auto;
+    font-weight: bold;
+    text-align: center;
+    padding: 45px 112px;
+    overflow: hidden;
+}
+
+.introduction .continue:hover{
+    background-color: #F2F2F2
+}
+
+.introduction .data-dropbox {
+    width: 500px;
+    color: #6F6F6F;
+    padding: 30px 50px;
+    font-size: 21px;
+    font-weight: 100
 }
 
 .introduction .intro-name {
@@ -239,6 +271,8 @@ main svg {
 }
 
 .introduction .subheader {
+  font-size: 50px;
+  font-weight: bold;
   color: #6F6F6F;
 }
 
