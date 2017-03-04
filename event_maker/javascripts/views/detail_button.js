@@ -24,6 +24,7 @@
       };
 
       DetailButton.prototype.initialize = function(options) {
+        this.model.set("isToolButtonSelected", false); // flag to check whether tool button is selected
         this.listenTo(this.model, "change:isActivated", this.changeClassName);
         return this;
       };
@@ -35,7 +36,12 @@
       };
 
       DetailButton.prototype.proxyToggleDetailByToolSelection = function() {
-        this.model.collection.trigger("toggleDetail", this.model);
+          var isToolButtonSelected = this.model.get("isToolButtonSelected");
+          if (this.model.isActivated() == false && isToolButtonSelected == false) { // If the detail view is not already open, open it
+            this.model.collection.trigger("toggleDetail", this.model); // don't open when the tool button is being closed
+          }
+          this.model.set("isToolButtonSelected", !isToolButtonSelected); // toggling the tool button selected flag
+
         return this;
       };
 

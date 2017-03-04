@@ -23,16 +23,20 @@
       };
 
       Details.prototype.toggleDetail = function(m) {
-        if ((this.activatedDetailModel != null) && this.activatedDetailModel === m) {
-          m.deactivate();
-          this.activatedDetailModel = null;
-        } else {
-          if (this.activatedDetailModel != null) {
-            this.activatedDetailModel.deactivate();
+          if (this.activatedDetailModel != null && this.activatedDetailModel === m)    {
+                m.deactivate();
+                this.activatedDetailModel = null;
+          } else if (m.get("text") == "Image" && m.get("showImagePanelAtStart") == true) {
+                m.set("showImagePanelAtStart", false);
+                m.deactivate();
+                this.activatedDetailModel = null;
+          } else {
+                if (this.activatedDetailModel != null) {
+                    this.activatedDetailModel.deactivate();
+                }
+                m.activate();
+                this.activatedDetailModel = m;
           }
-          m.activate();
-          this.activatedDetailModel = m;
-        }
         return this;
       };
 

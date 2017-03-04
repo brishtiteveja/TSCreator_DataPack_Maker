@@ -45,6 +45,7 @@
         }).render();
 
         if (m.get("text") == "Image") {
+            newDetailPanelView.model.set("showImagePanelAtStart", true);
             this.imageDetailPanelView = newDetailPanelView;
         }
 
