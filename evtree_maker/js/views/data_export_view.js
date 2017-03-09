@@ -70,7 +70,8 @@ define(["baseView"], function (BaseView) {
     };
 
     DataExportView.prototype.renderDataInText = function () {
-        this.$textData.value = this.exporter.getText();
+		if(this.$textData != null && this.exporter != null)
+			this.$textData.value = this.exporter.getText();
     };
 
     DataExportView.prototype.showData = function (evt) {

@@ -14,7 +14,7 @@ define(["baseView", "imageOb"], function (BaseView, ImageOb) {
     });
 
     ImageObView.prototype.template = new EJS({
-        url: '/transect_maker/ejs/transect_image_settings.ejs'
+        url: '/Stratigraphy/tscreator/tscmaker/commons/ejs/image_settings.ejs'
     });
 
     ImageObView.prototype.initialize = function (app) {
