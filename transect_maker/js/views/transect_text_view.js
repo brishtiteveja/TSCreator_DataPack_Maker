@@ -22,7 +22,7 @@ define(["baseView", "point", "polyK"], function (BaseView, Point, PolyK) {
 
     /* template for transect text */
     TransectTextView.prototype.template = new EJS({
-        url: '/transect_maker/ejs/transect_text.ejs'
+        url: '../../transect_maker/ejs/transect_text.ejs'
     });
 
     TransectTextView.prototype.initialize = function (app, transectText, transectTextsView) {

@@ -5,7 +5,7 @@ define(["baseView", "transectView", "transects"], function(BaseView, TransectVie
 	});
 
 	TransectsView.prototype.template = new EJS({
-		url: '/commons/ejs/data_tbl.ejs'
+		url: '../../commons/ejs/data_tbl.ejs'
 	});
 
 	TransectsView.prototype.initialize = function(app) {
