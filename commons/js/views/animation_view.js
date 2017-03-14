@@ -12,7 +12,7 @@ define(["baseView"], function (BaseView) {
     });
 
     AnimationView.prototype.template = new EJS({
-        url: '/commons/ejs/animation.ejs'
+        url: '../../commons/ejs/animation.ejs'
     });
 
     AnimationView.prototype.initialize = function (app) {

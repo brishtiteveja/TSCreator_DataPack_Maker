@@ -30,10 +30,10 @@ define([
 	});
 
 	ReferenceColumnSideView.prototype.template = new EJS({
-		url: '/reference_column_maker/ejs/reference_column.ejs'
+		url: '../../reference_column_maker/ejs/reference_column.ejs'
 	});
 	ReferenceColumnSideView.prototype.settingsTemplate = new EJS({
-		url: '/reference_column_maker/ejs/reference_column_settings.ejs'
+		url: '../../reference_column_maker/ejs/reference_column_settings.ejs'
 	});
 
 	/*==========  Initialize block view  ==========*/
@@ -100,7 +100,7 @@ define([
 
 	ReferenceColumnSideView.prototype.loadReferenceColumnData = function() {
 		var self = this;
-		$.get("/commons/json/default-reference-column-data.json", function(data) {
+		$.get("../../commons/json/default-reference-column-data.json", function(data) {
 			self.referenceColumn.set({
 				columnsData: data.referenceBlockColumns
 			});

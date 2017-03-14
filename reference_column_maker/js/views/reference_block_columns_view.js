@@ -10,7 +10,7 @@ define(["baseView", "referenceBlockColumnView", "referenceBlockColumn"], functio
 	});
 
 
-	ReferenceBlockColumnsView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
+	ReferenceBlockColumnsView.prototype.template = new EJS({url: '../../commons/ejs/data_tbl.ejs'});
 
 	ReferenceBlockColumnsView.prototype.initialize = function(app) {
 		this.app = app;

@@ -19,7 +19,7 @@ window.define([
     });
 
     NodeView.prototype.template = new EJS({
-        url: "/evtree_maker/ejs/node.ejs"
+        url: "../../evtree_maker/ejs/node.ejs"
     });
 
     NodeView.prototype.initialize = function (node, app) {

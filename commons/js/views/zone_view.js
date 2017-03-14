@@ -15,7 +15,7 @@ define(["baseView"], function(BaseView) {
 	});
 
 	ZoneView.prototype.template = new EJS({
-		url: '/commons/ejs/zone.ejs'
+		url: '../../commons/ejs/zone.ejs'
 	});
 
 	ZoneView.prototype.initialize = function(zone) {

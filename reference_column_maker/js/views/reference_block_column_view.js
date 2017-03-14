@@ -21,7 +21,7 @@ define(["baseView", "referenceBlockView", "referenceBlockMarkerView", "reference
 		}
 	});
 
-	ReferenceBlockColumnView.prototype.template = new EJS({url: '/reference_column_maker/ejs/block_column.ejs'});
+	ReferenceBlockColumnView.prototype.template = new EJS({url: '../../reference_column_maker/ejs/block_column.ejs'});
 
 	ReferenceBlockColumnView.prototype.initialize = function(app, blockColumn) {
 		this.app = app;

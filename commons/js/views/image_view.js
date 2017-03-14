@@ -14,7 +14,7 @@ define(["baseView", "imageOb"], function (BaseView, ImageOb) {
     });
 
     ImageObView.prototype.template = new EJS({
-        url: '/Stratigraphy/tscreator/tscmaker/commons/ejs/image_settings.ejs'
+        url: '../../commons/ejs/image_settings.ejs'
     });
 
     ImageObView.prototype.initialize = function (app) {

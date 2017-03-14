@@ -21,7 +21,7 @@ define(["baseView"], function(BaseView) {
 		}
 	});
 
-	ReferenceBlockView.prototype.template = new EJS({url: '/reference_column_maker/ejs/block.ejs'});
+	ReferenceBlockView.prototype.template = new EJS({url: '../../reference_column_maker/ejs/block.ejs'});
 
 	ReferenceBlockView.prototype.initialize = function(app, block) {
 		this.app = app;

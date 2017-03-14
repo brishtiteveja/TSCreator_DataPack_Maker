@@ -6,7 +6,7 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
     });
 
     EvTreeView.prototype.template = new EJS({
-        url: '/commons/ejs/data_tbl.ejs'
+        url: '../../commons/ejs/data_tbl.ejs'
     });
 
     EvTreeView.prototype.initialize = function (app) {

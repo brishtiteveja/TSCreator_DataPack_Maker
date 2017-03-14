@@ -5,7 +5,7 @@ define(["baseView", "markerView", "marker", "zone"], function (BaseView, MarkerV
     });
 
     MarkersView.prototype.template = new EJS({
-        url: '/commons/ejs/data_tbl.ejs'
+        url: '../../commons/ejs/data_tbl.ejs'
     });
 
     MarkersView.prototype.initialize = function (app) {
