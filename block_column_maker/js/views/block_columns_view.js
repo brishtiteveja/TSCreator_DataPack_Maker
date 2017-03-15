@@ -10,7 +10,7 @@ define(["baseView", "blockColumnView", "blockColumn"], function(BaseView, BlockC
 	});
 
 
-	BlockColumnsView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
+	BlockColumnsView.prototype.template = new EJS({url: '../../commons/ejs/data_tbl.ejs'});
 
 	BlockColumnsView.prototype.initialize = function(app) {
 		this.app = app;

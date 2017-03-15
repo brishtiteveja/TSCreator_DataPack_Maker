@@ -61,7 +61,7 @@ define([
 
     Lithology2dView.prototype.loadPatternsDataAndRender = function () {
         var self = this;
-        $.get("/pattern_manager/json/patterns.json", function (data) {
+        $.get("../../pattern_manager/json/patterns.json", function (data) {
             self.app.patternsData = data;
             self.render();
         });
