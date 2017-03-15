@@ -9,7 +9,7 @@ define(["baseView"], function(BaseView) {
 		classname: "BlockMarkerView",
 	});
 
-	BlockMarkerView.prototype.statusBoxTemplate = new EJS({url: '/block_column_maker/ejs/status_box.ejs'});
+	BlockMarkerView.prototype.statusBoxTemplate = new EJS({url: '../../block_column_maker/ejs/status_box.ejs'});
 
 	BlockMarkerView.prototype.initialize = function(app, blockMarker) {
 		this.app = app;

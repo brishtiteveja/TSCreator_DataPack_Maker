@@ -21,7 +21,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		}
 	});
 
-	BlockColumnView.prototype.template = new EJS({url: '/block_column_maker/ejs/block_column.ejs'});
+	BlockColumnView.prototype.template = new EJS({url: '../../block_column_maker/ejs/block_column.ejs'});
 
 	BlockColumnView.prototype.initialize = function(app, blockColumn) {	
 		this.app = app;
