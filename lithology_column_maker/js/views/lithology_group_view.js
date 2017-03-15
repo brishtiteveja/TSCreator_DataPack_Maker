@@ -30,7 +30,7 @@ define([
     });
 
     LithologyGroupView.prototype.template = new EJS({
-        url: '/lithology_column_maker/ejs/lithology_group.ejs'
+        url: '../../lithology_column_maker/ejs/lithology_group.ejs'
     });
 
     LithologyGroupView.prototype.initialize = function (app, lithologyGroup) {

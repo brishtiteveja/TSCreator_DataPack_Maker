@@ -26,7 +26,7 @@ define([
     });
 
     FileSystemView.prototype.template = new EJS({
-        url: "/file_system/ejs/file_system_panel.ejs"
+        url: "../../file_system/ejs/file_system_panel.ejs"
     });
 
     FileSystemView.prototype.initialize = function (app) {

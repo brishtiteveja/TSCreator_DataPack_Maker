@@ -38,11 +38,11 @@ define([
     });
 
     LithologyColumnView.prototype.template = new EJS({
-        url: '/lithology_column_maker/ejs/lithology_column.ejs'
+        url: '../../lithology_column_maker/ejs/lithology_column.ejs'
     });
 
     LithologyColumnView.prototype.colInfoTemplate = new EJS({
-        url: '/lithology_column_maker/ejs/lithology_column_info.ejs'
+        url: '../../lithology_column_maker/ejs/lithology_column_info.ejs'
     });
 
     LithologyColumnView.prototype.initialize = function (app, lithologyColumn) {

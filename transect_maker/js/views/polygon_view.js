@@ -20,7 +20,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
     });
 
     PolygonView.prototype.template = new EJS({
-        url: '/transect_maker/ejs/polygon.ejs'
+        url: '../../transect_maker/ejs/polygon.ejs'
     });
 
     /*==========  initialize the polygon view.  ==========*/

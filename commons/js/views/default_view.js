@@ -7,7 +7,7 @@ define(["baseView"], function (BaseView) {
     });
 
     DefaultView.prototype.template = new EJS({
-        url: '/commons/ejs/default.ejs'
+        url: '../../commons/ejs/default.ejs'
     });
 
     DefaultView.prototype.initialize = function (app) {

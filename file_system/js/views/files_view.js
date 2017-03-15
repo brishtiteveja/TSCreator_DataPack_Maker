@@ -15,7 +15,7 @@ define([
         });
 
         FilesView.prototype.template = new EJS({
-            url: "/file_system/ejs/files.ejs"
+            url: "../../file_system/ejs/files.ejs"
         });
 
         FilesView.prototype.initialize = function (files, fileSystem, app) {

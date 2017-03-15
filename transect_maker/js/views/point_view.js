@@ -13,10 +13,10 @@ define(["baseView"], function (BaseView) {
     });
 
     PointView.prototype.template = new EJS({
-        url: '/transect_maker/ejs/point.ejs'
+        url: '../../transect_maker/ejs/point.ejs'
     });
     PointView.prototype.statusBoxTemplate = new EJS({
-        url: '/transect_maker/ejs/status_box.ejs'
+        url: '../../transect_maker/ejs/status_box.ejs'
     });
 
     PointView.prototype.initialize = function (app, point) {

@@ -10,7 +10,7 @@ define(["baseView", "lithologyColumnView", "lithologyColumn"], function(BaseView
 	});
 
 
-	LithologyColumnsView.prototype.template = new EJS({url: '/commons/ejs/data_tbl.ejs'});
+	LithologyColumnsView.prototype.template = new EJS({url: '../../commons/ejs/data_tbl.ejs'});
 
 	LithologyColumnsView.prototype.initialize = function(app) {
 		this.app = app;

@@ -9,7 +9,7 @@ define(["baseView"], function(BaseView) {
 		classname: "ReferenceBlockMarkerView",
 	});
 
-	ReferenceBlockMarkerView.prototype.statusBoxTemplate = new EJS({url: '/reference_column_maker/ejs/status_box.ejs'});
+	ReferenceBlockMarkerView.prototype.statusBoxTemplate = new EJS({url: '../../reference_column_maker/ejs/status_box.ejs'});
 
 	ReferenceBlockMarkerView.prototype.initialize = function(app, blockMarker) {
 		this.app = app;

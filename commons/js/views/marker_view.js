@@ -18,7 +18,7 @@ define(["baseView"], function (BaseView) {
 
     /*==========  Template to be used in generation marker in the settings side panel.  ==========*/
     MarkerView.prototype.template = new EJS({
-        url: '/commons/ejs/marker.ejs'
+        url: '../../commons/ejs/marker.ejs'
     });
 
 

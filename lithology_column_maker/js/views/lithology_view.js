@@ -19,7 +19,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
     });
 
     LithologyView.prototype.template = new EJS({
-        url: '/lithology_column_maker/ejs/lithology.ejs'
+        url: '../../lithology_column_maker/ejs/lithology.ejs'
     });
 
     LithologyView.prototype.initialize = function (app, lithology) {

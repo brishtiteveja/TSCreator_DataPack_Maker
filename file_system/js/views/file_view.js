@@ -11,7 +11,7 @@ define(["baseView"], function (BaseView) {
     });
 
     FileView.prototype.template = new EJS({
-        url: "/file_system/ejs/file.ejs"
+        url: "../../file_system/ejs/file.ejs"
     });
 
     FileView.prototype.initialize = function (file, files, fileSystem, app) {

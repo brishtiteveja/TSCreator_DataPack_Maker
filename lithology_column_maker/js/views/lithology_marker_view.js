@@ -5,7 +5,7 @@ define(["baseView"], function (BaseView) {
     });
 
     LithologyMarkerView.prototype.statusBoxTemplate = new EJS({
-        url: '/lithology_column_maker/ejs/status_box.ejs'
+        url: '../../lithology_column_maker/ejs/status_box.ejs'
     });
 
     LithologyMarkerView.prototype.initialize = function (app, lithologyMarker) {

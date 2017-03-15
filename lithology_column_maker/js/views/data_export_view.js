@@ -13,10 +13,10 @@ define(["baseView"], function (BaseView) {
     });
 
     DataExportView.prototype.template = new EJS({
-        url: '/lithology_column_maker/ejs/data_export_panel.ejs'
+        url: '../../lithology_column_maker/ejs/data_export_panel.ejs'
     });
     DataExportView.prototype.lithologyColumnDataTemplate = new EJS({
-        url: '/lithology_column_maker/ejs/lithology_column_data.ejs'
+        url: '../../lithology_column_maker/ejs/lithology_column_data.ejs'
     });
 
     DataExportView.prototype.initialize = function (app) {

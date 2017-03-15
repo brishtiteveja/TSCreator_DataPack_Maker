@@ -8,7 +8,7 @@ define(["baseView"], function (BaseView) {
     });
 
     DataExportView.prototype.template = new EJS({
-        url: '/evtree_maker/ejs/data_export_panel.ejs'
+        url: '../../evtree_maker/ejs/data_export_panel.ejs'
     });
 
     DataExportView.prototype.initialize = function (app) {

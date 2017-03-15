@@ -9,7 +9,7 @@ window.define(["baseView"], function (BaseView) {
             'change select': 'updateNode'
         },
         template: new window.EJS({
-            url: "/evtree_maker/ejs/node_editor.ejs"
+            url: "../../evtree_maker/ejs/node_editor.ejs"
         }),
         initialize: function (node) {
             this.node = node;
