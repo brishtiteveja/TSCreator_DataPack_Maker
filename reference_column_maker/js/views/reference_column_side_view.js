@@ -88,12 +88,17 @@ define([
 		this.$refPanel.html(this.template.render({}));
 		this.app.refCol.$canvas = $("#ref-canvas");
 		this.$canvas = this.app.refCol.$canvas;
-		this.app.refCol.Paper = new Raphael(this.$canvas, 0, 0);
+		var x = this.$canvas.position()['left'] + 50;
+		var y = this.$canvas.position()['top'];
+		var width = 0.001; // if 0 then Raphael by default take the default 512
+		var height = 0.001; // if 0 then Raphael by default take the default 400
+		this.app.refCol.Paper = new Raphael(x, y, width, height);
 
 		// 
 		this.app.refCol.MarkersSet = this.app.refCol.Paper.set();
 		this.app.refCol.BlockMarkersSet = this.app.refCol.Paper.set();
 		this.app.refCol.BlocksSet = this.app.refCol.Paper.set();
+		this.app.refCol.Paper.setSize(0,0);
 
 		this.listenToActionEvents();
 	}
