@@ -88,7 +88,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
     LithologyView.prototype.setLithologyFill = function () {
         if (this.lithBox === undefined) return;
         var pattern = this.lithology.get("pattern");
-        var fill = pattern ? "url('/pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" :
+        var fill = pattern ? "url('../../pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" :
             "#EEEEEE";
         var percent = pattern ? parseFloat(this.app.patternsData[pattern].width) / 100 : 1;
         var width = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') * percent /

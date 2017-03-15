@@ -25,7 +25,7 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
     }
 
     PolygonView.prototype.template = new EJS({
-        url: '/lithology_2D/ejs/polygon.ejs'
+        url: '../../lithology_2D/ejs/polygon.ejs'
     });
 
     PolygonView.prototype.listenToActionEvents = function () {
@@ -213,7 +213,7 @@ define(["baseView", "point", "pointView"], function (BaseView, Point, PointView)
         var lithology = this.polygon.get('lithologyColumn').getLithologyForAge(this.app.animation.get('age'));
         if (lithology) {
             var pattern = lithology.get("pattern");
-            var fill = pattern ? "url('/pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" :
+            var fill = pattern ? "url('../../pattern_manager/patterns/" + this.app.patternsData[pattern].image + "')" :
                 "#FFFFFF";
             if (fill !== this.element.attr('fill')) {
                 this.element.attr({

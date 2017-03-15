@@ -9,11 +9,11 @@ define(["baseView"], function (BaseView) {
     });
 
     PointView.prototype.template = new EJS({
-        url: '/lithology_2D/ejs/point.ejs'
+        url: '../../lithology_2D/ejs/point.ejs'
     });
 
     PointView.prototype.statusBoxTemplate = new EJS({
-        url: '/lithology_2D/ejs/status_box.ejs'
+        url: '../../lithology_2D/ejs/status_box.ejs'
     });
 
     PointView.prototype.initialize = function (app, point) {

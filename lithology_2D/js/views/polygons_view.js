@@ -13,7 +13,7 @@ define([
 	});
 
 	PolygonsView.prototype.template = new EJS({
-		url: '/commons/ejs/data_tbl.ejs'
+		url: '../../commons/ejs/data_tbl.ejs'
 	});
 
 	PolygonsView.prototype.initialize = function(app) {
