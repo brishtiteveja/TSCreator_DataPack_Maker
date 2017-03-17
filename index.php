@@ -45,6 +45,7 @@
 
 <div id="mainContent">
   <h1>Datapack Makers</h1>
+  <h3><u>Current Browser Requirement:</u> Google Chrome (Safari/Explorer doesn't support)</h3>
   <ul>
     <li>Transect Maker (Dev) - <a href="./transect_maker/html/transect.html" target="_blank">link</a></li>
     <li>Curve Maker (Dev) - <a href="./curve_maker" target="_blank">link</a></li>
