@@ -223,7 +223,7 @@
       ColumnManager.prototype.initReferenceTimelinesAndZones = function() {
         $.ajax({
           dataType: "json",
-          url: "javascripts/utils/reference_timelines_and_zones.min.json",
+          url: "../docs/json/reference_timelines_and_zones.json",
           success: (function(_this) {
             return function(data) {
               return _this.referenceTimelinesAndZones = data;

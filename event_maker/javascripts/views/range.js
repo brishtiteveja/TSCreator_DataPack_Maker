@@ -157,19 +157,16 @@
       };
 
       Range.prototype.onDragStart = function(x, y, evt) {
-        /*
         if (this.model.isRight()) {
           this._leftRange = this.model.collection.getLeftRange();
         }
         if (this.model.isLeft()) {
           this._rightRange = this.model.collection.getRightRange();
         }
-        */
         return this;
       };
 
       Range.prototype.onDragMove = function(dx, dy, x, y, evt) {
-        /*
         var locationX, slack;
         slack = 5;
         locationX = TSCreator.utils.math.roundD4(this.mainCanvasView.getCurrentPositionFromEvt(evt).x);
@@ -194,14 +191,13 @@
             this.ranges.curves.at(i).get("points").models[0].get("eventPath")[4][1] = locationX;
         }
 
-        */
         return this;
       };
 
       Range.prototype.onDragEnd = function(evt) {
-        /*delete this._leftRange;
+        delete this._leftRange;
         delete this._rightRange;
-        */
+
         return this;
       };
 

@@ -105,7 +105,7 @@ define([
 
 	ReferenceColumnSideView.prototype.loadReferenceColumnData = function() {
 		var self = this;
-		$.get("../../commons/json/default-reference-column-data.json", function(data) {
+		$.get("../../docs/json/default-reference-column-data.json", function(data) {
 			self.referenceColumn.set({
 				columnsData: data.referenceBlockColumns
 			});
