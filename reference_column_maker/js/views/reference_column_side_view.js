@@ -98,7 +98,6 @@ define([
 		this.app.refCol.MarkersSet = this.app.refCol.Paper.set();
 		this.app.refCol.BlockMarkersSet = this.app.refCol.Paper.set();
 		this.app.refCol.BlocksSet = this.app.refCol.Paper.set();
-		this.app.refCol.Paper.setSize(0,0);
 
 		this.listenToActionEvents();
 	}
