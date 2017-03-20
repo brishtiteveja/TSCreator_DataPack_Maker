@@ -73,7 +73,7 @@
             x: position.x
           });
 
-          var rightRangeX = canvasDimension.width * 0.67;
+          var rightRangeX = canvasDimension.width * 0.60;
           position = {x: rightRangeX, y: 0};
           this.ranges.add({
             x: position.x
