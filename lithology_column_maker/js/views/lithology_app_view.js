@@ -74,7 +74,7 @@ define([
 
         // refer to the important DOM elements.
 
-        this.$introScreen = this.$("#intro-screen");
+        this.$introScreen = this.$(".introduction");
         this.app.$canvas = this.$("#canvas");
         this.$canvas = this.app.$canvas;
         this.$displayPanels = this.$('.display-panel');
@@ -151,6 +151,7 @@ define([
     LithologyAppView.prototype.showPaper = function () {
         this.$canvas.removeClass('hide');
         this.$introScreen.addClass('hide');
+		this.$introScreen.hide();
     }
 
     LithologyAppView.prototype.render = function () {

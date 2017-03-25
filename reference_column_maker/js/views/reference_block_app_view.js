@@ -46,7 +46,7 @@ define([
 
 		// refer to the important DOM elements.
 
-		this.$introScreen = this.$("#intro-screen");
+		this.$introScreen = this.$(".introduction");
 		this.referenceColumnApp.$canvas = this.$("#canvas");
 		this.$canvas  = this.referenceColumnApp.$canvas;
 		this.$displayPanels = this.$('.display-panel');
@@ -85,6 +85,7 @@ define([
 	ReferenceBlockAppView.prototype.showPaper = function() {
 		this.$canvas.removeClass('hide');
 		this.$introScreen.addClass('hide');
+		this.$introScreen.hide();
 	}
 
 	ReferenceBlockAppView.prototype.render = function() {
