@@ -72,7 +72,7 @@ define([
 
         // refer to the important DOM elements.
 
-        this.$introScreen = this.$("#intro-screen");
+        this.$introScreen = this.$(".introduction");
         this.app.$canvas = this.$("#canvas");
         this.app.$display = this.$("#display");
         this.$canvas = this.app.$canvas;
@@ -153,6 +153,7 @@ define([
     EvTreeAppView.prototype.showPaper = function () {
         this.$canvas.removeClass('hide');
         this.$introScreen.addClass('hide');
+		this.$introScreen.hide();
     };
 
     EvTreeAppView.prototype.render = function () {

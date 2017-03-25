@@ -88,7 +88,7 @@ define([
 
         // refer to the important DOM elements.
 
-        this.$introScreen = this.$("#intro-screen");
+        this.$introScreen = this.$(".introduction");
         this.transectApp.$canvas = this.$("#canvas");
         this.transectApp.$display = this.$("#display");
         this.$canvas = this.transectApp.$canvas;
@@ -165,6 +165,7 @@ define([
     TransectAppView.prototype.showPaper = function () {
         this.$canvas.removeClass('hide');
         this.$introScreen.addClass('hide');
+		this.$introScreen.hide();
     }
 
     TransectAppView.prototype.render = function () {

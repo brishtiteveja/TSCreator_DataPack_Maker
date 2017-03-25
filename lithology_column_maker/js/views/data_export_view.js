@@ -72,6 +72,7 @@ define(["baseView"], function (BaseView) {
             $("a[href='#export-data']").parent().addClass('active');
             $(".display-panel").addClass('hide');
             this.$el.removeClass('hide');
+			$('.introduction').hide();
         }
 
         try {
