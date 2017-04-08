@@ -16,7 +16,7 @@ define(["./reference_zone"], function(ReferenceZoneView) {
     this.zones = this.columnManager.retrieveCommonData("zones");
 
     this.initCanvasEl();
-    this.curViewBox = this.rPaper.canvas.viewBox.baseVal;
+    this.curViewBox = { x:0, y:0 };
     //_.bindAll(this, "destroy", "render", "detachEl", "start", "stop");
 
     this.listenTo(this.zones, "add", this.addOne);
@@ -65,7 +65,6 @@ define(["./reference_zone"], function(ReferenceZoneView) {
   ReferenceZones.prototype.updateViewBox = function () {
     this.rPaper.setViewBox(0, this.curViewBox.y,
                          this.fixedWidth * this.zoomMultiplier, this.curDimension.height * this.zoomMultiplier);
-    this.curViewBox = this.rPaper.canvas.viewBox.baseVal;
   };
 
   ReferenceZones.prototype.start = function() {
