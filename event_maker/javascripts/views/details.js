@@ -66,6 +66,7 @@
             if (this.imageDetailPanelView != null) {
                 this.imageDetailPanelView.model.activate();
                 this.imageDetailPanelView.togglePanel();
+                this.collection.activatedDetailModel = this.imageDetailPanelView.model;
             }
 
           return this;
