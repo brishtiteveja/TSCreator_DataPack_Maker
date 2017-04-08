@@ -180,6 +180,9 @@
           x: locationX
         });
 
+        /*
+         * Move the events with the boundary lines
+
         var curves = this.ranges.curves;
 
         for(var i=0; i < curves.length; i++) {
@@ -190,6 +193,7 @@
             var eventPath = point.get("eventPath");
             this.ranges.curves.at(i).get("points").models[0].get("eventPath")[4][1] = locationX;
         }
+        */
 
         return this;
       };

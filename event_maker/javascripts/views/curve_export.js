@@ -177,16 +177,19 @@ define([], function() {
       this.model.get("curves").map(function(c) {
           json = c.toJSON();
           var imgFile = json.option.get('imageData');
-          var imgFileName = json.option.get('imageFileName');
-          fileNames.push(imgFileName);
+          // if an image file exists for the event
+          if (imgFile != null) {
+            var imgFileName = json.option.get('imageFileName');
+            fileNames.push(imgFileName);
 
-          var arr = imgFile.split(','), mime = arr[0].match(/:(.*?);/)[1],
-          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-          while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
+            var arr = imgFile.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            blob = new Blob([u8arr], {type:mime});
+            files.push(blob);
           }
-          blob = new Blob([u8arr], {type:mime});
-          files.push(blob);
       });
 
       zip.createWriter(writer, function(writer) {
