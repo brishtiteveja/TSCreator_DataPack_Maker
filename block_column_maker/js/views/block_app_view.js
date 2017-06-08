@@ -17,6 +17,8 @@ define([
 	"loader",
 	"exporter",
 	"referenceColumnSideView",
+	"imageView",
+	"imageOb",
 	], function(
 		BaseView,
 		CursorView,
@@ -30,7 +32,10 @@ define([
 		DataExportView,
 		Loader,
 		Exporter,
-		ReferenceColumnSideView) {
+		ReferenceColumnSideView,
+	    ImageView,
+		ImageOb,
+		) {
 
 	var BlockAppView = BaseView.extend({
 		el: ".container",
@@ -39,8 +44,8 @@ define([
 			'click a.block-settings': 'showSettings',
 			'click a.maker-tools': 'enableTool',
 			'click a.continue': 'showPaper',
-			"dragover #data-box": "dataDragover",
-			"drop #data-box": "dataDrop",
+			"dragover .data-dropbox": "dataDragover",
+			"drop .data-dropbox": "dataDrop",
 		}
 	});
 
@@ -69,6 +74,7 @@ define([
 		this.blockApp.exporter = new Exporter(this.blockApp);
 
 		// Initialize the models
+		this.blockApp.ImageOb = new ImageOb({});
 		this.blockApp.Paper = new Raphael(this.$canvas[0], 2000, 2000);
 		// 
 		this.blockApp.MarkersSet = this.blockApp.Paper.set();
@@ -111,6 +117,7 @@ define([
 		this.markersView = new MarkersView(this.blockApp);
 
 		this.blockColumnsView = new BlockColumnsView(this.blockApp);
+		this.imageView = new ImageView(this.blockApp);
 
 
 		this.referenceColumnSideView = new ReferenceColumnSideView(this.blockApp, "#reference-column-settings");

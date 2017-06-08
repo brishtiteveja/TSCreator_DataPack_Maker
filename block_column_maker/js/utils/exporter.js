@@ -9,6 +9,7 @@ define([], function() {
 	}
 
 	Exporter.prototype.initialize = function() {
+		this.imageOb = this.app.ImageOb;
 		this.markers = this.app.MarkersCollection;
 		this.zones = this.app.ZonesCollection;
 		this.blockColumns = this.app.BlockColumnsCollection;
@@ -73,6 +74,7 @@ define([], function() {
 
 	Exporter.prototype.getJSON = function() {
 		var json = {};
+		json["image"] = this.imageOb.toJSON();
 		json["zones"] = this.zones.toJSON();
 		json["blockColumns"] = this.blockColumns.toJSON();
 		json["referenceColumn"] = this.app.referenceColumn.toJSON();

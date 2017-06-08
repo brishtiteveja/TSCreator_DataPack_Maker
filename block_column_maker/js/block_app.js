@@ -34,6 +34,10 @@ requirejs.config({
         zone: "../../commons/js/models/zone",
         zones: "../../commons/js/collections/zones",
 
+        // Image
+        imageView: "../../commons/js/views/image_view",
+        imageOb: "../../commons/js/models/image",
+
         // Data Loader
         loader: "../../block_column_maker/js/utils/loader",
 
