@@ -49,8 +49,8 @@ define([
             'click a.evtree-settings': 'showSettings',
             'click a.maker-tools': 'enableTool',
             'click a.continue': 'showPaper',
-            "dragover #data-box": "dataDragover",
-            "drop #data-box": "dataDrop",
+            "dragover .data-dropbox": "dataDragover",
+            "drop .data-dropbox": "dataDrop",
         }
     });
 

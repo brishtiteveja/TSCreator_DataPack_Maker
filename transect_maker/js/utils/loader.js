@@ -102,7 +102,9 @@ define(["marker", "transectWell", "polygon", "point", "transectText"], function(
 				   'dataURL',		  'timelines','top',	   'base'
 		          ];
 		
-		for (key in data) {
+		keys = Object.keys(JSON.parse(data));
+		for (j=0; j<keys.length; j++) {
+			key = keys[j];
 			for (i=0; i<oldKeys.length; i++) {
 				k = oldKeys[i];
 				if (k == key) {
@@ -117,7 +119,7 @@ define(["marker", "transectWell", "polygon", "point", "transectText"], function(
 	Loader.prototype.loadData = function(data) {
 		// Need to change the keys in json data imported from the universal datapack maker
 		this.savedData = JSON.parse(data);
-		if (this.isDifferentJSONKey) {
+		if (this.isDifferentJSONKey(data)) {
 			this.savedData = this.changeJSONKey(this.savedData);
 		}
 		this.reset();

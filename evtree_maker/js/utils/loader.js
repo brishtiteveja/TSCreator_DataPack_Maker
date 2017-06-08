@@ -17,16 +17,129 @@ define([
         this.zones.reset();
         this.evTree.get('roots').reset();
     };
+	
+	Loader.prototype.changeJSONKey = function(data) {
+		var newKeyDict = {
+			// background image related JSON keys
+			'backgroundImage'		: 'image',
+			'curWidth'				: 'width',
+			'curHeight'				: 'height',
+			'isPreserveAspectRatio' : 'preserveAspectRatio',
+			'isVisible'				: 'visible',
+			'dataURL'				: 'data',
+			// timelines, zones related keys
+			'timelines'				: 'markers',
+			'top'					: 'topMarker',
+			'base'					: 'baseMarker',
+		};	
+
+		oldKeys = Object.keys(newKeyDict); 
+		newData = {};
+		
+		for (key in data) {
+			value = data[key];
+			contains = false;
+			for (i=0; i<oldKeys.length; i++) {
+				k = oldKeys[i];
+				if (k == key) {
+					contains = true;
+
+				}
+			}
+			if (contains) {
+				key = newKeyDict[key];
+			}
+
+			newValue = value;
+
+			// handle subkeys for objects such as image
+			if (key == "zones") {
+    			for(i=0; i<value.length; i++) {
+    				obj = value[i];
+    				newObj = {};
+    				for (kk in obj){
+    					nkey = kk; // new subkey
+    					contain = false;
+    					for (ii=0; ii<oldKeys.length; ii++) {
+    						kkk = oldKeys[ii];
+    						if (kkk == kk) {
+    							contain = true;
+    						}
+    					}
+    					if (contain) {
+    						nkey = newKeyDict[kk];
+    					} 
+    					newObj[nkey] = obj[kk];
+    				}
+    				if (Object.keys(newObj).length != 0) {
+    					value[i] = newObj;
+    				}
+    			}
+			}
+			else if (key == "image") {
+				nVal = {}; 
+				for (kk in value){
+					nkey = kk; // new subkey
+					contain = false;
+					for (ii=0; ii<oldKeys.length; ii++) {
+						kkk = oldKeys[ii];
+						if (kkk == kk) {
+							contain = true;
+						}
+					}
+					if (contain) {
+						nkey = newKeyDict[kk];
+					} 
+					nVal[nkey] = value[kk];
+				}
+				newValue = nVal;
+			}
+		    newData[key] = newValue;	
+		}
+
+		return newData;
+	}
+
+	Loader.prototype.isDifferentJSONKey = function(data) {
+		oldKeys = ['backgroundImage', 'curWidth', 'curHeight', 'isPreserveAspectRatio', 'isVisible',
+				   'dataURL',		  'timelines','top',	   'base'
+		          ];
+		
+		keys = Object.keys(JSON.parse(data));
+		for (j=0; j<keys.length; j++) {
+			key = keys[j];
+			for (i=0; i<oldKeys.length; i++) {
+				k = oldKeys[i];
+				if (k == key) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 
     Loader.prototype.loadData = function (data) {
-        this.savedData = JSON.parse(data);
+		// Need to change the keys in json data imported from the universal datapack maker
+		this.savedData = JSON.parse(data);
+		if (this.isDifferentJSONKey(data)) {
+			this.savedData = this.changeJSONKey(this.savedData);
+		}
         this.reset();
-        this.load();
+        this.load(data);
     };
 
-    Loader.prototype.load = function () {
+	Loader.prototype.loadImage = function() {
+		this.app.ImageOb.set(this.savedData.image);
+	}
+
+    Loader.prototype.load = function (data) {
+		this.loadImage();
         this.loadMarkersAndZones();
-        this.loadEvTree();
+		// if loading only markers, zones and image
+		if (!this.isDifferentJSONKey(data))
+			this.loadEvTree();
     };
 
     Loader.prototype.loadEvTree = function () {
