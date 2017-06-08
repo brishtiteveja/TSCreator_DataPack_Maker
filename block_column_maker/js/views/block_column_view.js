@@ -68,7 +68,8 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		this.element.attr({
 			x: this.blockColumn.get('x'),
 			width: this.blockColumn.get('width'),
-			fill: this.blockColumn.get('settings').get('backgroundColor')
+			fill: this.blockColumn.get('settings').get('backgroundColor'),
+			opacity: 0.4,
 		});
 
 		this.updateBlockColumns();
