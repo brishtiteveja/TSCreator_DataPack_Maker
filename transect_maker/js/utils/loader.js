@@ -149,7 +149,7 @@ define(["marker", "transectWell", "polygon", "point", "transectText"], function(
 	Loader.prototype.load = function() {
 		this.loadImage();
 		this.loadMarkersAndZones();
-		// this.loadReferenceColumnData();
+		this.loadReferenceColumnData();
 		this.loadWellsAndTransects();
 		this.loadPolygons();
 		this.loadTexts();

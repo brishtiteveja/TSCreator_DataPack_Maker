@@ -138,12 +138,13 @@ define([
 		this.loadImage();
         this.loadMarkersAndZones();
 		// if loading only markers, zones and image
-		if (!this.isDifferentJSONKey(data))
-			this.loadEvTree();
+		//if (!this.isDifferentJSONKey(data))
+		this.loadEvTree();
     };
 
     Loader.prototype.loadEvTree = function () {
         var self = this;
+
         this.evTree.set({
             name: self.savedData.evTree.name
         });
