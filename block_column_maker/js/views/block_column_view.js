@@ -30,6 +30,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 		this.render();
 
 		this.listenTo(this.blockColumn, 'change:edit', this.editBlockColumn.bind(this));
+		this.listenTo(this.blockColumn, 'change:hover', this.setHoverStatus.bind(this));
 		this.listenTo(this.blockColumn, 'change', this.renderBlockColumn.bind(this));
 		this.listenTo(this.blockColumn.get('settings'), 'change', this.renderBlockColumn.bind(this));
 		this.listenTo(this.blockColumn.get('blockMarkers'), 'add', this.addBlockMarker.bind(this));
@@ -61,6 +62,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 
 			/* attach listeners to the element */
 			this.element.dblclick(this.createBlockMarker.bind(this));
+            this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
 
 			this.app.MarkersSet.toFront();
 		}
@@ -69,7 +71,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 			x: this.blockColumn.get('x'),
 			width: this.blockColumn.get('width'),
 			fill: this.blockColumn.get('settings').get('backgroundColor'),
-			opacity: 0.4,
+            opacity: 0.4,
 		});
 
 		this.updateBlockColumns();
@@ -182,7 +184,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 
 	BlockColumnView.prototype.removeBlock = function(block) {
 		var topMarker = block.get('top');
-		var baseMarker = block.get('top');
+		var baseMarker = block.get('base');
 	}
 
 	BlockColumnView.prototype.addBlock = function(block) {
@@ -209,6 +211,30 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 			this.$blocksList.removeClass('hide');
 		} else {
 			this.$blocksList.addClass('hide');
+		}
+	}
+
+	BlockColumnView.prototype.onMouseOver = function() {
+		this.$el.addClass('hover');
+		this.blockColumn.set({
+			hover: true,
+		});
+    }
+
+	BlockColumnView.prototype.onMouseOut = function() {
+		this.$el.removeClass('hover');
+		this.blockColumn.set({
+			hover: false,
+		});
+    }
+
+	BlockColumnView.prototype.setHoverStatus = function() {
+		if (this.blockColumn.get('hover')) {
+			this.$el.addClass('hover');
+			this.glow  = this.element.glow();
+		} else {
+			if (this.glow) this.glow.remove();
+			this.$el.removeClass('hover');
 		}
 	}
 
