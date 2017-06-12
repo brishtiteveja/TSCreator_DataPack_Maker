@@ -26,6 +26,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 	BlockColumnView.prototype.initialize = function(app, blockColumn) {	
 		this.app = app;
 		this.blockColumn = blockColumn;
+        this.blockColumn.blockColumnView = this;
 
 		this.render();
 
@@ -63,6 +64,7 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 			/* attach listeners to the element */
 			this.element.dblclick(this.createBlockMarker.bind(this));
             this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 
 			this.app.MarkersSet.toFront();
 		}
@@ -237,6 +239,60 @@ define(["baseView", "blockView", "blockMarkerView", "block", "blockMarker"], fun
 			this.$el.removeClass('hover');
 		}
 	}
+
+	/*==========  start dragging  ==========*/
+	BlockColumnView.prototype.dragStart = function(x, y, evt) {
+		var self = this;
+		this.blockColumnIndex = this.app.BlockColumnsCollection.indexOf(this.blockColumn);
+        this.blockColumnX = this.app.BlockColumnsCollection.at(this.blockColumnIndex).get('x');
+        this.curBlockColumnWidth = this.blockColumn.get('width');
+
+        var startIndex = this.blockColumnIndex;
+        if (Math.abs(this.blockColumnX - x) <= 100) {
+		    this.app.BlockColumnsCollection.each(function(blockColumn, index) {
+                // find the index of previous column
+			    if (index == startIndex - 1) {
+				    self.prevColumn = self.app.BlockColumnsCollection.at(index);
+                    self.prevColumnWidth = self.prevColumn.get('width');  
+			        if (self.glow) 
+                        self.glow.remove();
+			    }
+            });
+        } 
+    };
+
+	/*==========  while dragging  ==========*/
+	BlockColumnView.prototype.dragMove = function(dx, dy, x, y, evt) {
+        if (this.prevColumn) {
+            // changing the width of the previous column which will automatically shift all other columns
+            this.newWidthForPrevColumn = this.prevColumnWidth + dx;
+            this.prevColumn.set('width', this.newWidthForPrevColumn);
+			if (this.glow) 
+                this.glow.remove();
+        } 
+        else if (this.blockColumnIndex == 0) { // handle first Column
+            //this.blockColumn.set('x', dx);
+        }
+        else if (this.blockColumnIndex == this.app.BlockColumnsCollection.length - 1) { // handle first Column
+            var newWidthForCurColumn = this.curBlockColumnWidth + dx;
+            this.blockColumn.set('width', newWidthForCurColumn);
+        }
+	};
+
+	/*==========  end dragging  ==========*/
+	BlockColumnView.prototype.dragEnd = function(x, y, evt) {
+        if (this.prevColumn) {
+            // updating the width value in the block column width field
+            var prevColumnView = this.prevColumn.blockColumnView;
+            var blockColumnWidthField = prevColumnView.$('input[name="block-column-width"]')[0];
+            blockColumnWidthField.setAttribute('value', this.newWidthForPrevColumn); 
+            this.prevColumn = null;
+        } else if (this.blockColumnIndex == 0) {
+            //this.blockColumn.set('x', x);
+        }
+    }
+
+
 
 	BlockColumnView.prototype.delete = function() {
 		_.invoke(this.blockColumn.get('blocks').toArray(), "destroy");

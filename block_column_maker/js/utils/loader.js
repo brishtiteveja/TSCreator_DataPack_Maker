@@ -122,7 +122,7 @@ define(["zone", "marker", "blockColumn", "blockMarker"], function (Zone, Marker,
 			this.savedData = this.changeJSONKey(this.savedData);
 		}
         this.reset();
-        this.load();
+        this.load(data);
     }
 
     Loader.prototype.loadTextData = function (data) {
@@ -179,10 +179,12 @@ define(["zone", "marker", "blockColumn", "blockMarker"], function (Zone, Marker,
         _.invoke(this.blockColumns.toArray(), 'destroy');
     }
 
-    Loader.prototype.load = function () {
+    Loader.prototype.load = function (data) {
         this.loadImage();
         this.loadMarkersAndZones();
-        this.loadBlockColumns();
+		if (!this.isDifferentJSONKey(data)) {
+            this.loadBlockColumns();
+		}
     }
 
     Loader.prototype.loadImage = function () {
