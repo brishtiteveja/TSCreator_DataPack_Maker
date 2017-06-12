@@ -48,6 +48,7 @@ define([
     LithologyColumnView.prototype.initialize = function (app, lithologyColumn) {
         this.app = app;
         this.lithologyColumn = lithologyColumn;
+		this.lithologyColumn.lithologyColumnView = this;
         this.listenToEvents();
         this.render();
     };
@@ -55,6 +56,7 @@ define([
     LithologyColumnView.prototype.listenToEvents = function () {
         this.listenTo(this.lithologyColumn, 'update', this.renderColumnInfo.bind(this));
         this.listenTo(this.lithologyColumn, 'change', this.renderLithologyColumn.bind(this));
+		this.listenTo(this.lithologyColumn, 'change:hover', this.setHoverStatus.bind(this));
         this.listenTo(this.lithologyColumn.get('settings'), 'change', this.renderLithologyColumn.bind(this));
         this.listenTo(this.lithologyColumn.get('lithologyGroupMarkers'), 'add', this.addLithologyGroupMarker.bind(
             this));
@@ -102,6 +104,8 @@ define([
 
             /* attach listeners to the element */
             this.element.dblclick(this.createLithologyGroupMarker.bind(this));
+            this.element.hover(this.onMouseOver.bind(this), this.onMouseOut.bind(this));
+			this.element.drag(this.dragMove.bind(this), this.dragStart.bind(this), this.dragEnd.bind(this));
 
             this.app.MarkersSet.toFront();
         }
@@ -403,6 +407,81 @@ define([
         this.$addOverlay.parent().removeClass('hide');
         this.$finishOverlay.parent().addClass('hide');
         this.$editOverlay.parent().addClass('hide');
+    }
+
+	LithologyColumnView.prototype.onMouseOver = function() {
+		this.$el.addClass('hover');
+		this.lithologyColumn.set({
+			hover: true,
+		});
+    }
+
+	LithologyColumnView.prototype.onMouseOut = function() {
+		this.$el.removeClass('hover');
+		this.lithologyColumn.set({
+			hover: false,
+		});
+    }
+
+	LithologyColumnView.prototype.setHoverStatus = function() {
+		if (this.lithologyColumn.get('hover')) {
+			this.$el.addClass('hover');
+			this.glow  = this.element.glow();
+		} else {
+			if (this.glow) this.glow.remove();
+			this.$el.removeClass('hover');
+		}
+	}
+	/*==========  start dragging  ==========*/
+	LithologyColumnView.prototype.dragStart = function(x, y, evt) {
+		var self = this;
+		this.lithologyColumnIndex = this.app.LithologyColumnsCollection.indexOf(this.lithologyColumn);
+        this.lithologyColumnX = this.app.LithologyColumnsCollection.at(this.lithologyColumnIndex).get('x');
+        this.curLithologyColumnWidth = this.lithologyColumn.get('width');
+
+        var startIndex = this.lithologyColumnIndex;
+        if (Math.abs(this.lithologyColumnX - x) <= 100) {
+		    this.app.LithologyColumnsCollection.each(function(lithologyColumn, index) {
+                // find the index of previous column
+			    if (index == startIndex - 1) {
+				    self.prevColumn = self.app.LithologyColumnsCollection.at(index);
+                    self.prevColumnWidth = self.prevColumn.get('width');  
+			        if (self.glow) 
+                        self.glow.remove();
+			    }
+            });
+        } 
+    };
+
+	/*==========  while dragging  ==========*/
+	LithologyColumnView.prototype.dragMove = function(dx, dy, x, y, evt) {
+        if (this.prevColumn) {
+            // changing the width of the previous column which will automatically shift all other columns
+            this.newWidthForPrevColumn = this.prevColumnWidth + dx;
+            this.prevColumn.set('width', this.newWidthForPrevColumn);
+			if (this.glow) 
+                this.glow.remove();
+        } 
+        else if (this.lithologyColumnIndex == 0) { // handle first Column
+            //this.blockColumn.set('x', dx);
+        }
+        else if (this.lithologyColumnIndex == this.app.LithologyColumnsCollection.length - 1) { // handle first Column
+            var newWidthForCurColumn = this.curLithologyColumnWidth + dx;
+            this.lithologyColumn.set('width', newWidthForCurColumn);
+        }
+	};
+
+	/*==========  end dragging  ==========*/
+	LithologyColumnView.prototype.dragEnd = function(x, y, evt) {
+        if (this.prevColumn) {
+            // updating the width value in the block column width field
+            var prevColumnView = this.prevColumn.lithologyColumnView;
+            var lithologyColumnWidthField = prevColumnView.$('input[name="lithology-column-width"]')[0];
+            lithologyColumnWidthField.setAttribute('value', this.newWidthForPrevColumn); 
+            this.prevColumn = null;
+        } else if (this.lithologyColumnIndex == 0) {
+            //this.blockColumn.set('x', x);
+        }
     }
 
     return LithologyColumnView;
