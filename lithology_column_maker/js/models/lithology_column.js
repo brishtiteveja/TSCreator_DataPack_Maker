@@ -9,7 +9,7 @@ define(["baseModel", "lithologyMarkers", "lithologys", "lithologyGroups", "litho
                 x: params.x || 0,
                 id: _.uniqueId("column-"),
                 name: params.name || _.uniqueId("Column "),
-                width: parseInt(params.width) || 400,
+                width: parseInt(params.width) || 200,
                 description: params.description || null,
                 lithologyMarkers: new LithologyMarkers(),
                 lithologys: new Lithologys(),

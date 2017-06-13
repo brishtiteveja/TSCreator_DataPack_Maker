@@ -95,6 +95,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
             2)
         this.lithBox.attr({
             'fill': fill,
+			'opacity': 0.5,
             'width': width
         });
         var url = fill + " repeat-x";
@@ -128,23 +129,23 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.bgBox.attr({
             "stroke-width": 0,
             "fill": "#FFFFFF",
+            "opacity": 0.4,
             "x": this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get(
                 'lithologyGroup').get('lithologyColumn').get('width') / 2,
             "y": this.top.get('y'),
             "width": this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2,
             "height": this.base.get('y') - this.top.get('y'),
-            "opacity": 0.3,
         });
 
         this.lithBox.attr({
             "stroke-width": 0,
             "fill": this.lithology.get('settings').get('backgroundColor'),
+            "opacity": 0.5,
             "x": this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get(
                 'lithologyGroup').get('lithologyColumn').get('width') / 2,
             "y": this.top.get('y'),
             "width": this.lithology.get('lithologyGroup').get('lithologyColumn').get('width') / 2,
             "height": this.base.get('y') - this.top.get('y'),
-            "opacity": 0.3,
         });
 
         var textX = Math.round(this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology
@@ -158,11 +159,12 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
             "y": textY,
             "text": this.lithology.get('name'),
             "font-size": textSize,
+            "opacity": 0.4,
         });
 
         this.bBox.attr({
             "stroke-width": 2,
-            "opacity": 0,
+            "opacity": 0.4,
             "fill": "#FFF",
             "x": this.lithology.get('lithologyGroup').get('lithologyColumn').get('x') + this.lithology.get(
                 'lithologyGroup').get('lithologyColumn').get('width') / 2,

@@ -93,6 +93,7 @@ define(["baseView"], function(BaseView) {
 		this.bgBox.attr({
 			"stroke-width" : 0,
 			"fill"         : this.block.get('settings').get('backgroundColor'),
+			"opacity"      : 0.4,
 			"x"            : this.block.get('blockColumn').get('x'),
 			"y"            : this.top.get('y'),
 			"width"        : this.block.get('blockColumn').get('width'),
@@ -112,7 +113,7 @@ define(["baseView"], function(BaseView) {
 
 		this.bBox.attr({
 			"stroke-width" : 2,
-			"opacity"      : 0,
+			"opacity"      : 0.4,
 			"fill"         : "#FFF",
 			"x"            : this.block.get('blockColumn').get('x'),
 			"y"            : this.top.get('y'),
