@@ -130,7 +130,7 @@ define([
 
         var textX = Math.round(this.lithologyColumn.get('x') + this.lithologyColumn.get('width') / 2);
         var textY = 25
-        var textSize = 24;
+        var textSize = this.lithologyColumn.get('width') / 5.0 * 0.5;
 
         this.headingText.attr({
             "x": textX,
