@@ -18,7 +18,7 @@ define([
 	"exporter",
 	"referenceColumnSideView",
 	"imageView",
-	"imageOb",
+	"imageOb"
 	], function(
 		BaseView,
 		CursorView,
@@ -34,7 +34,7 @@ define([
 		Exporter,
 		ReferenceColumnSideView,
 	    ImageView,
-		ImageOb,
+		ImageOb
 		) {
 
 	var BlockAppView = BaseView.extend({
