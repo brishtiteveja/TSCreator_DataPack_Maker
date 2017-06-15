@@ -28,7 +28,7 @@ define([], function() {
 	}
 
 	Exporter.prototype.getMetaColumnData = function() {
-		var outputText = "Lithologys\t:";
+		var outputText = "Lithologies\t:";
 		this.lithologyColumns.each(function(lithologyColumn) {
 			outputText += "\t" + lithologyColumn.get('name');
 		});
@@ -74,7 +74,7 @@ define([], function() {
 			outputText += "\tTOP";
 			outputText += "\t";
 			outputText += "\t" + (lithology.get("top").get("age") || "n/a");
-			outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
+			outputText += "\t" + ((lithology.get('description') + "\t") || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
 			outputText += "\n";
 		}
 
