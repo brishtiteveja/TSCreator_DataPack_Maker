@@ -94,6 +94,7 @@ define(["baseView"], function(BaseView) {
 		this.bgBox.attr({
 			"stroke-width" : 0,
 			"fill"         : this.block.get('settings').get('backgroundColor'),
+			"opacity"      : 0.6,
 			"x"            : this.block.get('blockColumn').get('x'),
 			"y"            : this.top.get('y'),
 			"width"        : this.block.get('blockColumn').get('width'),
@@ -102,7 +103,7 @@ define(["baseView"], function(BaseView) {
 
 		var textX = Math.round(this.block.get('blockColumn').get('x') + this.block.get('blockColumn').get('width')/2);
 		var textY = Math.round((this.top.get('y') + this.base.get('y'))/2)
-		var textSize = Math.min(Math.round(this.base.get('y') - this.top.get('y')), 16);
+		var textSize = Math.min(Math.round(this.base.get('y') - this.top.get('y')), 12);
 
 		this.blockText.attr({
 			"x" : textX,
@@ -113,7 +114,7 @@ define(["baseView"], function(BaseView) {
 
 		this.bBox.attr({
 			"stroke-width" : 2,
-			"opacity"      : 0,
+			"opacity"      : 0.4,
 			"fill"         : "#FFF",
 			"x"            : this.block.get('blockColumn').get('x'),
 			"y"            : this.top.get('y'),

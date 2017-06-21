@@ -68,7 +68,8 @@ define(["baseView", "referenceBlockView", "referenceBlockMarkerView", "reference
 			x: this.blockColumn.get('x'),
 			width: this.blockColumn.get('width'),
 			height: this.blockColumn.get('height'),
-			fill: this.blockColumn.get('settings').get('backgroundColor')
+			fill: this.blockColumn.get('settings').get('backgroundColor'),
+			opacity: 0.5,
 		});
 
 		this.resizePaper();

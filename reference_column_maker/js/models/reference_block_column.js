@@ -9,11 +9,11 @@ define(["baseModel", "referenceBlocks", "referenceBlockMarkers", "settings"], fu
 		classname: "ReferenceBlockColumn",		
 		constructor: function (attributes) {
 			var attrs = [{
-				x            : attributes.x || 0,
+				x            : attributes.x || 8,
 				id           : attributes.id || _.uniqueId("column-"),
 				name         : attributes.name || _.uniqueId("Column "),
-				width        : parseInt(attributes.width) || 200,
-				height       : 100,
+				width        : 130,
+				height       : 1000,
 				description  : attributes.description || null,
 				blockMarkers : new ReferenceBlockMarkers(),
 				blocks       : new ReferenceBlocks(),
