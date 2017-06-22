@@ -147,6 +147,7 @@
           "stroke-width": this.normalStrokeWidth
         });
         this.rEl.hover(this.onMouseOver, this.onMouseOut);
+		this.renderTooltip();
         this.start();
         return this;
       };
@@ -163,6 +164,23 @@
           "stroke-width": this.normalStrokeWidth
         });
         return this;
+      };
+
+      Timeline.prototype.renderTooltip = function () {
+        var age = this.model.get('age') == null ? '-' : this.model.get('age');
+        $(this.rEl.node).qtip({
+            content: {
+                text: this.model.get('name') + "【" + age + " myr】"
+            },
+            position: {
+                my: 'bottom left', // Position my top left...
+                target: 'mouse', // my target
+                adjust: {
+                    x: 10,
+                    y: -10
+                }
+            }
+        });
       };
 
       Timeline.prototype.onMouseOver = function() {
