@@ -45,7 +45,6 @@ define([
 		this.zones = this.app.ZonesCollection;
 		this.markers = this.app.MarkersCollection;
 
-
 		// Initialize the reference column with default attributes.
 		/**
 		
@@ -73,11 +72,22 @@ define([
 		this.loadReferenceColumnData();
 	};
 
+
+	ReferenceColumnSideView.prototype.toggleRefPanel = function() {
+		if(this.visible == false) {
+			this.app.refCol.Paper.canvas.setAttribute('visibility', 'visible');
+			this.visible = true;
+		} else {
+			this.app.refCol.Paper.canvas.setAttribute('visibility', 'hidden');
+			this.visible = false;
+		}
+	}
+
 	ReferenceColumnSideView.prototype.listenToActionEvents = function() {
 		var self = this;
 		this.$enRefPanel = $("a[href='#show-ref-panel']");
 		this.$enRefPanel.click(function() {
-			self.$refPanel.toggleClass("hidden");
+			self.toggleRefPanel();
 		})
 	}
 
@@ -93,6 +103,8 @@ define([
 		var width = 0.001; // if 0 then Raphael by default take the default 512
 		var height = 0.001; // if 0 then Raphael by default take the default 400
 		this.app.refCol.Paper = new Raphael(x, y, width, height);
+		this.visible = true;
+		this.toggleRefPanel();
 
 		// 
 		this.app.refCol.MarkersSet = this.app.refCol.Paper.set();
