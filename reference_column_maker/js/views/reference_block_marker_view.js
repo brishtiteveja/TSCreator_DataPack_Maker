@@ -55,7 +55,8 @@ define(["baseView"], function(BaseView) {
 
 		if (this.blockMarker.get('marker')) {
 			// this is if marker is not null then changes to the marker should change changes to the 
-			this.listenTo(this.blockMarker.get('marker'), 'change:y', this.updateBlockMakereY.bind(this));
+			this.listenTo(this.blockMarker.get('marker'), 'change:y', this.updateBlockMarkerY.bind(this));
+			this.listenTo(this.blockMarker.get('marker'), 'destroy', this.removeBlockMarker.bind(this));
 		}
 
 		var style = this.blockMarker.get('style');
@@ -100,7 +101,7 @@ define(["baseView"], function(BaseView) {
 		this.app.Paper.setSize(this.app.Paper.width, height);
 	}
 
-	ReferenceBlockMarkerView.prototype.updateBlockMakereY = function() {
+	ReferenceBlockMarkerView.prototype.updateBlockMarkerY = function() {
 		if (this.blockMarker.get('marker')) {
 			this.blockMarker.set({
 				y: this.blockMarker.get('marker').get('y')
@@ -144,6 +145,9 @@ define(["baseView"], function(BaseView) {
 		}
 
 		this.blockMarker.set({
+			y: evt.offsetY
+		});
+		this.blockMarker.get('marker').set({
 			y: evt.offsetY
 		});
 	};
@@ -193,6 +197,31 @@ define(["baseView"], function(BaseView) {
 	ReferenceBlockMarkerView.prototype.checkAndDelete = function() {
 		if (this.blockMarker.get('blocks').length == 0) {
 			this.destroy();
+		} 
+	}
+
+	ReferenceBlockMarkerView.prototype.removeBlockMarker = function() {
+		var blockMarkers = this.blockMarker.get('blockColumn').get('blockMarkers');
+		var blocks = this.blockMarker.get('blocks');
+		var curBlock = nextBlock = null;
+		if (blocks.length == 2) {
+			curBlock = blocks.at(0);
+			nextBlock = blocks.at(1);
+
+			var topMarkerOfCurBlock = curBlock.get('top');
+			var topMarkerOfNextBlock = nextBlock.get('top');
+
+			topMarkerOfNextBlock.set('y', topMarkerOfCurBlock.get('y'));
+			topMarkerOfCurBlock.get('blocks').add(nextBlock);
+			curBlock.destroy();
+			this.blockMarker.destroy();
+		} else if (blocks.length == 1) {
+			var index = blockMarkers.indexOf(this.blockMarker);
+			if (index == 0 || index == blockMarkers.length - 1) {
+				curBlock = blocks.at(0);				
+				curBlock.destroy();
+				this.blockMarker.destroy();
+			}
 		}
 	}
 
