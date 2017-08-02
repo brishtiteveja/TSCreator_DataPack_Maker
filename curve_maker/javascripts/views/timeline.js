@@ -107,6 +107,17 @@
         } else {
           this.model.set(key, value);
         }
+
+		// Update qtip content
+		if (key === "age" || key === "name") {
+			var age = this.model.get('age') == null ? '-' : this.model.get('age');
+			var updatedContent = this.model.get('name') + "【" + age + " myr】";
+			var qapi = $(this.rEl.node).data('qtip');
+			qapi.options.content.text = updatedContent; 
+			qapi.elements.content.text(updatedContent);
+			qapi.redraw();
+		}
+
         return this;
       };
 

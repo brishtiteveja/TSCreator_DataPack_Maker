@@ -166,6 +166,7 @@
           mainCanvasView: this.mainCanvasView
         }).render();
         this.mainCanvasView.trigger("register:view", newExportView);
+		this.columnManager.exportView = newExportView;
         return newExportView;
       };
 

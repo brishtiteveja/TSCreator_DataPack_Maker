@@ -177,26 +177,109 @@
             }
           };
         })(this));
-        return JSON.stringify(output);
+        
+        var cache = [];
+        var jsonOutput = JSON.stringify(output, function(key, value) {
+    		if (typeof value === 'object' && value !== null) {
+        		if (cache.indexOf(value) !== -1) {
+            	// Circular reference found, discard key
+            		return;
+        		}
+        		// Store value in our collection
+        		cache.push(value);
+    		}
+            return value;
+       });
+       cache = null;
+
+       return jsonOutput;
       };
 
       ColumnManager.prototype.exportToFile = function(filename) {
-        var $link, blob, data, jsonUrl, url;
-        data = this.exportAll();
-        url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
-        filename = filename != null ? filename : "TSCreator_curve_" + (new Date().toLocaleDateString("en-US")) + "_" + (+(new Date)) + ".json";
-        blob = new Blob([data], {
+		var files = [];
+		var fileNames = [];
+
+		// get JSON data
+        jsonData = this.exportAll();
+        jsonFileName = filename != null ? filename : "event_maker_project" + ".json";
+
+        jsonBlob = new Blob([jsonData], {
           type: 'application/json'
         });
-        jsonUrl = URL.createObjectURL(blob);
-        $link = $("<a/>").attr({
-          'download': filename,
-          'href': jsonUrl
-        });
-        $link[0].click();
-        $link.remove();
+
+		files.push(jsonBlob);
+		fileNames.push(jsonFileName);
+
+		// get text datapack
+		textData = this.exportView._renderTextVersion();
+        textFileName = filename != null ? filename : "event_datapack" + ".txt";
+
+        textBlob = new Blob([textData], { 
+			type: 'text/plain' }
+		);
+
+		files.push(textBlob);
+		fileNames.push(textFileName);
+
+
+		this.createAndSaveZipFile(files, fileNames);
+
         return this;
       };
+
+	  ColumnManager.prototype.createAndSaveZipFile = function(files, fileNames) {
+		zip.workerScriptsPath = "../commons/js/lib/zip/WebContent/"
+		var writer = new zip.BlobWriter("application/zip");
+
+		this.exportView.model.get("curves").map(function(c) {
+          json = c.toJSON();
+          var imgFile = json.option.get('imageData');
+          // if an image file exists for the event
+          if (imgFile != null) {
+            var imgFileName = json.option.get('imageFileName');
+            fileNames.push(imgFileName);
+
+            var arr = imgFile.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            blob = new Blob([u8arr], {type:mime});
+            files.push(blob);
+          }
+        });
+
+        zip.createWriter(writer, function(writer) {
+            var f = 0;
+
+            function nextFile(f, files, fileNames) {
+                fblob = files[f];
+                writer.add(fileNames[f], new zip.BlobReader(fblob), function() {
+                    f++;
+                    if (f < files.length) {
+                        nextFile(f, files, fileNames);
+                    } else 
+                        close();
+                });
+            }
+
+            function close() {
+                writer.close(function(blob) {
+					filename = "TSCreator_event_" 
+						+ (new Date().toLocaleDateString("en-US")) + "_" + (+(new Date)) + ".zip";
+                    saveAs(blob, filename);
+                });
+            }
+
+            nextFile(f, files, fileNames);
+        },
+        function(message) {
+            console.log(message);
+        });
+
+        return this;
+	  }
+
 
       ColumnManager.prototype.importAll = function(json) {
         var commonImporter;
@@ -239,7 +322,7 @@
 
       ColumnManager.prototype.configs = {
         common: {
-          requiresTools: ["pointer", "lockCursorH", "lockCursorV", "zoomIn", "zoomOut", "pan", "addTimeline"],
+          requiresTools: ["pointer", "zoomIn", "zoomOut", "pan", "addTimeline"], //"lockCursorH", "lockCursorV", 
           requiresModules: ["timelines", "zones", "backgroundImage", "referenceColumns"],
           importerClazz: CommonImporter,
           exporterClazz: CommonExporter
