@@ -81,6 +81,8 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
 
     PolygonView.prototype.updatePolygonView = function (arguments) {
         this.$polygonData.html(this.polygon.get('name') + " → " + this.polygon.get('patternName'));
+		var pattern = this.polygon.get("patternName");
+		this.$('select.polygon-pattern').val(pattern);
         this.renderPolygonElement();
         this.setPolygonFill();
         this.toggleEditStatus();
@@ -309,7 +311,7 @@ define(["baseView", "pointView", "lineView", "point", "points", "line", "lines",
     PolygonView.prototype.setPolygonFill = function () {
         if (this.element === undefined) return;
         var pattern = this.polygon.get("patternName");
-        var fill = pattern && tscApp.PATTERNS[pattern] ? "url('/pattern_manager/patterns/" + tscApp.PATTERNS[
+        var fill = pattern && tscApp.PATTERNS[pattern] ? "url('../../pattern_manager/patterns/" + tscApp.PATTERNS[
             pattern] + "')" : transectApp.polygonFill;
         this.element.attr({
             'opacity': 0.5,
