@@ -32,6 +32,9 @@ define([
             'keypress :input.lithology-column': 'updateLithologyColumn',
             'keyup :input.lithology-column': 'updateLithologyColumn',
             'change input[name="lithology-column-bg-color"]': 'updateLithologyColumn',
+            'change input[name="lithology-column-lat"]': 'updateLithologyColumn',
+            'change input[name="lithology-column-long"]': 'updateLithologyColumn',
+            'change textarea[name="lithology-column-description"]': 'updateLithologyColumn',
             'mouseover': "onMouseOver",
             'mouseout': "onMouseOut",
         }
