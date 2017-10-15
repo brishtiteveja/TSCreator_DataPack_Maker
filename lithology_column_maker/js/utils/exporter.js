@@ -42,7 +42,7 @@ define([], function() {
 		outputText += "\tfacies";
 		outputText += "\t" + lithologyColumn.get('width');
 		outputText += "\t" + CssToTscColor(lithologyColumn.get('settings').get('backgroundColor'));
-		outputText += "\tnotitle";
+		//outputText += "\tnotitle";
 		outputText += "\t";
 		outputText += "\t" + (lithologyColumn.get('description') + "\t" || "");
 
