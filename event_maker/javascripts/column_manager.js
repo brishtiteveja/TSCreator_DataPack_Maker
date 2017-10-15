@@ -328,7 +328,7 @@
           exporterClazz: CommonExporter
         },
         curve: {
-          requiresTools: ["addRanges", "addEvent", "showReferencePanel", "saveToLocalStorage", "reloadData", "exportData", "dataSandbox"],
+          requiresTools: ["addRanges", "addEvent", "showReferencePanel", "saveToLocalStorage", "exportData"], //"reloadData", "exportData", "dataSandbox"],
           requiresModules: ["ranges", "curves", "defaults", "chartSettings"],
           importerClazz: CurveImporter,
           exporterClazz: CurveExporter,
@@ -421,7 +421,7 @@
             startEvent: "start:addingCurve",
             stopEvent: "stop:addingCurve"
           },
-          title: "Add a new curve"
+          title: "Add a new event"
         },
         showReferencePanel: {
           name: "show-ref-panel",
@@ -439,7 +439,7 @@
             type: "click",
             event: "saveToLocalJSON"
           },
-          title: "save to local storage"
+          title: "download project as zip"
         },
         reloadData: {
           name: "reload-data",

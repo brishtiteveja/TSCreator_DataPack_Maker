@@ -314,7 +314,7 @@
           exporterClazz: CommonExporter
         },
         curve: {
-          requiresTools: ["addRanges", "addCurve", "showReferencePanel", "saveToLocalStorage", "reloadData", "exportData", "dataSandbox"],
+          requiresTools: ["addRanges", "addCurve", "showReferencePanel", "saveToLocalStorage", "exportData"], //"reloadData", "dataSandbox"],
           requiresModules: ["ranges", "curves", "defaults", "chartSettings"],
           importerClazz: CurveImporter,
           exporterClazz: CurveExporter,
@@ -425,7 +425,7 @@
             type: "click",
             event: "saveToLocalJSON"
           },
-          title: "save to local storage"
+          title: "download project as zip"
         },
         reloadData: {
           name: "reload-data",
