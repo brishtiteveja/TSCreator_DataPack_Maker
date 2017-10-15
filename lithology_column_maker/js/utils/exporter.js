@@ -44,7 +44,7 @@ define([], function() {
 		outputText += "\t" + CssToTscColor(lithologyColumn.get('settings').get('backgroundColor'));
 		outputText += "\tnotitle";
 		outputText += "\t";
-		outputText += "\t" + (lithologyColumn.get('description') || "");
+		outputText += "\t" + (lithologyColumn.get('description') + "\t" || "");
 
 		lithologyColumn.get('lithologyGroups').each(function(lithologyGroup) {
 			outputText += self.getLithologyGroupData(lithologyGroup);
@@ -58,7 +58,7 @@ define([], function() {
 		var outputText = "\n" + lithologyGroup.get("name");
 		outputText += "\tPrimary";
 		outputText += "\t";
-		outputText += "\t" + (lithologyGroup.get('description') || "");
+		outputText += "\t" + (lithologyGroup.get('description') + "\t" || "");
 
 		lithologyGroup.get('lithologys').each(function(lithology) {
 			outputText += self.getLithologyData(lithology);
@@ -81,7 +81,7 @@ define([], function() {
 		outputText += "\t" + (lithology.getPatternName() || "");
 		outputText += "\t" + lithology.get('name');
 		outputText += "\t" + (lithology.get('base').get('age') || "n/a");
-		outputText += "\t" + (lithology.get('description') || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("base").get("zone").get('name');
+		outputText += "\t" + (lithology.get('description') + "\t" || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("base").get("zone").get('name');
 
 		return outputText;
 	}
