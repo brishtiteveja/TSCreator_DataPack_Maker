@@ -13,9 +13,10 @@
 
       Curves.prototype.model = Curve;
 
-      Curves.prototype.addNew = function() {
+      Curves.prototype.addNew = function(name) {
         var newCurve;
         newCurve = new Curve({
+		  name: name,
           points: new Points(),
           lines: new Lines(),
           option: new CurveOption()
