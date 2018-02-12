@@ -117,10 +117,12 @@
               return curY += gapSize;
             };
           })(this));
+		  console.log(zones);
           _.each(zones, (function(_this) {
             return function(z) {
               var newZ;
               newZ = $.extend(true, {}, z);
+			  console.log(_this.zones);
               return _this.zones.addFromJSONWithAge(_this.timelines, newZ);
             };
           })(this));
