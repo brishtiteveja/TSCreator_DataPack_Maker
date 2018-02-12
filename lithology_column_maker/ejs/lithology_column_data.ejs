@@ -27,7 +27,7 @@
 						<td></td>
 						<td>TOP</td>
 						<td></td>
-						<td><%= lithology.get("top").get("age") || "n/a" %></td>
+						<td><%= lithology.get("top").get("age") || "0" %></td>
 						<td>CALIBRATION = <%= Math.round((1 - lithology.get("top").get("relativeY"))*1000)*1.0/10.0 %>% up the <%= lithology.get("top").get("zone").get('name') %></td>
 					</tr>
 				<% } %>
@@ -35,7 +35,7 @@
 					<td></td>
 					<td><%= (lithology.getPatternName() || "") %></td>
 					<td><%= lithology.get("name") %></td>
-					<td><%= lithology.get("base").get("age") || "n/a" %></td>
+					<td><%= lithology.get("base").get("age") || "0" %></td>
 					<td><%= (lithology.get('description') || "") %> CALIBRATION = <%= Math.round((1 - lithology.get("base").get("relativeY"))*1000)*1.0/10.0 %>% up the <%= lithology.get("base").get("zone").get('name') %></td>
 				</tr>
 			<% } %>

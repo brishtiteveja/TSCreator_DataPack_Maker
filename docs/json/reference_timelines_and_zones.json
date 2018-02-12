@@ -33,7 +33,7 @@
       },
       {
         "name": "Triassic base",
-        "age": 251.90,
+        "age": 251.9,
         "type": "solid"
       },
       {
@@ -153,7 +153,7 @@
         },
         "base": {
           "name": "Quaternary base",
-          "age": 2.588,
+          "age": 2.58,
           "type": "solid"
         },
         "backgroundColor": "#f9f97f"
@@ -163,7 +163,7 @@
         "description": "Base of Miocene (base of Neogene Period) = base of Chron C6Cn.2n. The GSSP of the Oligocene/Miocene boundary is defined as 35m level of Rigorosa Formation in the Lemme-Carrosio sections of NE Italy, corresponding also to the FAD of Foram Globorotalia kugleri (base of Foram Zone M1) (Berggren et al., 1995; Steininger et al., in press)",
         "top": {
           "name": "Quaternary base",
-          "age": 2.580,
+          "age": 2.58,
           "type": "solid"
         },
         "base": {
@@ -228,7 +228,7 @@
         },
         "base": {
           "name": "Triassic base",
-          "age": 251.90,
+          "age": 251.9,
           "type": "solid"
         },
         "backgroundColor": "#812b92"
@@ -238,7 +238,7 @@
         "description": null,
         "top": {
           "name": "Triassic base",
-          "age": 251.90,
+          "age": 251.9,
           "type": "solid"
         },
         "base": {
@@ -564,7 +564,7 @@
       },
       {
         "name": "Pleistocene base",
-        "age": 2.580,
+        "age": 2.58,
         "type": "solid"
       },
       {
@@ -579,7 +579,7 @@
       },
       {
         "name": "Oligocene base",
-        "age": 33.90,
+        "age": 33.9,
         "type": "solid"
       },
       {
@@ -629,7 +629,7 @@
       },
       {
         "name": "Early base",
-        "age": 251.90,
+        "age": 251.9,
         "type": "solid"
       },
       {
@@ -779,7 +779,7 @@
         },
         "base": {
           "name": "Pleistocene base",
-          "age": 2.580,
+          "age": 2.58,
           "type": "solid"
         },
         "backgroundColor": "#fff2ae"
@@ -789,7 +789,7 @@
         "description": "PLIOCENE --  Base of Pliocene is traditionally placed at base of Trubi Formation (base of Zanclean Stage) representing restoration of marine conditions in the Mediterranean following the late Miocene (Messinian) dessication.  This event occurs 5 precession cycles below the Thvera (C3n.4n) Polarity Subchron, or at 5.32 Ma [Hilgen and Langereis, 1993, \"A critical re-evaluation of the Miocene/Pliocene boundary as defined in the Mediterranean\", Earth Planet. Sci. Lett., 118: 167-179]. ",
         "top": {
           "name": "Pleistocene base",
-          "age": 2.580,
+          "age": 2.58,
           "type": "solid"
         },
         "base": {
@@ -824,7 +824,7 @@
         },
         "base": {
           "name": "Oligocene base",
-          "age": 33.90,
+          "age": 33.9,
           "type": "solid"
         },
         "backgroundColor": "#fdc07a"
@@ -834,7 +834,7 @@
         "description": "Base of Eocene is ca. C24r.36 (decision of Paleogene-chapter group for GTS2012).  Base of Eocene is 0.94 myr (0.98 in another table) above top C25n according to cycle stratigraphy.  This is NOT tied proportionally within Chron C24r; but some indicate it as C24r.36 (e.g., used in Agnini et al'07 for calibrating nannofossil datums near boundary).  Age used here is from U-Pb => 0.05 myr lower.",
         "top": {
           "name": "Oligocene base",
-          "age": 33.90,
+          "age": 33.9,
           "type": "solid"
         },
         "base": {
@@ -974,7 +974,7 @@
         },
         "base": {
           "name": "Early base",
-          "age": 251.90,
+          "age": 251.9,
           "type": "solid"
         },
         "backgroundColor": "#983999"
@@ -984,7 +984,7 @@
         "description": "Late Permian",
         "top": {
           "name": "Early base",
-          "age": 251.90,
+          "age": 251.9,
           "type": "solid"
         },
         "base": {
@@ -1420,7 +1420,7 @@
       },
       {
         "name": "Priabonian base",
-        "age": 37.99,
+        "age": 37.97,
         "type": "dashed"
       },
       {
@@ -1465,7 +1465,7 @@
       },
       {
         "name": "Santonian base",
-        "age": 86.26,
+        "age": 86.49,
         "type": "dashed"
       },
       {
@@ -1605,7 +1605,7 @@
       },
       {
         "name": "Changhsingian base",
-        "age": 254.2,
+        "age": 254.15,
         "type": "solid"
       },
       {
@@ -1650,7 +1650,7 @@
       },
       {
         "name": "Gzhelian base",
-        "age": 303.65,
+        "age": 303.4,
         "type": "solid"
       },
       {
@@ -1905,7 +1905,7 @@
         },
         "base": {
           "name": "Gelasian base",
-          "age": 2.588,
+          "age": 2.58,
           "type": "solid"
         },
         "backgroundColor": "#ffffcc"
@@ -1975,7 +1975,7 @@
         "description": "Base-Serravallian GSSP (rratified 2007) = major Mi-3b cooling = Seq Boundary TB2.5 = Hardenbol's Ser 1.  Astronomical-tuned age is 13.82 Ma.   Approximately 0.65 myr (ca. 32 precession cycles) above the base of magnetic polarity Chron C26r.   Above (13.65 Ma) is the lowest occurrence of nannofossil Sphenolithus heteromorphus (which was working base of Serravallian in GTS2004).",
         "top": {
           "name": "Tortonian base",
-          "age": 11.608,
+          "age": 11.625,
           "type": "solid"
         },
         "base": {
@@ -2070,7 +2070,7 @@
         },
         "base": {
           "name": "Priabonian base",
-          "age": 37.99,
+          "age": 37.97,
           "type": "dashed"
         },
         "backgroundColor": "#fdcda1"
@@ -2080,7 +2080,7 @@
         "description": "Base of Bartonian (working version) assigned as base of Chron C18r.  The base of Bartonian is typically correlated to a level within Nanno Zone NP16, and closely associated with LAD of Reticulofenestra reticulata (Leg 320-321 cite same chron-age scaling as chron-age scaling as Berggren et al. (1995); = ca. C19r.7.  Berggren et al. (1995) equate to the TOP of polarity chron C19n (base of C18r), implying an age estimate of 41.25 Ma.",
         "top": {
           "name": "Priabonian base",
-          "age": 37.99,
+          "age": 37.97,
           "type": "dashed"
         },
         "base": {
@@ -2197,7 +2197,7 @@
       },
       {
         "name": "Santonian",
-        "description": "85.85 retained as 85.8 in GTS04; GSSP not yet decided",
+        "description": "The GSSP coincides with the first occurrence of the inoceramid bivalve Platyceramus undulatoplicatus.",
         "top": {
           "name": "Campanian base",
           "age": 84.19,
@@ -2205,7 +2205,7 @@
         },
         "base": {
           "name": "Santonian base",
-          "age": 86.26,
+          "age": 86.49,
           "type": "dashed"
         },
         "backgroundColor": "#d9ef74"
@@ -2215,7 +2215,7 @@
         "description": "The base of the Coniacian Stage is the lowest occurrence of the Cremnoceramus rotundatus (sensu Tröger non Fiege) inoceramid bivalve.  In GTS04, this inoceramid datum had been considered to be slightly older (suggested by U. Kaplan, in northern Germany) than the lowest occurrence of ammonite Forresteria petrocoriensis, which had a spline-fit age of 89.07 Ma.  Therefore, the base-Coniacian had been estimated as 89.3 Ma.  However, it is now known from inoceramid-ammonite calibration studies that the onset of the F. petrocoriensis zone (or Foresteria peruuana zone) is in late Turonian, and the Coniacian as defined above begins approximately at the base of the overlying Scaphites preventricosus ammonite zone (age of 88.58 Ma in GTS04; which had been used as the Early/Middle Coniacian boundary level !!).  Other than the inoceramid datum and associated base-Coniacian GSSP age, this correction does not alter any of the assigned ages for any other biostratigraphic or other stratigraphic events.   [NOTE: 88.58 rounds off to 88.6]",
         "top": {
           "name": "Santonian base",
-          "age": 86.26,
+          "age": 86.49,
           "type": "dashed"
         },
         "base": {
@@ -2625,7 +2625,7 @@
         },
         "base": {
           "name": "Changhsingian base",
-          "age": 254.2,
+          "age": 254.15,
           "type": "solid"
         },
         "backgroundColor": "#fcc0b2"
@@ -2635,7 +2635,7 @@
         "description": "Base Wuchiapingian is coeval with FAD of Clarkina postbitteri postbitteri conodont",
         "top": {
           "name": "Changhsingian base",
-          "age": 254.2,
+          "age": 254.15,
           "type": "solid"
         },
         "base": {

@@ -115,6 +115,13 @@
         zone.base = timelines.findWhere({
           age: zone.base.age
         });
+		if(zone.base == null){
+		console.log(zone);
+		console.log(timelines);
+		console.log("Here");
+		console.log(zone.top);
+		console.log(zone.base);
+		}
         return this.add(zone);
       };
 
