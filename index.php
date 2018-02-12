@@ -56,6 +56,8 @@
   <h1><u>Universal Datapack Maker</h1>
   <ul>
     <li><a href="../universal_datapack_maker/index.html" target="_blank">link</a></li>
+    <li><a href="../bens_zoomin/index.html" target="_blank">ZoomIn</a></li>
+    <li><a href="../tanvis_dialog/index.html" target="_blank">Dialog</a></li>
   </ul>
 
   <h1>Online Servers</h1>
