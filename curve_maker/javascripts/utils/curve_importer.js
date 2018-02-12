@@ -28,7 +28,7 @@ define([], function() {
     var timelines = this.columnManager.retrieveCommonData("timelines");
     var zones = this.columnManager.retrieveCommonData("zones");
     _.each(json.curves, function(curve) {
-      var newCurve = curves.addNew();
+      var newCurve = curves.addNew(curve.name);
       _.each(curve.points, function(p) {
         newCurve.addPointFromJSON(timelines, zones, p);
       });
