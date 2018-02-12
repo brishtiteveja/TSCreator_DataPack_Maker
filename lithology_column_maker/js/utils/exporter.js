@@ -28,7 +28,12 @@ define([], function() {
 	}
 
 	Exporter.prototype.getMetaColumnData = function() {
-		var outputText = "Lithologies\t:";
+		if (this.app.projectName != null) {
+			var outputText = this.app.projectName + "\t:";
+		} 
+		else {
+			var outputText = "Lithologies\t:";
+		}
 		this.lithologyColumns.each(function(lithologyColumn) {
 			outputText += "\t" + lithologyColumn.get('name');
 		});
@@ -89,6 +94,7 @@ define([], function() {
 
 	Exporter.prototype.getJSON = function() {
 		var json = {};
+		json["projectName"] = this.app.projectName;
 		json["image"] = this.imageOb.toJSON();
 		json["zones"] = this.zones.toJSON();
 		json["lithologyColumns"] = this.lithologyColumns.toJSON();

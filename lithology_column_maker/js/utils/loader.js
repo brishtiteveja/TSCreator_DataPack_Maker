@@ -132,12 +132,16 @@ define([
 			this.savedData = this.changeJSONKey(this.savedData);
 		}
         this.reset();
+
+		this.app.projectName = this.savedData.projectName;
+
         this.load();
     };
 
     Loader.prototype.loadTextData = function (data) {
         this.reset();
         this.textData = data;
+		this.lithologyColumns.set('projectName', this.app.projectName);
         this.parseMinAndMaxAgesAndAddMarkers(data);
         this.parseColumnData(data);
     };
