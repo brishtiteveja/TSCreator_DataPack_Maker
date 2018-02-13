@@ -112,11 +112,22 @@ define([
             var self = this;
             self.app.exporter.export();
             var timeStamp = self.getTimeStamp();
-            var dirName = this.app.type + "-" + timeStamp;
+			if (this.app.projectName == null) {
+				var dirName = this.app.type + "-" + timeStamp;
+			}
+			else {
+				var dirName = this.app.projectName + "-" + timeStamp;
+			}
             self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function (dirEntry) {
                 self.newDir(dirEntry, dirName, function (dirEntry) {
-                    var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
-                    var textFile = self.app.type + "-data-" + timeStamp + ".txt";
+					if (self.app.projectName == null) {
+						var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
+						var textFile = self.app.type + "-data-" + timeStamp + ".txt";
+					}
+					else {
+						var jsonFile = self.app.projectName + "-data-" + timeStamp + ".json";
+						var textFile = self.app.projectName + "-data-" + timeStamp + ".txt";
+					}
                     var json = self.app.exporter.getJSON();
                     var text = self.app.exporter.getText();
                     if (self.app.exporter.saveAllImages) {
