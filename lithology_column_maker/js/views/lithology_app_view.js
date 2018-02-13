@@ -149,9 +149,14 @@ define([
     }
 
     LithologyAppView.prototype.showPaper = function () {
-        this.$canvas.removeClass('hide');
-        this.$introScreen.addClass('hide');
-		this.$introScreen.hide();
+		var projectName = prompt("Please input your Project Name", "") 
+		if (projectName != null)
+		{
+			this.app.projectName = projectName;
+			this.$canvas.removeClass('hide');
+			this.$introScreen.addClass('hide');
+			this.$introScreen.hide();
+		} 
     }
 
     LithologyAppView.prototype.render = function () {

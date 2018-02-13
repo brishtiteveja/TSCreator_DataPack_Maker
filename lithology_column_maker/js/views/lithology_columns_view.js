@@ -61,10 +61,6 @@ define(["baseView", "lithologyColumnView", "lithologyColumn"], function(BaseView
 		this.app.projectName = this.projectName;
 	}
 
-	LithologyColumnsView.prototype.loadProjectName = function() {
-		console.log(this.app.projectName);
-	}
-
 	return LithologyColumnsView;
 });
 
