@@ -87,7 +87,13 @@ define([], function() {
 		outputText += "\t" + (lithology.getPatternName() || "");
 		outputText += "\t" + lithology.get('name');
 		outputText += "\t" + (lithology.get('base').get('age') || "0");
-		outputText += "\t" + (lithology.get('description') + "\t" || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("base").get("zone").get('name');
+		var description = lithology.get('description') + " " || "" + 
+								+ "CALIBRATION = " 
+								+ (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) 
+								+ "% up the " + lithology.get("base").get("zone").get('name');
+		outputText += "\t" + description; 
+		outputText += "\t" + (lithology.get('memberName') || "");
+		outputText += "\t" + (lithology.get('base').get('style') || "");
 
 		return outputText;
 	}

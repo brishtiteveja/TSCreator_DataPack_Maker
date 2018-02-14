@@ -11,6 +11,7 @@ define(["baseModel", "lithologyMarkers", "lithologys", "lithologyGroups", "litho
                 name: params.name || _.uniqueId("Column "),
                 width: parseInt(params.width) || 200,
                 description: params.description || null,
+				memberName: params.memberName || null, 
                 lithologyMarkers: new LithologyMarkers(),
                 lithologys: new Lithologys(),
                 lithologyGroupMarkers: new LithologyGroupMarkers(),

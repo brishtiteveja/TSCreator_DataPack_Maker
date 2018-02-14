@@ -13,6 +13,7 @@
 					<option class="line-style" value="solid" selected>solid</option>
 					<option class="line-style" value="dashed">dashed</option>
 					<option class="line-style" value="dotted">dotted</option>
+					<option class="line-style" value="wavy">wavy</option>
 				</select>
 			</div>
 		</div>
@@ -43,6 +44,12 @@
 			<div class="columns small-24">
 				<label>Description</label>
 				<textarea name="lithology-description" placeholder="No description yet!"><%= description %></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="columns small-14">
+				<label for="lithology-member-name" class="data-labels">Member Name</label>
+				<input type="text" value="<%= memberName %>" name="member-name">
 			</div>
 		</div>
 	</div>

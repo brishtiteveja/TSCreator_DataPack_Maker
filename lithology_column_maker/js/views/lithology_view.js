@@ -10,6 +10,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
             'keypress :input': 'updateLithology',
             'keyup :input': 'updateLithology',
             'change input[name="lithology-name"]': 'updateLithology',
+            'change input[name="lithology-member-name"]': 'updateLithology',
             'change input[name="lithology-color"]': 'updateLithology',
             'change input[name="lithology-base-relativeY"]': 'updateLithology',
             'change select.lithology-line-style': 'updateLithology',
@@ -67,6 +68,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.$lithologyName = this.$('input[name="lithology-name"]')[0];
         this.$lithologyAge = this.$('input[name="lithology-age"]')[0];
         this.$lithologyDescription = this.$('textarea[name="lithology-description"]')[0];
+        this.$lithologyMemberName = this.$('input[name="member-name"]')[0];
         this.$patternsList = this.$('.patterns-list');
         this.$lithologyPattern = this.$('select.lithology-pattern');
         this.$lithologyImage = this.$('.lithology-image');
@@ -268,6 +270,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         }
         var name = this.$lithologyName.value;
         var description = this.$lithologyDescription.value;
+        var memberName = this.$lithologyMemberName.value;
         var style = this.$("select.lithology-line-style option:selected").val();
 
         var y = this.base.get('zone').getAbsoluteY((1 - parseFloat(this.$lithologyBaseRelativeY.value) / 100.0));
@@ -279,6 +282,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.lithology.set({
             name: name,
             description: description,
+			memberName: memberName,
         });
 
         this.lithology.get('base').set({

@@ -50,6 +50,14 @@ define([
 
     LithologyColumnView.prototype.initialize = function (app, lithologyColumn) {
         this.app = app;
+
+		// Derive Lithology Column Name from Project Name
+		if (this.app.projectName != null) {
+			var prevColumnName = lithologyColumn.get('name');
+			var newColumnName = prevColumnName.replace("Column", this.app.projectName);
+			lithologyColumn.set('name', newColumnName); 
+		}
+
         this.lithologyColumn = lithologyColumn;
 		this.lithologyColumn.lithologyColumnView = this;
         this.listenToEvents();
