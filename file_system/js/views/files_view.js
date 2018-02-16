@@ -263,7 +263,6 @@ define([
                 fileEntry.createWriter(function (fileWriter) {
 
                     fileWriter.onwriteend = function () {
-                        window.console.log('Write completed.');
                         self.files.trigger('saving-event', 'text-file-generated', dirEntry);
                     };
 

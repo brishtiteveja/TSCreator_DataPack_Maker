@@ -50,7 +50,8 @@ define([], function() {
 		outputText += "\t";
 		//outputText += "\tnotitle";
 		outputText += "\t";
-		outputText += "\t" + (lithologyColumn.get('description') + "\t" || "");
+		var lithColDesc = lithologyColumn.get('description'); 
+		outputText += "\t" + ((lithColDesc != null)? lithColDesc + "\t" : "");
 
 		lithologyColumn.get('lithologyGroups').each(function(lithologyGroup) {
 			outputText += self.getLithologyGroupData(lithologyGroup);
@@ -64,7 +65,7 @@ define([], function() {
 		var outputText = "\n" + lithologyGroup.get("name");
 		outputText += "\tPrimary";
 		outputText += "\t";
-		outputText += "\t" + (lithologyGroup.get('description') + "\t" || "");
+		outputText += "\t\t" + (lithologyGroup.get('description') + "\t" || "");
 
 		lithologyGroup.get('lithologys').each(function(lithology) {
 			outputText += self.getLithologyData(lithology);
@@ -80,20 +81,28 @@ define([], function() {
 			outputText += "\tTOP";
 			outputText += "\t";
 			outputText += "\t" + (lithology.get("top").get("age") || "0");
-			outputText += "\t" + ((lithology.get('description') + "\t") || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
+			var lithDesc = lithology.get('description');
+			outputText += "\t" + ((lithDesc != null)? (lithDesc + " ") : "") + "\\nCALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
 			outputText += "\n";
 		}
 
 		outputText += "\t" + (lithology.getPatternName() || "");
 		outputText += "\t" + lithology.get('name');
 		outputText += "\t" + (lithology.get('base').get('age') || "0");
-		var description = lithology.get('description') + " " || "" + 
-								+ "CALIBRATION = " 
+		var lithDesc = lithology.get('description');
+		var description = (lithDesc != null)? (lithDesc+ " ") : "";  
+		var description = description
+								+ "\\nCALIBRATION = " 
 								+ (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) 
 								+ "% up the " + lithology.get("base").get("zone").get('name');
 		outputText += "\t" + description; 
 		outputText += "\t" + (lithology.get('memberName') || "");
-		outputText += "\t" + (lithology.get('base').get('style') || "");
+		var lineStyle = lithology.get('base').get('style');
+		var lineStyleInfo = (lineStyle === "solid" || lineStyle == null) ? "" : lineStyle; 
+		outputText += "\t" + lineStyleInfo; 
+
+		if (lineStyle == "wavy")
+			console.log("wavy");
 
 		return outputText;
 	}

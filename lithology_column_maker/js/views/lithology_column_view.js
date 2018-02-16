@@ -55,6 +55,7 @@ define([
 		if (this.app.projectName != null) {
 			var prevColumnName = lithologyColumn.get('name');
 			var newColumnName = prevColumnName.replace("Column", this.app.projectName);
+			newColumnName += " Lithology";
 			lithologyColumn.set('name', newColumnName); 
 		}
 
