@@ -15,6 +15,7 @@ define(["baseModel", "settings"], function(BaseModel, Settings) {
 				name           : attributes.name || _.uniqueId("Formation "), // default lithology name changed to "Formation Unique_id" format
 				description    : attributes.description,
 				memberName	   : attributes.memberName,
+				style		   : attributes.base.style || null,
 				settings       : new Settings(),
 				top            : attributes.top || null,
 				base           : attributes.base || null,

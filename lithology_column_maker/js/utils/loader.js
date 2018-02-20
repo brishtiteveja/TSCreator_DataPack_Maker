@@ -580,6 +580,12 @@ define([
 						memberName: lithologyData.memberName,
                     });
 
+					if (lithology.get('base') && lithologyData.base.style != 'solid') {
+						lithology.get('base').set({
+							style: lithologyData.base.style
+						});
+					}
+
                     lithologyGroup.get("settings").set(lithologyGroupData.settings);
 
                     // We are setting and resetting the edit so that the div element of the view is

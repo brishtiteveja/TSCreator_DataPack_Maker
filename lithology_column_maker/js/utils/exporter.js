@@ -101,9 +101,6 @@ define([], function() {
 		var lineStyleInfo = (lineStyle === "solid" || lineStyle == null) ? "" : lineStyle; 
 		outputText += "\t" + lineStyleInfo; 
 
-		if (lineStyle == "wavy")
-			console.log("wavy");
-
 		return outputText;
 	}
 
