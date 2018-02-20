@@ -115,7 +115,6 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
 
     LithologyView.prototype.setLithologyLineStyle = function () {
 		var style = this.base.get('style');
-		console.log(style);
 		this.$lithologyLineStyle.val(style);
 	}
 

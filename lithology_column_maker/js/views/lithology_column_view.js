@@ -54,8 +54,29 @@ define([
 		// Derive Lithology Column Name from Project Name
 		if (this.app.projectName != null) {
 			var prevColumnName = lithologyColumn.get('name');
+			var numPat = /[0-9]/g;
+			var colNum = prevColumnName.match(numPat);
+			var num = null;
+			if (colNum != null) {
+				if (colNum.length > 1) {
+					num = colNum.join("");
+				} else {
+					num = colNum;
+				}
+			}  
+
+			// remove the number
+			prevColumnName = prevColumnName.replace(numPat, "");
+
 			var newColumnName = prevColumnName.replace("Column", this.app.projectName);
+
+			// Add Lithology string
 			newColumnName += " Lithology";
+
+			// Add the column number
+			if (num != null)
+				newColumnName += " " + num
+
 			lithologyColumn.set('name', newColumnName); 
 		}
 
@@ -224,15 +245,15 @@ define([
         var description = this.$lithologyColumnDescription.value;
         var width = this.$lithologyColumnWidth.value;
         var bgColor = this.$lithologyColumnBgColor.value;
-        var lat = this.$lithologyColumnLat.value;
-        var lon = this.$lithologyColumnLon.value;
+		//var lat = this.$lithologyColumnLat.value;
+        //var lon = this.$lithologyColumnLon.value;
 
         this.lithologyColumn.set({
             name: name,
             description: description,
             width: parseInt(width) || 0,
-            lat: lat,
-            lon: lon
+            //lat: lat,
+            //lon: lon
         });
 
         this.lithologyColumn.get('settings').set({
