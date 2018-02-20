@@ -134,6 +134,7 @@ define([
         this.reset();
 
 		this.app.projectName = this.savedData.projectName;
+		this.app.loading = true;
 
         this.load();
     };

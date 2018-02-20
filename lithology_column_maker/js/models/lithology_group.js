@@ -8,7 +8,7 @@ define(["baseModel", "settings", "lithologys", "lithologyMarkers"], function(Bas
 				hover: false,
 				id: _.uniqueId("lithology-group-id-"),
 				name: attributes.name || _.uniqueId("Group "),
-				description: attributes.description,
+				description: attributes.description || null,
 				settings: new Settings(),
 				top: attributes.top || null,
 				base: attributes.base || null,

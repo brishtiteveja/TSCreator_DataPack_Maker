@@ -52,7 +52,7 @@ define([
         this.app = app;
 
 		// Derive Lithology Column Name from Project Name
-		if (this.app.projectName != null) {
+		if (this.app.projectName != null && lithologyColumn.get('name').match('Column') != null) {
 			var prevColumnName = lithologyColumn.get('name');
 			var numPat = /[0-9]/g;
 			var colNum = prevColumnName.match(numPat);

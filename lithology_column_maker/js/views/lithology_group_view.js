@@ -365,7 +365,7 @@ define([
 
         var name = this.$lithologyGroupName.value;
         var description = this.$lithologyGroupDescription.value;
-        var color = this.$lithologyGroupColor.value;
+        //var color = this.$lithologyGroupColor.value;
         var style = this.$("select.lithology-group-line-style option:selected").val();
         this.lithologyGroup.set({
             name: name,
@@ -376,10 +376,11 @@ define([
             name: name + " Base"
         });
 
-
+		/*
         this.lithologyGroup.get('settings').set({
             backgroundColor: color
         });
+		*/
 
         this.base.set({
             style: style
