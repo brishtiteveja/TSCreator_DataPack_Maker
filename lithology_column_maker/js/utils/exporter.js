@@ -77,18 +77,21 @@ define([], function() {
 	Exporter.prototype.getLithologyData = function(lithology) {
 		var outputText = "\n";
 
+
 		if (lithology.get('top').get('lithologys').length < 2) {
+			var lithAge = parseFloat(Math.round(lithology.get('top').get('age') * 1000) / 1000).toFixed(3);
 			outputText += "\tTOP";
 			outputText += "\t";
-			outputText += "\t" + (lithology.get("top").get("age") || "0");
+			outputText += "\t" + (lithAge || "0.000");
 			var lithDesc = lithology.get('description');
-			outputText += "\t" + ((lithDesc != null)? (lithDesc + " ") : "") + "\\nCALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
+			outputText += "\t" + ((lithDesc != null)? (lithDesc + " ") : "") + "CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
 			outputText += "\n";
 		}
 
 		outputText += "\t" + (lithology.getPatternName() || "");
 		outputText += "\t" + lithology.get('name');
-		outputText += "\t" + (lithology.get('base').get('age') || "0");
+		var lithAge = parseFloat(Math.round(lithology.get('base').get('age') * 1000) / 1000).toFixed(3);
+		outputText += "\t" + (lithAge || "0.000");
 		var lithDesc = lithology.get('description');
 		var description = (lithDesc != null)? (lithDesc+ " ") : "";  
 		var description = description

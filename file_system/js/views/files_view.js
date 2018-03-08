@@ -143,8 +143,6 @@ define([
                             });
                         });
                     } else {
-
-
                         self.newFile(dirEntry, jsonFile, function (fileEntry) {
                             self.writeJSONToAFile(fileEntry, json, dirEntry);
                             self.newFile(dirEntry, textFile, function (fileEntry) {
@@ -153,7 +151,6 @@ define([
                             });
                         });
                     }
-
                 });
             }, self.errorHandler.bind(self));
         };
@@ -282,8 +279,9 @@ define([
 
         FilesView.prototype.getTimeStamp = function () {
             var date = new Date();
-            var dateStr = date.getUTCMonth() + "-" + date.getUTCDate() + "-";
-            dateStr += date.getUTCFullYear() + "-" + date.getHours() + "_";
+			var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var dateStr = date.getUTCDate() + "" + monthNames[date.getUTCMonth()]  + "";
+            dateStr += date.getUTCFullYear() + "_" + date.getHours() + "_";
             dateStr += date.getMinutes() + "_" + date.getSeconds();
 
             return dateStr;
