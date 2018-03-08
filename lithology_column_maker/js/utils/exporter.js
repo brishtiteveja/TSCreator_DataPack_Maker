@@ -84,7 +84,7 @@ define([], function() {
 			outputText += "\t";
 			outputText += "\t" + (lithAge || "0.000");
 			var lithDesc = lithology.get('description');
-			outputText += "\t" + ((lithDesc != null)? (lithDesc + " ") : "") + "CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
+			outputText += "\t" + ((lithDesc != null)? (lithDesc + " ") : "") + "<br>CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
 			outputText += "\n";
 		}
 
@@ -95,7 +95,7 @@ define([], function() {
 		var lithDesc = lithology.get('description');
 		var description = (lithDesc != null)? (lithDesc+ " ") : "";  
 		var description = description
-								+ "\\nCALIBRATION = " 
+								+ "<br>CALIBRATION = " 
 								+ (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) 
 								+ "% up the " + lithology.get("base").get("zone").get('name');
 		outputText += "\t" + description; 
