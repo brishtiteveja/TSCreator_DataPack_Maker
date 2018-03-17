@@ -24,6 +24,14 @@
 		</div>
 		<label for="lithology-group-description">Description</label>
 		<textarea name="lithology-group-description" placeholder="No description yet!"><%= description %></textarea>
+
+		<label class="lithology-group-lithologys-common-data small-22 columns lithology-group-lithologys-common-label hide">↳Common Formation Info</label>
+		<div class="small-22 columns lithology-group-lithologys-common-form">
+			<label for="lithology-group-lithologys-common-name">Name</label>
+			<input type="text" value="<%= lithologysCommonName %>" name="lithology-group-lithologys-common-name">
+			<label for="lithology-group-lithologys-common-description">Description</label>
+			<textarea name="lithology-group-lithologys-common-description" placeholder="No description yet!"><%= lithologysCommonDescription %></textarea>
+		</div>
 	</div>
 	<div class="small-1 columns"><a href="#" class="destroy"></a></div>
 </div>

@@ -28,6 +28,8 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.lithology = lithology;
         this.top = this.lithology.get('top');
         this.base = this.lithology.get('base');
+		this.name = this.lithology.get('name');
+		this.description = this.lithology.get('description');
 
         if (this.lithologySet === undefined) {
             this.lithologySet = this.app.Paper.set();

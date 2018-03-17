@@ -17,6 +17,7 @@ define([
         classname: "LithologyGroupView",
         events: {
             'click .lithology-group-data': 'toggleForm',
+            'click .lithology-group-lithologys-common-data': 'toggleCommonFormationForm',
             'click .lithology-group-form .data-labels': 'toggleForm',
             'click .destroy': 'destroy',
             'click label.lithology-group-lithologys-data': 'showLithologysList',
@@ -49,6 +50,8 @@ define([
         this.listenTo(this.lithologyGroup, 'change:hover', this.setHoverStatus.bind(this));
         this.listenTo(this.lithologyGroup, 'change:name', this.renderLithologyGroup.bind(this));
         this.listenTo(this.lithologyGroup, 'change:description', this.renderLithologyGroup.bind(this));
+        this.listenTo(this.lithologyGroup, 'change:lithologysCommonName', this.renderLithologyGroup.bind(this));
+        this.listenTo(this.lithologyGroup, 'change:lithologysCommonDescription', this.renderLithologyGroup.bind(this));
 
         this.listenTo(this.lithologyGroup.get('lithologyColumn'), 'change:x', this.renderLithologyGroup.bind(this));
         this.listenTo(this.lithologyGroup.get('lithologyColumn'), 'change:width', this.renderLithologyGroup.bind(
@@ -81,10 +84,14 @@ define([
         this.$toggle = this.$(".toggle");
         this.$lithologyGroupForm = this.$(".lithology-group-form");
         this.$lithologyGroupData = this.$(".lithology-group-data");
+        this.$lithologyGroupLithologysCommonForm = this.$(".lithology-group-lithologys-common-form");
+        this.$lithologyGroupLithologysCommonData = this.$(".lithology-group-lithologys-common-data");
         this.$lithologyGroupName = this.$('input[name="lithology-group-name"]')[0];
+        this.$lithologyGroupLithologysCommonName = this.$('input[name="lithology-group-lithologys-common-name"]')[0];
         this.$lithologyGroupAge = this.$('input[name="lithology-group-age"]')[0];
         this.$lithologyGroupColor = this.$('input[name="lithology-group-color"]')[0];
         this.$lithologyGroupDescription = this.$('textarea[name="lithology-group-description"]')[0];
+        this.$lithologyGroupLithologysCommonDescription = this.$('textarea[name="lithology-group-lithologys-common-description"]')[0];
         this.$lithologysList = this.$('.lithologys-list');
 
         this.renderLithologyGroup();
@@ -225,10 +232,10 @@ define([
         lithologyMarkers.sort();
 
         var index = lithologyMarkers.indexOf(lithologyMarker);
-        1
 
         if (lithologyMarkers.length > 1) {
 
+			var formationNameDescChanged = false;
             if (index < lithologyMarkers.length - 1) {
                 var topMarker = lithologyMarkers.at(index);
                 var baseMarker = lithologyMarkers.at(index + 1);
@@ -239,8 +246,11 @@ define([
                     new Lithology({
                         top: topMarker,
                         base: baseMarker,
+						name: self.lithologyGroup.get('lithologysCommonName'),
+						description: self.lithologyGroup.get('lithologysCommonDescription'),
                         lithologyGroup: self.lithologyGroup
                     }, this.app);
+				formationNameDescChanged = true;
 
                 topMarker.get('lithologys').add(lithology);
                 baseMarker.get('lithologys').add(lithology);
@@ -254,6 +264,14 @@ define([
             if (index > 0) {
                 var topMarker = lithologyMarkers.at(index - 1);
                 var baseMarker = lithologyMarkers.at(index);
+				var lithCommonName = null;
+				var lithCommonDescName = null;
+
+				if (formationNameDescChanged == false) {
+					var lithCommonName = self.lithologyGroup.get('lithologysCommonName');
+					var lithCommonDescName = self.lithologyGroup.get('lithologysCommonDescription');
+					formationNameDescChanged = false;	
+				}
                 var lithology = lithologys.findWhere({
                         top: topMarker,
                         base: baseMarker
@@ -261,6 +279,8 @@ define([
                     new Lithology({
                         top: topMarker,
                         base: baseMarker,
+						name: lithCommonName,
+						description: lithCommonDescName,
                         lithologyGroup: self.lithologyGroup
                     }, this.app);
 
@@ -325,8 +345,14 @@ define([
     LithologyGroupView.prototype.toggleForm = function () {
         this.$lithologyGroupForm.toggleClass('hide');
         this.$lithologyGroupData.toggleClass('hide');
+        this.$lithologyGroupLithologysCommonForm.toggleClass('hide');
+        this.$lithologyGroupLithologysCommonData.toggleClass('hide');
         this.$toggle.toggleClass('hide-data');
         this.$toggle.toggleClass('show-data');
+    };
+
+    LithologyGroupView.prototype.toggleCommonFormationForm = function () {
+        this.$lithologyGroupLithologysCommonForm.toggleClass('hide');
     };
 
     LithologyGroupView.prototype.delete = function () {
@@ -365,11 +391,16 @@ define([
 
         var name = this.$lithologyGroupName.value;
         var description = this.$lithologyGroupDescription.value;
+
+        var lithologysCommonName = this.$lithologyGroupLithologysCommonName.value;
+        var lithologysCommonDescription = this.$lithologyGroupLithologysCommonDescription.value;
         //var color = this.$lithologyGroupColor.value;
         var style = this.$("select.lithology-group-line-style option:selected").val();
         this.lithologyGroup.set({
             name: name,
             description: description,
+			lithologysCommonName: lithologysCommonName,
+			lithologysCommonDescription: lithologysCommonDescription
         });
 
         this.lithologyGroup.get('base').set({
