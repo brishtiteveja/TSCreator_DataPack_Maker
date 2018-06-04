@@ -68,13 +68,13 @@ define([], function() {
 		outputText += "\t\t" + (lithologyGroup.get('description') + "\t" || "");
 
 		lithologyGroup.get('lithologys').each(function(lithology) {
-			outputText += self.getLithologyData(lithology);
+			outputText += self.getLithologyData(lithology, lithologyGroup);
 		});
 
 		return outputText;
 	}
 
-	Exporter.prototype.getLithologyData = function(lithology) {
+	Exporter.prototype.getLithologyData = function(lithology, lithologyGroup) {
 		var outputText = "\n";
 
 
@@ -88,11 +88,23 @@ define([], function() {
 			outputText += "\n";
 		}
 
-		outputText += "\t" + (lithology.getPatternName() || "");
-		outputText += "\t" + lithology.get('name');
+		outputText += "\t" + (lithology.getPatternName() || "None");
+        var lithName = lithology.get('name'); 
+        // Check whether common formation name is provided
+        if(lithName == null || (lithName != null && lithName.includes('Formation'))) {
+            lithName = lithologyGroup.get('lithologysCommonName'); 
+        }
+		var name = (lithName != null)? (lithName+ " ") : "";  
+		outputText += "\t" + name;
+
 		var lithAge = parseFloat(Math.round(lithology.get('base').get('age') * 1000) / 1000).toFixed(3);
 		outputText += "\t" + (lithAge || "0.000");
+
 		var lithDesc = lithology.get('description');
+        // Check whether common formation description is provided
+        if(lithDesc == null) {
+            lithDesc = lithologyGroup.get('lithologysCommonDescription'); 
+        }
 		var description = (lithDesc != null)? (lithDesc+ " ") : "";  
 		var description = description
 								+ "<br>CALIBRATION = " 
@@ -100,6 +112,7 @@ define([], function() {
 								+ "% up the " + lithology.get("base").get("zone").get('name');
 		outputText += "\t" + description; 
 		outputText += "\t" + (lithology.get('memberName') || "");
+
 		var lineStyle = lithology.get('base').get('style');
 		var lineStyleInfo = (lineStyle === "solid" || lineStyle == null) ? "" : lineStyle; 
 		outputText += "\t" + lineStyleInfo; 
