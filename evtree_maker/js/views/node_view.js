@@ -208,6 +208,7 @@ window.define([
             return;
         }
         this.node.set({
+			x: locationX,
             y: locationY,
         });
 

@@ -81,8 +81,11 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             if (this.parentLabel) {
                 this.parentLabel.remove();
             }
-            var x = this.parentNode.get('x') - 16;
-            var y = this.parentNode.get('y') + 10;
+            var x = this.parentNode.get('x') + 16;
+
+			//var length = this.node.get('y') - this.parentNode.get('y');
+			var length = 10;
+            var y = this.parentNode.get('y') + length;
 
             this.parentLabel = this.app.Paper.text();
             this.parentLabel.attr({

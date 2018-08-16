@@ -157,29 +157,29 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
     Node.prototype.rearrange = function () {
 
-        this.children().sort();
-
-        var children = this.get("children");
-        var size = children.size();
-
-        this.get("children").each(function (child) {
-            child.rearrange();
-        });
-
-        for (var i = 0; i < size; i++) {
-            var child = children.at(i);
-            if (child.get("type") === "TOP") {
-                child.set({
-                    x: this.get("x")
-                });
-            } else {
-                var node_before = child.before_max();
-                var x = node_before.get("x");
-                child.set({
-                    x: x + NODE_SEPARATION
-                });
-            }
-        }
+//        this.children().sort();
+//
+//        var children = this.get("children");
+//        var size = children.size();
+//
+//        this.get("children").each(function (child) {
+//            child.rearrange();
+//        });
+//
+//        for (var i = 0; i < size; i++) {
+//            var child = children.at(i);
+//            if (child.get("type") === "TOP") {
+//                child.set({
+//                    x: this.get("x")
+//                });
+//            } else {
+//                var node_before = child.before_max();
+//                var x = node_before.get("x");
+//                child.set({
+//                    x: x + NODE_SEPARATION
+//                });
+//            }
+//        }
     };
 
 
