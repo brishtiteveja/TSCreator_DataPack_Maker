@@ -70,50 +70,51 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             return ["- "];
         } else if (style === "dotted") {
             return [". "];
-        } else {
-            return [""];
+        } else if (style === "solid") {
+            return [" "];
+		} else {
+			if ( this.app.CurrentNode.get('parent') != null &&
+					this.app.CurrentNode.get('type') === "BASE")
+				return ["- "];
+			else
+				return [" "];
         }
     };
 
     BranchView.prototype.renderLabel = function () {
-        if (this.parentNode.get('type') === "BASE") {
-            var text = this.wrapString(this.parentNode.get('name'), 50, "\n", true);
-            if (this.parentLabel) {
-                this.parentLabel.remove();
-            }
-            var x = this.parentNode.get('x') + 16;
+		var currentNodeName = this.app.CurrentNode.get('name');
+		var currentNodeType = this.app.CurrentNode.get('type');
+		if (this.parentLabel) {
+		//	|| 
+		//		(curentNodeName != "Root Base" && currentNodeType === "Top") {
+			return;
+		} else { // show parent label 
+			// draw parent Label only once
+			if (this.parentNode.get('rangelabel') != null)
+				return;
 
-			//var length = this.node.get('y') - this.parentNode.get('y');
-			var length = 10;
-            var y = this.parentNode.get('y') + length;
+			var text, x, y;
+			// For Root Base range put above the root node 
+			if (currentNodeType === "TOP" || currentNodeName === "Root Base") {
+				if (currentNodeName === "Root Base") {
+					text = "Root"; 
+				} else {
+					text = this.wrapString(this.parentNode.get('name'), 50, "\n", true);
+				}
 
-			/*
-			this.parentLabel = this.app.Paper.text();
-            this.parentLabel.attr({
-                "text-anchor": "start",
-                "x": x,
-                "y": y,
-                "text": text
-            });
-            this.parentLabel.rotate(-90, x, y);
-			*/
-        } 
-        
-        text = this.wrapString(this.childNode.get('name'), 50, "\n", true);
-        if (this.childLabel) {
-        	this.childLabel.remove();
-        }
-        x = this.childNode.get('x') - 16;
-        y = this.childNode.get('y') + 10;
-
-        this.childLabel = this.app.Paper.text();
-        this.childLabel.attr({
-            "text-anchor": "start",
-            "x": x,
-            "y": y,
-            "text": text
-        });
-        this.childLabel.rotate(-90, x, y);
+				x = this.parentNode.get('x') + this.app.CurrentNode.get('labelPadX');
+				y = this.parentNode.get('y') - this.app.CurrentNode.get('labelPadY');
+				this.parentLabel = this.app.Paper.text();
+				this.parentLabel.attr({
+					"text-anchor": "start",
+					"x": x,
+					"y": y,
+					"text": text
+				});
+				this.parentLabel.rotate(-90, x, y);
+				this.parentNode.set('rangelabel', this.parentLabel);
+			}
+		}
     };
 
     BranchView.prototype.onMouseOver = function () {

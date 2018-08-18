@@ -55,7 +55,6 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
             return;
         };
 
-
         var cdts = ViewboxToPaper(this.app, evt.offsetX, evt.offsetY);
         var locationX = cdts.x;
         var locationY = cdts.y;
@@ -83,8 +82,6 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
                     x: this.app.CurrentNode.get('x'),//locationX,
                     y: locationY,
                     parent: this.app.CurrentNode,
-					id: this.app.CurrentNode.get('id'), //nodes on a range inherit id and name from the root parent
-					name: "Node " + this.app.CurrentNode.get('id'), 
                     type: "BASE"
                 });
 			} else if (this.app.CurrentNode.get('type') === "TOP") {
@@ -93,8 +90,6 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
                     x: this.app.CurrentNode.get('x'),//locationX,
                     y: locationY,
                     parent: this.app.CurrentNode,
-					id: this.app.CurrentNode.get('id'), //nodes on a range inherit id and name from the root parent
-					name: "Node " + this.app.CurrentNode.get('id'), 
                     type: "BASE"
                 });
             } else {

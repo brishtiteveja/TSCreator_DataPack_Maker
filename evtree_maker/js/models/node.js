@@ -6,10 +6,13 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
             var id = _.uniqueId("n");
             var attrs = [{
                 id: params.id || id,
-                name: params.name || "Node " + id,
+                name: params.name || "Range " + id,
                 age: params.age || null,
                 x: params.x || null,
                 y: params.y || null,
+				rangelabel: null,
+				labelPadX: 20,
+				labelPadY: 30,
                 parent: params.parent || null,
                 children: new Nodes(),
                 type: params.type || "BASE",
