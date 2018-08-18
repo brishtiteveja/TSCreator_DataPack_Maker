@@ -87,7 +87,8 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
 			var length = 10;
             var y = this.parentNode.get('y') + length;
 
-            this.parentLabel = this.app.Paper.text();
+			/*
+			this.parentLabel = this.app.Paper.text();
             this.parentLabel.attr({
                 "text-anchor": "start",
                 "x": x,
@@ -95,6 +96,7 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
                 "text": text
             });
             this.parentLabel.rotate(-90, x, y);
+			*/
         } 
         
         text = this.wrapString(this.childNode.get('name'), 50, "\n", true);

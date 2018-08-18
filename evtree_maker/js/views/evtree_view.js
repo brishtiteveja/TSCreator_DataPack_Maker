@@ -77,11 +77,24 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
                 return;
             }
 
-            if (this.app.CurrentNode.get('type') === "TOP") {
+			if (this.app.CurrentNode.get('name') === "Root Base") {
                 node = new Node({
-                    x: locationX,
+					// Force to be the same x location for range
+                    x: this.app.CurrentNode.get('x'),//locationX,
                     y: locationY,
                     parent: this.app.CurrentNode,
+					id: this.app.CurrentNode.get('id'), //nodes on a range inherit id and name from the root parent
+					name: "Node " + this.app.CurrentNode.get('id'), 
+                    type: "BASE"
+                });
+			} else if (this.app.CurrentNode.get('type') === "TOP") {
+                node = new Node({
+					// Force to be the same x location for range
+                    x: this.app.CurrentNode.get('x'),//locationX,
+                    y: locationY,
+                    parent: this.app.CurrentNode,
+					id: this.app.CurrentNode.get('id'), //nodes on a range inherit id and name from the root parent
+					name: "Node " + this.app.CurrentNode.get('id'), 
                     type: "BASE"
                 });
             } else {
@@ -92,10 +105,16 @@ define(["baseView", "node", "evTree", "nodeView"], function (BaseView, Node, EvT
                     type: "TOP"
                 });
             }
-            if (locationY > this.app.CurrentNode.get('y') + 6 || locationY < this.app.CurrentNode.get('y') - 6) { // won't add a child node if within max radius = 6 units
-            	this.app.CurrentNode.addChild(node);
-            }
-            this.app.CurrentNode.root().rearrange();
+
+			// Problem: Not adding extra node from base node (orange nodes), basically range points 
+			// don't let branch point to be drawn within a horizontal bound, something like below
+
+
+            //if (locationY > this.app.CurrentNode.get('y') + 6 || locationY < this.app.CurrentNode.get('y') - 6) { // won't add a child node if within max radius = 6 units
+			// Loosen up this restriction
+            this.app.CurrentNode.addChild(node);
+            //}
+            //this.app.CurrentNode.root().rearrange();
         } else {
             this.evTree.get('roots').add(new Node({
                 name: "Root Base",

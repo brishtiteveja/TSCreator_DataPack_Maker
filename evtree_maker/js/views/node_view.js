@@ -207,10 +207,18 @@ window.define([
         if (this.node.get('parent') && locationY > this.node.get('parent').get('y')) {
             return;
         }
-        this.node.set({
-			x: locationX,
-            y: locationY,
-        });
+		if (this.node.get('type') == 'TOP' || this.node.get('name') == 'Root Base') {
+			this.node.set({ // branch node movement
+				x: locationX,
+				y: locationY,
+			});
+		} else { // range points/nodes can only move vertically
+			this.node.set({
+				//x: locationX,
+				y: locationY,
+			});
+
+		}
 
         this.node.update();
     };
