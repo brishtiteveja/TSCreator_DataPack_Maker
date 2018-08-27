@@ -53,7 +53,7 @@
     <li>Block Maker (Dev) - <a href="./block_column_maker/html/block_column_maker.html" target="_blank">link</a></li>
     <li>Reference Column Maker (Dev) - <a href="./reference_column_maker/html/reference_column_maker.html" target="_blank">link</a></li>
   </ul>
-  <h3><a href="../tscreator-cerebral/build/index.html"><u>Universal Datapack Maker</a></h3>
+  <h3><a href="../tscreator-cerebral/build/index.html"><u>Master Maker</a></h3>
 
   <h1>Online Servers</h1>
   <ul>

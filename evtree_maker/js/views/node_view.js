@@ -218,29 +218,31 @@ window.define([
 				x: locationX,
 				y: locationY,
 			});
-			var rangeLabel = this.node.get('rangelabel');
-			if (rangeLabel != null) {
-				var labelX = locationX;// + this.node.get('labelPadX');
-				var labelY = locationY;// - this.node.get('labelPadY'); 
-				rangeLabel.attr({ // branch node movement
+			/*
+			var labelX = locationX + this.node.get('labelPadX');
+			var labelY = locationY - this.node.get('labelPadY'); 
+			if (this.node.get('type') === "TOP") {
+				this.node.parentLabel.attr({ // branch node movement
 					"x": labelX,
 					"y": labelY,
 				}); 
 			}
+			*/
 		} else { // range points/nodes can only move vertically
 			this.node.set({
 				//x: locationX,
 				y: locationY,
 			});
-			var rangeLabel = this.node.get('rangelabel');
-			if (rangeLabel != null) {
-				var labelX = locationX + this.node.get('labelPadX');
-				var labelY = locationY - this.node.get('labelPadY'); 
-				rangeLabel.attr({ // branch node movement
+			/*
+			var labelX = locationX + this.node.get('labelPadX');
+			var labelY = locationY - this.node.get('labelPadY'); 
+			if (this.node.get('type') === "TOP") {
+				this.node.parentLabel.attr({ // branch node movement
 					"x": labelX,
 					"y": labelY,
 				}); 
 			}
+			*/
 		}
 
         this.node.update();
