@@ -90,12 +90,15 @@ window.define([
     };
 
     NodeView.prototype.renderToottip = function () {
-		if (this.node.get('type') === "TOP" || this.node.get('name') === "Root Base") {
-			var content = this.node.get('name') + "<br/>";
-		}
-		else {
-			var content = this.node.get('parent').get('name') + "<br/>";
-		}
+        if(this.node == null)
+            return;
+        var content = ""
+		    if (this.node.get('type') === "TOP" || this.node.get('name') === "Root Base") {
+			      content = this.node.get('name') + "<br/>";
+		    }
+		    else if(this.node.get('parent') != null) { 
+			      content = this.node.get('parent').get('name') + "<br/>";
+		    }
         //content += "Type: " + this.node.get('type') + "<br/>";
         content += "Style: " + this.node.get('style') + "<br/>";
         if (this.node.get('zone')) {
@@ -213,38 +216,18 @@ window.define([
         if (this.node.get('parent') && locationY > this.node.get('parent').get('y')) {
             return;
         }
-		if (this.node.get('type') == "TOP" || this.node.get('name') == "Root Base") {
-			this.node.set({ // branch node movement
-				x: locationX,
-				y: locationY,
-			});
-			/*
-			var labelX = locationX + this.node.get('labelPadX');
-			var labelY = locationY - this.node.get('labelPadY'); 
-			if (this.node.get('type') === "TOP") {
-				this.node.parentLabel.attr({ // branch node movement
-					"x": labelX,
-					"y": labelY,
-				}); 
-			}
-			*/
-		} else { // range points/nodes can only move vertically
-			this.node.set({
-				//x: locationX,
-				y: locationY,
-			});
-			/*
-			var labelX = locationX + this.node.get('labelPadX');
-			var labelY = locationY - this.node.get('labelPadY'); 
-			if (this.node.get('type') === "TOP") {
-				this.node.parentLabel.attr({ // branch node movement
-					"x": labelX,
-					"y": labelY,
-				}); 
-			}
-			*/
-		}
 
+		    if (this.node.get('type') == "TOP" || this.node.get('name') == "Root Base") {
+			    this.node.set({ // branch node movement
+				    x: locationX,
+				    y: locationY,
+			    });
+		    } else { // range points/nodes can only move vertically
+			      this.node.set({
+				      //x: locationX,
+				      y: locationY,
+			      });
+		    }
         this.node.update();
     };
 

@@ -66,20 +66,25 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
     };
 
     BranchView.prototype.getStrokeStyle = function () {
-        var style = this.childNode.get('style');
-        var rangeType = this.parentNode.get('rangeType');
-        if (style === "dashed" || rangeType === "rare") {
-            return ["- "];
-        } else if (style === "dotted") {
+        var childNodeStyle = this.childNode.get('style');
+
+        var parentNodeType = this.parentNode.get('type');
+        var childNodeType = this.childNode.get('type');
+
+        var parentNodeName = this.parentNode.get('name');
+
+        if(parentNodeType != "BASE") {
+            return;
+        }
+
+        if (childNodeStyle === "dotted") {
             return [". "];
-        } else if (style === "solid") {
+        } else if (childNodeStyle === "solid") {
             return [" "];
-		} else {
-			if ( this.app.CurrentNode.get('parent') != null &&
-					this.app.CurrentNode.get('type') === "BASE")
-				return ["- "];
-			else
-				return [" "];
+        } else if (childNodeType === "TOP") {
+            return ["- "];
+        } else { 
+            return [" "];
         }
     };
 

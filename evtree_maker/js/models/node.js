@@ -78,6 +78,14 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
     Node.prototype.addChild = function (node) {
         this.get("children").add(node);
+        this.get("children").sort(function(c1, c2) {
+          var a1 = c1.get('age');
+          var a2 = c1.get('age');
+          if (a1 <= a2) 
+            return 1;
+          else 
+            return -1;
+        });
     };
 
     Node.prototype.depth = function () {
