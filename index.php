@@ -87,9 +87,9 @@
 
 <div id="footer">
     <p>Page  last updated:
-      <!-- #BeginDate format:En2 -->05-Apr-2014<!-- #EndDate -->
+      <!-- #BeginDate format:En2 -->01-Sept-2018<!-- #EndDate -->
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     TimeScale Creator (TSCreator) is Copyright © 2005-2014 Geologic TimeScale Foundation. All rights reserved. </p>
+     TimeScale Creator (TSCreator) is Copyright © 2005-208 Geologic TimeScale Foundation. All rights reserved. </p>
   <!-- end #footer --></div>
 <!-- end #container --></div>
 <script type="text/javascript">
