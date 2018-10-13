@@ -268,6 +268,7 @@
 
 
       ColumnManager.prototype.importAll = function(json) {
+	      console.log("importing All");
         var commonImporter;
         commonImporter = new this.configs.common.importerClazz({
           columnManager: this

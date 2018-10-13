@@ -84,6 +84,11 @@ define([
 		this.render();
 
 		this.listenToActionEvents();
+		
+	   	if (localStorage.BaseDatapack) {
+		    this.showPaper();
+		    this.blockApp.loader.loadData(localStorage.BaseDatapack);
+                }
 	};
 
 	BlockAppView.prototype.listenToActionEvents = function() {
@@ -175,27 +180,8 @@ define([
 	BlockAppView.prototype.dataDragover = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
+    		evt.preventDefault();
 	}
-
-
-	BlockAppView.prototype.dataDrop = function(evt) {
-		var self = this;
-		var evt = evt.originalEvent;
-		evt.stopPropagation();
-    	evt.preventDefault();
-    	var file = evt.dataTransfer.files[0];
-    	
-    	if (file.type === "application/json") {
-	    	var reader = new FileReader();
-			reader.onloadend = function(e) {
-				self.showPaper();
-				self.blockApp.loader.loadData(this.result);
-			};
-	    	reader.readAsText(file);	
-    	}
-	}
-
 
 	BlockAppView.prototype.toggleBlocks = function(evt) {		
 		if ($("a[href='#add-block']").parent().hasClass('active')) {
@@ -210,19 +196,19 @@ define([
 	BlockAppView.prototype.dataDragover = function(evt) {
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
+    		evt.preventDefault();
 	}
 
 
 	BlockAppView.prototype.dataDrop = function(evt) {
-    	$("#loading").removeClass("hide");
+    		$("#loading").removeClass("hide");
 		var self = this;
 		var evt = evt.originalEvent;
 		evt.stopPropagation();
-    	evt.preventDefault();
-    	var file = evt.dataTransfer.files[0];
-    	var ext = file.name.split(".").pop();
-    	var reader = new FileReader();
+    		evt.preventDefault();
+    		var file = evt.dataTransfer.files[0];
+    		var ext = file.name.split(".").pop();
+    		var reader = new FileReader();
 		reader.onloadend = function(e) {
 			self.showPaper();
 			if (ext === "json") {
@@ -233,7 +219,7 @@ define([
 			}
 			$("#loading").addClass("hide");
 		};
-    	reader.readAsText(file);
+    		reader.readAsText(file);
 	}
 
 	BlockAppView.prototype.enableTool = function(evt) {

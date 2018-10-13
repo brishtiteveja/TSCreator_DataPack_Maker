@@ -82,6 +82,9 @@ define([], function() {
   ReferenceZone.prototype.render = function() {
     var topY = this.model.get("top").get("y");
     var baseY = this.model.get("base").get("y");
+	
+    if(baseY < topY)  
+        return this;
 
     this.rEl.attr({
       y: topY,

@@ -20,41 +20,41 @@
 
       Maker.prototype.initialize = function(options) {
         var debouncedResize;
-		// Getting the column manager
+	// Getting the column manager
         this.columnManager = options.columnManager;
 
-		// creating new notifications view
+	// creating new notifications view
         this.notificationsView = new NotificationsView({
           className: "notifications"
         }).render();
 
         this.proxyListenTo(this, "showInfo", this.notificationsView);
 
-		// connecting the notifications view with the column manager
+	// connecting the notifications view with the column manager
         this.columnManager.registerNotifier(this.notificationsView);
 
-		// creating new main canvas and passing this object as it's master view
+	// creating new main canvas and passing this object as it's master view
         this.mainCanvasView = new MainCanvasView({
           className: "col1 disable-user-select",
           masterView: this
         }).render();
 
-		// initializing reference zones view
+	// initializing reference zones view
         this.referenceZonesView = this.initReferenceZonesView();
 
-		// adding the export view to the column
+	// adding the export view to the column
         this.listenTo(this.columnManager.columns, "add", this.addExportView);
         this.columnManager.columns.add({
           _type: "curve"
         });
 
-		// Creating the tools view for all the tools in the left hand side
+	// Creating the tools view for all the tools in the left hand side
         this.toolsView = new ToolsView({
           className: "col2 toolbar",
           columnManager: this.columnManager
         }).render();
 
-		// triggering tool clicking event from column manager to the master view
+	// triggering tool clicking event from column manager to the master view
         this.listenTo(this.columnManager, "triggerEventsToMasterView", (function(_this) {
           return function(events) {
             return _.each(events, function(event) {
@@ -63,30 +63,39 @@
           };
         })(this));
 
-		// creating the detail pane (the views in the right hand side of the canvas)
+	// creating the detail pane (the views in the right hand side of the canvas)
         this.detailsView = new DetailsView({
           className: "detail-panels",
           mainCanvasView: this.mainCanvasView,
           columnManager: this.columnManager
         }).render();
 
-		// creating new detail buttons view
+	// creating new detail buttons view
         this.detailButtonsView = new DetailButtonsView({
           className: "detail-buttons",
           collection: this.detailsView.collection
         }).render();
 
-		// Setting up the events occured by tool clicking in the tool view to the main canvas
+	// Setting up the events occured by tool clicking in the tool view to the main canvas
         this.setUpProxyEvents();
 
         debouncedResize = _.debounce(this.resize, 150);
         $(window).resize(debouncedResize);
 
-		//disabling default file drop
+	//disabling default file drop
         this.disableDefaultFileDrop();
 		
-		// Making a maker attribute for window with this object
+	// Making a maker attribute for window with this object
         window.maker = this;
+
+	// loading baseDatapack from local storage
+	if (localStorage.BaseDatapack) {
+	    console.log("Loading from local JSON file.");
+            this.trigger("loadFromLocalJSON", JSON.parse(localStorage.BaseDatapack));
+	    this.mainCanvasView.showPaper();
+	} else {
+	    console.log('Base Datapack not found in local storage');
+	}
 
         return this;
       };
