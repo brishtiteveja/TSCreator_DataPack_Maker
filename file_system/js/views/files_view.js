@@ -112,11 +112,22 @@ define([
             var self = this;
             self.app.exporter.export();
             var timeStamp = self.getTimeStamp();
-            var dirName = this.app.type + "-" + timeStamp;
+			if (this.app.projectName == null) {
+				var dirName = this.app.type + "-" + timeStamp;
+			}
+			else {
+				var dirName = this.app.projectName + "-" + timeStamp;
+			}
             self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function (dirEntry) {
                 self.newDir(dirEntry, dirName, function (dirEntry) {
-                    var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
-                    var textFile = self.app.type + "-data-" + timeStamp + ".txt";
+					if (self.app.projectName == null) {
+						var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
+						var textFile = self.app.type + "-data-" + timeStamp + ".txt";
+					}
+					else {
+						var jsonFile = self.app.projectName + "-data-" + timeStamp + ".json";
+						var textFile = self.app.projectName + "-data-" + timeStamp + ".txt";
+					}
                     var json = self.app.exporter.getJSON();
                     var text = self.app.exporter.getText();
                     if (self.app.exporter.saveAllImages) {
@@ -132,8 +143,6 @@ define([
                             });
                         });
                     } else {
-
-
                         self.newFile(dirEntry, jsonFile, function (fileEntry) {
                             self.writeJSONToAFile(fileEntry, json, dirEntry);
                             self.newFile(dirEntry, textFile, function (fileEntry) {
@@ -142,7 +151,6 @@ define([
                             });
                         });
                     }
-
                 });
             }, self.errorHandler.bind(self));
         };
@@ -252,7 +260,6 @@ define([
                 fileEntry.createWriter(function (fileWriter) {
 
                     fileWriter.onwriteend = function () {
-                        window.console.log('Write completed.');
                         self.files.trigger('saving-event', 'text-file-generated', dirEntry);
                     };
 
@@ -272,8 +279,9 @@ define([
 
         FilesView.prototype.getTimeStamp = function () {
             var date = new Date();
-            var dateStr = date.getUTCMonth() + "-" + date.getUTCDate() + "-";
-            dateStr += date.getUTCFullYear() + "-" + date.getHours() + "_";
+			var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var dateStr = date.getUTCDate() + "" + monthNames[date.getUTCMonth()]  + "";
+            dateStr += date.getUTCFullYear() + "_" + date.getHours() + "_";
             dateStr += date.getMinutes() + "_" + date.getSeconds();
 
             return dateStr;

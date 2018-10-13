@@ -28,7 +28,12 @@ define([], function() {
 	}
 
 	Exporter.prototype.getMetaColumnData = function() {
-		var outputText = "Lithologies\t:";
+		if (this.app.projectName != null) {
+			var outputText = this.app.projectName + "\t:";
+		} 
+		else {
+			var outputText = "Lithologies\t:";
+		}
 		this.lithologyColumns.each(function(lithologyColumn) {
 			outputText += "\t" + lithologyColumn.get('name');
 		});
@@ -45,7 +50,8 @@ define([], function() {
 		outputText += "\t";
 		//outputText += "\tnotitle";
 		outputText += "\t";
-		outputText += "\t" + (lithologyColumn.get('description') + "\t" || "");
+		var lithColDesc = lithologyColumn.get('description'); 
+		outputText += "\t" + ((lithColDesc != null)? lithColDesc + "\t" : "");
 
 		lithologyColumn.get('lithologyGroups').each(function(lithologyGroup) {
 			outputText += self.getLithologyGroupData(lithologyGroup);
@@ -59,36 +65,64 @@ define([], function() {
 		var outputText = "\n" + lithologyGroup.get("name");
 		outputText += "\tPrimary";
 		outputText += "\t";
-		outputText += "\t" + (lithologyGroup.get('description') + "\t" || "");
+		outputText += "\t\t" + (lithologyGroup.get('description') + "\t" || "");
 
 		lithologyGroup.get('lithologys').each(function(lithology) {
-			outputText += self.getLithologyData(lithology);
+			outputText += self.getLithologyData(lithology, lithologyGroup);
 		});
 
 		return outputText;
 	}
 
-	Exporter.prototype.getLithologyData = function(lithology) {
+	Exporter.prototype.getLithologyData = function(lithology, lithologyGroup) {
 		var outputText = "\n";
 
+
 		if (lithology.get('top').get('lithologys').length < 2) {
+			var lithAge = parseFloat(Math.round(lithology.get('top').get('age') * 1000) / 1000).toFixed(3);
 			outputText += "\tTOP";
 			outputText += "\t";
-			outputText += "\t" + (lithology.get("top").get("age") || "0");
-			outputText += "\t" + ((lithology.get('description') + "\t") || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
+			outputText += "\t" + (lithAge || "0.000");
+			var lithDesc = lithology.get('description');
+			outputText += "\t" + ((lithDesc != null)? (lithDesc + " ") : "") + "<br>CALIBRATION = " + (Math.round((1 - lithology.get("top").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("top").get("zone").get('name');
 			outputText += "\n";
 		}
 
-		outputText += "\t" + (lithology.getPatternName() || "");
-		outputText += "\t" + lithology.get('name');
-		outputText += "\t" + (lithology.get('base').get('age') || "0");
-		outputText += "\t" + (lithology.get('description') + "\t" || "") + "CALIBRATION = " + (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) + "% up the " + lithology.get("base").get("zone").get('name');
+		outputText += "\t" + (lithology.getPatternName() || "None");
+        var lithName = lithology.get('name'); 
+        // Check whether common formation name is provided
+        if(lithName == null || (lithName != null && lithName.includes('Formation'))) {
+            lithName = lithologyGroup.get('lithologysCommonName'); 
+        }
+		var name = (lithName != null)? (lithName+ " ") : "";  
+		outputText += "\t" + name;
+
+		var lithAge = parseFloat(Math.round(lithology.get('base').get('age') * 1000) / 1000).toFixed(3);
+		outputText += "\t" + (lithAge || "0.000");
+
+		var lithDesc = lithology.get('description');
+        // Check whether common formation description is provided
+        if(lithDesc == null) {
+            lithDesc = lithologyGroup.get('lithologysCommonDescription'); 
+        }
+		var description = (lithDesc != null)? (lithDesc+ " ") : "";  
+		var description = description
+								+ "<br>CALIBRATION = " 
+								+ (Math.round((1 - lithology.get("base").get("relativeY")) * 1000) * 1.0 / 10.0) 
+								+ "% up the " + lithology.get("base").get("zone").get('name');
+		outputText += "\t" + description; 
+		outputText += "\t" + (lithology.get('memberName') || "");
+
+		var lineStyle = lithology.get('base').get('style');
+		var lineStyleInfo = (lineStyle === "solid" || lineStyle == null) ? "" : lineStyle; 
+		outputText += "\t" + lineStyleInfo; 
 
 		return outputText;
 	}
 
 	Exporter.prototype.getJSON = function() {
 		var json = {};
+		json["projectName"] = this.app.projectName;
 		json["image"] = this.imageOb.toJSON();
 		json["zones"] = this.zones.toJSON();
 		json["lithologyColumns"] = this.lithologyColumns.toJSON();

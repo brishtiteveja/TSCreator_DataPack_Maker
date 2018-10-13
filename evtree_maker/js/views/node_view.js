@@ -90,7 +90,16 @@ window.define([
     };
 
     NodeView.prototype.renderToottip = function () {
-        var content = this.node.get('name') + "<br/>";
+        if(this.node == null)
+            return;
+        var content = ""
+		    if (this.node.get('type') === "TOP" || this.node.get('name') === "Root Base") {
+			      content = this.node.get('name') + "<br/>";
+		    }
+		    else if(this.node.get('parent') != null) { 
+			      content = this.node.get('parent').get('name') + "<br/>";
+		    }
+        //content += "Type: " + this.node.get('type') + "<br/>";
         content += "Style: " + this.node.get('style') + "<br/>";
         if (this.node.get('zone')) {
             content += this.node.get('zone').get('name') + "(" + this.node.get('age') + ")" + "<br/>";
@@ -207,10 +216,18 @@ window.define([
         if (this.node.get('parent') && locationY > this.node.get('parent').get('y')) {
             return;
         }
-        this.node.set({
-            y: locationY,
-        });
 
+		    if (this.node.get('type') == "TOP" || this.node.get('name') == "Root Base") {
+			    this.node.set({ // branch node movement
+				    x: locationX,
+				    y: locationY,
+			    });
+		    } else { // range points/nodes can only move vertically
+			      this.node.set({
+				      //x: locationX,
+				      y: locationY,
+			      });
+		    }
         this.node.update();
     };
 

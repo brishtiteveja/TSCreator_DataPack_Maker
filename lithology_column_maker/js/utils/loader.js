@@ -132,12 +132,17 @@ define([
 			this.savedData = this.changeJSONKey(this.savedData);
 		}
         this.reset();
+
+		this.app.projectName = this.savedData.projectName;
+		this.app.loading = true;
+
         this.load();
     };
 
     Loader.prototype.loadTextData = function (data) {
         this.reset();
         this.textData = data;
+		this.lithologyColumns.set('projectName', this.app.projectName);
         this.parseMinAndMaxAgesAndAddMarkers(data);
         this.parseColumnData(data);
     };
@@ -222,7 +227,8 @@ define([
         var lithologyColumn = new LithologyColumn({
             x: x,
             name: name,
-            width: parseInt(columnData[2])
+            width: parseInt(columnData[2]),
+			description: columnData[6]
         });
         this.lithologyColumns.add(lithologyColumn);
         return lithologyColumn;
@@ -265,9 +271,13 @@ define([
             group.set({
                 name: data[0],
                 type: data[1],
-                description: data[4]
             });
-
+			// load group description if exists
+			if (data[4] != null) {
+				group.set({
+					description: data[4]
+				});
+			}
             group.update();
         }
     };
@@ -326,11 +336,22 @@ define([
     Loader.prototype.updateLithologyInfo = function (group, data) {
         var lithology = this.findLithology(group, data[3]);
         if (lithology) {
+			// load lithology name, description and pattern
             lithology.set({
                 name: data[2],
                 description: data[4],
                 pattern: this.getPatternKey(data[1])
             });
+			// load member data if exists
+			if (data[5] != null) {
+				lithology.set({
+					memberName: data[5], // get the 
+				});
+			}
+			// load lithology line style
+			if (data[6] != null) {
+				lithology.get('base').set('style', data[6]);
+			}
             lithology.update();
         }
     };
@@ -557,7 +578,14 @@ define([
                         name: lithologyData.name,
                         pattern: lithologyData.pattern,
                         description: lithologyData.description,
+						memberName: lithologyData.memberName,
                     });
+
+					if (lithology.get('base') && lithologyData.base.style != 'solid') {
+						lithology.get('base').set({
+							style: lithologyData.base.style
+						});
+					}
 
                     lithologyGroup.get("settings").set(lithologyGroupData.settings);
 

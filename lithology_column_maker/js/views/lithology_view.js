@@ -10,6 +10,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
             'keypress :input': 'updateLithology',
             'keyup :input': 'updateLithology',
             'change input[name="lithology-name"]': 'updateLithology',
+            'change input[name="lithology-member-name"]': 'updateLithology',
             'change input[name="lithology-color"]': 'updateLithology',
             'change input[name="lithology-base-relativeY"]': 'updateLithology',
             'change select.lithology-line-style': 'updateLithology',
@@ -27,6 +28,8 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.lithology = lithology;
         this.top = this.lithology.get('top');
         this.base = this.lithology.get('base');
+		this.name = this.lithology.get('name');
+		this.description = this.lithology.get('description');
 
         if (this.lithologySet === undefined) {
             this.lithologySet = this.app.Paper.set();
@@ -42,6 +45,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.listenTo(this.lithology, 'update', this.render.bind(this));
         this.listenTo(this.lithology, 'change', this.renderLithology.bind(this));
         this.listenTo(this.lithology, 'change:pattern', this.renderLithology.bind(this));
+        this.listenTo(this.lithology, 'change:style', this.renderLithology.bind(this));
 
         this.listenTo(this.lithology.get('lithologyGroup').get('lithologyColumn'), 'change:x', this.renderLithology
             .bind(this));
@@ -67,12 +71,15 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.$lithologyName = this.$('input[name="lithology-name"]')[0];
         this.$lithologyAge = this.$('input[name="lithology-age"]')[0];
         this.$lithologyDescription = this.$('textarea[name="lithology-description"]')[0];
+        this.$lithologyMemberName = this.$('input[name="member-name"]')[0];
         this.$patternsList = this.$('.patterns-list');
+        this.$lithologyLineStyle = this.$('select.lithology-line-style');
         this.$lithologyPattern = this.$('select.lithology-pattern');
         this.$lithologyImage = this.$('.lithology-image');
         this.$lithologyBaseRelativeY = this.$('input[name="lithology-base-relativeY"]')[0];
 
         this.$lithologyPattern.change(this.updateLithologyPattern.bind(this));
+        this.$lithologyLineStyle.change(this.updateLithologyLineStyle.bind(this));
 
         this.renderLithology();
     };
@@ -84,6 +91,12 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         });
     }
 
+    LithologyView.prototype.updateLithologyLineStyle = function () {
+        var style = this.$('select.lithology-line-style option:selected').val();
+        this.base.set({
+            'style': style 
+        });
+    }
 
     LithologyView.prototype.setLithologyFill = function () {
         if (this.lithBox === undefined) return;
@@ -102,6 +115,10 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.$lithologyImage.css("background", url);
     }
 
+    LithologyView.prototype.setLithologyLineStyle = function () {
+		var style = this.base.get('style');
+		this.$lithologyLineStyle.val(style);
+	}
 
     LithologyView.prototype.renderLithology = function () {
 
@@ -174,6 +191,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         });
 
         this.setLithologyFill();
+		this.setLithologyLineStyle();
         this.renderTooltip();
     }
 
@@ -268,6 +286,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         }
         var name = this.$lithologyName.value;
         var description = this.$lithologyDescription.value;
+        var memberName = this.$lithologyMemberName.value;
         var style = this.$("select.lithology-line-style option:selected").val();
 
         var y = this.base.get('zone').getAbsoluteY((1 - parseFloat(this.$lithologyBaseRelativeY.value) / 100.0));
@@ -279,6 +298,7 @@ define(["baseView", "lithologyMarker"], function (BaseView, LithologyMarker) {
         this.lithology.set({
             name: name,
             description: description,
+			memberName: memberName,
         });
 
         this.lithology.get('base').set({
