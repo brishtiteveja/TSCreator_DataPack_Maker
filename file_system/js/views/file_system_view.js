@@ -39,6 +39,7 @@ define([
             navigator.webkitPersistentStorage.requestQuota(oneGB, this.requestFileSystem.bind(this), this.errorHandler
                 .bind(this));
         }
+
     };
 
     FileSystemView.prototype.requestFileSystem = function (size) {
@@ -54,6 +55,18 @@ define([
                     10 + " mb.");
             }, self.errorHandler.bind(self));
     };
+
+    FileSystemView.prototype.clearFiles = function () {
+        var path = this.fileSystem.get('path');
+	console.log(path);
+        this.fileSystem.get('fs').root.getDirectory(path, {}, function (dirEntry) {
+                dirEntry.removeRecursively(function () {
+                    window.console.log('Directory removed.');
+                    self.file.destroy();
+                    self.fileSystem.update();
+                }, self.errorHandler.bind(this));
+            }, self.errorHandler.bind(this));
+    }
 
     FileSystemView.prototype.render = function (fs) {
         this.fileSystem = new FileSystem({
@@ -96,8 +109,10 @@ define([
 
     FileSystemView.prototype.compressDirEntry = function (dirEntry) {
         var zip = new JSZip();
-        var dirReader = dirEntry.createReader();
-        dirReader.readEntries(this.compressDir.bind(this, dirEntry, zip));
+	if(dirEntry != null)
+            var dirReader = dirEntry.createReader();
+	if (dirReader != null) 
+            dirReader.readEntries(this.compressDir.bind(this, dirEntry, zip));
     };
 
     FileSystemView.prototype.compressDir = function (dirEntry, zip, results) {

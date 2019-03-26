@@ -42,7 +42,8 @@ define([
         FilesView.prototype.render = function () {
             this.$el.html(this.template.render());
             this.$list = this.$(".list");
-            this.files.each(this.addFile.bind(this));
+	    if (this.files != null)
+            	this.files.each(this.addFile.bind(this));
         };
 
         FilesView.prototype.addFile = function (file) {
@@ -110,89 +111,110 @@ define([
         FilesView.prototype.downloadProject = function () {
             // create project directory
             var self = this;
+	    var lastSavedJSON = this.app.lastSavedJSON;
             self.app.exporter.export();
             var timeStamp = self.getTimeStamp();
-			if (this.app.projectName == null) {
-				var dirName = this.app.type + "-" + timeStamp;
-			}
-			else {
-				var dirName = this.app.projectName + "-" + timeStamp;
-			}
+	    if (this.app.projectName == null) {
+		var dirName = this.app.type + "-" + timeStamp;
+	    } else {
+		var dirName = this.app.projectName + "-" + timeStamp;
+	    }
+
             self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function (dirEntry) {
-                self.newDir(dirEntry, dirName, function (dirEntry) {
-					if (self.app.projectName == null) {
-						var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
-						var textFile = self.app.type + "-data-" + timeStamp + ".txt";
-					}
-					else {
-						var jsonFile = self.app.projectName + "-data-" + timeStamp + ".json";
-						var textFile = self.app.projectName + "-data-" + timeStamp + ".txt";
-					}
-                    var json = self.app.exporter.getJSON();
-                    var text = self.app.exporter.getText();
-                    if (self.app.exporter.saveAllImages) {
-                        self.app.exporter.saveAllImages(function (node, image) {
-                            self.readImageFromFileEntry(dirEntry, image);
-                        }, function () {
+		if (self.app.projectName == null) {
+		    var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
+		    var textFile = self.app.type + "-data-" + timeStamp + ".txt";
+		}
+		else {
+		    var jsonFile = self.app.projectName + "-data-" + timeStamp + ".json";
+		    var textFile = self.app.projectName + "-data-" + timeStamp + ".txt";
+		}
+                var text = self.app.exporter.getText();
+                var json = self.app.exporter.getJSON();
+
+		var currentJSON = JSON.stringify(json);
+		if(currentJSON === lastSavedJSON) {
+		     console.log("JSON project file hasn't changed. Saving is discarded.");
+		} else {
+                    self.newDir(dirEntry, dirName, function (dirEntry) {
+                        if (self.app.exporter.saveAllImages) {
+                            self.app.exporter.saveAllImages(function (node, image) {
+                                self.readImageFromFileEntry(dirEntry, image);
+                            }, function () {
+                                self.newFile(dirEntry, jsonFile, function (fileEntry) {
+                                    self.writeJSONToAFile(fileEntry, json);
+                                    self.newFile(dirEntry, textFile, function (fileEntry) {
+                                    	self.writeTextToAFile(fileEntry, text, dirEntry);
+                                    	self.fileSystem.update();
+                                    });
+                            	});
+                           });
+                        } else {
                             self.newFile(dirEntry, jsonFile, function (fileEntry) {
-                                self.writeJSONToAFile(fileEntry, json);
+                                self.writeJSONToAFile(fileEntry, json, dirEntry);
                                 self.newFile(dirEntry, textFile, function (fileEntry) {
-                                    self.writeTextToAFile(fileEntry, text, dirEntry);
+                                    self.writeTextToAFile(fileEntry, text);
                                     self.fileSystem.update();
                                 });
-                            });
-                        });
-                    } else {
-                        self.newFile(dirEntry, jsonFile, function (fileEntry) {
-                            self.writeJSONToAFile(fileEntry, json, dirEntry);
-                            self.newFile(dirEntry, textFile, function (fileEntry) {
-                                self.writeTextToAFile(fileEntry, text);
-                                self.fileSystem.update();
-                            });
-                        });
-                    }
-                });
+                           });
+                        }
+                    });
+		}
             }, self.errorHandler.bind(self));
         };
 
         FilesView.prototype.saveProject = function () {
             // create project directory
             var self = this;
+	    var lastSavedJSON = this.app.lastSavedJSON;
             var timeStamp = self.getTimeStamp();
             var dirName = this.app.type + "-" + timeStamp;
             self.fileSystem.get('fs').root.getDirectory(self.fileSystem.get("path"), {}, function (dirEntry) {
-                self.newDir(dirEntry, dirName, function (dirEntry) {
-                    var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
-                    var textFile = self.app.type + "-data-" + timeStamp + ".txt";
-                    var json = self.app.exporter.getJSON();
-                    var text = self.app.exporter.getText();
+		if (self.app.projectName == null) {
+		    var jsonFile = self.app.type + "-data-" + timeStamp + ".json";
+		    var textFile = self.app.type + "-data-" + timeStamp + ".txt";
+		}
+		else {
+		    var jsonFile = self.app.projectName + "-data-" + timeStamp + ".json";
+		    var textFile = self.app.projectName + "-data-" + timeStamp + ".txt";
+		}
+                var json = self.app.exporter.getJSON();
+                var text = self.app.exporter.getText();
 
-                    if (self.app.exporter.saveAllImages) {
-                        self.app.exporter.saveAllImages(function (node, image) {
-                            self.readImageFromFileEntry(dirEntry, image);
-                        }, function () {
-                            self.newFile(dirEntry, jsonFile, function (fileEntry) {
-                                self.writeJSONToAFile(fileEntry, json);
-                                self.newFile(dirEntry, textFile, function (fileEntry) {
-                                    self.writeTextToAFile(fileEntry, text);
-                                    self.fileSystem.update();
+		var currentJSON = JSON.stringify(json);
+		if(currentJSON === lastSavedJSON) {
+		     msg = "JSON project file hasn't changed yet. Saving is discarded.";
+		     console.log(msg);
+		     alert(msg);
+		} else {
+                    self.newDir(dirEntry, dirName, function (dirEntry) {
+
+                        if (self.app.exporter.saveAllImages) {
+                            self.app.exporter.saveAllImages(function (node, image) {
+                                self.readImageFromFileEntry(dirEntry, image);
+                            }, function () {
+                                self.newFile(dirEntry, jsonFile, function (fileEntry) {
+                                    self.writeJSONToAFile(fileEntry, json);
+                                    self.newFile(dirEntry, textFile, function (fileEntry) {
+                                        self.writeTextToAFile(fileEntry, text);
+                                        self.fileSystem.update();
                                     // self.fileSystem.trigger('Compress', dirEntry);
+                                    });
                                 });
                             });
-                        });
-                    } else {
-
-
-                        self.newFile(dirEntry, jsonFile, function (fileEntry) {
-                            self.writeJSONToAFile(fileEntry, json);
-                            self.newFile(dirEntry, textFile, function (fileEntry) {
-                                self.writeTextToAFile(fileEntry, text);
-                                self.fileSystem.update();
+                        } else {
+                            self.newFile(dirEntry, jsonFile, function (fileEntry) {
+                            	self.writeJSONToAFile(fileEntry, json);
+				self.app.lastSavedJSON = currentJSON;
+                            	self.newFile(dirEntry, textFile, function (fileEntry) {
+                                    self.writeTextToAFile(fileEntry, text);
+                                    self.fileSystem.update();
                                 // self.fileSystem.trigger('Compress', dirEntry);
+                            	});
                             });
-                        });
-                    }
-                });
+			}
+		    });
+		}
             }, self.errorHandler.bind(self));
         };
 

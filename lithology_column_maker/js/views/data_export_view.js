@@ -100,7 +100,11 @@ define(["baseView"], function (BaseView) {
             this.$dataRaw.removeClass("hide");
         } else if (href === "#show-json") {
             this.$dataJSON.removeClass("hide");
-        }
+	} else if (href === "#send-to-master-maker") {
+	    localStorage.setItem("LithologyDatapack", this.exporter.getText());
+	    window.opener.focus();
+	    window.close();
+	}
     }
 
     return DataExportView;

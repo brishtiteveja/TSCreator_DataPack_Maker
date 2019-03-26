@@ -32,6 +32,7 @@ define(["baseView"], function (BaseView) {
         // $('a[href="#compress-file"]').click(this.compress.bind(this));
         $('a[href="#delete-file"]').click(this.deleteFile.bind(this));
         $('a[href="#load-data"]').click(this.loadData.bind(this));
+        $('a[href="#clear-files"]').click(this.clearFiles.bind(this));
     };
 
     FileView.prototype.render = function () {
@@ -39,7 +40,7 @@ define(["baseView"], function (BaseView) {
         this.$el.html(this.template.render(json));
         this.$file = this.$(".file");
         this.$fileName = this.$(".file-name")[0];
-    };
+    }; 
 
     FileView.prototype.deleteFile = function () {
         var self = this;
@@ -61,6 +62,17 @@ define(["baseView"], function (BaseView) {
                 }, self.errorHandler.bind(this));
             }, self.errorHandler.bind(this));
         }
+    };
+
+    FileView.prototype.clearFiles = function () {
+        var self = this;
+        self.fileSystem.get('fs').root.getDirectory(self.file.get('fullPath'), {}, function (dirEntry) {
+                dirEntry.removeRecursively(function () {
+                    window.console.log('Directory removed.');
+                    self.file.destroy();
+                    self.fileSystem.update();
+            }, self.errorHandler.bind(this));
+        }, self.errorHandler.bind(this));
     };
 
     FileView.prototype.select = function () {
