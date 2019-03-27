@@ -40,9 +40,10 @@ define(["baseView"], function (BaseView) {
         this.$showRaw = this.$('a[href="#show-raw"]');
         this.$showJSON = this.$('a[href="#show-raw"]');
 
-        this.renderDataInText();
-
         this.renderDataInTable();
+        this.renderDataInText();
+		this.showData(null);
+
     };
 
 
@@ -76,18 +77,25 @@ define(["baseView"], function (BaseView) {
     };
 
     DataExportView.prototype.showData = function (evt) {
-        this.$evTreeData.addClass("hide");
-        this.$showData.removeClass("alert");
-        $(evt.target).addClass("alert");
-        var href = $(evt.target).attr("href");
+		var href = null;
+		if (evt != null) {
+			this.$evTreeData.addClass("hide");
+			this.$showData.removeClass("alert");
+			$(evt.target).addClass("alert");
+			href = $(evt.target).attr("href");
+		}
 
-        if (href === "#show-table") {
-            this.$dataTable.removeClass("hide");
-        } else if (href === "#show-raw") {
+        if (href === "#show-raw" || href === null) {
             this.$dataRaw.removeClass("hide");
+		} else if (href === "#show-table") {
+            this.$dataTable.removeClass("hide");
         } else if (href === "#show-json") {
             this.$dataJSON.removeClass("hide");
-        }
+	} else if (href === "#send-to-master-maker") {
+	    localStorage.setItem("TransectDatapack", this.exporter.getText());
+	    window.opener.focus();
+	    window.close();
+	}
     };
 
 

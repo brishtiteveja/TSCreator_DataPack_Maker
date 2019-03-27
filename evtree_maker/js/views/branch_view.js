@@ -18,7 +18,9 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
 
     BranchView.prototype.listenToEvents = function () {
         this.listenTo(this.parentNode, "change:x", this.renderBranch);
+        this.listenTo(this.parentNode, "change:y", this.renderBranch);
         this.listenTo(this.childNode, "change:x", this.renderBranch);
+        this.listenTo(this.childNode, "change:y", this.renderBranch);
         this.listenTo(this.parentNode, "update", this.renderBranch);
         this.listenTo(this.childNode, "update", this.renderBranch);
         this.listenTo(this.childNode, "destroy", this.delete);
@@ -64,25 +66,36 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
     };
 
     BranchView.prototype.getStrokeStyle = function () {
-        var style = this.childNode.get('style');
-        var rangeType = this.parentNode.get('rangeType');
-        if (style === "dashed" || rangeType === "rare") {
-            return ["- "];
-        } else if (style === "dotted") {
+        var childNodeStyle = this.childNode.get('style');
+
+        var parentNodeType = this.parentNode.get('type');
+        var childNodeType = this.childNode.get('type');
+
+        var parentNodeName = this.parentNode.get('name');
+
+        if(parentNodeType != "BASE") {
+            return;
+        }
+
+        if (childNodeStyle === "dotted") {
             return [". "];
-        } else {
-            return [""];
+        } else if (childNodeStyle === "solid") {
+            return [" "];
+        } else if (childNodeType === "TOP") {
+            return ["- "];
+        } else { 
+            return [" "];
         }
     };
 
     BranchView.prototype.renderLabel = function () {
-        if (this.parentNode.get('type') === "BASE") {
+       if (this.parentNode.get('type') === "TOP" || this.parentNode.get('name') === "Root Base") {
             var text = this.wrapString(this.parentNode.get('name'), 50, "\n", true);
             if (this.parentLabel) {
                 this.parentLabel.remove();
             }
-            var x = this.parentNode.get('x') - 16;
-            var y = this.parentNode.get('y') + 10;
+            var x = this.parentNode.get('x') + this.parentNode.get('labelPadX');
+            var y = this.parentNode.get('y') - this.parentNode.get('labelPadY');
 
             this.parentLabel = this.app.Paper.text();
             this.parentLabel.attr({
@@ -94,12 +107,13 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             this.parentLabel.rotate(-90, x, y);
         } 
         
+/*
         text = this.wrapString(this.childNode.get('name'), 50, "\n", true);
         if (this.childLabel) {
-        	this.childLabel.remove();
+          this.childLabel.remove();
         }
-        x = this.childNode.get('x') - 16;
-        y = this.childNode.get('y') + 10;
+        x = this.childNode.get('x') + this.childNode.get('labelPadX');
+        y = this.childNode.get('y') + this.childNode.get('labelPadY');
 
         this.childLabel = this.app.Paper.text();
         this.childLabel.attr({
@@ -109,6 +123,7 @@ define(["baseView", "node", "raphael"], function (BaseView, Node, Raphael) {
             "text": text
         });
         this.childLabel.rotate(-90, x, y);
+*/
     };
 
     BranchView.prototype.onMouseOver = function () {

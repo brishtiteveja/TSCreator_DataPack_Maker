@@ -89,12 +89,12 @@ define(["baseView", "markerView", "marker", "zone"], function (BaseView, MarkerV
                         baseMarker: markers[index + 1]
                     });
                     if (zone) {
-                        zonesToDestroy.push(zone);
+                        //zonesToDestroy.push(zone);
                     }
                 }
             }
         });
-        _.invoke(zonesToDestroy, "destroy");
+        //_.invoke(zonesToDestroy, "destroy");
     };
 
     return MarkersView;

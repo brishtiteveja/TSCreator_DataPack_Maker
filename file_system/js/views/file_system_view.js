@@ -39,6 +39,7 @@ define([
             navigator.webkitPersistentStorage.requestQuota(oneGB, this.requestFileSystem.bind(this), this.errorHandler
                 .bind(this));
         }
+
     };
 
     FileSystemView.prototype.requestFileSystem = function (size) {
@@ -96,8 +97,10 @@ define([
 
     FileSystemView.prototype.compressDirEntry = function (dirEntry) {
         var zip = new JSZip();
-        var dirReader = dirEntry.createReader();
-        dirReader.readEntries(this.compressDir.bind(this, dirEntry, zip));
+	if(dirEntry != null && dirEntry.createReader != null)
+            var dirReader = dirEntry.createReader();
+	if (dirReader != null) 
+            dirReader.readEntries(this.compressDir.bind(this, dirEntry, zip));
     };
 
     FileSystemView.prototype.compressDir = function (dirEntry, zip, results) {

@@ -63,6 +63,16 @@
         $(window).resize(debouncedResize);
         this.disableDefaultFileDrop();
         window.maker = this;
+
+	// loading baseDatapack from local storage
+	if (localStorage.BaseDatapack) {
+	    console.log("Loading from local JSON file.");
+            this.trigger("loadFromLocalJSON", JSON.parse(localStorage.BaseDatapack));
+	    this.mainCanvasView.showPaper();
+	} else {
+	    console.log('Base Datapack not found in local storage');
+	}
+
         return this;
       };
 

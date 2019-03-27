@@ -32,6 +32,9 @@ define([
             'keypress :input.lithology-column': 'updateLithologyColumn',
             'keyup :input.lithology-column': 'updateLithologyColumn',
             'change input[name="lithology-column-bg-color"]': 'updateLithologyColumn',
+            'change input[name="lithology-column-lat"]': 'updateLithologyColumn',
+            'change input[name="lithology-column-long"]': 'updateLithologyColumn',
+            'change textarea[name="lithology-column-description"]': 'updateLithologyColumn',
             'mouseover': "onMouseOver",
             'mouseout': "onMouseOut",
         }
@@ -47,6 +50,36 @@ define([
 
     LithologyColumnView.prototype.initialize = function (app, lithologyColumn) {
         this.app = app;
+
+		// Derive Lithology Column Name from Project Name
+		if (this.app.projectName != null && lithologyColumn.get('name').match('Column') != null) {
+			var prevColumnName = lithologyColumn.get('name');
+			var numPat = /[0-9]/g;
+			var colNum = prevColumnName.match(numPat);
+			var num = null;
+			if (colNum != null) {
+				if (colNum.length > 1) {
+					num = colNum.join("");
+				} else {
+					num = colNum;
+				}
+			}  
+
+			// remove the number
+			prevColumnName = prevColumnName.replace(numPat, "");
+
+			var newColumnName = prevColumnName.replace("Column", this.app.projectName);
+
+			// Add Lithology string
+			newColumnName += " Lithology";
+
+			// Add the column number
+			if (num != null)
+				newColumnName += " " + num
+
+			lithologyColumn.set('name', newColumnName); 
+		}
+
         this.lithologyColumn = lithologyColumn;
 		this.lithologyColumn.lithologyColumnView = this;
         this.listenToEvents();
@@ -212,15 +245,15 @@ define([
         var description = this.$lithologyColumnDescription.value;
         var width = this.$lithologyColumnWidth.value;
         var bgColor = this.$lithologyColumnBgColor.value;
-        var lat = this.$lithologyColumnLat.value;
-        var lon = this.$lithologyColumnLon.value;
+		//var lat = this.$lithologyColumnLat.value;
+        //var lon = this.$lithologyColumnLon.value;
 
         this.lithologyColumn.set({
             name: name,
             description: description,
             width: parseInt(width) || 0,
-            lat: lat,
-            lon: lon
+            //lat: lat,
+            //lon: lon
         });
 
         this.lithologyColumn.get('settings').set({

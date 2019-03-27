@@ -122,10 +122,10 @@ define([
 
     Loader.prototype.loadData = function (data) {
 		// Need to change the keys in json data imported from the universal datapack maker
-		this.savedData = JSON.parse(data);
-		if (this.isDifferentJSONKey(data)) {
-			this.savedData = this.changeJSONKey(this.savedData);
-		}
+	this.savedData = JSON.parse(data);
+	if (this.isDifferentJSONKey(data)) {
+	    this.savedData = this.changeJSONKey(this.savedData);
+	}
         this.reset();
         this.load(data);
     };
@@ -135,11 +135,11 @@ define([
 	}
 
     Loader.prototype.load = function (data) {
-		this.loadImage();
+	this.loadImage();
         this.loadMarkersAndZones();
 		// if loading only markers, zones and image
-		//if (!this.isDifferentJSONKey(data))
-		this.loadEvTree();
+	if (!this.isDifferentJSONKey(data) && localStorage.BaseDatapack == null)
+	    this.loadEvTree();
     };
 
     Loader.prototype.loadEvTree = function () {

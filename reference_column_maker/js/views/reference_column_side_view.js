@@ -160,8 +160,10 @@ define([
 	}
 
 	ReferenceColumnSideView.prototype.updateReferenceColumn = function(model, value, options) {
-		_.invoke(this.markers.toArray(), 'destroy');
-		_.invoke(this.zones.toArray(), 'destroy');
+		if(localStorage.BaseDatapack == null) {
+		    _.invoke(this.markers.toArray(), 'destroy');
+		    _.invoke(this.zones.toArray(), 'destroy');
+		}
 		if (this.referenceColumn.get('column')) {
 			this.referenceColumn.get('column').destroy();
 		}

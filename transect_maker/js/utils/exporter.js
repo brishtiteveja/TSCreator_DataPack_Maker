@@ -822,7 +822,9 @@ define([
 		json["points"] = this.app.PointsCollection.toJSON();
 		json["lines"] = this.app.LinesCollection.toJSON();
 		json["referenceColumn"] = this.app.referenceColumn.toJSON();
-		return JSON.stringify(json);
+
+		var currentJSON = JSON.stringify(json);
+		return currentJSON; 
 	}
 
 	return Exporter;

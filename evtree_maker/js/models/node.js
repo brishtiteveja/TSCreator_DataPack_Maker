@@ -6,10 +6,12 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
             var id = _.uniqueId("n");
             var attrs = [{
                 id: params.id || id,
-                name: params.name || "Node " + id,
+                name: params.name || "Range " + id,
                 age: params.age || null,
                 x: params.x || null,
                 y: params.y || null,
+				        labelPadX: 20,
+				        labelPadY: 40,
                 parent: params.parent || null,
                 children: new Nodes(),
                 type: params.type || "BASE",
@@ -76,6 +78,14 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
     Node.prototype.addChild = function (node) {
         this.get("children").add(node);
+        this.get("children").sort(function(c1, c2) {
+          var a1 = c1.get('age');
+          var a2 = c1.get('age');
+          if (a1 <= a2) 
+            return 1;
+          else 
+            return -1;
+        });
     };
 
     Node.prototype.depth = function () {
@@ -157,29 +167,29 @@ define(["baseModel", "nodes"], function (BaseModel, Nodes) {
 
     Node.prototype.rearrange = function () {
 
-        this.children().sort();
-
-        var children = this.get("children");
-        var size = children.size();
-
-        this.get("children").each(function (child) {
-            child.rearrange();
-        });
-
-        for (var i = 0; i < size; i++) {
-            var child = children.at(i);
-            if (child.get("type") === "TOP") {
-                child.set({
-                    x: this.get("x")
-                });
-            } else {
-                var node_before = child.before_max();
-                var x = node_before.get("x");
-                child.set({
-                    x: x + NODE_SEPARATION
-                });
-            }
-        }
+//        this.children().sort();
+//
+//        var children = this.get("children");
+//        var size = children.size();
+//
+//        this.get("children").each(function (child) {
+//            child.rearrange();
+//        });
+//
+//        for (var i = 0; i < size; i++) {
+//            var child = children.at(i);
+//            if (child.get("type") === "TOP") {
+//                child.set({
+//                    x: this.get("x")
+//                });
+//            } else {
+//                var node_before = child.before_max();
+//                var x = node_before.get("x");
+//                child.set({
+//                    x: x + NODE_SEPARATION
+//                });
+//            }
+//        }
     };
 
 

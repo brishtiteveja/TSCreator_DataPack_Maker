@@ -6,7 +6,7 @@ define(["baseCollection", "node"], function (BaseCollection, Node) {
     });
 
     Nodes.prototype.comparator = function (node) {
-        return node.get('y');
+        return node.get('age');
     };
 
     Nodes.prototype.left = function () {

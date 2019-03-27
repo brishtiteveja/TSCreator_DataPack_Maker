@@ -4,6 +4,7 @@ window.define(["baseView"], function (BaseView) {
         el: "#node-editor",
         events: {
             'click a.close-reveal-modal': 'closeModal',
+            'click a.ok-modal': 'closeModal',
             'click a.delete-node': 'deleteNode',
             'change input': 'updateNode',
             'change select': 'updateNode'

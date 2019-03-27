@@ -100,7 +100,7 @@ define(["baseView", "imageOb"], function (BaseView, ImageOb) {
             this.app.refCol.Paper.setSize(this.app.refCol.Paper.width, height);
         }
 
-        if (this.app.type !== "transect") {
+        if (this.app.type !== "transect" && this.app.type != "evTree") {
             this.app.Paper.setSize(bBox.width + 50, height);
         } else {
             this.app.width = bBox.width + 50;

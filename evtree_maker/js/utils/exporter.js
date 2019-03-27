@@ -103,31 +103,40 @@ define([], function () {
         if (image) {
             name += ' <img src="' + image.name + '">';
         }
-        if (node.get('type').toLowerCase() === "base") {
+
+        node.children().each(function (child) {description = child.get('description');
+          if (description) {
+              description = self.formatDescription(description);
+          }
+          if (child.children().size() === 0) {
+              outputText += "\t" + name + "\t" + child.get('age') + "\t" + "TOP" + "\t" + description + "\n";
+          } else {
+              child.children().each(function(grandchild) {
+                  var grandchild_name = grandchild.get('name');
+                  if (grandchild.get('image')) {
+                      grandchild_name += ' <img src="' + grandchild.get('image').name + '">';
+                  }
+                  outputText += "\t" + name + "\t" + child.get('age') + "\t" + "branch" +
+                      "\t" + grandchild_name +
+                      "\t\t\t" + (grandchild.get('style') || "") + "\t" + description + "\t" +
+                      CssToTscColor(grandchild.get('color') || "#000000") + "\n";
+              });
+          }
+        });
+
+        if(node.children().size() != 0) {
             outputText += "\t" + name + "\t" + node.get('age') + "\t" + node.get('rangeType') + "\t" +
-                description + "\n";
-            node.children().each(function (child) {description = child.get('description');
-                if (description) {
-                    description = self.formatDescription(description);
-                }
-                if (child.children().size() === 0) {
-                    outputText += "\t" + name + "\t" + child.get('age') + "\t\t" + description +
-                        "\n";
-                } else {
-                    var child_name = child.get('name');
-                    if (child.get('image')) {
-                        child_name += ' <img src="' + child.get('image').name + '">';
-                    }
-                    outputText += "\t" + name + "\t" + child.get('age') + "\t" + "branch" +
-                        "\t" + child_name +
-                        "\t\t\t" + (child.get('style') || "") + "\t" + description + "\t" +
-                        CssToTscColor(child.get('color') || "#000000") + "\n";
-                }
-            });
+                   description + "\n";
         }
 
         node.children().each(function (child) {
-            outputText += self.getNodeText(child);
+            if(child.children().size() == 0) {
+                outputText += self.getNodeText(child);
+            } else {
+                child.children().each(function(grandchild) {
+                    outputText += self.getNodeText(grandchild);
+                });
+            }
         });
         return outputText;
     };

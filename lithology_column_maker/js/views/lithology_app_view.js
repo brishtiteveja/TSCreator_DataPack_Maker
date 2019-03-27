@@ -64,6 +64,8 @@ define([
             type: "lithology"
         };
 
+	this.draggingProject = false;
+
         this.app.LithologyColumnsCollection = new LithologyColumns();
         this.app.LithologyMarkersCollection = new LithologyMarkers();
         this.app.ZonesCollection = new Zones();
@@ -105,6 +107,13 @@ define([
         $('.linked').scroll(function () {
             $('.linked').scrollTop($(this).scrollTop());
         });
+
+
+	if (localStorage.BaseDatapack) {
+	    this.showPaper();
+	    this.app.loader.loadData(localStorage.BaseDatapack);
+        }
+
     };
 
     LithologyAppView.prototype.loadPatternsDataAndRender = function () {
@@ -149,9 +158,25 @@ define([
     }
 
     LithologyAppView.prototype.showPaper = function () {
-        this.$canvas.removeClass('hide');
-        this.$introScreen.addClass('hide');
-		this.$introScreen.hide();
+	    /*
+		if (this.draggingProject == false) {
+    		    var projectName = prompt("Please input your Project Name", "") 
+    		    if (projectName != null)
+    		    {
+    			this.app.projectName = projectName;
+    			this.$canvas.removeClass('hide');
+    			this.$introScreen.addClass('hide');
+    			this.$introScreen.hide();
+    		    } 
+		} else 
+	    */
+		{
+		   if(localStorage.BaseDatapack) 
+		       this.app.projectName = localStorage.BaseDatapack['projectName'];
+    		   this.$canvas.removeClass('hide');
+    		   this.$introScreen.addClass('hide');
+    		   this.$introScreen.hide();
+		}
     }
 
     LithologyAppView.prototype.render = function () {
@@ -233,6 +258,7 @@ define([
     };
 
     LithologyAppView.prototype.dataDragover = function (evt) {
+	this.draggingProject = true;
         var evt = evt.originalEvent;
         evt.stopPropagation();
         evt.preventDefault();
