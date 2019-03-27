@@ -120,6 +120,11 @@ define([
         this.listenToActionEvents();
 
         this.render();
+
+	if (localStorage.BaseDatapack) {
+	    this.showPaper();
+	    this.transectApp.loader.loadData(localStorage.BaseDatapack);
+	}
     };
 
     TransectAppView.prototype.initPan = function () {

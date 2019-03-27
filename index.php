@@ -2,39 +2,39 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>TS-Creator Home</title>
-<link href="https://engineering.purdue.edu/Stratigraphy/tscreator/oneColElsCtrHdr.css" rel="stylesheet" type="text/css">
-<script src="https://engineering.purdue.edu/Stratigraphy/tscreator/Scripts/swfobject_modified.js" type="text/javascript"></script>
-<script src="https://engineering.purdue.edu/Stratigraphy/tscreator/SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
-<link href="https://engineering.purdue.edu/Stratigraphy/tscreator/SpryAssets/SpryMenuBarHorizontal.css" rel="stylesheet" type="text/css">
-<link href="https://engineering.purdue.edu/Stratigraphy/tscreator/favicon.ico" rel="shortcut icon">
+<link href="https://timescalecreator.org/oneColElsCtrHdr.css" rel="stylesheet" type="text/css">
+<script src="https://timescalecreator.org/Scripts/swfobject_modified.js" type="text/javascript"></script>
+<script src="https://timescalecreator.org/SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
+<link href="https://timescalecreator.org/SpryAssets/SpryMenuBarHorizontal.css" rel="stylesheet" type="text/css">
+<link href="https://timescalecreator.org/favicon.ico" rel="shortcut icon">
 </head>
 
 <body class="oneColElsCtrHdr">
 
 <div id="container">
   <div id="header">
-<img src="https://engineering.purdue.edu/Stratigraphy/tscreator/5man.gif" alt="logo" width="142" height="142" align="left">
-<h1><img src="https://engineering.purdue.edu/Stratigraphy/tscreator/TSCreator_Header.gif" width="682" height="91" alt="ts_header"></h1>&nbsp;
+<img src="https://timescalecreator.org/5man.gif" alt="logo" width="142" height="142" align="left">
+<h1><img src="https://timescalecreator.org/TSCreator_Header.gif" width="682" height="91" alt="ts_header"></h1>&nbsp;
     <ul id="MenuBar1" class="MenuBarHorizontal">
-      <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/index/index.php">Home</a>      </li>
+      <li><a href="https://timescalecreator.org/index/index.php">Home</a>      </li>
       <li><a href="#" class="MenuBarItemSubmenu">Manuals</a>
         <ul>
-          <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/manual/poster.php">Poster</a></li>
-          <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/manual/tutorial.php">Tutorial</a></li>
+          <li><a href="https://timescalecreator.org/manual/poster.php">Poster</a></li>
+          <li><a href="https://timescalecreator.org/manual/tutorial.php">Tutorial</a></li>
         </ul>
       </li>
-      <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/datapack/datapack.php">Datapacks</a></li>
-      <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/download/download.php">Download</a></li>
-      <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/faq/faq.php">FAQs</a></li>
-      <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/contactus/contactus.php">Contact Us</a></li>
-	  <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/../tsclite">TSC Lite</a></li>
+      <li><a href="https://timescalecreator.org/datapack/datapack.php">Datapacks</a></li>
+      <li><a href="https://timescalecreator.org/download/download.php">Download</a></li>
+      <li><a href="https://timescalecreator.org/faq/faq.php">FAQs</a></li>
+      <li><a href="https://timescalecreator.org/contactus/contactus.php">Contact Us</a></li>
+	  <li><a href="https://timescalecreator.org/../tsclite">TSC Lite</a></li>
       <li><a href="#" target="_blank" class="MenuBarItemSubmenu">TSC Pro</a>
         <ul>
-          <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/tscpro/aboutpro.php">about TSC Pro</a></li>
-          <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/tscpro/login.php">Login</a></li>        </ul>
+          <li><a href="https://timescalecreator.org/tscpro/aboutpro.php">about TSC Pro</a></li>
+          <li><a href="https://timescalecreator.org/tscpro/login.php">Login</a></li>        </ul>
       </li>
-      <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/sponsor/sponsor.php">Sponsors</a>      </li>
-	  <li><a href="https://engineering.purdue.edu/Stratigraphy/tscreator/tscpro/login.php">Login</a></li>
+      <li><a href="https://timescalecreator.org/sponsor/sponsor.php">Sponsors</a>      </li>
+	  <li><a href="https://timescalecreator.org/tscpro/login.php">Login</a></li>
 </ul>
     <p>&nbsp;</p>
   <!-- end #header --></div>

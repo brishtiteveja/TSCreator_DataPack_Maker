@@ -40,10 +40,10 @@
         this.image = this.columnManager.retrieveDataForCurrentColumn("backgroundImage");
         this.listenTo(this.image, {
           "change:dataURL": this.changeBackgroundImage,
-          "change:curWidth change:curHeight": this.changeBackgroundImageAttributes,
+          "change:width change:height": this.changeBackgroundImageAttributes,
           "change:rotation change:isVisible": this.changeBackgroundImageAttributes,
-          "change:curWidth": this.updateCurWidthInput,
-          "change:curHeight": this.updateCurHeightInput,
+          "change:width": this.updateCurWidthInput,
+          "change:height": this.updateCurHeightInput,
           "change:rotation": this.updateRotationInput,
           "change:isVisible": this.updateIsVisibleInput,
           "change:isPreserveAspectRatio": this.updateIsPreserveAspectRatioInput
@@ -71,10 +71,8 @@
           return function(dimension) {
             return _this.image.set({
               dataURL: imageData,
-              origWidth: dimension.width,
-              origHeight: dimension.height,
-              curWidth: dimension.width,
-              curHeight: dimension.height
+              width: dimension.width,
+              height: dimension.height
             });
           };
         })(this), imageData);
@@ -106,8 +104,8 @@
       BackgroundImageDetail.prototype.changeBackgroundImageAttributes = function(m, value, options) {
         if (this.rBackgroundImage != null) {
           this.rBackgroundImage.attr({
-            width: m.get("curWidth"),
-            height: m.get("curHeight"),
+            width: m.get("width"),
+            height: m.get("height"),
             transform: "r" + (m.get("rotation")),
             x: 0,
             y: 0
@@ -171,12 +169,12 @@
         value = parseInt($($evt.target).val());
         if (this.image.get("isPreserveAspectRatio")) {
           this.image.set({
-            curWidth: value,
-            curHeight: parseInt(value / this.image.get("origWidth") * this.image.get("origHeight"))
+            width: value,
+            height: parseInt(value / this.image.get("width") * this.image.get("height"))
           });
         } else {
           this.image.set({
-            curWidth: value
+            width: value
           });
         }
         return this;
@@ -187,12 +185,12 @@
         value = parseInt($($evt.target).val());
         if (this.image.get("isPreserveAspectRatio")) {
           this.image.set({
-            curWidth: parseInt(value / this.image.get("origHeight") * this.image.get("origWidth")),
-            curHeight: value
+            width: parseInt(value / this.image.get("height") * this.image.get("width")),
+            height: value
           });
         } else {
           this.image.set({
-            curHeight: value
+            height: value
           });
         }
         return this;

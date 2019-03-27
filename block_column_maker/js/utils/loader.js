@@ -117,10 +117,10 @@ define(["zone", "marker", "blockColumn", "blockMarker"], function (Zone, Marker,
 	}
 
     Loader.prototype.loadData = function (data) {
-		this.savedData = JSON.parse(data);
-		if (this.isDifferentJSONKey(data)) {
-			this.savedData = this.changeJSONKey(this.savedData);
-		}
+	this.savedData = JSON.parse(data);
+	if (this.isDifferentJSONKey(data)) {
+	    this.savedData = this.changeJSONKey(this.savedData);
+	}
         this.reset();
         this.load(data);
     }
@@ -182,9 +182,9 @@ define(["zone", "marker", "blockColumn", "blockMarker"], function (Zone, Marker,
     Loader.prototype.load = function (data) {
         this.loadImage();
         this.loadMarkersAndZones();
-		if (!this.isDifferentJSONKey(data)) {
+	if (!this.isDifferentJSONKey(data) && localStorage.BaseDatapack == null) {
             this.loadBlockColumns();
-		}
+	}
     }
 
     Loader.prototype.loadImage = function () {

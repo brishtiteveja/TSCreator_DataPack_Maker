@@ -67,6 +67,8 @@
         var position, _ref;
         if (this.ranges.canAddMore()) {
           var canvasDimension = this.mainCanvasView.curDimension;
+	  if (canvasDimension == null)
+	      canvasDimension = {width: 1000, height: 800};
           var leftRangeX = canvasDimension.width * 0.09;
           position = {x: leftRangeX, y: 0};
           this.ranges.add({

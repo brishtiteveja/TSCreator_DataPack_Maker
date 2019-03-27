@@ -127,14 +127,14 @@ define([
 	}
 
     Loader.prototype.loadData = function (data) {
-		this.savedData = JSON.parse(data);
-		if (this.isDifferentJSONKey(data)) {
-			this.savedData = this.changeJSONKey(this.savedData);
-		}
+	this.savedData = JSON.parse(data);
+	if (this.isDifferentJSONKey(data)) {
+	    this.savedData = this.changeJSONKey(this.savedData);
+	}
         this.reset();
 
-		this.app.projectName = this.savedData.projectName;
-		this.app.loading = true;
+	this.app.projectName = this.savedData.projectName;
+	this.app.loading = true;
 
         this.load();
     };
@@ -387,7 +387,8 @@ define([
     Loader.prototype.load = function () {
         this.loadImage();
         this.loadMarkersAndZones();
-        this.loadLithologyColumns();
+	if (localStorage.BaseDatapack == null)
+            this.loadLithologyColumns();
     };
 
     Loader.prototype.loadPolygons = function () {
@@ -435,17 +436,19 @@ define([
 
     Loader.prototype.loadLithologyColumns = function () {
         var self = this;
-        this.savedData.lithologyColumns.forEach(function (lithologyColumnData) {
-            var column = new LithologyColumn(lithologyColumnData);
-            self.lithologyColumns.add(column);
+	if (this.savedData.lithologyColumns) {
+            this.savedData.lithologyColumns.forEach(function (lithologyColumnData) {
+                var column = new LithologyColumn(lithologyColumnData);
+                self.lithologyColumns.add(column);
 
-            self.addLithologyGroupMarkers(lithologyColumnData, column);
-            self.updateLithologyGroups(lithologyColumnData, column);
+                self.addLithologyGroupMarkers(lithologyColumnData, column);
+                self.updateLithologyGroups(lithologyColumnData, column);
 
-            if (lithologyColumnData.polygon) {
-                self.createPolygon(column, lithologyColumnData.polygon);
-            }
-        });
+                if (lithologyColumnData.polygon) {
+                    self.createPolygon(column, lithologyColumnData.polygon);
+                }
+            });
+	}
     };
 
     Loader.prototype.createPolygon = function (column, polygonData) {

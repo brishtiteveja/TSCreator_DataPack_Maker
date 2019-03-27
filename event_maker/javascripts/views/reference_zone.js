@@ -83,6 +83,12 @@ define([], function() {
     var topY = this.model.get("top").get("y");
     var baseY = this.model.get("base").get("y");
 
+    if (baseY < topY) {
+        console.log("Some zones hava inaccurage top and base age."); 
+	return this;
+    }
+
+
     this.rEl.attr({
       y: topY,
       height: baseY - topY

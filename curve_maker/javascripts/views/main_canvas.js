@@ -64,6 +64,7 @@
         this.rPaper = Raphael(this.el, "100%", "100%");
         this.initPan();
         this.initZoom();
+
         return this;
       };
 

@@ -124,6 +124,10 @@ define(["baseView"], function(BaseView) {
 			this.$dataRaw.removeClass("hide");
 		} else if (href === "#show-map-data") {
 			this.$mapData.removeClass("hide");
+		} else if (href === "#send-to-master-maker") {
+			localStorage.setItem("TransectDatapack", this.exporter.getText());
+			window.opener.focus();
+			window.close();
 		}
 	}
 

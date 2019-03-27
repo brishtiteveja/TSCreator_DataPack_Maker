@@ -102,6 +102,11 @@ define([
         this.listenToActionEvents();
 
         this.render();
+
+	if (localStorage.BaseDatapack) {
+	    this.showPaper();
+	    this.app.loader.loadData(localStorage.BaseDatapack);
+	}
     };
 
     EvTreeAppView.prototype.initPan = function () {
