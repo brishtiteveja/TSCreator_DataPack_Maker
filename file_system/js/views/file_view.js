@@ -71,8 +71,11 @@ define(["baseView"], function (BaseView) {
                     window.console.log('Directory removed.');
                     self.file.destroy();
                     self.fileSystem.update();
+		    self.app.lastSavedJSON = null;
+		    self.app.sandboxCleared = true;
             }, self.errorHandler.bind(this));
         }, self.errorHandler.bind(this));
+
     };
 
     FileView.prototype.select = function () {
